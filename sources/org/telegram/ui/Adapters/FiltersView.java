@@ -128,7 +128,7 @@ public class FiltersView extends RecyclerListView {
         linearLayoutManager.setOrientation(0);
         setLayoutManager(this.layoutManager);
         setAdapter(new Adapter());
-        addItemDecoration(new RecyclerView.ItemDecoration(this) { // from class: org.telegram.ui.Adapters.FiltersView.2
+        addItemDecoration(new RecyclerView.ItemDecoration() { // from class: org.telegram.ui.Adapters.FiltersView.2
             @Override // androidx.recyclerview.widget.RecyclerView.ItemDecoration
             public void getItemOffsets(Rect rect, View view, RecyclerView recyclerView, RecyclerView.State state) {
                 super.getItemOffsets(rect, view, recyclerView, state);
@@ -142,7 +142,9 @@ public class FiltersView extends RecyclerListView {
                 }
             }
         });
-        setItemAnimator(new DefaultItemAnimator(this) { // from class: org.telegram.ui.Adapters.FiltersView.3
+        setItemAnimator(new DefaultItemAnimator() { // from class: org.telegram.ui.Adapters.FiltersView.3
+            private final float scaleFrom = 0.0f;
+
             @Override // androidx.recyclerview.widget.DefaultItemAnimator
             protected long getAddAnimationDelay(long j, long j2, long j3) {
                 return 0L;
@@ -481,7 +483,7 @@ public class FiltersView extends RecyclerListView {
             int i3 = 1;
             int i4 = Calendar.getInstance().get(1);
             long timeInMillis = Calendar.getInstance().getTimeInMillis();
-            GregorianCalendar gregorianCalendar = (GregorianCalendar) GregorianCalendar.getInstance();
+            GregorianCalendar gregorianCalendar = (GregorianCalendar) Calendar.getInstance();
             int i5 = i4;
             while (i5 >= 2013) {
                 if (i2 != i3 || i != 28 || gregorianCalendar.isLeapYear(i5)) {
@@ -589,7 +591,7 @@ public class FiltersView extends RecyclerListView {
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            ViewHolder viewHolder = new ViewHolder(FiltersView.this, new FilterView(viewGroup.getContext(), ((RecyclerListView) FiltersView.this).resourcesProvider));
+            ViewHolder viewHolder = new ViewHolder(new FilterView(viewGroup.getContext(), ((RecyclerListView) FiltersView.this).resourcesProvider));
             RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(-2, AndroidUtilities.dp(32.0f));
             ((ViewGroup.MarginLayoutParams) layoutParams).topMargin = AndroidUtilities.dp(6.0f);
             viewHolder.itemView.setLayoutParams(layoutParams);
@@ -697,7 +699,7 @@ public class FiltersView extends RecyclerListView {
     public class ViewHolder extends RecyclerView.ViewHolder {
         FilterView filterView;
 
-        public ViewHolder(FiltersView filtersView, FilterView filterView) {
+        public ViewHolder(FilterView filterView) {
             super(filterView);
             this.filterView = filterView;
         }

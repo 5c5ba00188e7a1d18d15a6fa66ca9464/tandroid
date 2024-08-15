@@ -46,6 +46,7 @@ public class TextCell extends FrameLayout {
     public int leftPadding;
     private float loadingProgress;
     private int loadingSize;
+    private boolean measureDelay;
     private boolean needDivider;
     public int offsetFromImage;
     Paint paint;
@@ -721,7 +722,7 @@ public class TextCell extends FrameLayout {
         if (isAttachedToWindow()) {
             imageReceiver.onAttachedToWindow();
         }
-        addOnAttachStateChangeListener(new View.OnAttachStateChangeListener(this) { // from class: org.telegram.ui.Cells.TextCell.1
+        addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() { // from class: org.telegram.ui.Cells.TextCell.1
             @Override // android.view.View.OnAttachStateChangeListener
             public void onViewAttachedToWindow(View view) {
                 imageReceiver.onAttachedToWindow();
@@ -733,7 +734,7 @@ public class TextCell extends FrameLayout {
             }
         });
         imageReceiver.setImage(str, "30_30", null, null, 0L);
-        this.emojiDrawable.set(new Drawable(this) { // from class: org.telegram.ui.Cells.TextCell.2
+        this.emojiDrawable.set(new Drawable() { // from class: org.telegram.ui.Cells.TextCell.2
             @Override // android.graphics.drawable.Drawable
             public int getOpacity() {
                 return -2;
@@ -869,6 +870,8 @@ public class TextCell extends FrameLayout {
         this.loadingSize = i;
         if (!z2) {
             this.drawLoadingProgress = z ? 1.0f : 0.0f;
+        } else {
+            this.measureDelay = true;
         }
         invalidate();
     }

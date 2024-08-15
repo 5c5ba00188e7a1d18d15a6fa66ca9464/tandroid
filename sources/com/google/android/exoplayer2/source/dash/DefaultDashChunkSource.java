@@ -426,11 +426,13 @@ public class DefaultDashChunkSource implements DashChunkSource {
 
     /* loaded from: classes.dex */
     protected static final class RepresentationSegmentIterator extends BaseMediaChunkIterator {
+        private final long nowPeriodTimeUs;
         private final RepresentationHolder representationHolder;
 
         public RepresentationSegmentIterator(RepresentationHolder representationHolder, long j, long j2, long j3) {
             super(j, j2);
             this.representationHolder = representationHolder;
+            this.nowPeriodTimeUs = j3;
         }
 
         @Override // com.google.android.exoplayer2.source.chunk.MediaChunkIterator

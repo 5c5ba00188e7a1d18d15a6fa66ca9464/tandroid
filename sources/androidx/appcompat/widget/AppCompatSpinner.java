@@ -101,7 +101,7 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
     /* JADX WARN: Type inference failed for: r11v3 */
     /* JADX WARN: Type inference failed for: r11v4 */
     /* JADX WARN: Type inference failed for: r11v7, types: [android.content.res.TypedArray] */
-    /* JADX WARN: Type inference failed for: r6v0, types: [androidx.appcompat.widget.AppCompatSpinner, android.view.View, android.widget.Spinner] */
+    /* JADX WARN: Type inference failed for: r6v0, types: [androidx.appcompat.widget.AppCompatSpinner, android.view.View] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -211,7 +211,7 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
         SpinnerPopup spinnerPopup = this.mPopup;
         if (spinnerPopup != null) {
             spinnerPopup.setBackgroundDrawable(drawable);
-        } else if (Build.VERSION.SDK_INT >= 16) {
+        } else {
             super.setPopupBackgroundDrawable(drawable);
         }
     }
@@ -227,10 +227,7 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
         if (spinnerPopup != null) {
             return spinnerPopup.getBackground();
         }
-        if (Build.VERSION.SDK_INT >= 16) {
-            return super.getPopupBackground();
-        }
-        return null;
+        return super.getPopupBackground();
     }
 
     @Override // android.widget.Spinner
@@ -238,7 +235,7 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
         SpinnerPopup spinnerPopup = this.mPopup;
         if (spinnerPopup != null) {
             spinnerPopup.setVerticalOffset(i);
-        } else if (Build.VERSION.SDK_INT >= 16) {
+        } else {
             super.setDropDownVerticalOffset(i);
         }
     }
@@ -249,10 +246,7 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
         if (spinnerPopup != null) {
             return spinnerPopup.getVerticalOffset();
         }
-        if (Build.VERSION.SDK_INT >= 16) {
-            return super.getDropDownVerticalOffset();
-        }
-        return 0;
+        return super.getDropDownVerticalOffset();
     }
 
     @Override // android.widget.Spinner
@@ -261,9 +255,9 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
         if (spinnerPopup != null) {
             spinnerPopup.setHorizontalOriginalOffset(i);
             this.mPopup.setHorizontalOffset(i);
-        } else if (Build.VERSION.SDK_INT >= 16) {
-            super.setDropDownHorizontalOffset(i);
+            return;
         }
+        super.setDropDownHorizontalOffset(i);
     }
 
     @Override // android.widget.Spinner
@@ -272,17 +266,14 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
         if (spinnerPopup != null) {
             return spinnerPopup.getHorizontalOffset();
         }
-        if (Build.VERSION.SDK_INT >= 16) {
-            return super.getDropDownHorizontalOffset();
-        }
-        return 0;
+        return super.getDropDownHorizontalOffset();
     }
 
     @Override // android.widget.Spinner
     public void setDropDownWidth(int i) {
         if (this.mPopup != null) {
             this.mDropDownWidth = i;
-        } else if (Build.VERSION.SDK_INT >= 16) {
+        } else {
             super.setDropDownWidth(i);
         }
     }
@@ -292,10 +283,7 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
         if (this.mPopup != null) {
             return this.mDropDownWidth;
         }
-        if (Build.VERSION.SDK_INT >= 16) {
-            return super.getDropDownWidth();
-        }
-        return 0;
+        return super.getDropDownWidth();
     }
 
     @Override // android.widget.AdapterView
@@ -469,11 +457,7 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
     }
 
     void showPopup() {
-        if (Build.VERSION.SDK_INT >= 17) {
-            this.mPopup.show(Api17Impl.getTextDirection(this), Api17Impl.getTextAlignment(this));
-        } else {
-            this.mPopup.show(-1, -1);
-        }
+        this.mPopup.show(Api17Impl.getTextDirection(this), Api17Impl.getTextAlignment(this));
     }
 
     @Override // android.widget.Spinner, android.widget.AbsSpinner, android.view.View
@@ -500,11 +484,7 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
                 }
                 ViewTreeObserver viewTreeObserver2 = AppCompatSpinner.this.getViewTreeObserver();
                 if (viewTreeObserver2 != null) {
-                    if (Build.VERSION.SDK_INT >= 16) {
-                        Api16Impl.removeOnGlobalLayoutListener(viewTreeObserver2, this);
-                    } else {
-                        viewTreeObserver2.removeGlobalOnLayoutListener(this);
-                    }
+                    Api16Impl.removeOnGlobalLayoutListener(viewTreeObserver2, this);
                 }
             }
         });
@@ -732,10 +712,8 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
             AlertDialog create = builder.setSingleChoiceItems(this.mListAdapter, AppCompatSpinner.this.getSelectedItemPosition(), this).create();
             this.mPopup = create;
             ListView listView = create.getListView();
-            if (Build.VERSION.SDK_INT >= 17) {
-                Api17Impl.setTextDirection(listView, i);
-                Api17Impl.setTextAlignment(listView, i2);
-            }
+            Api17Impl.setTextDirection(listView, i);
+            Api17Impl.setTextAlignment(listView, i2);
             this.mPopup.show();
         }
 
@@ -782,7 +760,7 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
             setAnchorView(AppCompatSpinner.this);
             setModal(true);
             setPromptPosition(0);
-            setOnItemClickListener(new AdapterView.OnItemClickListener(AppCompatSpinner.this) { // from class: androidx.appcompat.widget.AppCompatSpinner.DropdownPopup.1
+            setOnItemClickListener(new AdapterView.OnItemClickListener() { // from class: androidx.appcompat.widget.AppCompatSpinner.DropdownPopup.1
                 @Override // android.widget.AdapterView.OnItemClickListener
                 public void onItemClick(AdapterView<?> adapterView, View view, int i2, long j) {
                     AppCompatSpinner.this.setSelection(i2);
@@ -812,9 +790,9 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
         }
 
         void computeContentWidth() {
+            int i;
             int horizontalOriginalOffset;
             Drawable background = getBackground();
-            int i = 0;
             if (background != null) {
                 background.getPadding(AppCompatSpinner.this.mTempRect);
                 i = ViewUtils.isLayoutRtl(AppCompatSpinner.this) ? AppCompatSpinner.this.mTempRect.right : -AppCompatSpinner.this.mTempRect.left;
@@ -822,6 +800,7 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
                 Rect rect = AppCompatSpinner.this.mTempRect;
                 rect.right = 0;
                 rect.left = 0;
+                i = 0;
             }
             int paddingLeft = AppCompatSpinner.this.getPaddingLeft();
             int paddingRight = AppCompatSpinner.this.getPaddingRight();
@@ -859,10 +838,8 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
             super.show();
             ListView listView = getListView();
             listView.setChoiceMode(1);
-            if (Build.VERSION.SDK_INT >= 17) {
-                Api17Impl.setTextDirection(listView, i);
-                Api17Impl.setTextAlignment(listView, i2);
-            }
+            Api17Impl.setTextDirection(listView, i);
+            Api17Impl.setTextAlignment(listView, i2);
             setSelection(AppCompatSpinner.this.getSelectedItemPosition());
             if (isShowing || (viewTreeObserver = AppCompatSpinner.this.getViewTreeObserver()) == null) {
                 return;
@@ -908,7 +885,9 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
     /* loaded from: classes.dex */
     private static final class Api23Impl {
         static void setDropDownViewTheme(android.widget.ThemedSpinnerAdapter themedSpinnerAdapter, Resources.Theme theme) {
-            if (ObjectsCompat.equals(themedSpinnerAdapter.getDropDownViewTheme(), theme)) {
+            Resources.Theme dropDownViewTheme;
+            dropDownViewTheme = themedSpinnerAdapter.getDropDownViewTheme();
+            if (ObjectsCompat.equals(dropDownViewTheme, theme)) {
                 return;
             }
             themedSpinnerAdapter.setDropDownViewTheme(theme);

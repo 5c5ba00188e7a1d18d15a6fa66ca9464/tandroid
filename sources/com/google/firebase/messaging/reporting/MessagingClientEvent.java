@@ -5,6 +5,7 @@ import com.google.android.gms.internal.firebase_messaging.zzz;
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public final class MessagingClientEvent {
+    private static final MessagingClientEvent DEFAULT_INSTANCE = new Builder().build();
     private final String analytics_label_;
     private final long bulk_id_;
     private final long campaign_id_;
@@ -165,10 +166,6 @@ public final class MessagingClientEvent {
         public int getNumber() {
             return this.number_;
         }
-    }
-
-    static {
-        new Builder().build();
     }
 
     MessagingClientEvent(long j, String str, String str2, MessageType messageType, SDKPlatform sDKPlatform, String str3, String str4, int i, int i2, String str5, long j2, Event event, String str6, long j3, String str7) {

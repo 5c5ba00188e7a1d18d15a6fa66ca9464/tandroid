@@ -168,13 +168,13 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         }
         SpansContainer spansContainer = new SpansContainer(context);
         this.spansContainer = spansContainer;
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$$ExternalSyntheticLambda8
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i3) {
                 InviteMembersBottomSheet.this.lambda$new$0(j, baseFragment, longSparseArray, context, view, i3);
             }
         });
-        this.listView.setItemAnimator(new ItemAnimator(this));
+        this.listView.setItemAnimator(new ItemAnimator());
         updateRows();
         ScrollView scrollView = new ScrollView(context) { // from class: org.telegram.ui.Components.InviteMembersBottomSheet.2
             @Override // android.widget.ScrollView, android.widget.FrameLayout, android.view.View
@@ -214,7 +214,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
             stateListAnimator.addState(new int[]{16842919}, ObjectAnimator.ofFloat(imageView, "translationZ", AndroidUtilities.dp(2.0f), AndroidUtilities.dp(4.0f)).setDuration(200L));
             stateListAnimator.addState(new int[0], ObjectAnimator.ofFloat(imageView, "translationZ", AndroidUtilities.dp(4.0f), AndroidUtilities.dp(2.0f)).setDuration(200L));
             imageView.setStateListAnimator(stateListAnimator);
-            imageView.setOutlineProvider(new ViewOutlineProvider(this) { // from class: org.telegram.ui.Components.InviteMembersBottomSheet.3
+            imageView.setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet.3
                 @Override // android.view.ViewOutlineProvider
                 @SuppressLint({"NewApi"})
                 public void getOutline(View view, Outline outline) {
@@ -222,7 +222,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
                 }
             });
         }
-        imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$$ExternalSyntheticLambda2
+        imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 InviteMembersBottomSheet.this.lambda$new$2(context, j, view);
@@ -360,7 +360,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         } else {
             builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("AddMembersAlertNamesText", R.string.AddMembersAlertNamesText, sb, chat.title)));
         }
-        builder.setPositiveButton(LocaleController.getString("Add", R.string.Add), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$$ExternalSyntheticLambda1
+        builder.setPositiveButton(LocaleController.getString("Add", R.string.Add), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$$ExternalSyntheticLambda5
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i3) {
                 InviteMembersBottomSheet.this.lambda$new$1(dialogInterface, i3);
@@ -500,7 +500,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
                 fArr[1] = z2 ? 1.0f : 0.0f;
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
                 this.spansEnterAnimator = ofFloat;
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$$ExternalSyntheticLambda0
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$$ExternalSyntheticLambda4
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                         InviteMembersBottomSheet.this.lambda$spansCountChanged$3(valueAnimator2);
@@ -582,7 +582,6 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         this.contactsEndRow = -1;
         this.copyLinkRow = -1;
         this.noContactsStubRow = -1;
-        this.rowCount = 0;
         this.rowCount = 0 + 1;
         this.emptyRow = 0;
         if (this.dialogsDelegate == null) {
@@ -666,7 +665,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
                 manageChatTextCell2.setColors(i2, i2);
                 manageChatTextCell = manageChatTextCell2;
             } else {
-                StickerEmptyView stickerEmptyView = new StickerEmptyView(this, context, null, 0) { // from class: org.telegram.ui.Components.InviteMembersBottomSheet.ListAdapter.2
+                StickerEmptyView stickerEmptyView = new StickerEmptyView(context, null, 0) { // from class: org.telegram.ui.Components.InviteMembersBottomSheet.ListAdapter.2
                     /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Components.StickerEmptyView, android.view.ViewGroup, android.view.View
                     public void onAttachedToWindow() {
@@ -770,7 +769,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         public SearchAdapter() {
             SearchAdapterHelper searchAdapterHelper = new SearchAdapterHelper(false);
             this.searchAdapterHelper = searchAdapterHelper;
-            searchAdapterHelper.setDelegate(new SearchAdapterHelper.SearchAdapterHelperDelegate() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$SearchAdapter$$ExternalSyntheticLambda4
+            searchAdapterHelper.setDelegate(new SearchAdapterHelper.SearchAdapterHelperDelegate() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$SearchAdapter$$ExternalSyntheticLambda0
                 @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
                 public /* synthetic */ boolean canApplySearchResults(int i) {
                     return SearchAdapterHelper.SearchAdapterHelperDelegate.-CC.$default$canApplySearchResults(this, i);
@@ -836,11 +835,11 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         /* JADX WARN: Code restructure failed: missing block: B:36:0x00b0, code lost:
             if (r13.toString().startsWith("@" + r3) != false) goto L27;
          */
-        /* JADX WARN: Removed duplicated region for block: B:57:0x010b  */
-        /* JADX WARN: Removed duplicated region for block: B:58:0x0110  */
-        /* JADX WARN: Removed duplicated region for block: B:64:0x0122  */
-        /* JADX WARN: Removed duplicated region for block: B:65:0x0127  */
-        /* JADX WARN: Removed duplicated region for block: B:71:0x0136  */
+        /* JADX WARN: Removed duplicated region for block: B:57:0x010c  */
+        /* JADX WARN: Removed duplicated region for block: B:58:0x0111  */
+        /* JADX WARN: Removed duplicated region for block: B:64:0x0123  */
+        /* JADX WARN: Removed duplicated region for block: B:65:0x0128  */
+        /* JADX WARN: Removed duplicated region for block: B:71:0x0137  */
         /* JADX WARN: Removed duplicated region for block: B:93:? A[RETURN, SYNTHETIC] */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
@@ -973,7 +972,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         }
 
         private void updateSearchResults(final ArrayList<Object> arrayList, final ArrayList<CharSequence> arrayList2) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$SearchAdapter$$ExternalSyntheticLambda3
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$SearchAdapter$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
                     InviteMembersBottomSheet.SearchAdapter.this.lambda$updateSearchResults$1(arrayList, arrayList2);
@@ -1014,7 +1013,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
                 }
                 InviteMembersBottomSheet.this.emptyView.showProgress(true, false);
                 DispatchQueue dispatchQueue = Utilities.searchQueue;
-                Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$SearchAdapter$$ExternalSyntheticLambda2
+                Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$SearchAdapter$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         InviteMembersBottomSheet.SearchAdapter.this.lambda$searchDialogs$4(str);
@@ -1034,7 +1033,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$searchDialogs$4(final String str) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$SearchAdapter$$ExternalSyntheticLambda1
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$SearchAdapter$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     InviteMembersBottomSheet.SearchAdapter.this.lambda$searchDialogs$3(str);
@@ -1046,7 +1045,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         public /* synthetic */ void lambda$searchDialogs$3(final String str) {
             this.searchAdapterHelper.queryServerSearch(str, true, InviteMembersBottomSheet.this.dialogsDelegate != null, true, InviteMembersBottomSheet.this.dialogsDelegate != null, false, 0L, false, 0, 0);
             DispatchQueue dispatchQueue = Utilities.searchQueue;
-            Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$SearchAdapter$$ExternalSyntheticLambda0
+            Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$SearchAdapter$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     InviteMembersBottomSheet.SearchAdapter.this.lambda$searchDialogs$2(str);
@@ -1145,20 +1144,22 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
 
     @Override // org.telegram.ui.Components.UsersAlertBase
     protected void onSearchViewTouched(MotionEvent motionEvent, final EditTextBoldCursor editTextBoldCursor) {
+        BaseFragment baseFragment;
         if (motionEvent.getAction() == 0) {
             this.y = this.scrollOffsetY;
         } else if (motionEvent.getAction() != 1 || Math.abs(this.scrollOffsetY - this.y) >= this.touchSlop || this.enterEventSent) {
         } else {
             Activity findActivity = AndroidUtilities.findActivity(getContext());
-            BaseFragment baseFragment = null;
             if (findActivity instanceof LaunchActivity) {
                 LaunchActivity launchActivity = (LaunchActivity) findActivity;
                 baseFragment = launchActivity.getActionBarLayout().getFragmentStack().get(launchActivity.getActionBarLayout().getFragmentStack().size() - 1);
+            } else {
+                baseFragment = null;
             }
             if (baseFragment instanceof ChatActivity) {
                 boolean needEnterText = ((ChatActivity) baseFragment).needEnterText();
                 this.enterEventSent = true;
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$$ExternalSyntheticLambda6
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
                         InviteMembersBottomSheet.this.lambda$onSearchViewTouched$5(editTextBoldCursor);
@@ -1169,7 +1170,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
             this.enterEventSent = true;
             setFocusable(true);
             editTextBoldCursor.requestFocus();
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$$ExternalSyntheticLambda4
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     AndroidUtilities.showKeyboard(EditTextBoldCursor.this);
@@ -1182,7 +1183,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
     public /* synthetic */ void lambda$onSearchViewTouched$5(final EditTextBoldCursor editTextBoldCursor) {
         setFocusable(true);
         editTextBoldCursor.requestFocus();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$$ExternalSyntheticLambda3
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 AndroidUtilities.showKeyboard(EditTextBoldCursor.this);
@@ -1194,6 +1195,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
     /* loaded from: classes3.dex */
     public class SpansContainer extends ViewGroup {
         boolean addAnimation;
+        private int animationIndex;
         private boolean animationStarted;
         private ArrayList<Animator> animators;
         private View removingSpan;
@@ -1201,6 +1203,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         public SpansContainer(Context context) {
             super(context);
             this.animators = new ArrayList<>();
+            this.animationIndex = -1;
         }
 
         @Override // android.view.View
@@ -1492,12 +1495,12 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
 
     /* loaded from: classes3.dex */
     private class ItemAnimator extends DefaultItemAnimator {
-        public ItemAnimator(InviteMembersBottomSheet inviteMembersBottomSheet) {
+        public ItemAnimator() {
             this.translationInterpolator = CubicBezierInterpolator.DEFAULT;
             setMoveDuration(150L);
             setAddDuration(150L);
             setRemoveDuration(150L);
-            inviteMembersBottomSheet.setShowWithoutAnimation(false);
+            InviteMembersBottomSheet.this.setShowWithoutAnimation(false);
         }
     }
 
@@ -1534,7 +1537,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$generateLink$8(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$$ExternalSyntheticLambda5
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
                 InviteMembersBottomSheet.this.lambda$generateLink$7(tLRPC$TL_error, tLObject);

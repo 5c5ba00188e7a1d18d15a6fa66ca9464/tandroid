@@ -76,8 +76,8 @@ public class ChooserTargetServiceCompat extends ChooserTargetService {
         }
         Collections.sort(list);
         ArrayList arrayList = new ArrayList();
-        float f = 1.0f;
         int rank = list.get(0).getShortcut().getRank();
+        float f = 1.0f;
         for (ShortcutHolder shortcutHolder : list) {
             ShortcutInfoCompat shortcut = shortcutHolder.getShortcut();
             Icon icon = null;

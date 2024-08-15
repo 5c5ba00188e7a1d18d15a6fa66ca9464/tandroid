@@ -26,6 +26,7 @@ public class ChatNotificationsPopupWrapper {
     Callback callback;
     int currentAccount;
     private final View gap;
+    private final boolean isProfile;
     long lastDismissTime;
     ActionBarMenuSubItem muteForLastSelected;
     private int muteForLastSelected1Time;
@@ -66,8 +67,13 @@ public class ChatNotificationsPopupWrapper {
     public ChatNotificationsPopupWrapper(final Context context, final int i, final PopupSwipeBackLayout popupSwipeBackLayout, boolean z, boolean z2, final Callback callback, final Theme.ResourcesProvider resourcesProvider) {
         this.currentAccount = i;
         this.callback = callback;
-        ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(this, context, z ? R.drawable.popup_fixed_alert : 0, resourcesProvider) { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper.1
+        this.isProfile = z2;
+        ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context, z ? R.drawable.popup_fixed_alert : 0, resourcesProvider) { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper.1
             Path path = new Path();
+
+            {
+                ChatNotificationsPopupWrapper.this = this;
+            }
 
             @Override // android.view.ViewGroup
             protected boolean drawChild(Canvas canvas, View view, long j) {
@@ -87,7 +93,7 @@ public class ChatNotificationsPopupWrapper {
         if (popupSwipeBackLayout != null) {
             ActionBarMenuSubItem addItem = ActionBarMenuItem.addItem(this.windowLayout, R.drawable.msg_arrow_back, LocaleController.getString("Back", R.string.Back), false, resourcesProvider);
             this.backItem = addItem;
-            addItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper$$ExternalSyntheticLambda7
+            addItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper$$ExternalSyntheticLambda1
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     PopupSwipeBackLayout.this.closeForeground();
@@ -96,7 +102,7 @@ public class ChatNotificationsPopupWrapper {
         }
         ActionBarMenuSubItem addItem2 = ActionBarMenuItem.addItem(this.windowLayout, R.drawable.msg_tone_on, LocaleController.getString("SoundOn", R.string.SoundOn), false, resourcesProvider);
         this.soundToggle = addItem2;
-        addItem2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper$$ExternalSyntheticLambda5
+        addItem2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ChatNotificationsPopupWrapper.this.lambda$new$1(callback, view);
@@ -107,7 +113,7 @@ public class ChatNotificationsPopupWrapper {
         int i3 = R.string.MuteFor1h;
         ActionBarMenuSubItem addItem3 = ActionBarMenuItem.addItem(actionBarPopupWindowLayout2, i2, LocaleController.getString("MuteFor1h", i3), false, resourcesProvider);
         this.muteForLastSelected = addItem3;
-        addItem3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper$$ExternalSyntheticLambda6
+        addItem3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ChatNotificationsPopupWrapper.this.lambda$new$2(callback, view);
@@ -121,13 +127,13 @@ public class ChatNotificationsPopupWrapper {
                 ChatNotificationsPopupWrapper.this.lambda$new$3(callback, view);
             }
         });
-        ActionBarMenuItem.addItem(this.windowLayout, R.drawable.msg_mute_period, LocaleController.getString("MuteForPopup", R.string.MuteForPopup), false, resourcesProvider).setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper$$ExternalSyntheticLambda0
+        ActionBarMenuItem.addItem(this.windowLayout, R.drawable.msg_mute_period, LocaleController.getString("MuteForPopup", R.string.MuteForPopup), false, resourcesProvider).setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper$$ExternalSyntheticLambda5
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ChatNotificationsPopupWrapper.this.lambda$new$6(context, resourcesProvider, i, callback, view);
             }
         });
-        ActionBarMenuItem.addItem(this.windowLayout, R.drawable.msg_customize, LocaleController.getString("NotificationsCustomize", R.string.NotificationsCustomize), false, resourcesProvider).setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper$$ExternalSyntheticLambda3
+        ActionBarMenuItem.addItem(this.windowLayout, R.drawable.msg_customize, LocaleController.getString("NotificationsCustomize", R.string.NotificationsCustomize), false, resourcesProvider).setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper$$ExternalSyntheticLambda6
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ChatNotificationsPopupWrapper.this.lambda$new$7(callback, view);
@@ -135,7 +141,7 @@ public class ChatNotificationsPopupWrapper {
         });
         ActionBarMenuSubItem addItem5 = ActionBarMenuItem.addItem(this.windowLayout, 0, "", false, resourcesProvider);
         this.muteUnmuteButton = addItem5;
-        addItem5.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper$$ExternalSyntheticLambda1
+        addItem5.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper$$ExternalSyntheticLambda7
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ChatNotificationsPopupWrapper.this.lambda$new$9(callback, view);
@@ -155,7 +161,7 @@ public class ChatNotificationsPopupWrapper {
         textView.setTag(i4, 1);
         this.windowLayout.addView((View) textView, LayoutHelper.createLinear(-2, -2));
         textView.setBackground(Theme.createRadSelectorDrawable(Theme.getColor(Theme.key_dialogButtonSelector, resourcesProvider), 0, 6));
-        textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper$$ExternalSyntheticLambda2
+        textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper$$ExternalSyntheticLambda8
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ChatNotificationsPopupWrapper.this.lambda$new$10(callback, view);
@@ -180,7 +186,7 @@ public class ChatNotificationsPopupWrapper {
 
     public /* synthetic */ void lambda$new$6(Context context, Theme.ResourcesProvider resourcesProvider, final int i, final Callback callback, View view) {
         dismiss();
-        AlertsCreator.createMuteForPickerDialog(context, resourcesProvider, new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper$$ExternalSyntheticLambda11
+        AlertsCreator.createMuteForPickerDialog(context, resourcesProvider, new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper$$ExternalSyntheticLambda9
             @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
             public final void didSelectDate(boolean z, int i2) {
                 ChatNotificationsPopupWrapper.lambda$new$5(i, callback, z, i2);
@@ -189,7 +195,7 @@ public class ChatNotificationsPopupWrapper {
     }
 
     public static /* synthetic */ void lambda$new$5(final int i, final Callback callback, boolean z, final int i2) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper$$ExternalSyntheticLambda8
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
             public final void run() {
                 ChatNotificationsPopupWrapper.lambda$new$4(i2, i, callback);
@@ -212,7 +218,7 @@ public class ChatNotificationsPopupWrapper {
 
     public /* synthetic */ void lambda$new$9(final Callback callback, View view) {
         dismiss();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper$$ExternalSyntheticLambda9
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
                 ChatNotificationsPopupWrapper.Callback.this.toggleMute();
@@ -243,7 +249,7 @@ public class ChatNotificationsPopupWrapper {
         int i2;
         int i3;
         if (System.currentTimeMillis() - this.lastDismissTime < 200) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper$$ExternalSyntheticLambda10
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatNotificationsPopupWrapper$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatNotificationsPopupWrapper.this.lambda$update$11(j, j2, hashSet);

@@ -36,6 +36,7 @@ import org.telegram.ui.Components.Point;
 import org.telegram.ui.Stories.recorder.FlashViews;
 /* loaded from: classes4.dex */
 public class RecordControl extends View implements FlashViews.Invertable {
+    private final float HALF_PI;
     public float amplitude;
     public final AnimatedFloat animatedAmplitude;
     private final Paint buttonPaint;
@@ -100,8 +101,10 @@ public class RecordControl extends View implements FlashViews.Invertable {
     private final AnimatedFloat touchIsButtonT;
     private final AnimatedFloat touchIsCenter2T;
     private final AnimatedFloat touchIsCenterT;
+    private long touchStart;
     private final AnimatedFloat touchT;
     private float touchX;
+    private float touchY;
     private final Drawable unlockDrawable;
 
     /* loaded from: classes4.dex */
@@ -197,6 +200,7 @@ public class RecordControl extends View implements FlashViews.Invertable {
         };
         this.metaballsPath = new Path();
         this.circlePath = new Path();
+        this.HALF_PI = 1.5707964f;
         this.p1 = new Point();
         this.p2 = new Point();
         this.p3 = new Point();
@@ -262,10 +266,7 @@ public class RecordControl extends View implements FlashViews.Invertable {
             return;
         }
         MediaController.AlbumEntry albumEntry = MediaController.allMediaAlbumEntry;
-        MediaController.PhotoEntry photoEntry = null;
-        if (albumEntry != null && (arrayList = albumEntry.photos) != null && !arrayList.isEmpty()) {
-            photoEntry = albumEntry.photos.get(0);
-        }
+        MediaController.PhotoEntry photoEntry = (albumEntry == null || (arrayList = albumEntry.photos) == null || arrayList.isEmpty()) ? null : albumEntry.photos.get(0);
         if (photoEntry != null && (str = photoEntry.thumbPath) != null) {
             this.galleryImage.setImage(ImageLocation.getForPath(str), "80_80", null, null, this.noGalleryDrawable, 0L, null, null, 0);
         } else if (photoEntry != null && photoEntry.path != null) {
@@ -358,7 +359,7 @@ public class RecordControl extends View implements FlashViews.Invertable {
         }
         this.longpressRecording = true;
         this.showLock = true;
-        this.delegate.onVideoRecordStart(true, new Runnable() { // from class: org.telegram.ui.Stories.recorder.RecordControl$$ExternalSyntheticLambda1
+        this.delegate.onVideoRecordStart(true, new Runnable() { // from class: org.telegram.ui.Stories.recorder.RecordControl$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 RecordControl.this.lambda$new$0();
@@ -388,8 +389,8 @@ public class RecordControl extends View implements FlashViews.Invertable {
         this.lockButton.setPressed(false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:122:0x06bd  */
-    /* JADX WARN: Removed duplicated region for block: B:130:0x06f1  */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x06bb  */
+    /* JADX WARN: Removed duplicated region for block: B:130:0x06ef  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -398,10 +399,10 @@ public class RecordControl extends View implements FlashViews.Invertable {
         float f;
         float f2;
         float f3;
+        RectF rectF;
         float f4;
         float f5;
         long j;
-        RectF rectF;
         float f6;
         float f7;
         float f8;
@@ -476,10 +477,11 @@ public class RecordControl extends View implements FlashViews.Invertable {
             f5 = lerp2;
             j = currentTimeMillis;
             f4 = f23;
-            canvas.drawArc(rectF2, -90.0f, f27, false, this.outlineFilledPaint);
             rectF = rectF2;
+            canvas.drawArc(rectF2, -90.0f, f27, false, this.outlineFilledPaint);
             f6 = f21;
         } else {
+            rectF = rectF2;
             f4 = f23;
             f5 = lerp2;
             j = currentTimeMillis;
@@ -495,9 +497,8 @@ public class RecordControl extends View implements FlashViews.Invertable {
                 f31 = AndroidUtilities.lerp((-90.0f) + f32, f31, f28);
                 abs = AndroidUtilities.lerp(f32, abs, f28);
             }
-            rectF = rectF2;
             f6 = f21;
-            canvas.drawArc(rectF2, f31 - abs, abs * 2.0f, false, this.outlineFilledPaint);
+            canvas.drawArc(rectF, f31 - abs, abs * 2.0f, false, this.outlineFilledPaint);
         }
         if (this.recording) {
             invalidate();
@@ -506,7 +507,7 @@ public class RecordControl extends View implements FlashViews.Invertable {
                 this.delegate.onVideoDuration(j2);
             }
             if (j >= 60000) {
-                post(new Runnable() { // from class: org.telegram.ui.Stories.recorder.RecordControl$$ExternalSyntheticLambda4
+                post(new Runnable() { // from class: org.telegram.ui.Stories.recorder.RecordControl$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         RecordControl.this.lambda$onDraw$3();
@@ -582,7 +583,7 @@ public class RecordControl extends View implements FlashViews.Invertable {
                 double acos = (float) Math.acos((lerp3 - f7) / abs2);
                 Double.isNaN(acos);
                 f9 = f35;
-                float f41 = f6;
+                RectF rectF3 = rectF;
                 double d4 = clamp3;
                 Double.isNaN(d4);
                 double d5 = (acos - d) * d4;
@@ -593,57 +594,56 @@ public class RecordControl extends View implements FlashViews.Invertable {
                 double d8 = ((3.141592653589793d - d2) - acos) * d4;
                 double d9 = ((d3 + 3.141592653589793d) - d2) - d8;
                 double d10 = (d3 - 3.141592653589793d) + d2 + d8;
-                float f42 = f5;
-                getVector(f42, this.cy, d6, lerp3, this.p1);
-                getVector(f42, this.cy, d7, lerp3, this.p2);
+                float f41 = f5;
+                getVector(f41, this.cy, d6, lerp3, this.p1);
+                getVector(f41, this.cy, d7, lerp3, this.p2);
                 getVector(f36, this.cy, d9, f8, this.p3);
                 getVector(f36, this.cy, d10, f8, this.p4);
                 float min = Math.min(clamp3 * 2.4f, dist(this.p1, this.p3) / f37) * Math.min(1.0f, (abs2 * 2.0f) / f37);
-                float f43 = lerp3 * min;
-                float f44 = f8 * min;
+                float f42 = lerp3 * min;
+                float f43 = f8 * min;
                 Point point = this.p1;
-                getVector(point.x, point.y, d6 - 1.5707963705062866d, f43, this.h1);
+                getVector(point.x, point.y, d6 - 1.5707963705062866d, f42, this.h1);
                 Point point2 = this.p2;
-                getVector(point2.x, point2.y, d7 + 1.5707963705062866d, f43, this.h2);
+                getVector(point2.x, point2.y, d7 + 1.5707963705062866d, f42, this.h2);
                 Point point3 = this.p3;
-                getVector(point3.x, point3.y, d9 + 1.5707963705062866d, f44, this.h3);
+                getVector(point3.x, point3.y, d9 + 1.5707963705062866d, f43, this.h3);
                 Point point4 = this.p4;
-                getVector(point4.x, point4.y, d10 - 1.5707963705062866d, f44, this.h4);
-                float f45 = f2 * max * f11 * f3;
-                if (f45 > 0.0f) {
+                getVector(point4.x, point4.y, d10 - 1.5707963705062866d, f43, this.h4);
+                float f44 = f2 * max * f11 * f3;
+                if (f44 > 0.0f) {
                     this.metaballsPath.rewind();
                     Path path = this.metaballsPath;
                     Point point5 = this.p1;
                     path.moveTo(point5.x, point5.y);
                     Path path2 = this.metaballsPath;
                     Point point6 = this.h1;
-                    float f46 = point6.x;
-                    float f47 = point6.y;
+                    float f45 = point6.x;
+                    float f46 = point6.y;
                     Point point7 = this.h3;
-                    float f48 = point7.x;
-                    float f49 = point7.y;
+                    float f47 = point7.x;
+                    float f48 = point7.y;
                     Point point8 = this.p3;
-                    path2.cubicTo(f46, f47, f48, f49, point8.x, point8.y);
+                    path2.cubicTo(f45, f46, f47, f48, point8.x, point8.y);
                     Path path3 = this.metaballsPath;
                     Point point9 = this.p4;
                     path3.lineTo(point9.x, point9.y);
                     Path path4 = this.metaballsPath;
                     Point point10 = this.h4;
-                    float f50 = point10.x;
-                    float f51 = point10.y;
+                    float f49 = point10.x;
+                    float f50 = point10.y;
                     Point point11 = this.h2;
-                    float f52 = point11.x;
-                    float f53 = point11.y;
+                    float f51 = point11.x;
+                    float f52 = point11.y;
                     Point point12 = this.p2;
-                    path4.cubicTo(f50, f51, f52, f53, point12.x, point12.y);
+                    path4.cubicTo(f49, f50, f51, f52, point12.x, point12.y);
                     Path path5 = this.metaballsPath;
                     Point point13 = this.p1;
                     path5.lineTo(point13.x, point13.y);
-                    this.redPaint.setAlpha((int) (f45 * 255.0f));
+                    this.redPaint.setAlpha((int) (f44 * 255.0f));
                     canvas.drawPath(this.metaballsPath, this.redPaint);
-                    float f54 = this.cy;
-                    RectF rectF3 = rectF;
-                    rectF3.set(f41, f54 - lerp3, f4, f54 + lerp3);
+                    float f53 = this.cy;
+                    rectF3.set(f6, f53 - lerp3, f4, f53 + lerp3);
                     canvas.drawRoundRect(rectF3, lerp4, lerp4, this.redPaint);
                 }
                 if (f8 <= 0.0f || f9 > 0.0f) {
@@ -772,8 +772,9 @@ public class RecordControl extends View implements FlashViews.Invertable {
         if (action == 0) {
             this.touch = true;
             this.discardParentTouch = (this.recordButton.isPressed() || this.flipButton.isPressed()) ? true : true;
-            System.currentTimeMillis();
+            this.touchStart = System.currentTimeMillis();
             this.touchX = clamp;
+            this.touchY = y;
             if (Math.abs(clamp - this.cx) < AndroidUtilities.dp(50.0f)) {
                 AndroidUtilities.runOnUIThread(this.onRecordLongPressRunnable, ViewConfiguration.getLongPressTimeout());
             }
@@ -785,6 +786,7 @@ public class RecordControl extends View implements FlashViews.Invertable {
                 return false;
             }
             this.touchX = Utilities.clamp(clamp, this.rightCx, this.leftCx);
+            this.touchY = y;
             invalidate();
             if (this.recording && !this.flipButtonWasPressed && isPressed) {
                 rotateFlip(180.0f);
@@ -823,7 +825,7 @@ public class RecordControl extends View implements FlashViews.Invertable {
                             this.lastDuration = 0L;
                             this.recordingStart = System.currentTimeMillis();
                             this.showLock = false;
-                            this.delegate.onVideoRecordStart(false, new Runnable() { // from class: org.telegram.ui.Stories.recorder.RecordControl$$ExternalSyntheticLambda0
+                            this.delegate.onVideoRecordStart(false, new Runnable() { // from class: org.telegram.ui.Stories.recorder.RecordControl$$ExternalSyntheticLambda1
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     RecordControl.this.lambda$onTouchEvent$4();

@@ -20,12 +20,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /* compiled from: com.google.mlkit:vision-common@@17.3.0 */
 /* loaded from: classes.dex */
 public class MobileVisionBase<DetectionResultT> implements Closeable, LifecycleObserver {
-    public static final /* synthetic */ int zza = 0;
+    public static final /* synthetic */ int $r8$clinit = 0;
     private static final GmsLogger zzb = new GmsLogger("MobileVisionBase", "");
     private final AtomicBoolean zzc = new AtomicBoolean(false);
     private final MLTask zzd;
     private final CancellationTokenSource zze;
     private final Executor zzf;
+    private final Task zzg;
 
     public MobileVisionBase(MLTask<DetectionResultT, InputImage> mLTask, Executor executor) {
         this.zzd = mLTask;
@@ -33,10 +34,10 @@ public class MobileVisionBase<DetectionResultT> implements Closeable, LifecycleO
         this.zze = cancellationTokenSource;
         this.zzf = executor;
         mLTask.pin();
-        mLTask.callAfterLoad(executor, new Callable() { // from class: com.google.mlkit.vision.common.internal.zzb
+        this.zzg = mLTask.callAfterLoad(executor, new Callable() { // from class: com.google.mlkit.vision.common.internal.zzb
             @Override // java.util.concurrent.Callable
             public final Object call() {
-                int i = MobileVisionBase.zza;
+                int i = MobileVisionBase.$r8$clinit;
                 return null;
             }
         }, cancellationTokenSource.getToken()).addOnFailureListener(new OnFailureListener() { // from class: com.google.mlkit.vision.common.internal.zzc

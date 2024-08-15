@@ -43,7 +43,7 @@ public class WearReplyReceiver extends BroadcastReceiver {
                 return;
             }
         } else if (DialogObject.isChatDialog(longExtra) && accountInstance.getMessagesController().getChat(Long.valueOf(-longExtra)) == null) {
-            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.WearReplyReceiver$$ExternalSyntheticLambda0
+            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.WearReplyReceiver$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     WearReplyReceiver.this.lambda$onReceive$3(accountInstance, longExtra, charSequence, longExtra2, intExtra);
@@ -74,7 +74,7 @@ public class WearReplyReceiver extends BroadcastReceiver {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onReceive$3(final AccountInstance accountInstance, final long j, final CharSequence charSequence, final long j2, final int i) {
         final TLRPC$Chat chatSync = accountInstance.getMessagesStorage().getChatSync(-j);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.WearReplyReceiver$$ExternalSyntheticLambda2
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.WearReplyReceiver$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 WearReplyReceiver.this.lambda$onReceive$2(accountInstance, chatSync, charSequence, j, j2, i);

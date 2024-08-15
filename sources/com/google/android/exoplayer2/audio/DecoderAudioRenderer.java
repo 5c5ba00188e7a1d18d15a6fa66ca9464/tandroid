@@ -442,14 +442,19 @@ public abstract class DecoderAudioRenderer<T extends Decoder<DecoderInputBuffer,
     }
 
     private void maybeInitDecoder() throws ExoPlaybackException {
+        CryptoConfig cryptoConfig;
         if (this.decoder != null) {
             return;
         }
         setDecoderDrmSession(this.sourceDrmSession);
-        CryptoConfig cryptoConfig = null;
         DrmSession drmSession = this.decoderDrmSession;
-        if (drmSession != null && (cryptoConfig = drmSession.getCryptoConfig()) == null && this.decoderDrmSession.getError() == null) {
-            return;
+        if (drmSession != null) {
+            cryptoConfig = drmSession.getCryptoConfig();
+            if (cryptoConfig == null && this.decoderDrmSession.getError() == null) {
+                return;
+            }
+        } else {
+            cryptoConfig = null;
         }
         try {
             long elapsedRealtime = SystemClock.elapsedRealtime();

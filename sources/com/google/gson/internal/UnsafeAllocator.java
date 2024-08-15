@@ -49,21 +49,21 @@ public abstract class UnsafeAllocator {
                         }
                     };
                 } catch (Exception unused2) {
-                    return new UnsafeAllocator() { // from class: com.google.gson.internal.UnsafeAllocator.4
+                    final Method declaredMethod3 = ObjectInputStream.class.getDeclaredMethod("newInstance", Class.class, Class.class);
+                    declaredMethod3.setAccessible(true);
+                    return new UnsafeAllocator() { // from class: com.google.gson.internal.UnsafeAllocator.3
                         @Override // com.google.gson.internal.UnsafeAllocator
-                        public <T> T newInstance(Class<T> cls2) {
-                            throw new UnsupportedOperationException("Cannot allocate " + cls2 + ". Usage of JDK sun.misc.Unsafe is enabled, but it could not be used. Make sure your runtime is configured correctly.");
+                        public <T> T newInstance(Class<T> cls2) throws Exception {
+                            UnsafeAllocator.assertInstantiable(cls2);
+                            return (T) declaredMethod3.invoke(null, cls2, Object.class);
                         }
                     };
                 }
             } catch (Exception unused3) {
-                final Method declaredMethod3 = ObjectInputStream.class.getDeclaredMethod("newInstance", Class.class, Class.class);
-                declaredMethod3.setAccessible(true);
-                return new UnsafeAllocator() { // from class: com.google.gson.internal.UnsafeAllocator.3
+                return new UnsafeAllocator() { // from class: com.google.gson.internal.UnsafeAllocator.4
                     @Override // com.google.gson.internal.UnsafeAllocator
-                    public <T> T newInstance(Class<T> cls2) throws Exception {
-                        UnsafeAllocator.assertInstantiable(cls2);
-                        return (T) declaredMethod3.invoke(null, cls2, Object.class);
+                    public <T> T newInstance(Class<T> cls2) {
+                        throw new UnsupportedOperationException("Cannot allocate " + cls2 + ". Usage of JDK sun.misc.Unsafe is enabled, but it could not be used. Make sure your runtime is configured correctly.");
                     }
                 };
             }

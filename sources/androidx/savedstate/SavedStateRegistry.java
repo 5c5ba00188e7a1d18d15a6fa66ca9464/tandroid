@@ -15,6 +15,7 @@ import kotlin.jvm.internal.Intrinsics;
 @SuppressLint({"RestrictedApi"})
 /* loaded from: classes.dex */
 public final class SavedStateRegistry {
+    private static final Companion Companion = new Companion(null);
     private boolean attached;
     private final SafeIterableMap<String, SavedStateProvider> components = new SafeIterableMap<>();
     private boolean isAllowingSavingState = true;
@@ -32,10 +33,6 @@ public final class SavedStateRegistry {
     /* loaded from: classes.dex */
     public interface SavedStateProvider {
         Bundle saveState();
-    }
-
-    static {
-        new Companion(null);
     }
 
     public final Bundle consumeRestoredStateForKey(String key) {

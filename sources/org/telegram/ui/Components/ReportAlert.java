@@ -112,7 +112,7 @@ public class ReportAlert extends BottomSheet {
         this.editText.setCursorColor(getThemedColor(i2));
         this.editText.setCursorSize(AndroidUtilities.dp(20.0f));
         this.editText.setCursorWidth(1.5f);
-        this.editText.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Components.ReportAlert$$ExternalSyntheticLambda1
+        this.editText.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Components.ReportAlert$$ExternalSyntheticLambda0
             @Override // android.widget.TextView.OnEditorActionListener
             public final boolean onEditorAction(TextView textView3, int i3, KeyEvent keyEvent) {
                 boolean lambda$new$0;
@@ -125,7 +125,7 @@ public class ReportAlert extends BottomSheet {
         this.clearButton = bottomSheetCell;
         bottomSheetCell.setBackground(null);
         this.clearButton.setText(LocaleController.getString("ReportSend", R.string.ReportSend));
-        this.clearButton.background.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ReportAlert$$ExternalSyntheticLambda0
+        this.clearButton.background.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ReportAlert$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ReportAlert.this.lambda$new$1(i, view);

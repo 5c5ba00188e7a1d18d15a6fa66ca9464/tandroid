@@ -144,6 +144,7 @@ final class MetadataUtil {
                 }
             }
             Log.d("MetadataUtil", "Skipped unknown metadata entry: " + Atom.getAtomTypeString(readInt));
+            parsableByteArray.setPosition(position);
             return null;
         } finally {
             parsableByteArray.setPosition(position);

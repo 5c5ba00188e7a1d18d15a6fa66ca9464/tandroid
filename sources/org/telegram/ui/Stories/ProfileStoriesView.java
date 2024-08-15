@@ -81,6 +81,7 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
     private float newStoryBounceT;
     private Runnable onLongPressRunnable;
     Paint paint;
+    private TL_stories$PeerStories peerStories;
     private boolean progressIsDone;
     private float progressToInsets;
     private final AnimatedFloat progressToUploading;
@@ -197,7 +198,7 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
         this.expandRightPadAnimated = new AnimatedFloat(this, 0L, 350L, cubicBezierInterpolator);
         this.rightAnimated = new AnimatedFloat(this, 0L, 350L, cubicBezierInterpolator);
         this.provider = new 3();
-        this.onLongPressRunnable = new Runnable() { // from class: org.telegram.ui.Stories.ProfileStoriesView$$ExternalSyntheticLambda3
+        this.onLongPressRunnable = new Runnable() { // from class: org.telegram.ui.Stories.ProfileStoriesView$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 ProfileStoriesView.this.lambda$new$4();
@@ -233,6 +234,7 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
     }
 
     public void setStories(TL_stories$PeerStories tL_stories$PeerStories) {
+        this.peerStories = tL_stories$PeerStories;
         updateStories(true, false);
     }
 
@@ -543,12 +545,12 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
         invalidate();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:163:0x071e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:163:0x0721, code lost:
         if (java.lang.Math.abs(r1.borderRect.centerX() - r6.borderRect.centerX()) > ((r1.borderRect.width() / 2.0f) + (r6.borderRect.width() / 2.0f))) goto L125;
      */
-    /* JADX WARN: Removed duplicated region for block: B:171:0x0731  */
-    /* JADX WARN: Removed duplicated region for block: B:174:0x0753  */
-    /* JADX WARN: Removed duplicated region for block: B:207:0x0774 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:171:0x0734  */
+    /* JADX WARN: Removed duplicated region for block: B:174:0x0756  */
+    /* JADX WARN: Removed duplicated region for block: B:207:0x0777 A[SYNTHETIC] */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -602,7 +604,7 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
             i3++;
         }
         if (z) {
-            Collections.sort(this.circles, new Comparator() { // from class: org.telegram.ui.Stories.ProfileStoriesView$$ExternalSyntheticLambda4
+            Collections.sort(this.circles, new Comparator() { // from class: org.telegram.ui.Stories.ProfileStoriesView$$ExternalSyntheticLambda0
                 @Override // java.util.Comparator
                 public final int compare(Object obj, Object obj2) {
                     int lambda$dispatchDraw$2;
@@ -882,7 +884,7 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
         ValueAnimator ofFloat2 = ValueAnimator.ofFloat(1.05f, 1.0f);
         ofFloat2.setDuration(250L);
         ofFloat2.setInterpolator(new OvershootInterpolator());
-        ValueAnimator.AnimatorUpdateListener animatorUpdateListener = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.ProfileStoriesView$$ExternalSyntheticLambda0
+        ValueAnimator.AnimatorUpdateListener animatorUpdateListener = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.ProfileStoriesView$$ExternalSyntheticLambda3
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 ProfileStoriesView.this.lambda$animateBounce$3(valueAnimator);

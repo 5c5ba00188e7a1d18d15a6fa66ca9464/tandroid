@@ -1,7 +1,6 @@
 package androidx.emoji2.text;
 
 import android.content.Context;
-import android.os.Build;
 import androidx.core.os.TraceCompat;
 import androidx.emoji2.text.EmojiCompat;
 import androidx.emoji2.text.EmojiCompatInitializer;
@@ -18,12 +17,9 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class EmojiCompatInitializer implements Initializer<Boolean> {
     @Override // androidx.startup.Initializer
     public Boolean create(Context context) {
-        if (Build.VERSION.SDK_INT >= 19) {
-            EmojiCompat.init(new BackgroundDefaultConfig(context));
-            delayUntilFirstResume(context);
-            return Boolean.TRUE;
-        }
-        return Boolean.FALSE;
+        EmojiCompat.init(new BackgroundDefaultConfig(context));
+        delayUntilFirstResume(context);
+        return Boolean.TRUE;
     }
 
     void delayUntilFirstResume(Context context) {
@@ -128,7 +124,7 @@ public class EmojiCompatInitializer implements Initializer<Boolean> {
                     throw new RuntimeException("EmojiCompat font provider not available on this device.");
                 }
                 create.setLoadingExecutor(threadPoolExecutor);
-                create.getMetadataRepoLoader().load(new EmojiCompat.MetadataRepoLoaderCallback(this) { // from class: androidx.emoji2.text.EmojiCompatInitializer.BackgroundDefaultLoader.1
+                create.getMetadataRepoLoader().load(new EmojiCompat.MetadataRepoLoaderCallback() { // from class: androidx.emoji2.text.EmojiCompatInitializer.BackgroundDefaultLoader.1
                     @Override // androidx.emoji2.text.EmojiCompat.MetadataRepoLoaderCallback
                     public void onLoaded(MetadataRepo metadataRepo) {
                         try {

@@ -185,7 +185,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         if (!arrayList.isEmpty()) {
             final CountDownLatch countDownLatch = new CountDownLatch(1);
             final ArrayList arrayList2 = new ArrayList();
-            MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.GroupCreateFinalActivity$$ExternalSyntheticLambda5
+            MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.GroupCreateFinalActivity$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
                     GroupCreateFinalActivity.this.lambda$onFragmentCreate$0(arrayList2, arrayList, countDownLatch);
@@ -330,8 +330,8 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
-        int i;
         String str;
+        int i;
         SizeNotifierFrameLayout sizeNotifierFrameLayout;
         EditTextEmoji editTextEmoji = this.editText;
         if (editTextEmoji != null) {
@@ -482,7 +482,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         };
         this.fragmentView = sizeNotifierFrameLayout2;
         sizeNotifierFrameLayout2.setLayoutParams(new ViewGroup.LayoutParams(-1, -1));
-        this.fragmentView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.GroupCreateFinalActivity$$ExternalSyntheticLambda3
+        this.fragmentView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.GroupCreateFinalActivity$$ExternalSyntheticLambda0
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view, MotionEvent motionEvent) {
                 boolean lambda$createView$1;
@@ -549,7 +549,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         FrameLayout frameLayout3 = this.editTextContainer;
         boolean z2 = LocaleController.isRTL;
         frameLayout3.addView(view, LayoutHelper.createFrame(64, 64.0f, (z2 ? 5 : 3) | 48, z2 ? 0.0f : 16.0f, 16.0f, z2 ? 16.0f : 0.0f, 16.0f));
-        this.avatarOverlay.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.GroupCreateFinalActivity$$ExternalSyntheticLambda2
+        this.avatarOverlay.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.GroupCreateFinalActivity$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 GroupCreateFinalActivity.this.lambda$createView$4(view2);
@@ -600,11 +600,11 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         this.editText = editTextEmoji2;
         int i3 = this.chatType;
         if (i3 == 0 || i3 == 4 || i3 == 5) {
-            i = R.string.EnterGroupNamePlaceholder;
             str = "EnterGroupNamePlaceholder";
+            i = R.string.EnterGroupNamePlaceholder;
         } else {
-            i = R.string.EnterListName;
             str = "EnterListName";
+            i = R.string.EnterListName;
         }
         editTextEmoji2.setHint(LocaleController.getString(str, i));
         String str2 = this.nameToSet;
@@ -639,7 +639,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
                 }
             }
         });
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.GroupCreateFinalActivity$$ExternalSyntheticLambda8
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.GroupCreateFinalActivity$$ExternalSyntheticLambda2
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
             public /* synthetic */ boolean hasDoubleTap(View view2, int i4) {
                 return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view2, i4);
@@ -672,7 +672,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
             stateListAnimator.addState(new int[]{16842919}, ObjectAnimator.ofFloat(this.floatingButtonIcon, "translationZ", AndroidUtilities.dp(2.0f), AndroidUtilities.dp(4.0f)).setDuration(200L));
             stateListAnimator.addState(new int[0], ObjectAnimator.ofFloat(this.floatingButtonIcon, "translationZ", AndroidUtilities.dp(4.0f), AndroidUtilities.dp(2.0f)).setDuration(200L));
             this.floatingButtonContainer.setStateListAnimator(stateListAnimator);
-            this.floatingButtonContainer.setOutlineProvider(new ViewOutlineProvider(this) { // from class: org.telegram.ui.GroupCreateFinalActivity.10
+            this.floatingButtonContainer.setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.GroupCreateFinalActivity.10
                 @Override // android.view.ViewOutlineProvider
                 @SuppressLint({"NewApi"})
                 public void getOutline(View view2, Outline outline) {
@@ -688,7 +688,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         float f = i4 >= 21 ? 56.0f : 60.0f;
         boolean z6 = LocaleController.isRTL;
         sizeNotifierFrameLayout.addView(view2, LayoutHelper.createFrame(i5, f, (z6 ? 3 : 5) | 80, z6 ? 14.0f : 0.0f, 0.0f, z6 ? 0.0f : 14.0f, 14.0f));
-        this.floatingButtonContainer.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.GroupCreateFinalActivity$$ExternalSyntheticLambda1
+        this.floatingButtonContainer.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.GroupCreateFinalActivity$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view3) {
                 GroupCreateFinalActivity.this.lambda$createView$7(view3);
@@ -714,12 +714,12 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$4(View view) {
-        this.imageUpdater.openMenu(this.avatar != null, new Runnable() { // from class: org.telegram.ui.GroupCreateFinalActivity$$ExternalSyntheticLambda4
+        this.imageUpdater.openMenu(this.avatar != null, new Runnable() { // from class: org.telegram.ui.GroupCreateFinalActivity$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 GroupCreateFinalActivity.this.lambda$createView$2();
             }
-        }, new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.GroupCreateFinalActivity$$ExternalSyntheticLambda0
+        }, new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.GroupCreateFinalActivity$$ExternalSyntheticLambda8
             @Override // android.content.DialogInterface.OnDismissListener
             public final void onDismiss(DialogInterface dialogInterface) {
                 GroupCreateFinalActivity.this.lambda$createView$3(dialogInterface);
@@ -861,7 +861,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
 
     @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
     public void didUploadPhoto(final TLRPC$InputFile tLRPC$InputFile, final TLRPC$InputFile tLRPC$InputFile2, final double d, final String str, final TLRPC$PhotoSize tLRPC$PhotoSize, final TLRPC$PhotoSize tLRPC$PhotoSize2, boolean z, final TLRPC$VideoSize tLRPC$VideoSize) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.GroupCreateFinalActivity$$ExternalSyntheticLambda6
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.GroupCreateFinalActivity$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 GroupCreateFinalActivity.this.lambda$didUploadPhoto$8(tLRPC$InputFile, tLRPC$InputFile2, tLRPC$VideoSize, str, d, tLRPC$PhotoSize2, tLRPC$PhotoSize);
@@ -1105,27 +1105,27 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void notifyDataSetChanged() {
             this.items.clear();
-            this.items.add(new InnerItem(this, 0));
+            this.items.add(new InnerItem(0));
             if (GroupCreateFinalActivity.this.chatType == 5) {
-                this.items.add(new InnerItem(this, 6));
-                this.items.add(new InnerItem(this, 5, LocaleController.getString("ForumToggleDescription", R.string.ForumToggleDescription)));
+                this.items.add(new InnerItem(6));
+                this.items.add(new InnerItem(5, LocaleController.getString("ForumToggleDescription", R.string.ForumToggleDescription)));
             } else {
-                this.items.add(new InnerItem(this, 4));
-                this.items.add(new InnerItem(this, 5, LocaleController.getString("GroupCreateAutodeleteDescription", R.string.GroupCreateAutodeleteDescription)));
+                this.items.add(new InnerItem(4));
+                this.items.add(new InnerItem(5, LocaleController.getString("GroupCreateAutodeleteDescription", R.string.GroupCreateAutodeleteDescription)));
             }
             if (GroupCreateFinalActivity.this.currentGroupCreateAddress != null) {
-                this.items.add(new InnerItem(this, 1));
-                this.items.add(new InnerItem(this, 3));
-                this.items.add(new InnerItem(this, 0));
+                this.items.add(new InnerItem(1));
+                this.items.add(new InnerItem(3));
+                this.items.add(new InnerItem(0));
             }
             if (GroupCreateFinalActivity.this.selectedContacts.size() > 0) {
-                this.items.add(new InnerItem(this, 1));
+                this.items.add(new InnerItem(1));
                 this.usersStartRow = this.items.size();
                 for (int i = 0; i < GroupCreateFinalActivity.this.selectedContacts.size(); i++) {
-                    this.items.add(new InnerItem(this, 2));
+                    this.items.add(new InnerItem(2));
                 }
             }
-            this.items.add(new InnerItem(this, 7));
+            this.items.add(new InnerItem(7));
             super.notifyDataSetChanged();
         }
 
@@ -1240,11 +1240,11 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         public class InnerItem extends AdapterWithDiffUtils.Item {
             String string;
 
-            public InnerItem(GroupCreateAdapter groupCreateAdapter, int i) {
+            public InnerItem(int i) {
                 super(i, true);
             }
 
-            public InnerItem(GroupCreateAdapter groupCreateAdapter, int i, String str) {
+            public InnerItem(int i, String str) {
                 super(i, true);
                 this.string = str;
             }
@@ -1254,7 +1254,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.GroupCreateFinalActivity$$ExternalSyntheticLambda7
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.GroupCreateFinalActivity$$ExternalSyntheticLambda5
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 GroupCreateFinalActivity.this.lambda$getThemeDescriptions$9();

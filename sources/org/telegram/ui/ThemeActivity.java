@@ -127,6 +127,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
     private boolean highlightSensitiveRow;
     boolean lastIsDarkTheme;
     private int lastShadowRow;
+    private LinearLayoutManager layoutManager;
     private ListAdapter listAdapter;
     private RecyclerListView listView;
     private int liteModeInfoRow;
@@ -255,7 +256,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             this.sizeBar = seekBarView;
             seekBarView.setReportChanges(true);
             this.sizeBar.setSeparatorsCount((this.endFontSize - this.startFontSize) + 1);
-            this.sizeBar.setDelegate(new SeekBarView.SeekBarViewDelegate(ThemeActivity.this) { // from class: org.telegram.ui.ThemeActivity.TextSizeCell.1
+            this.sizeBar.setDelegate(new SeekBarView.SeekBarViewDelegate() { // from class: org.telegram.ui.ThemeActivity.TextSizeCell.1
                 @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
                 public void onSeekBarPressed(boolean z) {
                 }
@@ -280,9 +281,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             addView(this.sizeBar, LayoutHelper.createFrame(-1, 38.0f, 51, 5.0f, 5.0f, 39.0f, 0.0f));
             ThemePreviewMessagesCell themePreviewMessagesCell = new ThemePreviewMessagesCell(context, ((BaseFragment) ThemeActivity.this).parentLayout, 0);
             this.messagesCell = themePreviewMessagesCell;
-            if (Build.VERSION.SDK_INT >= 19) {
-                themePreviewMessagesCell.setImportantForAccessibility(4);
-            }
+            themePreviewMessagesCell.setImportantForAccessibility(4);
             addView(this.messagesCell, LayoutHelper.createFrame(-1, -2.0f, 51, 0.0f, 53.0f, 0.0f, 0.0f));
         }
 
@@ -344,7 +343,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             this.sizeBar = seekBarView;
             seekBarView.setReportChanges(true);
             this.sizeBar.setSeparatorsCount((this.endRadius - this.startRadius) + 1);
-            this.sizeBar.setDelegate(new SeekBarView.SeekBarViewDelegate(ThemeActivity.this) { // from class: org.telegram.ui.ThemeActivity.BubbleRadiusCell.1
+            this.sizeBar.setDelegate(new SeekBarView.SeekBarViewDelegate() { // from class: org.telegram.ui.ThemeActivity.BubbleRadiusCell.1
                 @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
                 public void onSeekBarPressed(boolean z) {
                 }
@@ -581,7 +580,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             }
             i10++;
         }
-        Collections.sort(this.defaultThemes, new Comparator() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda13
+        Collections.sort(this.defaultThemes, new Comparator() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda1
             @Override // java.util.Comparator
             public final int compare(Object obj, Object obj2) {
                 int lambda$updateRows$0;
@@ -593,19 +592,14 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         if (i12 == 3) {
             int i13 = this.rowCount;
             int i14 = i13 + 1;
-            this.rowCount = i14;
             this.selectThemeHeaderRow = i13;
             int i15 = i14 + 1;
-            this.rowCount = i15;
             this.themeListRow2 = i14;
             int i16 = i15 + 1;
-            this.rowCount = i16;
             this.chatListInfoRow = i15;
             int i17 = i16 + 1;
-            this.rowCount = i17;
             this.themePreviewRow = i16;
             int i18 = i17 + 1;
-            this.rowCount = i18;
             this.themeHeaderRow = i17;
             this.rowCount = i18 + 1;
             this.themeListRow = i18;
@@ -633,92 +627,64 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             }
             int i22 = this.rowCount;
             int i23 = i22 + 1;
-            this.rowCount = i23;
             this.createNewThemeRow = i22;
             this.rowCount = i23 + 1;
             this.lastShadowRow = i23;
         } else if (i12 == 0) {
             int i24 = this.rowCount;
             int i25 = i24 + 1;
-            this.rowCount = i25;
             this.textSizeHeaderRow = i24;
             int i26 = i25 + 1;
-            this.rowCount = i26;
             this.textSizeRow = i25;
             int i27 = i26 + 1;
-            this.rowCount = i27;
             this.backgroundRow = i26;
             int i28 = i27 + 1;
-            this.rowCount = i28;
             this.changeUserColor = i27;
             int i29 = i28 + 1;
-            this.rowCount = i29;
             this.newThemeInfoRow = i28;
             int i30 = i29 + 1;
-            this.rowCount = i30;
             this.themeHeaderRow = i29;
             int i31 = i30 + 1;
-            this.rowCount = i31;
             this.themeListRow2 = i30;
             int i32 = i31 + 1;
-            this.rowCount = i32;
             this.themeInfoRow = i31;
             int i33 = i32 + 1;
-            this.rowCount = i33;
             this.bubbleRadiusHeaderRow = i32;
             int i34 = i33 + 1;
-            this.rowCount = i34;
             this.bubbleRadiusRow = i33;
             int i35 = i34 + 1;
-            this.rowCount = i35;
             this.bubbleRadiusInfoRow = i34;
             int i36 = i35 + 1;
-            this.rowCount = i36;
             this.chatListHeaderRow = i35;
             int i37 = i36 + 1;
-            this.rowCount = i37;
             this.chatListRow = i36;
             int i38 = i37 + 1;
-            this.rowCount = i38;
             this.chatListInfoRow = i37;
             int i39 = i38 + 1;
-            this.rowCount = i39;
             this.appIconHeaderRow = i38;
             int i40 = i39 + 1;
-            this.rowCount = i40;
             this.appIconSelectorRow = i39;
             int i41 = i40 + 1;
-            this.rowCount = i41;
             this.appIconShadowRow = i40;
             int i42 = i41 + 1;
-            this.rowCount = i42;
             this.swipeGestureHeaderRow = i41;
             int i43 = i42 + 1;
-            this.rowCount = i43;
             this.swipeGestureRow = i42;
             int i44 = i43 + 1;
-            this.rowCount = i44;
             this.swipeGestureInfoRow = i43;
             int i45 = i44 + 1;
-            this.rowCount = i45;
             this.nightThemeRow = i44;
             int i46 = i45 + 1;
-            this.rowCount = i46;
             this.browserRow = i45;
             int i47 = i46 + 1;
-            this.rowCount = i47;
             this.liteModeRow = i46;
             int i48 = i47 + 1;
-            this.rowCount = i48;
             this.stickersRow = i47;
             int i49 = i48 + 1;
-            this.rowCount = i49;
             this.stickersSectionRow = i48;
             int i50 = i49 + 1;
-            this.rowCount = i50;
             this.mediaSoundHeaderRow = i49;
             int i51 = i50 + 1;
-            this.rowCount = i51;
             this.nextMediaTapRow = i50;
             int i52 = i51 + 1;
             this.rowCount = i52;
@@ -729,19 +695,14 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             }
             int i53 = this.rowCount;
             int i54 = i53 + 1;
-            this.rowCount = i54;
             this.pauseOnRecordRow = i53;
             int i55 = i54 + 1;
-            this.rowCount = i55;
             this.pauseOnMediaRow = i54;
             int i56 = i55 + 1;
-            this.rowCount = i56;
             this.bluetoothScoRow = i55;
             int i57 = i56 + 1;
-            this.rowCount = i57;
             this.mediaSoundSectionRow = i56;
             int i58 = i57 + 1;
-            this.rowCount = i58;
             this.otherHeaderRow = i57;
             this.rowCount = i58 + 1;
             this.directShareRow = i58;
@@ -753,20 +714,16 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             }
             int i60 = this.rowCount;
             int i61 = i60 + 1;
-            this.rowCount = i61;
             this.sendByEnterRow = i60;
             int i62 = i61 + 1;
-            this.rowCount = i62;
             this.distanceRow = i61;
             this.rowCount = i62 + 1;
             this.otherSectionRow = i62;
         } else {
             int i63 = this.rowCount;
             int i64 = i63 + 1;
-            this.rowCount = i64;
             this.nightDisabledRow = i63;
             int i65 = i64 + 1;
-            this.rowCount = i65;
             this.nightScheduledRow = i64;
             int i66 = i65 + 1;
             this.rowCount = i66;
@@ -782,33 +739,27 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             int i69 = Theme.selectedAutoNightType;
             if (i69 == 1) {
                 int i70 = i68 + 1;
-                this.rowCount = i70;
                 this.scheduleHeaderRow = i68;
                 int i71 = i70 + 1;
                 this.rowCount = i71;
                 this.scheduleLocationRow = i70;
                 if (Theme.autoNightScheduleByLocation) {
                     int i72 = i71 + 1;
-                    this.rowCount = i72;
                     this.scheduleUpdateLocationRow = i71;
                     this.rowCount = i72 + 1;
                     this.scheduleLocationInfoRow = i72;
                 } else {
                     int i73 = i71 + 1;
-                    this.rowCount = i73;
                     this.scheduleFromRow = i71;
                     int i74 = i73 + 1;
-                    this.rowCount = i74;
                     this.scheduleToRow = i73;
                     this.rowCount = i74 + 1;
                     this.scheduleFromToInfoRow = i74;
                 }
             } else if (i69 == 2) {
                 int i75 = i68 + 1;
-                this.rowCount = i75;
                 this.automaticHeaderRow = i68;
                 int i76 = i75 + 1;
-                this.rowCount = i76;
                 this.automaticBrightnessRow = i75;
                 this.rowCount = i76 + 1;
                 this.automaticBrightnessInfoRow = i76;
@@ -816,7 +767,6 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             if (Theme.selectedAutoNightType != 0) {
                 int i77 = this.rowCount;
                 int i78 = i77 + 1;
-                this.rowCount = i78;
                 this.preferedHeaderRow = i77;
                 this.rowCount = i78 + 1;
                 this.themeListRow = i78;
@@ -1031,7 +981,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             AlertDialog alertDialog3 = new AlertDialog(getParentActivity(), 3);
             this.sharingProgressDialog = alertDialog3;
             alertDialog3.setCanCancel(true);
-            showDialog(this.sharingProgressDialog, new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda5
+            showDialog(this.sharingProgressDialog, new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda0
                 @Override // android.content.DialogInterface.OnDismissListener
                 public final void onDismiss(DialogInterface dialogInterface) {
                     ThemeActivity.this.lambda$didReceivedNotification$1(dialogInterface);
@@ -1085,7 +1035,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             this.menuItem.addSubItem(1, R.drawable.msg_palette, LocaleController.getString("CreateNewThemeMenu", R.string.CreateNewThemeMenu));
             this.menuItem.addSubItem(4, R.drawable.msg_reset, LocaleController.getString("ThemeResetToDefaults", R.string.ThemeResetToDefaults));
             if (getMessagesController().getContentSettings() == null) {
-                getMessagesController().getContentSettings(new Utilities.Callback() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda14
+                getMessagesController().getContentSettings(new Utilities.Callback() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda2
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
                         ThemeActivity.this.lambda$createView$2((TL_account$contentSettings) obj);
@@ -1102,12 +1052,14 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         this.fragmentView = frameLayout;
         RecyclerListView recyclerListView = new RecyclerListView(context);
         this.listView = recyclerListView;
-        recyclerListView.setLayoutManager(new LinearLayoutManager(context, 1, false));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, 1, false);
+        this.layoutManager = linearLayoutManager;
+        recyclerListView.setLayoutManager(linearLayoutManager);
         this.listView.setVerticalScrollBarEnabled(false);
         this.listView.setAdapter(this.listAdapter);
         ((DefaultItemAnimator) this.listView.getItemAnimator()).setDelayAnimations(false);
         frameLayout.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda17
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda3
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
             public /* synthetic */ boolean hasDoubleTap(View view, int i3) {
                 return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i3);
@@ -1135,7 +1087,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             updateRows(false);
             this.highlightSensitiveRow = false;
             this.listView.scrollToPosition(this.listAdapter.getItemCount() - 1);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda11
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
                     ThemeActivity.this.lambda$createView$12();
@@ -1374,7 +1326,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                 radioColorCell.setTextAndValue(charSequenceArr[i5], i5 == SharedConfig.distanceSystemType);
                 radioColorCell.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector), 2));
                 linearLayout.addView(radioColorCell);
-                radioColorCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda6
+                radioColorCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda9
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view2) {
                         ThemeActivity.this.lambda$createView$3(i5, atomicReference, view2);
@@ -1404,7 +1356,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                 radioColorCell2.setTextAndValue(charSequenceArr2[i6], i6 == SharedConfig.searchEngineType);
                 radioColorCell2.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector), 2));
                 linearLayout2.addView(radioColorCell2);
-                radioColorCell2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda7
+                radioColorCell2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda10
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view2) {
                         ThemeActivity.this.lambda$createView$4(i6, atomicReference2, view2);
@@ -1432,7 +1384,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             int i9 = Theme.key_listSelector;
             radioColorCell3.setBackground(Theme.createSelectorDrawable(Theme.getColor(i9), 2));
             linearLayout3.addView(radioColorCell3);
-            radioColorCell3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda9
+            radioColorCell3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda11
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
                     ThemeActivity.this.lambda$createView$5(atomicReference3, view2);
@@ -1444,7 +1396,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             radioColorCell4.setTextAndText2AndValue(LocaleController.getString(R.string.MicrophoneForVoiceMessagesScoIfConnected), LocaleController.getString(R.string.MicrophoneForVoiceMessagesScoHint), SharedConfig.recordViaSco);
             radioColorCell4.setBackground(Theme.createSelectorDrawable(Theme.getColor(i9), 2));
             linearLayout3.addView(radioColorCell4);
-            radioColorCell4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda8
+            radioColorCell4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda12
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
                     ThemeActivity.this.lambda$createView$6(atomicReference3, view2);
@@ -1460,7 +1412,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             }
         } else if (i == this.sensitiveContentRow) {
             if (!getMessagesController().showSensitiveContent()) {
-                showDialog(new AlertDialog.Builder(context, this.resourceProvider).setTitle(LocaleController.getString(R.string.ConfirmSensitiveContentTitle)).setMessage(LocaleController.getString(R.string.ConfirmSensitiveContentText)).setPositiveButton(LocaleController.getString(R.string.Confirm), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda4
+                showDialog(new AlertDialog.Builder(context, this.resourceProvider).setTitle(LocaleController.getString(R.string.ConfirmSensitiveContentTitle)).setMessage(LocaleController.getString(R.string.ConfirmSensitiveContentText)).setPositiveButton(LocaleController.getString(R.string.Confirm), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda13
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i10) {
                         ThemeActivity.this.lambda$createView$7(view, dialogInterface, i10);
@@ -1479,7 +1431,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                 builder.setTitle(LocaleController.getString("SortBy", R.string.SortBy));
-                builder.setItems(new CharSequence[]{LocaleController.getString("Default", R.string.Default), LocaleController.getString("SortFirstName", R.string.SortFirstName), LocaleController.getString("SortLastName", R.string.SortLastName)}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda3
+                builder.setItems(new CharSequence[]{LocaleController.getString("Default", R.string.Default), LocaleController.getString("SortFirstName", R.string.SortFirstName), LocaleController.getString("SortLastName", R.string.SortLastName)}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda14
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i10) {
                         ThemeActivity.this.lambda$createView$8(i, dialogInterface, i10);
@@ -1581,7 +1533,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                 }
                 int i11 = i2 - (i3 * 60);
                 final TextSettingsCell textSettingsCell = (TextSettingsCell) view;
-                showDialog(new TimePickerDialog(getParentActivity(), new TimePickerDialog.OnTimeSetListener() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda0
+                showDialog(new TimePickerDialog(getParentActivity(), new TimePickerDialog.OnTimeSetListener() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda15
                     @Override // android.app.TimePickerDialog.OnTimeSetListener
                     public final void onTimeSet(TimePicker timePicker, int i12, int i13) {
                         ThemeActivity.this.lambda$createView$9(i, textSettingsCell, timePicker, i12, i13);
@@ -1685,7 +1637,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$12() {
-        this.listView.highlightRow(new RecyclerListView.IntReturnCallback() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda16
+        this.listView.highlightRow(new RecyclerListView.IntReturnCallback() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda8
             @Override // org.telegram.ui.Components.RecyclerListView.IntReturnCallback
             public final int run() {
                 int lambda$createView$11;
@@ -1710,7 +1662,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         builder.setTitle(LocaleController.getString("NewTheme", R.string.NewTheme));
         builder.setMessage(LocaleController.getString("CreateNewThemeAlert", R.string.CreateNewThemeAlert));
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-        builder.setPositiveButton(LocaleController.getString("CreateTheme", R.string.CreateTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda1
+        builder.setPositiveButton(LocaleController.getString("CreateTheme", R.string.CreateTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda17
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 ThemeActivity.this.lambda$createNewTheme$13(dialogInterface, i);
@@ -1767,10 +1719,14 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
     /* JADX INFO: Access modifiers changed from: private */
     public void updateSunTime(Location location, boolean z) {
         Activity parentActivity;
+        int checkSelfPermission;
         LocationManager locationManager = (LocationManager) ApplicationLoader.applicationContext.getSystemService("location");
-        if (Build.VERSION.SDK_INT >= 23 && (parentActivity = getParentActivity()) != null && parentActivity.checkSelfPermission("android.permission.ACCESS_COARSE_LOCATION") != 0) {
-            parentActivity.requestPermissions(new String[]{"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"}, 2);
-            return;
+        if (Build.VERSION.SDK_INT >= 23 && (parentActivity = getParentActivity()) != null) {
+            checkSelfPermission = parentActivity.checkSelfPermission("android.permission.ACCESS_COARSE_LOCATION");
+            if (checkSelfPermission != 0) {
+                parentActivity.requestPermissions(new String[]{"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"}, 2);
+                return;
+            }
         }
         if (getParentActivity() != null) {
             if (!getParentActivity().getPackageManager().hasSystemFeature("android.hardware.location.gps")) {
@@ -1781,7 +1737,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                     AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                     builder.setTopAnimation(R.raw.permission_request_location, 72, false, Theme.getColor(Theme.key_dialogTopBackground));
                     builder.setMessage(LocaleController.getString("GpsDisabledAlertText", R.string.GpsDisabledAlertText));
-                    builder.setPositiveButton(LocaleController.getString("ConnectingToProxyEnable", R.string.ConnectingToProxyEnable), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda2
+                    builder.setPositiveButton(LocaleController.getString("ConnectingToProxyEnable", R.string.ConnectingToProxyEnable), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda6
                         @Override // android.content.DialogInterface.OnClickListener
                         public final void onClick(DialogInterface dialogInterface, int i) {
                             ThemeActivity.this.lambda$updateSunTime$14(dialogInterface, i);
@@ -1821,7 +1777,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         Theme.autoNightLastSunCheckDay = calendar.get(5);
-        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda10
+        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 ThemeActivity.this.lambda$updateSunTime$16();
@@ -1860,7 +1816,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             }
         } catch (Exception unused) {
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda12
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda16
             @Override // java.lang.Runnable
             public final void run() {
                 ThemeActivity.this.lambda$updateSunTime$15(str);
@@ -2316,7 +2272,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                 AlertDialog.Builder builder = new AlertDialog.Builder(ThemeActivity.this.getParentActivity());
                 builder.setTitle(LocaleController.getString("DeleteThemeTitle", R.string.DeleteThemeTitle));
                 builder.setMessage(LocaleController.getString("DeleteThemeAlert", R.string.DeleteThemeAlert));
-                builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ThemeActivity$ListAdapter$$ExternalSyntheticLambda1
+                builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ThemeActivity$ListAdapter$$ExternalSyntheticLambda4
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface2, int i3) {
                         ThemeActivity.ListAdapter.this.lambda$showOptionsForTheme$0(themeInfo, dialogInterface2, i3);
@@ -2403,7 +2359,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                     TLRPC$TL_theme tLRPC$TL_theme = themeAccent.info;
                     charSequenceArr[2] = (tLRPC$TL_theme == null || !tLRPC$TL_theme.creator) ? null : LocaleController.getString("ThemeSetUrl", R.string.ThemeSetUrl);
                     charSequenceArr[3] = LocaleController.getString("DeleteTheme", R.string.DeleteTheme);
-                    builder.setItems(charSequenceArr, new int[]{R.drawable.msg_edit, R.drawable.msg_share, R.drawable.msg_link, R.drawable.msg_delete}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ThemeActivity$ListAdapter$$ExternalSyntheticLambda0
+                    builder.setItems(charSequenceArr, new int[]{R.drawable.msg_edit, R.drawable.msg_share, R.drawable.msg_link, R.drawable.msg_delete}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ThemeActivity$ListAdapter$$ExternalSyntheticLambda3
                         @Override // android.content.DialogInterface.OnClickListener
                         public final void onClick(DialogInterface dialogInterface, int i2) {
                             ThemeActivity.ListAdapter.this.lambda$onCreateViewHolder$4(themeAccent, themeAccentsListAdapter, dialogInterface, i2);
@@ -2440,7 +2396,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                 AlertDialog.Builder builder = new AlertDialog.Builder(ThemeActivity.this.getParentActivity());
                 builder.setTitle(LocaleController.getString("DeleteThemeTitle", R.string.DeleteThemeTitle));
                 builder.setMessage(LocaleController.getString("DeleteThemeAlert", R.string.DeleteThemeAlert));
-                builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ThemeActivity$ListAdapter$$ExternalSyntheticLambda3
+                builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ThemeActivity$ListAdapter$$ExternalSyntheticLambda5
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface2, int i2) {
                         ThemeActivity.ListAdapter.this.lambda$onCreateViewHolder$3(themeAccentsListAdapter, themeAccent, dialogInterface2, i2);
@@ -2473,30 +2429,30 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            DefaultThemesPreviewCell defaultThemesPreviewCell;
+            TintRecyclerListView tintRecyclerListView;
             switch (i) {
                 case 1:
                     View textSettingsCell = new TextSettingsCell(this.mContext);
                     textSettingsCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    defaultThemesPreviewCell = textSettingsCell;
+                    tintRecyclerListView = textSettingsCell;
                     break;
                 case 2:
                     View textInfoPrivacyCell = new TextInfoPrivacyCell(this.mContext);
                     textInfoPrivacyCell.setBackground(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
-                    defaultThemesPreviewCell = textInfoPrivacyCell;
+                    tintRecyclerListView = textInfoPrivacyCell;
                     break;
                 case 3:
-                    defaultThemesPreviewCell = new ShadowSectionCell(this.mContext);
+                    tintRecyclerListView = new ShadowSectionCell(this.mContext);
                     break;
                 case 4:
                     View themeTypeCell = new ThemeTypeCell(this.mContext);
                     themeTypeCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    defaultThemesPreviewCell = themeTypeCell;
+                    tintRecyclerListView = themeTypeCell;
                     break;
                 case 5:
                     View headerCell = new HeaderCell(this.mContext);
                     headerCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    defaultThemesPreviewCell = headerCell;
+                    tintRecyclerListView = headerCell;
                     break;
                 case 6:
                     View view = new BrightnessControlCell(this.mContext, 0) { // from class: org.telegram.ui.ThemeActivity.ListAdapter.1
@@ -2515,32 +2471,32 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                         }
                     };
                     view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    defaultThemesPreviewCell = view;
+                    tintRecyclerListView = view;
                     break;
                 case 7:
                     View textCheckCell = new TextCheckCell(this.mContext);
                     textCheckCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    defaultThemesPreviewCell = textCheckCell;
+                    tintRecyclerListView = textCheckCell;
                     break;
                 case 8:
                     View textSizeCell = new TextSizeCell(this.mContext);
                     textSizeCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    defaultThemesPreviewCell = textSizeCell;
+                    tintRecyclerListView = textSizeCell;
                     break;
                 case 9:
-                    View view2 = new ChatListCell(this, this.mContext) { // from class: org.telegram.ui.ThemeActivity.ListAdapter.2
+                    View view2 = new ChatListCell(this.mContext) { // from class: org.telegram.ui.ThemeActivity.ListAdapter.2
                         @Override // org.telegram.ui.Cells.ChatListCell
                         protected void didSelectChatType(boolean z) {
                             SharedConfig.setUseThreeLinesLayout(z);
                         }
                     };
                     view2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    defaultThemesPreviewCell = view2;
+                    tintRecyclerListView = view2;
                     break;
                 case 10:
                     View notificationsCheckCell = new NotificationsCheckCell(this.mContext, 21, 60, true);
                     notificationsCheckCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    defaultThemesPreviewCell = notificationsCheckCell;
+                    tintRecyclerListView = notificationsCheckCell;
                     break;
                 case 11:
                     this.first = true;
@@ -2562,10 +2518,10 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                     ThemeActivity.this.themesHorizontalListCell.setFocusable(false);
                     View view3 = ThemeActivity.this.themesHorizontalListCell;
                     view3.setLayoutParams(new RecyclerView.LayoutParams(-1, AndroidUtilities.dp(148.0f)));
-                    defaultThemesPreviewCell = view3;
+                    tintRecyclerListView = view3;
                     break;
                 case 12:
-                    final TintRecyclerListView tintRecyclerListView = new TintRecyclerListView(this, this.mContext) { // from class: org.telegram.ui.ThemeActivity.ListAdapter.4
+                    final TintRecyclerListView tintRecyclerListView2 = new TintRecyclerListView(this.mContext) { // from class: org.telegram.ui.ThemeActivity.ListAdapter.4
                         @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup
                         public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
                             if (getParent() != null && getParent().getParent() != null) {
@@ -2574,24 +2530,24 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                             return super.onInterceptTouchEvent(motionEvent);
                         }
                     };
-                    tintRecyclerListView.setFocusable(false);
-                    tintRecyclerListView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    tintRecyclerListView.setItemAnimator(null);
-                    tintRecyclerListView.setLayoutAnimation(null);
-                    tintRecyclerListView.setPadding(AndroidUtilities.dp(11.0f), 0, AndroidUtilities.dp(11.0f), 0);
-                    tintRecyclerListView.setClipToPadding(false);
+                    tintRecyclerListView2.setFocusable(false);
+                    tintRecyclerListView2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                    tintRecyclerListView2.setItemAnimator(null);
+                    tintRecyclerListView2.setLayoutAnimation(null);
+                    tintRecyclerListView2.setPadding(AndroidUtilities.dp(11.0f), 0, AndroidUtilities.dp(11.0f), 0);
+                    tintRecyclerListView2.setClipToPadding(false);
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.mContext);
                     linearLayoutManager.setOrientation(0);
-                    tintRecyclerListView.setLayoutManager(linearLayoutManager);
+                    tintRecyclerListView2.setLayoutManager(linearLayoutManager);
                     final ThemeAccentsListAdapter themeAccentsListAdapter = new ThemeAccentsListAdapter(this.mContext);
-                    tintRecyclerListView.setAdapter(themeAccentsListAdapter);
-                    tintRecyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ThemeActivity$ListAdapter$$ExternalSyntheticLambda4
+                    tintRecyclerListView2.setAdapter(themeAccentsListAdapter);
+                    tintRecyclerListView2.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ThemeActivity$ListAdapter$$ExternalSyntheticLambda0
                         @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
                         public final void onItemClick(View view4, int i2) {
-                            ThemeActivity.ListAdapter.this.lambda$onCreateViewHolder$2(themeAccentsListAdapter, tintRecyclerListView, view4, i2);
+                            ThemeActivity.ListAdapter.this.lambda$onCreateViewHolder$2(themeAccentsListAdapter, tintRecyclerListView2, view4, i2);
                         }
                     });
-                    tintRecyclerListView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.ThemeActivity$ListAdapter$$ExternalSyntheticLambda5
+                    tintRecyclerListView2.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.ThemeActivity$ListAdapter$$ExternalSyntheticLambda1
                         @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
                         public final boolean onItemClick(View view4, int i2) {
                             boolean lambda$onCreateViewHolder$5;
@@ -2599,26 +2555,26 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                             return lambda$onCreateViewHolder$5;
                         }
                     });
-                    tintRecyclerListView.setLayoutParams(new RecyclerView.LayoutParams(-1, AndroidUtilities.dp(62.0f)));
-                    defaultThemesPreviewCell = tintRecyclerListView;
+                    tintRecyclerListView2.setLayoutParams(new RecyclerView.LayoutParams(-1, AndroidUtilities.dp(62.0f)));
+                    tintRecyclerListView = tintRecyclerListView2;
                     break;
                 case 13:
                     View bubbleRadiusCell = new BubbleRadiusCell(this.mContext);
                     bubbleRadiusCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    defaultThemesPreviewCell = bubbleRadiusCell;
+                    tintRecyclerListView = bubbleRadiusCell;
                     break;
                 case 14:
                 case 18:
                 default:
                     View textCell = new TextCell(this.mContext);
                     textCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    defaultThemesPreviewCell = textCell;
+                    tintRecyclerListView = textCell;
                     break;
                 case 15:
-                    defaultThemesPreviewCell = new SwipeGestureSettingsView(this.mContext, ((BaseFragment) ThemeActivity.this).currentAccount);
+                    tintRecyclerListView = new SwipeGestureSettingsView(this.mContext, ((BaseFragment) ThemeActivity.this).currentAccount);
                     break;
                 case 16:
-                    ThemePreviewMessagesCell themePreviewMessagesCell = new ThemePreviewMessagesCell(this, this.mContext, ((BaseFragment) ThemeActivity.this).parentLayout, 0) { // from class: org.telegram.ui.ThemeActivity.ListAdapter.5
+                    View view4 = new ThemePreviewMessagesCell(this.mContext, ((BaseFragment) ThemeActivity.this).parentLayout, 0) { // from class: org.telegram.ui.ThemeActivity.ListAdapter.5
                         @Override // org.telegram.ui.Cells.ThemePreviewMessagesCell, android.view.ViewGroup
                         public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
                             if (getParent() != null && getParent().getParent() != null) {
@@ -2627,34 +2583,30 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                             return super.onInterceptTouchEvent(motionEvent);
                         }
                     };
-                    defaultThemesPreviewCell = themePreviewMessagesCell;
-                    if (Build.VERSION.SDK_INT >= 19) {
-                        themePreviewMessagesCell.setImportantForAccessibility(4);
-                        defaultThemesPreviewCell = themePreviewMessagesCell;
-                        break;
-                    }
+                    view4.setImportantForAccessibility(4);
+                    tintRecyclerListView = view4;
                     break;
                 case 17:
                     Context context2 = this.mContext;
                     ThemeActivity themeActivity3 = ThemeActivity.this;
-                    DefaultThemesPreviewCell defaultThemesPreviewCell2 = new DefaultThemesPreviewCell(context2, themeActivity3, themeActivity3.currentType);
-                    defaultThemesPreviewCell2.setFocusable(false);
-                    defaultThemesPreviewCell2.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
-                    defaultThemesPreviewCell = defaultThemesPreviewCell2;
+                    View defaultThemesPreviewCell = new DefaultThemesPreviewCell(context2, themeActivity3, themeActivity3.currentType);
+                    defaultThemesPreviewCell.setFocusable(false);
+                    defaultThemesPreviewCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+                    tintRecyclerListView = defaultThemesPreviewCell;
                     break;
                 case 19:
-                    defaultThemesPreviewCell = new RadioButtonCell(this.mContext);
+                    tintRecyclerListView = new RadioButtonCell(this.mContext);
                     break;
                 case 20:
                     Context context3 = this.mContext;
                     ThemeActivity themeActivity4 = ThemeActivity.this;
-                    defaultThemesPreviewCell = new AppIconsSelectorCell(context3, themeActivity4, ((BaseFragment) themeActivity4).currentAccount);
+                    tintRecyclerListView = new AppIconsSelectorCell(context3, themeActivity4, ((BaseFragment) themeActivity4).currentAccount);
                     break;
                 case 21:
-                    defaultThemesPreviewCell = new PeerColorActivity.ChangeNameColorCell(((BaseFragment) ThemeActivity.this).currentAccount, 0L, this.mContext, ThemeActivity.this.getResourceProvider());
+                    tintRecyclerListView = new PeerColorActivity.ChangeNameColorCell(((BaseFragment) ThemeActivity.this).currentAccount, 0L, this.mContext, ThemeActivity.this.getResourceProvider());
                     break;
             }
-            return new RecyclerListView.Holder(defaultThemesPreviewCell);
+            return new RecyclerListView.Holder(tintRecyclerListView);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -3174,7 +3126,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         int i14 = Theme.key_windowBackgroundWhiteHintText;
         arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{AppIconsSelectorCell.class}, null, null, null, i14));
         arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{AppIconsSelectorCell.class}, null, null, null, i6));
-        arrayList.addAll(SimpleThemeDescription.createThemeDescriptions(new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda15
+        arrayList.addAll(SimpleThemeDescription.createThemeDescriptions(new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda5
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 ThemeActivity.this.lambda$getThemeDescriptions$17();

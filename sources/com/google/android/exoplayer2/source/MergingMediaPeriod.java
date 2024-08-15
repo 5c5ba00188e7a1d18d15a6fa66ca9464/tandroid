@@ -33,18 +33,16 @@ final class MergingMediaPeriod implements MediaPeriod, MediaPeriod.Callback {
         this.periods = mediaPeriodArr;
         this.compositeSequenceableLoader = compositeSequenceableLoaderFactory.createCompositeSequenceableLoader(new SequenceableLoader[0]);
         for (int i = 0; i < mediaPeriodArr.length; i++) {
-            if (jArr[i] != 0) {
-                this.periods[i] = new TimeOffsetMediaPeriod(mediaPeriodArr[i], jArr[i]);
+            long j = jArr[i];
+            if (j != 0) {
+                this.periods[i] = new TimeOffsetMediaPeriod(mediaPeriodArr[i], j);
             }
         }
     }
 
     public MediaPeriod getChildPeriod(int i) {
-        MediaPeriod[] mediaPeriodArr = this.periods;
-        if (!(mediaPeriodArr[i] instanceof TimeOffsetMediaPeriod)) {
-            return mediaPeriodArr[i];
-        }
-        return ((TimeOffsetMediaPeriod) mediaPeriodArr[i]).mediaPeriod;
+        MediaPeriod mediaPeriod = this.periods[i];
+        return mediaPeriod instanceof TimeOffsetMediaPeriod ? ((TimeOffsetMediaPeriod) mediaPeriod).mediaPeriod : mediaPeriod;
     }
 
     @Override // com.google.android.exoplayer2.source.MediaPeriod
@@ -79,10 +77,12 @@ final class MergingMediaPeriod implements MediaPeriod, MediaPeriod.Callback {
             if (i >= exoTrackSelectionArr.length) {
                 break;
             }
-            Integer num = sampleStreamArr[i] != null ? this.streamPeriodIndices.get(sampleStreamArr[i]) : null;
+            SampleStream sampleStream = sampleStreamArr[i];
+            Integer num = sampleStream != null ? this.streamPeriodIndices.get(sampleStream) : null;
             iArr[i] = num == null ? -1 : num.intValue();
-            if (exoTrackSelectionArr[i] != null) {
-                String str = exoTrackSelectionArr[i].getTrackGroup().id;
+            ExoTrackSelection exoTrackSelection2 = exoTrackSelectionArr[i];
+            if (exoTrackSelection2 != null) {
+                String str = exoTrackSelection2.getTrackGroup().id;
                 iArr2[i] = Integer.parseInt(str.substring(0, str.indexOf(":")));
             } else {
                 iArr2[i] = -1;
@@ -101,8 +101,8 @@ final class MergingMediaPeriod implements MediaPeriod, MediaPeriod.Callback {
             for (int i3 = 0; i3 < exoTrackSelectionArr.length; i3++) {
                 sampleStreamArr3[i3] = iArr[i3] == i2 ? sampleStreamArr[i3] : exoTrackSelection;
                 if (iArr2[i3] == i2) {
-                    ExoTrackSelection exoTrackSelection2 = (ExoTrackSelection) Assertions.checkNotNull(exoTrackSelectionArr[i3]);
-                    exoTrackSelectionArr2[i3] = new ForwardingTrackSelection(exoTrackSelection2, (TrackGroup) Assertions.checkNotNull(this.childTrackGroupByMergedTrackGroup.get(exoTrackSelection2.getTrackGroup())));
+                    ExoTrackSelection exoTrackSelection3 = (ExoTrackSelection) Assertions.checkNotNull(exoTrackSelectionArr[i3]);
+                    exoTrackSelectionArr2[i3] = new ForwardingTrackSelection(exoTrackSelection3, (TrackGroup) Assertions.checkNotNull(this.childTrackGroupByMergedTrackGroup.get(exoTrackSelection3.getTrackGroup())));
                 } else {
                     exoTrackSelectionArr2[i3] = exoTrackSelection;
                 }
@@ -318,8 +318,11 @@ final class MergingMediaPeriod implements MediaPeriod, MediaPeriod.Callback {
                 SampleStream sampleStream2 = sampleStreamArr2[i2];
                 if (sampleStream2 == null) {
                     sampleStreamArr[i2] = null;
-                } else if (sampleStreamArr[i2] == null || ((TimeOffsetSampleStream) sampleStreamArr[i2]).getChildStream() != sampleStream2) {
-                    sampleStreamArr[i2] = new TimeOffsetSampleStream(sampleStream2, this.timeOffsetUs);
+                } else {
+                    SampleStream sampleStream3 = sampleStreamArr[i2];
+                    if (sampleStream3 == null || ((TimeOffsetSampleStream) sampleStream3).getChildStream() != sampleStream2) {
+                        sampleStreamArr[i2] = new TimeOffsetSampleStream(sampleStream2, this.timeOffsetUs);
+                    }
                 }
             }
             return selectTracks + this.timeOffsetUs;

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewParent;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityManager;
+import androidx.collection.SparseArrayCompat;
 import androidx.core.view.AccessibilityDelegateCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.ViewParentCompat;
@@ -20,6 +21,10 @@ import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public abstract class ExploreByTouchHelper extends AccessibilityDelegateCompat {
     private static final Rect INVALID_PARENT_BOUNDS = new Rect(ConnectionsManager.DEFAULT_DATACENTER_ID, ConnectionsManager.DEFAULT_DATACENTER_ID, Integer.MIN_VALUE, Integer.MIN_VALUE);
+    private static final FocusStrategy$BoundsAdapter<AccessibilityNodeInfoCompat> NODE_ADAPTER = new FocusStrategy$BoundsAdapter<AccessibilityNodeInfoCompat>() { // from class: androidx.customview.widget.ExploreByTouchHelper.1
+    };
+    private static final FocusStrategy$CollectionAdapter<SparseArrayCompat<AccessibilityNodeInfoCompat>, AccessibilityNodeInfoCompat> SPARSE_VALUES_ADAPTER = new FocusStrategy$CollectionAdapter<SparseArrayCompat<AccessibilityNodeInfoCompat>, AccessibilityNodeInfoCompat>() { // from class: androidx.customview.widget.ExploreByTouchHelper.2
+    };
     private final View mHost;
     private final AccessibilityManager mManager;
     private MyNodeProvider mNodeProvider;
@@ -49,13 +54,6 @@ public abstract class ExploreByTouchHelper extends AccessibilityDelegateCompat {
     protected abstract void onPopulateNodeForVirtualView(int i, AccessibilityNodeInfoCompat accessibilityNodeInfoCompat);
 
     protected void onVirtualViewKeyboardFocusChanged(int i, boolean z) {
-    }
-
-    static {
-        new Object() { // from class: androidx.customview.widget.ExploreByTouchHelper.1
-        };
-        new Object() { // from class: androidx.customview.widget.ExploreByTouchHelper.2
-        };
     }
 
     public ExploreByTouchHelper(View view) {

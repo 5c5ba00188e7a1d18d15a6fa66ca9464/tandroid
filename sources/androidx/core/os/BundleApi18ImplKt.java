@@ -6,9 +6,7 @@ import kotlin.jvm.internal.Intrinsics;
 /* compiled from: Bundle.kt */
 /* loaded from: classes.dex */
 final class BundleApi18ImplKt {
-    static {
-        new BundleApi18ImplKt();
-    }
+    public static final BundleApi18ImplKt INSTANCE = new BundleApi18ImplKt();
 
     private BundleApi18ImplKt() {
     }

@@ -1,77 +1,37 @@
 package j$.util.stream;
-
-import j$.util.function.BiConsumer;
-import j$.util.function.Supplier;
-import j$.util.s;
 /* loaded from: classes2.dex */
-public interface V extends g {
-    j$.util.j F(j$.util.function.d dVar);
+public final /* synthetic */ class V implements j$.util.function.K {
+    public final /* synthetic */ int a;
+    public final /* synthetic */ f2 b;
 
-    Object G(Supplier supplier, j$.util.function.t tVar, BiConsumer biConsumer);
+    public /* synthetic */ V(int i, f2 f2Var) {
+        this.a = i;
+        this.b = f2Var;
+    }
 
-    double J(double d, j$.util.function.d dVar);
+    @Override // j$.util.function.K
+    public final void accept(int i) {
+        int i2 = this.a;
+        f2 f2Var = this.b;
+        switch (i2) {
+            case 0:
+                f2Var.accept(i);
+                return;
+            default:
+                ((X) f2Var).a.accept(i);
+                return;
+        }
+    }
 
-    Stream L(j$.util.function.g gVar);
-
-    IntStream P(j$.wrappers.F f);
-
-    boolean V(j$.wrappers.D d);
-
-    j$.util.j average();
-
-    V b(j$.util.function.f fVar);
-
-    Stream boxed();
-
-    boolean c0(j$.wrappers.D d);
-
-    long count();
-
-    boolean d0(j$.wrappers.D d);
-
-    V distinct();
-
-    j$.util.j findAny();
-
-    j$.util.j findFirst();
-
-    void g0(j$.util.function.f fVar);
-
-    @Override // j$.util.stream.g
-    j$.util.n iterator();
-
-    void j(j$.util.function.f fVar);
-
-    V limit(long j);
-
-    j$.util.j max();
-
-    j$.util.j min();
-
-    @Override // j$.util.stream.g
-    V parallel();
-
-    V q(j$.wrappers.D d);
-
-    @Override // j$.util.stream.g
-    V sequential();
-
-    V skip(long j);
-
-    V sorted();
-
-    @Override // j$.util.stream.g
-    s.a spliterator();
-
-    double sum();
-
-    j$.util.g summaryStatistics();
-
-    double[] toArray();
-
-    V v(j$.util.function.g gVar);
-
-    LongStream w(j$.util.function.h hVar);
-
-    V x(j$.wrappers.J j);
+    @Override // j$.util.function.K
+    public final j$.util.function.K n(j$.util.function.K k) {
+        switch (this.a) {
+            case 0:
+                k.getClass();
+                return new j$.util.function.H(this, k);
+            default:
+                k.getClass();
+                return new j$.util.function.H(this, k);
+        }
+    }
 }

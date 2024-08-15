@@ -40,7 +40,7 @@ public class QRCodeBottomSheet extends BottomSheet {
         super(context, false);
         fixNavigationBar();
         setTitle(str, true);
-        final ImageView imageView = new ImageView(this, context) { // from class: org.telegram.ui.Components.QRCodeBottomSheet.1
+        final ImageView imageView = new ImageView(context) { // from class: org.telegram.ui.Components.QRCodeBottomSheet.1
             @Override // android.widget.ImageView, android.view.View
             protected void onMeasure(int i, int i2) {
                 int size = View.MeasureSpec.getSize(i);
@@ -49,7 +49,7 @@ public class QRCodeBottomSheet extends BottomSheet {
         };
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         if (Build.VERSION.SDK_INT >= 21) {
-            imageView.setOutlineProvider(new ViewOutlineProvider(this) { // from class: org.telegram.ui.Components.QRCodeBottomSheet.2
+            imageView.setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.Components.QRCodeBottomSheet.2
                 @Override // android.view.ViewOutlineProvider
                 public void getOutline(View view, Outline outline) {
                     outline.setRoundRect(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight(), AndroidUtilities.dp(12.0f));
@@ -114,7 +114,7 @@ public class QRCodeBottomSheet extends BottomSheet {
             this.button2TextView.setGravity(17);
             this.button2TextView.setTextSize(1, 14.0f);
             this.button2TextView.setText(LocaleController.getString("ShareLink", R.string.ShareLink));
-            this.button2TextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.QRCodeBottomSheet$$ExternalSyntheticLambda0
+            this.button2TextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.QRCodeBottomSheet$$ExternalSyntheticLambda2
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     QRCodeBottomSheet.lambda$new$1(str2, context, view);

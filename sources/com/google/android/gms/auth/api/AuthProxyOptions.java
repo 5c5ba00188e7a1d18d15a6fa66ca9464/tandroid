@@ -6,11 +6,8 @@ import com.google.android.gms.common.internal.Objects;
 /* compiled from: com.google.android.gms:play-services-auth-base@@18.0.4 */
 /* loaded from: classes.dex */
 public final class AuthProxyOptions implements Api.ApiOptions {
+    public static final AuthProxyOptions zza = new AuthProxyOptions(new Bundle(), null);
     private final Bundle zzb;
-
-    static {
-        new AuthProxyOptions(new Bundle(), null);
-    }
 
     /* synthetic */ AuthProxyOptions(Bundle bundle, zzb zzbVar) {
         this.zzb = bundle;

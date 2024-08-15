@@ -109,16 +109,17 @@ public final class DefaultTsPayloadReaderFactory implements TsPayloadReader.Fact
     private List<Format> getClosedCaptionFormats(TsPayloadReader.EsInfo esInfo) {
         String str;
         int i;
+        List<byte[]> list;
         if (isSet(32)) {
             return this.closedCaptionFormats;
         }
         ParsableByteArray parsableByteArray = new ParsableByteArray(esInfo.descriptorBytes);
-        List<Format> list = this.closedCaptionFormats;
+        List<Format> list2 = this.closedCaptionFormats;
         while (parsableByteArray.bytesLeft() > 0) {
             int readUnsignedByte = parsableByteArray.readUnsignedByte();
             int position = parsableByteArray.getPosition() + parsableByteArray.readUnsignedByte();
             if (readUnsignedByte == 134) {
-                list = new ArrayList<>();
+                list2 = new ArrayList<>();
                 int readUnsignedByte2 = parsableByteArray.readUnsignedByte() & 31;
                 for (int i2 = 0; i2 < readUnsignedByte2; i2++) {
                     String readString = parsableByteArray.readString(3);
@@ -133,16 +134,17 @@ public final class DefaultTsPayloadReaderFactory implements TsPayloadReader.Fact
                     }
                     byte readUnsignedByte4 = (byte) parsableByteArray.readUnsignedByte();
                     parsableByteArray.skipBytes(1);
-                    List<byte[]> list2 = null;
                     if (z) {
-                        list2 = CodecSpecificDataUtil.buildCea708InitializationData((readUnsignedByte4 & 64) != 0);
+                        list = CodecSpecificDataUtil.buildCea708InitializationData((readUnsignedByte4 & 64) != 0);
+                    } else {
+                        list = null;
                     }
-                    list.add(new Format.Builder().setSampleMimeType(str).setLanguage(readString).setAccessibilityChannel(i).setInitializationData(list2).build());
+                    list2.add(new Format.Builder().setSampleMimeType(str).setLanguage(readString).setAccessibilityChannel(i).setInitializationData(list).build());
                 }
             }
             parsableByteArray.setPosition(position);
         }
-        return list;
+        return list2;
     }
 
     private boolean isSet(int i) {

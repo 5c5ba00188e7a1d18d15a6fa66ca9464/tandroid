@@ -58,7 +58,7 @@ public final class zzj {
     }
 
     public static boolean zzb(String str) {
-        int i = zzh.zza;
+        int i = zzh.$r8$clinit;
         return str == null || str.isEmpty();
     }
 }

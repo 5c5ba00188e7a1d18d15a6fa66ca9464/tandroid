@@ -14,6 +14,21 @@ import java.io.IOException;
 import java.util.Map;
 /* loaded from: classes.dex */
 public final class FlvExtractor implements Extractor {
+    public static final ExtractorsFactory FACTORY = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.flv.FlvExtractor$$ExternalSyntheticLambda0
+        @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+        public final Extractor[] createExtractors() {
+            Extractor[] lambda$static$0;
+            lambda$static$0 = FlvExtractor.lambda$static$0();
+            return lambda$static$0;
+        }
+
+        @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+        public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
+            Extractor[] createExtractors;
+            createExtractors = createExtractors();
+            return createExtractors;
+        }
+    };
     private AudioTagPayloadReader audioReader;
     private int bytesToNextTagHeader;
     private ExtractorOutput extractorOutput;
@@ -33,24 +48,6 @@ public final class FlvExtractor implements Extractor {
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
     public void release() {
-    }
-
-    static {
-        FlvExtractor$$ExternalSyntheticLambda0 flvExtractor$$ExternalSyntheticLambda0 = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.flv.FlvExtractor$$ExternalSyntheticLambda0
-            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
-            public final Extractor[] createExtractors() {
-                Extractor[] lambda$static$0;
-                lambda$static$0 = FlvExtractor.lambda$static$0();
-                return lambda$static$0;
-            }
-
-            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
-            public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
-                Extractor[] createExtractors;
-                createExtractors = createExtractors();
-                return createExtractors;
-            }
-        };
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -169,17 +166,17 @@ public final class FlvExtractor implements Extractor {
     */
     private boolean readTagData(ExtractorInput extractorInput) throws IOException {
         boolean z;
+        boolean z2;
         long currentTimestampUs = getCurrentTimestampUs();
         int i = this.tagType;
-        boolean z2 = false;
         if (i == 8 && this.audioReader != null) {
             ensureReadyForMediaOutput();
-            z2 = this.audioReader.consume(prepareTagData(extractorInput), currentTimestampUs);
+            z = this.audioReader.consume(prepareTagData(extractorInput), currentTimestampUs);
         } else if (i == 9 && this.videoReader != null) {
             ensureReadyForMediaOutput();
-            z2 = this.videoReader.consume(prepareTagData(extractorInput), currentTimestampUs);
+            z = this.videoReader.consume(prepareTagData(extractorInput), currentTimestampUs);
         } else if (i == 18 && !this.outputSeekMap) {
-            z2 = this.metadataReader.consume(prepareTagData(extractorInput), currentTimestampUs);
+            z = this.metadataReader.consume(prepareTagData(extractorInput), currentTimestampUs);
             long durationUs = this.metadataReader.getDurationUs();
             if (durationUs != -9223372036854775807L) {
                 this.extractorOutput.seekMap(new IndexSeekMap(this.metadataReader.getKeyFrameTagPositions(), this.metadataReader.getKeyFrameTimesUs(), durationUs));
@@ -188,22 +185,23 @@ public final class FlvExtractor implements Extractor {
         } else {
             extractorInput.skipFully(this.tagDataSize);
             z = false;
-            if (!this.outputFirstSample && z2) {
+            z2 = false;
+            if (!this.outputFirstSample && z) {
                 this.outputFirstSample = true;
                 this.mediaTagTimestampOffsetUs = this.metadataReader.getDurationUs() != -9223372036854775807L ? -this.tagTimestampUs : 0L;
             }
             this.bytesToNextTagHeader = 4;
             this.state = 2;
-            return z;
+            return z2;
         }
-        z = true;
+        z2 = true;
         if (!this.outputFirstSample) {
             this.outputFirstSample = true;
             this.mediaTagTimestampOffsetUs = this.metadataReader.getDurationUs() != -9223372036854775807L ? -this.tagTimestampUs : 0L;
         }
         this.bytesToNextTagHeader = 4;
         this.state = 2;
-        return z;
+        return z2;
     }
 
     private ParsableByteArray prepareTagData(ExtractorInput extractorInput) throws IOException {

@@ -26,7 +26,7 @@ public class QuickRepliesEmptyView extends LinearLayout {
 
     /* loaded from: classes4.dex */
     private class DotTextView extends TextView {
-        public DotTextView(QuickRepliesEmptyView quickRepliesEmptyView, Context context) {
+        public DotTextView(Context context) {
             super(context);
         }
 
@@ -57,7 +57,7 @@ public class QuickRepliesEmptyView extends LinearLayout {
         this.titleView.setTypeface(AndroidUtilities.bold());
         this.titleView.setTextAlignment(4);
         this.titleView.setGravity(17);
-        DotTextView dotTextView = new DotTextView(this, context);
+        DotTextView dotTextView = new DotTextView(context);
         this.descriptionView = dotTextView;
         dotTextView.setTextAlignment(4);
         this.descriptionView.setGravity(17);
@@ -89,7 +89,7 @@ public class QuickRepliesEmptyView extends LinearLayout {
                 this.descriptionView.setGravity(3);
                 this.descriptionView.setText(AndroidUtilities.replaceTags(LocaleController.formatString(R.string.BusinessRepliesIntro1, str)));
                 this.descriptionView.setPadding(AndroidUtilities.dp(28.0f), 0, 0, 0);
-                DotTextView dotTextView2 = new DotTextView(this, context);
+                DotTextView dotTextView2 = new DotTextView(context);
                 this.descriptionView2 = dotTextView2;
                 dotTextView2.setMaxWidth(AndroidUtilities.dp(208.0f));
                 this.descriptionView2.setTextAlignment(2);

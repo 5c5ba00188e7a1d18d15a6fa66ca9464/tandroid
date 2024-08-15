@@ -10,7 +10,7 @@ public abstract class CustomTabsServiceConnection implements ServiceConnection {
 
     @Override // android.content.ServiceConnection
     public final void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-        onCustomTabsServiceConnected(componentName, new CustomTabsClient(this, ICustomTabsService.Stub.asInterface(iBinder), componentName) { // from class: org.telegram.messenger.support.customtabs.CustomTabsServiceConnection.1
+        onCustomTabsServiceConnected(componentName, new CustomTabsClient(ICustomTabsService.Stub.asInterface(iBinder), componentName) { // from class: org.telegram.messenger.support.customtabs.CustomTabsServiceConnection.1
         });
     }
 }

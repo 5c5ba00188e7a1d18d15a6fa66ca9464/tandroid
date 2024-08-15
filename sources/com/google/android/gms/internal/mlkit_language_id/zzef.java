@@ -2,11 +2,13 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public class zzef {
     private static volatile zzef zzc;
     private static final zzef zzd = new zzef(true);
+    private final Map<Object, Object> zze;
 
     public static zzef zza() {
         zzef zzefVar = zzc;
@@ -23,10 +25,10 @@ public class zzef {
     }
 
     zzef() {
-        new HashMap();
+        this.zze = new HashMap();
     }
 
     private zzef(boolean z) {
-        Collections.emptyMap();
+        this.zze = Collections.emptyMap();
     }
 }

@@ -3,14 +3,18 @@ package com.google.android.gms.internal.clearcut;
 import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.RandomAccess;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
-final class zzdc extends zzav<Long> implements zzcn<Long> {
+final class zzdc extends zzav<Long> implements RandomAccess {
+    private static final zzdc zzlw;
     private int size;
     private long[] zzlx;
 
     static {
-        new zzdc().zzv();
+        zzdc zzdcVar = new zzdc();
+        zzlw = zzdcVar;
+        zzdcVar.zzv();
     }
 
     zzdc() {
@@ -189,7 +193,7 @@ final class zzdc extends zzav<Long> implements zzcn<Long> {
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzcn
-    public final /* synthetic */ zzcn<Long> zzi(int i) {
+    public final /* synthetic */ zzcn zzi(int i) {
         if (i >= this.size) {
             return new zzdc(Arrays.copyOf(this.zzlx, i), this.size);
         }

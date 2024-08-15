@@ -1,31 +1,47 @@
 package j$.util.stream;
-
-import java.util.Objects;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class n0 extends p0 implements l3 {
-    final j$.util.function.q b;
+final class n0 extends q0 implements d2 {
+    final /* synthetic */ r0 c;
+    final /* synthetic */ j$.util.function.Q d;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public n0(j$.util.function.q qVar, boolean z) {
-        super(z);
-        this.b = qVar;
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public n0(j$.util.function.Q q, r0 r0Var) {
+        super(r0Var);
+        this.c = r0Var;
+        this.d = q;
     }
 
-    @Override // j$.util.stream.p0, j$.util.stream.m3, j$.util.stream.l3, j$.util.function.q
-    public void accept(long j) {
-        this.b.accept(j);
+    @Override // j$.util.stream.q0, j$.util.stream.f2
+    public final void accept(int i) {
+        boolean z;
+        boolean z2;
+        if (this.a) {
+            return;
+        }
+        boolean e = ((j$.util.function.O) this.d).e(i);
+        r0 r0Var = this.c;
+        z = r0Var.a;
+        if (e == z) {
+            this.a = true;
+            z2 = r0Var.b;
+            this.b = z2;
+        }
     }
 
     @Override // j$.util.function.Consumer
-    /* renamed from: e */
-    public /* synthetic */ void accept(Long l) {
-        o1.c(this, l);
+    public final /* bridge */ /* synthetic */ void accept(Object obj) {
+        g((Integer) obj);
     }
 
-    @Override // j$.util.function.q
-    public j$.util.function.q f(j$.util.function.q qVar) {
-        Objects.requireNonNull(qVar);
-        return new j$.util.function.p(this, qVar);
+    @Override // j$.util.stream.d2
+    public final /* synthetic */ void g(Integer num) {
+        u0.l0(this, num);
+    }
+
+    @Override // j$.util.function.K
+    public final j$.util.function.K n(j$.util.function.K k) {
+        k.getClass();
+        return new j$.util.function.H(this, k);
     }
 }

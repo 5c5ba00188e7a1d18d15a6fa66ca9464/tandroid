@@ -15,31 +15,32 @@ public class GroupCallStatusIcon {
     Callback callback;
     RLottieImageView iconView;
     boolean isSpeaking;
+    boolean lastMuted;
     boolean lastRaisedHand;
     RLottieDrawable micDrawable;
     private boolean mutedByMe;
     TLRPC$TL_groupCallParticipant participant;
     RLottieDrawable shakeHandDrawable;
     boolean updateRunnableScheduled;
-    private Runnable shakeHandCallback = new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallStatusIcon$$ExternalSyntheticLambda3
+    private Runnable shakeHandCallback = new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallStatusIcon$$ExternalSyntheticLambda0
         @Override // java.lang.Runnable
         public final void run() {
             GroupCallStatusIcon.this.lambda$new$0();
         }
     };
-    private Runnable raiseHandCallback = new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallStatusIcon$$ExternalSyntheticLambda0
+    private Runnable raiseHandCallback = new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallStatusIcon$$ExternalSyntheticLambda1
         @Override // java.lang.Runnable
         public final void run() {
             GroupCallStatusIcon.this.lambda$new$1();
         }
     };
-    private Runnable updateRunnable = new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallStatusIcon$$ExternalSyntheticLambda1
+    private Runnable updateRunnable = new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallStatusIcon$$ExternalSyntheticLambda2
         @Override // java.lang.Runnable
         public final void run() {
             GroupCallStatusIcon.this.lambda$new$2();
         }
     };
-    private Runnable checkRaiseRunnable = new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallStatusIcon$$ExternalSyntheticLambda2
+    private Runnable checkRaiseRunnable = new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallStatusIcon$$ExternalSyntheticLambda3
         @Override // java.lang.Runnable
         public final void run() {
             GroupCallStatusIcon.this.lambda$new$3();
@@ -63,25 +64,32 @@ public class GroupCallStatusIcon {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1() {
+        int i;
         int nextInt = Utilities.random.nextInt(100);
-        int i = 540;
-        int i2 = 420;
+        int i2 = 120;
         if (nextInt < 32) {
-            i = 120;
-            i2 = 0;
-        } else if (nextInt < 64) {
+            i = 0;
+        } else {
             i = 240;
-            i2 = 120;
-        } else if (nextInt < 97) {
-            i = 420;
-            i2 = 240;
-        } else if (nextInt != 98) {
-            i = 720;
-            i2 = 540;
+            if (nextInt < 64) {
+                i2 = 240;
+                i = 120;
+            } else {
+                i2 = 420;
+                if (nextInt >= 97) {
+                    i = 540;
+                    if (nextInt == 98) {
+                        i2 = 540;
+                        i = 420;
+                    } else {
+                        i2 = 720;
+                    }
+                }
+            }
         }
-        this.shakeHandDrawable.setCustomEndFrame(i);
-        this.shakeHandDrawable.setOnFinishCallback(this.shakeHandCallback, i - 1);
-        this.shakeHandDrawable.setCurrentFrame(i2);
+        this.shakeHandDrawable.setCustomEndFrame(i2);
+        this.shakeHandDrawable.setOnFinishCallback(this.shakeHandCallback, i2 - 1);
+        this.shakeHandDrawable.setCurrentFrame(i);
         RLottieImageView rLottieImageView = this.iconView;
         if (rLottieImageView != null) {
             rLottieImageView.setAnimation(this.shakeHandDrawable);
@@ -196,6 +204,7 @@ public class GroupCallStatusIcon {
             this.iconView.invalidate();
         }
         this.iconView.setAnimation(this.micDrawable);
+        this.lastMuted = z5;
         this.lastRaisedHand = z6;
         if (this.mutedByMe != z4) {
             this.mutedByMe = z4;

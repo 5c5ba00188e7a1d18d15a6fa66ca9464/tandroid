@@ -313,8 +313,8 @@ public class AdaptiveTrackSelection extends BaseTrackSelection {
     /* JADX INFO: Access modifiers changed from: private */
     public static ImmutableList<ImmutableList<AdaptationCheckpoint>> getAdaptationCheckpoints(ExoTrackSelection.Definition[] definitionArr) {
         ArrayList arrayList = new ArrayList();
-        for (int i = 0; i < definitionArr.length; i++) {
-            if (definitionArr[i] != null && definitionArr[i].tracks.length > 1) {
+        for (ExoTrackSelection.Definition definition : definitionArr) {
+            if (definition != null && definition.tracks.length > 1) {
                 ImmutableList.Builder builder = ImmutableList.builder();
                 builder.add((ImmutableList.Builder) new AdaptationCheckpoint(0L, 0L));
                 arrayList.add(builder);
@@ -325,27 +325,28 @@ public class AdaptiveTrackSelection extends BaseTrackSelection {
         long[][] sortedTrackBitrates = getSortedTrackBitrates(definitionArr);
         int[] iArr = new int[sortedTrackBitrates.length];
         long[] jArr = new long[sortedTrackBitrates.length];
-        for (int i2 = 0; i2 < sortedTrackBitrates.length; i2++) {
-            jArr[i2] = sortedTrackBitrates[i2].length == 0 ? 0L : sortedTrackBitrates[i2][0];
+        for (int i = 0; i < sortedTrackBitrates.length; i++) {
+            long[] jArr2 = sortedTrackBitrates[i];
+            jArr[i] = jArr2.length == 0 ? 0L : jArr2[0];
         }
         addCheckpoint(arrayList, jArr);
         ImmutableList<Integer> switchOrder = getSwitchOrder(sortedTrackBitrates);
-        for (int i3 = 0; i3 < switchOrder.size(); i3++) {
-            int intValue = switchOrder.get(i3).intValue();
-            int i4 = iArr[intValue] + 1;
-            iArr[intValue] = i4;
-            jArr[intValue] = sortedTrackBitrates[intValue][i4];
+        for (int i2 = 0; i2 < switchOrder.size(); i2++) {
+            int intValue = switchOrder.get(i2).intValue();
+            int i3 = iArr[intValue] + 1;
+            iArr[intValue] = i3;
+            jArr[intValue] = sortedTrackBitrates[intValue][i3];
             addCheckpoint(arrayList, jArr);
         }
-        for (int i5 = 0; i5 < definitionArr.length; i5++) {
-            if (arrayList.get(i5) != null) {
-                jArr[i5] = jArr[i5] * 2;
+        for (int i4 = 0; i4 < definitionArr.length; i4++) {
+            if (arrayList.get(i4) != null) {
+                jArr[i4] = jArr[i4] * 2;
             }
         }
         addCheckpoint(arrayList, jArr);
         ImmutableList.Builder builder2 = ImmutableList.builder();
-        for (int i6 = 0; i6 < arrayList.size(); i6++) {
-            ImmutableList.Builder builder3 = (ImmutableList.Builder) arrayList.get(i6);
+        for (int i5 = 0; i5 < arrayList.size(); i5++) {
+            ImmutableList.Builder builder3 = (ImmutableList.Builder) arrayList.get(i5);
             builder2.add((ImmutableList.Builder) (builder3 == null ? ImmutableList.of() : builder3.build()));
         }
         return builder2.build();
@@ -382,17 +383,20 @@ public class AdaptiveTrackSelection extends BaseTrackSelection {
     private static ImmutableList<Integer> getSwitchOrder(long[][] jArr) {
         Multimap build = MultimapBuilder.treeKeys().arrayListValues().build();
         for (int i = 0; i < jArr.length; i++) {
-            if (jArr[i].length > 1) {
-                int length = jArr[i].length;
+            long[] jArr2 = jArr[i];
+            if (jArr2.length > 1) {
+                int length = jArr2.length;
                 double[] dArr = new double[length];
                 int i2 = 0;
                 while (true) {
+                    long[] jArr3 = jArr[i];
                     double d = 0.0d;
-                    if (i2 >= jArr[i].length) {
+                    if (i2 >= jArr3.length) {
                         break;
                     }
-                    if (jArr[i][i2] != -1) {
-                        d = Math.log(jArr[i][i2]);
+                    long j = jArr3[i2];
+                    if (j != -1) {
+                        d = Math.log(j);
                     }
                     dArr[i2] = d;
                     i2++;

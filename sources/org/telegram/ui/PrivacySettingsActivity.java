@@ -107,6 +107,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
     private int groupsDetailRow;
     private int groupsRow;
     private int lastSeenRow;
+    private LinearLayoutManager layoutManager;
     private ListAdapter listAdapter;
     private RecyclerListView listView;
     private int newChatsHeaderRow;
@@ -178,7 +179,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         getUserConfig().loadGlobalTTl();
         SessionsActivity sessionsActivity = new SessionsActivity(0);
         this.devicesActivityPreload = sessionsActivity;
-        sessionsActivity.setDelegate(new SessionsActivity.Delegate() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda22
+        sessionsActivity.setDelegate(new SessionsActivity.Delegate() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda3
             @Override // org.telegram.ui.SessionsActivity.Delegate
             public final void sessionsLoaded() {
                 PrivacySettingsActivity.this.lambda$onFragmentCreate$0();
@@ -187,7 +188,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         this.devicesActivityPreload.lambda$loadSessions$17(false);
         SessionsActivity sessionsActivity2 = new SessionsActivity(1);
         this.webSessionsActivityPreload = sessionsActivity2;
-        sessionsActivity2.setDelegate(new SessionsActivity.Delegate() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda21
+        sessionsActivity2.setDelegate(new SessionsActivity.Delegate() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda4
             @Override // org.telegram.ui.SessionsActivity.Delegate
             public final void sessionsLoaded() {
                 PrivacySettingsActivity.this.lambda$onFragmentCreate$1();
@@ -218,7 +219,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:26:0x00c3  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x00c9  */
     /* JADX WARN: Removed duplicated region for block: B:28:? A[RETURN, SYNTHETIC] */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
@@ -254,7 +255,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
             getUserConfig().suggestContacts = this.newSuggest;
             TLRPC$TL_contacts_toggleTopPeers tLRPC$TL_contacts_toggleTopPeers = new TLRPC$TL_contacts_toggleTopPeers();
             tLRPC$TL_contacts_toggleTopPeers.enabled = this.newSuggest;
-            getConnectionsManager().sendRequest(tLRPC$TL_contacts_toggleTopPeers, new RequestDelegate() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda19
+            getConnectionsManager().sendRequest(tLRPC$TL_contacts_toggleTopPeers, new RequestDelegate() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda5
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     PrivacySettingsActivity.lambda$onFragmentDestroy$2(tLObject, tLRPC$TL_error);
@@ -275,7 +276,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                     tLRPC$TL_account_setGlobalPrivacySettings.settings = new TLRPC$TL_globalPrivacySettings();
                 }
                 tLRPC$TL_account_setGlobalPrivacySettings.settings.archive_and_mute_new_noncontact_peers = this.archiveChats;
-                getConnectionsManager().sendRequest(tLRPC$TL_account_setGlobalPrivacySettings, new RequestDelegate() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda18
+                getConnectionsManager().sendRequest(tLRPC$TL_account_setGlobalPrivacySettings, new RequestDelegate() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda6
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         PrivacySettingsActivity.lambda$onFragmentDestroy$3(tLObject, tLRPC$TL_error);
@@ -309,28 +310,29 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         this.listAdapter = new ListAdapter(context);
         FrameLayout frameLayout = new FrameLayout(context);
         this.fragmentView = frameLayout;
-        FrameLayout frameLayout2 = frameLayout;
-        frameLayout2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
+        frameLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
         RecyclerListView recyclerListView = new RecyclerListView(context);
         this.listView = recyclerListView;
-        recyclerListView.setLayoutManager(new LinearLayoutManager(this, context, 1, false) { // from class: org.telegram.ui.PrivacySettingsActivity.2
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, 1, false) { // from class: org.telegram.ui.PrivacySettingsActivity.2
             @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
             public boolean supportsPredictiveItemAnimations() {
                 return false;
             }
-        });
+        };
+        this.layoutManager = linearLayoutManager;
+        recyclerListView.setLayoutManager(linearLayoutManager);
         this.listView.setVerticalScrollBarEnabled(false);
         this.listView.setLayoutAnimation(null);
         this.listView.setItemAnimator(null);
-        frameLayout2.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
+        frameLayout.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
         this.listView.setAdapter(this.listAdapter);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda20
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i) {
                 PrivacySettingsActivity.this.lambda$createView$19(context, view, i);
             }
         });
-        BotBiometry.getBots(getContext(), this.currentAccount, new Utilities.Callback() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda13
+        BotBiometry.getBots(getContext(), this.currentAccount, new Utilities.Callback() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda2
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 PrivacySettingsActivity.this.lambda$createView$20((ArrayList) obj);
@@ -375,7 +377,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                     radioColorCell.setCheckColor(Theme.getColor(Theme.key_radioBackground), Theme.getColor(Theme.key_dialogRadioBackgroundChecked));
                     radioColorCell.setTextAndValue(strArr[i3], i2 == i3);
                     linearLayout.addView(radioColorCell);
-                    radioColorCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda6
+                    radioColorCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda7
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view2) {
                             PrivacySettingsActivity.this.lambda$createView$6(builder, view2);
@@ -421,7 +423,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                     textStyleRun.end = i4;
                     valueOf.setSpan(new TextStyleSpan(textStyleRun), indexOf, i4, 0);
                 }
-                new AlertDialog.Builder(context).setTitle(valueOf).setMessage(LocaleController.getString(R.string.EmailLoginChangeMessage)).setPositiveButton(LocaleController.getString(R.string.ChangeEmail), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda0
+                new AlertDialog.Builder(context).setTitle(valueOf).setMessage(LocaleController.getString(R.string.EmailLoginChangeMessage)).setPositiveButton(LocaleController.getString(R.string.ChangeEmail), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda8
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i5) {
                         PrivacySettingsActivity.this.lambda$createView$8(dialogInterface, i5);
@@ -463,7 +465,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                 builder2.setTitle(LocaleController.getString("SyncContactsDeleteTitle", R.string.SyncContactsDeleteTitle));
                 builder2.setMessage(AndroidUtilities.replaceTags(LocaleController.getString("SyncContactsDeleteText", R.string.SyncContactsDeleteText)));
                 builder2.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                builder2.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda3
+                builder2.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda9
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i5) {
                         PrivacySettingsActivity.this.lambda$createView$10(dialogInterface, i5);
@@ -481,7 +483,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                     AlertDialog.Builder builder3 = new AlertDialog.Builder(getParentActivity());
                     builder3.setTitle(LocaleController.getString("SuggestContactsTitle", R.string.SuggestContactsTitle));
                     builder3.setMessage(LocaleController.getString("SuggestContactsAlert", R.string.SuggestContactsAlert));
-                    builder3.setPositiveButton(LocaleController.getString("MuteDisable", R.string.MuteDisable), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda4
+                    builder3.setPositiveButton(LocaleController.getString("MuteDisable", R.string.MuteDisable), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda10
                         @Override // android.content.DialogInterface.OnClickListener
                         public final void onClick(DialogInterface dialogInterface, int i5) {
                             PrivacySettingsActivity.this.lambda$createView$13(textCheckCell, dialogInterface, i5);
@@ -510,7 +512,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                     ((TextCheckCell) view).setChecked(z2);
                 }
             } else if (i == this.secretMapRow) {
-                AlertsCreator.showSecretLocationAlert(getParentActivity(), this.currentAccount, new Runnable() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda7
+                AlertsCreator.showSecretLocationAlert(getParentActivity(), this.currentAccount, new Runnable() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda11
                     @Override // java.lang.Runnable
                     public final void run() {
                         PrivacySettingsActivity.this.lambda$createView$14();
@@ -537,14 +539,14 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                     linearLayout2.addView(checkBoxCell, LayoutHelper.createLinear(-1, 50));
                     checkBoxCell.setText(string, null, true, false);
                     checkBoxCell.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
-                    checkBoxCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda5
+                    checkBoxCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda12
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view2) {
                             PrivacySettingsActivity.this.lambda$createView$15(view2);
                         }
                     });
                 }
-                builder4.setPositiveButton(LocaleController.getString("ClearButton", R.string.ClearButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda2
+                builder4.setPositiveButton(LocaleController.getString("ClearButton", R.string.ClearButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda13
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i6) {
                         PrivacySettingsActivity.this.lambda$createView$18(dialogInterface, i6);
@@ -587,7 +589,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         TLRPC$TL_accountDaysTTL tLRPC$TL_accountDaysTTL = new TLRPC$TL_accountDaysTTL();
         tLRPC$TL_account_setAccountTTL.ttl = tLRPC$TL_accountDaysTTL;
         tLRPC$TL_accountDaysTTL.days = i;
-        getConnectionsManager().sendRequest(tLRPC$TL_account_setAccountTTL, new RequestDelegate() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda15
+        getConnectionsManager().sendRequest(tLRPC$TL_account_setAccountTTL, new RequestDelegate() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda19
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 PrivacySettingsActivity.this.lambda$createView$5(alertDialog, tLRPC$TL_account_setAccountTTL, tLObject, tLRPC$TL_error);
@@ -597,7 +599,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$5(final AlertDialog alertDialog, final TLRPC$TL_account_setAccountTTL tLRPC$TL_account_setAccountTTL, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda11
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda20
             @Override // java.lang.Runnable
             public final void run() {
                 PrivacySettingsActivity.this.lambda$createView$4(alertDialog, tLObject, tLRPC$TL_account_setAccountTTL);
@@ -621,7 +623,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$8(DialogInterface dialogInterface, int i) {
-        presentFragment(new LoginActivity().changeEmail(new Runnable() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda8
+        presentFragment(new LoginActivity().changeEmail(new Runnable() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda16
             @Override // java.lang.Runnable
             public final void run() {
                 PrivacySettingsActivity.this.lambda$createView$7();
@@ -654,7 +656,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
             this.currentSync = z;
             getUserConfig().saveConfig(false);
         }
-        getContactsController().deleteAllContacts(new Runnable() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda9
+        getContactsController().deleteAllContacts(new Runnable() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda18
             @Override // java.lang.Runnable
             public final void run() {
                 PrivacySettingsActivity.this.lambda$createView$9();
@@ -675,7 +677,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         tLRPC$TL_payments_clearSavedInfo.info = zArr[0];
         getUserConfig().tmpPassword = null;
         getUserConfig().saveConfig(false);
-        getConnectionsManager().sendRequest(tLRPC$TL_payments_clearSavedInfo, new RequestDelegate() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda16
+        getConnectionsManager().sendRequest(tLRPC$TL_payments_clearSavedInfo, new RequestDelegate() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda17
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 PrivacySettingsActivity.this.lambda$createView$12(textCheckCell, tLObject, tLRPC$TL_error);
@@ -685,7 +687,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$12(final TextCheckCell textCheckCell, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda12
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda21
             @Override // java.lang.Runnable
             public final void run() {
                 PrivacySettingsActivity.this.lambda$createView$11(textCheckCell);
@@ -711,8 +713,9 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         CheckBoxCell checkBoxCell = (CheckBoxCell) view;
         int intValue = ((Integer) checkBoxCell.getTag()).intValue();
         boolean[] zArr = this.clear;
-        zArr[intValue] = !zArr[intValue];
-        checkBoxCell.setChecked(zArr[intValue], true);
+        boolean z = !zArr[intValue];
+        zArr[intValue] = z;
+        checkBoxCell.setChecked(z, true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -728,7 +731,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
         builder.setTitle(LocaleController.getString("PrivacyPaymentsClearAlertTitle", R.string.PrivacyPaymentsClearAlertTitle));
         builder.setMessage(LocaleController.getString("PrivacyPaymentsClearAlert", R.string.PrivacyPaymentsClearAlert));
-        builder.setPositiveButton(LocaleController.getString("ClearButton", R.string.ClearButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda1
+        builder.setPositiveButton(LocaleController.getString("ClearButton", R.string.ClearButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda15
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface2, int i2) {
                 PrivacySettingsActivity.this.lambda$createView$17(dialogInterface2, i2);
@@ -753,16 +756,17 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         tLRPC$TL_payments_clearSavedInfo.info = zArr[0];
         getUserConfig().tmpPassword = null;
         getUserConfig().saveConfig(false);
-        getConnectionsManager().sendRequest(tLRPC$TL_payments_clearSavedInfo, new RequestDelegate() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda17
+        getConnectionsManager().sendRequest(tLRPC$TL_payments_clearSavedInfo, new RequestDelegate() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda22
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 PrivacySettingsActivity.lambda$createView$16(tLObject, tLRPC$TL_error);
             }
         });
         boolean[] zArr2 = this.clear;
-        if (zArr2[0] && zArr2[1]) {
+        boolean z = zArr2[0];
+        if (z && zArr2[1]) {
             string = LocaleController.getString("PrivacyPaymentsPaymentShippingCleared", R.string.PrivacyPaymentsPaymentShippingCleared);
-        } else if (zArr2[0]) {
+        } else if (z) {
             string = LocaleController.getString("PrivacyPaymentsShippingInfoCleared", R.string.PrivacyPaymentsShippingInfoCleared);
         } else if (!zArr2[1]) {
             return;
@@ -818,15 +822,11 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
     }
 
     private void updateRows(boolean z) {
-        this.rowCount = 0;
         int i = 0 + 1;
-        this.rowCount = i;
         this.securitySectionRow = 0;
         int i2 = i + 1;
-        this.rowCount = i2;
         this.passwordRow = i;
         int i3 = i2 + 1;
-        this.rowCount = i3;
         this.autoDeleteMesages = i2;
         int i4 = i3 + 1;
         this.rowCount = i4;
@@ -850,25 +850,18 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         }
         int i6 = this.rowCount;
         int i7 = i6 + 1;
-        this.rowCount = i7;
         this.sessionsRow = i6;
         int i8 = i7 + 1;
-        this.rowCount = i8;
         this.sessionsDetailRow = i7;
         int i9 = i8 + 1;
-        this.rowCount = i9;
         this.privacySectionRow = i8;
         int i10 = i9 + 1;
-        this.rowCount = i10;
         this.phoneNumberRow = i9;
         int i11 = i10 + 1;
-        this.rowCount = i11;
         this.lastSeenRow = i10;
         int i12 = i11 + 1;
-        this.rowCount = i12;
         this.profilePhotoRow = i11;
         int i13 = i12 + 1;
-        this.rowCount = i13;
         this.forwardsRow = i12;
         this.rowCount = i13 + 1;
         this.callsRow = i13;
@@ -876,7 +869,6 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         if (!getMessagesController().premiumFeaturesBlocked() || getUserConfig().isPremium()) {
             int i14 = this.rowCount;
             int i15 = i14 + 1;
-            this.rowCount = i15;
             this.voicesRow = i14;
             this.rowCount = i15 + 1;
             this.noncontactsRow = i15;
@@ -886,23 +878,18 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         }
         int i16 = this.rowCount;
         int i17 = i16 + 1;
-        this.rowCount = i17;
         this.birthdayRow = i16;
         int i18 = i17 + 1;
-        this.rowCount = i18;
         this.bioRow = i17;
         int i19 = i18 + 1;
-        this.rowCount = i19;
         this.groupsRow = i18;
         this.rowCount = i19 + 1;
         this.privacyShadowRow = i19;
         if (getMessagesController().autoarchiveAvailable || getUserConfig().isPremium()) {
             int i20 = this.rowCount;
             int i21 = i20 + 1;
-            this.rowCount = i21;
             this.newChatsHeaderRow = i20;
             int i22 = i21 + 1;
-            this.rowCount = i22;
             this.newChatsRow = i21;
             this.rowCount = i22 + 1;
             this.newChatsSectionRow = i22;
@@ -913,13 +900,10 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         }
         int i23 = this.rowCount;
         int i24 = i23 + 1;
-        this.rowCount = i24;
         this.advancedSectionRow = i23;
         int i25 = i24 + 1;
-        this.rowCount = i25;
         this.deleteAccountRow = i24;
         int i26 = i25 + 1;
-        this.rowCount = i26;
         this.deleteAccountDetailRow = i25;
         this.rowCount = i26 + 1;
         this.botsSectionRow = i26;
@@ -944,7 +928,6 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         if (sessionsActivity != null && sessionsActivity.getSessionsCount() > 0) {
             int i30 = this.rowCount;
             int i31 = i30 + 1;
-            this.rowCount = i31;
             this.webSessionsRow = i30;
             this.rowCount = i31 + 1;
             this.botsDetailRow = i31;
@@ -958,28 +941,20 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         }
         int i33 = this.rowCount;
         int i34 = i33 + 1;
-        this.rowCount = i34;
         this.contactsSectionRow = i33;
         int i35 = i34 + 1;
-        this.rowCount = i35;
         this.contactsDeleteRow = i34;
         int i36 = i35 + 1;
-        this.rowCount = i36;
         this.contactsSyncRow = i35;
         int i37 = i36 + 1;
-        this.rowCount = i37;
         this.contactsSuggestRow = i36;
         int i38 = i37 + 1;
-        this.rowCount = i38;
         this.contactsDetailRow = i37;
         int i39 = i38 + 1;
-        this.rowCount = i39;
         this.secretSectionRow = i38;
         int i40 = i39 + 1;
-        this.rowCount = i40;
         this.secretMapRow = i39;
         int i41 = i40 + 1;
-        this.rowCount = i41;
         this.secretWebpageRow = i40;
         this.rowCount = i41 + 1;
         this.secretDetailRow = i41;
@@ -1032,7 +1007,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
     }
 
     private void loadPasswordSettings() {
-        getConnectionsManager().sendRequest(new TLRPC$TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda14
+        getConnectionsManager().sendRequest(new TLRPC$TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda0
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 PrivacySettingsActivity.this.lambda$loadPasswordSettings$22(tLObject, tLRPC$TL_error);
@@ -1044,7 +1019,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
     public /* synthetic */ void lambda$loadPasswordSettings$22(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject != null) {
             final TLRPC$account_Password tLRPC$account_Password = (TLRPC$account_Password) tLObject;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda10
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda14
                 @Override // java.lang.Runnable
                 public final void run() {
                     PrivacySettingsActivity.this.lambda$loadPasswordSettings$21(tLRPC$account_Password);
@@ -1157,7 +1132,40 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
         public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
             int adapterPosition = viewHolder.getAdapterPosition();
-            return adapterPosition == PrivacySettingsActivity.this.passcodeRow || adapterPosition == PrivacySettingsActivity.this.passwordRow || adapterPosition == PrivacySettingsActivity.this.blockedRow || adapterPosition == PrivacySettingsActivity.this.sessionsRow || adapterPosition == PrivacySettingsActivity.this.secretWebpageRow || adapterPosition == PrivacySettingsActivity.this.webSessionsRow || (adapterPosition == PrivacySettingsActivity.this.groupsRow && !PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(1)) || ((adapterPosition == PrivacySettingsActivity.this.lastSeenRow && !PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(0)) || ((adapterPosition == PrivacySettingsActivity.this.callsRow && !PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(2)) || ((adapterPosition == PrivacySettingsActivity.this.profilePhotoRow && !PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(4)) || ((adapterPosition == PrivacySettingsActivity.this.bioRow && !PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(9)) || ((adapterPosition == PrivacySettingsActivity.this.birthdayRow && !PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(11)) || ((adapterPosition == PrivacySettingsActivity.this.forwardsRow && !PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(5)) || ((adapterPosition == PrivacySettingsActivity.this.phoneNumberRow && !PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(6)) || ((adapterPosition == PrivacySettingsActivity.this.voicesRow && !PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(8)) || adapterPosition == PrivacySettingsActivity.this.noncontactsRow || ((adapterPosition == PrivacySettingsActivity.this.deleteAccountRow && !PrivacySettingsActivity.this.getContactsController().getLoadingDeleteInfo()) || ((adapterPosition == PrivacySettingsActivity.this.newChatsRow && !PrivacySettingsActivity.this.getContactsController().getLoadingGlobalSettings()) || adapterPosition == PrivacySettingsActivity.this.emailLoginRow || adapterPosition == PrivacySettingsActivity.this.paymentsClearRow || adapterPosition == PrivacySettingsActivity.this.secretMapRow || adapterPosition == PrivacySettingsActivity.this.contactsSyncRow || adapterPosition == PrivacySettingsActivity.this.passportRow || adapterPosition == PrivacySettingsActivity.this.contactsDeleteRow || adapterPosition == PrivacySettingsActivity.this.contactsSuggestRow || adapterPosition == PrivacySettingsActivity.this.autoDeleteMesages || adapterPosition == PrivacySettingsActivity.this.botsBiometryRow))))))))));
+            if (adapterPosition == PrivacySettingsActivity.this.passcodeRow || adapterPosition == PrivacySettingsActivity.this.passwordRow || adapterPosition == PrivacySettingsActivity.this.blockedRow || adapterPosition == PrivacySettingsActivity.this.sessionsRow || adapterPosition == PrivacySettingsActivity.this.secretWebpageRow || adapterPosition == PrivacySettingsActivity.this.webSessionsRow) {
+                return true;
+            }
+            if (adapterPosition != PrivacySettingsActivity.this.groupsRow || PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(1)) {
+                if (adapterPosition != PrivacySettingsActivity.this.lastSeenRow || PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(0)) {
+                    if (adapterPosition != PrivacySettingsActivity.this.callsRow || PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(2)) {
+                        if (adapterPosition != PrivacySettingsActivity.this.profilePhotoRow || PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(4)) {
+                            if (adapterPosition != PrivacySettingsActivity.this.bioRow || PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(9)) {
+                                if (adapterPosition != PrivacySettingsActivity.this.birthdayRow || PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(11)) {
+                                    if (adapterPosition != PrivacySettingsActivity.this.forwardsRow || PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(5)) {
+                                        if (adapterPosition != PrivacySettingsActivity.this.phoneNumberRow || PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(6)) {
+                                            if ((adapterPosition != PrivacySettingsActivity.this.voicesRow || PrivacySettingsActivity.this.getContactsController().getLoadingPrivacyInfo(8)) && adapterPosition != PrivacySettingsActivity.this.noncontactsRow) {
+                                                if (adapterPosition != PrivacySettingsActivity.this.deleteAccountRow || PrivacySettingsActivity.this.getContactsController().getLoadingDeleteInfo()) {
+                                                    return (adapterPosition == PrivacySettingsActivity.this.newChatsRow && !PrivacySettingsActivity.this.getContactsController().getLoadingGlobalSettings()) || adapterPosition == PrivacySettingsActivity.this.emailLoginRow || adapterPosition == PrivacySettingsActivity.this.paymentsClearRow || adapterPosition == PrivacySettingsActivity.this.secretMapRow || adapterPosition == PrivacySettingsActivity.this.contactsSyncRow || adapterPosition == PrivacySettingsActivity.this.passportRow || adapterPosition == PrivacySettingsActivity.this.contactsDeleteRow || adapterPosition == PrivacySettingsActivity.this.contactsSuggestRow || adapterPosition == PrivacySettingsActivity.this.autoDeleteMesages || adapterPosition == PrivacySettingsActivity.this.botsBiometryRow;
+                                                }
+                                                return true;
+                                            }
+                                            return true;
+                                        }
+                                        return true;
+                                    }
+                                    return true;
+                                }
+                                return true;
+                            }
+                            return true;
+                        }
+                        return true;
+                    }
+                    return true;
+                }
+                return true;
+            }
+            return true;
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter

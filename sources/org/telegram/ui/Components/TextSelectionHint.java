@@ -286,7 +286,7 @@ public class TextSelectionHint extends View {
         this.endOffsetValue = 1.0f;
         invalidate();
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TextSelectionHint$$ExternalSyntheticLambda4
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TextSelectionHint$$ExternalSyntheticLambda0
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 TextSelectionHint.this.lambda$show$0(valueAnimator);
@@ -295,7 +295,7 @@ public class TextSelectionHint extends View {
         ofFloat.setDuration(210L);
         ofFloat.setInterpolator(new DecelerateInterpolator());
         ValueAnimator ofFloat2 = ValueAnimator.ofFloat(0.0f, 1.0f);
-        ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TextSelectionHint$$ExternalSyntheticLambda0
+        ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TextSelectionHint$$ExternalSyntheticLambda1
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 TextSelectionHint.this.lambda$show$1(valueAnimator);
@@ -305,7 +305,7 @@ public class TextSelectionHint extends View {
         ofFloat2.setDuration(250L);
         ValueAnimator ofFloat3 = ValueAnimator.ofFloat(1.0f, 0.0f);
         ofFloat3.setStartDelay(500L);
-        ofFloat3.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TextSelectionHint$$ExternalSyntheticLambda1
+        ofFloat3.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TextSelectionHint$$ExternalSyntheticLambda2
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 TextSelectionHint.this.lambda$show$2(valueAnimator);
@@ -375,7 +375,7 @@ public class TextSelectionHint extends View {
         }
         this.showing = false;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(this.prepareProgress, 0.0f);
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TextSelectionHint$$ExternalSyntheticLambda2
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TextSelectionHint$$ExternalSyntheticLambda4
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 TextSelectionHint.this.lambda$hideInternal$4(valueAnimator);

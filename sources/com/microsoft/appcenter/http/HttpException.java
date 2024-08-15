@@ -26,7 +26,7 @@ public class HttpException extends IOException {
         if (this == obj) {
             return true;
         }
-        if (obj == null || HttpException.class != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         return this.mHttpResponse.equals(((HttpException) obj).mHttpResponse);

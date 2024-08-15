@@ -1,30 +1,14 @@
 package j$.util.stream;
-
-import j$.util.function.Predicate;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class Z implements Predicate {
-    public static final /* synthetic */ Z a = new Z();
-
-    private /* synthetic */ Z() {
+final class Z extends c0 {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public Z(c cVar, int i) {
+        super(cVar, i);
     }
 
-    @Override // j$.util.function.Predicate
-    public /* synthetic */ Predicate and(Predicate predicate) {
-        return Predicate.-CC.$default$and(this, predicate);
-    }
-
-    @Override // j$.util.function.Predicate
-    public /* synthetic */ Predicate negate() {
-        return Predicate.-CC.$default$negate(this);
-    }
-
-    @Override // j$.util.function.Predicate
-    public /* synthetic */ Predicate or(Predicate predicate) {
-        return Predicate.-CC.$default$or(this, predicate);
-    }
-
-    @Override // j$.util.function.Predicate
-    public final boolean test(Object obj) {
-        return ((j$.util.l) obj).c();
+    /* JADX INFO: Access modifiers changed from: package-private */
+    @Override // j$.util.stream.c
+    public final f2 l1(int i, f2 f2Var) {
+        return f2Var;
     }
 }

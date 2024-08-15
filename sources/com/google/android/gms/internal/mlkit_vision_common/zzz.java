@@ -3,12 +3,9 @@ package com.google.android.gms.internal.mlkit_vision_common;
 /* compiled from: com.google.mlkit:vision-common@@17.3.0 */
 /* loaded from: classes.dex */
 public final class zzz extends zzr {
+    static final zzr zza = new zzz(null, new Object[0], 0);
     final transient Object[] zzb;
     private final transient int zzc;
-
-    static {
-        new zzz(null, new Object[0], 0);
-    }
 
     private zzz(Object obj, Object[] objArr, int i) {
         this.zzb = objArr;

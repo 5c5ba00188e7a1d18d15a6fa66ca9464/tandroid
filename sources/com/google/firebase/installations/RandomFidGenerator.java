@@ -11,8 +11,9 @@ public class RandomFidGenerator {
 
     public String createRandomFid() {
         byte[] bytesFromUUID = getBytesFromUUID(UUID.randomUUID(), new byte[17]);
-        bytesFromUUID[16] = bytesFromUUID[0];
-        bytesFromUUID[0] = (byte) ((REMOVE_PREFIX_MASK & bytesFromUUID[0]) | FID_4BIT_PREFIX);
+        byte b = bytesFromUUID[0];
+        bytesFromUUID[16] = b;
+        bytesFromUUID[0] = (byte) ((b & REMOVE_PREFIX_MASK) | FID_4BIT_PREFIX);
         return encodeFidBase64UrlSafe(bytesFromUUID);
     }
 

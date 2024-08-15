@@ -236,8 +236,8 @@ public class GiveawayMessageCell {
 
     /* JADX WARN: Removed duplicated region for block: B:58:0x03ab  */
     /* JADX WARN: Removed duplicated region for block: B:59:0x03bc  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0421  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x043f  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x041d  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x043b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -364,13 +364,9 @@ public class GiveawayMessageCell {
                     StaticLayout staticLayout4 = this.countriesLayout;
                     int lineBottom2 = staticLayout4 == null ? staticLayout4.getLineBottom(staticLayout4.getLineCount() - 1) + AndroidUtilities.dp(12.0f) : 0;
                     this.countriesHeight = lineBottom2;
-                    int i11 = this.measuredHeight + this.topHeight;
+                    int i11 = this.measuredHeight + this.topHeight + lineBottom2 + this.bottomHeight;
                     this.measuredHeight = i11;
-                    int i12 = i11 + lineBottom2;
-                    this.measuredHeight = i12;
-                    int i13 = i12 + this.bottomHeight;
-                    this.measuredHeight = i13;
-                    this.measuredHeight = i13 + AndroidUtilities.dp(128.0f);
+                    this.measuredHeight = i11 + AndroidUtilities.dp(128.0f);
                     this.measuredWidth = max;
                     String str4 = "x" + tLRPC$TL_messageMediaGiveaway.quantity;
                     this.counterStr = str4;
@@ -396,14 +392,15 @@ public class GiveawayMessageCell {
                             this.chatTitles[i3] = TextUtils.ellipsize(Emoji.replaceEmoji(chat.title, this.chatTextPaint.getFontMetricsInt(), false), this.chatTextPaint, 0.8f * f, TextUtils.TruncateAt.END);
                             float[] fArr = this.chatTitleWidths;
                             TextPaint textPaint = this.chatTextPaint;
-                            CharSequence[] charSequenceArr = this.chatTitles;
-                            fArr[i3] = textPaint.measureText(charSequenceArr[i3], 0, charSequenceArr[i3].length());
+                            CharSequence charSequence = this.chatTitles[i3];
+                            fArr[i3] = textPaint.measureText(charSequence, 0, charSequence.length());
                             float dp3 = this.chatTitleWidths[i3] + AndroidUtilities.dp(40.0f);
                             f4 += dp3;
                             if (i3 > 0) {
                                 boolean[] zArr = this.needNewRow;
-                                zArr[i3] = f4 > 0.9f * f;
-                                if (zArr[i3]) {
+                                boolean z = f4 > 0.9f * f;
+                                zArr[i3] = z;
+                                if (z) {
                                     this.measuredHeight += AndroidUtilities.dp(30.0f);
                                     f4 = dp3;
                                 }
@@ -447,13 +444,9 @@ public class GiveawayMessageCell {
             if (staticLayout42 == null) {
             }
             this.countriesHeight = lineBottom2;
-            int i112 = this.measuredHeight + this.topHeight;
+            int i112 = this.measuredHeight + this.topHeight + lineBottom2 + this.bottomHeight;
             this.measuredHeight = i112;
-            int i122 = i112 + lineBottom2;
-            this.measuredHeight = i122;
-            int i132 = i122 + this.bottomHeight;
-            this.measuredHeight = i132;
-            this.measuredHeight = i132 + AndroidUtilities.dp(128.0f);
+            this.measuredHeight = i112 + AndroidUtilities.dp(128.0f);
             this.measuredWidth = max2;
             String str42 = "x" + tLRPC$TL_messageMediaGiveaway.quantity;
             this.counterStr = str42;
@@ -594,10 +587,10 @@ public class GiveawayMessageCell {
                     this.chatBgPaint.setColor(chatColor);
                     this.chatBgPaint.setAlpha(25);
                     this.avatarImageReceivers[i9].draw(canvas);
-                    CharSequence[] charSequenceArr = this.chatTitles;
+                    CharSequence charSequence = this.chatTitles[i9];
                     int i12 = i10;
                     int i13 = i9;
-                    canvas.drawText(charSequenceArr[i9], 0, charSequenceArr[i9].length(), AndroidUtilities.dp(30.0f), AndroidUtilities.dp(f5), this.chatTextPaint);
+                    canvas.drawText(charSequence, 0, charSequence.length(), AndroidUtilities.dp(30.0f), AndroidUtilities.dp(f5), this.chatTextPaint);
                     this.chatRect.set(0.0f, 0.0f, this.chatTitleWidths[i13] + AndroidUtilities.dp(40.0f), AndroidUtilities.dp(24.0f));
                     canvas.drawRoundRect(this.chatRect, AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), this.chatBgPaint);
                     float f9 = i12;

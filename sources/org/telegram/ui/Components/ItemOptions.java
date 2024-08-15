@@ -145,8 +145,9 @@ public class ItemOptions {
 
     private void init() {
         ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(this.context, R.drawable.popup_fixed_alert2, this.resourcesProvider, this.swipeback ? 1 : 0) { // from class: org.telegram.ui.Components.ItemOptions.1
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow.ActionBarPopupWindowLayout, android.widget.FrameLayout, android.view.View
-            protected void onMeasure(int i, int i2) {
+            public void onMeasure(int i, int i2) {
                 if (this == ItemOptions.this.layout && ItemOptions.this.maxHeight > 0) {
                     i2 = View.MeasureSpec.makeMeasureSpec(Math.min(ItemOptions.this.maxHeight, View.MeasureSpec.getSize(i2)), View.MeasureSpec.getMode(i2));
                 }
@@ -154,7 +155,7 @@ public class ItemOptions {
             }
         };
         this.lastLayout = actionBarPopupWindowLayout;
-        actionBarPopupWindowLayout.setDispatchKeyEventListener(new ActionBarPopupWindow.OnDispatchKeyEventListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda4
+        actionBarPopupWindowLayout.setDispatchKeyEventListener(new ActionBarPopupWindow.OnDispatchKeyEventListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow.OnDispatchKeyEventListener
             public final void onDispatchKeyEvent(KeyEvent keyEvent) {
                 ItemOptions.this.lambda$init$0(keyEvent);
@@ -248,7 +249,7 @@ public class ItemOptions {
         actionBarMenuSubItem.setColors(intValue, num2 != null ? num2.intValue() : Theme.getColor(i2, this.resourcesProvider));
         Integer num3 = this.selectorColor;
         actionBarMenuSubItem.setSelectorColor(num3 != null ? num3.intValue() : Theme.multAlpha(Theme.getColor(i3, this.resourcesProvider), 0.12f));
-        actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda1
+        actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ItemOptions.this.lambda$add$1(runnable, view);
@@ -305,7 +306,7 @@ public class ItemOptions {
             ActionBarMenuSubItem actionBarMenuSubItem = (ActionBarMenuSubItem) itemAt;
             actionBarMenuSubItem.setRightIcon(R.drawable.msg_mini_lock3);
             actionBarMenuSubItem.getRightIcon().setAlpha(0.4f);
-            actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda2
+            actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda4
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     ItemOptions.this.lambda$putPremiumLock$2(runnable, view);
@@ -427,7 +428,7 @@ public class ItemOptions {
         textView2.setTextSize(1, 13.0f);
         textView2.setText(AndroidUtilities.replaceArrows(charSequence, false, AndroidUtilities.dp(1.0f), AndroidUtilities.dp(0.66f)));
         frameLayout.addView(textView2, LayoutHelper.createFrame(-2, -2.0f, 55, 59.0f, 27.0f, 16.0f, 0.0f));
-        frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda0
+        frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ItemOptions.lambda$addProfile$4(runnable, view);
@@ -449,7 +450,7 @@ public class ItemOptions {
     }
 
     public ItemOptions addText(CharSequence charSequence, int i, int i2) {
-        TextView textView = new TextView(this, this.context) { // from class: org.telegram.ui.Components.ItemOptions.2
+        TextView textView = new TextView(this.context) { // from class: org.telegram.ui.Components.ItemOptions.2
             @Override // android.widget.TextView, android.view.View
             protected void onMeasure(int i3, int i4) {
                 super.onMeasure(i3, i4);
@@ -630,7 +631,7 @@ public class ItemOptions {
                 if (this.dimAlpha > 0) {
                     final DimView dimView = new DimView(this.context);
                     this.dimView = dimView;
-                    this.preDrawListener = new ViewTreeObserver.OnPreDrawListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda3
+                    this.preDrawListener = new ViewTreeObserver.OnPreDrawListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda0
                         @Override // android.view.ViewTreeObserver.OnPreDrawListener
                         public final boolean onPreDraw() {
                             boolean lambda$show$5;

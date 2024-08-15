@@ -10,7 +10,6 @@ import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.Parcelable;
@@ -79,8 +78,6 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
     boolean mIsNewlyAdded;
     LayoutInflater mLayoutInflater;
     LifecycleRegistry mLifecycleRegistry;
-    Lifecycle.State mMaxState;
-    private final ArrayList<OnPreAttachedListener> mOnPreAttachedListeners;
     Fragment mParentFragment;
     boolean mPerformedCreateView;
     float mPostponedAlpha;
@@ -98,7 +95,6 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
     int mTargetRequestCode;
     View mView;
     FragmentViewLifecycleOwner mViewLifecycleOwner;
-    MutableLiveData<LifecycleOwner> mViewLifecycleOwnerLiveData;
     int mState = -1;
     String mWho = UUID.randomUUID().toString();
     String mTargetWho = null;
@@ -106,6 +102,16 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
     FragmentManager mChildFragmentManager = new FragmentManagerImpl();
     boolean mMenuVisible = true;
     boolean mUserVisibleHint = true;
+    Runnable mPostponedDurationRunnable = new Runnable() { // from class: androidx.fragment.app.Fragment.1
+        @Override // java.lang.Runnable
+        public void run() {
+            Fragment.this.startPostponedEnterTransition();
+        }
+    };
+    Lifecycle.State mMaxState = Lifecycle.State.RESUMED;
+    MutableLiveData<LifecycleOwner> mViewLifecycleOwnerLiveData = new MutableLiveData<>();
+    private final AtomicInteger mNextLocalRequestCode = new AtomicInteger();
+    private final ArrayList<OnPreAttachedListener> mOnPreAttachedListeners = new ArrayList<>();
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
@@ -212,14 +218,15 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
 
     @Override // androidx.lifecycle.HasDefaultViewModelProviderFactory
     public ViewModelProvider.Factory getDefaultViewModelProviderFactory() {
+        Application application;
         if (this.mFragmentManager == null) {
             throw new IllegalStateException("Can't access ViewModels from detached fragment");
         }
         if (this.mDefaultFactory == null) {
-            Application application = null;
             Context applicationContext = requireContext().getApplicationContext();
             while (true) {
                 if (!(applicationContext instanceof ContextWrapper)) {
+                    application = null;
                     break;
                 } else if (applicationContext instanceof Application) {
                     application = (Application) applicationContext;
@@ -249,16 +256,6 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
     }
 
     public Fragment() {
-        new Runnable() { // from class: androidx.fragment.app.Fragment.1
-            @Override // java.lang.Runnable
-            public void run() {
-                Fragment.this.startPostponedEnterTransition();
-            }
-        };
-        this.mMaxState = Lifecycle.State.RESUMED;
-        this.mViewLifecycleOwnerLiveData = new MutableLiveData<>();
-        new AtomicInteger();
-        this.mOnPreAttachedListeners = new ArrayList<>();
         initLifecycle();
     }
 
@@ -747,7 +744,7 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
             final SpecialEffectsController orCreateController = SpecialEffectsController.getOrCreateController(viewGroup, fragmentManager);
             orCreateController.markPostponedState();
             if (z) {
-                this.mHost.getHandler().post(new Runnable(this) { // from class: androidx.fragment.app.Fragment.3
+                this.mHost.getHandler().post(new Runnable() { // from class: androidx.fragment.app.Fragment.3
                     @Override // java.lang.Runnable
                     public void run() {
                         orCreateController.executePendingOperations();
@@ -934,18 +931,16 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
         this.mChildFragmentManager.noteStateNotSaved();
         this.mState = 1;
         this.mCalled = false;
-        if (Build.VERSION.SDK_INT >= 19) {
-            this.mLifecycleRegistry.addObserver(new LifecycleEventObserver() { // from class: androidx.fragment.app.Fragment.5
-                @Override // androidx.lifecycle.LifecycleEventObserver
-                public void onStateChanged(LifecycleOwner lifecycleOwner, Lifecycle.Event event) {
-                    View view;
-                    if (event != Lifecycle.Event.ON_STOP || (view = Fragment.this.mView) == null) {
-                        return;
-                    }
-                    view.cancelPendingInputEvents();
+        this.mLifecycleRegistry.addObserver(new LifecycleEventObserver() { // from class: androidx.fragment.app.Fragment.5
+            @Override // androidx.lifecycle.LifecycleEventObserver
+            public void onStateChanged(LifecycleOwner lifecycleOwner, Lifecycle.Event event) {
+                View view;
+                if (event != Lifecycle.Event.ON_STOP || (view = Fragment.this.mView) == null) {
+                    return;
                 }
-            });
-        }
+                view.cancelPendingInputEvents();
+            }
+        });
         this.mSavedStateRegistryController.performRestore(bundle);
         onCreate(bundle);
         this.mIsCreated = true;
@@ -1089,8 +1084,8 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
             return false;
         }
         if (this.mHasMenu && this.mMenuVisible) {
-            z = true;
             onCreateOptionsMenu(menu, menuInflater);
+            z = true;
         }
         return z | this.mChildFragmentManager.dispatchCreateOptionsMenu(menu, menuInflater);
     }
@@ -1102,8 +1097,8 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
             return false;
         }
         if (this.mHasMenu && this.mMenuVisible) {
-            z = true;
             onPrepareOptionsMenu(menu);
+            z = true;
         }
         return z | this.mChildFragmentManager.dispatchPrepareOptionsMenu(menu);
     }
@@ -1364,7 +1359,8 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
         if (animationInfo == null) {
             return null;
         }
-        return animationInfo.mEnterTransitionCallback;
+        animationInfo.getClass();
+        return null;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -1373,7 +1369,8 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
         if (animationInfo == null) {
             return null;
         }
-        return animationInfo.mExitTransitionCallback;
+        animationInfo.getClass();
+        return null;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -1464,11 +1461,9 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
         Animator mAnimator;
         int mEnterAnim;
         Object mEnterTransition = null;
-        SharedElementCallback mEnterTransitionCallback;
         boolean mEnterTransitionPostponed;
         int mExitAnim;
         Object mExitTransition;
-        SharedElementCallback mExitTransitionCallback;
         View mFocusedView;
         boolean mIsHideReplaced;
         boolean mIsPop;

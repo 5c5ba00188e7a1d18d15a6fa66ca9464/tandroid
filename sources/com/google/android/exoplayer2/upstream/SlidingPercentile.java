@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 /* loaded from: classes.dex */
 public class SlidingPercentile {
-    private static final Comparator<Sample> INDEX_COMPARATOR = new Comparator() { // from class: com.google.android.exoplayer2.upstream.SlidingPercentile$$ExternalSyntheticLambda1
+    private static final Comparator<Sample> INDEX_COMPARATOR = new Comparator() { // from class: com.google.android.exoplayer2.upstream.SlidingPercentile$$ExternalSyntheticLambda0
         @Override // java.util.Comparator
         public final int compare(Object obj, Object obj2) {
             int lambda$static$0;
@@ -14,7 +14,7 @@ public class SlidingPercentile {
             return lambda$static$0;
         }
     };
-    private static final Comparator<Sample> VALUE_COMPARATOR = new Comparator() { // from class: com.google.android.exoplayer2.upstream.SlidingPercentile$$ExternalSyntheticLambda0
+    private static final Comparator<Sample> VALUE_COMPARATOR = new Comparator() { // from class: com.google.android.exoplayer2.upstream.SlidingPercentile$$ExternalSyntheticLambda1
         @Override // java.util.Comparator
         public final int compare(Object obj, Object obj2) {
             int lambda$static$1;

@@ -100,7 +100,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
         };
         new ItemTouchHelper(new TouchHelperCallback()).attachToRecyclerView(this.recyclerListView);
         addView(this.recyclerListView);
-        this.recyclerListView.setLayoutManager(new LinearLayoutManager(this, baseFragment.getParentActivity()) { // from class: org.telegram.ui.Components.SearchDownloadsContainer.2
+        this.recyclerListView.setLayoutManager(new LinearLayoutManager(baseFragment.getParentActivity()) { // from class: org.telegram.ui.Components.SearchDownloadsContainer.2
             @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
             public boolean supportsPredictiveItemAnimations() {
                 return true;
@@ -267,7 +267,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
                 arrayList4.add(arrayList2.get(i2));
             }
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.SearchDownloadsContainer$$ExternalSyntheticLambda3
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.SearchDownloadsContainer$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 SearchDownloadsContainer.this.lambda$checkFilesExist$2(arrayList3, arrayList4);
@@ -326,7 +326,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
         this.lastQueryString = lowerCase;
         Utilities.searchQueue.cancelRunnable(this.lastSearchRunnable);
         DispatchQueue dispatchQueue = Utilities.searchQueue;
-        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.SearchDownloadsContainer$$ExternalSyntheticLambda2
+        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.SearchDownloadsContainer$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 SearchDownloadsContainer.this.lambda$update$5(arrayList, lowerCase, arrayList2);
@@ -364,7 +364,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
                 arrayList4.add(messageObject2);
             }
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.SearchDownloadsContainer$$ExternalSyntheticLambda1
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.SearchDownloadsContainer$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 SearchDownloadsContainer.this.lambda$update$4(str, arrayList3, arrayList4);
@@ -549,9 +549,9 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
             if (i == 0) {
                 view = new GraySectionCell(viewGroup.getContext());
             } else if (i == 1) {
-                view = new Cell(SearchDownloadsContainer.this, viewGroup.getContext());
+                view = new Cell(viewGroup.getContext());
             } else {
-                view = new SharedAudioCell(this, viewGroup.getContext()) { // from class: org.telegram.ui.Components.SearchDownloadsContainer.DownloadsAdapter.1
+                view = new SharedAudioCell(viewGroup.getContext()) { // from class: org.telegram.ui.Components.SearchDownloadsContainer.DownloadsAdapter.1
                     @Override // org.telegram.ui.Cells.SharedAudioCell
                     public boolean needPlayMessage(MessageObject messageObject) {
                         return MediaController.getInstance().playMessage(messageObject);
@@ -724,7 +724,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
     public class Cell extends FrameLayout {
         SharedDocumentCell sharedDocumentCell;
 
-        public Cell(SearchDownloadsContainer searchDownloadsContainer, Context context) {
+        public Cell(Context context) {
             super(context);
             SharedDocumentCell sharedDocumentCell = new SharedDocumentCell(context, 2);
             this.sharedDocumentCell = sharedDocumentCell;
@@ -861,7 +861,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
         if (this.parentFragment.hasStoryViewer()) {
             return;
         }
-        BulletinFactory.of(this.parentFragment).createSimpleBulletin(R.raw.speed_limit, LocaleController.getString(z ? R.string.UploadSpeedLimited : R.string.DownloadSpeedLimited), AndroidUtilities.replaceCharSequence("%d", AndroidUtilities.premiumText(LocaleController.getString(z ? R.string.UploadSpeedLimitedMessage : R.string.DownloadSpeedLimitedMessage), new Runnable() { // from class: org.telegram.ui.Components.SearchDownloadsContainer$$ExternalSyntheticLambda4
+        BulletinFactory.of(this.parentFragment).createSimpleBulletin(R.raw.speed_limit, LocaleController.getString(z ? R.string.UploadSpeedLimited : R.string.DownloadSpeedLimited), AndroidUtilities.replaceCharSequence("%d", AndroidUtilities.premiumText(LocaleController.getString(z ? R.string.UploadSpeedLimitedMessage : R.string.DownloadSpeedLimitedMessage), new Runnable() { // from class: org.telegram.ui.Components.SearchDownloadsContainer$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 SearchDownloadsContainer.this.lambda$showPremiumFloodWaitBulletin$6(z);

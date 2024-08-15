@@ -79,10 +79,11 @@ public final class SntpClient {
             datagramSocket.receive(new DatagramPacket(bArr, 48));
             long elapsedRealtime2 = android.os.SystemClock.elapsedRealtime();
             long j = currentTimeMillis + (elapsedRealtime2 - elapsedRealtime);
+            byte b = bArr[0];
             long readTimestamp = readTimestamp(bArr, 24);
             long readTimestamp2 = readTimestamp(bArr, 32);
             long readTimestamp3 = readTimestamp(bArr, 40);
-            checkValidServerReply((byte) ((bArr[0] >> 6) & 3), (byte) (bArr[0] & 7), bArr[1] & 255, readTimestamp3);
+            checkValidServerReply((byte) ((b >> 6) & 3), (byte) (b & 7), bArr[1] & 255, readTimestamp3);
             long j2 = (j + (((readTimestamp2 - readTimestamp) + (readTimestamp3 - j)) / 2)) - elapsedRealtime2;
             datagramSocket.close();
             return j2;

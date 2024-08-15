@@ -1,15 +1,26 @@
 package j$.util.stream;
-
-import j$.util.function.Supplier;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final /* synthetic */ class b0 implements Supplier {
-    public static final /* synthetic */ b0 a = new b0();
-
-    private /* synthetic */ b0() {
+public abstract class b0 extends d0 {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public b0(c cVar, int i) {
+        super(cVar, i);
     }
 
-    @Override // j$.util.function.Supplier
-    public final Object get() {
-        return new g0();
+    @Override // j$.util.stream.c
+    final boolean k1() {
+        return true;
+    }
+
+    @Override // j$.util.stream.c, j$.util.stream.BaseStream, j$.util.stream.F
+    public final /* bridge */ /* synthetic */ IntStream parallel() {
+        parallel();
+        return this;
+    }
+
+    @Override // j$.util.stream.c, j$.util.stream.BaseStream, j$.util.stream.F
+    public final /* bridge */ /* synthetic */ IntStream sequential() {
+        sequential();
+        return this;
     }
 }

@@ -53,7 +53,7 @@ public class EventLog extends LogWithNameAndProperties {
         if (this == obj) {
             return true;
         }
-        if (obj != null && EventLog.class == obj.getClass() && super.equals(obj)) {
+        if (obj != null && getClass() == obj.getClass() && super.equals(obj)) {
             EventLog eventLog = (EventLog) obj;
             UUID uuid = this.id;
             if (uuid == null ? eventLog.id == null : uuid.equals(eventLog.id)) {

@@ -25,29 +25,39 @@ public final class VorbisUtil {
     /* loaded from: classes.dex */
     public static final class CommentHeader {
         public final String[] comments;
+        public final int length;
+        public final String vendor;
 
         public CommentHeader(String str, String[] strArr, int i) {
+            this.vendor = str;
             this.comments = strArr;
+            this.length = i;
         }
     }
 
     /* loaded from: classes.dex */
     public static final class VorbisIdHeader {
         public final int bitrateMaximum;
+        public final int bitrateMinimum;
         public final int bitrateNominal;
         public final int blockSize0;
         public final int blockSize1;
         public final int channels;
         public final byte[] data;
+        public final boolean framingFlag;
         public final int sampleRate;
+        public final int version;
 
         public VorbisIdHeader(int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8, boolean z, byte[] bArr) {
+            this.version = i;
             this.channels = i2;
             this.sampleRate = i3;
             this.bitrateMaximum = i4;
             this.bitrateNominal = i5;
+            this.bitrateMinimum = i6;
             this.blockSize0 = i7;
             this.blockSize1 = i8;
+            this.framingFlag = z;
             this.data = bArr;
         }
     }
@@ -55,9 +65,15 @@ public final class VorbisUtil {
     /* loaded from: classes.dex */
     public static final class Mode {
         public final boolean blockFlag;
+        public final int mapping;
+        public final int transformType;
+        public final int windowType;
 
         public Mode(boolean z, int i, int i2, int i3) {
             this.blockFlag = z;
+            this.windowType = i;
+            this.transformType = i2;
+            this.mapping = i3;
         }
     }
 
@@ -96,8 +112,9 @@ public final class VorbisUtil {
         String[] strArr = new String[(int) readLittleEndianUnsignedInt];
         int i = length + 4;
         for (int i2 = 0; i2 < readLittleEndianUnsignedInt; i2++) {
-            strArr[i2] = parsableByteArray.readString((int) parsableByteArray.readLittleEndianUnsignedInt());
-            i = i + 4 + strArr[i2].length();
+            String readString2 = parsableByteArray.readString((int) parsableByteArray.readLittleEndianUnsignedInt());
+            strArr[i2] = readString2;
+            i = i + 4 + readString2.length();
         }
         if (z2 && (parsableByteArray.readUnsignedByte() & 1) == 0) {
             throw ParserException.createForMalformedContainer("framing bit expected to be set", null);
@@ -258,34 +275,35 @@ public final class VorbisUtil {
                 throw ParserException.createForMalformedContainer("floor type greater than 1 not decodable: " + readBits2, null);
             } else {
                 int readBits4 = vorbisBitArray.readBits(5);
-                int i3 = -1;
                 int[] iArr = new int[readBits4];
+                int i3 = -1;
                 for (int i4 = 0; i4 < readBits4; i4++) {
-                    iArr[i4] = vorbisBitArray.readBits(4);
-                    if (iArr[i4] > i3) {
-                        i3 = iArr[i4];
+                    int readBits5 = vorbisBitArray.readBits(4);
+                    iArr[i4] = readBits5;
+                    if (readBits5 > i3) {
+                        i3 = readBits5;
                     }
                 }
                 int i5 = i3 + 1;
                 int[] iArr2 = new int[i5];
                 for (int i6 = 0; i6 < i5; i6++) {
                     iArr2[i6] = vorbisBitArray.readBits(3) + 1;
-                    int readBits5 = vorbisBitArray.readBits(2);
-                    if (readBits5 > 0) {
+                    int readBits6 = vorbisBitArray.readBits(2);
+                    if (readBits6 > 0) {
                         vorbisBitArray.skipBits(8);
                     }
-                    for (int i7 = 0; i7 < (1 << readBits5); i7++) {
+                    for (int i7 = 0; i7 < (1 << readBits6); i7++) {
                         vorbisBitArray.skipBits(8);
                     }
                 }
                 vorbisBitArray.skipBits(2);
-                int readBits6 = vorbisBitArray.readBits(4);
+                int readBits7 = vorbisBitArray.readBits(4);
                 int i8 = 0;
                 int i9 = 0;
                 for (int i10 = 0; i10 < readBits4; i10++) {
                     i8 += iArr2[iArr[i10]];
                     while (i9 < i8) {
-                        vorbisBitArray.skipBits(readBits6);
+                        vorbisBitArray.skipBits(readBits7);
                         i9++;
                     }
                 }
@@ -355,7 +373,18 @@ public final class VorbisUtil {
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class CodeBook {
+        public final int dimensions;
+        public final int entries;
+        public final boolean isOrdered;
+        public final long[] lengthMap;
+        public final int lookupType;
+
         public CodeBook(int i, int i2, long[] jArr, int i3, boolean z) {
+            this.dimensions = i;
+            this.entries = i2;
+            this.lengthMap = jArr;
+            this.lookupType = i3;
+            this.isOrdered = z;
         }
     }
 }

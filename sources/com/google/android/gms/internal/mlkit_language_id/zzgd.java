@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import org.telegram.messenger.CharacterCompat;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.R;
@@ -18,9 +17,13 @@ final class zzgd<T> implements zzgp<T> {
     private static final Unsafe zzb = zzhn.zzc();
     private final int[] zzc;
     private final Object[] zzd;
+    private final int zze;
+    private final int zzf;
     private final zzfz zzg;
     private final boolean zzh;
+    private final boolean zzi;
     private final boolean zzj;
+    private final boolean zzk;
     private final int[] zzl;
     private final int zzm;
     private final int zzn;
@@ -33,9 +36,12 @@ final class zzgd<T> implements zzgp<T> {
     private zzgd(int[] iArr, Object[] objArr, int i, int i2, zzfz zzfzVar, boolean z, boolean z2, int[] iArr2, int i3, int i4, zzge zzgeVar, zzfj zzfjVar, zzhh<?, ?> zzhhVar, zzee<?> zzeeVar, zzfs zzfsVar) {
         this.zzc = iArr;
         this.zzd = objArr;
-        boolean z3 = zzfzVar instanceof zzeo;
+        this.zze = i;
+        this.zzf = i2;
+        this.zzi = zzfzVar instanceof zzeo;
         this.zzj = z;
         this.zzh = zzeeVar != null && zzeeVar.zza(zzfzVar);
+        this.zzk = false;
         this.zzl = iArr2;
         this.zzm = i3;
         this.zzn = i4;
@@ -558,7 +564,7 @@ final class zzgd<T> implements zzgp<T> {
             return new zzgd<>(iArr2, objArr2, charAt, charAt2, zzgmVar.zzc(), z2, false, iArr, charAt5, i57, zzgeVar, zzfjVar, zzhhVar, zzeeVar, zzfsVar);
         }
         ((zzha) zzfxVar).zza();
-        int i94 = zzgl.zzb;
+        int i94 = zzgl.zza;
         throw new NoSuchMethodError();
     }
 
@@ -1157,7 +1163,7 @@ final class zzgd<T> implements zzgp<T> {
 
     @Override // com.google.android.gms.internal.mlkit_language_id.zzgp
     public final void zzb(T t, T t2) {
-        Objects.requireNonNull(t2);
+        t2.getClass();
         for (int i = 0; i < this.zzc.length; i += 3) {
             int zzc = zzc(i);
             long j = 1048575 & zzc;
@@ -3866,7 +3872,8 @@ final class zzgd<T> implements zzgp<T> {
 
     private final <K, V> void zza(zzib zzibVar, int i, Object obj, int i2) throws IOException {
         if (obj != null) {
-            zzibVar.zza(i, this.zzs.zzc(zzb(i2)), this.zzs.zza(obj));
+            this.zzs.zzc(zzb(i2));
+            zzibVar.zza(i, (zzfq) null, this.zzs.zza(obj));
         }
     }
 

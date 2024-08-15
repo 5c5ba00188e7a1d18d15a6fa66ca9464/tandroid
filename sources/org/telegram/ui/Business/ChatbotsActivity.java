@@ -74,7 +74,7 @@ public class ChatbotsActivity extends BaseFragment {
     private boolean valueSet;
     private boolean wasLoading;
     private int searchId = 0;
-    private Runnable search = new Runnable() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda6
+    private Runnable search = new Runnable() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda0
         @Override // java.lang.Runnable
         public final void run() {
             ChatbotsActivity.this.lambda$new$3();
@@ -129,7 +129,7 @@ public class ChatbotsActivity extends BaseFragment {
         this.editText.setCursorColor(Theme.getColor(i2));
         this.editText.setCursorSize(AndroidUtilities.dp(19.0f));
         this.editText.setCursorWidth(1.5f);
-        this.editText.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda3
+        this.editText.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda4
             @Override // android.widget.TextView.OnEditorActionListener
             public final boolean onEditorAction(TextView textView, int i3, KeyEvent keyEvent) {
                 boolean lambda$createView$0;
@@ -165,7 +165,7 @@ public class ChatbotsActivity extends BaseFragment {
         float f = 1.0f / AndroidUtilities.density;
         boolean z = LocaleController.isRTL;
         frameLayout4.addView(view2, LayoutHelper.createFrame(-1, f, 87, z ? 0 : 21, 0.0f, z ? 21 : 0, 0.0f));
-        FrameLayout frameLayout5 = new FrameLayout(this, context) { // from class: org.telegram.ui.Business.ChatbotsActivity.3
+        FrameLayout frameLayout5 = new FrameLayout(context) { // from class: org.telegram.ui.Business.ChatbotsActivity.3
             @Override // android.widget.FrameLayout, android.view.View
             protected void onMeasure(int i4, int i5) {
                 super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i4), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(58.0f), 1073741824));
@@ -182,7 +182,7 @@ public class ChatbotsActivity extends BaseFragment {
         textView2.setTextColor(getThemedColor(i4));
         this.emptyView.addView(this.emptyViewText, LayoutHelper.createFrame(-2, -2, 17));
         this.emptyViewLoading = new ImageView(context);
-        this.emptyViewLoading.setImageDrawable(new CircularProgressDrawable(this, getThemedColor(i4)) { // from class: org.telegram.ui.Business.ChatbotsActivity.4
+        this.emptyViewLoading.setImageDrawable(new CircularProgressDrawable(getThemedColor(i4)) { // from class: org.telegram.ui.Business.ChatbotsActivity.4
             @Override // android.graphics.drawable.Drawable
             public int getIntrinsicWidth() {
                 return (int) (this.size + (this.thickness * 2.0f));
@@ -196,7 +196,7 @@ public class ChatbotsActivity extends BaseFragment {
         this.emptyView.addView(this.emptyViewLoading, LayoutHelper.createFrame(-2, -2, 17));
         this.emptyViewLoading.setAlpha(0.0f);
         this.emptyViewLoading.setTranslationY(AndroidUtilities.dp(8.0f));
-        SpannableStringBuilder replaceSingleTag = AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.BusinessBotsInfo), new Runnable() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda4
+        SpannableStringBuilder replaceSingleTag = AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.BusinessBotsInfo), new Runnable() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 ChatbotsActivity.this.lambda$createView$1();
@@ -212,7 +212,7 @@ public class ChatbotsActivity extends BaseFragment {
         SearchAdapterHelper searchAdapterHelper = new SearchAdapterHelper(true);
         this.searchHelper = searchAdapterHelper;
         searchAdapterHelper.setDelegate(new 5());
-        BusinessRecipientsHelper businessRecipientsHelper = new BusinessRecipientsHelper(this, new Runnable() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda5
+        BusinessRecipientsHelper businessRecipientsHelper = new BusinessRecipientsHelper(this, new Runnable() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 ChatbotsActivity.this.lambda$createView$2();
@@ -221,12 +221,12 @@ public class ChatbotsActivity extends BaseFragment {
         this.recipientsHelper = businessRecipientsHelper;
         TLRPC$TL_connectedBot tLRPC$TL_connectedBot = this.currentBot;
         businessRecipientsHelper.setValue(tLRPC$TL_connectedBot == null ? null : tLRPC$TL_connectedBot.recipients);
-        UniversalRecyclerView universalRecyclerView = new UniversalRecyclerView(this, new Utilities.Callback2() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda8
+        UniversalRecyclerView universalRecyclerView = new UniversalRecyclerView(this, new Utilities.Callback2() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda7
             @Override // org.telegram.messenger.Utilities.Callback2
             public final void run(Object obj, Object obj2) {
                 ChatbotsActivity.this.fillItems((ArrayList) obj, (UniversalAdapter) obj2);
             }
-        }, new Utilities.Callback5() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda9
+        }, new Utilities.Callback5() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda8
             @Override // org.telegram.messenger.Utilities.Callback5
             public final void run(Object obj, Object obj2, Object obj3, Object obj4, Object obj5) {
                 ChatbotsActivity.this.onClick((UItem) obj, (View) obj2, ((Integer) obj3).intValue(), ((Float) obj4).floatValue(), ((Float) obj5).floatValue());
@@ -363,7 +363,7 @@ public class ChatbotsActivity extends BaseFragment {
         arrayList.add(UItem.asTopView(this.introText, "RestrictedEmoji", "🤖"));
         TLRPC$User tLRPC$User = this.selectedBot;
         if (tLRPC$User != null) {
-            arrayList.add(UItem.asAddChat(Long.valueOf(tLRPC$User.id)).setChecked(true).setCloseIcon(new View.OnClickListener() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda2
+            arrayList.add(UItem.asAddChat(Long.valueOf(tLRPC$User.id)).setChecked(true).setCloseIcon(new View.OnClickListener() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda10
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     ChatbotsActivity.this.clear(view);
@@ -502,7 +502,7 @@ public class ChatbotsActivity extends BaseFragment {
             }
             final int[] iArr = {0};
             for (int i = 0; i < arrayList.size(); i++) {
-                getConnectionsManager().sendRequest((TLObject) arrayList.get(i), new RequestDelegate() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda11
+                getConnectionsManager().sendRequest((TLObject) arrayList.get(i), new RequestDelegate() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda9
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         ChatbotsActivity.this.lambda$processDone$5(iArr, arrayList, tLObject, tLRPC$TL_error);
@@ -514,7 +514,7 @@ public class ChatbotsActivity extends BaseFragment {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processDone$5(final int[] iArr, final ArrayList arrayList, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda7
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
             public final void run() {
                 ChatbotsActivity.this.lambda$processDone$4(tLRPC$TL_error, tLObject, iArr, arrayList);
@@ -531,8 +531,9 @@ public class ChatbotsActivity extends BaseFragment {
             this.doneButtonDrawable.animateToProgress(0.0f);
             BulletinFactory.of(this).createErrorBulletin(LocaleController.getString(R.string.UnknownError)).show();
         } else {
-            iArr[0] = iArr[0] + 1;
-            if (iArr[0] == arrayList.size()) {
+            int i = iArr[0] + 1;
+            iArr[0] = i;
+            if (i == arrayList.size()) {
                 BusinessChatbotController.getInstance(this.currentAccount).invalidate(true);
                 getMessagesController().clearFullUsers();
                 finishFragment();
@@ -545,7 +546,7 @@ public class ChatbotsActivity extends BaseFragment {
             return;
         }
         this.loading = true;
-        BusinessChatbotController.getInstance(this.currentAccount).load(new Utilities.Callback() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda10
+        BusinessChatbotController.getInstance(this.currentAccount).load(new Utilities.Callback() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda3
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 ChatbotsActivity.this.lambda$setValue$6((TLRPC$TL_account_connectedBots) obj);
@@ -606,13 +607,13 @@ public class ChatbotsActivity extends BaseFragment {
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
             builder.setTitle(LocaleController.getString(R.string.UnsavedChanges));
             builder.setMessage(LocaleController.getString(R.string.BusinessBotUnsavedChanges));
-            builder.setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda0
+            builder.setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda1
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
                     ChatbotsActivity.this.lambda$onBackPressed$7(dialogInterface, i);
                 }
             });
-            builder.setNegativeButton(LocaleController.getString("PassportDiscard", R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda1
+            builder.setNegativeButton(LocaleController.getString("PassportDiscard", R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda2
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
                     ChatbotsActivity.this.lambda$onBackPressed$8(dialogInterface, i);

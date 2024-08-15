@@ -188,7 +188,7 @@ public class PremiumButtonView extends FrameLayout implements Loadable {
             fArr[1] = z ? 1.0f : 0.0f;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
             this.loadingAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.PremiumButtonView$$ExternalSyntheticLambda0
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.PremiumButtonView$$ExternalSyntheticLambda1
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                     PremiumButtonView.this.lambda$setLoading$0(valueAnimator2);
@@ -353,7 +353,7 @@ public class PremiumButtonView extends FrameLayout implements Loadable {
         this.iconView.setAnimation(i, 24, 24);
         CellFlickerDrawable cellFlickerDrawable = this.flickerDrawable;
         cellFlickerDrawable.progress = 2.0f;
-        cellFlickerDrawable.setOnRestartCallback(new Runnable() { // from class: org.telegram.ui.Components.Premium.PremiumButtonView$$ExternalSyntheticLambda1
+        cellFlickerDrawable.setOnRestartCallback(new Runnable() { // from class: org.telegram.ui.Components.Premium.PremiumButtonView$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 PremiumButtonView.this.lambda$setIcon$1();

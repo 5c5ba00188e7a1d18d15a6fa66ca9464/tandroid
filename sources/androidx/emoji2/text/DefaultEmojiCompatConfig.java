@@ -85,29 +85,25 @@ public final class DefaultEmojiCompatConfig {
         }
 
         private static DefaultEmojiCompatConfigHelper getHelperForApi() {
-            int i = Build.VERSION.SDK_INT;
-            if (i >= 28) {
+            if (Build.VERSION.SDK_INT >= 28) {
                 return new DefaultEmojiCompatConfigHelper_API28();
             }
-            if (i >= 19) {
-                return new DefaultEmojiCompatConfigHelper_API19();
-            }
-            return new DefaultEmojiCompatConfigHelper();
+            return new DefaultEmojiCompatConfigHelper_API19();
         }
     }
 
     /* loaded from: classes.dex */
     public static class DefaultEmojiCompatConfigHelper {
-        public Signature[] getSigningSignatures(PackageManager packageManager, String str) throws PackageManager.NameNotFoundException {
-            return packageManager.getPackageInfo(str, 64).signatures;
+        public ProviderInfo getProviderInfo(ResolveInfo resolveInfo) {
+            throw null;
         }
 
         public List<ResolveInfo> queryIntentContentProviders(PackageManager packageManager, Intent intent, int i) {
-            return Collections.emptyList();
+            throw null;
         }
 
-        public ProviderInfo getProviderInfo(ResolveInfo resolveInfo) {
-            throw new IllegalStateException("Unable to get provider info prior to API 19");
+        public Signature[] getSigningSignatures(PackageManager packageManager, String str) throws PackageManager.NameNotFoundException {
+            return packageManager.getPackageInfo(str, 64).signatures;
         }
     }
 

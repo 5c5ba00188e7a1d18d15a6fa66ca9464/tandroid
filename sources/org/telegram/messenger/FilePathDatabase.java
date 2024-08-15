@@ -154,9 +154,9 @@ public class FilePathDatabase {
         return false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:60:0x0168  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x016e  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x0179  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x0166  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x016c  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x0177  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -191,8 +191,9 @@ public class FilePathDatabase {
                 countDownLatch.await();
             } catch (Exception unused) {
             }
-            if (strArr[0] != null) {
-                this.cache.put(str4, strArr[0]);
+            String str6 = strArr[0];
+            if (str6 != null) {
+                this.cache.put(str4, str6);
             }
             return strArr[0];
         } else {
@@ -233,6 +234,7 @@ public class FilePathDatabase {
                                     } catch (Throwable th) {
                                         th = th;
                                         if (sQLiteCursor != null) {
+                                            sQLiteCursor.dispose();
                                         }
                                         throw th;
                                     }
@@ -241,18 +243,17 @@ public class FilePathDatabase {
                                 str3 = null;
                             }
                             queryFinalized.dispose();
-                        } catch (Throwable th2) {
-                            th = th2;
+                        } catch (SQLiteException e3) {
                             sQLiteCursor = queryFinalized;
-                            if (sQLiteCursor != null) {
-                                sQLiteCursor.dispose();
-                            }
-                            throw th;
+                            sQLiteException = e3;
+                            str2 = null;
                         }
-                    } catch (SQLiteException e3) {
+                    } catch (Throwable th2) {
+                        th = th2;
                         sQLiteCursor = queryFinalized;
-                        sQLiteException = e3;
-                        str2 = null;
+                        if (sQLiteCursor != null) {
+                        }
+                        throw th;
                     }
                 } catch (SQLiteException e4) {
                     e = e4;
@@ -328,7 +329,7 @@ public class FilePathDatabase {
     }
 
     public void putPath(final long j, final int i, final int i2, final int i3, final String str) {
-        postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda1
+        postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 FilePathDatabase.this.lambda$putPath$1(j, i, i2, str, i3);
@@ -469,7 +470,7 @@ public class FilePathDatabase {
 
     public void clear() {
         this.cache.clear();
-        postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda0
+        postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 FilePathDatabase.this.lambda$clear$3();
@@ -572,8 +573,8 @@ public class FilePathDatabase {
         if (fileMeta == null) {
             fileMeta = this.metaTmp;
         }
-        long j = 0;
         int i3 = 0;
+        long j = 0;
         try {
             try {
                 SQLiteDatabase sQLiteDatabase = this.database;
@@ -650,7 +651,7 @@ public class FilePathDatabase {
     public LongSparseArray<ArrayList<CacheByChatsController.KeepMediaFile>> lookupFiles(final ArrayList<? extends CacheByChatsController.KeepMediaFile> arrayList) {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final LongSparseArray<ArrayList<CacheByChatsController.KeepMediaFile>> longSparseArray = new LongSparseArray<>();
-        postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda6
+        postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 FilePathDatabase.this.lambda$lookupFiles$7(arrayList, longSparseArray, countDownLatch);
@@ -716,7 +717,7 @@ public class FilePathDatabase {
     public boolean isLocallyCreated(final String str) {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final boolean[] zArr = {false};
-        postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda5
+        postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 FilePathDatabase.this.lambda$isLocallyCreated$8(str, zArr, countDownLatch);

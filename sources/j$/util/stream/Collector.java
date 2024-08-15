@@ -6,19 +6,11 @@ import j$.util.function.Supplier;
 import java.util.Set;
 /* loaded from: classes2.dex */
 public interface Collector<T, A, R> {
-
-    /* loaded from: classes2.dex */
-    public enum a {
-        CONCURRENT,
-        UNORDERED,
-        IDENTITY_FINISH
-    }
-
     BiConsumer accumulator();
 
     Set characteristics();
 
-    j$.util.function.b combiner();
+    j$.util.function.f combiner();
 
     Function finisher();
 

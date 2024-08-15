@@ -12,7 +12,6 @@ import com.google.android.exoplayer2.util.GlUtil;
 /* loaded from: classes.dex */
 public final class EGLSurfaceTexture implements SurfaceTexture.OnFrameAvailableListener, Runnable {
     private static final int[] EGL_CONFIG_ATTRIBUTES = {12352, 4, 12324, 8, 12323, 8, 12322, 8, 12321, 8, 12325, 0, 12327, 12344, 12339, 4, 12344};
-    private final TextureImageListener callback;
     private EGLContext context;
     private EGLDisplay display;
     private final Handler handler;
@@ -22,7 +21,9 @@ public final class EGLSurfaceTexture implements SurfaceTexture.OnFrameAvailableL
 
     /* loaded from: classes.dex */
     public interface TextureImageListener {
-        void onFrameAvailable();
+    }
+
+    private void dispatchOnFrameAvailable() {
     }
 
     public EGLSurfaceTexture(Handler handler) {
@@ -31,7 +32,6 @@ public final class EGLSurfaceTexture implements SurfaceTexture.OnFrameAvailableL
 
     public EGLSurfaceTexture(Handler handler, TextureImageListener textureImageListener) {
         this.handler = handler;
-        this.callback = textureImageListener;
         this.textureIdHolder = new int[1];
     }
 
@@ -104,13 +104,6 @@ public final class EGLSurfaceTexture implements SurfaceTexture.OnFrameAvailableL
                 surfaceTexture.updateTexImage();
             } catch (RuntimeException unused) {
             }
-        }
-    }
-
-    private void dispatchOnFrameAvailable() {
-        TextureImageListener textureImageListener = this.callback;
-        if (textureImageListener != null) {
-            textureImageListener.onFrameAvailable();
         }
     }
 

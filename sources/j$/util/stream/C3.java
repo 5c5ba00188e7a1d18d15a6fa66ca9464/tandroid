@@ -1,16 +1,9 @@
 package j$.util.stream;
 /* loaded from: classes2.dex */
-abstract class C3 extends f3 {
-    protected boolean b;
+interface C3 {
+    Object a(u0 u0Var, j$.util.Q q);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public C3(m3 m3Var) {
-        super(m3Var);
-    }
+    int b();
 
-    @Override // j$.util.stream.f3, j$.util.stream.m3
-    public final boolean o() {
-        this.b = true;
-        return false;
-    }
+    Object c(u0 u0Var, j$.util.Q q);
 }

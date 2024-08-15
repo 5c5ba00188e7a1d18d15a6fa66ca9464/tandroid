@@ -24,6 +24,7 @@ import org.telegram.ui.Components.voip.RateCallLayout;
 @SuppressLint({"ViewConstructor"})
 /* loaded from: classes3.dex */
 public class RateCallLayout extends FrameLayout {
+    private final VoIPBackgroundProvider backgroundProvider;
     private OnRateSelected onRateSelected;
     private final RateCallContainer rateCallContainer;
     private final FrameLayout starsContainer;
@@ -37,6 +38,7 @@ public class RateCallLayout extends FrameLayout {
     public RateCallLayout(final Context context, VoIPBackgroundProvider voIPBackgroundProvider) {
         super(context);
         this.startsViews = new StarContainer[5];
+        this.backgroundProvider = voIPBackgroundProvider;
         setWillNotDraw(false);
         RateCallContainer rateCallContainer = new RateCallContainer(context, voIPBackgroundProvider);
         this.rateCallContainer = rateCallContainer;
@@ -46,7 +48,7 @@ public class RateCallLayout extends FrameLayout {
         frameLayout.setVisibility(8);
         for (int i = 0; i < 5; i++) {
             this.startsViews[i] = new StarContainer(context);
-            this.startsViews[i].setAllStarsProvider(new StarContainer.AllStarsProvider() { // from class: org.telegram.ui.Components.voip.RateCallLayout$$ExternalSyntheticLambda2
+            this.startsViews[i].setAllStarsProvider(new StarContainer.AllStarsProvider() { // from class: org.telegram.ui.Components.voip.RateCallLayout$$ExternalSyntheticLambda0
                 @Override // org.telegram.ui.Components.voip.RateCallLayout.StarContainer.AllStarsProvider
                 public final RateCallLayout.StarContainer[] getAllStartsViews() {
                     RateCallLayout.StarContainer[] lambda$new$0;
@@ -54,7 +56,7 @@ public class RateCallLayout extends FrameLayout {
                     return lambda$new$0;
                 }
             });
-            this.startsViews[i].setOnSelectedStar(new StarContainer.OnSelectedStar() { // from class: org.telegram.ui.Components.voip.RateCallLayout$$ExternalSyntheticLambda3
+            this.startsViews[i].setOnSelectedStar(new StarContainer.OnSelectedStar() { // from class: org.telegram.ui.Components.voip.RateCallLayout$$ExternalSyntheticLambda1
                 @Override // org.telegram.ui.Components.voip.RateCallLayout.StarContainer.OnSelectedStar
                 public final void onSelected(float f, float f2, int i2) {
                     RateCallLayout.this.lambda$new$3(context, f, f2, i2);
@@ -85,7 +87,7 @@ public class RateCallLayout extends FrameLayout {
             float f3 = dp / 2.0f;
             rLottieImageView.setTranslationX((f - i2) - f3);
             rLottieImageView.setTranslationY((f2 - i3) - f3);
-            rLottieImageView.setOnAnimationEndListener(new Runnable() { // from class: org.telegram.ui.Components.voip.RateCallLayout$$ExternalSyntheticLambda1
+            rLottieImageView.setOnAnimationEndListener(new Runnable() { // from class: org.telegram.ui.Components.voip.RateCallLayout$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     RateCallLayout.this.lambda$new$2(rLottieImageView);
@@ -106,7 +108,7 @@ public class RateCallLayout extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(final RLottieImageView rLottieImageView) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.RateCallLayout$$ExternalSyntheticLambda0
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.RateCallLayout$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 RateCallLayout.this.lambda$new$1(rLottieImageView);
@@ -234,15 +236,17 @@ public class RateCallLayout extends FrameLayout {
                         if (i2 > i) {
                             break;
                         }
-                        RLottieImageView rLottieImageView = allStartsViews[i2].defaultStar;
-                        RLottieImageView rLottieImageView2 = allStartsViews[i2].selectedStar;
+                        StarContainer starContainer = allStartsViews[i2];
+                        RLottieImageView rLottieImageView = starContainer.defaultStar;
+                        RLottieImageView rLottieImageView2 = starContainer.selectedStar;
                         rLottieImageView.animate().alpha(0.0f).scaleX(0.8f).scaleY(0.8f).setDuration(250L).start();
                         rLottieImageView2.animate().alpha(1.0f).scaleX(0.8f).scaleY(0.8f).setDuration(250L).start();
                         i2++;
                     }
                     for (int i3 = i + 1; i3 < allStartsViews.length; i3++) {
-                        RLottieImageView rLottieImageView3 = allStartsViews[i3].defaultStar;
-                        RLottieImageView rLottieImageView4 = allStartsViews[i3].selectedStar;
+                        StarContainer starContainer2 = allStartsViews[i3];
+                        RLottieImageView rLottieImageView3 = starContainer2.defaultStar;
+                        RLottieImageView rLottieImageView4 = starContainer2.selectedStar;
                         rLottieImageView3.animate().alpha(1.0f).scaleX(1.0f).scaleY(1.0f).setDuration(250L).start();
                         rLottieImageView4.animate().alpha(0.0f).scaleX(1.0f).scaleY(1.0f).setDuration(250L).start();
                     }
@@ -252,8 +256,9 @@ public class RateCallLayout extends FrameLayout {
                 if (allStarsProvider3 != null) {
                     StarContainer[] allStartsViews2 = allStarsProvider3.getAllStartsViews();
                     for (int i4 = 0; i4 <= this.pos; i4++) {
-                        RLottieImageView rLottieImageView5 = allStartsViews2[i4].defaultStar;
-                        RLottieImageView rLottieImageView6 = allStartsViews2[i4].selectedStar;
+                        StarContainer starContainer3 = allStartsViews2[i4];
+                        RLottieImageView rLottieImageView5 = starContainer3.defaultStar;
+                        RLottieImageView rLottieImageView6 = starContainer3.selectedStar;
                         rLottieImageView5.animate().scaleX(1.0f).scaleY(1.0f).setDuration(250L).start();
                         rLottieImageView6.animate().scaleX(1.0f).scaleY(1.0f).setDuration(250L).start();
                     }
@@ -267,9 +272,9 @@ public class RateCallLayout extends FrameLayout {
                 StarContainer[] allStartsViews3 = allStarsProvider.getAllStartsViews();
                 int length = allStartsViews3.length;
                 while (i2 < length) {
-                    StarContainer starContainer = allStartsViews3[i2];
-                    RLottieImageView rLottieImageView7 = starContainer.defaultStar;
-                    RLottieImageView rLottieImageView8 = starContainer.selectedStar;
+                    StarContainer starContainer4 = allStartsViews3[i2];
+                    RLottieImageView rLottieImageView7 = starContainer4.defaultStar;
+                    RLottieImageView rLottieImageView8 = starContainer4.selectedStar;
                     rLottieImageView7.animate().alpha(1.0f).scaleX(1.0f).scaleY(1.0f).setDuration(250L).start();
                     rLottieImageView8.animate().alpha(0.0f).scaleX(1.0f).scaleY(1.0f).setDuration(250L).start();
                     i2++;

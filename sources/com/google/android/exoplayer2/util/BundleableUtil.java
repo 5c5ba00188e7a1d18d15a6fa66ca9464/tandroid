@@ -25,6 +25,14 @@ public final class BundleableUtil {
         return arrayList;
     }
 
+    public static <T extends Bundleable> SparseArray<T> fromBundleSparseArray(Bundleable.Creator<T> creator, SparseArray<Bundle> sparseArray) {
+        SparseArray<T> sparseArray2 = new SparseArray<>(sparseArray.size());
+        for (int i = 0; i < sparseArray.size(); i++) {
+            sparseArray2.put(sparseArray.keyAt(i), creator.fromBundle(sparseArray.valueAt(i)));
+        }
+        return sparseArray2;
+    }
+
     public static <T extends Bundleable> SparseArray<Bundle> toBundleSparseArray(SparseArray<T> sparseArray) {
         SparseArray<Bundle> sparseArray2 = new SparseArray<>(sparseArray.size());
         for (int i = 0; i < sparseArray.size(); i++) {

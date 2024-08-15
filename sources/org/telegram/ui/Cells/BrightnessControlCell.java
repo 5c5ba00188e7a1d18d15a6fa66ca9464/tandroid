@@ -21,6 +21,7 @@ public class BrightnessControlCell extends FrameLayout {
     private ImageView rightImageView;
     public final SeekBarView seekBarView;
     private final int size;
+    private int type;
 
     protected void didChangedValue(float f) {
     }
@@ -31,11 +32,12 @@ public class BrightnessControlCell extends FrameLayout {
 
     public BrightnessControlCell(Context context, int i, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.type = i;
         this.resourcesProvider = resourcesProvider;
         ImageView imageView = new ImageView(context);
         this.leftImageView = imageView;
         addView(imageView, LayoutHelper.createFrame(24, 24.0f, 51, 17.0f, 12.0f, 0.0f, 0.0f));
-        SeekBarView seekBarView = new SeekBarView(this, context, true, resourcesProvider) { // from class: org.telegram.ui.Cells.BrightnessControlCell.1
+        SeekBarView seekBarView = new SeekBarView(context, true, resourcesProvider) { // from class: org.telegram.ui.Cells.BrightnessControlCell.1
             @Override // org.telegram.ui.Components.SeekBarView, android.view.View
             public boolean onTouchEvent(MotionEvent motionEvent) {
                 if (motionEvent.getAction() == 0) {

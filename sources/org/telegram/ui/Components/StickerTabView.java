@@ -62,7 +62,7 @@ public class StickerTabView extends FrameLayout {
             addView(this.imageView, LayoutHelper.createFrame(26, 26, 17));
             this.visibleView = this.imageView;
         }
-        TextView textView = new TextView(this, context) { // from class: org.telegram.ui.Components.StickerTabView.1
+        TextView textView = new TextView(context) { // from class: org.telegram.ui.Components.StickerTabView.1
             @Override // android.widget.TextView
             public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
                 super.setText(charSequence, bufferType);

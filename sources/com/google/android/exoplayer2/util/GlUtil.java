@@ -6,6 +6,9 @@ import android.opengl.GLES20;
 import android.opengl.GLU;
 /* loaded from: classes.dex */
 public final class GlUtil {
+    public static final int[] EGL_CONFIG_ATTRIBUTES_RGBA_8888 = {12352, 4, 12324, 8, 12323, 8, 12322, 8, 12321, 8, 12325, 0, 12326, 0, 12344};
+    public static final int[] EGL_CONFIG_ATTRIBUTES_RGBA_1010102 = {12352, 4, 12324, 10, 12323, 10, 12322, 10, 12321, 2, 12325, 0, 12326, 0, 12344};
+    private static final int[] EGL_WINDOW_SURFACE_ATTRIBUTES_NONE = {12344};
 
     /* loaded from: classes.dex */
     public static final class GlException extends Exception {

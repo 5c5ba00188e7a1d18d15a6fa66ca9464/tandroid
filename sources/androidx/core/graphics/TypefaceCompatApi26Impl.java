@@ -29,26 +29,26 @@ public class TypefaceCompatApi26Impl extends TypefaceCompatApi21Impl {
     protected final Method mFreeze;
 
     public TypefaceCompatApi26Impl() {
-        Method method;
+        Class<?> cls;
         Constructor<?> constructor;
+        Method method;
         Method method2;
         Method method3;
         Method method4;
         Method method5;
-        Class<?> cls = null;
         try {
-            Class<?> obtainFontFamily = obtainFontFamily();
-            constructor = obtainFontFamilyCtor(obtainFontFamily);
-            method2 = obtainAddFontFromAssetManagerMethod(obtainFontFamily);
-            method3 = obtainAddFontFromBufferMethod(obtainFontFamily);
-            method4 = obtainFreezeMethod(obtainFontFamily);
-            method5 = obtainAbortCreationMethod(obtainFontFamily);
-            method = obtainCreateFromFamiliesWithDefaultMethod(obtainFontFamily);
-            cls = obtainFontFamily;
+            cls = obtainFontFamily();
+            constructor = obtainFontFamilyCtor(cls);
+            method = obtainAddFontFromAssetManagerMethod(cls);
+            method2 = obtainAddFontFromBufferMethod(cls);
+            method3 = obtainFreezeMethod(cls);
+            method4 = obtainAbortCreationMethod(cls);
+            method5 = obtainCreateFromFamiliesWithDefaultMethod(cls);
         } catch (ClassNotFoundException | NoSuchMethodException e) {
             Log.e("TypefaceCompatApi26Impl", "Unable to collect necessary methods for class " + e.getClass().getName(), e);
-            method = null;
+            cls = null;
             constructor = null;
+            method = null;
             method2 = null;
             method3 = null;
             method4 = null;
@@ -56,11 +56,11 @@ public class TypefaceCompatApi26Impl extends TypefaceCompatApi21Impl {
         }
         this.mFontFamily = cls;
         this.mFontFamilyCtor = constructor;
-        this.mAddFontFromAssetManager = method2;
-        this.mAddFontFromBuffer = method3;
-        this.mFreeze = method4;
-        this.mAbortCreation = method5;
-        this.mCreateFromFamiliesWithDefault = method;
+        this.mAddFontFromAssetManager = method;
+        this.mAddFontFromBuffer = method2;
+        this.mFreeze = method3;
+        this.mAbortCreation = method4;
+        this.mCreateFromFamiliesWithDefault = method5;
     }
 
     private boolean isFontFamilyPrivateAPIAvailable() {
@@ -122,6 +122,7 @@ public class TypefaceCompatApi26Impl extends TypefaceCompatApi21Impl {
     @Override // androidx.core.graphics.TypefaceCompatApi21Impl, androidx.core.graphics.TypefaceCompatBaseImpl
     public Typeface createFromFontFamilyFilesResourceEntry(Context context, FontResourcesParserCompat.FontFamilyFilesResourceEntry fontFamilyFilesResourceEntry, Resources resources, int i) {
         FontResourcesParserCompat.FontFileResourceEntry[] entries;
+        FontVariationAxis[] fromFontVariationSettings;
         if (!isFontFamilyPrivateAPIAvailable()) {
             return super.createFromFontFamilyFilesResourceEntry(context, fontFamilyFilesResourceEntry, resources, i);
         }
@@ -130,7 +131,12 @@ public class TypefaceCompatApi26Impl extends TypefaceCompatApi21Impl {
             return null;
         }
         for (FontResourcesParserCompat.FontFileResourceEntry fontFileResourceEntry : fontFamilyFilesResourceEntry.getEntries()) {
-            if (!addFontFromAssetManager(context, newFamily, fontFileResourceEntry.getFileName(), fontFileResourceEntry.getTtcIndex(), fontFileResourceEntry.getWeight(), fontFileResourceEntry.isItalic() ? 1 : 0, FontVariationAxis.fromFontVariationSettings(fontFileResourceEntry.getVariationSettings()))) {
+            String fileName = fontFileResourceEntry.getFileName();
+            int ttcIndex = fontFileResourceEntry.getTtcIndex();
+            int weight = fontFileResourceEntry.getWeight();
+            boolean isItalic = fontFileResourceEntry.isItalic();
+            fromFontVariationSettings = FontVariationAxis.fromFontVariationSettings(fontFileResourceEntry.getVariationSettings());
+            if (!addFontFromAssetManager(context, newFamily, fileName, ttcIndex, weight, isItalic ? 1 : 0, fromFontVariationSettings)) {
                 abortCreation(newFamily);
                 return null;
             }
@@ -144,6 +150,9 @@ public class TypefaceCompatApi26Impl extends TypefaceCompatApi21Impl {
     @Override // androidx.core.graphics.TypefaceCompatApi21Impl, androidx.core.graphics.TypefaceCompatBaseImpl
     public Typeface createFromFontInfo(Context context, CancellationSignal cancellationSignal, FontsContractCompat.FontInfo[] fontInfoArr, int i) {
         Typeface createFromFamiliesWithDefault;
+        Typeface.Builder weight;
+        Typeface.Builder italic;
+        Typeface build;
         if (fontInfoArr.length < 1) {
             return null;
         }
@@ -157,7 +166,9 @@ public class TypefaceCompatApi26Impl extends TypefaceCompatApi21Impl {
                     }
                     return null;
                 }
-                Typeface build = new Typeface.Builder(openFileDescriptor.getFileDescriptor()).setWeight(findBestInfo.getWeight()).setItalic(findBestInfo.isItalic()).build();
+                weight = new Typeface.Builder(openFileDescriptor.getFileDescriptor()).setWeight(findBestInfo.getWeight());
+                italic = weight.setItalic(findBestInfo.isItalic());
+                build = italic.build();
                 openFileDescriptor.close();
                 return build;
             } catch (IOException unused) {

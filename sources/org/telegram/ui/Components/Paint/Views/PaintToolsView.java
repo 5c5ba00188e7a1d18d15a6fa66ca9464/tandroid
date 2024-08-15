@@ -61,7 +61,7 @@ public class PaintToolsView extends LinearLayout {
         while (i < Brush.BRUSHES_LIST.size() + 2) {
             this.buttons[i2] = createView(i == 0, i == Brush.BRUSHES_LIST.size() + 1);
             if (i == 0) {
-                this.buttons[i2].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.PaintToolsView$$ExternalSyntheticLambda1
+                this.buttons[i2].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.PaintToolsView$$ExternalSyntheticLambda2
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         PaintToolsView.this.lambda$new$0(view);
@@ -82,7 +82,7 @@ public class PaintToolsView extends LinearLayout {
                 }
             } else if (i == Brush.BRUSHES_LIST.size() + 1) {
                 this.buttons[i2].setImageResource(R.drawable.msg_add);
-                this.buttons[i2].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.PaintToolsView$$ExternalSyntheticLambda2
+                this.buttons[i2].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.PaintToolsView$$ExternalSyntheticLambda4
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         PaintToolsView.this.lambda$new$2(view);
@@ -164,7 +164,7 @@ public class PaintToolsView extends LinearLayout {
                 ValueAnimator duration = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(250L);
                 this.nextSelectedAnimator = duration;
                 duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
-                this.nextSelectedAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.PaintToolsView$$ExternalSyntheticLambda0
+                this.nextSelectedAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.PaintToolsView$$ExternalSyntheticLambda1
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                         PaintToolsView.this.lambda$animateNextIndex$3(valueAnimator2);
@@ -203,7 +203,7 @@ public class PaintToolsView extends LinearLayout {
                     if (this.nextSelectedAnimator != null) {
                         if (this.nextSelectedIndex != i) {
                             animateNextIndex(i);
-                            post(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.PaintToolsView$$ExternalSyntheticLambda4
+                            post(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.PaintToolsView$$ExternalSyntheticLambda0
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     childAt.performClick();
@@ -213,7 +213,7 @@ public class PaintToolsView extends LinearLayout {
                         }
                     } else if (this.selectedIndex != i) {
                         animateNextIndex(i);
-                        post(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.PaintToolsView$$ExternalSyntheticLambda4
+                        post(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.PaintToolsView$$ExternalSyntheticLambda0
                             @Override // java.lang.Runnable
                             public final void run() {
                                 childAt.performClick();

@@ -253,7 +253,7 @@ public class BackgroundGradientDrawable extends GradientDrawable {
                 dispatchQueue.postRunnable(runnable, j);
             }
         }
-        return new Disposable() { // from class: org.telegram.ui.Components.BackgroundGradientDrawable$$ExternalSyntheticLambda3
+        return new Disposable() { // from class: org.telegram.ui.Components.BackgroundGradientDrawable$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.BackgroundGradientDrawable.Disposable
             public final void dispose() {
                 BackgroundGradientDrawable.this.lambda$startDitheringInternal$3(listenerArr, runnableArr, intSizeArr);
@@ -265,14 +265,14 @@ public class BackgroundGradientDrawable extends GradientDrawable {
     public /* synthetic */ void lambda$startDitheringInternal$2(final IntSize intSize, final Runnable[] runnableArr, final int i, final Listener[] listenerArr) {
         try {
             final Bitmap createDitheredGradientBitmap = createDitheredGradientBitmap(getOrientation(), this.colors, intSize.width, intSize.height);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.BackgroundGradientDrawable$$ExternalSyntheticLambda1
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.BackgroundGradientDrawable$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     BackgroundGradientDrawable.this.lambda$startDitheringInternal$1(runnableArr, createDitheredGradientBitmap, intSize, i, listenerArr);
                 }
             });
         } catch (Throwable th) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.BackgroundGradientDrawable$$ExternalSyntheticLambda1
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.BackgroundGradientDrawable$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     BackgroundGradientDrawable.this.lambda$startDitheringInternal$1(runnableArr, createDitheredGradientBitmap, intSize, i, listenerArr);
@@ -310,8 +310,9 @@ public class BackgroundGradientDrawable extends GradientDrawable {
         if (!z) {
             this.ditheringRunnables.remove(runnableArr);
         }
-        if (listenerArr[0] != null) {
-            listenerArr[0].onSizeReady(intSize.width, intSize.height);
+        Listener listener = listenerArr[0];
+        if (listener != null) {
+            listener.onSizeReady(intSize.width, intSize.height);
             if (z) {
                 return;
             }

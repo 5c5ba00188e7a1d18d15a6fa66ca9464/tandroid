@@ -82,7 +82,7 @@ public class RenderView extends TextureView {
         painting.setRenderView(this);
         setSurfaceTextureListener(new 1(blurManager));
         this.input = new Input(this);
-        this.shapeInput = new ShapeInput(this, new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$$ExternalSyntheticLambda2
+        this.shapeInput = new ShapeInput(this, new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 RenderView.this.lambda$new$0();
@@ -129,7 +129,7 @@ public class RenderView extends TextureView {
             RenderView.this.internal = new CanvasInternal(surfaceTexture, this.val$blurManager);
             RenderView.this.internal.setBufferSize(i, i2);
             RenderView.this.updateTransform();
-            RenderView.this.post(new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$1$$ExternalSyntheticLambda1
+            RenderView.this.post(new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$1$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     RenderView.1.this.lambda$onSurfaceTextureAvailable$0();
@@ -155,7 +155,7 @@ public class RenderView extends TextureView {
             RenderView.this.internal.setBufferSize(i, i2);
             RenderView.this.updateTransform();
             RenderView.this.internal.requestRender();
-            RenderView.this.internal.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$1$$ExternalSyntheticLambda2
+            RenderView.this.internal.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$1$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     RenderView.1.this.lambda$onSurfaceTextureSizeChanged$1();
@@ -173,7 +173,7 @@ public class RenderView extends TextureView {
         @Override // android.view.TextureView.SurfaceTextureListener
         public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
             if (RenderView.this.internal != null && !RenderView.this.shuttingDown) {
-                RenderView.this.painting.onPause(new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$1$$ExternalSyntheticLambda0
+                RenderView.this.painting.onPause(new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$1$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
                         RenderView.1.this.lambda$onSurfaceTextureDestroyed$2();
@@ -399,7 +399,7 @@ public class RenderView extends TextureView {
         public CanvasInternal(SurfaceTexture surfaceTexture, BlurringShader.BlurManager blurManager) {
             super("CanvasInternal");
             this.drawRunnable = new 1();
-            this.safeRequestRender = new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$CanvasInternal$$ExternalSyntheticLambda0
+            this.safeRequestRender = new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$CanvasInternal$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     RenderView.CanvasInternal.this.lambda$new$0();
@@ -445,7 +445,13 @@ public class RenderView extends TextureView {
                 }
                 finish();
                 return false;
-            } else if (iArr[0] > 0) {
+            } else if (iArr[0] <= 0) {
+                if (BuildVars.LOGS_ENABLED) {
+                    FileLog.e("eglConfig not initialized");
+                }
+                finish();
+                return false;
+            } else {
                 EGLConfig eGLConfig = eGLConfigArr[0];
                 int[] iArr2 = {12440, 2, 12344};
                 BlurringShader.BlurManager blurManager = this.blurManager;
@@ -490,12 +496,6 @@ public class RenderView extends TextureView {
                         Utils.HasGLError();
                         return true;
                     }
-                }
-                finish();
-                return false;
-            } else {
-                if (BuildVars.LOGS_ENABLED) {
-                    FileLog.e("eglConfig not initialized");
                 }
                 finish();
                 return false;
@@ -601,7 +601,7 @@ public class RenderView extends TextureView {
                 cancelRunnable(runnable);
                 this.scheduledRunnable = null;
             }
-            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$CanvasInternal$$ExternalSyntheticLambda2
+            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$CanvasInternal$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     RenderView.CanvasInternal.this.lambda$scheduleRedraw$1();
@@ -647,7 +647,7 @@ public class RenderView extends TextureView {
         }
 
         public void shutdown() {
-            postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$CanvasInternal$$ExternalSyntheticLambda1
+            postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$CanvasInternal$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     RenderView.CanvasInternal.this.lambda$shutdown$2();
@@ -669,7 +669,7 @@ public class RenderView extends TextureView {
                 final CountDownLatch countDownLatch = new CountDownLatch(1);
                 final Bitmap[] bitmapArr = new Bitmap[1];
                 try {
-                    postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$CanvasInternal$$ExternalSyntheticLambda3
+                    postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$CanvasInternal$$ExternalSyntheticLambda2
                         @Override // java.lang.Runnable
                         public final void run() {
                             RenderView.CanvasInternal.this.lambda$getTexture$3(z, z2, bitmapArr, countDownLatch);
@@ -710,7 +710,7 @@ public class RenderView extends TextureView {
         if (canvasInternal == null) {
             return;
         }
-        canvasInternal.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$$ExternalSyntheticLambda3
+        canvasInternal.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 RenderView.this.lambda$performInContext$3(runnable);

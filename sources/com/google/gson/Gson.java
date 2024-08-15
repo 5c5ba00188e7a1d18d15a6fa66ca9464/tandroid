@@ -47,16 +47,28 @@ public final class Gson {
     final List<TypeAdapterFactory> builderFactories;
     final List<TypeAdapterFactory> builderHierarchyFactories;
     private final ThreadLocal<Map<TypeToken<?>, FutureTypeAdapter<?>>> calls;
+    final boolean complexMapKeySerialization;
     private final ConstructorConstructor constructorConstructor;
+    final String datePattern;
+    final int dateStyle;
+    final Excluder excluder;
     final List<TypeAdapterFactory> factories;
+    final FieldNamingStrategy fieldNamingStrategy;
     final boolean generateNonExecutableJson;
     final boolean htmlSafe;
+    final Map<Type, InstanceCreator<?>> instanceCreators;
     private final JsonAdapterAnnotationTypeAdapterFactory jsonAdapterFactory;
     final boolean lenient;
+    final LongSerializationPolicy longSerializationPolicy;
+    final ToNumberStrategy numberToNumberStrategy;
+    final ToNumberStrategy objectToNumberStrategy;
     final boolean prettyPrinting;
     final List<ReflectionAccessFilter> reflectionFilters;
     final boolean serializeNulls;
+    final boolean serializeSpecialFloatingPointValues;
+    final int timeStyle;
     private final ConcurrentMap<TypeToken<?>, TypeAdapter<?>> typeTokenCache;
+    final boolean useJdkUnsafe;
     static final FieldNamingStrategy DEFAULT_FIELD_NAMING_STRATEGY = FieldNamingPolicy.IDENTITY;
     static final ToNumberStrategy DEFAULT_OBJECT_TO_NUMBER_STRATEGY = ToNumberPolicy.DOUBLE;
     static final ToNumberStrategy DEFAULT_NUMBER_TO_NUMBER_STRATEGY = ToNumberPolicy.LAZILY_PARSED_NUMBER;
@@ -69,15 +81,27 @@ public final class Gson {
     public Gson(Excluder excluder, FieldNamingStrategy fieldNamingStrategy, Map<Type, InstanceCreator<?>> map, boolean z, boolean z2, boolean z3, boolean z4, boolean z5, boolean z6, boolean z7, boolean z8, LongSerializationPolicy longSerializationPolicy, String str, int i, int i2, List<TypeAdapterFactory> list, List<TypeAdapterFactory> list2, List<TypeAdapterFactory> list3, ToNumberStrategy toNumberStrategy, ToNumberStrategy toNumberStrategy2, List<ReflectionAccessFilter> list4) {
         this.calls = new ThreadLocal<>();
         this.typeTokenCache = new ConcurrentHashMap();
+        this.excluder = excluder;
+        this.fieldNamingStrategy = fieldNamingStrategy;
+        this.instanceCreators = map;
         ConstructorConstructor constructorConstructor = new ConstructorConstructor(map, z8, list4);
         this.constructorConstructor = constructorConstructor;
         this.serializeNulls = z;
+        this.complexMapKeySerialization = z2;
         this.generateNonExecutableJson = z3;
         this.htmlSafe = z4;
         this.prettyPrinting = z5;
         this.lenient = z6;
+        this.serializeSpecialFloatingPointValues = z7;
+        this.useJdkUnsafe = z8;
+        this.longSerializationPolicy = longSerializationPolicy;
+        this.datePattern = str;
+        this.dateStyle = i;
+        this.timeStyle = i2;
         this.builderFactories = list;
         this.builderHierarchyFactories = list2;
+        this.objectToNumberStrategy = toNumberStrategy;
+        this.numberToNumberStrategy = toNumberStrategy2;
         this.reflectionFilters = list4;
         ArrayList arrayList = new ArrayList();
         arrayList.add(TypeAdapters.JSON_ELEMENT_FACTORY);
@@ -135,7 +159,7 @@ public final class Gson {
         if (z) {
             return TypeAdapters.DOUBLE;
         }
-        return new TypeAdapter<Number>(this) { // from class: com.google.gson.Gson.1
+        return new TypeAdapter<Number>() { // from class: com.google.gson.Gson.1
             @Override // com.google.gson.TypeAdapter
             public Number read(JsonReader jsonReader) throws IOException {
                 if (jsonReader.peek() == JsonToken.NULL) {
@@ -162,7 +186,7 @@ public final class Gson {
         if (z) {
             return TypeAdapters.FLOAT;
         }
-        return new TypeAdapter<Number>(this) { // from class: com.google.gson.Gson.2
+        return new TypeAdapter<Number>() { // from class: com.google.gson.Gson.2
             @Override // com.google.gson.TypeAdapter
             public Number read(JsonReader jsonReader) throws IOException {
                 if (jsonReader.peek() == JsonToken.NULL) {
@@ -265,17 +289,19 @@ public final class Gson {
 
     /* JADX WARN: Multi-variable type inference failed */
     public <T> TypeAdapter<T> getAdapter(TypeToken<T> typeToken) {
+        boolean z;
         Objects.requireNonNull(typeToken, "type must not be null");
         TypeAdapter<T> typeAdapter = (TypeAdapter<T>) this.typeTokenCache.get(typeToken);
         if (typeAdapter != null) {
             return typeAdapter;
         }
         Map<TypeToken<?>, FutureTypeAdapter<?>> map = this.calls.get();
-        boolean z = false;
         if (map == null) {
             map = new HashMap<>();
             this.calls.set(map);
             z = true;
+        } else {
+            z = false;
         }
         FutureTypeAdapter<?> futureTypeAdapter = map.get(typeToken);
         if (futureTypeAdapter != null) {
@@ -489,9 +515,7 @@ public final class Gson {
                 try {
                     jsonReader.peek();
                     z = false;
-                    T read = getAdapter(typeToken).read(jsonReader);
-                    jsonReader.setLenient(isLenient);
-                    return read;
+                    return getAdapter(typeToken).read(jsonReader);
                 } catch (IOException e) {
                     throw new JsonSyntaxException(e);
                 } catch (AssertionError e2) {
@@ -508,9 +532,8 @@ public final class Gson {
             } catch (IllegalStateException e4) {
                 throw new JsonSyntaxException(e4);
             }
-        } catch (Throwable th) {
+        } finally {
             jsonReader.setLenient(isLenient);
-            throw th;
         }
     }
 

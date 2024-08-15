@@ -7,7 +7,6 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
@@ -62,7 +61,6 @@ public final class MenuItemImpl implements SupportMenuItem {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public MenuItemImpl(MenuBuilder menuBuilder, int i, int i2, int i3, int i4, CharSequence charSequence, int i5) {
-        this.mShowAsAction = 0;
         this.mMenu = menuBuilder;
         this.mId = i2;
         this.mGroup = i;
@@ -319,10 +317,7 @@ public final class MenuItemImpl implements SupportMenuItem {
     @Override // android.view.MenuItem
     public CharSequence getTitleCondensed() {
         CharSequence charSequence = this.mTitleCondensed;
-        if (charSequence == null) {
-            charSequence = this.mTitle;
-        }
-        return (Build.VERSION.SDK_INT >= 18 || charSequence == null || (charSequence instanceof String)) ? charSequence : charSequence.toString();
+        return charSequence != null ? charSequence : this.mTitle;
     }
 
     @Override // android.view.MenuItem

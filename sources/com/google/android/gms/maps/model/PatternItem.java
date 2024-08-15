@@ -14,9 +14,9 @@ public class PatternItem extends AbstractSafeParcelable {
     private final Float zzc;
 
     public PatternItem(int i, Float f) {
-        boolean z = false;
-        if (i == 1 || (f != null && f.floatValue() >= 0.0f)) {
-            z = true;
+        boolean z = true;
+        if (i != 1 && (f == null || f.floatValue() < 0.0f)) {
+            z = false;
         }
         Preconditions.checkArgument(z, "Invalid PatternItem: type=" + i + " length=" + f);
         this.zzb = i;

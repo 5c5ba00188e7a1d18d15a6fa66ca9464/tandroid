@@ -28,14 +28,14 @@ public class DefaultHttpClient implements HttpClient, DefaultHttpClientCallTask.
         try {
             defaultHttpClientCallTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new Void[0]);
         } catch (RejectedExecutionException e) {
-            HandlerUtils.runOnUiThread(new Runnable(this) { // from class: com.microsoft.appcenter.http.DefaultHttpClient.1
+            HandlerUtils.runOnUiThread(new Runnable() { // from class: com.microsoft.appcenter.http.DefaultHttpClient.1
                 @Override // java.lang.Runnable
                 public void run() {
                     serviceCallback.onCallFailed(e);
                 }
             });
         }
-        return new ServiceCall(this) { // from class: com.microsoft.appcenter.http.DefaultHttpClient.2
+        return new ServiceCall() { // from class: com.microsoft.appcenter.http.DefaultHttpClient.2
             @Override // com.microsoft.appcenter.http.ServiceCall
             public void cancel() {
                 defaultHttpClientCallTask.cancel(true);

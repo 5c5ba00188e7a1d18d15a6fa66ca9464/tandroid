@@ -132,13 +132,18 @@ public final class TextViewCompat {
         }
 
         private boolean isSupportedActivity(ResolveInfo resolveInfo, Context context) {
+            int checkSelfPermission;
             if (context.getPackageName().equals(resolveInfo.activityInfo.packageName)) {
                 return true;
             }
             ActivityInfo activityInfo = resolveInfo.activityInfo;
             if (activityInfo.exported) {
                 String str = activityInfo.permission;
-                return str == null || context.checkSelfPermission(str) == 0;
+                if (str != null) {
+                    checkSelfPermission = context.checkSelfPermission(str);
+                    return checkSelfPermission == 0;
+                }
+                return true;
             }
             return false;
         }
@@ -161,13 +166,12 @@ public final class TextViewCompat {
     public static void setFirstBaselineToTopHeight(TextView textView, int i) {
         int i2;
         Preconditions.checkArgumentNonnegative(i);
-        int i3 = Build.VERSION.SDK_INT;
-        if (i3 >= 28) {
+        if (Build.VERSION.SDK_INT >= 28) {
             Api28Impl.setFirstBaselineToTopHeight(textView, i);
             return;
         }
         Paint.FontMetricsInt fontMetricsInt = textView.getPaint().getFontMetricsInt();
-        if (i3 < 16 || Api16Impl.getIncludeFontPadding(textView)) {
+        if (Api16Impl.getIncludeFontPadding(textView)) {
             i2 = fontMetricsInt.top;
         } else {
             i2 = fontMetricsInt.ascent;
@@ -181,7 +185,7 @@ public final class TextViewCompat {
         int i2;
         Preconditions.checkArgumentNonnegative(i);
         Paint.FontMetricsInt fontMetricsInt = textView.getPaint().getFontMetricsInt();
-        if (Build.VERSION.SDK_INT < 16 || Api16Impl.getIncludeFontPadding(textView)) {
+        if (Api16Impl.getIncludeFontPadding(textView)) {
             i2 = fontMetricsInt.bottom;
         } else {
             i2 = fontMetricsInt.descent;
@@ -217,17 +221,13 @@ public final class TextViewCompat {
             builder.setBreakStrategy(Api23Impl.getBreakStrategy(textView));
             builder.setHyphenationFrequency(Api23Impl.getHyphenationFrequency(textView));
         }
-        if (i >= 18) {
-            builder.setTextDirection(getTextDirectionHeuristic(textView));
-        }
+        builder.setTextDirection(getTextDirectionHeuristic(textView));
         return builder.build();
     }
 
     public static void setTextMetricsParams(TextView textView, PrecomputedTextCompat.Params params) {
         int i = Build.VERSION.SDK_INT;
-        if (i >= 18) {
-            Api17Impl.setTextDirection(textView, getTextDirection(params.getTextDirection()));
-        }
+        Api17Impl.setTextDirection(textView, getTextDirection(params.getTextDirection()));
         if (i < 23) {
             float textScaleX = params.getTextPaint().getTextScaleX();
             textView.getPaint().set(params.getTextPaint());
@@ -361,8 +361,9 @@ public final class TextViewCompat {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    static class Api16Impl {
+    public static class Api16Impl {
         static int getMaxLines(TextView textView) {
             return textView.getMaxLines();
         }
@@ -384,11 +385,15 @@ public final class TextViewCompat {
         }
 
         static PrecomputedText.Params getTextMetricsParams(TextView textView) {
-            return textView.getTextMetricsParams();
+            PrecomputedText.Params textMetricsParams;
+            textMetricsParams = textView.getTextMetricsParams();
+            return textMetricsParams;
         }
 
         static String[] getDigitStrings(DecimalFormatSymbols decimalFormatSymbols) {
-            return decimalFormatSymbols.getDigitStrings();
+            String[] digitStrings;
+            digitStrings = decimalFormatSymbols.getDigitStrings();
+            return digitStrings;
         }
     }
 
@@ -396,7 +401,9 @@ public final class TextViewCompat {
     /* loaded from: classes.dex */
     public static class Api23Impl {
         static int getBreakStrategy(TextView textView) {
-            return textView.getBreakStrategy();
+            int breakStrategy;
+            breakStrategy = textView.getBreakStrategy();
+            return breakStrategy;
         }
 
         static void setBreakStrategy(TextView textView, int i) {
@@ -404,7 +411,9 @@ public final class TextViewCompat {
         }
 
         static int getHyphenationFrequency(TextView textView) {
-            return textView.getHyphenationFrequency();
+            int hyphenationFrequency;
+            hyphenationFrequency = textView.getHyphenationFrequency();
+            return hyphenationFrequency;
         }
 
         static void setHyphenationFrequency(TextView textView, int i) {
@@ -412,11 +421,15 @@ public final class TextViewCompat {
         }
 
         static PorterDuff.Mode getCompoundDrawableTintMode(TextView textView) {
-            return textView.getCompoundDrawableTintMode();
+            PorterDuff.Mode compoundDrawableTintMode;
+            compoundDrawableTintMode = textView.getCompoundDrawableTintMode();
+            return compoundDrawableTintMode;
         }
 
         static ColorStateList getCompoundDrawableTintList(TextView textView) {
-            return textView.getCompoundDrawableTintList();
+            ColorStateList compoundDrawableTintList;
+            compoundDrawableTintList = textView.getCompoundDrawableTintList();
+            return compoundDrawableTintList;
         }
 
         static void setCompoundDrawableTintList(TextView textView, ColorStateList colorStateList) {
@@ -432,7 +445,9 @@ public final class TextViewCompat {
     /* loaded from: classes.dex */
     public static class Api24Impl {
         static DecimalFormatSymbols getInstance(Locale locale) {
-            return DecimalFormatSymbols.getInstance(locale);
+            DecimalFormatSymbols decimalFormatSymbols;
+            decimalFormatSymbols = DecimalFormatSymbols.getInstance(locale);
+            return decimalFormatSymbols;
         }
     }
 }

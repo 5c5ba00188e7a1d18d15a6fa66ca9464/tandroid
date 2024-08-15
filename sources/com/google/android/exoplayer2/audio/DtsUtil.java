@@ -143,6 +143,7 @@ public final class DtsUtil {
     }
 
     private static boolean isLittleEndianFrameHeader(byte[] bArr) {
-        return bArr[0] == -2 || bArr[0] == -1;
+        byte b = bArr[0];
+        return b == -2 || b == -1;
     }
 }

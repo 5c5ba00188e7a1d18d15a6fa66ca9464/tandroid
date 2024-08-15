@@ -21,6 +21,7 @@ public final class zzfi$zzg extends zzjb<zzfi$zzg, zza> implements zzkm {
         zza(1),
         zzb(2);
         
+        private static final zzjh<zzb> zzd = new zzfq();
         private final int zze;
 
         @Override // com.google.android.gms.internal.vision.zzje
@@ -53,10 +54,6 @@ public final class zzfi$zzg extends zzjb<zzfi$zzg, zza> implements zzkm {
         zzb(int i) {
             this.zze = i;
         }
-
-        static {
-            new zzfq();
-        }
     }
 
     /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
@@ -67,6 +64,7 @@ public final class zzfi$zzg extends zzjb<zzfi$zzg, zza> implements zzkm {
         zzb(2),
         zzc(3);
         
+        private static final zzjh<zzc> zze = new zzft();
         private final int zzf;
 
         @Override // com.google.android.gms.internal.vision.zzje
@@ -102,10 +100,6 @@ public final class zzfi$zzg extends zzjb<zzfi$zzg, zza> implements zzkm {
         zzc(int i) {
             this.zzf = i;
         }
-
-        static {
-            new zzft();
-        }
     }
 
     /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
@@ -116,6 +110,7 @@ public final class zzfi$zzg extends zzjb<zzfi$zzg, zza> implements zzkm {
         zzb(2),
         zzc(3);
         
+        private static final zzjh<zzd> zze = new zzfu();
         private final int zzf;
 
         @Override // com.google.android.gms.internal.vision.zzje
@@ -150,10 +145,6 @@ public final class zzfi$zzg extends zzjb<zzfi$zzg, zza> implements zzkm {
 
         zzd(int i) {
             this.zzf = i;
-        }
-
-        static {
-            new zzfu();
         }
     }
 

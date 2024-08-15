@@ -23,16 +23,18 @@ public final class zzaf extends zzx {
     /* JADX WARN: Type inference failed for: r5v13, types: [java.lang.Object[]] */
     /* JADX WARN: Type inference failed for: r5v4, types: [int[]] */
     public static zzaf zzf(int i, Object[] objArr, zzw zzwVar) {
+        int i2;
         short[] sArr;
         Object[] objArr2;
         byte[] bArr;
-        int i2 = i;
+        double d;
+        int i3 = i;
         Object[] objArr3 = objArr;
-        if (i2 == 0) {
+        if (i3 == 0) {
             return (zzaf) zza;
         }
         Object obj = null;
-        if (i2 == 1) {
+        if (i3 == 1) {
             Object obj2 = objArr3[0];
             obj2.getClass();
             Object obj3 = objArr3[1];
@@ -40,38 +42,36 @@ public final class zzaf extends zzx {
             zzp.zza(obj2, obj3);
             return new zzaf(null, objArr3, 1);
         }
-        zzm.zzb(i2, objArr3.length >> 1, "index");
+        zzm.zzb(i3, objArr3.length >> 1, "index");
         char c = 2;
-        int max = Math.max(i2, 2);
-        int i3 = 1073741824;
+        int max = Math.max(i3, 2);
         if (max < 751619276) {
-            int highestOneBit = Integer.highestOneBit(max - 1);
-            i3 = highestOneBit + highestOneBit;
-            while (true) {
-                double d = i3;
+            i2 = Integer.highestOneBit(max - 1);
+            do {
+                i2 += i2;
+                d = i2;
                 Double.isNaN(d);
-                if (d * 0.7d >= max) {
-                    break;
-                }
-                i3 += i3;
+            } while (d * 0.7d < max);
+        } else {
+            i2 = 1073741824;
+            if (max >= 1073741824) {
+                throw new IllegalArgumentException("collection too large");
             }
-        } else if (max >= 1073741824) {
-            throw new IllegalArgumentException("collection too large");
         }
-        if (i2 == 1) {
+        if (i3 == 1) {
             Object obj4 = objArr3[0];
             obj4.getClass();
             Object obj5 = objArr3[1];
             obj5.getClass();
             zzp.zza(obj4, obj5);
         } else {
-            int i4 = i3 - 1;
+            int i4 = i2 - 1;
             char c2 = 65535;
-            if (i3 <= 128) {
-                byte[] bArr2 = new byte[i3];
+            if (i2 <= 128) {
+                byte[] bArr2 = new byte[i2];
                 Arrays.fill(bArr2, (byte) -1);
                 int i5 = 0;
-                for (int i6 = 0; i6 < i2; i6++) {
+                for (int i6 = 0; i6 < i3; i6++) {
                     int i7 = i5 + i5;
                     int i8 = i6 + i6;
                     Object obj6 = objArr3[i8];
@@ -104,18 +104,18 @@ public final class zzaf extends zzx {
                         }
                     }
                 }
-                if (i5 == i2) {
+                if (i5 == i3) {
                     bArr = bArr2;
                     c = 2;
                     obj = bArr;
                 } else {
                     sArr = new Object[]{bArr2, Integer.valueOf(i5), obj};
                 }
-            } else if (i3 <= 32768) {
-                sArr = new short[i3];
+            } else if (i2 <= 32768) {
+                sArr = new short[i2];
                 Arrays.fill(sArr, (short) -1);
                 int i12 = 0;
-                for (int i13 = 0; i13 < i2; i13++) {
+                for (int i13 = 0; i13 < i3; i13++) {
                     int i14 = i12 + i12;
                     int i15 = i13 + i13;
                     Object obj9 = objArr3[i15];
@@ -148,17 +148,17 @@ public final class zzaf extends zzx {
                         }
                     }
                 }
-                if (i12 != i2) {
+                if (i12 != i3) {
                     c = 2;
                     objArr2 = new Object[]{sArr, Integer.valueOf(i12), obj};
                     obj = objArr2;
                 }
             } else {
-                sArr = new int[i3];
+                sArr = new int[i2];
                 Arrays.fill((int[]) sArr, -1);
                 int i18 = 0;
                 int i19 = 0;
-                while (i18 < i2) {
+                while (i18 < i3) {
                     int i20 = i19 + i19;
                     int i21 = i18 + i18;
                     Object obj12 = objArr3[i21];
@@ -194,7 +194,7 @@ public final class zzaf extends zzx {
                     i18++;
                     c2 = 65535;
                 }
-                if (i19 != i2) {
+                if (i19 != i3) {
                     c = 2;
                     objArr2 = new Object[]{sArr, Integer.valueOf(i19), obj};
                     obj = objArr2;
@@ -213,9 +213,9 @@ public final class zzaf extends zzx {
             int intValue = ((Integer) objArr4[1]).intValue();
             objArr3 = Arrays.copyOf(objArr3, intValue + intValue);
             obj15 = obj16;
-            i2 = intValue;
+            i3 = intValue;
         }
-        return new zzaf(obj15, objArr3, i2);
+        return new zzaf(obj15, objArr3, i3);
     }
 
     /* JADX WARN: Removed duplicated region for block: B:40:0x009e A[RETURN] */

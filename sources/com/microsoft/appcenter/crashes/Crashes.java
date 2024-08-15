@@ -55,6 +55,7 @@ public class Crashes extends AbstractAppCenterService {
     private final Map<String, LogFactory> mFactories;
     private boolean mHasReceivedMemoryWarningInLastSession;
     private long mInitializeTimestamp;
+    private ErrorReport mLastSessionErrorReport;
     private LogSerializer mLogSerializer;
     private ComponentCallbacks2 mMemoryWarningListener;
     private boolean mSavedUncaughtException;
@@ -158,7 +159,7 @@ public class Crashes extends AbstractAppCenterService {
     protected synchronized void applyEnabledState(boolean z) {
         initialize();
         if (z) {
-            ComponentCallbacks2 componentCallbacks2 = new ComponentCallbacks2(this) { // from class: com.microsoft.appcenter.crashes.Crashes.5
+            ComponentCallbacks2 componentCallbacks2 = new ComponentCallbacks2() { // from class: com.microsoft.appcenter.crashes.Crashes.5
                 @Override // android.content.ComponentCallbacks
                 public void onConfigurationChanged(Configuration configuration) {
                 }
@@ -187,6 +188,7 @@ public class Crashes extends AbstractAppCenterService {
             }
             AppCenterLog.info("AppCenterCrashes", "Deleted crashes local files");
             this.mErrorReportCache.clear();
+            this.mLastSessionErrorReport = null;
             this.mContext.unregisterComponentCallbacks(this.mMemoryWarningListener);
             this.mMemoryWarningListener = null;
             SharedPreferencesManager.remove("com.microsoft.appcenter.crashes.memory");
@@ -299,7 +301,7 @@ public class Crashes extends AbstractAppCenterService {
     }
 
     private synchronized void queueException(final Throwable th, Map<String, String> map, Iterable<ErrorAttachmentLog> iterable) {
-        queueException(new ExceptionModelBuilder(this) { // from class: com.microsoft.appcenter.crashes.Crashes.7
+        queueException(new ExceptionModelBuilder() { // from class: com.microsoft.appcenter.crashes.Crashes.7
             @Override // com.microsoft.appcenter.crashes.Crashes.ExceptionModelBuilder
             public Exception buildExceptionModel() {
                 return ErrorLogHelper.getModelExceptionFromThrowable(th);
@@ -352,7 +354,7 @@ public class Crashes extends AbstractAppCenterService {
                 AppCenterLog.debug("AppCenterCrashes", "Found a minidump from a previous SDK version.");
                 processSingleMinidump(file, file);
             } else {
-                File[] listFiles = file.listFiles(new FilenameFilter(this) { // from class: com.microsoft.appcenter.crashes.Crashes.10
+                File[] listFiles = file.listFiles(new FilenameFilter() { // from class: com.microsoft.appcenter.crashes.Crashes.10
                     @Override // java.io.FilenameFilter
                     public boolean accept(File file2, String str) {
                         return str.endsWith(".dmp");
@@ -378,7 +380,7 @@ public class Crashes extends AbstractAppCenterService {
                 AppCenterLog.error("AppCenterCrashes", "Error reading last session error log.");
             } else {
                 try {
-                    buildErrorReport((ManagedErrorLog) this.mLogSerializer.deserializeLog(read, null));
+                    this.mLastSessionErrorReport = buildErrorReport((ManagedErrorLog) this.mLogSerializer.deserializeLog(read, null));
                     AppCenterLog.debug("AppCenterCrashes", "Processed crash report for the last session.");
                 } catch (JSONException e) {
                     AppCenterLog.error("AppCenterCrashes", "Error parsing last session error log.", e);
@@ -651,8 +653,8 @@ public class Crashes extends AbstractAppCenterService {
                 AppCenterLog.debug("AppCenterCrashes", "Saved stack trace as is for client side inspection in " + file2 + " stack trace:" + stackTraceString);
             } catch (StackOverflowError e) {
                 AppCenterLog.error("AppCenterCrashes", "Failed to store stack trace.", e);
-                th = null;
                 file2.delete();
+                th = null;
             }
         }
         if (th == null) {

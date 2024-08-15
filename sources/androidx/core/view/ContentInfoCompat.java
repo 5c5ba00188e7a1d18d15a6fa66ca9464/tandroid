@@ -22,8 +22,9 @@ public final class ContentInfoCompat {
         void setLinkUri(Uri uri);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    private interface Compat {
+    public interface Compat {
         ClipData getClip();
 
         int getFlags();
@@ -128,8 +129,9 @@ public final class ContentInfoCompat {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    private static final class Compat31Impl implements Compat {
+    public static final class Compat31Impl implements Compat {
         private final ContentInfo mWrapped;
 
         Compat31Impl(ContentInfo contentInfo) {
@@ -143,17 +145,23 @@ public final class ContentInfoCompat {
 
         @Override // androidx.core.view.ContentInfoCompat.Compat
         public ClipData getClip() {
-            return this.mWrapped.getClip();
+            ClipData clip;
+            clip = this.mWrapped.getClip();
+            return clip;
         }
 
         @Override // androidx.core.view.ContentInfoCompat.Compat
         public int getSource() {
-            return this.mWrapped.getSource();
+            int source;
+            source = this.mWrapped.getSource();
+            return source;
         }
 
         @Override // androidx.core.view.ContentInfoCompat.Compat
         public int getFlags() {
-            return this.mWrapped.getFlags();
+            int flags;
+            flags = this.mWrapped.getFlags();
+            return flags;
         }
 
         public String toString() {
@@ -252,7 +260,9 @@ public final class ContentInfoCompat {
 
         @Override // androidx.core.view.ContentInfoCompat.BuilderCompat
         public ContentInfoCompat build() {
-            return new ContentInfoCompat(new Compat31Impl(this.mPlatformBuilder.build()));
+            ContentInfo build;
+            build = this.mPlatformBuilder.build();
+            return new ContentInfoCompat(new Compat31Impl(build));
         }
     }
 }

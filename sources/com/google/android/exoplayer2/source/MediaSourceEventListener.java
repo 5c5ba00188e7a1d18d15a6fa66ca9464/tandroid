@@ -74,7 +74,7 @@ public interface MediaSourceEventListener {
             while (it.hasNext()) {
                 ListenerAndHandler next = it.next();
                 final MediaSourceEventListener mediaSourceEventListener = next.listener;
-                Util.postOrRun(next.handler, new Runnable() { // from class: com.google.android.exoplayer2.source.MediaSourceEventListener$EventDispatcher$$ExternalSyntheticLambda1
+                Util.postOrRun(next.handler, new Runnable() { // from class: com.google.android.exoplayer2.source.MediaSourceEventListener$EventDispatcher$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         MediaSourceEventListener.EventDispatcher.this.lambda$loadStarted$0(mediaSourceEventListener, loadEventInfo, mediaLoadData);
@@ -101,7 +101,7 @@ public interface MediaSourceEventListener {
             while (it.hasNext()) {
                 ListenerAndHandler next = it.next();
                 final MediaSourceEventListener mediaSourceEventListener = next.listener;
-                Util.postOrRun(next.handler, new Runnable() { // from class: com.google.android.exoplayer2.source.MediaSourceEventListener$EventDispatcher$$ExternalSyntheticLambda0
+                Util.postOrRun(next.handler, new Runnable() { // from class: com.google.android.exoplayer2.source.MediaSourceEventListener$EventDispatcher$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
                         MediaSourceEventListener.EventDispatcher.this.lambda$loadCompleted$1(mediaSourceEventListener, loadEventInfo, mediaLoadData);
@@ -128,7 +128,7 @@ public interface MediaSourceEventListener {
             while (it.hasNext()) {
                 ListenerAndHandler next = it.next();
                 final MediaSourceEventListener mediaSourceEventListener = next.listener;
-                Util.postOrRun(next.handler, new Runnable() { // from class: com.google.android.exoplayer2.source.MediaSourceEventListener$EventDispatcher$$ExternalSyntheticLambda2
+                Util.postOrRun(next.handler, new Runnable() { // from class: com.google.android.exoplayer2.source.MediaSourceEventListener$EventDispatcher$$ExternalSyntheticLambda4
                     @Override // java.lang.Runnable
                     public final void run() {
                         MediaSourceEventListener.EventDispatcher.this.lambda$loadCanceled$2(mediaSourceEventListener, loadEventInfo, mediaLoadData);
@@ -155,7 +155,7 @@ public interface MediaSourceEventListener {
             while (it.hasNext()) {
                 ListenerAndHandler next = it.next();
                 final MediaSourceEventListener mediaSourceEventListener = next.listener;
-                Util.postOrRun(next.handler, new Runnable() { // from class: com.google.android.exoplayer2.source.MediaSourceEventListener$EventDispatcher$$ExternalSyntheticLambda3
+                Util.postOrRun(next.handler, new Runnable() { // from class: com.google.android.exoplayer2.source.MediaSourceEventListener$EventDispatcher$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
                         MediaSourceEventListener.EventDispatcher.this.lambda$loadError$3(mediaSourceEventListener, loadEventInfo, mediaLoadData, iOException, z);
@@ -202,7 +202,7 @@ public interface MediaSourceEventListener {
             while (it.hasNext()) {
                 ListenerAndHandler next = it.next();
                 final MediaSourceEventListener mediaSourceEventListener = next.listener;
-                Util.postOrRun(next.handler, new Runnable() { // from class: com.google.android.exoplayer2.source.MediaSourceEventListener$EventDispatcher$$ExternalSyntheticLambda4
+                Util.postOrRun(next.handler, new Runnable() { // from class: com.google.android.exoplayer2.source.MediaSourceEventListener$EventDispatcher$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         MediaSourceEventListener.EventDispatcher.this.lambda$downstreamFormatChanged$5(mediaSourceEventListener, mediaLoadData);

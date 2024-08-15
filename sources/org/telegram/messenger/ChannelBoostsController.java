@@ -40,7 +40,7 @@ public class ChannelBoostsController {
     public void getBoostsStats(long j, final Consumer<TL_stories$TL_premium_boostsStatus> consumer) {
         TL_stories$TL_premium_getBoostsStatus tL_stories$TL_premium_getBoostsStatus = new TL_stories$TL_premium_getBoostsStatus();
         tL_stories$TL_premium_getBoostsStatus.peer = this.messagesController.getInputPeer(j);
-        this.connectionsManager.sendRequest(tL_stories$TL_premium_getBoostsStatus, new RequestDelegate() { // from class: org.telegram.messenger.ChannelBoostsController$$ExternalSyntheticLambda3
+        this.connectionsManager.sendRequest(tL_stories$TL_premium_getBoostsStatus, new RequestDelegate() { // from class: org.telegram.messenger.ChannelBoostsController$$ExternalSyntheticLambda2
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 ChannelBoostsController.lambda$getBoostsStats$1(Consumer.this, tLObject, tLRPC$TL_error);
@@ -50,7 +50,7 @@ public class ChannelBoostsController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$getBoostsStats$1(final Consumer consumer, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ChannelBoostsController$$ExternalSyntheticLambda0
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ChannelBoostsController$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 ChannelBoostsController.lambda$getBoostsStats$0(TLObject.this, consumer, tLRPC$TL_error);
@@ -92,7 +92,7 @@ public class ChannelBoostsController {
         canApplyBoost.currentPeer = this.messagesController.getPeer(j);
         canApplyBoost.currentDialogId = j;
         canApplyBoost.currentChat = this.messagesController.getChat(Long.valueOf(-j));
-        BoostRepository.getMyBoosts(new Utilities.Callback() { // from class: org.telegram.messenger.ChannelBoostsController$$ExternalSyntheticLambda2
+        BoostRepository.getMyBoosts(new Utilities.Callback() { // from class: org.telegram.messenger.ChannelBoostsController$$ExternalSyntheticLambda0
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 ChannelBoostsController.lambda$userCanBoostChannel$2(ChannelBoostsController.CanApplyBoost.this, tL_stories$TL_premium_boostsStatus, consumer, (TL_stories$TL_premium_myBoosts) obj);

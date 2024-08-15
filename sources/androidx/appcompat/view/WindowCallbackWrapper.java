@@ -150,11 +150,15 @@ public class WindowCallbackWrapper implements Window.Callback {
     /* loaded from: classes.dex */
     static class Api23Impl {
         static boolean onSearchRequested(Window.Callback callback, SearchEvent searchEvent) {
-            return callback.onSearchRequested(searchEvent);
+            boolean onSearchRequested;
+            onSearchRequested = callback.onSearchRequested(searchEvent);
+            return onSearchRequested;
         }
 
         static android.view.ActionMode onWindowStartingActionMode(Window.Callback callback, ActionMode.Callback callback2, int i) {
-            return callback.onWindowStartingActionMode(callback2, i);
+            android.view.ActionMode onWindowStartingActionMode;
+            onWindowStartingActionMode = callback.onWindowStartingActionMode(callback2, i);
+            return onWindowStartingActionMode;
         }
     }
 

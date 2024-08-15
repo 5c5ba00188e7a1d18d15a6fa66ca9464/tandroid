@@ -84,13 +84,13 @@ public abstract class GradientHeaderActivity extends BaseFragment {
         int i2 = Theme.key_premiumGradientBackground2;
         int i3 = Theme.key_premiumGradientBackground3;
         int i4 = Theme.key_premiumGradientBackground4;
-        this.gradientTools = new PremiumGradient.PremiumGradientTools(this, i, i2, i3, i4) { // from class: org.telegram.ui.GradientHeaderActivity.1
+        this.gradientTools = new PremiumGradient.PremiumGradientTools(i, i2, i3, i4) { // from class: org.telegram.ui.GradientHeaderActivity.1
             @Override // org.telegram.ui.Components.Premium.PremiumGradient.PremiumGradientTools
             protected int getThemeColorByKey(int i5) {
                 return Theme.getDefaultColor(i5);
             }
         };
-        PremiumGradient.PremiumGradientTools premiumGradientTools = new PremiumGradient.PremiumGradientTools(this, i, i2, i3, i4) { // from class: org.telegram.ui.GradientHeaderActivity.2
+        PremiumGradient.PremiumGradientTools premiumGradientTools = new PremiumGradient.PremiumGradientTools(i, i2, i3, i4) { // from class: org.telegram.ui.GradientHeaderActivity.2
             @Override // org.telegram.ui.Components.Premium.PremiumGradient.PremiumGradientTools
             protected int getThemeColorByKey(int i5) {
                 return Theme.getDefaultColor(i5);
@@ -216,7 +216,7 @@ public abstract class GradientHeaderActivity extends BaseFragment {
                 GradientHeaderActivity.this.contentView.invalidate();
             }
         });
-        this.backgroundView = new BackgroundView(this, context) { // from class: org.telegram.ui.GradientHeaderActivity.6
+        this.backgroundView = new BackgroundView(context) { // from class: org.telegram.ui.GradientHeaderActivity.6
             @Override // android.view.ViewGroup
             public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
                 return true;
@@ -253,6 +253,7 @@ public abstract class GradientHeaderActivity extends BaseFragment {
     public class ContentView extends NestedSizeNotifierLayout {
         private LinearGradient backgroundGradient;
         private final Paint backgroundGradientPaint;
+        private final Paint backgroundPaint;
         boolean bottomInterceptedTouch;
         int lastSize;
         private Boolean lightStatusBar;
@@ -260,7 +261,7 @@ public abstract class GradientHeaderActivity extends BaseFragment {
 
         public ContentView(Context context) {
             super(context);
-            new Paint(1);
+            this.backgroundPaint = new Paint(1);
             this.backgroundGradientPaint = new Paint(1);
         }
 
@@ -444,11 +445,11 @@ public abstract class GradientHeaderActivity extends BaseFragment {
     }
 
     public StarParticlesView createParticlesView() {
-        return new StarParticlesView(this, getContext()) { // from class: org.telegram.ui.GradientHeaderActivity.8
+        return new StarParticlesView(getContext()) { // from class: org.telegram.ui.GradientHeaderActivity.8
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.Premium.StarParticlesView
             public void configure() {
-                StarParticlesView.Drawable drawable = new StarParticlesView.Drawable(this, 50) { // from class: org.telegram.ui.GradientHeaderActivity.8.1
+                StarParticlesView.Drawable drawable = new StarParticlesView.Drawable(50) { // from class: org.telegram.ui.GradientHeaderActivity.8.1
                     @Override // org.telegram.ui.Components.Premium.StarParticlesView.Drawable
                     protected int getPathColor(int i) {
                         return ColorUtils.setAlphaComponent(Theme.getDefaultColor(this.colorKey), 200);
@@ -632,27 +633,26 @@ public abstract class GradientHeaderActivity extends BaseFragment {
     }
 
     public void saveScrollPosition() {
+        View view;
+        int i;
         RecyclerListView recyclerListView = this.listView;
         if (recyclerListView == null || recyclerListView.getChildCount() <= 0) {
             return;
         }
-        View view = null;
-        int i = -1;
         int i2 = 0;
         while (true) {
-            if (i2 < this.listView.getChildCount()) {
-                View childAt = this.listView.getChildAt(i2);
-                int childAdapterPosition = this.listView.getChildAdapterPosition(childAt);
-                if (childAdapterPosition >= 0 && childAt.getTop() < Integer.MAX_VALUE) {
-                    childAt.getTop();
-                    view = childAt;
-                    i = childAdapterPosition;
-                    break;
-                }
-                i2++;
-            } else {
+            if (i2 >= this.listView.getChildCount()) {
+                view = null;
+                i = -1;
                 break;
             }
+            view = this.listView.getChildAt(i2);
+            i = this.listView.getChildAdapterPosition(view);
+            if (i >= 0 && view.getTop() < Integer.MAX_VALUE) {
+                view.getTop();
+                break;
+            }
+            i2++;
         }
         if (view != null) {
             this.savedScrollPosition = i;

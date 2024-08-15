@@ -32,7 +32,7 @@ import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.LaunchActivity;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class BotBiometry {
     private static KeyStore keyStore;
     public boolean access_granted;
@@ -131,7 +131,7 @@ public class BotBiometry {
     }
 
     public void updateToken(String str, final String str2, final Utilities.Callback<Boolean> callback) {
-        prompt(str, false, str2, new Utilities.Callback2() { // from class: org.telegram.ui.bots.BotBiometry$$ExternalSyntheticLambda2
+        prompt(str, false, str2, new Utilities.Callback2() { // from class: org.telegram.ui.bots.BotBiometry$$ExternalSyntheticLambda4
             @Override // org.telegram.messenger.Utilities.Callback2
             public final void run(Object obj, Object obj2) {
                 BotBiometry.this.lambda$updateToken$1(str2, callback, (Boolean) obj, (BiometricPrompt.AuthenticationResult) obj2);
@@ -269,6 +269,7 @@ public class BotBiometry {
     }
 
     private SecretKey getSecretKey() throws Exception {
+        KeyGenParameterSpec build;
         if (keyStore == null) {
             KeyStore keyStore2 = KeyStore.getInstance("AndroidKeyStore");
             keyStore = keyStore2;
@@ -291,7 +292,8 @@ public class BotBiometry {
             builder.setInvalidatedByBiometricEnrollment(true);
         }
         KeyGenerator keyGenerator = KeyGenerator.getInstance("AES", "AndroidKeyStore");
-        keyGenerator.init(builder.build());
+        build = builder.build();
+        keyGenerator.init(build);
         return keyGenerator.generateKey();
     }
 
@@ -361,7 +363,7 @@ public class BotBiometry {
         edit.apply();
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class Bot {
         public boolean disabled;
         public TLRPC$User user;
@@ -400,7 +402,7 @@ public class BotBiometry {
         if (arrayList.isEmpty()) {
             callback.run(new ArrayList<>());
         } else {
-            MessagesStorage.getInstance(i).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.bots.BotBiometry$$ExternalSyntheticLambda0
+            MessagesStorage.getInstance(i).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.bots.BotBiometry$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     BotBiometry.lambda$getBots$3(i, arrayList, hashMap, callback);
@@ -412,7 +414,7 @@ public class BotBiometry {
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$getBots$3(int i, ArrayList arrayList, final HashMap hashMap, final Utilities.Callback callback) {
         final ArrayList<TLRPC$User> users = MessagesStorage.getInstance(i).getUsers(arrayList);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.bots.BotBiometry$$ExternalSyntheticLambda1
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.bots.BotBiometry$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 BotBiometry.lambda$getBots$2(users, hashMap, callback);

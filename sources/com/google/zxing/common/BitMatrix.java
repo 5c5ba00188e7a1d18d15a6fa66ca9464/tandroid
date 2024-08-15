@@ -5,6 +5,7 @@ import java.util.Arrays;
 public final class BitMatrix implements Cloneable {
     private final int[] bits;
     private final int height;
+    private final int multiple;
     private final int rowSize;
     private final int width;
 
@@ -18,6 +19,7 @@ public final class BitMatrix implements Cloneable {
         }
         this.width = i;
         this.height = i2;
+        this.multiple = i3;
         int i4 = (i + 31) / 32;
         this.rowSize = i4;
         this.bits = new int[i4 * i2];
@@ -28,6 +30,7 @@ public final class BitMatrix implements Cloneable {
         this.height = i2;
         this.rowSize = i3;
         this.bits = iArr;
+        this.multiple = 1;
     }
 
     public boolean get(int i, int i2) {

@@ -79,24 +79,20 @@ public final class NotificationManagerCompat {
     }
 
     public boolean areNotificationsEnabled() {
-        int i = Build.VERSION.SDK_INT;
-        if (i >= 24) {
+        if (Build.VERSION.SDK_INT >= 24) {
             return Api24Impl.areNotificationsEnabled(this.mNotificationManager);
         }
-        if (i >= 19) {
-            AppOpsManager appOpsManager = (AppOpsManager) this.mContext.getSystemService("appops");
-            ApplicationInfo applicationInfo = this.mContext.getApplicationInfo();
-            String packageName = this.mContext.getApplicationContext().getPackageName();
-            int i2 = applicationInfo.uid;
-            try {
-                Class<?> cls = Class.forName(AppOpsManager.class.getName());
-                Class<?> cls2 = Integer.TYPE;
-                return ((Integer) cls.getMethod("checkOpNoThrow", cls2, cls2, String.class).invoke(appOpsManager, Integer.valueOf(((Integer) cls.getDeclaredField("OP_POST_NOTIFICATION").get(Integer.class)).intValue()), Integer.valueOf(i2), packageName)).intValue() == 0;
-            } catch (ClassNotFoundException | IllegalAccessException | NoSuchFieldException | NoSuchMethodException | RuntimeException | InvocationTargetException unused) {
-                return true;
-            }
+        AppOpsManager appOpsManager = (AppOpsManager) this.mContext.getSystemService("appops");
+        ApplicationInfo applicationInfo = this.mContext.getApplicationInfo();
+        String packageName = this.mContext.getApplicationContext().getPackageName();
+        int i = applicationInfo.uid;
+        try {
+            Class<?> cls = Class.forName(AppOpsManager.class.getName());
+            Class<?> cls2 = Integer.TYPE;
+            return ((Integer) cls.getMethod("checkOpNoThrow", cls2, cls2, String.class).invoke(appOpsManager, Integer.valueOf(((Integer) cls.getDeclaredField("OP_POST_NOTIFICATION").get(Integer.class)).intValue()), Integer.valueOf(i), packageName)).intValue() == 0;
+        } catch (ClassNotFoundException | IllegalAccessException | NoSuchFieldException | NoSuchMethodException | RuntimeException | InvocationTargetException unused) {
+            return true;
         }
-        return true;
     }
 
     public static Set<String> getEnabledListenerPackages(Context context) {
@@ -425,11 +421,15 @@ public final class NotificationManagerCompat {
     /* loaded from: classes.dex */
     public static class Api24Impl {
         static boolean areNotificationsEnabled(NotificationManager notificationManager) {
-            return notificationManager.areNotificationsEnabled();
+            boolean areNotificationsEnabled;
+            areNotificationsEnabled = notificationManager.areNotificationsEnabled();
+            return areNotificationsEnabled;
         }
 
         static int getImportance(NotificationManager notificationManager) {
-            return notificationManager.getImportance();
+            int importance;
+            importance = notificationManager.getImportance();
+            return importance;
         }
     }
 }

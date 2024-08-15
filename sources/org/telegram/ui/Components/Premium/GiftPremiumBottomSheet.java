@@ -106,7 +106,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView impl
         this.outlineGradient.paint.setStrokeWidth(AndroidUtilities.dp(1.5f));
         this.dummyCell = new PremiumGiftTierCell(getContext());
         initData();
-        this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda10
+        this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i3) {
                 GiftPremiumBottomSheet.this.lambda$new$0(view, i3);
@@ -114,7 +114,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView impl
         });
         this.recyclerListView.setOverScrollMode(2);
         final Path path = new Path();
-        this.recyclerListView.setSelectorTransformer(new Consumer() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda3
+        this.recyclerListView.setSelectorTransformer(new Consumer() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda1
             @Override // androidx.core.util.Consumer
             public final void accept(Object obj) {
                 GiftPremiumBottomSheet.this.lambda$new$1(path, (Canvas) obj);
@@ -184,8 +184,8 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView impl
         TLRPC$UserFull userFull = MessagesController.getInstance(this.currentAccount).getUserFull(this.user.id);
         if (userFull != null) {
             ArrayList arrayList = new ArrayList();
-            long j = 0;
             Iterator<TLRPC$TL_premiumGiftOption> it = userFull.premium_gifts.iterator();
+            long j = 0;
             while (it.hasNext()) {
                 GiftTier giftTier = new GiftTier(it.next());
                 this.giftTiers.add(giftTier);
@@ -203,7 +203,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView impl
                 }
             } else if (!arrayList.isEmpty()) {
                 final long currentTimeMillis = System.currentTimeMillis();
-                BillingController.getInstance().queryProductDetails(arrayList, new ProductDetailsResponseListener() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda4
+                BillingController.getInstance().queryProductDetails(arrayList, new ProductDetailsResponseListener() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda2
                     @Override // com.android.billingclient.api.ProductDetailsResponseListener
                     public final void onProductDetailsResponse(BillingResult billingResult, List list) {
                         GiftPremiumBottomSheet.this.lambda$initData$3(currentTimeMillis, billingResult, list);
@@ -221,10 +221,8 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView impl
         this.headerRow = i;
         this.tiersStartRow = i2;
         int size = i2 + this.giftTiers.size();
-        this.rowsCount = size;
         this.tiersEndRow = size;
         int i3 = size + 1;
-        this.rowsCount = i3;
         this.footerRow = size;
         this.rowsCount = i3 + 1;
         this.buttonRow = i3;
@@ -253,7 +251,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView impl
         for (GiftTier giftTier : this.giftTiers) {
             giftTier.setPricePerMonthRegular(j2);
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda7
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 GiftPremiumBottomSheet.this.lambda$initData$2(j);
@@ -292,7 +290,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView impl
             z = false;
         }
         if (!BuildVars.useInvoiceBilling() && (!BillingController.getInstance().isReady() || this.giftTiers.get(this.selectedTierIndex).googlePlayProductDetails == null)) {
-            this.premiumButtonView.setButton(LocaleController.getString(R.string.Loading), new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda1
+            this.premiumButtonView.setButton(LocaleController.getString(R.string.Loading), new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda3
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     GiftPremiumBottomSheet.lambda$updateButtonText$4(view);
@@ -301,7 +299,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView impl
             this.premiumButtonView.setFlickerDisabled(true);
             return;
         }
-        this.premiumButtonView.setButton(LocaleController.formatString(R.string.GiftSubscriptionFor, this.giftTiers.get(this.selectedTierIndex).getFormattedPrice()), new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda0
+        this.premiumButtonView.setButton(LocaleController.formatString(R.string.GiftSubscriptionFor, this.giftTiers.get(this.selectedTierIndex).getFormattedPrice()), new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda4
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 GiftPremiumBottomSheet.this.lambda$updateButtonText$5(view);
@@ -357,7 +355,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView impl
                     if (!parse.getPath().startsWith("/$") && !parse.getPath().startsWith("/invoice/")) {
                         ((LaunchActivity) getBaseFragment().getParentActivity()).setNavigateToPremiumBot(true);
                     } else {
-                        ((LaunchActivity) getBaseFragment().getParentActivity()).setNavigateToPremiumGiftCallback(new Runnable() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda5
+                        ((LaunchActivity) getBaseFragment().getParentActivity()).setNavigateToPremiumGiftCallback(new Runnable() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda6
                             @Override // java.lang.Runnable
                             public final void run() {
                                 GiftPremiumBottomSheet.this.lambda$onGiftPremium$6();
@@ -378,7 +376,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView impl
             double pow = Math.pow(10.0d, 6.0d);
             Double.isNaN(priceAmountMicros);
             tLRPC$TL_inputStorePaymentGiftPremium.amount = (long) ((priceAmountMicros / pow) * Math.pow(10.0d, BillingController.getInstance().getCurrencyExp(tLRPC$TL_inputStorePaymentGiftPremium.currency)));
-            BillingController.getInstance().addResultListener(giftTier.giftOption.store_product, new Consumer() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda2
+            BillingController.getInstance().addResultListener(giftTier.giftOption.store_product, new Consumer() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda7
                 @Override // androidx.core.util.Consumer
                 public final void accept(Object obj) {
                     GiftPremiumBottomSheet.this.lambda$onGiftPremium$8((BillingResult) obj);
@@ -386,7 +384,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView impl
             });
             final TLRPC$TL_payments_canPurchasePremium tLRPC$TL_payments_canPurchasePremium = new TLRPC$TL_payments_canPurchasePremium();
             tLRPC$TL_payments_canPurchasePremium.purpose = tLRPC$TL_inputStorePaymentGiftPremium;
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_canPurchasePremium, new RequestDelegate() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda9
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_canPurchasePremium, new RequestDelegate() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda8
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     GiftPremiumBottomSheet.this.lambda$onGiftPremium$10(tLRPC$TL_inputStorePaymentGiftPremium, giftTier, tLRPC$TL_payments_canPurchasePremium, tLObject, tLRPC$TL_error);
@@ -403,7 +401,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView impl
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onGiftPremium$8(BillingResult billingResult) {
         if (billingResult.getResponseCode() == 0) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda6
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda9
                 @Override // java.lang.Runnable
                 public final void run() {
                     GiftPremiumBottomSheet.this.lambda$onGiftPremium$7();
@@ -419,7 +417,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView impl
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onGiftPremium$10(final TLRPC$TL_inputStorePaymentGiftPremium tLRPC$TL_inputStorePaymentGiftPremium, final GiftTier giftTier, final TLRPC$TL_payments_canPurchasePremium tLRPC$TL_payments_canPurchasePremium, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda8
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
                 GiftPremiumBottomSheet.this.lambda$onGiftPremium$9(tLObject, tLRPC$TL_inputStorePaymentGiftPremium, giftTier, tLRPC$TL_error, tLRPC$TL_payments_canPurchasePremium);
@@ -543,7 +541,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView impl
                 if (i != 3) {
                     view = new PremiumGiftHeaderCell(GiftPremiumBottomSheet.this.getContext());
                 } else {
-                    view = new View(this, GiftPremiumBottomSheet.this.getContext()) { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet.1.2
+                    view = new View(GiftPremiumBottomSheet.this.getContext()) { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet.1.2
                         @Override // android.view.View
                         protected void onMeasure(int i2, int i3) {
                             super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(68.0f), 1073741824));

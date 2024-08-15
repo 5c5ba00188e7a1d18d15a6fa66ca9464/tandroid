@@ -42,7 +42,7 @@ public abstract class zzay extends zzaq implements Set {
 
     zzav zzg() {
         Object[] array = toArray();
-        int i = zzav.zzd;
+        int i = zzav.$r8$clinit;
         return zzav.zzg(array, array.length);
     }
 }

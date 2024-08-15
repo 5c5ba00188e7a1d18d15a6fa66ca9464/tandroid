@@ -1,18 +1,19 @@
 package j$.time.zone;
 
 import java.security.PrivilegedAction;
+import java.util.ArrayList;
 import java.util.List;
 /* loaded from: classes2.dex */
-class d implements PrivilegedAction {
+final class d implements PrivilegedAction {
     final /* synthetic */ List a;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public d(List list) {
-        this.a = list;
+    public d(ArrayList arrayList) {
+        this.a = arrayList;
     }
 
     @Override // java.security.PrivilegedAction
-    public Object run() {
+    public final Object run() {
         String property = System.getProperty("java.time.zone.DefaultZoneRulesProvider");
         if (property == null) {
             f.d(new e());

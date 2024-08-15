@@ -28,7 +28,29 @@ import java.util.Map;
 import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public final class Mp3Extractor implements Extractor {
-    private static final Id3Decoder.FramePredicate REQUIRED_ID3_FRAME_PREDICATE;
+    public static final ExtractorsFactory FACTORY = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.mp3.Mp3Extractor$$ExternalSyntheticLambda0
+        @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+        public final Extractor[] createExtractors() {
+            Extractor[] lambda$static$0;
+            lambda$static$0 = Mp3Extractor.lambda$static$0();
+            return lambda$static$0;
+        }
+
+        @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+        public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
+            Extractor[] createExtractors;
+            createExtractors = createExtractors();
+            return createExtractors;
+        }
+    };
+    private static final Id3Decoder.FramePredicate REQUIRED_ID3_FRAME_PREDICATE = new Id3Decoder.FramePredicate() { // from class: com.google.android.exoplayer2.extractor.mp3.Mp3Extractor$$ExternalSyntheticLambda1
+        @Override // com.google.android.exoplayer2.metadata.id3.Id3Decoder.FramePredicate
+        public final boolean evaluate(int i, int i2, int i3, int i4, int i5) {
+            boolean lambda$static$1;
+            lambda$static$1 = Mp3Extractor.lambda$static$1(i, i2, i3, i4, i5);
+            return lambda$static$1;
+        }
+    };
     private long basisTimeUs;
     private TrackOutput currentTrackOutput;
     private boolean disableSeeking;
@@ -61,32 +83,6 @@ public final class Mp3Extractor implements Extractor {
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
     public void release() {
-    }
-
-    static {
-        Mp3Extractor$$ExternalSyntheticLambda0 mp3Extractor$$ExternalSyntheticLambda0 = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.mp3.Mp3Extractor$$ExternalSyntheticLambda0
-            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
-            public final Extractor[] createExtractors() {
-                Extractor[] lambda$static$0;
-                lambda$static$0 = Mp3Extractor.lambda$static$0();
-                return lambda$static$0;
-            }
-
-            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
-            public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
-                Extractor[] createExtractors;
-                createExtractors = createExtractors();
-                return createExtractors;
-            }
-        };
-        REQUIRED_ID3_FRAME_PREDICATE = new Id3Decoder.FramePredicate() { // from class: com.google.android.exoplayer2.extractor.mp3.Mp3Extractor$$ExternalSyntheticLambda1
-            @Override // com.google.android.exoplayer2.metadata.id3.Id3Decoder.FramePredicate
-            public final boolean evaluate(int i, int i2, int i3, int i4, int i5) {
-                boolean lambda$static$1;
-                lambda$static$1 = Mp3Extractor.lambda$static$1(i, i2, i3, i4, i5);
-                return lambda$static$1;
-            }
-        };
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -335,8 +331,6 @@ public final class Mp3Extractor implements Extractor {
     private Seeker computeSeeker(ExtractorInput extractorInput) throws IOException {
         long id3TlenUs;
         long j;
-        long durationUs;
-        long dataEndPosition;
         Seeker maybeReadSeekFrame = maybeReadSeekFrame(extractorInput);
         MlltSeeker maybeHandleSeekMetadata = maybeHandleSeekMetadata(this.metadata, extractorInput.getPosition());
         if (this.disableSeeking) {
@@ -344,18 +338,15 @@ public final class Mp3Extractor implements Extractor {
         }
         if ((this.flags & 4) != 0) {
             if (maybeHandleSeekMetadata != null) {
-                durationUs = maybeHandleSeekMetadata.getDurationUs();
-                dataEndPosition = maybeHandleSeekMetadata.getDataEndPosition();
+                id3TlenUs = maybeHandleSeekMetadata.getDurationUs();
+                j = maybeHandleSeekMetadata.getDataEndPosition();
             } else if (maybeReadSeekFrame != null) {
-                durationUs = maybeReadSeekFrame.getDurationUs();
-                dataEndPosition = maybeReadSeekFrame.getDataEndPosition();
+                id3TlenUs = maybeReadSeekFrame.getDurationUs();
+                j = maybeReadSeekFrame.getDataEndPosition();
             } else {
                 id3TlenUs = getId3TlenUs(this.metadata);
                 j = -1;
-                maybeReadSeekFrame = new IndexSeeker(id3TlenUs, extractorInput.getPosition(), j);
             }
-            j = dataEndPosition;
-            id3TlenUs = durationUs;
             maybeReadSeekFrame = new IndexSeeker(id3TlenUs, extractorInput.getPosition(), j);
         } else if (maybeHandleSeekMetadata != null) {
             maybeReadSeekFrame = maybeHandleSeekMetadata;

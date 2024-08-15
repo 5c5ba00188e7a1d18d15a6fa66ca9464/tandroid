@@ -11,9 +11,11 @@ public abstract class FragmentTransaction {
     CharSequence mBreadCrumbShortTitleText;
     int mBreadCrumbTitleRes;
     CharSequence mBreadCrumbTitleText;
+    private final ClassLoader mClassLoader;
     ArrayList<Runnable> mCommitRunnables;
     int mEnterAnim;
     int mExitAnim;
+    private final FragmentFactory mFragmentFactory;
     String mName;
     int mPopEnterAnim;
     int mPopExitAnim;
@@ -21,6 +23,7 @@ public abstract class FragmentTransaction {
     ArrayList<String> mSharedElementTargetNames;
     int mTransition;
     ArrayList<Op> mOps = new ArrayList<>();
+    boolean mAllowAddToBackStack = true;
     boolean mReorderingAllowed = false;
 
     public abstract int commit();
@@ -57,6 +60,8 @@ public abstract class FragmentTransaction {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public FragmentTransaction(FragmentFactory fragmentFactory, ClassLoader classLoader) {
+        this.mFragmentFactory = fragmentFactory;
+        this.mClassLoader = classLoader;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -121,6 +126,7 @@ public abstract class FragmentTransaction {
         if (this.mAddToBackStack) {
             throw new IllegalStateException("This transaction is already being added to the back stack");
         }
+        this.mAllowAddToBackStack = false;
         return this;
     }
 

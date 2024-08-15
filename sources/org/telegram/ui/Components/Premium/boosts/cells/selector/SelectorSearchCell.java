@@ -210,7 +210,7 @@ public class SelectorSearchCell extends ScrollView {
                 tLRPC$TL_help_country = chat;
                 if (tLRPC$TL_help_country != null) {
                     GroupCreateSpan groupCreateSpan2 = new GroupCreateSpan(getContext(), tLRPC$TL_help_country, null, true, this.resourcesProvider);
-                    groupCreateSpan2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCell$$ExternalSyntheticLambda1
+                    groupCreateSpan2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCell$$ExternalSyntheticLambda0
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
                             SelectorSearchCell.this.lambda$updateSpans$0(hashSet, runnable, view);
@@ -329,7 +329,7 @@ public class SelectorSearchCell extends ScrollView {
 
     protected Animator getContainerHeightAnimator(float f) {
         ValueAnimator ofFloat = ValueAnimator.ofFloat(this.containerHeight, f);
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCell$$ExternalSyntheticLambda0
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCell$$ExternalSyntheticLambda1
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 SelectorSearchCell.this.lambda$getContainerHeightAnimator$1(valueAnimator);
@@ -351,6 +351,10 @@ public class SelectorSearchCell extends ScrollView {
         private boolean animationStarted;
         private ArrayList<Animator> animators;
         private AnimatorSet currentAnimation;
+        private final int heightDp;
+        private final int padDp;
+        private final int padXDp;
+        private final int padYDp;
         private final ArrayList<View> removingSpans;
 
         public SpansContainer(Context context) {
@@ -359,6 +363,10 @@ public class SelectorSearchCell extends ScrollView {
             this.animRemovingSpans = new ArrayList<>();
             this.animators = new ArrayList<>();
             this.removingSpans = new ArrayList<>();
+            this.padDp = 14;
+            this.padYDp = 4;
+            this.padXDp = 6;
+            this.heightDp = 28;
         }
 
         /* JADX WARN: Removed duplicated region for block: B:33:0x00da  */
@@ -613,6 +621,7 @@ public class SelectorSearchCell extends ScrollView {
                 for (int i4 = 0; i4 < arrayList.size(); i4++) {
                     removeView(arrayList.get(i4));
                 }
+                this.addingSpan = null;
                 this.removingSpans.clear();
                 this.currentAnimation = null;
                 this.animationStarted = false;

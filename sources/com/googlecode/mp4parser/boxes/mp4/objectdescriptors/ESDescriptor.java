@@ -172,7 +172,7 @@ public class ESDescriptor extends BaseDescriptor {
         if (this == obj) {
             return true;
         }
-        if (obj == null || ESDescriptor.class != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         ESDescriptor eSDescriptor = (ESDescriptor) obj;

@@ -63,9 +63,11 @@ public class ReactedUsersListView extends FrameLayout {
     private OnCustomEmojiSelectedListener onCustomEmojiSelectedListener;
     private OnHeightChangedListener onHeightChangedListener;
     private OnProfileSelectedListener onProfileSelectedListener;
+    private boolean onlySeenNow;
     private LongSparseArray<ArrayList<TLRPC$MessagePeerReaction>> peerReactionMap;
     private int predictiveCount;
     Theme.ResourcesProvider resourcesProvider;
+    private boolean showReactionPreview;
     private List<TLRPC$MessagePeerReaction> userReactions;
 
     /* loaded from: classes3.dex */
@@ -95,6 +97,7 @@ public class ReactedUsersListView extends FrameLayout {
         this.message = messageObject;
         this.filter = tLRPC$ReactionCount == null ? null : tLRPC$ReactionCount.reaction;
         this.resourcesProvider = resourcesProvider;
+        this.showReactionPreview = z2;
         this.predictiveCount = tLRPC$ReactionCount == null ? 6 : tLRPC$ReactionCount.count;
         this.listView = new RecyclerListView(context, resourcesProvider) { // from class: org.telegram.ui.Components.ReactedUsersListView.1
             /* JADX INFO: Access modifiers changed from: protected */
@@ -160,7 +163,7 @@ public class ReactedUsersListView extends FrameLayout {
         };
         this.adapter = adapter;
         recyclerListView.setAdapter(adapter);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.ReactedUsersListView$$ExternalSyntheticLambda6
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.ReactedUsersListView$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i2) {
                 ReactedUsersListView.this.lambda$new$0(view, i2);
@@ -262,9 +265,11 @@ public class ReactedUsersListView extends FrameLayout {
                 arrayList.add(tLRPC$TL_messagePeerReaction);
             }
         }
-        this.userReactions.isEmpty();
+        if (this.userReactions.isEmpty()) {
+            this.onlySeenNow = true;
+        }
         this.userReactions.addAll(arrayList);
-        Collections.sort(this.userReactions, Comparator$-CC.comparingInt(new ToIntFunction() { // from class: org.telegram.ui.Components.ReactedUsersListView$$ExternalSyntheticLambda3
+        Collections.sort(this.userReactions, Comparator$-CC.comparingInt(new ToIntFunction() { // from class: org.telegram.ui.Components.ReactedUsersListView$$ExternalSyntheticLambda2
             @Override // j$.util.function.ToIntFunction
             public final int applyAsInt(Object obj) {
                 int lambda$setSeenUsers$1;
@@ -314,7 +319,7 @@ public class ReactedUsersListView extends FrameLayout {
         if (str != null) {
             tLRPC$TL_messages_getMessageReactionsList.flags |= 2;
         }
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getMessageReactionsList, new RequestDelegate() { // from class: org.telegram.ui.Components.ReactedUsersListView$$ExternalSyntheticLambda5
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getMessageReactionsList, new RequestDelegate() { // from class: org.telegram.ui.Components.ReactedUsersListView$$ExternalSyntheticLambda0
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 ReactedUsersListView.this.lambda$load$6(tLObject, tLRPC$TL_error);
@@ -324,7 +329,7 @@ public class ReactedUsersListView extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$load$5(final TLObject tLObject) {
-        NotificationCenter.getInstance(this.currentAccount).doOnIdle(new Runnable() { // from class: org.telegram.ui.Components.ReactedUsersListView$$ExternalSyntheticLambda1
+        NotificationCenter.getInstance(this.currentAccount).doOnIdle(new Runnable() { // from class: org.telegram.ui.Components.ReactedUsersListView$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 ReactedUsersListView.this.lambda$load$4(tLObject);
@@ -334,7 +339,7 @@ public class ReactedUsersListView extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$load$6(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ReactedUsersListView$$ExternalSyntheticLambda2
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ReactedUsersListView$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 ReactedUsersListView.this.lambda$load$5(tLObject);
@@ -376,7 +381,7 @@ public class ReactedUsersListView extends FrameLayout {
                 this.customReactionsEmoji.addAll(hashSet);
                 updateCustomReactionsButton();
             }
-            Collections.sort(this.userReactions, Comparator$-CC.comparingInt(new ToIntFunction() { // from class: org.telegram.ui.Components.ReactedUsersListView$$ExternalSyntheticLambda4
+            Collections.sort(this.userReactions, Comparator$-CC.comparingInt(new ToIntFunction() { // from class: org.telegram.ui.Components.ReactedUsersListView$$ExternalSyntheticLambda5
                 @Override // j$.util.function.ToIntFunction
                 public final int applyAsInt(Object obj) {
                     int lambda$load$2;
@@ -388,7 +393,7 @@ public class ReactedUsersListView extends FrameLayout {
             if (!this.isLoaded) {
                 ValueAnimator duration = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(150L);
                 duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
-                duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ReactedUsersListView$$ExternalSyntheticLambda0
+                duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ReactedUsersListView$$ExternalSyntheticLambda6
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                         ReactedUsersListView.this.lambda$load$3(valueAnimator);

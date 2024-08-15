@@ -39,6 +39,7 @@ public class PaintTextOptionsView extends FrameLayout implements NotificationCen
     private int plusIcon;
     private ImageView plusView;
     private TypefaceCell typefaceCell;
+    private PaintTypefaceListView typefaceListView;
     private int x;
 
     /* loaded from: classes3.dex */
@@ -54,16 +55,13 @@ public class PaintTextOptionsView extends FrameLayout implements NotificationCen
         void onTypefaceButtonClicked();
     }
 
-    public void setTypefaceListView(PaintTypefaceListView paintTypefaceListView) {
-    }
-
     public PaintTextOptionsView(Context context) {
         super(context);
         this.currentAlign = 0;
         setWillNotDraw(false);
         View view = new View(context);
         this.colorClickableView = view;
-        view.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.PaintTextOptionsView$$ExternalSyntheticLambda4
+        view.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.PaintTextOptionsView$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 PaintTextOptionsView.this.lambda$new$0(view2);
@@ -78,7 +76,7 @@ public class PaintTextOptionsView extends FrameLayout implements NotificationCen
         animatedDrawable.setCustomEndFrame(20);
         animatedDrawable.setCurrentFrame(20);
         this.alignView.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN));
-        this.alignView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.PaintTextOptionsView$$ExternalSyntheticLambda2
+        this.alignView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.PaintTextOptionsView$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 PaintTextOptionsView.this.lambda$new$1(view2);
@@ -90,7 +88,7 @@ public class PaintTextOptionsView extends FrameLayout implements NotificationCen
         this.outlineView = imageView;
         imageView.setImageResource(R.drawable.msg_text_outlined);
         this.outlineView.setPadding(AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f));
-        this.outlineView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.PaintTextOptionsView$$ExternalSyntheticLambda3
+        this.outlineView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.PaintTextOptionsView$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 PaintTextOptionsView.this.lambda$new$2(view2);
@@ -102,7 +100,7 @@ public class PaintTextOptionsView extends FrameLayout implements NotificationCen
         imageView2.setImageResource(R.drawable.msg_add);
         this.plusView.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN));
         this.plusView.setBackground(Theme.createSelectorDrawable(1090519039));
-        this.plusView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.PaintTextOptionsView$$ExternalSyntheticLambda0
+        this.plusView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.PaintTextOptionsView$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 PaintTextOptionsView.this.lambda$new$3(view2);
@@ -113,7 +111,7 @@ public class PaintTextOptionsView extends FrameLayout implements NotificationCen
         TypefaceCell typefaceCell = new TypefaceCell(context);
         this.typefaceCell = typefaceCell;
         typefaceCell.setCurrent(true);
-        this.typefaceCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.PaintTextOptionsView$$ExternalSyntheticLambda1
+        this.typefaceCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.PaintTextOptionsView$$ExternalSyntheticLambda4
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 PaintTextOptionsView.this.lambda$new$4(view2);
@@ -188,6 +186,10 @@ public class PaintTextOptionsView extends FrameLayout implements NotificationCen
 
     public TypefaceCell getTypefaceCell() {
         return this.typefaceCell;
+    }
+
+    public void setTypefaceListView(PaintTypefaceListView paintTypefaceListView) {
+        this.typefaceListView = paintTypefaceListView;
     }
 
     public View getColorClickableView() {

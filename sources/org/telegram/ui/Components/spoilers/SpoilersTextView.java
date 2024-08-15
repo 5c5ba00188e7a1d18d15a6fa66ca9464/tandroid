@@ -51,7 +51,7 @@ public class SpoilersTextView extends TextView implements TextSelectionHelper.Si
         this.cacheType = 0;
         this.useAlphaForEmoji = true;
         this.lastLayout = null;
-        this.clickDetector = new SpoilersClickDetector(this, this.spoilers, new SpoilersClickDetector.OnSpoilerClickedListener() { // from class: org.telegram.ui.Components.spoilers.SpoilersTextView$$ExternalSyntheticLambda2
+        this.clickDetector = new SpoilersClickDetector(this, this.spoilers, new SpoilersClickDetector.OnSpoilerClickedListener() { // from class: org.telegram.ui.Components.spoilers.SpoilersTextView$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.Components.spoilers.SpoilersClickDetector.OnSpoilerClickedListener
             public final void onSpoilerClicked(SpoilerEffect spoilerEffect, float f, float f2) {
                 SpoilersTextView.this.lambda$new$2(z, spoilerEffect, f, f2);
@@ -64,7 +64,7 @@ public class SpoilersTextView extends TextView implements TextSelectionHelper.Si
         if (this.isSpoilersRevealed || !z) {
             return;
         }
-        spoilerEffect.setOnRippleEndCallback(new Runnable() { // from class: org.telegram.ui.Components.spoilers.SpoilersTextView$$ExternalSyntheticLambda0
+        spoilerEffect.setOnRippleEndCallback(new Runnable() { // from class: org.telegram.ui.Components.spoilers.SpoilersTextView$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 SpoilersTextView.this.lambda$new$1();
@@ -78,7 +78,7 @@ public class SpoilersTextView extends TextView implements TextSelectionHelper.Si
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1() {
-        post(new Runnable() { // from class: org.telegram.ui.Components.spoilers.SpoilersTextView$$ExternalSyntheticLambda1
+        post(new Runnable() { // from class: org.telegram.ui.Components.spoilers.SpoilersTextView$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 SpoilersTextView.this.lambda$new$0();

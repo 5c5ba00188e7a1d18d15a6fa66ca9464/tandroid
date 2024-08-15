@@ -3,7 +3,6 @@ package androidx.appcompat.view.menu;
 import android.content.Context;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.os.Build;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -106,11 +105,7 @@ public class MenuPopupHelper {
         MenuPopup standardMenuPopup;
         Display defaultDisplay = ((WindowManager) this.mContext.getSystemService("window")).getDefaultDisplay();
         Point point = new Point();
-        if (Build.VERSION.SDK_INT >= 17) {
-            Api17Impl.getRealSize(defaultDisplay, point);
-        } else {
-            defaultDisplay.getSize(point);
-        }
+        Api17Impl.getRealSize(defaultDisplay, point);
         if (Math.min(point.x, point.y) >= this.mContext.getResources().getDimensionPixelSize(R$dimen.abc_cascading_menus_min_smallest_width)) {
             standardMenuPopup = new CascadingMenuPopup(this.mContext, this.mAnchorView, this.mPopupStyleAttr, this.mPopupStyleRes, this.mOverflowOnly);
         } else {

@@ -43,57 +43,59 @@ public class CodeNumberField extends EditTextBoldCursor {
     boolean pressed;
     boolean replaceAnimation;
     private boolean showSoftInputOnFocusInternal;
+    float startX;
+    float startY;
     private float successProgress;
     private float successScaleProgress;
     private SpringAnimation successScaleSpringAnimation;
     private SpringAnimation successSpringAnimation;
-    private static final FloatPropertyCompat<CodeNumberField> FOCUSED_PROGRESS = new SimpleFloatPropertyCompat("focusedProgress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda4
+    private static final FloatPropertyCompat<CodeNumberField> FOCUSED_PROGRESS = new SimpleFloatPropertyCompat("focusedProgress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda0
         @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
         public final float get(Object obj) {
             float f;
             f = ((CodeNumberField) obj).focusedProgress;
             return f;
         }
-    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda6
+    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda1
         @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Setter
         public final void set(Object obj, float f) {
             CodeNumberField.lambda$static$1((CodeNumberField) obj, f);
         }
     }).setMultiplier(100.0f);
-    private static final FloatPropertyCompat<CodeNumberField> ERROR_PROGRESS = new SimpleFloatPropertyCompat("errorProgress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda3
+    private static final FloatPropertyCompat<CodeNumberField> ERROR_PROGRESS = new SimpleFloatPropertyCompat("errorProgress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda2
         @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
         public final float get(Object obj) {
             float f;
             f = ((CodeNumberField) obj).errorProgress;
             return f;
         }
-    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda9
+    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda3
         @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Setter
         public final void set(Object obj, float f) {
             CodeNumberField.lambda$static$3((CodeNumberField) obj, f);
         }
     }).setMultiplier(100.0f);
-    private static final FloatPropertyCompat<CodeNumberField> SUCCESS_PROGRESS = new SimpleFloatPropertyCompat("successProgress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda2
+    private static final FloatPropertyCompat<CodeNumberField> SUCCESS_PROGRESS = new SimpleFloatPropertyCompat("successProgress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda4
         @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
         public final float get(Object obj) {
             float f;
             f = ((CodeNumberField) obj).successProgress;
             return f;
         }
-    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda7
+    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda5
         @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Setter
         public final void set(Object obj, float f) {
             CodeNumberField.lambda$static$5((CodeNumberField) obj, f);
         }
     }).setMultiplier(100.0f);
-    private static final FloatPropertyCompat<CodeNumberField> SUCCESS_SCALE_PROGRESS = new SimpleFloatPropertyCompat("successScaleProgress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda5
+    private static final FloatPropertyCompat<CodeNumberField> SUCCESS_SCALE_PROGRESS = new SimpleFloatPropertyCompat("successScaleProgress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda6
         @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
         public final float get(Object obj) {
             float f;
             f = ((CodeNumberField) obj).successScaleProgress;
             return f;
         }
-    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda8
+    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda7
         @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Setter
         public final void set(Object obj, float f) {
             CodeNumberField.lambda$static$7((CodeNumberField) obj, f);
@@ -143,6 +145,8 @@ public class CodeNumberField extends EditTextBoldCursor {
         this.enterAnimation = 1.0f;
         this.exitAnimation = 1.0f;
         this.pressed = false;
+        this.startX = 0.0f;
+        this.startY = 0.0f;
         setBackground(null);
         setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
         setMovementMethod(null);
@@ -242,7 +246,7 @@ public class CodeNumberField extends EditTextBoldCursor {
         this.exitAnimation = 0.0f;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.exitAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda0
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda9
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 CodeNumberField.this.lambda$startExitAnimation$8(valueAnimator);
@@ -266,7 +270,7 @@ public class CodeNumberField extends EditTextBoldCursor {
         this.enterAnimation = 0.0f;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.enterAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda1
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.CodeNumberField$$ExternalSyntheticLambda8
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 CodeNumberField.this.lambda$startEnterAnimation$9(valueAnimator);
@@ -299,10 +303,11 @@ public class CodeNumberField extends EditTextBoldCursor {
     @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
     public boolean onTouchEvent(MotionEvent motionEvent) {
         ClipDescription primaryClipDescription;
+        int i;
         if (motionEvent.getAction() == 0) {
             this.pressed = true;
-            motionEvent.getX();
-            motionEvent.getY();
+            this.startX = motionEvent.getX();
+            this.startY = motionEvent.getY();
         }
         if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
             CodeFieldContainer codeFieldContainer = getParent() instanceof CodeFieldContainer ? (CodeFieldContainer) getParent() : null;
@@ -314,10 +319,10 @@ public class CodeNumberField extends EditTextBoldCursor {
                     }
                     primaryClipDescription.hasMimeType("text/plain");
                     ClipData.Item itemAt = clipboardManager.getPrimaryClip().getItemAt(0);
-                    int i = -1;
                     try {
                         i = Integer.parseInt((itemAt == null || itemAt.getText() == null) ? "" : itemAt.getText().toString());
                     } catch (Exception unused) {
+                        i = -1;
                     }
                     if (i > 0) {
                         startActionMode(new ActionMode.Callback() { // from class: org.telegram.ui.CodeNumberField.2
@@ -364,15 +369,16 @@ public class CodeNumberField extends EditTextBoldCursor {
     public void pasteFromClipboard() {
         ClipboardManager clipboardManager;
         ClipData primaryClip;
+        int i;
         CodeFieldContainer codeFieldContainer = getParent() instanceof CodeFieldContainer ? (CodeFieldContainer) getParent() : null;
         if (codeFieldContainer == null || (clipboardManager = (ClipboardManager) ContextCompat.getSystemService(getContext(), ClipboardManager.class)) == null || (primaryClip = clipboardManager.getPrimaryClip()) == null) {
             return;
         }
-        int i = -1;
         String charSequence = primaryClip.getItemAt(0).getText().toString();
         try {
             i = Integer.parseInt(charSequence);
         } catch (Exception unused) {
+            i = -1;
         }
         if (i > 0) {
             codeFieldContainer.setText(charSequence, true);

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /* loaded from: classes.dex */
@@ -22,7 +21,9 @@ public abstract class zzbn extends zzba {
 
         zza(byte[] bArr, int i, int i2) {
             super();
-            Objects.requireNonNull(bArr, "buffer");
+            if (bArr == null) {
+                throw new NullPointerException("buffer");
+            }
             int i3 = i + i2;
             if ((i | i2 | (bArr.length - i3)) < 0) {
                 throw new IllegalArgumentException(String.format("Array range is invalid. Buffer.length=%d, offset=%d, length=%d", Integer.valueOf(bArr.length), Integer.valueOf(i), Integer.valueOf(i2)));
@@ -218,25 +219,18 @@ public abstract class zzbn extends zzba {
                 byte[] bArr = this.buffer;
                 int i = this.position;
                 int i2 = i + 1;
-                this.position = i2;
                 bArr[i] = (byte) j;
                 int i3 = i2 + 1;
-                this.position = i3;
                 bArr[i2] = (byte) (j >> 8);
                 int i4 = i3 + 1;
-                this.position = i4;
                 bArr[i3] = (byte) (j >> 16);
                 int i5 = i4 + 1;
-                this.position = i5;
                 bArr[i4] = (byte) (j >> 24);
                 int i6 = i5 + 1;
-                this.position = i6;
                 bArr[i5] = (byte) (j >> 32);
                 int i7 = i6 + 1;
-                this.position = i7;
                 bArr[i6] = (byte) (j >> 40);
                 int i8 = i7 + 1;
-                this.position = i8;
                 bArr[i7] = (byte) (j >> 48);
                 this.position = i8 + 1;
                 bArr[i8] = (byte) (j >> 56);
@@ -324,13 +318,10 @@ public abstract class zzbn extends zzba {
                 byte[] bArr = this.buffer;
                 int i2 = this.position;
                 int i3 = i2 + 1;
-                this.position = i3;
                 bArr[i2] = (byte) i;
                 int i4 = i3 + 1;
-                this.position = i4;
                 bArr[i3] = (byte) (i >> 8);
                 int i5 = i4 + 1;
-                this.position = i5;
                 bArr[i4] = (byte) (i >> 16);
                 this.position = i5 + 1;
                 bArr[i5] = i >> 24;
@@ -386,6 +377,7 @@ public abstract class zzbn extends zzba {
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static final class zzd extends zzbn {
+        private final int zzgb;
         private final ByteBuffer zzgc;
         private final ByteBuffer zzgd;
 
@@ -393,7 +385,7 @@ public abstract class zzbn extends zzba {
             super();
             this.zzgc = byteBuffer;
             this.zzgd = byteBuffer.duplicate().order(ByteOrder.LITTLE_ENDIAN);
-            byteBuffer.position();
+            this.zzgb = byteBuffer.position();
         }
 
         private final void zzi(String str) throws IOException {
@@ -669,8 +661,10 @@ public abstract class zzbn extends zzba {
                     return;
                 }
             }
-            Objects.requireNonNull(bArr, "value");
-            throw new zzc(String.format("Pos: %d, limit: %d, len: %d", Long.valueOf(this.zzgi), Long.valueOf(this.zzgg), Integer.valueOf(i2)));
+            if (bArr != null) {
+                throw new zzc(String.format("Pos: %d, limit: %d, len: %d", Long.valueOf(this.zzgi), Long.valueOf(this.zzgg), Integer.valueOf(i2)));
+            }
+            throw new NullPointerException("value");
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
@@ -1064,8 +1058,8 @@ public abstract class zzbn extends zzba {
             return 10;
         }
         if (((-34359738368L) & j) != 0) {
-            i = 6;
             j >>>= 28;
+            i = 6;
         } else {
             i = 2;
         }

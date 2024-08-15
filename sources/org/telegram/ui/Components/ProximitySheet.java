@@ -36,6 +36,7 @@ import org.telegram.ui.Components.ProximitySheet;
 /* loaded from: classes3.dex */
 public class ProximitySheet extends FrameLayout {
     private int backgroundPaddingLeft;
+    private Paint backgroundPaint;
     private TextView buttonTextView;
     private ViewGroup containerView;
     private AnimatorSet currentAnimation;
@@ -87,7 +88,7 @@ public class ProximitySheet extends FrameLayout {
         this.startedTracking = false;
         this.currentAnimation = null;
         this.rect = new android.graphics.Rect();
-        new Paint();
+        this.backgroundPaint = new Paint();
         this.useHardwareLayer = true;
         this.openInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
         setWillNotDraw(false);
@@ -98,7 +99,7 @@ public class ProximitySheet extends FrameLayout {
         mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_dialogBackground), PorterDuff.Mode.MULTIPLY));
         mutate.getPadding(rect);
         this.backgroundPaddingLeft = rect.left;
-        FrameLayout frameLayout = new FrameLayout(this, getContext()) { // from class: org.telegram.ui.Components.ProximitySheet.1
+        FrameLayout frameLayout = new FrameLayout(getContext()) { // from class: org.telegram.ui.Components.ProximitySheet.1
             @Override // android.view.View
             public boolean hasOverlappingRendering() {
                 return false;
@@ -158,7 +159,7 @@ public class ProximitySheet extends FrameLayout {
         textView.setTextSize(1, 20.0f);
         textView.setTypeface(AndroidUtilities.bold());
         frameLayout2.addView(textView, LayoutHelper.createFrame(-2, -2.0f, 51, 0.0f, 12.0f, 0.0f, 0.0f));
-        textView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.ProximitySheet$$ExternalSyntheticLambda1
+        textView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.ProximitySheet$$ExternalSyntheticLambda0
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view, MotionEvent motionEvent) {
                 boolean lambda$new$0;
@@ -173,14 +174,14 @@ public class ProximitySheet extends FrameLayout {
         System.currentTimeMillis();
         FrameLayout frameLayout3 = new FrameLayout(context);
         this.infoTextView = new TextView(context);
-        this.buttonTextView = new TextView(this, context) { // from class: org.telegram.ui.Components.ProximitySheet.3
+        this.buttonTextView = new TextView(context) { // from class: org.telegram.ui.Components.ProximitySheet.3
             @Override // android.widget.TextView, android.view.View
             public CharSequence getAccessibilityClassName() {
                 return Button.class.getName();
             }
         };
         linearLayout2.addView(this.kmPicker, LayoutHelper.createLinear(0, 270, 0.5f));
-        this.kmPicker.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.ProximitySheet$$ExternalSyntheticLambda2
+        this.kmPicker.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.ProximitySheet$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.NumberPicker.Formatter
             public final String format(int i) {
                 String lambda$new$1;
@@ -192,7 +193,7 @@ public class ProximitySheet extends FrameLayout {
         this.kmPicker.setMaxValue(10);
         this.kmPicker.setWrapSelectorWheel(false);
         this.kmPicker.setTextOffset(AndroidUtilities.dp(20.0f));
-        NumberPicker.OnValueChangeListener onValueChangeListener = new NumberPicker.OnValueChangeListener() { // from class: org.telegram.ui.Components.ProximitySheet$$ExternalSyntheticLambda4
+        NumberPicker.OnValueChangeListener onValueChangeListener = new NumberPicker.OnValueChangeListener() { // from class: org.telegram.ui.Components.ProximitySheet$$ExternalSyntheticLambda2
             @Override // org.telegram.ui.Components.NumberPicker.OnValueChangeListener
             public final void onValueChange(NumberPicker numberPicker3, int i, int i2) {
                 ProximitySheet.this.lambda$new$2(numberPicker3, i, i2);
@@ -224,7 +225,7 @@ public class ProximitySheet extends FrameLayout {
         this.buttonTextView.setTypeface(AndroidUtilities.bold());
         this.buttonTextView.setBackgroundDrawable(Theme.AdaptiveRipple.filledRectByKey(Theme.key_featuredStickers_addButton, 4.0f));
         frameLayout3.addView(this.buttonTextView, LayoutHelper.createFrame(-1, 48.0f));
-        this.buttonTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ProximitySheet$$ExternalSyntheticLambda0
+        this.buttonTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ProximitySheet$$ExternalSyntheticLambda4
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ProximitySheet.this.lambda$new$4(onradiuspickerchange2, view);
@@ -557,6 +558,7 @@ public class ProximitySheet extends FrameLayout {
         if (animatorSet != null) {
             animatorSet.cancel();
             this.currentSheetAnimation = null;
+            this.currentSheetAnimationType = 0;
         }
     }
 
@@ -570,6 +572,7 @@ public class ProximitySheet extends FrameLayout {
         }
         ViewGroup viewGroup = this.containerView;
         viewGroup.setTranslationY(viewGroup.getMeasuredHeight());
+        this.currentSheetAnimationType = 1;
         AnimatorSet animatorSet = new AnimatorSet();
         this.currentSheetAnimation = animatorSet;
         animatorSet.playTogether(ObjectAnimator.ofFloat(this.containerView, View.TRANSLATION_Y, 0.0f));
@@ -617,6 +620,7 @@ public class ProximitySheet extends FrameLayout {
         }
         this.dismissed = true;
         cancelSheetAnimation();
+        this.currentSheetAnimationType = 2;
         AnimatorSet animatorSet = new AnimatorSet();
         this.currentSheetAnimation = animatorSet;
         animatorSet.playTogether(ObjectAnimator.ofFloat(this.containerView, View.TRANSLATION_Y, viewGroup.getMeasuredHeight() + AndroidUtilities.dp(10.0f)));

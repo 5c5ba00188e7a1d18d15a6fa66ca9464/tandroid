@@ -39,7 +39,7 @@ public class DateTimeTypedProperty extends TypedProperty {
         if (this == obj) {
             return true;
         }
-        if (obj != null && DateTimeTypedProperty.class == obj.getClass() && super.equals(obj)) {
+        if (obj != null && getClass() == obj.getClass() && super.equals(obj)) {
             Date date = this.value;
             Date date2 = ((DateTimeTypedProperty) obj).value;
             return date != null ? date.equals(date2) : date2 == null;

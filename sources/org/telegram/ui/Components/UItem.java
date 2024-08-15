@@ -34,6 +34,7 @@ public class UItem extends AdapterWithDiffUtils.Item {
     public boolean collapsed;
     public long dialogId;
     public boolean enabled;
+    public int flags;
     public boolean hideDivider;
     public int iconResId;
     public int id;
@@ -263,6 +264,7 @@ public class UItem extends AdapterWithDiffUtils.Item {
         uItem.include = z;
         uItem.text = charSequence;
         uItem.chatType = str;
+        uItem.flags = i;
         return uItem;
     }
 
@@ -477,7 +479,7 @@ public class UItem extends AdapterWithDiffUtils.Item {
         if (this == obj) {
             return true;
         }
-        if (obj == null || UItem.class != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         UItem uItem = (UItem) obj;
@@ -504,7 +506,7 @@ public class UItem extends AdapterWithDiffUtils.Item {
         if (this == item) {
             return true;
         }
-        if (item == null || UItem.class != item.getClass()) {
+        if (item == null || getClass() != item.getClass()) {
             return false;
         }
         UItem uItem = (UItem) item;

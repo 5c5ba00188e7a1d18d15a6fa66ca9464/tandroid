@@ -34,14 +34,14 @@ public class OutlineTextContainerView extends FrameLayout {
     private TextPaint textPaint;
     private float titleProgress;
     private SpringAnimation titleSpring;
-    private static final SimpleFloatPropertyCompat<OutlineTextContainerView> SELECTION_PROGRESS_PROPERTY = new SimpleFloatPropertyCompat("selectionProgress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.Components.OutlineTextContainerView$$ExternalSyntheticLambda1
+    private static final SimpleFloatPropertyCompat<OutlineTextContainerView> SELECTION_PROGRESS_PROPERTY = new SimpleFloatPropertyCompat("selectionProgress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.Components.OutlineTextContainerView$$ExternalSyntheticLambda0
         @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
         public final float get(Object obj) {
             float f;
             f = ((OutlineTextContainerView) obj).selectionProgress;
             return f;
         }
-    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.Components.OutlineTextContainerView$$ExternalSyntheticLambda4
+    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.Components.OutlineTextContainerView$$ExternalSyntheticLambda1
         @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Setter
         public final void set(Object obj, float f) {
             OutlineTextContainerView.lambda$static$1((OutlineTextContainerView) obj, f);
@@ -54,20 +54,20 @@ public class OutlineTextContainerView extends FrameLayout {
             f = ((OutlineTextContainerView) obj).titleProgress;
             return f;
         }
-    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.Components.OutlineTextContainerView$$ExternalSyntheticLambda5
+    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.Components.OutlineTextContainerView$$ExternalSyntheticLambda3
         @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Setter
         public final void set(Object obj, float f) {
             OutlineTextContainerView.lambda$static$3((OutlineTextContainerView) obj, f);
         }
     }).setMultiplier(100.0f);
-    private static final SimpleFloatPropertyCompat<OutlineTextContainerView> ERROR_PROGRESS_PROPERTY = new SimpleFloatPropertyCompat("errorProgress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.Components.OutlineTextContainerView$$ExternalSyntheticLambda0
+    private static final SimpleFloatPropertyCompat<OutlineTextContainerView> ERROR_PROGRESS_PROPERTY = new SimpleFloatPropertyCompat("errorProgress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.Components.OutlineTextContainerView$$ExternalSyntheticLambda4
         @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
         public final float get(Object obj) {
             float f;
             f = ((OutlineTextContainerView) obj).errorProgress;
             return f;
         }
-    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.Components.OutlineTextContainerView$$ExternalSyntheticLambda3
+    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.Components.OutlineTextContainerView$$ExternalSyntheticLambda5
         @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Setter
         public final void set(Object obj, float f) {
             OutlineTextContainerView.lambda$static$5((OutlineTextContainerView) obj, f);

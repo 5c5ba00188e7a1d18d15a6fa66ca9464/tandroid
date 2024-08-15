@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.graphics.Rect;
 import android.os.Build;
 import android.util.Log;
+import android.view.DisplayCutout;
 import android.view.View;
 import android.view.WindowInsets;
 import androidx.core.graphics.Insets;
@@ -308,7 +309,9 @@ public class WindowInsetsCompat {
 
         @Override // androidx.core.view.WindowInsetsCompat.Impl
         boolean isRound() {
-            return this.mPlatformInsets.isRound();
+            boolean isRound;
+            isRound = this.mPlatformInsets.isRound();
+            return isRound;
         }
 
         @Override // androidx.core.view.WindowInsetsCompat.Impl
@@ -396,8 +399,16 @@ public class WindowInsetsCompat {
 
         @Override // androidx.core.view.WindowInsetsCompat.Impl
         final Insets getSystemWindowInsets() {
+            int systemWindowInsetLeft;
+            int systemWindowInsetTop;
+            int systemWindowInsetRight;
+            int systemWindowInsetBottom;
             if (this.mSystemWindowInsets == null) {
-                this.mSystemWindowInsets = Insets.of(this.mPlatformInsets.getSystemWindowInsetLeft(), this.mPlatformInsets.getSystemWindowInsetTop(), this.mPlatformInsets.getSystemWindowInsetRight(), this.mPlatformInsets.getSystemWindowInsetBottom());
+                systemWindowInsetLeft = this.mPlatformInsets.getSystemWindowInsetLeft();
+                systemWindowInsetTop = this.mPlatformInsets.getSystemWindowInsetTop();
+                systemWindowInsetRight = this.mPlatformInsets.getSystemWindowInsetRight();
+                systemWindowInsetBottom = this.mPlatformInsets.getSystemWindowInsetBottom();
+                this.mSystemWindowInsets = Insets.of(systemWindowInsetLeft, systemWindowInsetTop, systemWindowInsetRight, systemWindowInsetBottom);
             }
             return this.mSystemWindowInsets;
         }
@@ -517,23 +528,37 @@ public class WindowInsetsCompat {
 
         @Override // androidx.core.view.WindowInsetsCompat.Impl
         boolean isConsumed() {
-            return this.mPlatformInsets.isConsumed();
+            boolean isConsumed;
+            isConsumed = this.mPlatformInsets.isConsumed();
+            return isConsumed;
         }
 
         @Override // androidx.core.view.WindowInsetsCompat.Impl
         WindowInsetsCompat consumeStableInsets() {
-            return WindowInsetsCompat.toWindowInsetsCompat(this.mPlatformInsets.consumeStableInsets());
+            WindowInsets consumeStableInsets;
+            consumeStableInsets = this.mPlatformInsets.consumeStableInsets();
+            return WindowInsetsCompat.toWindowInsetsCompat(consumeStableInsets);
         }
 
         @Override // androidx.core.view.WindowInsetsCompat.Impl
         WindowInsetsCompat consumeSystemWindowInsets() {
-            return WindowInsetsCompat.toWindowInsetsCompat(this.mPlatformInsets.consumeSystemWindowInsets());
+            WindowInsets consumeSystemWindowInsets;
+            consumeSystemWindowInsets = this.mPlatformInsets.consumeSystemWindowInsets();
+            return WindowInsetsCompat.toWindowInsetsCompat(consumeSystemWindowInsets);
         }
 
         @Override // androidx.core.view.WindowInsetsCompat.Impl
         final Insets getStableInsets() {
+            int stableInsetLeft;
+            int stableInsetTop;
+            int stableInsetRight;
+            int stableInsetBottom;
             if (this.mStableInsets == null) {
-                this.mStableInsets = Insets.of(this.mPlatformInsets.getStableInsetLeft(), this.mPlatformInsets.getStableInsetTop(), this.mPlatformInsets.getStableInsetRight(), this.mPlatformInsets.getStableInsetBottom());
+                stableInsetLeft = this.mPlatformInsets.getStableInsetLeft();
+                stableInsetTop = this.mPlatformInsets.getStableInsetTop();
+                stableInsetRight = this.mPlatformInsets.getStableInsetRight();
+                stableInsetBottom = this.mPlatformInsets.getStableInsetBottom();
+                this.mStableInsets = Insets.of(stableInsetLeft, stableInsetTop, stableInsetRight, stableInsetBottom);
             }
             return this.mStableInsets;
         }
@@ -556,12 +581,16 @@ public class WindowInsetsCompat {
 
         @Override // androidx.core.view.WindowInsetsCompat.Impl
         DisplayCutoutCompat getDisplayCutout() {
-            return DisplayCutoutCompat.wrap(this.mPlatformInsets.getDisplayCutout());
+            DisplayCutout displayCutout;
+            displayCutout = this.mPlatformInsets.getDisplayCutout();
+            return DisplayCutoutCompat.wrap(displayCutout);
         }
 
         @Override // androidx.core.view.WindowInsetsCompat.Impl
         WindowInsetsCompat consumeDisplayCutout() {
-            return WindowInsetsCompat.toWindowInsetsCompat(this.mPlatformInsets.consumeDisplayCutout());
+            WindowInsets consumeDisplayCutout;
+            consumeDisplayCutout = this.mPlatformInsets.consumeDisplayCutout();
+            return WindowInsetsCompat.toWindowInsetsCompat(consumeDisplayCutout);
         }
 
         @Override // androidx.core.view.WindowInsetsCompat.Impl20, androidx.core.view.WindowInsetsCompat.Impl
@@ -578,7 +607,9 @@ public class WindowInsetsCompat {
 
         @Override // androidx.core.view.WindowInsetsCompat.Impl
         public int hashCode() {
-            return this.mPlatformInsets.hashCode();
+            int hashCode;
+            hashCode = this.mPlatformInsets.hashCode();
+            return hashCode;
         }
     }
 
@@ -608,31 +639,39 @@ public class WindowInsetsCompat {
 
         @Override // androidx.core.view.WindowInsetsCompat.Impl
         Insets getSystemGestureInsets() {
+            android.graphics.Insets systemGestureInsets;
             if (this.mSystemGestureInsets == null) {
-                this.mSystemGestureInsets = Insets.toCompatInsets(this.mPlatformInsets.getSystemGestureInsets());
+                systemGestureInsets = this.mPlatformInsets.getSystemGestureInsets();
+                this.mSystemGestureInsets = Insets.toCompatInsets(systemGestureInsets);
             }
             return this.mSystemGestureInsets;
         }
 
         @Override // androidx.core.view.WindowInsetsCompat.Impl
         Insets getMandatorySystemGestureInsets() {
+            android.graphics.Insets mandatorySystemGestureInsets;
             if (this.mMandatorySystemGestureInsets == null) {
-                this.mMandatorySystemGestureInsets = Insets.toCompatInsets(this.mPlatformInsets.getMandatorySystemGestureInsets());
+                mandatorySystemGestureInsets = this.mPlatformInsets.getMandatorySystemGestureInsets();
+                this.mMandatorySystemGestureInsets = Insets.toCompatInsets(mandatorySystemGestureInsets);
             }
             return this.mMandatorySystemGestureInsets;
         }
 
         @Override // androidx.core.view.WindowInsetsCompat.Impl
         Insets getTappableElementInsets() {
+            android.graphics.Insets tappableElementInsets;
             if (this.mTappableElementInsets == null) {
-                this.mTappableElementInsets = Insets.toCompatInsets(this.mPlatformInsets.getTappableElementInsets());
+                tappableElementInsets = this.mPlatformInsets.getTappableElementInsets();
+                this.mTappableElementInsets = Insets.toCompatInsets(tappableElementInsets);
             }
             return this.mTappableElementInsets;
         }
 
         @Override // androidx.core.view.WindowInsetsCompat.Impl20, androidx.core.view.WindowInsetsCompat.Impl
         WindowInsetsCompat inset(int i, int i2, int i3, int i4) {
-            return WindowInsetsCompat.toWindowInsetsCompat(this.mPlatformInsets.inset(i, i2, i3, i4));
+            WindowInsets inset;
+            inset = this.mPlatformInsets.inset(i, i2, i3, i4);
+            return WindowInsetsCompat.toWindowInsetsCompat(inset);
         }
     }
 
@@ -646,10 +685,16 @@ public class WindowInsetsCompat {
 
     /* loaded from: classes.dex */
     private static class Impl30 extends Impl29 {
-        static final WindowInsetsCompat CONSUMED = WindowInsetsCompat.toWindowInsetsCompat(WindowInsets.CONSUMED);
+        static final WindowInsetsCompat CONSUMED;
 
         @Override // androidx.core.view.WindowInsetsCompat.Impl20, androidx.core.view.WindowInsetsCompat.Impl
         final void copyRootViewBounds(View view) {
+        }
+
+        static {
+            WindowInsets windowInsets;
+            windowInsets = WindowInsets.CONSUMED;
+            CONSUMED = WindowInsetsCompat.toWindowInsetsCompat(windowInsets);
         }
 
         Impl30(WindowInsetsCompat windowInsetsCompat, WindowInsets windowInsets) {
@@ -662,7 +707,9 @@ public class WindowInsetsCompat {
 
         @Override // androidx.core.view.WindowInsetsCompat.Impl20, androidx.core.view.WindowInsetsCompat.Impl
         public Insets getInsets(int i) {
-            return Insets.toCompatInsets(this.mPlatformInsets.getInsets(TypeImpl30.toPlatformType(i)));
+            android.graphics.Insets insets;
+            insets = this.mPlatformInsets.getInsets(TypeImpl30.toPlatformType(i));
+            return Insets.toCompatInsets(insets);
         }
     }
 
@@ -799,9 +846,11 @@ public class WindowInsetsCompat {
 
         @Override // androidx.core.view.WindowInsetsCompat.BuilderImpl
         void setSystemWindowInsets(Insets insets) {
+            WindowInsets replaceSystemWindowInsets;
             WindowInsets windowInsets = this.mPlatformInsets;
             if (windowInsets != null) {
-                this.mPlatformInsets = windowInsets.replaceSystemWindowInsets(insets.left, insets.top, insets.right, insets.bottom);
+                replaceSystemWindowInsets = windowInsets.replaceSystemWindowInsets(insets.left, insets.top, insets.right, insets.bottom);
+                this.mPlatformInsets = replaceSystemWindowInsets;
             }
         }
 
@@ -910,8 +959,10 @@ public class WindowInsetsCompat {
 
         @Override // androidx.core.view.WindowInsetsCompat.BuilderImpl
         WindowInsetsCompat build() {
+            WindowInsets build;
             applyInsetTypes();
-            WindowInsetsCompat windowInsetsCompat = WindowInsetsCompat.toWindowInsetsCompat(this.mPlatBuilder.build());
+            build = this.mPlatBuilder.build();
+            WindowInsetsCompat windowInsetsCompat = WindowInsetsCompat.toWindowInsetsCompat(build);
             windowInsetsCompat.setOverriddenInsets(this.mInsetsTypeMask);
             return windowInsetsCompat;
         }

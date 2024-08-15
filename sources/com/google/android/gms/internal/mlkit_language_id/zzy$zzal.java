@@ -27,6 +27,7 @@ public final class zzy$zzal extends zzeo<zzy$zzal, zza> implements zzgb {
         zzf(5),
         zzg(6);
         
+        private static final zzes<zzb> zzh = new zzbd();
         private final int zzi;
 
         @Override // com.google.android.gms.internal.mlkit_language_id.zzet
@@ -46,10 +47,6 @@ public final class zzy$zzal extends zzeo<zzy$zzal, zza> implements zzgb {
         zzb(int i) {
             this.zzi = i;
         }
-
-        static {
-            new zzbd();
-        }
     }
 
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
@@ -62,6 +59,7 @@ public final class zzy$zzal extends zzeo<zzy$zzal, zza> implements zzgb {
         zze(4),
         zzf(5);
         
+        private static final zzes<zzc> zzg = new zzbg();
         private final int zzh;
 
         @Override // com.google.android.gms.internal.mlkit_language_id.zzet
@@ -80,10 +78,6 @@ public final class zzy$zzal extends zzeo<zzy$zzal, zza> implements zzgb {
 
         zzc(int i) {
             this.zzh = i;
-        }
-
-        static {
-            new zzbg();
         }
     }
 

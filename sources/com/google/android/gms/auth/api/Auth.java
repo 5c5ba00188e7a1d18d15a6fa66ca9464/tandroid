@@ -1,7 +1,9 @@
 package com.google.android.gms.auth.api;
 
 import android.os.Bundle;
+import com.google.android.gms.auth.api.credentials.CredentialsApi;
 import com.google.android.gms.auth.api.proxy.ProxyApi;
+import com.google.android.gms.auth.api.signin.GoogleSignInApi;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.internal.zbd;
 import com.google.android.gms.common.api.Api;
@@ -10,7 +12,14 @@ import com.google.android.gms.internal.auth-api.zbl;
 /* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
 /* loaded from: classes.dex */
 public final class Auth {
+    public static final Api<AuthCredentialsOptions> CREDENTIALS_API;
+    public static final CredentialsApi CredentialsApi;
     public static final Api<GoogleSignInOptions> GOOGLE_SIGN_IN_API;
+    public static final GoogleSignInApi GoogleSignInApi;
+    @Deprecated
+    public static final Api<AuthProxyOptions> PROXY_API;
+    @Deprecated
+    public static final ProxyApi ProxyApi;
     public static final Api.ClientKey zba;
     public static final Api.ClientKey zbb;
     private static final Api.AbstractClientBuilder zbc;
@@ -93,11 +102,11 @@ public final class Auth {
         zbc = zbaVar;
         zbb zbbVar = new zbb();
         zbd = zbbVar;
-        Api<AuthProxyOptions> api = AuthProxy.API;
-        new Api("Auth.CREDENTIALS_API", zbaVar, clientKey);
+        PROXY_API = AuthProxy.API;
+        CREDENTIALS_API = new Api<>("Auth.CREDENTIALS_API", zbaVar, clientKey);
         GOOGLE_SIGN_IN_API = new Api<>("Auth.GOOGLE_SIGN_IN_API", zbbVar, clientKey2);
-        ProxyApi proxyApi = AuthProxy.ProxyApi;
-        new zbl();
-        new zbd();
+        ProxyApi = AuthProxy.ProxyApi;
+        CredentialsApi = new zbl();
+        GoogleSignInApi = new zbd();
     }
 }

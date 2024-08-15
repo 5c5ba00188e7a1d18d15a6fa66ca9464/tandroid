@@ -17,10 +17,14 @@ import java.util.UUID;
 /* loaded from: classes.dex */
 public final class MediaItem implements Bundleable {
     public final ClippingConfiguration clippingConfiguration;
+    @Deprecated
+    public final ClippingProperties clippingProperties;
     public final LiveConfiguration liveConfiguration;
     public final LocalConfiguration localConfiguration;
     public final String mediaId;
     public final MediaMetadata mediaMetadata;
+    @Deprecated
+    public final PlaybackProperties playbackProperties;
     public final RequestMetadata requestMetadata;
     public static final MediaItem EMPTY = new Builder().build();
     private static final String FIELD_MEDIA_ID = Util.intToStringMaxRadix(0);
@@ -47,7 +51,6 @@ public final class MediaItem implements Bundleable {
 
     /* loaded from: classes.dex */
     public static final class Builder {
-        private AdsConfiguration adsConfiguration;
         private ClippingConfiguration.Builder clippingConfiguration;
         private String customCacheKey;
         private DrmConfiguration.Builder drmConfiguration;
@@ -135,7 +138,7 @@ public final class MediaItem implements Bundleable {
             Assertions.checkState(this.drmConfiguration.licenseUri == null || this.drmConfiguration.scheme != null);
             Uri uri = this.uri;
             if (uri != null) {
-                playbackProperties = new PlaybackProperties(uri, this.mimeType, this.drmConfiguration.scheme != null ? this.drmConfiguration.build() : null, this.adsConfiguration, this.streamKeys, this.customCacheKey, this.subtitleConfigurations, this.tag);
+                playbackProperties = new PlaybackProperties(uri, this.mimeType, this.drmConfiguration.scheme != null ? this.drmConfiguration.build() : null, null, this.streamKeys, this.customCacheKey, this.subtitleConfigurations, this.tag);
             } else {
                 playbackProperties = null;
             }
@@ -163,7 +166,13 @@ public final class MediaItem implements Bundleable {
         public final Uri licenseUri;
         public final boolean multiSession;
         public final boolean playClearContentWithoutKey;
+        @Deprecated
+        public final ImmutableMap<String, String> requestHeaders;
         public final UUID scheme;
+        @Deprecated
+        public final ImmutableList<Integer> sessionForClearTypes;
+        @Deprecated
+        public final UUID uuid;
 
         /* loaded from: classes.dex */
         public static final class Builder {
@@ -200,14 +209,16 @@ public final class MediaItem implements Bundleable {
 
         private DrmConfiguration(Builder builder) {
             Assertions.checkState((builder.forceDefaultLicenseUri && builder.licenseUri == null) ? false : true);
-            this.scheme = (UUID) Assertions.checkNotNull(builder.scheme);
+            UUID uuid = (UUID) Assertions.checkNotNull(builder.scheme);
+            this.scheme = uuid;
+            this.uuid = uuid;
             this.licenseUri = builder.licenseUri;
-            ImmutableMap unused = builder.licenseRequestHeaders;
+            this.requestHeaders = builder.licenseRequestHeaders;
             this.licenseRequestHeaders = builder.licenseRequestHeaders;
             this.multiSession = builder.multiSession;
             this.forceDefaultLicenseUri = builder.forceDefaultLicenseUri;
             this.playClearContentWithoutKey = builder.playClearContentWithoutKey;
-            ImmutableList unused2 = builder.forcedSessionTrackTypes;
+            this.sessionForClearTypes = builder.forcedSessionTrackTypes;
             this.forcedSessionTrackTypes = builder.forcedSessionTrackTypes;
             this.keySetId = builder.keySetId != null ? Arrays.copyOf(builder.keySetId, builder.keySetId.length) : null;
         }
@@ -244,12 +255,13 @@ public final class MediaItem implements Bundleable {
 
     /* loaded from: classes.dex */
     public static class LocalConfiguration {
-        public final AdsConfiguration adsConfiguration;
         public final String customCacheKey;
         public final DrmConfiguration drmConfiguration;
         public final String mimeType;
         public final List<StreamKey> streamKeys;
         public final ImmutableList<SubtitleConfiguration> subtitleConfigurations;
+        @Deprecated
+        public final List<Subtitle> subtitles;
         public final Object tag;
         public final Uri uri;
 
@@ -264,7 +276,7 @@ public final class MediaItem implements Bundleable {
             for (int i = 0; i < immutableList.size(); i++) {
                 builder.add((ImmutableList.Builder) immutableList.get(i).buildUpon().buildSubtitle());
             }
-            builder.build();
+            this.subtitles = builder.build();
             this.tag = obj;
         }
 
@@ -274,7 +286,7 @@ public final class MediaItem implements Bundleable {
             }
             if (obj instanceof LocalConfiguration) {
                 LocalConfiguration localConfiguration = (LocalConfiguration) obj;
-                return this.uri.equals(localConfiguration.uri) && Util.areEqual(this.mimeType, localConfiguration.mimeType) && Util.areEqual(this.drmConfiguration, localConfiguration.drmConfiguration) && Util.areEqual(this.adsConfiguration, localConfiguration.adsConfiguration) && this.streamKeys.equals(localConfiguration.streamKeys) && Util.areEqual(this.customCacheKey, localConfiguration.customCacheKey) && this.subtitleConfigurations.equals(localConfiguration.subtitleConfigurations) && Util.areEqual(this.tag, localConfiguration.tag);
+                return this.uri.equals(localConfiguration.uri) && Util.areEqual(this.mimeType, localConfiguration.mimeType) && Util.areEqual(this.drmConfiguration, localConfiguration.drmConfiguration) && Util.areEqual(null, null) && this.streamKeys.equals(localConfiguration.streamKeys) && Util.areEqual(this.customCacheKey, localConfiguration.customCacheKey) && this.subtitleConfigurations.equals(localConfiguration.subtitleConfigurations) && Util.areEqual(this.tag, localConfiguration.tag);
             }
             return false;
         }
@@ -781,9 +793,11 @@ public final class MediaItem implements Bundleable {
     private MediaItem(String str, ClippingProperties clippingProperties, PlaybackProperties playbackProperties, LiveConfiguration liveConfiguration, MediaMetadata mediaMetadata, RequestMetadata requestMetadata) {
         this.mediaId = str;
         this.localConfiguration = playbackProperties;
+        this.playbackProperties = playbackProperties;
         this.liveConfiguration = liveConfiguration;
         this.mediaMetadata = mediaMetadata;
         this.clippingConfiguration = clippingProperties;
+        this.clippingProperties = clippingProperties;
         this.requestMetadata = requestMetadata;
     }
 

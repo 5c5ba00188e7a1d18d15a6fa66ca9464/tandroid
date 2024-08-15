@@ -15,10 +15,10 @@ public final class zzg implements Parcelable.Creator<Barcode.Email> {
     @Override // android.os.Parcelable.Creator
     public final /* synthetic */ Barcode.Email createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
+        int i = 0;
         String str = null;
         String str2 = null;
         String str3 = null;
-        int i = 0;
         while (parcel.dataPosition() < validateObjectHeader) {
             int readHeader = SafeParcelReader.readHeader(parcel);
             int fieldId = SafeParcelReader.getFieldId(readHeader);

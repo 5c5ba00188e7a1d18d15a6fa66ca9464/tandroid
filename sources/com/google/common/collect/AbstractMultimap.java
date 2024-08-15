@@ -6,9 +6,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
+abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
     private transient Map<K, Collection<V>> asMap;
     private transient Collection<Map.Entry<K, V>> entries;
     private transient Set<K> keySet;

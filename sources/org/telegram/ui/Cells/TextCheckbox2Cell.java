@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.text.TextUtils;
+import android.util.Property;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -18,6 +19,18 @@ import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.LayoutHelper;
 /* loaded from: classes4.dex */
 public class TextCheckbox2Cell extends FrameLayout {
+    public static final Property<TextCheckbox2Cell, Float> ANIMATION_PROGRESS = new AnimationProperties.FloatProperty<TextCheckbox2Cell>("animationProgress") { // from class: org.telegram.ui.Cells.TextCheckbox2Cell.1
+        @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
+        public void setValue(TextCheckbox2Cell textCheckbox2Cell, float f) {
+            textCheckbox2Cell.setAnimationProgress(f);
+            textCheckbox2Cell.invalidate();
+        }
+
+        @Override // android.util.Property
+        public Float get(TextCheckbox2Cell textCheckbox2Cell) {
+            return Float.valueOf(textCheckbox2Cell.animationProgress);
+        }
+    };
     private int animatedColorBackground;
     private Paint animationPaint;
     private float animationProgress;
@@ -28,21 +41,6 @@ public class TextCheckbox2Cell extends FrameLayout {
     private boolean needDivider;
     private TextView textView;
     private TextView valueTextView;
-
-    static {
-        new AnimationProperties.FloatProperty<TextCheckbox2Cell>("animationProgress") { // from class: org.telegram.ui.Cells.TextCheckbox2Cell.1
-            @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
-            public void setValue(TextCheckbox2Cell textCheckbox2Cell, float f) {
-                textCheckbox2Cell.setAnimationProgress(f);
-                textCheckbox2Cell.invalidate();
-            }
-
-            @Override // android.util.Property
-            public Float get(TextCheckbox2Cell textCheckbox2Cell) {
-                return Float.valueOf(textCheckbox2Cell.animationProgress);
-            }
-        };
-    }
 
     public TextCheckbox2Cell(Context context) {
         this(context, 21);

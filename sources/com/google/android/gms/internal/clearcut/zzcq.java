@@ -22,6 +22,7 @@ public final class zzcq {
     public static final zzcq zzlf;
     public static final zzcq zzlg;
     private static final /* synthetic */ zzcq[] zzlk;
+    private final Class<?> zzlh;
     private final Class<?> zzli;
     private final Object zzlj;
 
@@ -51,6 +52,7 @@ public final class zzcq {
     }
 
     private zzcq(String str, int i, Class cls, Class cls2, Object obj) {
+        this.zzlh = cls;
         this.zzli = cls2;
         this.zzlj = obj;
     }

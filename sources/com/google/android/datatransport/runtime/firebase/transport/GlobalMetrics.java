@@ -3,11 +3,8 @@ package com.google.android.datatransport.runtime.firebase.transport;
 import com.google.firebase.encoders.proto.Protobuf;
 /* loaded from: classes.dex */
 public final class GlobalMetrics {
+    private static final GlobalMetrics DEFAULT_INSTANCE = new Builder().build();
     private final StorageMetrics storage_metrics_;
-
-    static {
-        new Builder().build();
-    }
 
     GlobalMetrics(StorageMetrics storageMetrics) {
         this.storage_metrics_ = storageMetrics;

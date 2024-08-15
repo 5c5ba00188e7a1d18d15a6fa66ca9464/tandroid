@@ -3,10 +3,12 @@ package com.google.android.gms.internal.vision;
 import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.RandomAccess;
 import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
-final class zzjy extends zzhj<Long> implements zzjl<Long>, zzkw {
+final class zzjy extends zzhj<Long> implements zzkw, RandomAccess {
+    private static final zzjy zza;
     private long[] zzb;
     private int zzc;
 
@@ -204,7 +206,7 @@ final class zzjy extends zzhj<Long> implements zzjl<Long>, zzkw {
     }
 
     @Override // com.google.android.gms.internal.vision.zzjl
-    public final /* synthetic */ zzjl<Long> zza(int i) {
+    public final /* synthetic */ zzjl zza(int i) {
         if (i < this.zzc) {
             throw new IllegalArgumentException();
         }
@@ -217,6 +219,8 @@ final class zzjy extends zzhj<Long> implements zzjl<Long>, zzkw {
     }
 
     static {
-        new zzjy(new long[0], 0).zzb();
+        zzjy zzjyVar = new zzjy(new long[0], 0);
+        zza = zzjyVar;
+        zzjyVar.zzb();
     }
 }

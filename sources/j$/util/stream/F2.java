@@ -1,71 +1,51 @@
 package j$.util.stream;
 
-import j$.util.function.Consumer;
-import j$.util.function.Supplier;
-import java.util.Objects;
+import java.util.Arrays;
+import java.util.Comparator;
 /* loaded from: classes2.dex */
-class F2 extends T2 implements S2, j3 {
-    final /* synthetic */ Supplier b;
-    final /* synthetic */ j$.util.function.t c;
-    final /* synthetic */ j$.util.function.b d;
+final class F2 extends t2 {
+    private Object[] d;
+    private int e;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public F2(Supplier supplier, j$.util.function.t tVar, j$.util.function.b bVar) {
-        this.b = supplier;
-        this.c = tVar;
-        this.d = bVar;
-    }
-
-    @Override // j$.util.stream.m3
-    public void accept(double d) {
-        this.c.accept(this.a, d);
-    }
-
-    @Override // j$.util.stream.m3
-    public /* synthetic */ void accept(int i) {
-        o1.d(this);
-        throw null;
-    }
-
-    @Override // j$.util.stream.m3, j$.util.stream.l3, j$.util.function.q
-    public /* synthetic */ void accept(long j) {
-        o1.e(this);
-        throw null;
+    public F2(f2 f2Var, Comparator comparator) {
+        super(f2Var, comparator);
     }
 
     @Override // j$.util.function.Consumer
-    public /* synthetic */ Consumer andThen(Consumer consumer) {
-        return Consumer.-CC.$default$andThen(this, consumer);
+    public final void accept(Object obj) {
+        Object[] objArr = this.d;
+        int i = this.e;
+        this.e = i + 1;
+        objArr[i] = obj;
     }
 
-    @Override // j$.util.function.Consumer
-    /* renamed from: b */
-    public /* synthetic */ void accept(Double d) {
-        o1.a(this, d);
+    @Override // j$.util.stream.b2, j$.util.stream.f2
+    public final void end() {
+        int i = 0;
+        Arrays.sort(this.d, 0, this.e, this.b);
+        f2 f2Var = this.a;
+        f2Var.f(this.e);
+        if (this.c) {
+            while (i < this.e && !f2Var.h()) {
+                f2Var.accept((f2) this.d[i]);
+                i++;
+            }
+        } else {
+            while (i < this.e) {
+                f2Var.accept((f2) this.d[i]);
+                i++;
+            }
+        }
+        f2Var.end();
+        this.d = null;
     }
 
-    @Override // j$.util.stream.S2
-    public void h(S2 s2) {
-        this.a = this.d.apply(this.a, ((F2) s2).a);
-    }
-
-    @Override // j$.util.function.f
-    public j$.util.function.f j(j$.util.function.f fVar) {
-        Objects.requireNonNull(fVar);
-        return new j$.util.function.e(this, fVar);
-    }
-
-    @Override // j$.util.stream.m3
-    public /* synthetic */ void m() {
-    }
-
-    @Override // j$.util.stream.m3
-    public void n(long j) {
-        this.a = this.b.get();
-    }
-
-    @Override // j$.util.stream.m3
-    public /* synthetic */ boolean o() {
-        return false;
+    @Override // j$.util.stream.f2
+    public final void f(long j) {
+        if (j >= 2147483639) {
+            throw new IllegalArgumentException("Stream size exceeds max array size");
+        }
+        this.d = new Object[(int) j];
     }
 }

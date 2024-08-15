@@ -3,7 +3,6 @@ package com.google.android.gms.internal.play_billing;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 /* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 final class zzbs {
@@ -27,7 +26,7 @@ final class zzbs {
         boolean z;
         zzew zzb2 = zzbrVar.zzb();
         byte[] bArr = zzcg.zzd;
-        Objects.requireNonNull(obj);
+        obj.getClass();
         zzew zzewVar = zzew.zza;
         zzex zzexVar = zzex.zza;
         switch (zzb2.zza().ordinal()) {

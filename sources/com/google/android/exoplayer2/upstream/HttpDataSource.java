@@ -39,6 +39,7 @@ public interface HttpDataSource extends DataSource {
 
     /* loaded from: classes.dex */
     public static class HttpDataSourceException extends DataSourceException {
+        public final DataSpec dataSpec;
         public final int type;
 
         private static int assignErrorCode(int i, int i2) {
@@ -66,21 +67,25 @@ public interface HttpDataSource extends DataSource {
 
         public HttpDataSourceException(DataSpec dataSpec, int i, int i2) {
             super(assignErrorCode(i, i2));
+            this.dataSpec = dataSpec;
             this.type = i2;
         }
 
         public HttpDataSourceException(String str, DataSpec dataSpec, int i, int i2) {
             super(str, assignErrorCode(i, i2));
+            this.dataSpec = dataSpec;
             this.type = i2;
         }
 
         public HttpDataSourceException(IOException iOException, DataSpec dataSpec, int i, int i2) {
             super(iOException, assignErrorCode(i, i2));
+            this.dataSpec = dataSpec;
             this.type = i2;
         }
 
         public HttpDataSourceException(String str, IOException iOException, DataSpec dataSpec, int i, int i2) {
             super(str, iOException, assignErrorCode(i, i2));
+            this.dataSpec = dataSpec;
             this.type = i2;
         }
     }
@@ -94,20 +99,27 @@ public interface HttpDataSource extends DataSource {
 
     /* loaded from: classes.dex */
     public static final class InvalidContentTypeException extends HttpDataSourceException {
+        public final String contentType;
+
         public InvalidContentTypeException(String str, DataSpec dataSpec) {
             super("Invalid content type: " + str, dataSpec, 2003, 1);
+            this.contentType = str;
         }
     }
 
     /* loaded from: classes.dex */
     public static final class InvalidResponseCodeException extends HttpDataSourceException {
         public final Map<String, List<String>> headerFields;
+        public final byte[] responseBody;
         public final int responseCode;
+        public final String responseMessage;
 
         public InvalidResponseCodeException(int i, String str, IOException iOException, Map<String, List<String>> map, DataSpec dataSpec, byte[] bArr) {
             super("Response code: " + i, iOException, dataSpec, 2004, 1);
             this.responseCode = i;
+            this.responseMessage = str;
             this.headerFields = map;
+            this.responseBody = bArr;
         }
     }
 }

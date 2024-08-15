@@ -37,7 +37,7 @@ public class LongTypedProperty extends TypedProperty {
         if (this == obj) {
             return true;
         }
-        return obj != null && LongTypedProperty.class == obj.getClass() && super.equals(obj) && this.value == ((LongTypedProperty) obj).value;
+        return obj != null && getClass() == obj.getClass() && super.equals(obj) && this.value == ((LongTypedProperty) obj).value;
     }
 
     @Override // com.microsoft.appcenter.ingestion.models.properties.TypedProperty

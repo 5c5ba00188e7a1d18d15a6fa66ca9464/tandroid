@@ -1,7 +1,6 @@
 package com.stripe.android;
 
 import android.os.AsyncTask;
-import android.os.Build;
 import com.stripe.android.exception.AuthenticationException;
 import com.stripe.android.exception.StripeException;
 import com.stripe.android.model.Card;
@@ -100,7 +99,7 @@ public class Stripe {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void executeTokenTask(Executor executor, AsyncTask<Void, Void, ResponseWrapper> asyncTask) {
-        if (executor != null && Build.VERSION.SDK_INT > 11) {
+        if (executor != null) {
             asyncTask.executeOnExecutor(executor, new Void[0]);
         } else {
             asyncTask.execute(new Void[0]);
@@ -113,7 +112,7 @@ public class Stripe {
         final Exception error;
         final Token token;
 
-        private ResponseWrapper(Stripe stripe, Token token, Exception exc) {
+        private ResponseWrapper(Token token, Exception exc) {
             this.error = exc;
             this.token = token;
         }

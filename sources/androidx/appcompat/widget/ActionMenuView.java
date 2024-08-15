@@ -339,26 +339,32 @@ public class ActionMenuView extends LinearLayoutCompat implements MenuBuilder.It
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int measureChildForCells(View view, int i, int i2, int i3, int i4) {
+        int i5;
         LayoutParams layoutParams = (LayoutParams) view.getLayoutParams();
         int makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i3) - i4, View.MeasureSpec.getMode(i3));
         ActionMenuItemView actionMenuItemView = view instanceof ActionMenuItemView ? (ActionMenuItemView) view : null;
         boolean z = true;
         boolean z2 = actionMenuItemView != null && actionMenuItemView.hasText();
-        int i5 = 2;
-        if (i2 <= 0 || (z2 && i2 < 2)) {
-            i5 = 0;
-        } else {
-            view.measure(View.MeasureSpec.makeMeasureSpec(i2 * i, Integer.MIN_VALUE), makeMeasureSpec);
-            int measuredWidth = view.getMeasuredWidth();
-            int i6 = measuredWidth / i;
-            if (measuredWidth % i != 0) {
-                i6++;
-            }
-            if (!z2 || i6 >= 2) {
-                i5 = i6;
+        if (i2 > 0) {
+            i5 = 2;
+            if (!z2 || i2 >= 2) {
+                view.measure(View.MeasureSpec.makeMeasureSpec(i2 * i, Integer.MIN_VALUE), makeMeasureSpec);
+                int measuredWidth = view.getMeasuredWidth();
+                int i6 = measuredWidth / i;
+                if (measuredWidth % i != 0) {
+                    i6++;
+                }
+                if (!z2 || i6 >= 2) {
+                    i5 = i6;
+                }
+                layoutParams.expandable = (layoutParams.isOverflowButton && z2) ? false : false;
+                layoutParams.cellsUsed = i5;
+                view.measure(View.MeasureSpec.makeMeasureSpec(i * i5, 1073741824), makeMeasureSpec);
+                return i5;
             }
         }
-        layoutParams.expandable = (layoutParams.isOverflowButton || !z2) ? false : false;
+        i5 = 0;
+        layoutParams.expandable = (layoutParams.isOverflowButton && z2) ? false : false;
         layoutParams.cellsUsed = i5;
         view.measure(View.MeasureSpec.makeMeasureSpec(i * i5, 1073741824), makeMeasureSpec);
         return i5;

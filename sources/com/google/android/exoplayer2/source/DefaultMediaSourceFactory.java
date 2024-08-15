@@ -187,7 +187,7 @@ public final class DefaultMediaSourceFactory implements MediaSource.Factory {
 
     private MediaSource maybeWrapWithAdsMediaSource(MediaItem mediaItem, MediaSource mediaSource) {
         Assertions.checkNotNull(mediaItem.localConfiguration);
-        MediaItem.AdsConfiguration adsConfiguration = mediaItem.localConfiguration.adsConfiguration;
+        mediaItem.localConfiguration.getClass();
         return mediaSource;
     }
 
@@ -250,20 +250,21 @@ public final class DefaultMediaSourceFactory implements MediaSource.Factory {
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:26:0x0078  */
+        /* JADX WARN: Removed duplicated region for block: B:27:0x0077  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         private Supplier<MediaSource.Factory> maybeLoadSupplier(int i) {
             Supplier<MediaSource.Factory> supplier;
+            Supplier<MediaSource.Factory> supplier2;
             if (this.mediaSourceFactorySuppliers.containsKey(Integer.valueOf(i))) {
                 return this.mediaSourceFactorySuppliers.get(Integer.valueOf(i));
             }
-            Supplier<MediaSource.Factory> supplier2 = null;
             final DataSource.Factory factory = (DataSource.Factory) Assertions.checkNotNull(this.dataSourceFactory);
+            Supplier<MediaSource.Factory> supplier3 = null;
             if (i == 0) {
                 final Class asSubclass = DashMediaSource.Factory.class.asSubclass(MediaSource.Factory.class);
-                supplier = new Supplier() { // from class: com.google.android.exoplayer2.source.DefaultMediaSourceFactory$DelegateFactoryLoader$$ExternalSyntheticLambda3
+                supplier = new Supplier() { // from class: com.google.android.exoplayer2.source.DefaultMediaSourceFactory$DelegateFactoryLoader$$ExternalSyntheticLambda0
                     @Override // com.google.common.base.Supplier
                     public final Object get() {
                         MediaSource.Factory access$100;
@@ -273,7 +274,7 @@ public final class DefaultMediaSourceFactory implements MediaSource.Factory {
                 };
             } else if (i == 1) {
                 final Class asSubclass2 = SsMediaSource.Factory.class.asSubclass(MediaSource.Factory.class);
-                supplier = new Supplier() { // from class: com.google.android.exoplayer2.source.DefaultMediaSourceFactory$DelegateFactoryLoader$$ExternalSyntheticLambda2
+                supplier = new Supplier() { // from class: com.google.android.exoplayer2.source.DefaultMediaSourceFactory$DelegateFactoryLoader$$ExternalSyntheticLambda1
                     @Override // com.google.common.base.Supplier
                     public final Object get() {
                         MediaSource.Factory access$100;
@@ -283,7 +284,7 @@ public final class DefaultMediaSourceFactory implements MediaSource.Factory {
                 };
             } else if (i == 2) {
                 final Class asSubclass3 = HlsMediaSource.Factory.class.asSubclass(MediaSource.Factory.class);
-                supplier = new Supplier() { // from class: com.google.android.exoplayer2.source.DefaultMediaSourceFactory$DelegateFactoryLoader$$ExternalSyntheticLambda4
+                supplier = new Supplier() { // from class: com.google.android.exoplayer2.source.DefaultMediaSourceFactory$DelegateFactoryLoader$$ExternalSyntheticLambda2
                     @Override // com.google.common.base.Supplier
                     public final Object get() {
                         MediaSource.Factory access$100;
@@ -294,7 +295,7 @@ public final class DefaultMediaSourceFactory implements MediaSource.Factory {
             } else {
                 if (i == 3) {
                     final Class asSubclass4 = RtspMediaSource.Factory.class.asSubclass(MediaSource.Factory.class);
-                    supplier2 = new Supplier() { // from class: com.google.android.exoplayer2.source.DefaultMediaSourceFactory$DelegateFactoryLoader$$ExternalSyntheticLambda1
+                    supplier2 = new Supplier() { // from class: com.google.android.exoplayer2.source.DefaultMediaSourceFactory$DelegateFactoryLoader$$ExternalSyntheticLambda3
                         @Override // com.google.common.base.Supplier
                         public final Object get() {
                             MediaSource.Factory access$000;
@@ -302,27 +303,34 @@ public final class DefaultMediaSourceFactory implements MediaSource.Factory {
                             return access$000;
                         }
                     };
-                } else if (i == 4) {
-                    supplier2 = new Supplier() { // from class: com.google.android.exoplayer2.source.DefaultMediaSourceFactory$DelegateFactoryLoader$$ExternalSyntheticLambda0
-                        @Override // com.google.common.base.Supplier
-                        public final Object get() {
-                            MediaSource.Factory lambda$maybeLoadSupplier$4;
-                            lambda$maybeLoadSupplier$4 = DefaultMediaSourceFactory.DelegateFactoryLoader.this.lambda$maybeLoadSupplier$4(factory);
-                            return lambda$maybeLoadSupplier$4;
-                        }
-                    };
+                } else {
+                    if (i == 4) {
+                        supplier2 = new Supplier() { // from class: com.google.android.exoplayer2.source.DefaultMediaSourceFactory$DelegateFactoryLoader$$ExternalSyntheticLambda4
+                            @Override // com.google.common.base.Supplier
+                            public final Object get() {
+                                MediaSource.Factory lambda$maybeLoadSupplier$4;
+                                lambda$maybeLoadSupplier$4 = DefaultMediaSourceFactory.DelegateFactoryLoader.this.lambda$maybeLoadSupplier$4(factory);
+                                return lambda$maybeLoadSupplier$4;
+                            }
+                        };
+                    }
+                    this.mediaSourceFactorySuppliers.put(Integer.valueOf(i), supplier3);
+                    if (supplier3 != null) {
+                        this.supportedTypes.add(Integer.valueOf(i));
+                    }
+                    return supplier3;
                 }
-                this.mediaSourceFactorySuppliers.put(Integer.valueOf(i), supplier2);
-                if (supplier2 != null) {
-                    this.supportedTypes.add(Integer.valueOf(i));
+                supplier3 = supplier2;
+                this.mediaSourceFactorySuppliers.put(Integer.valueOf(i), supplier3);
+                if (supplier3 != null) {
                 }
-                return supplier2;
+                return supplier3;
             }
-            supplier2 = supplier;
-            this.mediaSourceFactorySuppliers.put(Integer.valueOf(i), supplier2);
-            if (supplier2 != null) {
+            supplier3 = supplier;
+            this.mediaSourceFactorySuppliers.put(Integer.valueOf(i), supplier3);
+            if (supplier3 != null) {
             }
-            return supplier2;
+            return supplier3;
         }
 
         /* JADX INFO: Access modifiers changed from: private */

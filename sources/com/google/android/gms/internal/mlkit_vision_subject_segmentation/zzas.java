@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 
 import java.util.Arrays;
-import java.util.Objects;
 import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
@@ -16,7 +15,7 @@ public final class zzas extends zzao {
     }
 
     public final zzas zza(Object obj) {
-        Objects.requireNonNull(obj);
+        obj.getClass();
         int i = this.zzb + 1;
         Object[] objArr = this.zza;
         int length = objArr.length;

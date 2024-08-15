@@ -1,41 +1,35 @@
 package j$.util.stream;
+
+import j$.util.function.Consumer;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-class o3 extends i3 {
-    long b;
-    long c;
-    final /* synthetic */ p3 d;
-
+public final class o3 extends p3 implements j$.util.K {
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public o3(p3 p3Var, m3 m3Var) {
-        super(m3Var);
-        this.d = p3Var;
-        this.b = p3Var.l;
-        long j = p3Var.m;
-        this.c = j < 0 ? Long.MAX_VALUE : j;
+    public o3(j$.util.K k, long j, long j2) {
+        super(k, j, j2);
     }
 
-    @Override // j$.util.function.Consumer
-    public void accept(Object obj) {
-        long j = this.b;
-        if (j != 0) {
-            this.b = j - 1;
-            return;
-        }
-        long j2 = this.c;
-        if (j2 > 0) {
-            this.c = j2 - 1;
-            this.a.accept((m3) obj);
-        }
+    o3(j$.util.K k, long j, long j2, long j3, long j4) {
+        super(k, j, j2, j3, j4);
     }
 
-    @Override // j$.util.stream.m3
-    public void n(long j) {
-        this.a.n(B3.c(j, this.d.l, this.c));
+    @Override // j$.util.Q
+    public final /* synthetic */ boolean a(Consumer consumer) {
+        return j$.util.a.q(this, consumer);
     }
 
-    @Override // j$.util.stream.i3, j$.util.stream.m3
-    public boolean o() {
-        return this.c == 0 || this.a.o();
+    @Override // j$.util.stream.r3
+    protected final j$.util.Q f(j$.util.Q q, long j, long j2, long j3, long j4) {
+        return new o3((j$.util.K) q, j, j2, j3, j4);
+    }
+
+    @Override // j$.util.Q
+    public final /* synthetic */ void forEachRemaining(Consumer consumer) {
+        j$.util.a.h(this, consumer);
+    }
+
+    @Override // j$.util.stream.p3
+    protected final Object g() {
+        return new n3(0);
     }
 }

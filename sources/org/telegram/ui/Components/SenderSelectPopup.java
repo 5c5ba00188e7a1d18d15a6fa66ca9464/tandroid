@@ -103,7 +103,7 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
         view.setBackgroundColor(AndroidUtilities.DARK_STATUS_BAR_OVERLAY);
         final int dp = AndroidUtilities.dp(450.0f);
         final int width = (int) (chatActivity.contentView.getWidth() * 0.75f);
-        LinearLayout linearLayout = new LinearLayout(this, context) { // from class: org.telegram.ui.Components.SenderSelectPopup.1
+        LinearLayout linearLayout = new LinearLayout(context) { // from class: org.telegram.ui.Components.SenderSelectPopup.1
             @Override // android.widget.LinearLayout, android.view.View
             protected void onMeasure(int i, int i2) {
                 super.onMeasure(View.MeasureSpec.makeMeasureSpec(Math.min(View.MeasureSpec.getSize(i), width), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(Math.min(View.MeasureSpec.getSize(i2), dp), View.MeasureSpec.getMode(i2)));
@@ -131,7 +131,7 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         this.layoutManager = linearLayoutManager;
         this.recyclerView.setLayoutManager(linearLayoutManager);
-        this.recyclerView.setAdapter(new RecyclerListView.SelectionAdapter(this) { // from class: org.telegram.ui.Components.SenderSelectPopup.2
+        this.recyclerView.setAdapter(new RecyclerListView.SelectionAdapter() { // from class: org.telegram.ui.Components.SenderSelectPopup.2
             @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
             public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
                 return true;
@@ -213,7 +213,7 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
                 }
             }
         });
-        this.recyclerView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda10
+        this.recyclerView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda8
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view2, int i) {
                 SenderSelectPopup.this.lambda$new$2(arrayList, context, tLRPC$ChatFull, chatActivity, onSelectCallback, view2, i);
@@ -332,7 +332,7 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
                 }
             });
             make.show();
-            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda8
+            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda10
                 @Override // java.lang.Runnable
                 public final void run() {
                     SenderSelectPopup.this.lambda$new$1(windowManager);
@@ -435,19 +435,19 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
         this.dimView.setAlpha(0.0f);
         FrameLayout frameLayout2 = this.scrimPopupContainerLayout;
         DynamicAnimation.ViewProperty viewProperty = DynamicAnimation.ALPHA;
-        for (final SpringAnimation springAnimation2 : Arrays.asList(new SpringAnimation(this.scrimPopupContainerLayout, DynamicAnimation.SCALE_X).setSpring(new SpringForce(1.0f).setStiffness(750.0f).setDampingRatio(1.0f)).addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda5
+        for (final SpringAnimation springAnimation2 : Arrays.asList(new SpringAnimation(this.scrimPopupContainerLayout, DynamicAnimation.SCALE_X).setSpring(new SpringForce(1.0f).setStiffness(750.0f).setDampingRatio(1.0f)).addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda0
             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
             public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f, float f2) {
                 SenderSelectPopup.this.lambda$startShowAnimation$3(dynamicAnimation, f, f2);
             }
-        }), new SpringAnimation(this.scrimPopupContainerLayout, DynamicAnimation.SCALE_Y).setSpring(new SpringForce(1.0f).setStiffness(750.0f).setDampingRatio(1.0f)).addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda4
+        }), new SpringAnimation(this.scrimPopupContainerLayout, DynamicAnimation.SCALE_Y).setSpring(new SpringForce(1.0f).setStiffness(750.0f).setDampingRatio(1.0f)).addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda1
             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
             public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f, float f2) {
                 SenderSelectPopup.this.lambda$startShowAnimation$4(dynamicAnimation, f, f2);
             }
         }), new SpringAnimation(frameLayout2, viewProperty).setSpring(new SpringForce(1.0f).setStiffness(750.0f).setDampingRatio(1.0f)), new SpringAnimation(this.recyclerContainer, viewProperty).setSpring(new SpringForce(1.0f).setStiffness(750.0f).setDampingRatio(1.0f)), new SpringAnimation(this.dimView, viewProperty).setSpring(new SpringForce(1.0f).setStiffness(750.0f).setDampingRatio(1.0f)))) {
             this.springAnimations.add(springAnimation2);
-            springAnimation2.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda3
+            springAnimation2.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda2
                 @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
                 public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
                     SenderSelectPopup.this.lambda$startShowAnimation$5(springAnimation2, dynamicAnimation, z, f, f2);
@@ -494,17 +494,17 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
         ArrayList<SpringAnimation> arrayList = new ArrayList();
         FrameLayout frameLayout2 = this.scrimPopupContainerLayout;
         DynamicAnimation.ViewProperty viewProperty = DynamicAnimation.ALPHA;
-        arrayList.addAll(Arrays.asList(new SpringAnimation(this.scrimPopupContainerLayout, DynamicAnimation.SCALE_X).setSpring(new SpringForce(0.25f).setStiffness(750.0f).setDampingRatio(1.0f)).addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda7
+        arrayList.addAll(Arrays.asList(new SpringAnimation(this.scrimPopupContainerLayout, DynamicAnimation.SCALE_X).setSpring(new SpringForce(0.25f).setStiffness(750.0f).setDampingRatio(1.0f)).addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda3
             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
             public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f, float f2) {
                 SenderSelectPopup.this.lambda$startDismissAnimation$6(dynamicAnimation, f, f2);
             }
-        }), new SpringAnimation(this.scrimPopupContainerLayout, DynamicAnimation.SCALE_Y).setSpring(new SpringForce(0.25f).setStiffness(750.0f).setDampingRatio(1.0f)).addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda6
+        }), new SpringAnimation(this.scrimPopupContainerLayout, DynamicAnimation.SCALE_Y).setSpring(new SpringForce(0.25f).setStiffness(750.0f).setDampingRatio(1.0f)).addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda4
             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
             public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f, float f2) {
                 SenderSelectPopup.this.lambda$startDismissAnimation$7(dynamicAnimation, f, f2);
             }
-        }), new SpringAnimation(frameLayout2, viewProperty).setSpring(new SpringForce(0.0f).setStiffness(750.0f).setDampingRatio(1.0f)), new SpringAnimation(this.recyclerContainer, viewProperty).setSpring(new SpringForce(0.25f).setStiffness(750.0f).setDampingRatio(1.0f)), new SpringAnimation(this.dimView, viewProperty).setSpring(new SpringForce(0.0f).setStiffness(750.0f).setDampingRatio(1.0f)).addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda1
+        }), new SpringAnimation(frameLayout2, viewProperty).setSpring(new SpringForce(0.0f).setStiffness(750.0f).setDampingRatio(1.0f)), new SpringAnimation(this.recyclerContainer, viewProperty).setSpring(new SpringForce(0.25f).setStiffness(750.0f).setDampingRatio(1.0f)), new SpringAnimation(this.dimView, viewProperty).setSpring(new SpringForce(0.0f).setStiffness(750.0f).setDampingRatio(1.0f)).addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda5
             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
             public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
                 SenderSelectPopup.this.lambda$startDismissAnimation$8(dynamicAnimation, z, f, f2);
@@ -512,7 +512,7 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
         })));
         arrayList.addAll(Arrays.asList(springAnimationArr));
         this.runningCustomSprings = springAnimationArr.length > 0;
-        ((SpringAnimation) arrayList.get(0)).addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda0
+        ((SpringAnimation) arrayList.get(0)).addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda6
             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
             public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
                 SenderSelectPopup.this.lambda$startDismissAnimation$9(dynamicAnimation, z, f, f2);
@@ -520,7 +520,7 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
         });
         for (final SpringAnimation springAnimation : arrayList) {
             this.springAnimations.add(springAnimation);
-            springAnimation.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda2
+            springAnimation.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda7
                 @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
                 public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
                     SenderSelectPopup.this.lambda$startDismissAnimation$10(springAnimation, dynamicAnimation, z, f, f2);

@@ -5,7 +5,10 @@ enum zzcd {
     zzjh(true),
     zzji(true),
     zzjj(false);
+    
+    private final boolean zzjk;
 
     zzcd(boolean z) {
+        this.zzjk = z;
     }
 }

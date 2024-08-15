@@ -4,10 +4,8 @@ import java.util.logging.Logger;
 /* compiled from: com.google.mlkit:vision-common@@17.3.0 */
 /* loaded from: classes.dex */
 final class zze {
-    static {
-        Logger.getLogger(zze.class.getName());
-        new zzd(null);
-    }
+    private static final Logger zza = Logger.getLogger(zze.class.getName());
+    private static final zzd zzb = new zzd(null);
 
     private zze() {
     }

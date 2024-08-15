@@ -2,12 +2,9 @@ package com.google.android.exoplayer2.util;
 /* loaded from: classes.dex */
 public final class Size {
     public static final Size UNKNOWN = new Size(-1, -1);
+    public static final Size ZERO = new Size(0, 0);
     private final int height;
     private final int width;
-
-    static {
-        new Size(0, 0);
-    }
 
     public Size(int i, int i2) {
         Assertions.checkArgument((i == -1 || i >= 0) && (i2 == -1 || i2 >= 0));

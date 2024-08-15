@@ -440,6 +440,8 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(final Context context) {
         Object chat;
+        Property property;
+        Property property2;
         this.searching = false;
         this.searchWas = false;
         this.allSpans.clear();
@@ -578,7 +580,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         this.editText.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
         this.spansContainer.addView(this.editText);
         this.editText.setHintText(LocaleController.getString("SearchForPeopleAndGroups", R.string.SearchForPeopleAndGroups));
-        this.editText.setCustomSelectionActionModeCallback(new ActionMode.Callback(this) { // from class: org.telegram.ui.UsersSelectActivity.5
+        this.editText.setCustomSelectionActionModeCallback(new ActionMode.Callback() { // from class: org.telegram.ui.UsersSelectActivity.5
             @Override // android.view.ActionMode.Callback
             public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
                 return false;
@@ -681,7 +683,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         int i3 = Theme.key_listSelector;
         flickerLoadingView2.setColors(i2, i3, i3);
         viewGroup2.addView(this.progressView);
-        StickerEmptyView stickerEmptyView = new StickerEmptyView(this, context, this.progressView, 1) { // from class: org.telegram.ui.UsersSelectActivity.8
+        StickerEmptyView stickerEmptyView = new StickerEmptyView(context, this.progressView, 1) { // from class: org.telegram.ui.UsersSelectActivity.8
             @Override // org.telegram.ui.Components.StickerEmptyView, android.view.View
             public void setVisibility(int i4) {
                 super.setVisibility(i4);
@@ -708,7 +710,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         this.listView.setVerticalScrollbarPosition(LocaleController.isRTL ? 1 : 2);
         this.listView.addItemDecoration(new ItemDecoration());
         viewGroup2.addView(this.listView);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.UsersSelectActivity$$ExternalSyntheticLambda3
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.UsersSelectActivity$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i4) {
                 UsersSelectActivity.this.lambda$createView$1(context, view, i4);
@@ -740,11 +742,13 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         if (i4 >= 21) {
             StateListAnimator stateListAnimator = new StateListAnimator();
             ImageView imageView2 = this.floatingButton;
-            Property property = View.TRANSLATION_Z;
+            property = View.TRANSLATION_Z;
             stateListAnimator.addState(new int[]{16842919}, ObjectAnimator.ofFloat(imageView2, property, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(4.0f)).setDuration(200L));
-            stateListAnimator.addState(new int[0], ObjectAnimator.ofFloat(this.floatingButton, property, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(2.0f)).setDuration(200L));
+            ImageView imageView3 = this.floatingButton;
+            property2 = View.TRANSLATION_Z;
+            stateListAnimator.addState(new int[0], ObjectAnimator.ofFloat(imageView3, property2, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(2.0f)).setDuration(200L));
             this.floatingButton.setStateListAnimator(stateListAnimator);
-            this.floatingButton.setOutlineProvider(new ViewOutlineProvider(this) { // from class: org.telegram.ui.UsersSelectActivity.10
+            this.floatingButton.setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.UsersSelectActivity.10
                 @Override // android.view.ViewOutlineProvider
                 @SuppressLint({"NewApi"})
                 public void getOutline(View view, Outline outline) {
@@ -753,7 +757,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
             });
         }
         viewGroup2.addView(this.floatingButton);
-        this.floatingButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.UsersSelectActivity$$ExternalSyntheticLambda1
+        this.floatingButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.UsersSelectActivity$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 UsersSelectActivity.this.lambda$createView$2(view);
@@ -1002,8 +1006,10 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
     public void checkVisibleRows() {
         long j;
+        char c;
         int childCount = this.listView.getChildCount();
         for (int i = 0; i < childCount; i++) {
             View childAt = this.listView.getChildAt(i);
@@ -1012,67 +1018,79 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                 Object object = groupCreateUserCell.getObject();
                 if (object instanceof String) {
                     String str = (String) object;
-                    char c = 65535;
                     switch (str.hashCode()) {
                         case -1716307998:
                             if (str.equals("archived")) {
                                 c = '\t';
                                 break;
                             }
+                            c = 65535;
                             break;
                         case -1237460524:
                             if (str.equals("groups")) {
                                 c = 2;
                                 break;
                             }
+                            c = 65535;
                             break;
                         case -1197490811:
                             if (str.equals("non_contacts")) {
                                 c = 1;
                                 break;
                             }
+                            c = 65535;
                             break;
                         case -567451565:
                             if (str.equals("contacts")) {
                                 c = 0;
                                 break;
                             }
+                            c = 65535;
                             break;
                         case -268161860:
                             if (str.equals("new_chats")) {
                                 c = '\b';
                                 break;
                             }
+                            c = 65535;
                             break;
                         case 3029900:
                             if (str.equals("bots")) {
                                 c = 4;
                                 break;
                             }
+                            c = 65535;
                             break;
                         case 3496342:
                             if (str.equals("read")) {
                                 c = 6;
                                 break;
                             }
+                            c = 65535;
                             break;
                         case 104264043:
                             if (str.equals("muted")) {
                                 c = 5;
                                 break;
                             }
+                            c = 65535;
                             break;
                         case 151051367:
                             if (str.equals("existing_chats")) {
                                 c = 7;
                                 break;
                             }
+                            c = 65535;
                             break;
                         case 1432626128:
                             if (str.equals("channels")) {
                                 c = 3;
                                 break;
                             }
+                            c = 65535;
+                            break;
+                        default:
+                            c = 65535;
                             break;
                     }
                     j = -9223372036854775800L;
@@ -1247,7 +1265,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
             SearchAdapterHelper searchAdapterHelper = new SearchAdapterHelper(false);
             this.searchAdapterHelper = searchAdapterHelper;
             searchAdapterHelper.setAllowGlobalResults(false);
-            this.searchAdapterHelper.setDelegate(new SearchAdapterHelper.SearchAdapterHelperDelegate() { // from class: org.telegram.ui.UsersSelectActivity$GroupCreateAdapter$$ExternalSyntheticLambda4
+            this.searchAdapterHelper.setDelegate(new SearchAdapterHelper.SearchAdapterHelperDelegate() { // from class: org.telegram.ui.UsersSelectActivity$GroupCreateAdapter$$ExternalSyntheticLambda0
                 @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
                 public /* synthetic */ boolean canApplySearchResults(int i2) {
                     return SearchAdapterHelper.SearchAdapterHelperDelegate.-CC.$default$canApplySearchResults(this, i2);
@@ -1320,15 +1338,15 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:106:0x022a  */
-        /* JADX WARN: Removed duplicated region for block: B:133:0x02f2  */
-        /* JADX WARN: Removed duplicated region for block: B:134:0x02f8  */
-        /* JADX WARN: Removed duplicated region for block: B:137:0x0306  */
-        /* JADX WARN: Removed duplicated region for block: B:138:0x0309  */
-        /* JADX WARN: Removed duplicated region for block: B:141:0x0316  */
+        /* JADX WARN: Removed duplicated region for block: B:106:0x022b  */
+        /* JADX WARN: Removed duplicated region for block: B:133:0x02f3  */
+        /* JADX WARN: Removed duplicated region for block: B:134:0x02f9  */
+        /* JADX WARN: Removed duplicated region for block: B:137:0x0307  */
+        /* JADX WARN: Removed duplicated region for block: B:138:0x030a  */
+        /* JADX WARN: Removed duplicated region for block: B:141:0x0317  */
         /* JADX WARN: Removed duplicated region for block: B:154:? A[RETURN, SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:98:0x020f  */
-        /* JADX WARN: Removed duplicated region for block: B:99:0x0215  */
+        /* JADX WARN: Removed duplicated region for block: B:98:0x0210  */
+        /* JADX WARN: Removed duplicated region for block: B:99:0x0216  */
         /* JADX WARN: Type inference failed for: r6v0 */
         /* JADX WARN: Type inference failed for: r6v1 */
         /* JADX WARN: Type inference failed for: r6v10, types: [java.lang.StringBuilder] */
@@ -1662,7 +1680,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$searchDialogs$3(final String str, final boolean z, final boolean z2) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.UsersSelectActivity$GroupCreateAdapter$$ExternalSyntheticLambda0
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.UsersSelectActivity$GroupCreateAdapter$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     UsersSelectActivity.GroupCreateAdapter.this.lambda$searchDialogs$2(str, z, z2);
@@ -1674,7 +1692,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         public /* synthetic */ void lambda$searchDialogs$2(final String str, final boolean z, final boolean z2) {
             this.searchAdapterHelper.queryServerSearch(str, true, z, z, UsersSelectActivity.this.allowSelf, false, 0L, false, 0, 0);
             DispatchQueue dispatchQueue = Utilities.searchQueue;
-            Runnable runnable = new Runnable() { // from class: org.telegram.ui.UsersSelectActivity$GroupCreateAdapter$$ExternalSyntheticLambda2
+            Runnable runnable = new Runnable() { // from class: org.telegram.ui.UsersSelectActivity$GroupCreateAdapter$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     UsersSelectActivity.GroupCreateAdapter.this.lambda$searchDialogs$1(str, z2, z);
@@ -1686,10 +1704,10 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
 
         /* JADX INFO: Access modifiers changed from: private */
         /* JADX WARN: Code restructure failed: missing block: B:34:0x00b1, code lost:
-            if (r20 == false) goto L67;
+            if (r20 == false) goto L66;
          */
         /* JADX WARN: Code restructure failed: missing block: B:37:0x00c1, code lost:
-            if (r21 == false) goto L67;
+            if (r21 == false) goto L66;
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1705,9 +1723,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
             }
             String translitString = LocaleController.getInstance().getTranslitString(lowerCase);
             String str4 = null;
-            if (lowerCase.equals(translitString) || translitString.length() == 0) {
-                translitString = null;
-            }
+            translitString = (lowerCase.equals(translitString) || translitString.length() == 0) ? null : null;
             char c = 0;
             char c2 = 1;
             int i2 = (translitString != null ? 1 : 0) + 1;
@@ -1737,8 +1753,9 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                         str3 = str4;
                     } else if (tLRPC$User.bot) {
                     }
-                    strArr2[c2] = LocaleController.getInstance().getTranslitString(strArr2[c]);
-                    if (strArr2[c].equals(strArr2[c2])) {
+                    String translitString2 = LocaleController.getInstance().getTranslitString(strArr2[c]);
+                    strArr2[c2] = translitString2;
+                    if (strArr2[c].equals(translitString2)) {
                         strArr2[c2] = str4;
                     }
                     int i4 = 0;
@@ -1746,7 +1763,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                     while (i4 < i2) {
                         String str5 = strArr[i4];
                         int i5 = 0;
-                        while (i5 < 3) {
+                        for (int i6 = 3; i5 < i6; i6 = 3) {
                             String str6 = strArr2[i5];
                             if (str6 != null) {
                                 if (str6.startsWith(str5)) {
@@ -1807,7 +1824,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         }
 
         private void updateSearchResults(final ArrayList<Object> arrayList, final ArrayList<CharSequence> arrayList2) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.UsersSelectActivity$GroupCreateAdapter$$ExternalSyntheticLambda3
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.UsersSelectActivity$GroupCreateAdapter$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
                     UsersSelectActivity.GroupCreateAdapter.this.lambda$updateSearchResults$4(arrayList, arrayList2);
@@ -1833,7 +1850,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.UsersSelectActivity$$ExternalSyntheticLambda2
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.UsersSelectActivity$$ExternalSyntheticLambda3
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 UsersSelectActivity.this.lambda$getThemeDescriptions$3();

@@ -198,7 +198,7 @@ public class Device extends WrapperSdk {
         if (this == obj) {
             return true;
         }
-        if (obj != null && Device.class == obj.getClass() && super.equals(obj)) {
+        if (obj != null && getClass() == obj.getClass() && super.equals(obj)) {
             Device device = (Device) obj;
             String str = this.sdkName;
             if (str == null ? device.sdkName == null : str.equals(device.sdkName)) {

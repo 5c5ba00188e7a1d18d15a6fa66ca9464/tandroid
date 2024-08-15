@@ -14,7 +14,7 @@ final /* synthetic */ class zzac implements ObjectEncoder {
     @Override // com.google.firebase.encoders.ObjectEncoder
     public final void encode(Object obj, Object obj2) {
         ObjectEncoderContext objectEncoderContext = (ObjectEncoderContext) obj2;
-        int i = zzad.zza;
+        int i = zzad.$r8$clinit;
         String valueOf = String.valueOf(obj.getClass().getCanonicalName());
         throw new EncodingException(valueOf.length() != 0 ? "Couldn't find encoder for type ".concat(valueOf) : new String("Couldn't find encoder for type "));
     }

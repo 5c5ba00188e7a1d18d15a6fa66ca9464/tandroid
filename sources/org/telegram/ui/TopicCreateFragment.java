@@ -132,7 +132,7 @@ public class TopicCreateFragment extends BaseFragment {
         } else {
             this.actionBar.createMenu().addItem(2, R.drawable.ic_ab_done);
         }
-        SizeNotifierFrameLayout sizeNotifierFrameLayout = new SizeNotifierFrameLayout(this, context) { // from class: org.telegram.ui.TopicCreateFragment.2
+        SizeNotifierFrameLayout sizeNotifierFrameLayout = new SizeNotifierFrameLayout(context) { // from class: org.telegram.ui.TopicCreateFragment.2
             boolean keyboardWasShown;
 
             @Override // android.widget.FrameLayout, android.view.View
@@ -201,7 +201,7 @@ public class TopicCreateFragment extends BaseFragment {
                 }
             }
         });
-        4 r3 = new 4(this, context);
+        4 r3 = new 4(context);
         r3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.TopicCreateFragment$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
@@ -356,7 +356,7 @@ public class TopicCreateFragment extends BaseFragment {
                     TopicCreateFragment topicCreateFragment2 = TopicCreateFragment.this;
                     tLRPC$TL_channels_createForumTopic.icon_color = topicCreateFragment2.iconColor;
                     tLRPC$TL_channels_createForumTopic.flags |= 1;
-                    ConnectionsManager.getInstance(((BaseFragment) topicCreateFragment2).currentAccount).sendRequest(tLRPC$TL_channels_createForumTopic, new RequestDelegate() { // from class: org.telegram.ui.TopicCreateFragment$1$$ExternalSyntheticLambda1
+                    ConnectionsManager.getInstance(((BaseFragment) topicCreateFragment2).currentAccount).sendRequest(tLRPC$TL_channels_createForumTopic, new RequestDelegate() { // from class: org.telegram.ui.TopicCreateFragment$1$$ExternalSyntheticLambda0
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                             TopicCreateFragment.1.this.lambda$onItemClick$1(obj, alertDialog, tLObject, tLRPC$TL_error);
@@ -389,7 +389,7 @@ public class TopicCreateFragment extends BaseFragment {
                     tLRPC$TL_channels_editForumTopic.icon_emoji_id = topicCreateFragment4.selectedEmojiDocumentId;
                     tLRPC$TL_channels_editForumTopic.flags |= 2;
                 }
-                ConnectionsManager.getInstance(((BaseFragment) topicCreateFragment4).currentAccount).sendRequest(tLRPC$TL_channels_editForumTopic, new RequestDelegate() { // from class: org.telegram.ui.TopicCreateFragment$1$$ExternalSyntheticLambda3
+                ConnectionsManager.getInstance(((BaseFragment) topicCreateFragment4).currentAccount).sendRequest(tLRPC$TL_channels_editForumTopic, new RequestDelegate() { // from class: org.telegram.ui.TopicCreateFragment$1$$ExternalSyntheticLambda1
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         TopicCreateFragment.1.lambda$onItemClick$2(tLObject, tLRPC$TL_error);
@@ -431,7 +431,7 @@ public class TopicCreateFragment extends BaseFragment {
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onItemClick$1(final String str, final AlertDialog alertDialog, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TopicCreateFragment$1$$ExternalSyntheticLambda0
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TopicCreateFragment$1$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     TopicCreateFragment.1.this.lambda$onItemClick$0(tLObject, str, alertDialog);
@@ -498,7 +498,7 @@ public class TopicCreateFragment extends BaseFragment {
         boolean pressed;
         float pressedProgress;
 
-        4(TopicCreateFragment topicCreateFragment, Context context) {
+        4(Context context) {
             super(context);
         }
 
@@ -618,9 +618,10 @@ public class TopicCreateFragment extends BaseFragment {
         }
         BackupImageView[] backupImageViewArr = this.backupImageView;
         BackupImageView backupImageView = backupImageViewArr[0];
-        backupImageViewArr[0] = backupImageViewArr[1];
+        BackupImageView backupImageView2 = backupImageViewArr[1];
+        backupImageViewArr[0] = backupImageView2;
         backupImageViewArr[1] = backupImageView;
-        AndroidUtilities.updateViewVisibilityAnimated(backupImageViewArr[0], true, 0.5f, true);
+        AndroidUtilities.updateViewVisibilityAnimated(backupImageView2, true, 0.5f, true);
         AndroidUtilities.updateViewVisibilityAnimated(this.backupImageView[1], false, 0.5f, true);
     }
 

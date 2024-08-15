@@ -8,12 +8,13 @@ import java.io.IOException;
 /* loaded from: classes.dex */
 final class zzfa implements ObjectEncoder {
     static final zzfa zza = new zzfa();
+    private static final FieldDescriptor zzb;
 
     static {
         FieldDescriptor.Builder builder = FieldDescriptor.builder("errorCode");
         zzae zzaeVar = new zzae();
         zzaeVar.zza(1);
-        builder.withProperty(zzaeVar.zzb()).build();
+        zzb = builder.withProperty(zzaeVar.zzb()).build();
     }
 
     private zzfa() {

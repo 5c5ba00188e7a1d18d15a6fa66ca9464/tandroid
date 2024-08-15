@@ -34,6 +34,10 @@ import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.KeepMediaPopupView;
 /* loaded from: classes4.dex */
 public class CacheChatsExceptionsFragment extends BaseFragment {
+    private final int VIEW_TYPE_ADD_EXCEPTION;
+    private final int VIEW_TYPE_CHAT;
+    private final int VIEW_TYPE_DELETE_ALL;
+    private final int VIEW_TYPE_DIVIDER;
     Adapter adapter;
     int currentType;
     ArrayList<CacheByChatsController.KeepMediaException> exceptionsDialogs;
@@ -42,6 +46,10 @@ public class CacheChatsExceptionsFragment extends BaseFragment {
 
     public CacheChatsExceptionsFragment(Bundle bundle) {
         super(bundle);
+        this.VIEW_TYPE_ADD_EXCEPTION = 1;
+        this.VIEW_TYPE_CHAT = 2;
+        this.VIEW_TYPE_DIVIDER = 3;
+        this.VIEW_TYPE_DELETE_ALL = 4;
         this.items = new ArrayList<>();
         this.exceptionsDialogs = new ArrayList<>();
     }
@@ -70,7 +78,7 @@ public class CacheChatsExceptionsFragment extends BaseFragment {
         Adapter adapter = new Adapter();
         this.adapter = adapter;
         recyclerListView.setAdapter(adapter);
-        this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.CacheChatsExceptionsFragment$$ExternalSyntheticLambda2
+        this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.CacheChatsExceptionsFragment$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
             public /* synthetic */ boolean hasDoubleTap(View view, int i) {
                 return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i);
@@ -108,7 +116,7 @@ public class CacheChatsExceptionsFragment extends BaseFragment {
             }
             bundle.putBoolean("allowGlobalSearch", false);
             final DialogsActivity dialogsActivity = new DialogsActivity(bundle);
-            dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.CacheChatsExceptionsFragment$$ExternalSyntheticLambda3
+            dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.CacheChatsExceptionsFragment$$ExternalSyntheticLambda2
                 @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
                 public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
                     boolean lambda$createView$0;
@@ -122,14 +130,14 @@ public class CacheChatsExceptionsFragment extends BaseFragment {
             KeepMediaPopupView keepMediaPopupView = new KeepMediaPopupView(this, view.getContext());
             keepMediaPopupView.updateForDialog(false);
             keepMediaPopupView.setParentWindow(AlertsCreator.createSimplePopup(this, keepMediaPopupView, view, f, f2));
-            keepMediaPopupView.setCallback(new KeepMediaPopupView.Callback() { // from class: org.telegram.ui.CacheChatsExceptionsFragment$$ExternalSyntheticLambda4
+            keepMediaPopupView.setCallback(new KeepMediaPopupView.Callback() { // from class: org.telegram.ui.CacheChatsExceptionsFragment$$ExternalSyntheticLambda3
                 @Override // org.telegram.ui.KeepMediaPopupView.Callback
                 public final void onKeepMediaChange(int i3, int i4) {
                     CacheChatsExceptionsFragment.this.lambda$createView$1(keepMediaException, i3, i4);
                 }
             });
         } else if (this.items.get(i).viewType == 4) {
-            AlertDialog create = AlertsCreator.createSimpleAlert(getContext(), LocaleController.getString("NotificationsDeleteAllExceptionTitle", R.string.NotificationsDeleteAllExceptionTitle), LocaleController.getString("NotificationsDeleteAllExceptionAlert", R.string.NotificationsDeleteAllExceptionAlert), LocaleController.getString("Delete", R.string.Delete), new Runnable() { // from class: org.telegram.ui.CacheChatsExceptionsFragment$$ExternalSyntheticLambda0
+            AlertDialog create = AlertsCreator.createSimpleAlert(getContext(), LocaleController.getString("NotificationsDeleteAllExceptionTitle", R.string.NotificationsDeleteAllExceptionTitle), LocaleController.getString("NotificationsDeleteAllExceptionAlert", R.string.NotificationsDeleteAllExceptionAlert), LocaleController.getString("Delete", R.string.Delete), new Runnable() { // from class: org.telegram.ui.CacheChatsExceptionsFragment$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
                     CacheChatsExceptionsFragment.this.lambda$createView$2();
@@ -143,8 +151,8 @@ public class CacheChatsExceptionsFragment extends BaseFragment {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$0(DialogsActivity dialogsActivity, DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
         dialogsActivity.finishFragment();
-        int i = 0;
         CacheByChatsController.KeepMediaException keepMediaException = null;
+        int i = 0;
         int i2 = 0;
         while (true) {
             boolean z2 = true;
@@ -345,11 +353,11 @@ public class CacheChatsExceptionsFragment extends BaseFragment {
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
+            String str;
             if (CacheChatsExceptionsFragment.this.items.get(i).viewType == 2) {
                 UserCell userCell = (UserCell) viewHolder.itemView;
                 CacheByChatsController.KeepMediaException keepMediaException = CacheChatsExceptionsFragment.this.items.get(i).exception;
                 TLObject userOrChat = CacheChatsExceptionsFragment.this.getMessagesController().getUserOrChat(keepMediaException.dialogId);
-                String str = null;
                 if (userOrChat instanceof TLRPC$User) {
                     TLRPC$User tLRPC$User = (TLRPC$User) userOrChat;
                     if (tLRPC$User.self) {
@@ -357,8 +365,8 @@ public class CacheChatsExceptionsFragment extends BaseFragment {
                     } else {
                         str = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name);
                     }
-                } else if (userOrChat instanceof TLRPC$Chat) {
-                    str = ((TLRPC$Chat) userOrChat).title;
+                } else {
+                    str = userOrChat instanceof TLRPC$Chat ? ((TLRPC$Chat) userOrChat).title : null;
                 }
                 String str2 = str;
                 userCell.setSelfAsSavedMessages(true);
@@ -387,7 +395,7 @@ public class CacheChatsExceptionsFragment extends BaseFragment {
     public class Item extends AdapterWithDiffUtils.Item {
         final CacheByChatsController.KeepMediaException exception;
 
-        private Item(CacheChatsExceptionsFragment cacheChatsExceptionsFragment, int i, CacheByChatsController.KeepMediaException keepMediaException) {
+        private Item(int i, CacheByChatsController.KeepMediaException keepMediaException) {
             super(i, false);
             this.exception = keepMediaException;
         }
@@ -397,7 +405,7 @@ public class CacheChatsExceptionsFragment extends BaseFragment {
             if (this == obj) {
                 return true;
             }
-            if (obj == null || Item.class != obj.getClass()) {
+            if (obj == null || getClass() != obj.getClass()) {
                 return false;
             }
             Item item = (Item) obj;

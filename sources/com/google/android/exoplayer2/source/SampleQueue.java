@@ -610,12 +610,12 @@ public class SampleQueue implements TrackOutput {
     private int findSampleBefore(int i, int i2, long j, boolean z) {
         int i3 = -1;
         for (int i4 = 0; i4 < i2; i4++) {
-            long[] jArr = this.timesUs;
-            if (jArr[i] > j) {
+            long j2 = this.timesUs[i];
+            if (j2 > j) {
                 return i3;
             }
             if (!z || (this.flags[i] & 1) != 0) {
-                if (jArr[i] == j) {
+                if (j2 == j) {
                     return i4;
                 }
                 i3 = i4;

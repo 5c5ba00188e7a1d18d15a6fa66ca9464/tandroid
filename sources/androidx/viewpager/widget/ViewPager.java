@@ -52,6 +52,7 @@ public class ViewPager extends ViewGroup {
     private int mBottomPageBounds;
     private boolean mCalledSuper;
     private int mChildHeightMeasureSpec;
+    private int mChildWidthMeasureSpec;
     private int mCloseEnough;
     int mCurItem;
     private int mDecorChildCount;
@@ -60,6 +61,7 @@ public class ViewPager extends ViewGroup {
     private ArrayList<View> mDrawingOrderedChildren;
     private final Runnable mEndScrollRunnable;
     private int mExpectedAdapterCount;
+    private long mFakeDragBeginTime;
     private boolean mFakeDragging;
     private boolean mFirstLayout;
     private float mFirstOffset;
@@ -80,6 +82,7 @@ public class ViewPager extends ViewGroup {
     private Drawable mMarginDrawable;
     private int mMaximumVelocity;
     private int mMinimumVelocity;
+    private boolean mNeedCalculatePageOffsets;
     private PagerObserver mObserver;
     private int mOffscreenPageLimit;
     private OnPageChangeListener mOnPageChangeListener;
@@ -168,6 +171,7 @@ public class ViewPager extends ViewGroup {
         this.mOffscreenPageLimit = 1;
         this.mActivePointerId = -1;
         this.mFirstLayout = true;
+        this.mNeedCalculatePageOffsets = false;
         this.mEndScrollRunnable = new Runnable() { // from class: androidx.viewpager.widget.ViewPager.3
             @Override // java.lang.Runnable
             public void run() {
@@ -790,28 +794,26 @@ public class ViewPager extends ViewGroup {
             int i4 = itemInfo2.position;
             int i5 = itemInfo.position;
             if (i4 < i5) {
-                int i6 = 0;
                 float f2 = itemInfo2.offset + itemInfo2.widthFactor + f;
-                while (true) {
-                    i4++;
-                    if (i4 > itemInfo.position || i6 >= this.mItems.size()) {
-                        break;
-                    }
-                    ItemInfo itemInfo5 = this.mItems.get(i6);
+                int i6 = i4 + 1;
+                int i7 = 0;
+                while (i6 <= itemInfo.position && i7 < this.mItems.size()) {
+                    ItemInfo itemInfo5 = this.mItems.get(i7);
                     while (true) {
                         itemInfo4 = itemInfo5;
-                        if (i4 <= itemInfo4.position || i6 >= this.mItems.size() - 1) {
+                        if (i6 <= itemInfo4.position || i7 >= this.mItems.size() - 1) {
                             break;
                         }
-                        i6++;
-                        itemInfo5 = this.mItems.get(i6);
+                        i7++;
+                        itemInfo5 = this.mItems.get(i7);
                     }
-                    while (i4 < itemInfo4.position) {
-                        f2 += this.mAdapter.getPageWidth(i4) + f;
-                        i4++;
+                    while (i6 < itemInfo4.position) {
+                        f2 += this.mAdapter.getPageWidth(i6) + f;
+                        i6++;
                     }
                     itemInfo4.offset = f2;
                     f2 += itemInfo4.widthFactor + f;
+                    i6++;
                 }
             } else if (i4 > i5) {
                 int size = this.mItems.size() - 1;
@@ -841,51 +843,52 @@ public class ViewPager extends ViewGroup {
         }
         int size2 = this.mItems.size();
         float f4 = itemInfo.offset;
-        int i7 = itemInfo.position;
-        int i8 = i7 - 1;
-        this.mFirstOffset = i7 == 0 ? f4 : -3.4028235E38f;
-        int i9 = count - 1;
-        this.mLastOffset = i7 == i9 ? (itemInfo.widthFactor + f4) - 1.0f : Float.MAX_VALUE;
-        int i10 = i - 1;
-        while (i10 >= 0) {
-            ItemInfo itemInfo7 = this.mItems.get(i10);
+        int i8 = itemInfo.position;
+        int i9 = i8 - 1;
+        this.mFirstOffset = i8 == 0 ? f4 : -3.4028235E38f;
+        int i10 = count - 1;
+        this.mLastOffset = i8 == i10 ? (itemInfo.widthFactor + f4) - 1.0f : Float.MAX_VALUE;
+        int i11 = i - 1;
+        while (i11 >= 0) {
+            ItemInfo itemInfo7 = this.mItems.get(i11);
             while (true) {
                 i3 = itemInfo7.position;
-                if (i8 <= i3) {
+                if (i9 <= i3) {
                     break;
                 }
-                f4 -= this.mAdapter.getPageWidth(i8) + f;
-                i8--;
+                f4 -= this.mAdapter.getPageWidth(i9) + f;
+                i9--;
             }
             f4 -= itemInfo7.widthFactor + f;
             itemInfo7.offset = f4;
             if (i3 == 0) {
                 this.mFirstOffset = f4;
             }
-            i10--;
-            i8--;
+            i11--;
+            i9--;
         }
         float f5 = itemInfo.offset + itemInfo.widthFactor + f;
-        int i11 = itemInfo.position + 1;
-        int i12 = i + 1;
-        while (i12 < size2) {
-            ItemInfo itemInfo8 = this.mItems.get(i12);
+        int i12 = itemInfo.position + 1;
+        int i13 = i + 1;
+        while (i13 < size2) {
+            ItemInfo itemInfo8 = this.mItems.get(i13);
             while (true) {
                 i2 = itemInfo8.position;
-                if (i11 >= i2) {
+                if (i12 >= i2) {
                     break;
                 }
-                f5 += this.mAdapter.getPageWidth(i11) + f;
-                i11++;
+                f5 += this.mAdapter.getPageWidth(i12) + f;
+                i12++;
             }
-            if (i2 == i9) {
+            if (i2 == i10) {
                 this.mLastOffset = (itemInfo8.widthFactor + f5) - 1.0f;
             }
             itemInfo8.offset = f5;
             f5 += itemInfo8.widthFactor + f;
+            i13++;
             i12++;
-            i11++;
         }
+        this.mNeedCalculatePageOffsets = false;
     }
 
     /* loaded from: classes.dex */
@@ -927,7 +930,7 @@ public class ViewPager extends ViewGroup {
 
         SavedState(Parcel parcel, ClassLoader classLoader) {
             super(parcel, classLoader);
-            classLoader = classLoader == null ? SavedState.class.getClassLoader() : classLoader;
+            classLoader = classLoader == null ? getClass().getClassLoader() : classLoader;
             this.position = parcel.readInt();
             this.adapterState = parcel.readParcelable(classLoader);
             this.loader = classLoader;
@@ -1052,7 +1055,7 @@ public class ViewPager extends ViewGroup {
         int i3;
         int i4;
         int i5;
-        setMeasuredDimension(ViewGroup.getDefaultSize(0, i), ViewGroup.getDefaultSize(0, i2));
+        setMeasuredDimension(View.getDefaultSize(0, i), View.getDefaultSize(0, i2));
         int measuredWidth = getMeasuredWidth();
         this.mGutterSize = Math.min(measuredWidth / 10, this.mDefaultGutterSize);
         int paddingLeft = (measuredWidth - getPaddingLeft()) - getPaddingRight();
@@ -1115,7 +1118,7 @@ public class ViewPager extends ViewGroup {
             }
             i6++;
         }
-        View.MeasureSpec.makeMeasureSpec(paddingLeft, 1073741824);
+        this.mChildWidthMeasureSpec = View.MeasureSpec.makeMeasureSpec(paddingLeft, 1073741824);
         this.mChildHeightMeasureSpec = View.MeasureSpec.makeMeasureSpec(measuredHeight, 1073741824);
         this.mInLayout = true;
         populate();
@@ -1728,19 +1731,22 @@ public class ViewPager extends ViewGroup {
                 itemInfo2.widthFactor = this.mAdapter.getPageWidth(i);
                 i3--;
             }
-            f = itemInfo2.offset;
-            float f4 = itemInfo2.widthFactor + f + f2;
+            ItemInfo itemInfo3 = itemInfo2;
+            f = itemInfo3.offset;
+            float f4 = itemInfo3.widthFactor + f + f2;
             if (!z && scrollX < f) {
                 return itemInfo;
             }
             if (scrollX < f4 || i3 == this.mItems.size() - 1) {
-                return itemInfo2;
+                return itemInfo3;
             }
-            i2 = itemInfo2.position;
-            f3 = itemInfo2.widthFactor;
+            int i4 = itemInfo3.position;
+            float f5 = itemInfo3.widthFactor;
             i3++;
-            itemInfo = itemInfo2;
             z = false;
+            i2 = i4;
+            f3 = f5;
+            itemInfo = itemInfo3;
         }
         return itemInfo;
     }
@@ -1865,6 +1871,7 @@ public class ViewPager extends ViewGroup {
         MotionEvent obtain = MotionEvent.obtain(uptimeMillis, uptimeMillis, 0, 0.0f, 0.0f, 0);
         this.mVelocityTracker.addMovement(obtain);
         obtain.recycle();
+        this.mFakeDragBeginTime = uptimeMillis;
         return true;
     }
 
@@ -2130,23 +2137,24 @@ public class ViewPager extends ViewGroup {
     protected boolean onRequestFocusInDescendants(int i, Rect rect) {
         int i2;
         int i3;
+        int i4;
         ItemInfo infoForChild;
         int childCount = getChildCount();
-        int i4 = -1;
         if ((i & 2) != 0) {
-            i4 = childCount;
+            i3 = childCount;
             i2 = 0;
-            i3 = 1;
+            i4 = 1;
         } else {
             i2 = childCount - 1;
             i3 = -1;
+            i4 = -1;
         }
-        while (i2 != i4) {
+        while (i2 != i3) {
             View childAt = getChildAt(i2);
             if (childAt.getVisibility() == 0 && (infoForChild = infoForChild(childAt)) != null && infoForChild.position == this.mCurItem && childAt.requestFocus(i, rect)) {
                 return true;
             }
-            i2 += i3;
+            i2 += i4;
         }
         return false;
     }

@@ -899,7 +899,7 @@ public class EditTextBoldCursor extends EditTextEffects {
                     } else {
                         Utilities.Callback2<Canvas, Runnable> callback2 = this.drawHint;
                         if (callback2 != null) {
-                            callback2.run(canvas, new Runnable() { // from class: org.telegram.ui.Components.EditTextBoldCursor$$ExternalSyntheticLambda2
+                            callback2.run(canvas, new Runnable() { // from class: org.telegram.ui.Components.EditTextBoldCursor$$ExternalSyntheticLambda0
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     EditTextBoldCursor.this.lambda$drawHint$0(canvas);
@@ -1317,27 +1317,24 @@ public class EditTextBoldCursor extends EditTextEffects {
         if (this.mTempRect == null) {
             this.mTempRect = new android.graphics.Rect();
         }
-        int i2 = 0;
         if (drawable != null) {
             drawable.getPadding(this.mTempRect);
-            i2 = drawable.getIntrinsicWidth();
+            i = drawable.getIntrinsicWidth();
         } else {
             this.mTempRect.setEmpty();
+            i = 0;
         }
         int scrollX = getScrollX();
         float f2 = max - scrollX;
         int width = (getWidth() - getCompoundPaddingLeft()) - getCompoundPaddingRight();
         float f3 = width;
         if (f2 >= f3 - 1.0f) {
-            return (width + scrollX) - (i2 - this.mTempRect.right);
+            return (width + scrollX) - (i - this.mTempRect.right);
         }
         if (Math.abs(f2) <= 1.0f || (TextUtils.isEmpty(getText()) && FileLoaderPriorityQueue.PRIORITY_VALUE_MAX - scrollX <= f3 + 1.0f && max <= 1.0f)) {
-            i = this.mTempRect.left;
-        } else {
-            scrollX = (int) max;
-            i = this.mTempRect.left;
+            return scrollX - this.mTempRect.left;
         }
-        return scrollX - i;
+        return ((int) max) - this.mTempRect.left;
     }
 
     private void updateCursorPosition(int i, int i2, float f) {
@@ -1402,7 +1399,7 @@ public class EditTextBoldCursor extends EditTextEffects {
             FloatingToolbar floatingToolbar = new FloatingToolbar(context, view, getActionModeStyle(), getResourcesProvider());
             this.floatingToolbar = floatingToolbar;
             floatingToolbar.setOnPremiumLockClick(this.onPremiumMenuLockClickListener);
-            this.floatingToolbar.setQuoteShowVisible(new Utilities.Callback0Return() { // from class: org.telegram.ui.Components.EditTextBoldCursor$$ExternalSyntheticLambda3
+            this.floatingToolbar.setQuoteShowVisible(new Utilities.Callback0Return() { // from class: org.telegram.ui.Components.EditTextBoldCursor$$ExternalSyntheticLambda2
                 @Override // org.telegram.messenger.Utilities.Callback0Return
                 public final Object run() {
                     boolean shouldShowQuoteButton;
@@ -1411,7 +1408,7 @@ public class EditTextBoldCursor extends EditTextEffects {
                 }
             });
             this.floatingActionMode = new FloatingActionMode(getContext(), new ActionModeCallback2Wrapper(callback), this, this.floatingToolbar);
-            this.floatingToolbarPreDrawListener = new ViewTreeObserver.OnPreDrawListener() { // from class: org.telegram.ui.Components.EditTextBoldCursor$$ExternalSyntheticLambda0
+            this.floatingToolbarPreDrawListener = new ViewTreeObserver.OnPreDrawListener() { // from class: org.telegram.ui.Components.EditTextBoldCursor$$ExternalSyntheticLambda3
                 @Override // android.view.ViewTreeObserver.OnPreDrawListener
                 public final boolean onPreDraw() {
                     boolean lambda$startActionMode$1;

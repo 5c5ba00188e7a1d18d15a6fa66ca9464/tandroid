@@ -19,10 +19,10 @@ public class LinearChartView extends BaseChartView<ChartData, LineViewData> {
         super.init();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:54:0x0155  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x015d  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x0168  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0171  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x0151  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0159  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0164  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x016d  */
     @Override // org.telegram.ui.Charts.BaseChartView
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -30,7 +30,6 @@ public class LinearChartView extends BaseChartView<ChartData, LineViewData> {
     protected void drawChart(Canvas canvas) {
         int i;
         float f;
-        int i2;
         if (this.chartData != 0) {
             float f2 = this.chartWidth;
             ChartPickerDelegate chartPickerDelegate = this.pickerDelegate;
@@ -38,46 +37,45 @@ public class LinearChartView extends BaseChartView<ChartData, LineViewData> {
             float f4 = chartPickerDelegate.pickerStart;
             float f5 = f2 / (f3 - f4);
             float f6 = (f4 * f5) - BaseChartView.HORIZONTAL_PADDING;
+            int i2 = 0;
             int i3 = 0;
-            int i4 = 0;
-            while (i4 < this.lines.size()) {
-                LineViewData lineViewData = (LineViewData) this.lines.get(i4);
+            while (i3 < this.lines.size()) {
+                LineViewData lineViewData = (LineViewData) this.lines.get(i3);
                 if (lineViewData.enabled || lineViewData.alpha != 0.0f) {
                     float[] fArr = this.chartData.xPercentage;
                     float f7 = fArr.length < 2 ? 0.0f : fArr[1] * f5;
                     long[] jArr = lineViewData.line.y;
-                    int i5 = ((int) (BaseChartView.HORIZONTAL_PADDING / f7)) + 1;
+                    int i4 = ((int) (BaseChartView.HORIZONTAL_PADDING / f7)) + 1;
                     lineViewData.chartPath.reset();
-                    int max = Math.max(i3, this.startXIndex - i5);
-                    int min = Math.min(this.chartData.xPercentage.length - 1, this.endXIndex + i5);
+                    int max = Math.max(i2, this.startXIndex - i4);
+                    int min = Math.min(this.chartData.xPercentage.length - 1, this.endXIndex + i4);
                     boolean z = true;
-                    int i6 = 0;
+                    int i5 = 0;
                     while (max <= min) {
-                        if (jArr[max] < 0) {
-                            i2 = i4;
-                        } else {
+                        int i6 = i3;
+                        long j = jArr[max];
+                        if (j >= 0) {
                             float f8 = (this.chartData.xPercentage[max] * f5) - f6;
-                            i2 = i4;
                             float f9 = this.currentMinHeight;
-                            float f10 = (((float) jArr[max]) - f9) / (this.currentMaxHeight - f9);
+                            float f10 = (((float) j) - f9) / (this.currentMaxHeight - f9);
                             float strokeWidth = lineViewData.paint.getStrokeWidth() / 2.0f;
                             float measuredHeight = ((getMeasuredHeight() - this.chartBottom) - strokeWidth) - (f10 * (((getMeasuredHeight() - this.chartBottom) - BaseChartView.SIGNATURE_TEXT_HEIGHT) - strokeWidth));
                             if (BaseChartView.USE_LINES) {
-                                if (i6 == 0) {
+                                if (i5 == 0) {
                                     float[] fArr2 = lineViewData.linesPath;
-                                    int i7 = i6 + 1;
-                                    fArr2[i6] = f8;
-                                    i6 = i7 + 1;
+                                    int i7 = i5 + 1;
+                                    fArr2[i5] = f8;
+                                    i5 = i7 + 1;
                                     fArr2[i7] = measuredHeight;
                                 } else {
                                     float[] fArr3 = lineViewData.linesPath;
-                                    int i8 = i6 + 1;
-                                    fArr3[i6] = f8;
+                                    int i8 = i5 + 1;
+                                    fArr3[i5] = f8;
                                     int i9 = i8 + 1;
                                     fArr3[i8] = measuredHeight;
                                     int i10 = i9 + 1;
                                     fArr3[i9] = f8;
-                                    i6 = i10 + 1;
+                                    i5 = i10 + 1;
                                     fArr3[i10] = measuredHeight;
                                 }
                             } else if (z) {
@@ -88,9 +86,9 @@ public class LinearChartView extends BaseChartView<ChartData, LineViewData> {
                             }
                         }
                         max++;
-                        i4 = i2;
+                        i3 = i6;
                     }
-                    i = i4;
+                    i = i3;
                     canvas.save();
                     int i11 = this.transitionMode;
                     if (i11 == 2) {
@@ -118,7 +116,7 @@ public class LinearChartView extends BaseChartView<ChartData, LineViewData> {
                         if (BaseChartView.USE_LINES) {
                             canvas.drawPath(lineViewData.chartPath, lineViewData.paint);
                         } else {
-                            canvas.drawLines(lineViewData.linesPath, 0, i6, lineViewData.paint);
+                            canvas.drawLines(lineViewData.linesPath, 0, i5, lineViewData.paint);
                         }
                         canvas.restore();
                     }
@@ -130,10 +128,10 @@ public class LinearChartView extends BaseChartView<ChartData, LineViewData> {
                     }
                     canvas.restore();
                 } else {
-                    i = i4;
+                    i = i3;
                 }
-                i4 = i + 1;
-                i3 = 0;
+                i3 = i + 1;
+                i2 = 0;
             }
         }
     }
@@ -141,8 +139,10 @@ public class LinearChartView extends BaseChartView<ChartData, LineViewData> {
     @Override // org.telegram.ui.Charts.BaseChartView
     protected void drawPickerChart(Canvas canvas) {
         int i;
-        int i2;
+        long[] jArr;
         float f;
+        int i2;
+        float f2;
         getMeasuredHeight();
         getMeasuredHeight();
         int size = this.lines.size();
@@ -153,52 +153,61 @@ public class LinearChartView extends BaseChartView<ChartData, LineViewData> {
                 if (lineViewData.enabled || lineViewData.alpha != 0.0f) {
                     lineViewData.bottomLinePath.reset();
                     int length = this.chartData.xPercentage.length;
-                    long[] jArr = lineViewData.line.y;
+                    long[] jArr2 = lineViewData.line.y;
                     lineViewData.chartPath.reset();
                     int i4 = 0;
                     int i5 = 0;
                     while (i4 < length) {
-                        if (jArr[i4] < 0) {
+                        long j = jArr2[i4];
+                        if (j < 0) {
+                            jArr = jArr2;
                             i2 = i3;
                         } else {
                             T t = this.chartData;
-                            float f2 = t.xPercentage[i4] * this.pickerWidth;
+                            float f3 = t.xPercentage[i4] * this.pickerWidth;
                             boolean z = BaseChartView.ANIMATE_PICKER_SIZES;
-                            float f3 = z ? this.pickerMaxHeight : (float) t.maxValue;
                             if (z) {
-                                f = this.pickerMinHeight;
+                                f = this.pickerMaxHeight;
+                                jArr = jArr2;
+                            } else {
+                                jArr = jArr2;
+                                f = (float) t.maxValue;
+                            }
+                            if (z) {
+                                f2 = this.pickerMinHeight;
                                 i2 = i3;
                             } else {
                                 i2 = i3;
-                                f = (float) t.minValue;
+                                f2 = (float) t.minValue;
                             }
-                            float f4 = (1.0f - ((((float) jArr[i4]) - f) / (f3 - f))) * this.pikerHeight;
+                            float f4 = (1.0f - ((((float) j) - f2) / (f - f2))) * this.pikerHeight;
                             if (BaseChartView.USE_LINES) {
                                 if (i5 == 0) {
                                     float[] fArr = lineViewData.linesPathBottom;
                                     int i6 = i5 + 1;
-                                    fArr[i5] = f2;
+                                    fArr[i5] = f3;
                                     i5 = i6 + 1;
                                     fArr[i6] = f4;
                                 } else {
                                     float[] fArr2 = lineViewData.linesPathBottom;
                                     int i7 = i5 + 1;
-                                    fArr2[i5] = f2;
+                                    fArr2[i5] = f3;
                                     int i8 = i7 + 1;
                                     fArr2[i7] = f4;
                                     int i9 = i8 + 1;
-                                    fArr2[i8] = f2;
+                                    fArr2[i8] = f3;
                                     i5 = i9 + 1;
                                     fArr2[i9] = f4;
                                 }
                             } else if (i4 == 0) {
-                                lineViewData.bottomLinePath.moveTo(f2, f4);
+                                lineViewData.bottomLinePath.moveTo(f3, f4);
                             } else {
-                                lineViewData.bottomLinePath.lineTo(f2, f4);
+                                lineViewData.bottomLinePath.lineTo(f3, f4);
                             }
                         }
                         i4++;
                         i3 = i2;
+                        jArr2 = jArr;
                     }
                     i = i3;
                     lineViewData.linesPathBottomSize = i5;

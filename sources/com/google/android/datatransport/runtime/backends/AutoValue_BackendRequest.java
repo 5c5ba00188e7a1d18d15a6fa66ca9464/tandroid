@@ -3,7 +3,6 @@ package com.google.android.datatransport.runtime.backends;
 import com.google.android.datatransport.runtime.EventInternal;
 import com.google.android.datatransport.runtime.backends.BackendRequest;
 import java.util.Arrays;
-import java.util.Objects;
 /* loaded from: classes.dex */
 final class AutoValue_BackendRequest extends BackendRequest {
     private final Iterable<EventInternal> events;
@@ -56,7 +55,9 @@ final class AutoValue_BackendRequest extends BackendRequest {
 
         @Override // com.google.android.datatransport.runtime.backends.BackendRequest.Builder
         public BackendRequest.Builder setEvents(Iterable<EventInternal> iterable) {
-            Objects.requireNonNull(iterable, "Null events");
+            if (iterable == null) {
+                throw new NullPointerException("Null events");
+            }
             this.events = iterable;
             return this;
         }

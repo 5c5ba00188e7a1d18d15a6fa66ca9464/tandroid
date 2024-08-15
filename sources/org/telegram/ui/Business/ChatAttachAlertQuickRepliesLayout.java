@@ -125,7 +125,7 @@ public class ChatAttachAlertQuickRepliesLayout extends ChatAttachAlert.AttachAle
                     this.statusTextView.setText(charSequence2);
                 } else {
                     this.statusTextView.setText("");
-                    Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Business.ChatAttachAlertQuickRepliesLayout$UserCell$$ExternalSyntheticLambda1
+                    Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Business.ChatAttachAlertQuickRepliesLayout$UserCell$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
                         public final void run() {
                             ChatAttachAlertQuickRepliesLayout.UserCell.this.lambda$setStatus$3();
@@ -141,7 +141,7 @@ public class ChatAttachAlertQuickRepliesLayout extends ChatAttachAlert.AttachAle
                 PhoneFormat phoneFormat = PhoneFormat.getInstance();
                 this.formattedPhoneNumber = phoneFormat.format("+" + this.currentUser.phone);
                 this.formattedPhoneNumberUser = this.currentUser;
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Business.ChatAttachAlertQuickRepliesLayout$UserCell$$ExternalSyntheticLambda0
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Business.ChatAttachAlertQuickRepliesLayout$UserCell$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         ChatAttachAlertQuickRepliesLayout.UserCell.this.lambda$setStatus$2();
@@ -349,7 +349,7 @@ public class ChatAttachAlertQuickRepliesLayout extends ChatAttachAlert.AttachAle
         this.listAdapter = shareAdapter;
         recyclerListView2.setAdapter(shareAdapter);
         this.listView.setGlowColor(getThemedColor(Theme.key_dialogScrollGlow));
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Business.ChatAttachAlertQuickRepliesLayout$$ExternalSyntheticLambda3
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Business.ChatAttachAlertQuickRepliesLayout$$ExternalSyntheticLambda2
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i) {
                 ChatAttachAlertQuickRepliesLayout.this.lambda$new$2(view, i);
@@ -376,7 +376,7 @@ public class ChatAttachAlertQuickRepliesLayout extends ChatAttachAlert.AttachAle
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(Object[] objArr) {
-        AndroidUtilities.forEachViews((RecyclerView) this.listView, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.Business.ChatAttachAlertQuickRepliesLayout$$ExternalSyntheticLambda0
+        AndroidUtilities.forEachViews((RecyclerView) this.listView, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.Business.ChatAttachAlertQuickRepliesLayout$$ExternalSyntheticLambda3
             @Override // com.google.android.exoplayer2.util.Consumer
             public final void accept(Object obj) {
                 ChatAttachAlertQuickRepliesLayout.lambda$new$0((View) obj);
@@ -786,7 +786,7 @@ public class ChatAttachAlertQuickRepliesLayout extends ChatAttachAlert.AttachAle
 
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     public ArrayList<ThemeDescription> getThemeDescriptions() {
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.Business.ChatAttachAlertQuickRepliesLayout$$ExternalSyntheticLambda2
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.Business.ChatAttachAlertQuickRepliesLayout$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 ChatAttachAlertQuickRepliesLayout.this.lambda$getThemeDescriptions$3();

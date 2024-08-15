@@ -99,7 +99,7 @@ public class AdminLogFilterAlert2 extends BottomSheetWithRecyclerListView {
         defaultItemAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
         defaultItemAnimator.setDurations(350L);
         this.recyclerListView.setItemAnimator(defaultItemAnimator);
-        this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.Components.AdminLogFilterAlert2$$ExternalSyntheticLambda3
+        this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.Components.AdminLogFilterAlert2$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
             public /* synthetic */ boolean hasDoubleTap(View view, int i) {
                 return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i);
@@ -124,7 +124,7 @@ public class AdminLogFilterAlert2 extends BottomSheetWithRecyclerListView {
         ButtonWithCounterView buttonWithCounterView = new ButtonWithCounterView(getContext(), this.resourcesProvider);
         this.actionButton = buttonWithCounterView;
         buttonWithCounterView.setText(LocaleController.getString(R.string.EventLogFilterApply), false);
-        buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AdminLogFilterAlert2$$ExternalSyntheticLambda0
+        buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AdminLogFilterAlert2$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 AdminLogFilterAlert2.this.lambda$new$1(view);
@@ -200,7 +200,7 @@ public class AdminLogFilterAlert2 extends BottomSheetWithRecyclerListView {
     }
 
     private View.OnClickListener getGroupClick(final int i) {
-        return new View.OnClickListener() { // from class: org.telegram.ui.Components.AdminLogFilterAlert2$$ExternalSyntheticLambda1
+        return new View.OnClickListener() { // from class: org.telegram.ui.Components.AdminLogFilterAlert2$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 AdminLogFilterAlert2.this.lambda$getGroupClick$2(i, view);

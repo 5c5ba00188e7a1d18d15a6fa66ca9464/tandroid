@@ -4,6 +4,8 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 /* loaded from: classes.dex */
 public final class DolbyVisionConfig {
     public final String codecs;
+    public final int level;
+    public final int profile;
 
     public static DolbyVisionConfig parse(ParsableByteArray parsableByteArray) {
         String str;
@@ -30,6 +32,8 @@ public final class DolbyVisionConfig {
     }
 
     private DolbyVisionConfig(int i, int i2, String str) {
+        this.profile = i;
+        this.level = i2;
         this.codecs = str;
     }
 }

@@ -47,6 +47,7 @@ public class TableCell extends FrameLayout {
     private final BackupImageView fromImageView;
     private final TextView fromNameTextView;
     private final TextView fromTextView;
+    private TLRPC$TL_payments_checkedGiftCode giftCode;
     private final TextView giftNameTextView;
     private final TextView giftTextView;
     private final Paint linePaint;
@@ -191,7 +192,7 @@ public class TableCell extends FrameLayout {
         }
         addView(tableLayout, LayoutHelper.createFrame(-1, -2.0f));
         if (Build.VERSION.SDK_INT >= 21) {
-            tableLayout.setOutlineProvider(new ViewOutlineProvider(this) { // from class: org.telegram.ui.Components.Premium.boosts.cells.TableCell.2
+            tableLayout.setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.Components.Premium.boosts.cells.TableCell.2
                 @Override // android.view.ViewOutlineProvider
                 public void getOutline(View view, Outline outline) {
                     outline.setRoundRect(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight(), AndroidUtilities.dp(6.0f));
@@ -203,6 +204,7 @@ public class TableCell extends FrameLayout {
     }
 
     public void setData(final TLRPC$TL_payments_checkedGiftCode tLRPC$TL_payments_checkedGiftCode, final Utilities.Callback<TLObject> callback) {
+        this.giftCode = tLRPC$TL_payments_checkedGiftCode;
         Date date = new Date(tLRPC$TL_payments_checkedGiftCode.date * 1000);
         this.dateTextView.setText(LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().getFormatterYear().format(date), LocaleController.getInstance().getFormatterDay().format(date)));
         this.reasonTextView.setTextColor(Theme.getColor(tLRPC$TL_payments_checkedGiftCode.via_giveaway ? Theme.key_dialogTextBlue : Theme.key_dialogTextBlack, this.resourcesProvider));
@@ -213,13 +215,13 @@ public class TableCell extends FrameLayout {
             spannableStringBuilder.append((CharSequence) "**");
             spannableStringBuilder.append((CharSequence) LocaleController.getString("BoostingGiveaway", R.string.BoostingGiveaway));
             spannableStringBuilder.append((CharSequence) "**");
-            this.reasonTextView.setText(AndroidUtilities.replaceSingleTag(spannableStringBuilder.toString(), Theme.key_chat_messageLinkIn, 0, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.cells.TableCell$$ExternalSyntheticLambda6
+            this.reasonTextView.setText(AndroidUtilities.replaceSingleTag(spannableStringBuilder.toString(), Theme.key_chat_messageLinkIn, 0, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.cells.TableCell$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     Utilities.Callback.this.run(tLRPC$TL_payments_checkedGiftCode);
                 }
             }, this.resourcesProvider));
-            this.reasonTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.cells.TableCell$$ExternalSyntheticLambda1
+            this.reasonTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.cells.TableCell$$ExternalSyntheticLambda3
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     Utilities.Callback.this.run(tLRPC$TL_payments_checkedGiftCode);
@@ -245,7 +247,7 @@ public class TableCell extends FrameLayout {
             TextView textView = this.fromTextView;
             textView.setText(Emoji.replaceEmoji((CharSequence) replaceSingleTag, textView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(12.0f), false));
             this.fromImageView.setForUserOrChat(chat, new AvatarDrawable(chat));
-            this.fromFrameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.cells.TableCell$$ExternalSyntheticLambda0
+            this.fromFrameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.cells.TableCell$$ExternalSyntheticLambda5
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     Utilities.Callback.this.run(chat);
@@ -255,7 +257,7 @@ public class TableCell extends FrameLayout {
             final TLRPC$User user = MessagesController.getInstance(UserConfig.selectedAccount).getUser(Long.valueOf(tLRPC$TL_payments_checkedGiftCode.from_id.user_id));
             this.fromTextView.setText(Emoji.replaceEmoji((CharSequence) UserObject.getFirstName(user), this.fromTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(12.0f), false));
             this.fromImageView.setForUserOrChat(user, new AvatarDrawable(user));
-            this.fromFrameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.cells.TableCell$$ExternalSyntheticLambda3
+            this.fromFrameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.cells.TableCell$$ExternalSyntheticLambda6
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     Utilities.Callback.this.run(user);
@@ -267,7 +269,7 @@ public class TableCell extends FrameLayout {
             spannableStringBuilder3.append((CharSequence) "**");
             spannableStringBuilder3.append((CharSequence) LocaleController.getString("BoostingIncompleteGiveaway", R.string.BoostingIncompleteGiveaway));
             spannableStringBuilder3.append((CharSequence) "**");
-            this.reasonTextView.setText(AndroidUtilities.replaceSingleTag(spannableStringBuilder3.toString(), Theme.key_chat_messageLinkIn, 0, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.cells.TableCell$$ExternalSyntheticLambda5
+            this.reasonTextView.setText(AndroidUtilities.replaceSingleTag(spannableStringBuilder3.toString(), Theme.key_chat_messageLinkIn, 0, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.cells.TableCell$$ExternalSyntheticLambda7
                 @Override // java.lang.Runnable
                 public final void run() {
                     Utilities.Callback.this.run(tLRPC$TL_payments_checkedGiftCode);
@@ -285,7 +287,7 @@ public class TableCell extends FrameLayout {
                 spannableStringBuilder4.append((CharSequence) "**");
                 spannableStringBuilder4.append((CharSequence) UserObject.getFirstName(user2));
                 spannableStringBuilder4.append((CharSequence) "**");
-                SpannableStringBuilder replaceSingleTag2 = AndroidUtilities.replaceSingleTag(spannableStringBuilder4.toString(), Theme.key_chat_messageLinkIn, 0, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.cells.TableCell$$ExternalSyntheticLambda7
+                SpannableStringBuilder replaceSingleTag2 = AndroidUtilities.replaceSingleTag(spannableStringBuilder4.toString(), Theme.key_chat_messageLinkIn, 0, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.cells.TableCell$$ExternalSyntheticLambda8
                     @Override // java.lang.Runnable
                     public final void run() {
                         Utilities.Callback.this.run(user2);
@@ -294,7 +296,7 @@ public class TableCell extends FrameLayout {
                 TextView textView2 = this.toTextView;
                 textView2.setText(Emoji.replaceEmoji((CharSequence) replaceSingleTag2, textView2.getPaint().getFontMetricsInt(), AndroidUtilities.dp(12.0f), false));
                 this.toImageView.setForUserOrChat(user2, new AvatarDrawable(user2));
-                this.toFrameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.cells.TableCell$$ExternalSyntheticLambda2
+                this.toFrameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.cells.TableCell$$ExternalSyntheticLambda9
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         Utilities.Callback.this.run(user2);

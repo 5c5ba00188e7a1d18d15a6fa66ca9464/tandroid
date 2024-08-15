@@ -4,9 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 /* loaded from: classes.dex */
 public class Codecs {
-    static {
-        Codecs.class.getClassLoader();
-    }
+    private static final ClassLoader CLASS_LOADER = Codecs.class.getClassLoader();
 
     private Codecs() {
     }

@@ -85,6 +85,7 @@ public final class ExoPlayerImplInternal implements Handler.Callback, MediaPerio
     private boolean requestForRendererSleep;
     private final boolean retainBackBufferFromKeyframe;
     private SeekParameters seekParameters;
+    private long setForegroundModeTimeoutMs;
     private boolean shouldContinueLoading;
     private boolean shuffleModeEnabled;
     private final TrackSelector trackSelector;
@@ -102,9 +103,6 @@ public final class ExoPlayerImplInternal implements Handler.Callback, MediaPerio
     /* loaded from: classes.dex */
     public interface PlaybackInfoUpdateListener {
         void onPlaybackInfoUpdate(PlaybackInfoUpdate playbackInfoUpdate);
-    }
-
-    public void experimentalSetForegroundModeTimeoutMs(long j) {
     }
 
     /* loaded from: classes.dex */
@@ -160,6 +158,7 @@ public final class ExoPlayerImplInternal implements Handler.Callback, MediaPerio
         this.seekParameters = seekParameters;
         this.livePlaybackSpeedControl = livePlaybackSpeedControl;
         this.releaseTimeoutMs = j;
+        this.setForegroundModeTimeoutMs = j;
         this.pauseAtEndOfWindow = z2;
         this.clock = clock;
         this.backBufferDurationUs = loadControl.getBackBufferDurationUs();
@@ -192,6 +191,10 @@ public final class ExoPlayerImplInternal implements Handler.Callback, MediaPerio
             this.playbackLooper = handlerThread.getLooper();
         }
         this.handler = clock.createHandler(this.playbackLooper, this);
+    }
+
+    public void experimentalSetForegroundModeTimeoutMs(long j) {
+        this.setForegroundModeTimeoutMs = j;
     }
 
     public void prepare() {
@@ -1383,9 +1386,10 @@ public final class ExoPlayerImplInternal implements Handler.Callback, MediaPerio
                             break;
                         }
                         Renderer renderer = rendererArr[i];
-                        zArr2[i] = isRendererEnabled(renderer);
+                        boolean isRendererEnabled = isRendererEnabled(renderer);
+                        zArr2[i] = isRendererEnabled;
                         SampleStream sampleStream = playingPeriod2.sampleStreams[i];
-                        if (zArr2[i]) {
+                        if (isRendererEnabled) {
                             if (sampleStream != renderer.getStream()) {
                                 disableRenderer(renderer);
                             } else if (zArr[i]) {
@@ -1547,7 +1551,7 @@ public final class ExoPlayerImplInternal implements Handler.Callback, MediaPerio
             this.livePlaybackSpeedControl.setTargetLiveOffsetOverrideUs(getLiveOffsetUs(timeline, mediaPeriodId.periodUid, j));
             return;
         }
-        if (Util.areEqual(timeline2.isEmpty() ? null : timeline2.getWindow(timeline2.getPeriodByUid(mediaPeriodId2.periodUid, this.period).windowIndex, this.window).uid, this.window.uid)) {
+        if (Util.areEqual(!timeline2.isEmpty() ? timeline2.getWindow(timeline2.getPeriodByUid(mediaPeriodId2.periodUid, this.period).windowIndex, this.window).uid : null, this.window.uid)) {
             return;
         }
         this.livePlaybackSpeedControl.setTargetLiveOffsetOverrideUs(-9223372036854775807L);

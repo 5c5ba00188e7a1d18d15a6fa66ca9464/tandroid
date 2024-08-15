@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -63,6 +62,7 @@ public class DataSettingsActivity extends BaseFragment {
     private int enableCacheStreamRow;
     private int enableMkvRow;
     private int enableStreamRow;
+    private LinearLayoutManager layoutManager;
     private ListAdapter listAdapter;
     private RecyclerListView listView;
     private int mediaDownloadSection2Row;
@@ -107,38 +107,29 @@ public class DataSettingsActivity extends BaseFragment {
 
     private void updateRows(boolean z) {
         int i;
-        boolean z2 = false;
-        this.rowCount = 0;
         int i2 = 0 + 1;
-        this.rowCount = i2;
+        boolean z2 = false;
         this.usageSectionRow = 0;
         int i3 = i2 + 1;
-        this.rowCount = i3;
         this.storageUsageRow = i2;
         this.rowCount = i3 + 1;
         this.dataUsageRow = i3;
         this.storageNumRow = -1;
-        if (Build.VERSION.SDK_INT >= 19) {
-            ArrayList<File> rootDirs = AndroidUtilities.getRootDirs();
-            this.storageDirs = rootDirs;
-            if (rootDirs.size() > 1) {
-                int i4 = this.rowCount;
-                this.rowCount = i4 + 1;
-                this.storageNumRow = i4;
-            }
+        ArrayList<File> rootDirs = AndroidUtilities.getRootDirs();
+        this.storageDirs = rootDirs;
+        if (rootDirs.size() > 1) {
+            int i4 = this.rowCount;
+            this.rowCount = i4 + 1;
+            this.storageNumRow = i4;
         }
         int i5 = this.rowCount;
         int i6 = i5 + 1;
-        this.rowCount = i6;
         this.usageSection2Row = i5;
         int i7 = i6 + 1;
-        this.rowCount = i7;
         this.mediaDownloadSectionRow = i6;
         int i8 = i7 + 1;
-        this.rowCount = i8;
         this.mobileRow = i7;
         int i9 = i8 + 1;
-        this.rowCount = i9;
         this.wifiRow = i8;
         this.rowCount = i9 + 1;
         this.roamingRow = i9;
@@ -168,32 +159,24 @@ public class DataSettingsActivity extends BaseFragment {
         }
         int i11 = this.rowCount;
         int i12 = i11 + 1;
-        this.rowCount = i12;
         this.mediaDownloadSection2Row = i11;
         int i13 = i12 + 1;
-        this.rowCount = i13;
         this.saveToGallerySectionRow = i12;
         int i14 = i13 + 1;
-        this.rowCount = i14;
         this.saveToGalleryPeerRow = i13;
         int i15 = i14 + 1;
-        this.rowCount = i15;
         this.saveToGalleryGroupsRow = i14;
         int i16 = i15 + 1;
-        this.rowCount = i16;
         this.saveToGalleryChannelsRow = i15;
         int i17 = i16 + 1;
-        this.rowCount = i17;
         this.saveToGalleryDividerRow = i16;
         int i18 = i17 + 1;
-        this.rowCount = i18;
         this.streamSectionRow = i17;
         int i19 = i18 + 1;
         this.rowCount = i19;
         this.enableStreamRow = i18;
         if (BuildVars.DEBUG_VERSION) {
             int i20 = i19 + 1;
-            this.rowCount = i20;
             this.enableMkvRow = i19;
             this.rowCount = i20 + 1;
             this.enableAllStreamRow = i20;
@@ -203,29 +186,21 @@ public class DataSettingsActivity extends BaseFragment {
         }
         int i21 = this.rowCount;
         int i22 = i21 + 1;
-        this.rowCount = i22;
         this.enableAllStreamInfoRow = i21;
         this.enableCacheStreamRow = -1;
         int i23 = i22 + 1;
-        this.rowCount = i23;
         this.callsSectionRow = i22;
         int i24 = i23 + 1;
-        this.rowCount = i24;
         this.useLessDataForCallsRow = i23;
         int i25 = i24 + 1;
-        this.rowCount = i25;
         this.callsSection2Row = i24;
         int i26 = i25 + 1;
-        this.rowCount = i26;
         this.proxySectionRow = i25;
         int i27 = i26 + 1;
-        this.rowCount = i27;
         this.proxyRow = i26;
         int i28 = i27 + 1;
-        this.rowCount = i28;
         this.proxySection2Row = i27;
         int i29 = i28 + 1;
-        this.rowCount = i29;
         this.clearDraftsRow = i28;
         this.rowCount = i29 + 1;
         this.clearDraftsSectionRow = i29;
@@ -237,7 +212,7 @@ public class DataSettingsActivity extends BaseFragment {
     }
 
     private void loadCacheSize() {
-        final Runnable runnable = new Runnable() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda4
+        final Runnable runnable = new Runnable() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 DataSettingsActivity.this.lambda$loadCacheSize$0();
@@ -245,7 +220,7 @@ public class DataSettingsActivity extends BaseFragment {
         };
         AndroidUtilities.runOnUIThread(runnable, 100L);
         final long currentTimeMillis = System.currentTimeMillis();
-        CacheControlActivity.calculateTotalSize(new Utilities.Callback() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda7
+        CacheControlActivity.calculateTotalSize(new Utilities.Callback() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda2
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 DataSettingsActivity.this.lambda$loadCacheSize$1(runnable, currentTimeMillis, (Long) obj);
@@ -339,10 +314,13 @@ public class DataSettingsActivity extends BaseFragment {
         };
         this.listView = recyclerListView;
         recyclerListView.setVerticalScrollBarEnabled(false);
-        this.listView.setLayoutManager(new LinearLayoutManager(context, 1, false));
+        RecyclerListView recyclerListView2 = this.listView;
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, 1, false);
+        this.layoutManager = linearLayoutManager;
+        recyclerListView2.setLayoutManager(linearLayoutManager);
         ((FrameLayout) this.fragmentView).addView(this.listView, LayoutHelper.createFrame(-1, -1, 51));
         this.listView.setAdapter(this.listAdapter);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda9
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
             public /* synthetic */ boolean hasDoubleTap(View view, int i) {
                 return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i);
@@ -382,8 +360,8 @@ public class DataSettingsActivity extends BaseFragment {
         int i2;
         String str3;
         String formatString;
-        int i3;
         String str4;
+        int i3;
         int i4;
         String str5 = "/storage/emulated/";
         int i5 = this.saveToGalleryGroupsRow;
@@ -462,7 +440,7 @@ public class DataSettingsActivity extends BaseFragment {
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
             builder.setTitle(LocaleController.getString("ResetAutomaticMediaDownloadAlertTitle", R.string.ResetAutomaticMediaDownloadAlertTitle));
             builder.setMessage(LocaleController.getString("ResetAutomaticMediaDownloadAlert", R.string.ResetAutomaticMediaDownloadAlert));
-            builder.setPositiveButton(LocaleController.getString("Reset", R.string.Reset), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda0
+            builder.setPositiveButton(LocaleController.getString("Reset", R.string.Reset), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda3
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i10) {
                     DataSettingsActivity.this.lambda$createView$2(dialogInterface, i10);
@@ -488,7 +466,7 @@ public class DataSettingsActivity extends BaseFragment {
                 } else if (i10 == 3) {
                     i4 = 1;
                 }
-                Dialog createSingleChoiceDialog = AlertsCreator.createSingleChoiceDialog(getParentActivity(), new String[]{LocaleController.getString("UseLessDataNever", R.string.UseLessDataNever), LocaleController.getString("UseLessDataOnRoaming", R.string.UseLessDataOnRoaming), LocaleController.getString("UseLessDataOnMobile", R.string.UseLessDataOnMobile), LocaleController.getString("UseLessDataAlways", R.string.UseLessDataAlways)}, LocaleController.getString("VoipUseLessData", R.string.VoipUseLessData), i4, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda2
+                Dialog createSingleChoiceDialog = AlertsCreator.createSingleChoiceDialog(getParentActivity(), new String[]{LocaleController.getString("UseLessDataNever", R.string.UseLessDataNever), LocaleController.getString("UseLessDataOnRoaming", R.string.UseLessDataOnRoaming), LocaleController.getString("UseLessDataOnMobile", R.string.UseLessDataOnMobile), LocaleController.getString("UseLessDataAlways", R.string.UseLessDataAlways)}, LocaleController.getString("VoipUseLessData", R.string.VoipUseLessData), i4, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda4
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i11) {
                         DataSettingsActivity.this.lambda$createView$3(globalMainSettings, i, dialogInterface, i11);
@@ -498,7 +476,7 @@ public class DataSettingsActivity extends BaseFragment {
                 createSingleChoiceDialog.show();
             }
             i4 = 0;
-            Dialog createSingleChoiceDialog2 = AlertsCreator.createSingleChoiceDialog(getParentActivity(), new String[]{LocaleController.getString("UseLessDataNever", R.string.UseLessDataNever), LocaleController.getString("UseLessDataOnRoaming", R.string.UseLessDataOnRoaming), LocaleController.getString("UseLessDataOnMobile", R.string.UseLessDataOnMobile), LocaleController.getString("UseLessDataAlways", R.string.UseLessDataAlways)}, LocaleController.getString("VoipUseLessData", R.string.VoipUseLessData), i4, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda2
+            Dialog createSingleChoiceDialog2 = AlertsCreator.createSingleChoiceDialog(getParentActivity(), new String[]{LocaleController.getString("UseLessDataNever", R.string.UseLessDataNever), LocaleController.getString("UseLessDataOnRoaming", R.string.UseLessDataOnRoaming), LocaleController.getString("UseLessDataOnMobile", R.string.UseLessDataOnMobile), LocaleController.getString("UseLessDataAlways", R.string.UseLessDataAlways)}, LocaleController.getString("VoipUseLessData", R.string.VoipUseLessData), i4, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda4
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i11) {
                     DataSettingsActivity.this.lambda$createView$3(globalMainSettings, i, dialogInterface, i11);
@@ -549,17 +527,17 @@ public class DataSettingsActivity extends BaseFragment {
                             formatString = LocaleController.formatString("StoragePathFreeValueExternal", R.string.StoragePathFreeValueExternal, AndroidUtilities.formatFileSize(file.getFreeSpace()), absolutePath3);
                         }
                         if (contains) {
-                            i3 = R.string.InternalStorage;
                             str4 = "InternalStorage";
+                            i3 = R.string.InternalStorage;
                         } else {
-                            i3 = R.string.SdCard;
                             str4 = "SdCard";
+                            i3 = R.string.SdCard;
                         }
                         languageCell.setValue(LocaleController.getString(str4, i3), formatString);
                         languageCell.setLanguageSelected(absolutePath3.startsWith(absolutePath), false);
                         languageCell.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_dialogButtonSelector), 2));
                         linearLayout.addView(languageCell);
-                        languageCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda3
+                        languageCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda5
                             @Override // android.view.View.OnClickListener
                             public final void onClick(View view2) {
                                 DataSettingsActivity.this.lambda$createView$4(absolutePath3, contains, builder2, view2);
@@ -610,7 +588,7 @@ public class DataSettingsActivity extends BaseFragment {
             AlertDialog.Builder builder3 = new AlertDialog.Builder(getParentActivity());
             builder3.setTitle(LocaleController.getString("AreYouSureClearDraftsTitle", R.string.AreYouSureClearDraftsTitle));
             builder3.setMessage(LocaleController.getString("AreYouSureClearDrafts", R.string.AreYouSureClearDrafts));
-            builder3.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda1
+            builder3.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda6
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i12) {
                     DataSettingsActivity.this.lambda$createView$7(dialogInterface, i12);
@@ -667,11 +645,14 @@ public class DataSettingsActivity extends BaseFragment {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$3(SharedPreferences sharedPreferences, int i, DialogInterface dialogInterface, int i2) {
-        int i3 = 3;
-        if (i2 == 0) {
+        int i3;
+        if (i2 != 0) {
+            i3 = 3;
+            if (i2 != 1) {
+                i3 = i2 != 2 ? i2 != 3 ? -1 : 2 : 1;
+            }
+        } else {
             i3 = 0;
-        } else if (i2 != 1) {
-            i3 = i2 != 2 ? i2 != 3 ? -1 : 2 : 1;
         }
         if (i3 != -1) {
             sharedPreferences.edit().putInt("VoipDataSaving", i3).commit();
@@ -734,7 +715,7 @@ public class DataSettingsActivity extends BaseFragment {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$6(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda6
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
             public final void run() {
                 DataSettingsActivity.this.lambda$createView$5();
@@ -750,7 +731,7 @@ public class DataSettingsActivity extends BaseFragment {
             SharedConfig.readOnlyStorageDirAlertShowed = false;
         }
         rebind(this.storageNumRow);
-        ImageLoader.getInstance().checkMediaPaths(new Runnable() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda5
+        ImageLoader.getInstance().checkMediaPaths(new Runnable() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 DataSettingsActivity.this.lambda$setStorageDirectory$9();
@@ -812,8 +793,8 @@ public class DataSettingsActivity extends BaseFragment {
             boolean z3;
             NotificationsCheckCell notificationsCheckCell;
             NotificationsCheckCell notificationsCheckCell2;
-            int i2;
             String str3;
+            int i2;
             String str4 = null;
             r6 = null;
             DownloadController.Preset preset = null;
@@ -1086,11 +1067,11 @@ public class DataSettingsActivity extends BaseFragment {
                             }
                         }
                         if (absolutePath == null || absolutePath.contains("/storage/emulated/")) {
-                            i2 = R.string.InternalStorage;
                             str3 = "InternalStorage";
+                            i2 = R.string.InternalStorage;
                         } else {
-                            i2 = R.string.SdCard;
                             str3 = "SdCard";
+                            i2 = R.string.SdCard;
                         }
                         textCell.setTextAndValueAndColorfulIcon(LocaleController.getString("StoragePath", R.string.StoragePath), LocaleController.getString(str3, i2), true, R.drawable.msg_filled_sdcard, DataSettingsActivity.this.getThemedColor(Theme.key_color_yellow), false);
                         return;

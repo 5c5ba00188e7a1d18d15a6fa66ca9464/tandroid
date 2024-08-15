@@ -33,7 +33,10 @@ public final class MergingMediaSource extends CompositeMediaSource<Integer> {
 
     /* loaded from: classes.dex */
     public static final class IllegalMergeException extends IOException {
+        public final int reason;
+
         public IllegalMergeException(int i) {
+            this.reason = i;
         }
     }
 
@@ -156,7 +159,7 @@ public final class MergingMediaSource extends CompositeMediaSource<Integer> {
             return;
         }
         if (this.periodTimeOffsetsUs.length == 0) {
-            this.periodTimeOffsetsUs = (long[][]) Array.newInstance(long.class, this.periodCount, this.timelines.length);
+            this.periodTimeOffsetsUs = (long[][]) Array.newInstance(Long.TYPE, this.periodCount, this.timelines.length);
         }
         this.pendingTimelineSources.remove(mediaSource);
         this.timelines[num.intValue()] = timeline;
@@ -246,12 +249,13 @@ public final class MergingMediaSource extends CompositeMediaSource<Integer> {
                 timeline.getPeriod(i2, period, true);
                 long longValue = ((Long) Assertions.checkNotNull(map.get(period.uid))).longValue();
                 long[] jArr = this.periodDurationsUs;
-                jArr[i2] = longValue == Long.MIN_VALUE ? period.durationUs : longValue;
+                longValue = longValue == Long.MIN_VALUE ? period.durationUs : longValue;
+                jArr[i2] = longValue;
                 long j = period.durationUs;
                 if (j != -9223372036854775807L) {
                     long[] jArr2 = this.windowDurationsUs;
                     int i3 = period.windowIndex;
-                    jArr2[i3] = jArr2[i3] - (j - jArr[i2]);
+                    jArr2[i3] = jArr2[i3] - (j - longValue);
                 }
             }
         }

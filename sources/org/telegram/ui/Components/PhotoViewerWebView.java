@@ -102,7 +102,7 @@ public class PhotoViewerWebView extends FrameLayout {
 
         @JavascriptInterface
         public void onPlayerLoaded() {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$YoutubeProxy$$ExternalSyntheticLambda1
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$YoutubeProxy$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     PhotoViewerWebView.YoutubeProxy.this.lambda$onPlayerLoaded$0();
@@ -177,7 +177,7 @@ public class PhotoViewerWebView extends FrameLayout {
                 PhotoViewerWebView.this.errorMessage.setText(LocaleController.getString(R.string.YouTubeVideoErrorNotAvailableInApp));
                 PhotoViewerWebView.this.errorButton.setText(LocaleController.getString(R.string.YouTubeVideoErrorOpenExternal));
                 PhotoViewerWebView.this.errorButton.setVisibility(0);
-                PhotoViewerWebView.this.errorButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoViewerWebView$YoutubeProxy$$ExternalSyntheticLambda0
+                PhotoViewerWebView.this.errorButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoViewerWebView$YoutubeProxy$$ExternalSyntheticLambda4
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         PhotoViewerWebView.YoutubeProxy.this.lambda$onPlayerError$1(view);
@@ -215,14 +215,14 @@ public class PhotoViewerWebView extends FrameLayout {
                 i = 4;
             }
             if (i == 3 && PhotoViewerWebView.this.progressBarBlackBackground.getVisibility() != 4) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$YoutubeProxy$$ExternalSyntheticLambda2
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$YoutubeProxy$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         PhotoViewerWebView.YoutubeProxy.this.lambda$onPlayerStateChange$3();
                     }
                 }, 300L);
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$YoutubeProxy$$ExternalSyntheticLambda4
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$YoutubeProxy$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     PhotoViewerWebView.YoutubeProxy.this.lambda$onPlayerStateChange$4(z2, i);
@@ -266,7 +266,7 @@ public class PhotoViewerWebView extends FrameLayout {
         super(context);
         this.currentAccount = UserConfig.selectedAccount;
         this.youtubeStoryboards = new ArrayList();
-        this.progressRunnable = new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$$ExternalSyntheticLambda2
+        this.progressRunnable = new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 PhotoViewerWebView.this.lambda$new$0();
@@ -306,9 +306,7 @@ public class PhotoViewerWebView extends FrameLayout {
         webView.getSettings().setJavaScriptEnabled(true);
         this.webView.getSettings().setDomStorageEnabled(true);
         int i = Build.VERSION.SDK_INT;
-        if (i >= 17) {
-            this.webView.getSettings().setMediaPlaybackRequiresUserGesture(false);
-        }
+        this.webView.getSettings().setMediaPlaybackRequiresUserGesture(false);
         if (i >= 21) {
             this.webView.getSettings().setMixedContentMode(0);
             CookieManager.getInstance().setAcceptThirdPartyCookies(this.webView, true);
@@ -363,19 +361,22 @@ public class PhotoViewerWebView extends FrameLayout {
         @Override // android.webkit.WebViewClient
         public void onPageFinished(WebView webView, String str) {
             super.onPageFinished(webView, str);
-            if (!PhotoViewerWebView.this.isYouTube || Build.VERSION.SDK_INT < 17) {
-                PhotoViewerWebView.this.progressBar.setVisibility(4);
-                PhotoViewerWebView.this.progressBarBlackBackground.setVisibility(4);
-                PhotoViewerWebView.this.pipItem.setEnabled(true);
-                PhotoViewerWebView.this.pipItem.setAlpha(1.0f);
+            if (PhotoViewerWebView.this.isYouTube) {
+                return;
             }
+            PhotoViewerWebView.this.progressBar.setVisibility(4);
+            PhotoViewerWebView.this.progressBarBlackBackground.setVisibility(4);
+            PhotoViewerWebView.this.pipItem.setEnabled(true);
+            PhotoViewerWebView.this.pipItem.setAlpha(1.0f);
         }
 
         @Override // android.webkit.WebViewClient
         public WebResourceResponse shouldInterceptRequest(WebView webView, final WebResourceRequest webResourceRequest) {
-            final String uri = webResourceRequest.getUrl().toString();
+            Uri url;
+            url = webResourceRequest.getUrl();
+            final String uri = url.toString();
             if (PhotoViewerWebView.this.isYouTube && uri.startsWith("https://www.youtube.com/youtubei/v1/player?key=")) {
-                Utilities.externalNetworkQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$2$$ExternalSyntheticLambda0
+                Utilities.externalNetworkQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$2$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
                         PhotoViewerWebView.2.this.lambda$shouldInterceptRequest$0(uri, webResourceRequest);
@@ -388,20 +389,25 @@ public class PhotoViewerWebView extends FrameLayout {
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$shouldInterceptRequest$0(String str, WebResourceRequest webResourceRequest) {
+            Map requestHeaders;
+            Map requestHeaders2;
             JSONObject optJSONObject;
             String optString;
             try {
                 HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(str).openConnection();
                 httpURLConnection.setRequestMethod("POST");
-                for (Map.Entry<String, String> entry : webResourceRequest.getRequestHeaders().entrySet()) {
-                    httpURLConnection.addRequestProperty(entry.getKey(), entry.getValue());
+                requestHeaders = webResourceRequest.getRequestHeaders();
+                for (Map.Entry entry : requestHeaders.entrySet()) {
+                    httpURLConnection.addRequestProperty((String) entry.getKey(), (String) entry.getValue());
                 }
                 httpURLConnection.setDoOutput(true);
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 JSONObject jSONObject = new JSONObject();
                 JSONObject jSONObject2 = new JSONObject();
-                JSONObject put = new JSONObject().put("userAgent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36,gzip(gfe)").put("clientName", "WEB").put("clientVersion", webResourceRequest.getRequestHeaders().get("X-Youtube-Client-Version")).put("osName", "Windows").put("osVersion", "10.0");
-                outputStream.write(jSONObject.put("context", jSONObject2.put("client", put.put("originalUrl", "https://www.youtube.com/watch?v=" + PhotoViewerWebView.this.currentYoutubeId).put("platform", "DESKTOP"))).put("videoId", PhotoViewerWebView.this.currentYoutubeId).toString().getBytes("UTF-8"));
+                JSONObject put = new JSONObject().put("userAgent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36,gzip(gfe)").put("clientName", "WEB");
+                requestHeaders2 = webResourceRequest.getRequestHeaders();
+                JSONObject put2 = put.put("clientVersion", requestHeaders2.get("X-Youtube-Client-Version")).put("osName", "Windows").put("osVersion", "10.0");
+                outputStream.write(jSONObject.put("context", jSONObject2.put("client", put2.put("originalUrl", "https://www.youtube.com/watch?v=" + PhotoViewerWebView.this.currentYoutubeId).put("platform", "DESKTOP"))).put("videoId", PhotoViewerWebView.this.currentYoutubeId).toString().getBytes("UTF-8"));
                 outputStream.close();
                 InputStream inputStream = httpURLConnection.getResponseCode() == 200 ? httpURLConnection.getInputStream() : httpURLConnection.getErrorStream();
                 byte[] bArr = new byte[10240];
@@ -587,7 +593,7 @@ public class PhotoViewerWebView extends FrameLayout {
             pauseVideo();
         }
         if (z2) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$$ExternalSyntheticLambda3
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     PhotoViewerWebView.this.lambda$seekTo$1(j, z);
@@ -601,7 +607,7 @@ public class PhotoViewerWebView extends FrameLayout {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$seekTo$1(long j, boolean z) {
         runJsCode("seekTo(" + Math.round(((float) j) / 1000.0f) + ", " + z + ");");
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$$ExternalSyntheticLambda1
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 PhotoViewerWebView.this.playVideo();
@@ -673,7 +679,7 @@ public class PhotoViewerWebView extends FrameLayout {
         if ((isInAppOnly || checkInlinePermissions()) && this.progressBar.getVisibility() != 0) {
             if (PipVideoOverlay.isVisible()) {
                 PipVideoOverlay.dismiss();
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$$ExternalSyntheticLambda0
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
                         PhotoViewerWebView.this.openInPip();
@@ -733,8 +739,8 @@ public class PhotoViewerWebView extends FrameLayout {
         this.setPlaybackSpeed = true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:28:0x00ad A[Catch: Exception -> 0x00f3, LOOP:0: B:26:0x00a6->B:28:0x00ad, LOOP_END, TryCatch #1 {Exception -> 0x00f3, blocks: (B:3:0x0013, B:5:0x0017, B:7:0x0025, B:25:0x008e, B:26:0x00a6, B:28:0x00ad, B:29:0x00b1, B:23:0x008a, B:30:0x00df, B:9:0x0033, B:11:0x0039, B:13:0x004c, B:15:0x0055, B:17:0x005e, B:19:0x0064, B:20:0x0080), top: B:44:0x0013, inners: #0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x00b1 A[EDGE_INSN: B:45:0x00b1->B:29:0x00b1 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x00a7 A[Catch: Exception -> 0x00ed, LOOP:0: B:24:0x00a0->B:26:0x00a7, LOOP_END, TryCatch #0 {Exception -> 0x00ed, blocks: (B:3:0x0013, B:5:0x0017, B:23:0x0088, B:24:0x00a0, B:26:0x00a7, B:27:0x00ab, B:21:0x0084, B:28:0x00d9, B:7:0x002d, B:9:0x0033, B:11:0x0046, B:13:0x004f, B:15:0x0058, B:17:0x005e, B:18:0x007a), top: B:41:0x0013, inners: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x00ab A[EDGE_INSN: B:43:0x00ab->B:27:0x00ab ?: BREAK  , SYNTHETIC] */
     @SuppressLint({"AddJavascriptInterface"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -754,9 +760,7 @@ public class PhotoViewerWebView extends FrameLayout {
                 this.progressBarBlackBackground.setVisibility(0);
                 this.isYouTube = true;
                 String str2 = null;
-                if (Build.VERSION.SDK_INT >= 17) {
-                    this.webView.addJavascriptInterface(new YoutubeProxy(), "YoutubeProxy");
-                }
+                this.webView.addJavascriptInterface(new YoutubeProxy(), "YoutubeProxy");
                 if (str != null) {
                     try {
                         Uri parse = Uri.parse(str);
@@ -827,11 +831,16 @@ public class PhotoViewerWebView extends FrameLayout {
     }
 
     public boolean checkInlinePermissions() {
-        if (Build.VERSION.SDK_INT < 23 || Settings.canDrawOverlays(getContext())) {
-            return true;
+        boolean canDrawOverlays;
+        if (Build.VERSION.SDK_INT >= 23) {
+            canDrawOverlays = Settings.canDrawOverlays(getContext());
+            if (canDrawOverlays) {
+                return true;
+            }
+            AlertsCreator.createDrawOverlayPermissionDialog((Activity) getContext(), null);
+            return false;
         }
-        AlertsCreator.createDrawOverlayPermissionDialog((Activity) getContext(), null);
-        return false;
+        return true;
     }
 
     public void exitFromPip() {

@@ -22,6 +22,7 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.Paint.Views.RoundView;
 /* loaded from: classes4.dex */
 public class RoundVideoRecorder extends FrameLayout {
+    public final long MAX_DURATION;
     private float alpha;
     public final CameraView cameraView;
     private ValueAnimator cameraViewAnimator;
@@ -46,10 +47,11 @@ public class RoundVideoRecorder extends FrameLayout {
         super(context);
         this.recordingStarted = -1L;
         this.recordingStopped = -1L;
+        this.MAX_DURATION = 59500L;
         this.shadowPaint = new Paint(1);
         Paint paint = new Paint(1);
         this.progressPaint = paint;
-        this.stopRunnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.RoundVideoRecorder$$ExternalSyntheticLambda2
+        this.stopRunnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.RoundVideoRecorder$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 RoundVideoRecorder.this.stop();
@@ -89,7 +91,7 @@ public class RoundVideoRecorder extends FrameLayout {
         cameraView.setScaleX(0.0f);
         cameraView.setScaleY(0.0f);
         addView(cameraView);
-        cameraView.setDelegate(new CameraView.CameraViewDelegate() { // from class: org.telegram.ui.Stories.recorder.RoundVideoRecorder$$ExternalSyntheticLambda7
+        cameraView.setDelegate(new CameraView.CameraViewDelegate() { // from class: org.telegram.ui.Stories.recorder.RoundVideoRecorder$$ExternalSyntheticLambda2
             @Override // org.telegram.messenger.camera.CameraView.CameraViewDelegate
             public final void onCameraInit() {
                 RoundVideoRecorder.this.lambda$new$2();
@@ -104,12 +106,12 @@ public class RoundVideoRecorder extends FrameLayout {
         if (this.recordingStarted > 0) {
             return;
         }
-        CameraController.getInstance().recordVideo(this.cameraView.getCameraSessionObject(), this.file, false, new CameraController.VideoTakeCallback() { // from class: org.telegram.ui.Stories.recorder.RoundVideoRecorder$$ExternalSyntheticLambda6
+        CameraController.getInstance().recordVideo(this.cameraView.getCameraSessionObject(), this.file, false, new CameraController.VideoTakeCallback() { // from class: org.telegram.ui.Stories.recorder.RoundVideoRecorder$$ExternalSyntheticLambda3
             @Override // org.telegram.messenger.camera.CameraController.VideoTakeCallback
             public final void onFinishVideoRecording(String str, long j) {
                 RoundVideoRecorder.this.lambda$new$0(str, j);
             }
-        }, new Runnable() { // from class: org.telegram.ui.Stories.recorder.RoundVideoRecorder$$ExternalSyntheticLambda3
+        }, new Runnable() { // from class: org.telegram.ui.Stories.recorder.RoundVideoRecorder$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 RoundVideoRecorder.this.lambda$new$1();
@@ -255,7 +257,7 @@ public class RoundVideoRecorder extends FrameLayout {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$hideTo$5(final RoundView roundView) {
         if (roundView.getWidth() <= 0) {
-            this.cameraView.animate().scaleX(0.0f).scaleY(1.0f).withEndAction(new Runnable() { // from class: org.telegram.ui.Stories.recorder.RoundVideoRecorder$$ExternalSyntheticLambda4
+            this.cameraView.animate().scaleX(0.0f).scaleY(1.0f).withEndAction(new Runnable() { // from class: org.telegram.ui.Stories.recorder.RoundVideoRecorder$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
                     RoundVideoRecorder.this.lambda$hideTo$3();
@@ -272,7 +274,7 @@ public class RoundVideoRecorder extends FrameLayout {
         final float scaleX = this.cameraView.getScaleX();
         final float x = (roundView.getX() + (roundView.getWidth() / 2.0f)) - (this.cameraView.getX() + (this.cameraView.getWidth() / 2.0f));
         final float y = (roundView.getY() + (roundView.getHeight() / 2.0f)) - (this.cameraView.getY() + (this.cameraView.getHeight() / 2.0f));
-        this.cameraViewAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.RoundVideoRecorder$$ExternalSyntheticLambda1
+        this.cameraViewAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.RoundVideoRecorder$$ExternalSyntheticLambda7
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                 RoundVideoRecorder.this.lambda$hideTo$4(scaleX, width, x, y, valueAnimator2);

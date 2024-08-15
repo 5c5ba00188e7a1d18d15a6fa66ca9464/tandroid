@@ -47,7 +47,9 @@ public class WrappedDrawableApi21 extends WrappedDrawableApi14 {
 
     @Override // android.graphics.drawable.Drawable
     public Rect getDirtyBounds() {
-        return this.mDrawable.getDirtyBounds();
+        Rect dirtyBounds;
+        dirtyBounds = this.mDrawable.getDirtyBounds();
+        return dirtyBounds;
     }
 
     @Override // androidx.core.graphics.drawable.WrappedDrawableApi14, android.graphics.drawable.Drawable, androidx.core.graphics.drawable.TintAwareDrawable

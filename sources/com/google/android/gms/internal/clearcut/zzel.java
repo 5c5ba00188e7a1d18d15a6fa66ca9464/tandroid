@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.clearcut;
 
 import java.util.Iterator;
-import java.util.Map;
 /* loaded from: classes.dex */
 final class zzel extends zzer {
     private final /* synthetic */ zzei zzos;
@@ -18,7 +17,7 @@ final class zzel extends zzer {
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzer, java.util.AbstractCollection, java.util.Collection, java.lang.Iterable, java.util.Set
-    public final Iterator<Map.Entry<K, V>> iterator() {
+    public final Iterator iterator() {
         return new zzek(this.zzos, null);
     }
 }

@@ -53,11 +53,12 @@ public class HintView extends FrameLayout {
     public TextView textView;
     private float translationY;
     private boolean useScale;
-    VisibilityListener visibleListener;
 
     /* loaded from: classes3.dex */
     public interface VisibilityListener {
-        void onVisible(boolean z);
+    }
+
+    public void setVisibleListener(VisibilityListener visibilityListener) {
     }
 
     public HintView(Context context, int i) {
@@ -296,10 +297,6 @@ public class HintView extends FrameLayout {
             }
             setTag(1);
             setVisibility(0);
-            VisibilityListener visibilityListener = this.visibleListener;
-            if (visibilityListener != null) {
-                visibilityListener.onVisible(true);
-            }
             if (z) {
                 AnimatorSet animatorSet2 = new AnimatorSet();
                 this.animatorSet = animatorSet2;
@@ -362,10 +359,6 @@ public class HintView extends FrameLayout {
         }
         setTag(1);
         setVisibility(0);
-        VisibilityListener visibilityListener = this.visibleListener;
-        if (visibilityListener != null) {
-            visibilityListener.onVisible(true);
-        }
         if (z) {
             AnimatorSet animatorSet2 = new AnimatorSet();
             this.animatorSet = animatorSet2;
@@ -428,7 +421,7 @@ public class HintView extends FrameLayout {
         if (r1 >= 0) goto L56;
      */
     /* JADX WARN: Code restructure failed: missing block: B:67:0x0165, code lost:
-        r11 = r1;
+        r6 = r1;
      */
     /* JADX WARN: Removed duplicated region for block: B:35:0x00b4  */
     /* JADX WARN: Removed duplicated region for block: B:36:0x00b7  */
@@ -474,20 +467,16 @@ public class HintView extends FrameLayout {
                 }
                 i2 = this.currentType;
                 int i8 = 0;
-                if (i2 == 8 || !this.isTopArrow) {
-                    if (i2 != 3) {
-                        measuredWidth = iArr[0];
+                if (i2 != 8 && this.isTopArrow) {
+                    if (view instanceof SimpleTextView) {
+                        SimpleTextView simpleTextView = (SimpleTextView) view;
+                        Drawable rightDrawable = simpleTextView.getRightDrawable();
+                        measuredWidth = (iArr[0] + (rightDrawable != null ? rightDrawable.getBounds().centerX() : simpleTextView.getTextWidth() / 2)) - AndroidUtilities.dp(8.0f);
                     } else {
-                        measuredWidth = iArr[0] + (view.getMeasuredWidth() / 2);
+                        measuredWidth = view instanceof TextView ? (iArr[0] + ((TextView) view).getMeasuredWidth()) - AndroidUtilities.dp(16.5f) : iArr[0];
                     }
-                } else if (view instanceof SimpleTextView) {
-                    SimpleTextView simpleTextView = (SimpleTextView) view;
-                    Drawable rightDrawable = simpleTextView.getRightDrawable();
-                    measuredWidth = (iArr[0] + (rightDrawable != null ? rightDrawable.getBounds().centerX() : simpleTextView.getTextWidth() / 2)) - AndroidUtilities.dp(8.0f);
-                } else if (view instanceof TextView) {
-                    measuredWidth = (iArr[0] + ((TextView) view).getMeasuredWidth()) - AndroidUtilities.dp(16.5f);
                 } else {
-                    measuredWidth = iArr[0];
+                    measuredWidth = i2 != 3 ? iArr[0] : iArr[0] + (view.getMeasuredWidth() / 2);
                 }
                 view2 = (View) getParent();
                 view2.getLocationInWindow(iArr);
@@ -556,7 +545,7 @@ public class HintView extends FrameLayout {
         dp2 += i;
         i2 = this.currentType;
         int i82 = 0;
-        if (i2 == 8) {
+        if (i2 != 8) {
         }
         if (i2 != 3) {
         }
@@ -620,10 +609,7 @@ public class HintView extends FrameLayout {
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     HintView.this.setVisibility(4);
-                    VisibilityListener visibilityListener = HintView.this.visibleListener;
-                    if (visibilityListener != null) {
-                        visibilityListener.onVisible(false);
-                    }
+                    HintView.this.getClass();
                     HintView.this.currentView = null;
                     HintView.this.messageCell = null;
                     HintView.this.animatorSet = null;
@@ -633,10 +619,6 @@ public class HintView extends FrameLayout {
             return;
         }
         setVisibility(4);
-        VisibilityListener visibilityListener = this.visibleListener;
-        if (visibilityListener != null) {
-            visibilityListener.onVisible(false);
-        }
         this.currentView = null;
         this.messageCell = null;
         this.animatorSet = null;
@@ -668,10 +650,6 @@ public class HintView extends FrameLayout {
 
     public void setUseScale(boolean z) {
         this.useScale = z;
-    }
-
-    public void setVisibleListener(VisibilityListener visibilityListener) {
-        this.visibleListener = visibilityListener;
     }
 
     @Override // android.view.ViewGroup, android.view.View

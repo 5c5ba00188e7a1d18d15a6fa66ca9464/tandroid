@@ -42,7 +42,7 @@ public class UserExtension implements Model {
         if (this == obj) {
             return true;
         }
-        if (obj == null || UserExtension.class != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         UserExtension userExtension = (UserExtension) obj;

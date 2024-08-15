@@ -65,16 +65,17 @@ public class ShareLocationDrawable extends Drawable {
             if (fArr[i] >= 1.0f) {
                 fArr[i] = 0.0f;
             }
-            fArr[i] = fArr[i] + (((float) j) / 1300.0f);
-            if (fArr[i] > 1.0f) {
+            float f = fArr[i] + (((float) j) / 1300.0f);
+            fArr[i] = f;
+            if (f > 1.0f) {
                 fArr[i] = 1.0f;
             }
         }
         invalidateSelf();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:36:0x0186  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x018a  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x0184  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x0186  */
     @Override // android.graphics.drawable.Drawable
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -88,8 +89,6 @@ public class ShareLocationDrawable extends Drawable {
         int dp6;
         int dp7;
         int i;
-        float[] fArr;
-        float f;
         int dp8;
         int dp9;
         int intrinsicWidth = this.drawable.getIntrinsicWidth();
@@ -97,7 +96,7 @@ public class ShareLocationDrawable extends Drawable {
         int i2 = this.currentType;
         int i3 = 3;
         int i4 = 5;
-        int i5 = 4;
+        int i5 = 1;
         if (i2 == 4 || i2 == 5) {
             dp = AndroidUtilities.dp(24.0f);
         } else if (i2 == 3) {
@@ -116,11 +115,11 @@ public class ShareLocationDrawable extends Drawable {
         this.drawable.draw(canvas);
         int i7 = 0;
         while (i7 < 2) {
-            float[] fArr2 = this.progress;
-            if (fArr2[i7] >= 0.0f) {
-                float f2 = (fArr2[i7] * 0.5f) + 0.5f;
+            float f = this.progress[i7];
+            if (f >= 0.0f) {
+                float f2 = (f * 0.5f) + 0.5f;
                 int i8 = this.currentType;
-                if (i8 == i5 || i8 == i4) {
+                if (i8 == 4 || i8 == i4) {
                     dp2 = AndroidUtilities.dp(2.5f * f2);
                     dp3 = AndroidUtilities.dp(f2 * 6.5f);
                     dp4 = AndroidUtilities.dp(this.progress[i7] * 6.0f);
@@ -142,7 +141,7 @@ public class ShareLocationDrawable extends Drawable {
                         dp5 = (intrinsicWidth2 + AndroidUtilities.dp(2.0f)) - dp8;
                         dp6 = intrinsicHeight2 + (intrinsicHeight / 2);
                         dp9 = AndroidUtilities.dp(2.0f);
-                    } else if (i8 == 1) {
+                    } else if (i8 == i5) {
                         dp2 = AndroidUtilities.dp(2.5f * f2);
                         dp3 = AndroidUtilities.dp(f2 * 6.5f);
                         dp4 = AndroidUtilities.dp(this.progress[i7] * 6.0f);
@@ -158,13 +157,8 @@ public class ShareLocationDrawable extends Drawable {
                         dp7 = AndroidUtilities.dp(42.0f);
                     }
                     i = (i6 - dp9) + dp8;
-                    fArr = this.progress;
-                    if (fArr[i7] >= 0.5f) {
-                        f = fArr[i7] / 0.5f;
-                    } else {
-                        f = 1.0f - ((fArr[i7] - 0.5f) / 0.5f);
-                    }
-                    int i9 = (int) (f * 255.0f);
+                    float f3 = this.progress[i7];
+                    int i9 = (int) ((f3 >= 0.5f ? f3 / 0.5f : 1.0f - ((f3 - 0.5f) / 0.5f)) * 255.0f);
                     this.drawableLeft.setAlpha(i9);
                     int i10 = dp6 - dp3;
                     int i11 = dp6 + dp3;
@@ -175,10 +169,8 @@ public class ShareLocationDrawable extends Drawable {
                     this.drawableRight.draw(canvas);
                 }
                 i = (i6 - dp7) + dp4;
-                fArr = this.progress;
-                if (fArr[i7] >= 0.5f) {
-                }
-                int i92 = (int) (f * 255.0f);
+                float f32 = this.progress[i7];
+                int i92 = (int) ((f32 >= 0.5f ? f32 / 0.5f : 1.0f - ((f32 - 0.5f) / 0.5f)) * 255.0f);
                 this.drawableLeft.setAlpha(i92);
                 int i102 = dp6 - dp3;
                 int i112 = dp6 + dp3;
@@ -191,7 +183,7 @@ public class ShareLocationDrawable extends Drawable {
             i7++;
             i3 = 3;
             i4 = 5;
-            i5 = 4;
+            i5 = 1;
         }
         update();
     }

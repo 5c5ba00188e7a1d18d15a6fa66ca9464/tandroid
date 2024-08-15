@@ -80,7 +80,7 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
             ProgressiveMediaPeriod.this.maybeFinishPrepare();
         }
     };
-    private final Runnable onContinueLoadingRequestedRunnable = new Runnable() { // from class: com.google.android.exoplayer2.source.ProgressiveMediaPeriod$$ExternalSyntheticLambda2
+    private final Runnable onContinueLoadingRequestedRunnable = new Runnable() { // from class: com.google.android.exoplayer2.source.ProgressiveMediaPeriod$$ExternalSyntheticLambda1
         @Override // java.lang.Runnable
         public final void run() {
             ProgressiveMediaPeriod.this.lambda$new$0();
@@ -168,6 +168,7 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
 
     @Override // com.google.android.exoplayer2.source.MediaPeriod
     public long selectTracks(ExoTrackSelection[] exoTrackSelectionArr, boolean[] zArr, SampleStream[] sampleStreamArr, boolean[] zArr2, long j) {
+        ExoTrackSelection exoTrackSelection;
         assertPrepared();
         TrackState trackState = this.trackState;
         TrackGroupArray trackGroupArray = trackState.tracks;
@@ -175,8 +176,9 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
         int i = this.enabledTrackCount;
         int i2 = 0;
         for (int i3 = 0; i3 < exoTrackSelectionArr.length; i3++) {
-            if (sampleStreamArr[i3] != null && (exoTrackSelectionArr[i3] == null || !zArr[i3])) {
-                int i4 = ((SampleStreamImpl) sampleStreamArr[i3]).track;
+            SampleStream sampleStream = sampleStreamArr[i3];
+            if (sampleStream != null && (exoTrackSelectionArr[i3] == null || !zArr[i3])) {
+                int i4 = ((SampleStreamImpl) sampleStream).track;
                 Assertions.checkState(zArr3[i4]);
                 this.enabledTrackCount--;
                 zArr3[i4] = false;
@@ -185,8 +187,7 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
         }
         boolean z = !this.seenFirstTrackSelection ? j == 0 : i != 0;
         for (int i5 = 0; i5 < exoTrackSelectionArr.length; i5++) {
-            if (sampleStreamArr[i5] == null && exoTrackSelectionArr[i5] != null) {
-                ExoTrackSelection exoTrackSelection = exoTrackSelectionArr[i5];
+            if (sampleStreamArr[i5] == null && (exoTrackSelection = exoTrackSelectionArr[i5]) != null) {
                 Assertions.checkState(exoTrackSelection.length() == 1);
                 Assertions.checkState(exoTrackSelection.getIndexInTrackGroup(0) == 0);
                 int indexOf = trackGroupArray.indexOf(exoTrackSelection.getTrackGroup());
@@ -541,7 +542,7 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
 
     /* JADX INFO: Access modifiers changed from: private */
     public void onLengthKnown() {
-        this.handler.post(new Runnable() { // from class: com.google.android.exoplayer2.source.ProgressiveMediaPeriod$$ExternalSyntheticLambda1
+        this.handler.post(new Runnable() { // from class: com.google.android.exoplayer2.source.ProgressiveMediaPeriod$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 ProgressiveMediaPeriod.this.lambda$onLengthKnown$2();

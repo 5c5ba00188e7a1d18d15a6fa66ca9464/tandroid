@@ -105,13 +105,13 @@ public class StoryLinkPreviewDialog extends Dialog {
             }
         };
         this.windowView = frameLayout;
-        frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.StoryLinkPreviewDialog$$ExternalSyntheticLambda1
+        frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.StoryLinkPreviewDialog$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 StoryLinkPreviewDialog.this.lambda$new$0(view);
             }
         });
-        LinearLayout linearLayout = new LinearLayout(this, context) { // from class: org.telegram.ui.Components.Paint.Views.StoryLinkPreviewDialog.2
+        LinearLayout linearLayout = new LinearLayout(context) { // from class: org.telegram.ui.Components.Paint.Views.StoryLinkPreviewDialog.2
             @Override // android.widget.LinearLayout, android.view.View
             protected void onMeasure(int i2, int i3) {
                 super.onMeasure(View.MeasureSpec.makeMeasureSpec(Math.min(View.MeasureSpec.getSize(i2), AndroidUtilities.dp(600.0f)), 1073741824), View.MeasureSpec.makeMeasureSpec(Math.min(View.MeasureSpec.getSize(i3), AndroidUtilities.dp(800.0f)), 1073741824));
@@ -203,7 +203,7 @@ public class StoryLinkPreviewDialog extends Dialog {
         ItemOptions makeOptions = ItemOptions.makeOptions(frameLayout, darkThemeResourceProvider, frameLayout);
         MessagePreviewView.ToggleButton toggleButton = new MessagePreviewView.ToggleButton(getContext(), R.raw.position_below, LocaleController.getString(R.string.StoryLinkCaptionAbove), R.raw.position_above, LocaleController.getString(R.string.StoryLinkCaptionBelow), darkThemeResourceProvider);
         this.captionButton = toggleButton;
-        toggleButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.StoryLinkPreviewDialog$$ExternalSyntheticLambda2
+        toggleButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.StoryLinkPreviewDialog$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 StoryLinkPreviewDialog.this.lambda$new$1(i, view);
@@ -212,7 +212,7 @@ public class StoryLinkPreviewDialog extends Dialog {
         makeOptions.addView(toggleButton);
         MessagePreviewView.ToggleButton toggleButton2 = new MessagePreviewView.ToggleButton(context, R.raw.media_shrink, LocaleController.getString(R.string.LinkMediaLarger), R.raw.media_enlarge, LocaleController.getString(R.string.LinkMediaSmaller), darkThemeResourceProvider);
         this.photoButton = toggleButton2;
-        toggleButton2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.StoryLinkPreviewDialog$$ExternalSyntheticLambda3
+        toggleButton2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.StoryLinkPreviewDialog$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 StoryLinkPreviewDialog.this.lambda$new$2(i, view);
@@ -220,13 +220,13 @@ public class StoryLinkPreviewDialog extends Dialog {
         });
         makeOptions.addView(toggleButton2);
         makeOptions.addGap();
-        makeOptions.add(R.drawable.msg_select, LocaleController.getString(R.string.ApplyChanges), new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StoryLinkPreviewDialog$$ExternalSyntheticLambda4
+        makeOptions.add(R.drawable.msg_select, LocaleController.getString(R.string.ApplyChanges), new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StoryLinkPreviewDialog$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 StoryLinkPreviewDialog.this.dismiss();
             }
         });
-        makeOptions.add(R.drawable.msg_delete, (CharSequence) LocaleController.getString(R.string.DoNotLinkPreview), true, new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StoryLinkPreviewDialog$$ExternalSyntheticLambda7
+        makeOptions.add(R.drawable.msg_delete, (CharSequence) LocaleController.getString(R.string.DoNotLinkPreview), true, new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StoryLinkPreviewDialog$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 StoryLinkPreviewDialog.this.lambda$new$3();
@@ -238,19 +238,42 @@ public class StoryLinkPreviewDialog extends Dialog {
             frameLayout.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() { // from class: org.telegram.ui.Components.Paint.Views.StoryLinkPreviewDialog.6
                 @Override // android.view.View.OnApplyWindowInsetsListener
                 public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
-                    int i2 = Build.VERSION.SDK_INT;
-                    if (i2 < 30) {
-                        StoryLinkPreviewDialog.this.insets.set(windowInsets.getStableInsetLeft(), windowInsets.getStableInsetTop(), windowInsets.getStableInsetRight(), windowInsets.getStableInsetBottom());
+                    int stableInsetLeft;
+                    int stableInsetTop;
+                    int stableInsetRight;
+                    int stableInsetBottom;
+                    WindowInsets consumeSystemWindowInsets;
+                    WindowInsets windowInsets2;
+                    Insets insets;
+                    int i2;
+                    int i3;
+                    int i4;
+                    int i5;
+                    int i6 = Build.VERSION.SDK_INT;
+                    if (i6 < 30) {
+                        Rect rect = StoryLinkPreviewDialog.this.insets;
+                        stableInsetLeft = windowInsets.getStableInsetLeft();
+                        stableInsetTop = windowInsets.getStableInsetTop();
+                        stableInsetRight = windowInsets.getStableInsetRight();
+                        stableInsetBottom = windowInsets.getStableInsetBottom();
+                        rect.set(stableInsetLeft, stableInsetTop, stableInsetRight, stableInsetBottom);
                     } else {
-                        Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.displayCutout() | WindowInsetsCompat.Type.systemBars());
-                        StoryLinkPreviewDialog.this.insets.set(insets.left, insets.top, insets.right, insets.bottom);
+                        insets = windowInsets.getInsets(WindowInsetsCompat.Type.displayCutout() | WindowInsetsCompat.Type.systemBars());
+                        Rect rect2 = StoryLinkPreviewDialog.this.insets;
+                        i2 = insets.left;
+                        i3 = insets.top;
+                        i4 = insets.right;
+                        i5 = insets.bottom;
+                        rect2.set(i2, i3, i4, i5);
                     }
                     StoryLinkPreviewDialog.this.windowView.setPadding(StoryLinkPreviewDialog.this.insets.left, StoryLinkPreviewDialog.this.insets.top, StoryLinkPreviewDialog.this.insets.right, StoryLinkPreviewDialog.this.insets.bottom);
                     StoryLinkPreviewDialog.this.windowView.requestLayout();
-                    if (i2 >= 30) {
-                        return WindowInsets.CONSUMED;
+                    if (i6 >= 30) {
+                        windowInsets2 = WindowInsets.CONSUMED;
+                        return windowInsets2;
                     }
-                    return windowInsets.consumeSystemWindowInsets();
+                    consumeSystemWindowInsets = windowInsets.consumeSystemWindowInsets();
+                    return consumeSystemWindowInsets;
                 }
             });
         }
@@ -300,19 +323,15 @@ public class StoryLinkPreviewDialog extends Dialog {
         attributes.height = -1;
         attributes.gravity = 119;
         attributes.dimAmount = 0.0f;
-        int i = attributes.flags & (-3);
-        attributes.flags = i;
         attributes.softInputMode = 16;
-        int i2 = i | 131072;
-        attributes.flags = i2;
-        int i3 = Build.VERSION.SDK_INT;
-        if (i3 >= 21) {
-            attributes.flags = i2 | (-1946091264);
+        int i = (attributes.flags & (-3)) | 131072;
+        attributes.flags = i;
+        int i2 = Build.VERSION.SDK_INT;
+        if (i2 >= 21) {
+            attributes.flags = i | (-1946091264);
         }
-        int i4 = attributes.flags | 1024;
-        attributes.flags = i4;
-        attributes.flags = i4 | 128;
-        if (i3 >= 28) {
+        attributes.flags = attributes.flags | 1024 | 128;
+        if (i2 >= 28) {
             attributes.layoutInDisplayCutoutMode = 1;
         }
         window.setAttributes(attributes);
@@ -330,7 +349,7 @@ public class StoryLinkPreviewDialog extends Dialog {
         fArr[1] = z ? 1.0f : 0.0f;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
         this.openAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.StoryLinkPreviewDialog$$ExternalSyntheticLambda0
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.StoryLinkPreviewDialog$$ExternalSyntheticLambda5
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                 StoryLinkPreviewDialog.this.lambda$animateOpenTo$4(valueAnimator2);
@@ -369,7 +388,7 @@ public class StoryLinkPreviewDialog extends Dialog {
         if (view != null) {
             view.setVisibility(4);
         }
-        AndroidUtilities.makeGlobalBlurBitmap(new Utilities.Callback() { // from class: org.telegram.ui.Components.Paint.Views.StoryLinkPreviewDialog$$ExternalSyntheticLambda8
+        AndroidUtilities.makeGlobalBlurBitmap(new Utilities.Callback() { // from class: org.telegram.ui.Components.Paint.Views.StoryLinkPreviewDialog$$ExternalSyntheticLambda6
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 StoryLinkPreviewDialog.this.lambda$prepareBlur$5(view, (Bitmap) obj);
@@ -422,7 +441,7 @@ public class StoryLinkPreviewDialog extends Dialog {
             this.whenDone = null;
         }
         this.dismissing = true;
-        animateOpenTo(false, new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StoryLinkPreviewDialog$$ExternalSyntheticLambda5
+        animateOpenTo(false, new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StoryLinkPreviewDialog$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 StoryLinkPreviewDialog.this.lambda$dismiss$7();
@@ -438,7 +457,7 @@ public class StoryLinkPreviewDialog extends Dialog {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$dismiss$7() {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StoryLinkPreviewDialog$$ExternalSyntheticLambda6
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StoryLinkPreviewDialog$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
                 StoryLinkPreviewDialog.this.lambda$dismiss$6();
@@ -457,7 +476,7 @@ public class StoryLinkPreviewDialog extends Dialog {
     }
 
     public void setStoryPreviewView(final PreviewView previewView) {
-        this.backgroundView.setImageDrawable(new Drawable(this) { // from class: org.telegram.ui.Components.Paint.Views.StoryLinkPreviewDialog.8
+        this.backgroundView.setImageDrawable(new Drawable() { // from class: org.telegram.ui.Components.Paint.Views.StoryLinkPreviewDialog.8
             @Override // android.graphics.drawable.Drawable
             public int getOpacity() {
                 return -2;

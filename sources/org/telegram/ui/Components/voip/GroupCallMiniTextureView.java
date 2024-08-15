@@ -182,7 +182,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         this.progressToNoVideoStub = 1.0f;
         this.imageReceiver = new ImageReceiver();
         this.onFirstFrameRunnables = new ArrayList<>();
-        this.noRtmpStreamCallback = new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda5
+        this.noRtmpStreamCallback = new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 GroupCallMiniTextureView.this.lambda$new$0();
@@ -1073,7 +1073,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                     } else {
                         groupCallRenderersContainer = this.parentContainer;
                         if (!groupCallRenderersContainer.inLayout) {
-                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda7
+                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda4
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     GroupCallMiniTextureView.this.lambda$updateAttachState$2(this);
@@ -1251,7 +1251,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                                                 } else {
                                                     this.textureView.requestLayout();
                                                 }
-                                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda4
+                                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda5
                                                     @Override // java.lang.Runnable
                                                     public final void run() {
                                                         GroupCallMiniTextureView.this.requestLayout();
@@ -1299,7 +1299,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                                                             fArr[1] = this.hasVideo ? 0.0f : 1.0f;
                                                             ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
                                                             this.noVideoStubAnimator = ofFloat;
-                                                            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda1
+                                                            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda6
                                                                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                                                                 public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
                                                                     GroupCallMiniTextureView.this.lambda$updateAttachState$3(valueAnimator3);
@@ -1468,7 +1468,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                                             this.checkScale = true;
                                             if (!z2) {
                                             }
-                                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda4
+                                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda5
                                                 @Override // java.lang.Runnable
                                                 public final void run() {
                                                     GroupCallMiniTextureView.this.requestLayout();
@@ -1693,16 +1693,14 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
     }
 
     public void updateInfo() {
+        String str;
         if (this.attached) {
-            String str = null;
             long peerId = MessageObject.getPeerId(this.participant.participant.peer);
             if (DialogObject.isUserDialog(peerId)) {
                 str = UserObject.getUserName(AccountInstance.getInstance(this.currentAccount).getMessagesController().getUser(Long.valueOf(peerId)));
             } else {
                 TLRPC$Chat chat = AccountInstance.getInstance(this.currentAccount).getMessagesController().getChat(Long.valueOf(-peerId));
-                if (chat != null) {
-                    str = chat.title;
-                }
+                str = chat != null ? chat.title : null;
             }
             this.nameView.setText(str);
         }
@@ -1922,7 +1920,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         if (this.participant == null || this.textureView.renderer.getMeasuredHeight() == 0 || this.textureView.renderer.getMeasuredWidth() == 0) {
             return;
         }
-        getRenderBufferBitmap(new GlGenericDrawer.TextureCallback() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda8
+        getRenderBufferBitmap(new GlGenericDrawer.TextureCallback() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda1
             @Override // org.webrtc.GlGenericDrawer.TextureCallback
             public final void run(Bitmap bitmap, int i) {
                 GroupCallMiniTextureView.this.lambda$saveThumb$5(bitmap, i);
@@ -1936,7 +1934,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
             return;
         }
         Utilities.stackBlurBitmap(bitmap, Math.max(7, Math.max(bitmap.getWidth(), bitmap.getHeight()) / 180));
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda6
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 GroupCallMiniTextureView.this.lambda$saveThumb$4(bitmap);
@@ -2045,7 +2043,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
             this.colorAnimator = ofFloat;
             final int i4 = i;
             final int i5 = color;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda2
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                     GroupCallMiniTextureView.this.lambda$updateIconColor$6(i2, i4, i3, i5, valueAnimator2);
@@ -2129,6 +2127,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         private GroupCallActivity.WeavingState[] states;
         float switchProgress;
         BlobDrawable tinyWaveDrawable;
+        float wavesEnter;
 
         public NoVideoStubLayout(Context context) {
             super(context);
@@ -2137,6 +2136,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
             this.avatarDrawable = new AvatarDrawable();
             this.paint = new Paint(1);
             this.backgroundPaint = new Paint(1);
+            this.wavesEnter = 0.0f;
             this.states = new GroupCallActivity.WeavingState[3];
             this.muteButtonState = -1;
             this.switchProgress = 1.0f;
@@ -2265,13 +2265,11 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                     this.states[i2].shader = new RadialGradient(200.0f, 200.0f, 200.0f, new int[]{Theme.getColor(Theme.key_voipgroup_unmuteButton2), Theme.getColor(Theme.key_voipgroup_unmuteButton)}, (float[]) null, Shader.TileMode.CLAMP);
                 }
             }
-            GroupCallActivity.WeavingState[] weavingStateArr2 = this.states;
-            int i3 = this.muteButtonState;
-            GroupCallActivity.WeavingState weavingState = weavingStateArr2[i3];
+            GroupCallActivity.WeavingState weavingState = this.states[this.muteButtonState];
             GroupCallActivity.WeavingState weavingState2 = this.currentState;
             if (weavingState != weavingState2) {
                 this.prevState = weavingState2;
-                this.currentState = weavingStateArr2[i3];
+                this.currentState = weavingState;
                 if (weavingState2 == null || !z) {
                     this.switchProgress = 1.0f;
                     this.prevState = null;
@@ -2355,7 +2353,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         ((FrameLayout.LayoutParams) this.blurredFlippingStub.getLayoutParams()).gravity = 17;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.flipAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda0
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda8
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 GroupCallMiniTextureView.this.lambda$startFlipAnimation$7(valueAnimator);

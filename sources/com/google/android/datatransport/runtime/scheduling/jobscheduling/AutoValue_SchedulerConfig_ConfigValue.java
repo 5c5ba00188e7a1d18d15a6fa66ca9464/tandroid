@@ -1,7 +1,6 @@
 package com.google.android.datatransport.runtime.scheduling.jobscheduling;
 
 import com.google.android.datatransport.runtime.scheduling.jobscheduling.SchedulerConfig;
-import java.util.Objects;
 import java.util.Set;
 /* loaded from: classes.dex */
 final class AutoValue_SchedulerConfig_ConfigValue extends SchedulerConfig.ConfigValue {
@@ -15,18 +14,21 @@ final class AutoValue_SchedulerConfig_ConfigValue extends SchedulerConfig.Config
         this.flags = set;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.datatransport.runtime.scheduling.jobscheduling.SchedulerConfig.ConfigValue
-    long getDelta() {
+    public long getDelta() {
         return this.delta;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.datatransport.runtime.scheduling.jobscheduling.SchedulerConfig.ConfigValue
-    long getMaxAllowedDelay() {
+    public long getMaxAllowedDelay() {
         return this.maxAllowedDelay;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.datatransport.runtime.scheduling.jobscheduling.SchedulerConfig.ConfigValue
-    Set<SchedulerConfig.Flag> getFlags() {
+    public Set<SchedulerConfig.Flag> getFlags() {
         return this.flags;
     }
 
@@ -51,8 +53,9 @@ final class AutoValue_SchedulerConfig_ConfigValue extends SchedulerConfig.Config
         return this.flags.hashCode() ^ ((((((int) (j ^ (j >>> 32))) ^ 1000003) * 1000003) ^ ((int) (j2 ^ (j2 >>> 32)))) * 1000003);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    static final class Builder extends SchedulerConfig.ConfigValue.Builder {
+    public static final class Builder extends SchedulerConfig.ConfigValue.Builder {
         private Long delta;
         private Set<SchedulerConfig.Flag> flags;
         private Long maxAllowedDelay;
@@ -71,7 +74,9 @@ final class AutoValue_SchedulerConfig_ConfigValue extends SchedulerConfig.Config
 
         @Override // com.google.android.datatransport.runtime.scheduling.jobscheduling.SchedulerConfig.ConfigValue.Builder
         public SchedulerConfig.ConfigValue.Builder setFlags(Set<SchedulerConfig.Flag> set) {
-            Objects.requireNonNull(set, "Null flags");
+            if (set == null) {
+                throw new NullPointerException("Null flags");
+            }
             this.flags = set;
             return this;
         }

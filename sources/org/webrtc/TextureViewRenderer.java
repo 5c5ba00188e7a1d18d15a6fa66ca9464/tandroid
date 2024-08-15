@@ -11,7 +11,7 @@ import java.util.concurrent.CountDownLatch;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.voip.VoIPService;
-import org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda2;
+import org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda6;
 import org.webrtc.EglBase;
 import org.webrtc.EglRenderer;
 import org.webrtc.GlGenericDrawer;
@@ -165,7 +165,7 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
         public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
             ThreadUtils.checkIsOnMainThread();
             CountDownLatch countDownLatch = new CountDownLatch(1);
-            releaseEglSurface(new Theme$$ExternalSyntheticLambda2(countDownLatch), false);
+            releaseEglSurface(new Theme$$ExternalSyntheticLambda6(countDownLatch), false);
             ThreadUtils.awaitUninterruptibly(countDownLatch);
             return true;
         }
@@ -522,7 +522,7 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
             if (runnable != null) {
                 AndroidUtilities.cancelRunOnUIThread(runnable);
             }
-            Runnable runnable2 = new Runnable() { // from class: org.webrtc.TextureViewRenderer$$ExternalSyntheticLambda1
+            Runnable runnable2 = new Runnable() { // from class: org.webrtc.TextureViewRenderer$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     TextureViewRenderer.this.lambda$onFrameResolutionChanged$0(i, i2, i10, i9);
@@ -586,7 +586,7 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
             if (runnable != null) {
                 AndroidUtilities.cancelRunOnUIThread(runnable);
             }
-            Runnable runnable2 = new Runnable() { // from class: org.webrtc.TextureViewRenderer$$ExternalSyntheticLambda0
+            Runnable runnable2 = new Runnable() { // from class: org.webrtc.TextureViewRenderer$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     TextureViewRenderer.this.lambda$updateVideoSizes$1(i2, i3);

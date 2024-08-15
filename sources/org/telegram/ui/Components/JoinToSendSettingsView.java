@@ -52,7 +52,7 @@ public class JoinToSendSettingsView extends LinearLayout {
         headerCell.setText(LocaleController.getString("ChannelSettingsJoinTitle", R.string.ChannelSettingsJoinTitle));
         this.joinHeaderCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
         addView(this.joinHeaderCell);
-        TextCheckCell textCheckCell = new TextCheckCell(this, context) { // from class: org.telegram.ui.Components.JoinToSendSettingsView.1
+        TextCheckCell textCheckCell = new TextCheckCell(context) { // from class: org.telegram.ui.Components.JoinToSendSettingsView.1
         };
         this.joinToSendCell = textCheckCell;
         textCheckCell.setBackground(Theme.getSelectorDrawable(true));
@@ -68,7 +68,7 @@ public class JoinToSendSettingsView extends LinearLayout {
             }
         });
         addView(this.joinToSendCell);
-        TextCheckCell textCheckCell3 = new TextCheckCell(this, context) { // from class: org.telegram.ui.Components.JoinToSendSettingsView.2
+        TextCheckCell textCheckCell3 = new TextCheckCell(context) { // from class: org.telegram.ui.Components.JoinToSendSettingsView.2
         };
         this.joinRequestCell = textCheckCell3;
         textCheckCell3.setBackground(Theme.getSelectorDrawable(true));
@@ -105,7 +105,7 @@ public class JoinToSendSettingsView extends LinearLayout {
         final boolean z = this.isJoinToSend;
         boolean z2 = !z;
         final boolean z3 = this.isJoinRequest;
-        if (onJoinToSendToggle(z2, new Runnable() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda5
+        if (onJoinToSendToggle(z2, new Runnable() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 JoinToSendSettingsView.this.lambda$new$1(z3, z);
@@ -136,7 +136,7 @@ public class JoinToSendSettingsView extends LinearLayout {
     public /* synthetic */ void lambda$new$5(View view) {
         final boolean z = this.isJoinRequest;
         boolean z2 = !z;
-        if (onJoinRequestToggle(z2, new Runnable() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda3
+        if (onJoinRequestToggle(z2, new Runnable() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 JoinToSendSettingsView.this.lambda$new$4(z);
@@ -148,7 +148,7 @@ public class JoinToSendSettingsView extends LinearLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$4(final boolean z) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda4
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 JoinToSendSettingsView.this.lambda$new$3(z);

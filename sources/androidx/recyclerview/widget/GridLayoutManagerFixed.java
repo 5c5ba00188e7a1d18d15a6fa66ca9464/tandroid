@@ -85,17 +85,17 @@ public class GridLayoutManagerFixed extends GridLayoutManager {
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:52:0x00d9, code lost:
-        r29.mFinished = r13;
+        r28.mFinished = r13;
      */
     /* JADX WARN: Code restructure failed: missing block: B:53:0x00db, code lost:
         return;
      */
     /* JADX WARN: Code restructure failed: missing block: B:81:0x018b, code lost:
-        if (r28.mLayoutDirection != (-1)) goto L118;
+        if (r27.mLayoutDirection != (-1)) goto L118;
      */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r12v0 */
-    /* JADX WARN: Type inference failed for: r12v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r12v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r12v5 */
     /* JADX WARN: Type inference failed for: r13v0 */
     /* JADX WARN: Type inference failed for: r13v1, types: [boolean, int] */
@@ -171,8 +171,8 @@ public class GridLayoutManagerFixed extends GridLayoutManager {
                     isEmpty = true;
                 }
             }
-            float f = 0.0f;
             assignSpans(recycler2, state, i13, z);
+            float f = 0.0f;
             int i15 = 0;
             for (int i16 = 0; i16 < i13; i16++) {
                 View view = this.mSet[i16];

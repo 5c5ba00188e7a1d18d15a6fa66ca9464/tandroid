@@ -8,28 +8,33 @@ import java.io.IOException;
 /* loaded from: classes.dex */
 final class zzkl implements ObjectEncoder {
     static final zzkl zza = new zzkl();
+    private static final FieldDescriptor zzb;
+    private static final FieldDescriptor zzc;
+    private static final FieldDescriptor zzd;
+    private static final FieldDescriptor zze;
+    private static final FieldDescriptor zzf;
 
     static {
         FieldDescriptor.Builder builder = FieldDescriptor.builder("inferenceCommonLogEvent");
         zzbz zzbzVar = new zzbz();
         zzbzVar.zza(1);
-        builder.withProperty(zzbzVar.zzb()).build();
+        zzb = builder.withProperty(zzbzVar.zzb()).build();
         FieldDescriptor.Builder builder2 = FieldDescriptor.builder("smartReplies");
         zzbz zzbzVar2 = new zzbz();
         zzbzVar2.zza(2);
-        builder2.withProperty(zzbzVar2.zzb()).build();
+        zzc = builder2.withProperty(zzbzVar2.zzb()).build();
         FieldDescriptor.Builder builder3 = FieldDescriptor.builder("resultStatus");
         zzbz zzbzVar3 = new zzbz();
         zzbzVar3.zza(3);
-        builder3.withProperty(zzbzVar3.zzb()).build();
+        zzd = builder3.withProperty(zzbzVar3.zzb()).build();
         FieldDescriptor.Builder builder4 = FieldDescriptor.builder("suggestionsCount");
         zzbz zzbzVar4 = new zzbz();
         zzbzVar4.zza(4);
-        builder4.withProperty(zzbzVar4.zzb()).build();
+        zze = builder4.withProperty(zzbzVar4.zzb()).build();
         FieldDescriptor.Builder builder5 = FieldDescriptor.builder("blacklistErrorCode");
         zzbz zzbzVar5 = new zzbz();
         zzbzVar5.zza(5);
-        builder5.withProperty(zzbzVar5.zzb()).build();
+        zzf = builder5.withProperty(zzbzVar5.zzb()).build();
     }
 
     private zzkl() {

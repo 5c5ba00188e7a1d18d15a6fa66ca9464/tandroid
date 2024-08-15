@@ -5,6 +5,7 @@ import com.google.android.gms.internal.firebase_messaging.zzz;
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public final class MessagingClientEventExtension {
+    private static final MessagingClientEventExtension DEFAULT_INSTANCE = new Builder().build();
     private final MessagingClientEvent messaging_client_event_;
 
     /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
@@ -23,10 +24,6 @@ public final class MessagingClientEventExtension {
             this.messaging_client_event_ = messagingClientEvent;
             return this;
         }
-    }
-
-    static {
-        new Builder().build();
     }
 
     MessagingClientEventExtension(MessagingClientEvent messagingClientEvent) {

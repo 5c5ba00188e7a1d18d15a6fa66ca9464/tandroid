@@ -73,14 +73,17 @@ public class VideoDecoderOutputBuffer extends DecoderOutputBuffer {
                 }
                 ByteBuffer byteBuffer2 = this.data;
                 ByteBuffer[] byteBufferArr = this.yuvPlanes;
-                byteBufferArr[0] = byteBuffer2.slice();
-                byteBufferArr[0].limit(i7);
+                ByteBuffer slice = byteBuffer2.slice();
+                byteBufferArr[0] = slice;
+                slice.limit(i7);
                 byteBuffer2.position(i7);
-                byteBufferArr[1] = byteBuffer2.slice();
-                byteBufferArr[1].limit(i8);
+                ByteBuffer slice2 = byteBuffer2.slice();
+                byteBufferArr[1] = slice2;
+                slice2.limit(i8);
                 byteBuffer2.position(i7 + i8);
-                byteBufferArr[2] = byteBuffer2.slice();
-                byteBufferArr[2].limit(i8);
+                ByteBuffer slice3 = byteBuffer2.slice();
+                byteBufferArr[2] = slice3;
+                slice3.limit(i8);
                 if (this.yuvStrides == null) {
                     this.yuvStrides = new int[3];
                 }

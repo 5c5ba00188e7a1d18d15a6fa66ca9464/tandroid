@@ -141,7 +141,7 @@ public class GoogleMapsProvider implements IMapsProvider {
 
         @Override // org.telegram.messenger.IMapsProvider.IMap
         public void setOnCameraMoveStartedListener(final IMapsProvider.OnCameraMoveStartedListener onCameraMoveStartedListener) {
-            this.googleMap.setOnCameraMoveStartedListener(new GoogleMap.OnCameraMoveStartedListener() { // from class: org.telegram.messenger.GoogleMapsProvider$GoogleMapImpl$$ExternalSyntheticLambda2
+            this.googleMap.setOnCameraMoveStartedListener(new GoogleMap.OnCameraMoveStartedListener() { // from class: org.telegram.messenger.GoogleMapsProvider$GoogleMapImpl$$ExternalSyntheticLambda0
                 @Override // com.google.android.gms.maps.GoogleMap.OnCameraMoveStartedListener
                 public final void onCameraMoveStarted(int i) {
                     GoogleMapsProvider.GoogleMapImpl.lambda$setOnCameraMoveStartedListener$0(IMapsProvider.OnCameraMoveStartedListener.this, i);
@@ -151,11 +151,12 @@ public class GoogleMapsProvider implements IMapsProvider {
 
         /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ void lambda$setOnCameraMoveStartedListener$0(IMapsProvider.OnCameraMoveStartedListener onCameraMoveStartedListener, int i) {
-            int i2 = 3;
-            if (i == 2) {
-                i2 = 2;
-            } else if (i != 3) {
-                i2 = 1;
+            int i2 = 2;
+            if (i != 2) {
+                i2 = 3;
+                if (i != 3) {
+                    i2 = 1;
+                }
             }
             onCameraMoveStartedListener.onCameraMoveStarted(i2);
         }
@@ -164,7 +165,7 @@ public class GoogleMapsProvider implements IMapsProvider {
         public void setOnCameraIdleListener(final Runnable runnable) {
             GoogleMap googleMap = this.googleMap;
             Objects.requireNonNull(runnable);
-            googleMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() { // from class: org.telegram.messenger.GoogleMapsProvider$GoogleMapImpl$$ExternalSyntheticLambda0
+            googleMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() { // from class: org.telegram.messenger.GoogleMapsProvider$GoogleMapImpl$$ExternalSyntheticLambda4
                 @Override // com.google.android.gms.maps.GoogleMap.OnCameraIdleListener
                 public final void onCameraIdle() {
                     runnable.run();
@@ -183,7 +184,7 @@ public class GoogleMapsProvider implements IMapsProvider {
         public void setOnMapLoadedCallback(final Runnable runnable) {
             GoogleMap googleMap = this.googleMap;
             Objects.requireNonNull(runnable);
-            googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() { // from class: org.telegram.messenger.GoogleMapsProvider$GoogleMapImpl$$ExternalSyntheticLambda3
+            googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() { // from class: org.telegram.messenger.GoogleMapsProvider$GoogleMapImpl$$ExternalSyntheticLambda1
                 @Override // com.google.android.gms.maps.GoogleMap.OnMapLoadedCallback
                 public final void onMapLoaded() {
                     runnable.run();
@@ -226,7 +227,7 @@ public class GoogleMapsProvider implements IMapsProvider {
         public void setOnMyLocationChangeListener(final Consumer<Location> consumer) {
             GoogleMap googleMap = this.googleMap;
             Objects.requireNonNull(consumer);
-            googleMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() { // from class: org.telegram.messenger.GoogleMapsProvider$GoogleMapImpl$$ExternalSyntheticLambda5
+            googleMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() { // from class: org.telegram.messenger.GoogleMapsProvider$GoogleMapImpl$$ExternalSyntheticLambda3
                 @Override // com.google.android.gms.maps.GoogleMap.OnMyLocationChangeListener
                 public final void onMyLocationChange(Location location) {
                     Consumer.this.accept(location);
@@ -236,7 +237,7 @@ public class GoogleMapsProvider implements IMapsProvider {
 
         @Override // org.telegram.messenger.IMapsProvider.IMap
         public void setOnMarkerClickListener(final IMapsProvider.OnMarkerClickListener onMarkerClickListener) {
-            this.googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() { // from class: org.telegram.messenger.GoogleMapsProvider$GoogleMapImpl$$ExternalSyntheticLambda4
+            this.googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() { // from class: org.telegram.messenger.GoogleMapsProvider$GoogleMapImpl$$ExternalSyntheticLambda5
                 @Override // com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
                 public final boolean onMarkerClick(Marker marker) {
                     boolean lambda$setOnMarkerClickListener$1;
@@ -260,7 +261,7 @@ public class GoogleMapsProvider implements IMapsProvider {
         public void setOnCameraMoveListener(final Runnable runnable) {
             GoogleMap googleMap = this.googleMap;
             Objects.requireNonNull(runnable);
-            googleMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() { // from class: org.telegram.messenger.GoogleMapsProvider$GoogleMapImpl$$ExternalSyntheticLambda1
+            googleMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() { // from class: org.telegram.messenger.GoogleMapsProvider$GoogleMapImpl$$ExternalSyntheticLambda2
                 @Override // com.google.android.gms.maps.GoogleMap.OnCameraMoveListener
                 public final void onCameraMove() {
                     runnable.run();
@@ -595,7 +596,7 @@ public class GoogleMapsProvider implements IMapsProvider {
             @Override // android.view.ViewGroup, android.view.View
             public boolean dispatchTouchEvent(MotionEvent motionEvent) {
                 if (GoogleMapView.this.dispatchInterceptor != null) {
-                    return GoogleMapView.this.dispatchInterceptor.onInterceptTouchEvent(motionEvent, new IMapsProvider.ICallableMethod() { // from class: org.telegram.messenger.GoogleMapsProvider$GoogleMapView$1$$ExternalSyntheticLambda1
+                    return GoogleMapView.this.dispatchInterceptor.onInterceptTouchEvent(motionEvent, new IMapsProvider.ICallableMethod() { // from class: org.telegram.messenger.GoogleMapsProvider$GoogleMapView$1$$ExternalSyntheticLambda0
                         @Override // org.telegram.messenger.IMapsProvider.ICallableMethod
                         public final Object call(Object obj) {
                             Boolean lambda$dispatchTouchEvent$0;
@@ -615,7 +616,7 @@ public class GoogleMapsProvider implements IMapsProvider {
             @Override // android.view.ViewGroup
             public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
                 if (GoogleMapView.this.interceptInterceptor != null) {
-                    return GoogleMapView.this.interceptInterceptor.onInterceptTouchEvent(motionEvent, new IMapsProvider.ICallableMethod() { // from class: org.telegram.messenger.GoogleMapsProvider$GoogleMapView$1$$ExternalSyntheticLambda0
+                    return GoogleMapView.this.interceptInterceptor.onInterceptTouchEvent(motionEvent, new IMapsProvider.ICallableMethod() { // from class: org.telegram.messenger.GoogleMapsProvider$GoogleMapView$1$$ExternalSyntheticLambda1
                         @Override // org.telegram.messenger.IMapsProvider.ICallableMethod
                         public final Object call(Object obj) {
                             Boolean lambda$onInterceptTouchEvent$1;

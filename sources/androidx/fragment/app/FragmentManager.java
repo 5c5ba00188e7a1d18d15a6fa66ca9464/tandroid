@@ -128,7 +128,7 @@ public abstract class FragmentManager {
         }
     };
     private SpecialEffectsControllerFactory mSpecialEffectsControllerFactory = null;
-    private SpecialEffectsControllerFactory mDefaultSpecialEffectsControllerFactory = new SpecialEffectsControllerFactory(this) { // from class: androidx.fragment.app.FragmentManager.4
+    private SpecialEffectsControllerFactory mDefaultSpecialEffectsControllerFactory = new SpecialEffectsControllerFactory() { // from class: androidx.fragment.app.FragmentManager.4
         @Override // androidx.fragment.app.SpecialEffectsControllerFactory
         public SpecialEffectsController createController(ViewGroup viewGroup) {
             return new DefaultSpecialEffectsController(viewGroup);
@@ -141,10 +141,6 @@ public abstract class FragmentManager {
             FragmentManager.this.execPendingActions(true);
         }
     };
-
-    /* loaded from: classes.dex */
-    public static abstract class FragmentLifecycleCallbacks {
-    }
 
     /* loaded from: classes.dex */
     public interface OnBackStackChangedListener {
@@ -279,23 +275,16 @@ public abstract class FragmentManager {
         }
     }
 
-    public final void clearFragmentResult(String str) {
-        this.mResults.remove(str);
-    }
-
     /* loaded from: classes.dex */
     class 6 implements LifecycleEventObserver {
         final /* synthetic */ FragmentManager this$0;
         final /* synthetic */ Lifecycle val$lifecycle;
-        final /* synthetic */ FragmentResultListener val$listener;
         final /* synthetic */ String val$requestKey;
 
         @Override // androidx.lifecycle.LifecycleEventObserver
         public void onStateChanged(LifecycleOwner lifecycleOwner, Lifecycle.Event event) {
-            Bundle bundle;
-            if (event == Lifecycle.Event.ON_START && (bundle = (Bundle) this.this$0.mResults.get(this.val$requestKey)) != null) {
-                this.val$listener.onFragmentResult(this.val$requestKey, bundle);
-                this.this$0.clearFragmentResult(this.val$requestKey);
+            if (event == Lifecycle.Event.ON_START && ((Bundle) this.this$0.mResults.get(this.val$requestKey)) != null) {
+                throw null;
             }
             if (event == Lifecycle.Event.ON_DESTROY) {
                 this.val$lifecycle.removeObserver(this);
@@ -468,12 +457,12 @@ public abstract class FragmentManager {
     /* JADX WARN: Code restructure failed: missing block: B:24:0x0053, code lost:
         if (r2 != 5) goto L26;
      */
+    /* JADX WARN: Removed duplicated region for block: B:100:0x0161  */
     /* JADX WARN: Removed duplicated region for block: B:31:0x0063  */
     /* JADX WARN: Removed duplicated region for block: B:33:0x0068  */
     /* JADX WARN: Removed duplicated region for block: B:35:0x006d  */
     /* JADX WARN: Removed duplicated region for block: B:37:0x0072  */
     /* JADX WARN: Removed duplicated region for block: B:39:0x0077  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x0160  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -571,20 +560,17 @@ public abstract class FragmentManager {
                         }
                     }
                     if (min < 2) {
-                        FragmentAnim.AnimationOrAnimator animationOrAnimator = null;
                         View view = fragment.mView;
                         if (view != null && (viewGroup = fragment.mContainer) != null) {
                             viewGroup.endViewTransition(view);
                             fragment.mView.clearAnimation();
                             if (!fragment.isRemovingParent()) {
-                                if (this.mCurState > -1 && !this.mDestroyed && fragment.mView.getVisibility() == 0 && fragment.mPostponedAlpha >= 0.0f) {
-                                    animationOrAnimator = FragmentAnim.loadAnimation(this.mHost.getContext(), fragment, false, fragment.getPopDirection());
-                                }
+                                FragmentAnim.AnimationOrAnimator loadAnimation = (this.mCurState <= -1 || this.mDestroyed || fragment.mView.getVisibility() != 0 || fragment.mPostponedAlpha < 0.0f) ? null : FragmentAnim.loadAnimation(this.mHost.getContext(), fragment, false, fragment.getPopDirection());
                                 fragment.mPostponedAlpha = 0.0f;
                                 ViewGroup viewGroup2 = fragment.mContainer;
                                 View view2 = fragment.mView;
-                                if (animationOrAnimator != null) {
-                                    FragmentAnim.animateRemoveFragment(fragment, animationOrAnimator, this.mFragmentTransitionCallback);
+                                if (loadAnimation != null) {
+                                    FragmentAnim.animateRemoveFragment(fragment, loadAnimation, this.mFragmentTransitionCallback);
                                 }
                                 viewGroup2.removeView(view2);
                                 if (isLoggingEnabled(2)) {
@@ -673,7 +659,7 @@ public abstract class FragmentManager {
                         final ViewGroup viewGroup = fragment.mContainer;
                         final View view = fragment.mView;
                         viewGroup.startViewTransition(view);
-                        loadAnimation.animator.addListener(new AnimatorListenerAdapter(this) { // from class: androidx.fragment.app.FragmentManager.7
+                        loadAnimation.animator.addListener(new AnimatorListenerAdapter() { // from class: androidx.fragment.app.FragmentManager.7
                             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                             public void onAnimationEnd(Animator animator2) {
                                 viewGroup.endViewTransition(view);
@@ -1020,14 +1006,12 @@ public abstract class FragmentManager {
         ensureExecReady(z);
         boolean z2 = false;
         while (generateOpsForPendingActions(this.mTmpRecords, this.mTmpIsPop)) {
+            z2 = true;
             this.mExecutingActions = true;
             try {
                 removeRedundantOperationsAndExecute(this.mTmpRecords, this.mTmpIsPop);
+            } finally {
                 cleanupExec();
-                z2 = true;
-            } catch (Throwable th) {
-                cleanupExec();
-                throw th;
             }
         }
         updateOnBackPressedCallbackEnabled();
@@ -1678,7 +1662,7 @@ public abstract class FragmentManager {
         this.mContainer = fragmentContainer;
         this.mParent = fragment;
         if (fragment != null) {
-            addFragmentOnAttachListener(new FragmentOnAttachListener(this) { // from class: androidx.fragment.app.FragmentManager.8
+            addFragmentOnAttachListener(new FragmentOnAttachListener() { // from class: androidx.fragment.app.FragmentManager.8
                 @Override // androidx.fragment.app.FragmentOnAttachListener
                 public void onAttachFragment(FragmentManager fragmentManager, Fragment fragment2) {
                     fragment.onAttachFragment(fragment2);
@@ -1719,9 +1703,7 @@ public abstract class FragmentManager {
             }
             String str2 = "FragmentManager:" + str;
             this.mStartActivityForResult = activityResultRegistry.register(str2 + "StartActivityForResult", new ActivityResultContract<Intent, ActivityResult>() { // from class: androidx.activity.result.contract.ActivityResultContracts$StartActivityForResult
-                static {
-                    new Companion(null);
-                }
+                public static final Companion Companion = new Companion(null);
 
                 @Override // androidx.activity.result.contract.ActivityResultContract
                 public Intent createIntent(Context context, Intent input) {

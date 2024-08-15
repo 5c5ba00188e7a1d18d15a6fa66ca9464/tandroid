@@ -1,7 +1,6 @@
 package com.google.android.datatransport.runtime.backends;
 
 import com.google.android.datatransport.runtime.backends.BackendResponse;
-import java.util.Objects;
 /* loaded from: classes.dex */
 final class AutoValue_BackendResponse extends BackendResponse {
     private final long nextRequestWaitMillis;
@@ -9,7 +8,9 @@ final class AutoValue_BackendResponse extends BackendResponse {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public AutoValue_BackendResponse(BackendResponse.Status status, long j) {
-        Objects.requireNonNull(status, "Null status");
+        if (status == null) {
+            throw new NullPointerException("Null status");
+        }
         this.status = status;
         this.nextRequestWaitMillis = j;
     }

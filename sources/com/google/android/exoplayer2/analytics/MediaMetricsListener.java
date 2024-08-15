@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.media.DeniedByServerException;
 import android.media.MediaCodec;
-import android.media.MediaDrm;
+import android.media.MediaDrm$MediaDrmStateException;
 import android.media.MediaDrmResetException;
 import android.media.NotProvisionedException;
 import android.media.metrics.LogSessionId;
@@ -438,11 +438,13 @@ public final class MediaMetricsListener implements AnalyticsListener, PlaybackSe
     }
 
     public static MediaMetricsListener create(Context context) {
+        PlaybackSession createPlaybackSession;
         MediaMetricsManager mediaMetricsManager = (MediaMetricsManager) context.getSystemService("media_metrics");
         if (mediaMetricsManager == null) {
             return null;
         }
-        return new MediaMetricsListener(context, mediaMetricsManager.createPlaybackSession());
+        createPlaybackSession = mediaMetricsManager.createPlaybackSession();
+        return new MediaMetricsListener(context, createPlaybackSession);
     }
 
     private MediaMetricsListener(Context context, PlaybackSession playbackSession) {
@@ -454,16 +456,22 @@ public final class MediaMetricsListener implements AnalyticsListener, PlaybackSe
     }
 
     public LogSessionId getLogSessionId() {
-        return this.playbackSession.getSessionId();
+        LogSessionId sessionId;
+        sessionId = this.playbackSession.getSessionId();
+        return sessionId;
     }
 
     @Override // com.google.android.exoplayer2.analytics.PlaybackSessionManager.Listener
     public void onSessionActive(AnalyticsListener.EventTime eventTime, String str) {
+        PlaybackMetrics.Builder playerName;
+        PlaybackMetrics.Builder playerVersion;
         MediaSource.MediaPeriodId mediaPeriodId = eventTime.mediaPeriodId;
         if (mediaPeriodId == null || !mediaPeriodId.isAd()) {
             finishCurrentSession();
             this.activeSessionId = str;
-            this.metricsBuilder = new PlaybackMetrics.Builder().setPlayerName("ExoPlayerLib").setPlayerVersion("2.18.3");
+            playerName = new PlaybackMetrics.Builder().setPlayerName("ExoPlayerLib");
+            playerVersion = playerName.setPlayerVersion("2.18.3");
+            this.metricsBuilder = playerVersion;
             maybeUpdateTimelineMetadata(eventTime.timeline, eventTime.mediaPeriodId);
         }
     }
@@ -595,12 +603,23 @@ public final class MediaMetricsListener implements AnalyticsListener, PlaybackSe
     }
 
     private void maybeReportPlaybackError(long j) {
+        PlaybackErrorEvent.Builder timeSinceCreatedMillis;
+        PlaybackErrorEvent.Builder errorCode;
+        PlaybackErrorEvent.Builder subErrorCode;
+        PlaybackErrorEvent.Builder exception;
+        PlaybackErrorEvent build;
         PlaybackException playbackException = this.pendingPlayerError;
         if (playbackException == null) {
             return;
         }
         ErrorInfo errorInfo = getErrorInfo(playbackException, this.context, this.ioErrorType == 4);
-        this.playbackSession.reportPlaybackErrorEvent(new PlaybackErrorEvent.Builder().setTimeSinceCreatedMillis(j - this.startTimeMs).setErrorCode(errorInfo.errorCode).setSubErrorCode(errorInfo.subErrorCode).setException(playbackException).build());
+        PlaybackSession playbackSession = this.playbackSession;
+        timeSinceCreatedMillis = new PlaybackErrorEvent.Builder().setTimeSinceCreatedMillis(j - this.startTimeMs);
+        errorCode = timeSinceCreatedMillis.setErrorCode(errorInfo.errorCode);
+        subErrorCode = errorCode.setSubErrorCode(errorInfo.subErrorCode);
+        exception = subErrorCode.setException(playbackException);
+        build = exception.build();
+        playbackSession.reportPlaybackErrorEvent(build);
         this.reportedEventsForCurrentSession = true;
         this.pendingPlayerError = null;
     }
@@ -648,14 +667,24 @@ public final class MediaMetricsListener implements AnalyticsListener, PlaybackSe
     }
 
     private void maybeReportNetworkChange(long j) {
-        int networkType = getNetworkType(this.context);
-        if (networkType != this.currentNetworkType) {
-            this.currentNetworkType = networkType;
-            this.playbackSession.reportNetworkEvent(new NetworkEvent.Builder().setNetworkType(networkType).setTimeSinceCreatedMillis(j - this.startTimeMs).build());
+        NetworkEvent.Builder networkType;
+        NetworkEvent.Builder timeSinceCreatedMillis;
+        NetworkEvent build;
+        int networkType2 = getNetworkType(this.context);
+        if (networkType2 != this.currentNetworkType) {
+            this.currentNetworkType = networkType2;
+            PlaybackSession playbackSession = this.playbackSession;
+            networkType = new NetworkEvent.Builder().setNetworkType(networkType2);
+            timeSinceCreatedMillis = networkType.setTimeSinceCreatedMillis(j - this.startTimeMs);
+            build = timeSinceCreatedMillis.build();
+            playbackSession.reportNetworkEvent(build);
         }
     }
 
     private void maybeReportPlaybackStateChange(Player player, AnalyticsListener.Events events, long j) {
+        PlaybackStateEvent.Builder state;
+        PlaybackStateEvent.Builder timeSinceCreatedMillis;
+        PlaybackStateEvent build;
         if (player.getPlaybackState() != 2) {
             this.isSeeking = false;
         }
@@ -668,7 +697,11 @@ public final class MediaMetricsListener implements AnalyticsListener, PlaybackSe
         if (this.currentPlaybackState != resolveNewPlaybackState) {
             this.currentPlaybackState = resolveNewPlaybackState;
             this.reportedEventsForCurrentSession = true;
-            this.playbackSession.reportPlaybackStateEvent(new PlaybackStateEvent.Builder().setState(this.currentPlaybackState).setTimeSinceCreatedMillis(j - this.startTimeMs).build());
+            PlaybackSession playbackSession = this.playbackSession;
+            state = new PlaybackStateEvent.Builder().setState(this.currentPlaybackState);
+            timeSinceCreatedMillis = state.setTimeSinceCreatedMillis(j - this.startTimeMs);
+            build = timeSinceCreatedMillis.build();
+            playbackSession.reportPlaybackStateEvent(build);
         }
     }
 
@@ -732,7 +765,9 @@ public final class MediaMetricsListener implements AnalyticsListener, PlaybackSe
     }
 
     private void reportTrackChangeEvent(int i, long j, Format format, int i2) {
-        TrackChangeEvent.Builder timeSinceCreatedMillis = new TrackChangeEvent.Builder(i).setTimeSinceCreatedMillis(j - this.startTimeMs);
+        TrackChangeEvent.Builder timeSinceCreatedMillis;
+        TrackChangeEvent build;
+        timeSinceCreatedMillis = new TrackChangeEvent.Builder(i).setTimeSinceCreatedMillis(j - this.startTimeMs);
         if (format != null) {
             timeSinceCreatedMillis.setTrackState(1);
             timeSinceCreatedMillis.setTrackChangeReason(getTrackChangeReason(i2));
@@ -785,7 +820,9 @@ public final class MediaMetricsListener implements AnalyticsListener, PlaybackSe
             timeSinceCreatedMillis.setTrackState(0);
         }
         this.reportedEventsForCurrentSession = true;
-        this.playbackSession.reportTrackChangeEvent(timeSinceCreatedMillis.build());
+        PlaybackSession playbackSession = this.playbackSession;
+        build = timeSinceCreatedMillis.build();
+        playbackSession.reportTrackChangeEvent(build);
     }
 
     private void maybeUpdateTimelineMetadata(Timeline timeline, MediaSource.MediaPeriodId mediaPeriodId) {
@@ -806,6 +843,7 @@ public final class MediaMetricsListener implements AnalyticsListener, PlaybackSe
     }
 
     private void finishCurrentSession() {
+        PlaybackMetrics build;
         PlaybackMetrics.Builder builder = this.metricsBuilder;
         if (builder != null && this.reportedEventsForCurrentSession) {
             builder.setAudioUnderrunCount(this.audioUnderruns);
@@ -816,7 +854,9 @@ public final class MediaMetricsListener implements AnalyticsListener, PlaybackSe
             Long l2 = this.bandwidthBytes.get(this.activeSessionId);
             this.metricsBuilder.setNetworkBytesRead(l2 == null ? 0L : l2.longValue());
             this.metricsBuilder.setStreamSource((l2 == null || l2.longValue() <= 0) ? 0 : 1);
-            this.playbackSession.reportPlaybackMetrics(this.metricsBuilder.build());
+            PlaybackSession playbackSession = this.playbackSession;
+            build = this.metricsBuilder.build();
+            playbackSession.reportPlaybackMetrics(build);
         }
         this.metricsBuilder = null;
         this.activeSessionId = null;
@@ -879,6 +919,9 @@ public final class MediaMetricsListener implements AnalyticsListener, PlaybackSe
     private static ErrorInfo getErrorInfo(PlaybackException playbackException, Context context, boolean z) {
         int i;
         boolean z2;
+        int i2;
+        int i3;
+        String diagnosticInfo;
         if (playbackException.errorCode == 1001) {
             return new ErrorInfo(20, 0);
         }
@@ -946,17 +989,18 @@ public final class MediaMetricsListener implements AnalyticsListener, PlaybackSe
             } else {
                 if (th instanceof DrmSession.DrmSessionException) {
                     Throwable th2 = (Throwable) Assertions.checkNotNull(th.getCause());
-                    int i2 = Util.SDK_INT;
-                    if (i2 >= 21 && (th2 instanceof MediaDrm.MediaDrmStateException)) {
-                        int errorCodeFromPlatformDiagnosticsInfo = Util.getErrorCodeFromPlatformDiagnosticsInfo(((MediaDrm.MediaDrmStateException) th2).getDiagnosticInfo());
+                    int i4 = Util.SDK_INT;
+                    if (i4 >= 21 && (th2 instanceof MediaDrm$MediaDrmStateException)) {
+                        diagnosticInfo = ((MediaDrm$MediaDrmStateException) th2).getDiagnosticInfo();
+                        int errorCodeFromPlatformDiagnosticsInfo = Util.getErrorCodeFromPlatformDiagnosticsInfo(diagnosticInfo);
                         return new ErrorInfo(getDrmErrorCode(errorCodeFromPlatformDiagnosticsInfo), errorCodeFromPlatformDiagnosticsInfo);
-                    } else if (i2 >= 23 && (th2 instanceof MediaDrmResetException)) {
+                    } else if (i4 >= 23 && (th2 instanceof MediaDrmResetException)) {
                         return new ErrorInfo(27, 0);
                     } else {
-                        if (i2 >= 18 && (th2 instanceof NotProvisionedException)) {
+                        if (i4 >= 18 && (th2 instanceof NotProvisionedException)) {
                             return new ErrorInfo(24, 0);
                         }
-                        if (i2 >= 18 && (th2 instanceof DeniedByServerException)) {
+                        if (i4 >= 18 && (th2 instanceof DeniedByServerException)) {
                             return new ErrorInfo(29, 0);
                         }
                         if (th2 instanceof UnsupportedDrmException) {
@@ -969,8 +1013,12 @@ public final class MediaMetricsListener implements AnalyticsListener, PlaybackSe
                     }
                 } else if ((th instanceof FileDataSource.FileDataSourceException) && (th.getCause() instanceof FileNotFoundException)) {
                     Throwable cause2 = ((Throwable) Assertions.checkNotNull(th.getCause())).getCause();
-                    if (Util.SDK_INT >= 21 && (cause2 instanceof ErrnoException) && ((ErrnoException) cause2).errno == OsConstants.EACCES) {
-                        return new ErrorInfo(32, 0);
+                    if (Util.SDK_INT >= 21 && (cause2 instanceof ErrnoException)) {
+                        i2 = ((ErrnoException) cause2).errno;
+                        i3 = OsConstants.EACCES;
+                        if (i2 == i3) {
+                            return new ErrorInfo(32, 0);
+                        }
                     }
                     return new ErrorInfo(31, 0);
                 } else {

@@ -1,69 +1,64 @@
 package j$.util;
-
-import java.util.NoSuchElementException;
 /* loaded from: classes2.dex */
-public final class j {
-    private static final j c = new j();
-    private final boolean a;
-    private final double b;
+public final class j implements j$.util.function.h0, j$.util.function.K {
+    private long count;
+    private long sum;
+    private long min = Long.MAX_VALUE;
+    private long max = Long.MIN_VALUE;
 
-    private j() {
-        this.a = false;
-        this.b = Double.NaN;
+    public final void a(j jVar) {
+        this.count += jVar.count;
+        this.sum += jVar.sum;
+        this.min = Math.min(this.min, jVar.min);
+        this.max = Math.max(this.max, jVar.max);
     }
 
-    private j(double d) {
-        this.a = true;
-        this.b = d;
+    @Override // j$.util.function.K
+    public final void accept(int i) {
+        accept(i);
     }
 
-    public static j a() {
-        return c;
+    @Override // j$.util.function.h0
+    public final void accept(long j) {
+        this.count++;
+        this.sum += j;
+        this.min = Math.min(this.min, j);
+        this.max = Math.max(this.max, j);
     }
 
-    public static j d(double d) {
-        return new j(d);
+    @Override // j$.util.function.h0
+    public final j$.util.function.h0 i(j$.util.function.h0 h0Var) {
+        h0Var.getClass();
+        return new j$.util.function.e0(this, h0Var);
     }
 
-    public double b() {
-        if (this.a) {
-            return this.b;
+    @Override // j$.util.function.K
+    public final j$.util.function.K n(j$.util.function.K k) {
+        k.getClass();
+        return new j$.util.function.H(this, k);
+    }
+
+    public final String toString() {
+        double d;
+        Object[] objArr = new Object[6];
+        objArr[0] = j.class.getSimpleName();
+        objArr[1] = Long.valueOf(this.count);
+        objArr[2] = Long.valueOf(this.sum);
+        objArr[3] = Long.valueOf(this.min);
+        long j = this.count;
+        if (j > 0) {
+            double d2 = this.sum;
+            double d3 = j;
+            Double.isNaN(d2);
+            Double.isNaN(d3);
+            Double.isNaN(d2);
+            Double.isNaN(d3);
+            d = d2 / d3;
+        } else {
+            d = 0.0d;
         }
-        throw new NoSuchElementException("No value present");
-    }
-
-    public boolean c() {
-        return this.a;
-    }
-
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj instanceof j) {
-            j jVar = (j) obj;
-            boolean z = this.a;
-            if (z && jVar.a) {
-                if (Double.compare(this.b, jVar.b) == 0) {
-                    return true;
-                }
-            } else if (z == jVar.a) {
-                return true;
-            }
-            return false;
-        }
-        return false;
-    }
-
-    public int hashCode() {
-        if (this.a) {
-            long doubleToLongBits = Double.doubleToLongBits(this.b);
-            return (int) (doubleToLongBits ^ (doubleToLongBits >>> 32));
-        }
-        return 0;
-    }
-
-    public String toString() {
-        return this.a ? String.format("OptionalDouble[%s]", Double.valueOf(this.b)) : "OptionalDouble.empty";
+        objArr[4] = Double.valueOf(d);
+        objArr[5] = Long.valueOf(this.max);
+        return String.format("%s{count=%d, sum=%d, min=%d, average=%f, max=%d}", objArr);
     }
 }

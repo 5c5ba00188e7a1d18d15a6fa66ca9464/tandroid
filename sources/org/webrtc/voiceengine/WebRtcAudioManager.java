@@ -9,7 +9,7 @@ import java.util.TimerTask;
 import org.webrtc.ContextUtils;
 import org.webrtc.Logging;
 import org.webrtc.MediaStreamTrack;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class WebRtcAudioManager {
     private static final int BITS_PER_SAMPLE = 16;
     private static final boolean DEBUG = false;
@@ -78,7 +78,7 @@ public class WebRtcAudioManager {
         return z;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     private static class VolumeLogger {
         private static final String THREAD_NAME = "WebRtcVolumeLevelLoggerThread";
         private static final int TIMER_PERIOD_IN_SECONDS = 30;
@@ -96,7 +96,7 @@ public class WebRtcAudioManager {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
+        /* loaded from: classes.dex */
         public class LogVolumeTask extends TimerTask {
             private final int maxRingVolume;
             private final int maxVoiceCallVolume;
@@ -225,9 +225,6 @@ public class WebRtcAudioManager {
     }
 
     private int getSampleRateForApiLevel() {
-        if (Build.VERSION.SDK_INT < 17) {
-            return WebRtcAudioUtils.getDefaultSampleRateHz();
-        }
         String property = this.audioManager.getProperty("android.media.property.OUTPUT_SAMPLE_RATE");
         if (property == null) {
             return WebRtcAudioUtils.getDefaultSampleRateHz();
@@ -236,12 +233,12 @@ public class WebRtcAudioManager {
     }
 
     private int getLowLatencyOutputFramesPerBuffer() {
-        String property;
         assertTrue(isLowLatencyOutputSupported());
-        if (Build.VERSION.SDK_INT >= 17 && (property = this.audioManager.getProperty("android.media.property.OUTPUT_FRAMES_PER_BUFFER")) != null) {
-            return Integer.parseInt(property);
+        String property = this.audioManager.getProperty("android.media.property.OUTPUT_FRAMES_PER_BUFFER");
+        if (property == null) {
+            return 256;
         }
-        return 256;
+        return Integer.parseInt(property);
     }
 
     private static boolean isAcousticEchoCancelerSupported() {

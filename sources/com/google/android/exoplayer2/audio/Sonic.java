@@ -160,8 +160,8 @@ final class Sonic {
 
     private int findPitchPeriodInRange(short[] sArr, int i, int i2, int i3) {
         int i4 = i * this.channelCount;
-        int i5 = 1;
-        int i6 = 255;
+        int i5 = 255;
+        int i6 = 1;
         int i7 = 0;
         int i8 = 0;
         while (i2 <= i3) {
@@ -169,18 +169,18 @@ final class Sonic {
             for (int i10 = 0; i10 < i2; i10++) {
                 i9 += Math.abs(sArr[i4 + i10] - sArr[(i4 + i2) + i10]);
             }
-            if (i9 * i7 < i5 * i2) {
+            if (i9 * i7 < i6 * i2) {
                 i7 = i2;
-                i5 = i9;
+                i6 = i9;
             }
-            if (i9 * i6 > i8 * i2) {
-                i6 = i2;
+            if (i9 * i5 > i8 * i2) {
+                i5 = i2;
                 i8 = i9;
             }
             i2++;
         }
-        this.minDiff = i5 / i7;
-        this.maxDiff = i8 / i6;
+        this.minDiff = i6 / i7;
+        this.maxDiff = i8 / i5;
         return i7;
     }
 

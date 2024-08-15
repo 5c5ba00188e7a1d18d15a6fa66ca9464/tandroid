@@ -2,7 +2,6 @@ package com.google.android.gms.common.api.internal;
 
 import android.os.Looper;
 import android.os.Message;
-import android.os.RemoteException;
 import android.util.Log;
 import android.util.Pair;
 import com.google.android.gms.common.annotation.KeepName;
@@ -12,7 +11,6 @@ import com.google.android.gms.common.api.Releasable;
 import com.google.android.gms.common.api.Result;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.common.internal.ICancelToken;
 import com.google.android.gms.common.internal.Preconditions;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -24,7 +22,6 @@ import java.util.concurrent.atomic.AtomicReference;
 /* loaded from: classes.dex */
 public abstract class BasePendingResult<R extends Result> extends PendingResult<R> {
     static final ThreadLocal zaa = new zaq();
-    public static final /* synthetic */ int zad = 0;
     @KeepName
     private zas mResultGuardian;
     protected final CallbackHandler zab;
@@ -39,7 +36,6 @@ public abstract class BasePendingResult<R extends Result> extends PendingResult<
     private volatile boolean zal;
     private boolean zam;
     private boolean zan;
-    private ICancelToken zao;
     private volatile zada zap;
     private boolean zaq;
 
@@ -74,7 +70,6 @@ public abstract class BasePendingResult<R extends Result> extends PendingResult<
     private final void zab(Result result) {
         this.zaj = result;
         this.zak = result.getStatus();
-        this.zao = null;
         this.zaf.countDown();
         if (this.zam) {
             this.zah = null;
@@ -122,13 +117,6 @@ public abstract class BasePendingResult<R extends Result> extends PendingResult<
     public void cancel() {
         synchronized (this.zae) {
             if (!this.zam && !this.zal) {
-                ICancelToken iCancelToken = this.zao;
-                if (iCancelToken != null) {
-                    try {
-                        iCancelToken.cancel();
-                    } catch (RemoteException unused) {
-                    }
-                }
                 zal(this.zaj);
                 this.zam = true;
                 zab(createFailedResult(Status.RESULT_CANCELED));
@@ -208,7 +196,7 @@ public abstract class BasePendingResult<R extends Result> extends PendingResult<
         }
 
         public final void zaa(ResultCallback resultCallback, Result result) {
-            int i = BasePendingResult.zad;
+            ThreadLocal threadLocal = BasePendingResult.zaa;
             sendMessage(obtainMessage(1, new Pair((ResultCallback) Preconditions.checkNotNull(resultCallback), result)));
         }
 

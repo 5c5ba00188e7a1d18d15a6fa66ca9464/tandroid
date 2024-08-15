@@ -176,7 +176,7 @@ public class FeaturedStickerSetCell2 extends FrameLayout implements Notification
         this.textView.setText(this.stickersSet.set.title);
         this.unread = z2;
         if (z2) {
-            Drawable drawable = new Drawable(this) { // from class: org.telegram.ui.Cells.FeaturedStickerSetCell2.1
+            Drawable drawable = new Drawable() { // from class: org.telegram.ui.Cells.FeaturedStickerSetCell2.1
                 Paint paint = new Paint(1);
 
                 @Override // android.graphics.drawable.Drawable

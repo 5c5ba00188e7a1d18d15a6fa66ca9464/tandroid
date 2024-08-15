@@ -124,7 +124,7 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
             }
             TLRPC$TL_payments_checkedGiftCode tLRPC$TL_payments_checkedGiftCode = this.giftCode;
             if (tLRPC$TL_payments_checkedGiftCode.boost != null) {
-                headerCell.setGiftLinkToUserText(tLRPC$TL_payments_checkedGiftCode.to_id, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda4
+                headerCell.setGiftLinkToUserText(tLRPC$TL_payments_checkedGiftCode.to_id, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda0
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
                         GiftInfoAdapter.this.onObjectClicked((TLObject) obj);
@@ -138,7 +138,7 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
             LinkCell linkCell = (LinkCell) viewHolder.itemView;
             linkCell.setSlug(this.slug);
             if (this.giftCode.boost != null && this.slug == null) {
-                linkCell.hideSlug(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda2
+                linkCell.hideSlug(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         GiftInfoAdapter.this.onHiddenLinkClicked();
@@ -147,7 +147,7 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
             }
             String str = this.slug;
             if ((str == null || str.isEmpty()) && this.giftCode.to_id == -1) {
-                linkCell.hideSlug(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda2
+                linkCell.hideSlug(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         GiftInfoAdapter.this.onHiddenLinkClicked();
@@ -155,7 +155,7 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
                 });
             }
         } else if (itemViewType == 2) {
-            ((TableCell) viewHolder.itemView).setData(this.giftCode, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda4
+            ((TableCell) viewHolder.itemView).setData(this.giftCode, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda0
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     GiftInfoAdapter.this.onObjectClicked((TLObject) obj);
@@ -167,7 +167,7 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
             }
             final ActionBtnCell actionBtnCell = (ActionBtnCell) viewHolder.itemView;
             actionBtnCell.setOkStyle(this.isUnused);
-            actionBtnCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda1
+            actionBtnCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda3
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     GiftInfoAdapter.this.lambda$onBindViewHolder$2(actionBtnCell, view);
@@ -176,7 +176,7 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
             TLRPC$TL_payments_checkedGiftCode tLRPC$TL_payments_checkedGiftCode2 = this.giftCode;
             if (tLRPC$TL_payments_checkedGiftCode2.boost != null || tLRPC$TL_payments_checkedGiftCode2.flags == -1) {
                 actionBtnCell.setCloseStyle();
-                actionBtnCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda0
+                actionBtnCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda4
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         GiftInfoAdapter.this.lambda$onBindViewHolder$3(view);
@@ -204,7 +204,7 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
                 } else {
                     string = LocaleController.getString("BoostingSendLinkToFriends", R.string.BoostingSendLinkToFriends);
                 }
-                textInfoCell.setText(AndroidUtilities.replaceSingleTag(string, Theme.key_chat_messageLinkIn, 0, new GiftInfoAdapter$$ExternalSyntheticLambda3(this), this.resourcesProvider));
+                textInfoCell.setText(AndroidUtilities.replaceSingleTag(string, Theme.key_chat_messageLinkIn, 0, new GiftInfoAdapter$$ExternalSyntheticLambda2(this), this.resourcesProvider));
             } else {
                 Date date = new Date(this.giftCode.used_date * 1000);
                 textInfoCell.setText(LocaleController.formatString("BoostingUsedLinkDate", R.string.BoostingUsedLinkDate, LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().getFormatterYear().format(date), LocaleController.getInstance().getFormatterDay().format(date))));
@@ -242,7 +242,7 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
 
     public /* synthetic */ void lambda$onBindViewHolder$1(ActionBtnCell actionBtnCell, TLRPC$TL_error tLRPC$TL_error) {
         actionBtnCell.updateLoading(false);
-        BoostDialogs.processApplyGiftCodeError(tLRPC$TL_error, this.container, this.resourcesProvider, new GiftInfoAdapter$$ExternalSyntheticLambda3(this));
+        BoostDialogs.processApplyGiftCodeError(tLRPC$TL_error, this.container, this.resourcesProvider, new GiftInfoAdapter$$ExternalSyntheticLambda2(this));
     }
 
     public /* synthetic */ void lambda$onBindViewHolder$3(View view) {

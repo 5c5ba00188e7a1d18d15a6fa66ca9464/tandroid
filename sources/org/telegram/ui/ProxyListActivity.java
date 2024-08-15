@@ -41,6 +41,7 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestTimeDelegate;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenu;
+import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BackDrawable;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -65,6 +66,8 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
     private int connectionsHeaderRow;
     private int currentConnectionState;
     private int deleteAllRow;
+    private ActionBarMenuItem deleteMenuItem;
+    private LinearLayoutManager layoutManager;
     private ListAdapter listAdapter;
     private RecyclerListView listView;
     private int proxyAddRow;
@@ -76,6 +79,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
     private int rotationTimeoutRow;
     private int rowCount;
     private NumberTextView selectedCountTextView;
+    private ActionBarMenuItem shareMenuItem;
     private boolean useProxyForCalls;
     private int useProxyRow;
     private boolean useProxySettings;
@@ -135,7 +139,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             this.checkImageView.setScaleType(ImageView.ScaleType.CENTER);
             this.checkImageView.setContentDescription(LocaleController.getString("Edit", R.string.Edit));
             addView(this.checkImageView, LayoutHelper.createFrame(48, 48.0f, (LocaleController.isRTL ? 3 : 5) | 48, 8.0f, 8.0f, 8.0f, 0.0f));
-            this.checkImageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProxyListActivity$TextDetailProxyCell$$ExternalSyntheticLambda1
+            this.checkImageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProxyListActivity$TextDetailProxyCell$$ExternalSyntheticLambda0
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     ProxyListActivity.TextDetailProxyCell.this.lambda$new$0(view);
@@ -247,7 +251,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             fArr[1] = z ? 1.0f : 0.0f;
             ValueAnimator duration = ValueAnimator.ofFloat(fArr).setDuration(200L);
             duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
-            duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ProxyListActivity$TextDetailProxyCell$$ExternalSyntheticLambda0
+            duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ProxyListActivity$TextDetailProxyCell$$ExternalSyntheticLambda1
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     ProxyListActivity.TextDetailProxyCell.this.lambda$setSelectionEnabled$1(r2, dp, valueAnimator);
@@ -398,16 +402,19 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         ((DefaultItemAnimator) recyclerListView.getItemAnimator()).setDelayAnimations(false);
         ((DefaultItemAnimator) this.listView.getItemAnimator()).setTranslationInterpolator(CubicBezierInterpolator.DEFAULT);
         this.listView.setVerticalScrollBarEnabled(false);
-        this.listView.setLayoutManager(new LinearLayoutManager(context, 1, false));
+        RecyclerListView recyclerListView2 = this.listView;
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, 1, false);
+        this.layoutManager = linearLayoutManager;
+        recyclerListView2.setLayoutManager(linearLayoutManager);
         ((FrameLayout) this.fragmentView).addView(this.listView, LayoutHelper.createFrame(-1, -1, 51));
         this.listView.setAdapter(this.listAdapter);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda6
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda2
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i) {
                 ProxyListActivity.this.lambda$createView$1(view, i);
             }
         });
-        this.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda7
+        this.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda3
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
             public final boolean onItemClick(View view, int i) {
                 boolean lambda$createView$2;
@@ -422,7 +429,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         this.selectedCountTextView.setTypeface(AndroidUtilities.bold());
         this.selectedCountTextView.setTextColor(Theme.getColor(Theme.key_actionBarActionModeDefaultIcon));
         createActionMode.addView(this.selectedCountTextView, LayoutHelper.createLinear(0, -1, 1.0f, 72, 0, 0, 0));
-        this.selectedCountTextView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda1
+        this.selectedCountTextView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda4
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view, MotionEvent motionEvent) {
                 boolean lambda$createView$3;
@@ -430,8 +437,8 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
                 return lambda$createView$3;
             }
         });
-        createActionMode.addItemWithWidth(1, R.drawable.msg_share, AndroidUtilities.dp(54.0f));
-        createActionMode.addItemWithWidth(0, R.drawable.msg_delete, AndroidUtilities.dp(54.0f));
+        this.shareMenuItem = createActionMode.addItemWithWidth(1, R.drawable.msg_share, AndroidUtilities.dp(54.0f));
+        this.deleteMenuItem = createActionMode.addItemWithWidth(0, R.drawable.msg_delete, AndroidUtilities.dp(54.0f));
         this.actionBar.setActionBarMenuOnItemClick(new 3(context));
         return this.fragmentView;
     }
@@ -541,7 +548,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             builder.setMessage(LocaleController.getString(R.string.DeleteAllProxiesConfirm));
             builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
             builder.setTitle(LocaleController.getString(R.string.DeleteProxyTitle));
-            builder.setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda0
+            builder.setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda6
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i5) {
                     ProxyListActivity.this.lambda$createView$0(dialogInterface, i5);
@@ -676,7 +683,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0074  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0070  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -684,7 +691,6 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         boolean z2;
         ListAdapter listAdapter;
         final boolean z3;
-        this.rowCount = 0;
         this.rowCount = 0 + 1;
         this.useProxyRow = 0;
         if (this.useProxySettings && SharedConfig.currentProxy != null && SharedConfig.proxyList.size() > 1) {
@@ -694,7 +700,6 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             this.rotationRow = i;
             if (SharedConfig.proxyRotationEnabled) {
                 int i3 = i2 + 1;
-                this.rowCount = i3;
                 this.rotationTimeoutRow = i2;
                 this.rowCount = i3 + 1;
                 this.rotationTimeoutInfoRow = i3;
@@ -728,7 +733,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
                         z3 = true;
                         break;
                     }
-                    while (r1.hasNext()) {
+                    while (r2.hasNext()) {
                     }
                 }
                 z3 = false;
@@ -736,7 +741,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
                     this.wasCheckedAllList = true;
                 }
             }
-            Collections.sort(this.proxyList, new Comparator() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda4
+            Collections.sort(this.proxyList, new Comparator() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda1
                 @Override // java.util.Comparator
                 public final int compare(Object obj, Object obj2) {
                     int lambda$updateRows$4;
@@ -757,7 +762,6 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         }
         int i7 = this.rowCount;
         int i8 = i7 + 1;
-        this.rowCount = i8;
         this.proxyAddRow = i7;
         this.rowCount = i8 + 1;
         this.proxyShadowRow = i8;
@@ -766,7 +770,6 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             z2 = this.callsRow == -1;
             int i9 = this.rowCount;
             int i10 = i9 + 1;
-            this.rowCount = i10;
             this.callsRow = i9;
             this.rowCount = i10 + 1;
             this.callsDetailRow = i10;
@@ -829,7 +832,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$checkProxyList$6(final SharedConfig.ProxyInfo proxyInfo, final long j) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda3
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 ProxyListActivity.lambda$checkProxyList$5(SharedConfig.ProxyInfo.this, j);
@@ -877,7 +880,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         RecyclerListView.Holder holder2;
         boolean z = false;
         if (i == NotificationCenter.proxyChangedByRotation) {
-            this.listView.forAllChild(new Consumer() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda2
+            this.listView.forAllChild(new Consumer() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda0
                 @Override // androidx.core.util.Consumer
                 public final void accept(Object obj) {
                     ProxyListActivity.this.lambda$didReceivedNotification$7((View) obj);

@@ -131,13 +131,10 @@ public class FragmentStateManager {
         if (!this.mFragment.mAdded) {
             i = Math.min(i, 1);
         }
-        SpecialEffectsController.Operation.LifecycleImpact lifecycleImpact = null;
-        if (FragmentManager.USE_STATE_MANAGER && (viewGroup = (fragment = this.mFragment).mContainer) != null) {
-            lifecycleImpact = SpecialEffectsController.getOrCreateController(viewGroup, fragment.getParentFragmentManager()).getAwaitingCompletionLifecycleImpact(this);
-        }
-        if (lifecycleImpact == SpecialEffectsController.Operation.LifecycleImpact.ADDING) {
+        SpecialEffectsController.Operation.LifecycleImpact awaitingCompletionLifecycleImpact = (!FragmentManager.USE_STATE_MANAGER || (viewGroup = (fragment = this.mFragment).mContainer) == null) ? null : SpecialEffectsController.getOrCreateController(viewGroup, fragment.getParentFragmentManager()).getAwaitingCompletionLifecycleImpact(this);
+        if (awaitingCompletionLifecycleImpact == SpecialEffectsController.Operation.LifecycleImpact.ADDING) {
             i = Math.min(i, 6);
-        } else if (lifecycleImpact == SpecialEffectsController.Operation.LifecycleImpact.REMOVING) {
+        } else if (awaitingCompletionLifecycleImpact == SpecialEffectsController.Operation.LifecycleImpact.REMOVING) {
             i = Math.max(i, 3);
         } else {
             Fragment fragment4 = this.mFragment;
@@ -430,17 +427,15 @@ public class FragmentStateManager {
         }
         Fragment fragment = this.mFragment;
         LayoutInflater performGetLayoutInflater = fragment.performGetLayoutInflater(fragment.mSavedFragmentState);
-        ViewGroup viewGroup = null;
         Fragment fragment2 = this.mFragment;
-        ViewGroup viewGroup2 = fragment2.mContainer;
-        if (viewGroup2 != null) {
-            viewGroup = viewGroup2;
-        } else {
+        ViewGroup viewGroup = fragment2.mContainer;
+        if (viewGroup == null) {
             int i = fragment2.mContainerId;
-            if (i != 0) {
-                if (i == -1) {
-                    throw new IllegalArgumentException("Cannot create fragment " + this.mFragment + " for a container view with no id");
-                }
+            if (i == 0) {
+                viewGroup = null;
+            } else if (i == -1) {
+                throw new IllegalArgumentException("Cannot create fragment " + this.mFragment + " for a container view with no id");
+            } else {
                 viewGroup = (ViewGroup) fragment2.mFragmentManager.getContainer().onFindViewById(this.mFragment.mContainerId);
                 if (viewGroup == null) {
                     Fragment fragment3 = this.mFragment;
@@ -475,7 +470,7 @@ public class FragmentStateManager {
                 ViewCompat.requestApplyInsets(this.mFragment.mView);
             } else {
                 final View view2 = this.mFragment.mView;
-                view2.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener(this) { // from class: androidx.fragment.app.FragmentStateManager.1
+                view2.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() { // from class: androidx.fragment.app.FragmentStateManager.1
                     @Override // android.view.View.OnAttachStateChangeListener
                     public void onViewDetachedFromWindow(View view3) {
                     }

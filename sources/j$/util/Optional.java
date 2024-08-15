@@ -1,7 +1,6 @@
 package j$.util;
 
 import java.util.NoSuchElementException;
-import java.util.Objects;
 /* loaded from: classes2.dex */
 public final class Optional<T> {
     private static final Optional b = new Optional();
@@ -12,7 +11,7 @@ public final class Optional<T> {
     }
 
     private Optional(Object obj) {
-        Objects.requireNonNull(obj);
+        obj.getClass();
         this.a = obj;
     }
 
@@ -24,12 +23,12 @@ public final class Optional<T> {
         return new Optional<>(t);
     }
 
-    public boolean equals(Object obj) {
+    public final boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
         if (obj instanceof Optional) {
-            return a.u(this.a, ((Optional) obj).a);
+            return a.r(this.a, ((Optional) obj).a);
         }
         return false;
     }
@@ -42,7 +41,7 @@ public final class Optional<T> {
         throw new NoSuchElementException("No value present");
     }
 
-    public int hashCode() {
+    public final int hashCode() {
         Object obj = this.a;
         if (obj != null) {
             return obj.hashCode();
@@ -54,7 +53,7 @@ public final class Optional<T> {
         return this.a != null;
     }
 
-    public String toString() {
+    public final String toString() {
         Object obj = this.a;
         return obj != null ? String.format("Optional[%s]", obj) : "Optional.empty";
     }

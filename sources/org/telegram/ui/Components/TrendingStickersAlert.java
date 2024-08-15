@@ -151,7 +151,7 @@ public class TrendingStickersAlert extends BottomSheet {
             this.radii = new float[8];
             setWillNotDraw(false);
             setPadding(((BottomSheet) TrendingStickersAlert.this).backgroundPaddingLeft, 0, ((BottomSheet) TrendingStickersAlert.this).backgroundPaddingLeft, 0);
-            setDelegate(new SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate(TrendingStickersAlert.this) { // from class: org.telegram.ui.Components.TrendingStickersAlert.AlertContainerView.1
+            setDelegate(new SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate() { // from class: org.telegram.ui.Components.TrendingStickersAlert.AlertContainerView.1
                 private boolean lastIsWidthGreater;
                 private int lastKeyboardHeight;
 

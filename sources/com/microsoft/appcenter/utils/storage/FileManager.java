@@ -82,16 +82,14 @@ public class FileManager {
     }
 
     public static File lastModifiedFile(File file, FilenameFilter filenameFilter) {
+        File[] listFiles;
         File file2 = null;
-        if (file.exists()) {
-            File[] listFiles = file.listFiles(filenameFilter);
+        if (file.exists() && (listFiles = file.listFiles(filenameFilter)) != null) {
             long j = 0;
-            if (listFiles != null) {
-                for (File file3 : listFiles) {
-                    if (file3.lastModified() > j) {
-                        j = file3.lastModified();
-                        file2 = file3;
-                    }
+            for (File file3 : listFiles) {
+                if (file3.lastModified() > j) {
+                    j = file3.lastModified();
+                    file2 = file3;
                 }
             }
         }

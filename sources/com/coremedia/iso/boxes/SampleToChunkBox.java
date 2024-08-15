@@ -16,6 +16,7 @@ public class SampleToChunkBox extends AbstractFullBox {
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_0 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_1 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_2 = null;
+    private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_3 = null;
     List<Entry> entries;
 
     static {
@@ -27,7 +28,7 @@ public class SampleToChunkBox extends AbstractFullBox {
         ajc$tjp_0 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "getEntries", "com.coremedia.iso.boxes.SampleToChunkBox", "", "", "", "java.util.List"), 47);
         ajc$tjp_1 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setEntries", "com.coremedia.iso.boxes.SampleToChunkBox", "java.util.List", "entries", "", "void"), 51);
         ajc$tjp_2 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "toString", "com.coremedia.iso.boxes.SampleToChunkBox", "", "", "", "java.lang.String"), 84);
-        factory.makeSJP("method-execution", factory.makeMethodSig("1", "blowup", "com.coremedia.iso.boxes.SampleToChunkBox", "int", "chunkCount", "", "[J"), 95);
+        ajc$tjp_3 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "blowup", "com.coremedia.iso.boxes.SampleToChunkBox", "int", "chunkCount", "", "[J"), 95);
     }
 
     public SampleToChunkBox() {
@@ -108,7 +109,7 @@ public class SampleToChunkBox extends AbstractFullBox {
             if (this == obj) {
                 return true;
             }
-            if (obj == null || Entry.class != obj.getClass()) {
+            if (obj == null || getClass() != obj.getClass()) {
                 return false;
             }
             Entry entry = (Entry) obj;

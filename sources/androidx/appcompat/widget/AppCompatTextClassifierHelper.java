@@ -26,11 +26,17 @@ final class AppCompatTextClassifierHelper {
     /* loaded from: classes.dex */
     private static final class Api26Impl {
         static TextClassifier getTextClassifier(TextView textView) {
-            TextClassificationManager textClassificationManager = (TextClassificationManager) textView.getContext().getSystemService(TextClassificationManager.class);
+            Object systemService;
+            TextClassifier textClassifier;
+            TextClassifier textClassifier2;
+            systemService = textView.getContext().getSystemService(TextClassificationManager.class);
+            TextClassificationManager textClassificationManager = (TextClassificationManager) systemService;
             if (textClassificationManager != null) {
-                return textClassificationManager.getTextClassifier();
+                textClassifier2 = textClassificationManager.getTextClassifier();
+                return textClassifier2;
             }
-            return TextClassifier.NO_OP;
+            textClassifier = TextClassifier.NO_OP;
+            return textClassifier;
         }
     }
 }

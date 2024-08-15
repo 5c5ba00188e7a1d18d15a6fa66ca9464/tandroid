@@ -33,8 +33,10 @@ public final class Preconditions {
     }
 
     public static <T> T checkNotNull(T t) {
-        java.util.Objects.requireNonNull(t, "null reference");
-        return t;
+        if (t != null) {
+            return t;
+        }
+        throw new NullPointerException("null reference");
     }
 
     public static void checkState(boolean z) {

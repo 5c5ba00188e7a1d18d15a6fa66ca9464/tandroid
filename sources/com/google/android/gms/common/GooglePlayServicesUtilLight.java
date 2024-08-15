@@ -17,6 +17,7 @@ import com.google.android.gms.common.util.DeviceProperties;
 import com.google.android.gms.common.util.PlatformVersion;
 import com.google.android.gms.common.util.zza;
 import com.google.android.gms.common.wrappers.Wrappers;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.telegram.messenger.LiteMode;
 /* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
@@ -128,12 +129,18 @@ public class GooglePlayServicesUtilLight {
     /* JADX INFO: Access modifiers changed from: package-private */
     @TargetApi(21)
     public static boolean zza(Context context, String str) {
+        PackageInstaller packageInstaller;
+        List<PackageInstaller.SessionInfo> allSessions;
+        String appPackageName;
         ApplicationInfo applicationInfo;
         boolean equals = str.equals("com.google.android.gms");
         if (PlatformVersion.isAtLeastLollipop()) {
             try {
-                for (PackageInstaller.SessionInfo sessionInfo : context.getPackageManager().getPackageInstaller().getAllSessions()) {
-                    if (str.equals(sessionInfo.getAppPackageName())) {
+                packageInstaller = context.getPackageManager().getPackageInstaller();
+                allSessions = packageInstaller.getAllSessions();
+                for (PackageInstaller.SessionInfo sessionInfo : allSessions) {
+                    appPackageName = sessionInfo.getAppPackageName();
+                    if (str.equals(appPackageName)) {
                         return true;
                     }
                 }

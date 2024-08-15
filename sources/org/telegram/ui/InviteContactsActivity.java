@@ -439,7 +439,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
         this.editText.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
         this.spansContainer.addView(this.editText);
         this.editText.setHintText(LocaleController.getString("SearchFriends", R.string.SearchFriends));
-        this.editText.setCustomSelectionActionModeCallback(new ActionMode.Callback(this) { // from class: org.telegram.ui.InviteContactsActivity.5
+        this.editText.setCustomSelectionActionModeCallback(new ActionMode.Callback() { // from class: org.telegram.ui.InviteContactsActivity.5
             @Override // android.view.ActionMode.Callback
             public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
                 return false;
@@ -540,7 +540,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
         this.decoration = groupCreateDividerItemDecoration;
         recyclerListView2.addItemDecoration(groupCreateDividerItemDecoration);
         viewGroup2.addView(this.listView);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.InviteContactsActivity$$ExternalSyntheticLambda3
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.InviteContactsActivity$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i) {
                 InviteContactsActivity.this.lambda$createView$0(view, i);
@@ -572,7 +572,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
         frameLayout.setBackgroundColor(Theme.getColor(i));
         this.counterView.setVisibility(4);
         viewGroup2.addView(this.counterView, LayoutHelper.createFrame(-1, 48, 83));
-        this.counterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.InviteContactsActivity$$ExternalSyntheticLambda0
+        this.counterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.InviteContactsActivity$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 InviteContactsActivity.this.lambda$createView$1(view);
@@ -740,7 +740,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
     private void fetchContacts() {
         ArrayList<ContactsController.Contact> arrayList = new ArrayList<>(ContactsController.getInstance(this.currentAccount).phoneBookContacts);
         this.phoneBookContacts = arrayList;
-        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.ui.InviteContactsActivity$$ExternalSyntheticLambda1
+        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.ui.InviteContactsActivity$$ExternalSyntheticLambda3
             @Override // java.util.Comparator
             public final int compare(Object obj, Object obj2) {
                 int lambda$fetchContacts$2;
@@ -888,7 +888,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
                     FileLog.e(e);
                 }
                 final String str = this.val$query;
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.InviteContactsActivity$InviteAdapter$1$$ExternalSyntheticLambda1
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.InviteContactsActivity$InviteAdapter$1$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         InviteContactsActivity.InviteAdapter.1.this.lambda$run$1(str);
@@ -898,7 +898,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
 
             /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$run$1(final String str) {
-                Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.InviteContactsActivity$InviteAdapter$1$$ExternalSyntheticLambda0
+                Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.InviteContactsActivity$InviteAdapter$1$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         InviteContactsActivity.InviteAdapter.1.this.lambda$run$0(str);
@@ -1001,7 +1001,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.InviteContactsActivity$$ExternalSyntheticLambda2
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.InviteContactsActivity$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 InviteContactsActivity.this.lambda$getThemeDescriptions$3();

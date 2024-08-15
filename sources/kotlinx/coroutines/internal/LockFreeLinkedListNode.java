@@ -1,5 +1,6 @@
 package kotlinx.coroutines.internal;
 
+import androidx.concurrent.futures.AbstractResolvableFuture$SafeAtomicHelper$$ExternalSyntheticBackportWithForwarding0;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import kotlin.jvm.internal.Intrinsics;
 import kotlin.jvm.internal.PropertyReference0Impl;
@@ -38,7 +39,7 @@ public class LockFreeLinkedListNode {
         public void complete(LockFreeLinkedListNode lockFreeLinkedListNode, Object obj) {
             boolean z = obj == null;
             LockFreeLinkedListNode lockFreeLinkedListNode2 = z ? this.newNode : this.oldNext;
-            if (lockFreeLinkedListNode2 != null && LockFreeLinkedListNode._next$FU.compareAndSet(lockFreeLinkedListNode, this, lockFreeLinkedListNode2) && z) {
+            if (lockFreeLinkedListNode2 != null && AbstractResolvableFuture$SafeAtomicHelper$$ExternalSyntheticBackportWithForwarding0.m(LockFreeLinkedListNode._next$FU, lockFreeLinkedListNode, this, lockFreeLinkedListNode2) && z) {
                 LockFreeLinkedListNode lockFreeLinkedListNode3 = this.newNode;
                 LockFreeLinkedListNode lockFreeLinkedListNode4 = this.oldNext;
                 Intrinsics.checkNotNull(lockFreeLinkedListNode4);
@@ -71,7 +72,7 @@ public class LockFreeLinkedListNode {
         _prev$FU.lazySet(lockFreeLinkedListNode, this);
         _next$FU.lazySet(lockFreeLinkedListNode, this);
         while (getNext() == this) {
-            if (_next$FU.compareAndSet(this, this, lockFreeLinkedListNode)) {
+            if (AbstractResolvableFuture$SafeAtomicHelper$$ExternalSyntheticBackportWithForwarding0.m(_next$FU, this, this, lockFreeLinkedListNode)) {
                 lockFreeLinkedListNode.finishAdd(this);
                 return true;
             }
@@ -84,7 +85,7 @@ public class LockFreeLinkedListNode {
         AtomicReferenceFieldUpdater atomicReferenceFieldUpdater = _next$FU;
         atomicReferenceFieldUpdater.lazySet(lockFreeLinkedListNode, lockFreeLinkedListNode2);
         condAddOp.oldNext = lockFreeLinkedListNode2;
-        if (atomicReferenceFieldUpdater.compareAndSet(this, lockFreeLinkedListNode2, condAddOp)) {
+        if (AbstractResolvableFuture$SafeAtomicHelper$$ExternalSyntheticBackportWithForwarding0.m(atomicReferenceFieldUpdater, this, lockFreeLinkedListNode2, condAddOp)) {
             return condAddOp.perform(this) == null ? 1 : 2;
         }
         return 0;
@@ -106,13 +107,13 @@ public class LockFreeLinkedListNode {
                 return (LockFreeLinkedListNode) next;
             }
             lockFreeLinkedListNode = (LockFreeLinkedListNode) next;
-        } while (!_next$FU.compareAndSet(this, next, lockFreeLinkedListNode.removed()));
+        } while (!AbstractResolvableFuture$SafeAtomicHelper$$ExternalSyntheticBackportWithForwarding0.m(_next$FU, this, next, lockFreeLinkedListNode.removed()));
         lockFreeLinkedListNode.correctPrev(null);
         return null;
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:28:0x0048, code lost:
-        if (kotlinx.coroutines.internal.LockFreeLinkedListNode._next$FU.compareAndSet(r3, r2, ((kotlinx.coroutines.internal.Removed) r4).ref) != false) goto L23;
+        if (androidx.concurrent.futures.AbstractResolvableFuture$SafeAtomicHelper$$ExternalSyntheticBackportWithForwarding0.m(kotlinx.coroutines.internal.LockFreeLinkedListNode._next$FU, r3, r2, ((kotlinx.coroutines.internal.Removed) r4).ref) != false) goto L23;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -126,7 +127,7 @@ public class LockFreeLinkedListNode {
                 while (true) {
                     Object obj = lockFreeLinkedListNode2._next;
                     if (obj == this) {
-                        if (lockFreeLinkedListNode == lockFreeLinkedListNode2 || _prev$FU.compareAndSet(this, lockFreeLinkedListNode, lockFreeLinkedListNode2)) {
+                        if (lockFreeLinkedListNode == lockFreeLinkedListNode2 || AbstractResolvableFuture$SafeAtomicHelper$$ExternalSyntheticBackportWithForwarding0.m(_prev$FU, this, lockFreeLinkedListNode, lockFreeLinkedListNode2)) {
                             return lockFreeLinkedListNode2;
                         }
                     } else if (isRemoved()) {
@@ -182,7 +183,7 @@ public class LockFreeLinkedListNode {
             if (getNext() != lockFreeLinkedListNode) {
                 return;
             }
-        } while (!_prev$FU.compareAndSet(lockFreeLinkedListNode, lockFreeLinkedListNode2, this));
+        } while (!AbstractResolvableFuture$SafeAtomicHelper$$ExternalSyntheticBackportWithForwarding0.m(_prev$FU, lockFreeLinkedListNode, lockFreeLinkedListNode2, this));
         if (isRemoved()) {
             lockFreeLinkedListNode.correctPrev(null);
         }

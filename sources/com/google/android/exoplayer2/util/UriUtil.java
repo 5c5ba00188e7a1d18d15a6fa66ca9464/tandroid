@@ -31,26 +31,34 @@ public final class UriUtil {
             sb.append((CharSequence) str, 0, uriIndices2[2]);
             sb.append(str2);
             return sb.toString();
-        } else if (uriIndices[1] != 0) {
-            int i = uriIndices2[0] + 1;
-            sb.append((CharSequence) str, 0, i);
-            sb.append(str2);
-            return removeDotSegments(sb, uriIndices[1] + i, i + uriIndices[2]);
-        } else if (str2.charAt(uriIndices[1]) == '/') {
-            sb.append((CharSequence) str, 0, uriIndices2[1]);
-            sb.append(str2);
-            return removeDotSegments(sb, uriIndices2[1], uriIndices2[1] + uriIndices[2]);
-        } else if (uriIndices2[0] + 2 < uriIndices2[1] && uriIndices2[1] == uriIndices2[2]) {
-            sb.append((CharSequence) str, 0, uriIndices2[1]);
-            sb.append('/');
-            sb.append(str2);
-            return removeDotSegments(sb, uriIndices2[1], uriIndices2[1] + uriIndices[2] + 1);
         } else {
-            int lastIndexOf = str.lastIndexOf(47, uriIndices2[2] - 1);
-            int i2 = lastIndexOf == -1 ? uriIndices2[1] : lastIndexOf + 1;
-            sb.append((CharSequence) str, 0, i2);
-            sb.append(str2);
-            return removeDotSegments(sb, uriIndices2[1], i2 + uriIndices[2]);
+            int i = uriIndices[1];
+            if (i != 0) {
+                int i2 = uriIndices2[0] + 1;
+                sb.append((CharSequence) str, 0, i2);
+                sb.append(str2);
+                return removeDotSegments(sb, uriIndices[1] + i2, i2 + uriIndices[2]);
+            } else if (str2.charAt(i) == '/') {
+                sb.append((CharSequence) str, 0, uriIndices2[1]);
+                sb.append(str2);
+                int i3 = uriIndices2[1];
+                return removeDotSegments(sb, i3, uriIndices[2] + i3);
+            } else {
+                int i4 = uriIndices2[0] + 2;
+                int i5 = uriIndices2[1];
+                if (i4 < i5 && i5 == uriIndices2[2]) {
+                    sb.append((CharSequence) str, 0, i5);
+                    sb.append('/');
+                    sb.append(str2);
+                    int i6 = uriIndices2[1];
+                    return removeDotSegments(sb, i6, uriIndices[2] + i6 + 1);
+                }
+                int lastIndexOf = str.lastIndexOf(47, uriIndices2[2] - 1);
+                int i7 = lastIndexOf == -1 ? uriIndices2[1] : lastIndexOf + 1;
+                sb.append((CharSequence) str, 0, i7);
+                sb.append(str2);
+                return removeDotSegments(sb, uriIndices2[1], i7 + uriIndices[2]);
+            }
         }
     }
 

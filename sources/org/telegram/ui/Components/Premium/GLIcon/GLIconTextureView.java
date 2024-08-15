@@ -98,19 +98,19 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
                 GLIconTextureView.this.startIdleAnimation();
             }
         };
-        this.xUpdater2 = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView$$ExternalSyntheticLambda0
+        this.xUpdater2 = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView$$ExternalSyntheticLambda1
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 GLIconTextureView.this.lambda$new$1(valueAnimator);
             }
         };
-        this.xUpdater = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView$$ExternalSyntheticLambda1
+        this.xUpdater = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView$$ExternalSyntheticLambda2
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 GLIconTextureView.this.lambda$new$2(valueAnimator);
             }
         };
-        this.yUpdater = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView$$ExternalSyntheticLambda2
+        this.yUpdater = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView$$ExternalSyntheticLambda3
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 GLIconTextureView.this.lambda$new$3(valueAnimator);
@@ -502,7 +502,7 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
         float f4 = f + f2;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(1.0f, 0.0f);
         this.backAnimation = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView$$ExternalSyntheticLambda3
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView$$ExternalSyntheticLambda0
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 GLIconTextureView.this.lambda$startBackAnimation$0(f, f3, f2, valueAnimator);

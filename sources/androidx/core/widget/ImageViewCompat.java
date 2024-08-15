@@ -64,7 +64,9 @@ public class ImageViewCompat {
     /* loaded from: classes.dex */
     static class Api21Impl {
         static ColorStateList getImageTintList(ImageView imageView) {
-            return imageView.getImageTintList();
+            ColorStateList imageTintList;
+            imageTintList = imageView.getImageTintList();
+            return imageTintList;
         }
 
         static void setImageTintList(ImageView imageView, ColorStateList colorStateList) {
@@ -72,7 +74,9 @@ public class ImageViewCompat {
         }
 
         static PorterDuff.Mode getImageTintMode(ImageView imageView) {
-            return imageView.getImageTintMode();
+            PorterDuff.Mode imageTintMode;
+            imageTintMode = imageView.getImageTintMode();
+            return imageTintMode;
         }
 
         static void setImageTintMode(ImageView imageView, PorterDuff.Mode mode) {

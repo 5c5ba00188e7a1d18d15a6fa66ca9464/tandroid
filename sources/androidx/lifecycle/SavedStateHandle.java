@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import kotlin.TuplesKt;
 import kotlin.collections.MapsKt__MapsKt;
@@ -146,7 +145,9 @@ public final class SavedStateHandle {
             int size = parcelableArrayList.size();
             for (int i = 0; i < size; i++) {
                 Object obj = parcelableArrayList.get(i);
-                Objects.requireNonNull(obj, "null cannot be cast to non-null type kotlin.String");
+                if (obj == null) {
+                    throw new NullPointerException("null cannot be cast to non-null type kotlin.String");
+                }
                 linkedHashMap.put((String) obj, parcelableArrayList2.get(i));
             }
             return new SavedStateHandle(linkedHashMap);

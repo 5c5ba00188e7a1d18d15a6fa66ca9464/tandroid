@@ -79,6 +79,8 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
+        this.searching = false;
+        this.searchWas = false;
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setAllowOverlayTitle(true);
         this.actionBar.setTitle(LocaleController.getString("Language", R.string.Language));
@@ -171,13 +173,13 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
         defaultItemAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
         this.listView.setItemAnimator(defaultItemAnimator);
         frameLayout2.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.LanguageSelectActivity$$ExternalSyntheticLambda10
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.LanguageSelectActivity$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i) {
                 LanguageSelectActivity.this.lambda$createView$4(view, i);
             }
         });
-        this.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.LanguageSelectActivity$$ExternalSyntheticLambda11
+        this.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.LanguageSelectActivity$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
             public final boolean onItemClick(View view, int i) {
                 boolean lambda$createView$6;
@@ -290,14 +292,14 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                     if (!z6) {
                         alertDialog.showDelayed(500L);
                     }
-                    final int applyLanguage = LocaleController.getInstance().applyLanguage(localeInfo, true, false, false, true, this.currentAccount, new Runnable() { // from class: org.telegram.ui.LanguageSelectActivity$$ExternalSyntheticLambda7
+                    final int applyLanguage = LocaleController.getInstance().applyLanguage(localeInfo, true, false, false, true, this.currentAccount, new Runnable() { // from class: org.telegram.ui.LanguageSelectActivity$$ExternalSyntheticLambda6
                         @Override // java.lang.Runnable
                         public final void run() {
                             LanguageSelectActivity.this.lambda$createView$1(alertDialog, z6);
                         }
                     });
                     if (applyLanguage != 0) {
-                        alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.LanguageSelectActivity$$ExternalSyntheticLambda0
+                        alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.LanguageSelectActivity$$ExternalSyntheticLambda7
                             @Override // android.content.DialogInterface.OnCancelListener
                             public final void onCancel(DialogInterface dialogInterface) {
                                 LanguageSelectActivity.this.lambda$createView$2(applyLanguage, dialogInterface);
@@ -309,7 +311,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                     HashSet<String> restrictedLanguages = RestrictedLanguagesSelectActivity.getRestrictedLanguages();
                     HashSet hashSet = new HashSet(restrictedLanguages);
                     if (restrictedLanguages.contains(str2) && !restrictedLanguages.contains(str)) {
-                        Collection$-EL.removeIf(hashSet, new Predicate() { // from class: org.telegram.ui.LanguageSelectActivity$$ExternalSyntheticLambda9
+                        Collection$-EL.removeIf(hashSet, new Predicate() { // from class: org.telegram.ui.LanguageSelectActivity$$ExternalSyntheticLambda8
                             @Override // j$.util.function.Predicate
                             public /* synthetic */ Predicate and(Predicate predicate) {
                                 return Predicate.-CC.$default$and(this, predicate);
@@ -353,7 +355,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
         if (z) {
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LanguageSelectActivity$$ExternalSyntheticLambda4
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LanguageSelectActivity$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
             public final void run() {
                 LanguageSelectActivity.this.lambda$createView$0();
@@ -403,7 +405,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                 builder.setTitle(LocaleController.getString("DeleteLocalizationTitle", R.string.DeleteLocalizationTitle));
                 builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("DeleteLocalizationText", R.string.DeleteLocalizationText, localeInfo.name)));
-                builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LanguageSelectActivity$$ExternalSyntheticLambda1
+                builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LanguageSelectActivity$$ExternalSyntheticLambda9
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i2) {
                         LanguageSelectActivity.this.lambda$createView$5(localeInfo, dialogInterface, i2);
@@ -462,7 +464,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
 
     private void fillLanguages() {
         final LocaleController.LocaleInfo currentLocaleInfo = LocaleController.getInstance().getCurrentLocaleInfo();
-        Comparator comparator = new Comparator() { // from class: org.telegram.ui.LanguageSelectActivity$$ExternalSyntheticLambda8
+        Comparator comparator = new Comparator() { // from class: org.telegram.ui.LanguageSelectActivity$$ExternalSyntheticLambda3
             @Override // java.util.Comparator
             public final int compare(Object obj, Object obj2) {
                 int lambda$fillLanguages$8;
@@ -508,7 +510,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onBecomeFullyVisible() {
         super.onBecomeFullyVisible();
-        LocaleController.getInstance().checkForcePatchLangpack(this.currentAccount, new Runnable() { // from class: org.telegram.ui.LanguageSelectActivity$$ExternalSyntheticLambda3
+        LocaleController.getInstance().checkForcePatchLangpack(this.currentAccount, new Runnable() { // from class: org.telegram.ui.LanguageSelectActivity$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 LanguageSelectActivity.this.lambda$onBecomeFullyVisible$9();
@@ -535,6 +537,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
 
     public void search(String str) {
         if (str == null) {
+            this.searching = false;
             this.searchResult = null;
             if (this.listView != null) {
                 this.emptyView.setVisibility(8);
@@ -594,7 +597,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
     }
 
     private void updateSearchResults(final ArrayList<LocaleController.LocaleInfo> arrayList) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LanguageSelectActivity$$ExternalSyntheticLambda6
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LanguageSelectActivity$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
                 LanguageSelectActivity.this.lambda$updateSearchResults$11(arrayList);
@@ -656,29 +659,25 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View view;
+            View textRadioCell;
             if (i == 0) {
-                View textRadioCell = new TextRadioCell(this.mContext);
+                textRadioCell = new TextRadioCell(this.mContext);
                 textRadioCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                view = textRadioCell;
             } else if (i == 2) {
-                View textCheckCell = new TextCheckCell(this.mContext);
-                textCheckCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                view = textCheckCell;
+                textRadioCell = new TextCheckCell(this.mContext);
+                textRadioCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
             } else if (i == 3) {
-                FrameLayout headerCell = new HeaderCell(this.mContext);
-                headerCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                view = headerCell;
+                textRadioCell = new HeaderCell(this.mContext);
+                textRadioCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
             } else if (i == 4) {
-                FrameLayout textSettingsCell = new TextSettingsCell(this.mContext);
-                textSettingsCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                view = textSettingsCell;
+                textRadioCell = new TextSettingsCell(this.mContext);
+                textRadioCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
             } else if (i == 5) {
-                view = new TextInfoPrivacyCell(this.mContext);
+                textRadioCell = new TextInfoPrivacyCell(this.mContext);
             } else {
-                view = new ShadowSectionCell(this.mContext);
+                textRadioCell = new ShadowSectionCell(this.mContext);
             }
-            return new RecyclerListView.Holder(view);
+            return new RecyclerListView.Holder(textRadioCell);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -689,33 +688,33 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:103:0x028b, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:104:0x028e, code lost:
             if (r13 == (r11.this$0.unofficialLanguages.size() - 1)) goto L111;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:113:0x02cc, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:114:0x02cf, code lost:
             if (r13 == (r11.this$0.sortedLanguages.size() - 1)) goto L111;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:43:0x0125, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:43:0x0126, code lost:
             if (r12.getValueTextView().getPaint().measureText(r2) > java.lang.Math.min((org.telegram.messenger.AndroidUtilities.displaySize.x - org.telegram.messenger.AndroidUtilities.dp(34.0f)) / 2.0f, (org.telegram.messenger.AndroidUtilities.displaySize.x - org.telegram.messenger.AndroidUtilities.dp(84.0f)) - r12.getTextView().getPaint().measureText(r0))) goto L31;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:94:0x0251, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:95:0x0254, code lost:
             if (r13 == (r11.this$0.searchResult.size() - 1)) goto L111;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:95:0x0253, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:96:0x0256, code lost:
             r13 = true;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:96:0x0256, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:97:0x0259, code lost:
             r13 = false;
          */
-        /* JADX WARN: Removed duplicated region for block: B:48:0x012d  */
+        /* JADX WARN: Removed duplicated region for block: B:49:0x0130  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
             boolean z;
-            int i2;
             String str;
+            int i2;
             String sb;
             int itemViewType = viewHolder.getItemViewType();
             LocaleController.LocaleInfo localeInfo = null;
@@ -790,11 +789,11 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                 if (itemViewType == 3) {
                     HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
                     if (i == 0) {
-                        i2 = R.string.TranslateMessages;
                         str = "TranslateMessages";
+                        i2 = R.string.TranslateMessages;
                     } else {
-                        i2 = R.string.Language;
                         str = "Language";
+                        i2 = R.string.Language;
                     }
                     headerCell.setText(LocaleController.getString(str, i2));
                     return;

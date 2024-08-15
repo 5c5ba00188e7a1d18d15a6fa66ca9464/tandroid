@@ -9,46 +9,35 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class NavUtils {
     public static boolean shouldUpRecreateTask(Activity activity, Intent intent) {
-        if (Build.VERSION.SDK_INT >= 16) {
-            return Api16Impl.shouldUpRecreateTask(activity, intent);
-        }
-        String action = activity.getIntent().getAction();
-        return (action == null || action.equals("android.intent.action.MAIN")) ? false : true;
+        return Api16Impl.shouldUpRecreateTask(activity, intent);
     }
 
     public static void navigateUpTo(Activity activity, Intent intent) {
-        if (Build.VERSION.SDK_INT >= 16) {
-            Api16Impl.navigateUpTo(activity, intent);
-            return;
-        }
-        intent.addFlags(ConnectionsManager.FileTypeFile);
-        activity.startActivity(intent);
-        activity.finish();
+        Api16Impl.navigateUpTo(activity, intent);
     }
 
     public static Intent getParentActivityIntent(Activity activity) {
-        Intent parentActivityIntent;
-        if (Build.VERSION.SDK_INT < 16 || (parentActivityIntent = Api16Impl.getParentActivityIntent(activity)) == null) {
-            String parentActivityName = getParentActivityName(activity);
-            if (parentActivityName == null) {
-                return null;
-            }
-            ComponentName componentName = new ComponentName(activity, parentActivityName);
-            try {
-                if (getParentActivityName(activity, componentName) == null) {
-                    return Intent.makeMainActivity(componentName);
-                }
-                return new Intent().setComponent(componentName);
-            } catch (PackageManager.NameNotFoundException unused) {
-                Log.e("NavUtils", "getParentActivityIntent: bad parentActivityName '" + parentActivityName + "' in manifest");
-                return null;
-            }
+        Intent parentActivityIntent = Api16Impl.getParentActivityIntent(activity);
+        if (parentActivityIntent != null) {
+            return parentActivityIntent;
         }
-        return parentActivityIntent;
+        String parentActivityName = getParentActivityName(activity);
+        if (parentActivityName == null) {
+            return null;
+        }
+        ComponentName componentName = new ComponentName(activity, parentActivityName);
+        try {
+            if (getParentActivityName(activity, componentName) == null) {
+                return Intent.makeMainActivity(componentName);
+            }
+            return new Intent().setComponent(componentName);
+        } catch (PackageManager.NameNotFoundException unused) {
+            Log.e("NavUtils", "getParentActivityIntent: bad parentActivityName '" + parentActivityName + "' in manifest");
+            return null;
+        }
     }
 
     public static Intent getParentActivityIntent(Context context, ComponentName componentName) throws PackageManager.NameNotFoundException {
@@ -73,27 +62,21 @@ public final class NavUtils {
 
     public static String getParentActivityName(Context context, ComponentName componentName) throws PackageManager.NameNotFoundException {
         String string;
-        String str;
         PackageManager packageManager = context.getPackageManager();
         int i = Build.VERSION.SDK_INT;
-        int i2 = 640;
-        if (i >= 29) {
-            i2 = 269222528;
-        } else if (i >= 24) {
-            i2 = 787072;
+        ActivityInfo activityInfo = packageManager.getActivityInfo(componentName, i >= 29 ? 269222528 : i >= 24 ? 787072 : 640);
+        String str = activityInfo.parentActivityName;
+        if (str != null) {
+            return str;
         }
-        ActivityInfo activityInfo = packageManager.getActivityInfo(componentName, i2);
-        if (i < 16 || (str = activityInfo.parentActivityName) == null) {
-            Bundle bundle = activityInfo.metaData;
-            if (bundle == null || (string = bundle.getString("android.support.PARENT_ACTIVITY")) == null) {
-                return null;
-            }
-            if (string.charAt(0) == '.') {
-                return context.getPackageName() + string;
-            }
-            return string;
+        Bundle bundle = activityInfo.metaData;
+        if (bundle == null || (string = bundle.getString("android.support.PARENT_ACTIVITY")) == null) {
+            return null;
         }
-        return str;
+        if (string.charAt(0) == '.') {
+            return context.getPackageName() + string;
+        }
+        return string;
     }
 
     /* loaded from: classes.dex */

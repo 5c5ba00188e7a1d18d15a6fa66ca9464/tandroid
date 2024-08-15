@@ -34,6 +34,7 @@ public final class zzy$zzao extends zzeo<zzy$zzao, zzc> implements zzgb {
         zzm(2048),
         zzn(LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM);
         
+        private static final zzes<zza> zzo = new zzbl();
         private final int zzp;
 
         @Override // com.google.android.gms.internal.mlkit_language_id.zzet
@@ -52,10 +53,6 @@ public final class zzy$zzao extends zzeo<zzy$zzao, zzc> implements zzgb {
 
         zza(int i) {
             this.zzp = i;
-        }
-
-        static {
-            new zzbl();
         }
     }
 
@@ -76,6 +73,7 @@ public final class zzy$zzao extends zzeo<zzy$zzao, zzc> implements zzgb {
         zzl(11),
         zzm(12);
         
+        private static final zzes<zzb> zzn = new zzbo();
         private final int zzo;
 
         @Override // com.google.android.gms.internal.mlkit_language_id.zzet
@@ -94,10 +92,6 @@ public final class zzy$zzao extends zzeo<zzy$zzao, zzc> implements zzgb {
 
         zzb(int i) {
             this.zzo = i;
-        }
-
-        static {
-            new zzbo();
         }
     }
 

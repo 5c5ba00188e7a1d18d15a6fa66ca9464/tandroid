@@ -3,7 +3,6 @@ package com.google.android.gms.vision.barcode;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.Image;
-import android.os.Build;
 import android.util.SparseArray;
 import androidx.annotation.RecentlyNonNull;
 import com.google.android.gms.common.internal.Preconditions;
@@ -60,7 +59,7 @@ public final class BarcodeDetector extends Detector<Barcode> {
             if (zza == null) {
                 throw new IllegalArgumentException("Internal barcode detector error; check logcat output.");
             }
-        } else if (Build.VERSION.SDK_INT >= 19 && frame.getPlanes() != null) {
+        } else if (frame.getPlanes() != null) {
             zza = this.zza.zza((ByteBuffer) Preconditions.checkNotNull(((Image.Plane[]) Preconditions.checkNotNull(frame.getPlanes()))[0].getBuffer()), new zzs(((Image.Plane[]) Preconditions.checkNotNull(frame.getPlanes()))[0].getRowStride(), zza2.zzb, zza2.zzc, zza2.zzd, zza2.zze));
         } else {
             zza = this.zza.zza((ByteBuffer) Preconditions.checkNotNull(frame.getGrayscaleImageData()), zza2);

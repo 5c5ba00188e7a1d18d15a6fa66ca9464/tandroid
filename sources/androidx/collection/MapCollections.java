@@ -46,6 +46,11 @@ public abstract class MapCollections<K, V> {
             Iterator.-CC.$default$forEachRemaining(this, consumer);
         }
 
+        @Override // java.util.Iterator
+        public /* synthetic */ void forEachRemaining(java.util.function.Consumer consumer) {
+            forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
+        }
+
         ArrayIterator(int i) {
             this.mOffset = i;
             this.mSize = MapCollections.this.colGetSize();
@@ -89,6 +94,11 @@ public abstract class MapCollections<K, V> {
         @Override // j$.util.Iterator
         public /* synthetic */ void forEachRemaining(Consumer consumer) {
             Iterator.-CC.$default$forEachRemaining(this, consumer);
+        }
+
+        @Override // java.util.Iterator
+        public /* synthetic */ void forEachRemaining(java.util.function.Consumer consumer) {
+            forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
         }
 
         MapIterator() {
@@ -172,8 +182,9 @@ public abstract class MapCollections<K, V> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    final class EntrySet implements Set<Map.Entry<K, V>> {
+    public final class EntrySet implements Set<Map.Entry<K, V>> {
         EntrySet() {
         }
 
@@ -281,8 +292,9 @@ public abstract class MapCollections<K, V> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    final class KeySet implements Set<K> {
+    public final class KeySet implements Set<K> {
         KeySet() {
         }
 
@@ -372,8 +384,9 @@ public abstract class MapCollections<K, V> {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    final class ValuesCollection implements Collection<V> {
+    public final class ValuesCollection implements Collection<V> {
         ValuesCollection() {
         }
 

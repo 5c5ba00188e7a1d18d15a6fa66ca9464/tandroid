@@ -6,7 +6,10 @@ enum zzix {
     zzb(true),
     zzc(true),
     zzd(false);
+    
+    private final boolean zze;
 
     zzix(boolean z) {
+        this.zze = z;
     }
 }

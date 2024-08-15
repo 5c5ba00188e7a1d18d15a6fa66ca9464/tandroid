@@ -10,13 +10,14 @@ public class StringsKt__StringNumberConversionsKt extends StringsKt__StringNumbe
         return toLongOrNull(str, 10);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:19:0x0044  */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x0075  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x007a  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0044  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0075  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x007a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static final Long toLongOrNull(String str, int i) {
+        boolean z;
         Intrinsics.checkNotNullParameter(str, "<this>");
         CharsKt__CharJVMKt.checkRadix(i);
         int length = str.length();
@@ -26,8 +27,8 @@ public class StringsKt__StringNumberConversionsKt extends StringsKt__StringNumbe
         int i2 = 0;
         char charAt = str.charAt(0);
         long j = -9223372036854775807L;
-        boolean z = true;
         if (Intrinsics.compare(charAt, 48) < 0) {
+            z = true;
             if (length == 1) {
                 return null;
             }

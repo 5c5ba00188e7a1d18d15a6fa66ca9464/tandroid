@@ -89,37 +89,37 @@ public class PhonebookShareAlert extends BottomSheet {
 
     /* loaded from: classes3.dex */
     public class UserCell extends LinearLayout {
-        public UserCell(PhonebookShareAlert phonebookShareAlert, Context context) {
+        public UserCell(Context context) {
             super(context);
             String formatUserStatus;
             boolean z;
             setOrientation(1);
-            if (phonebookShareAlert.phones.size() != 1 || phonebookShareAlert.other.size() != 0) {
-                formatUserStatus = (phonebookShareAlert.currentUser.status == null || phonebookShareAlert.currentUser.status.expires == 0) ? null : LocaleController.formatUserStatus(((BottomSheet) phonebookShareAlert).currentAccount, phonebookShareAlert.currentUser);
+            if (PhonebookShareAlert.this.phones.size() != 1 || PhonebookShareAlert.this.other.size() != 0) {
+                formatUserStatus = (PhonebookShareAlert.this.currentUser.status == null || PhonebookShareAlert.this.currentUser.status.expires == 0) ? null : LocaleController.formatUserStatus(((BottomSheet) PhonebookShareAlert.this).currentAccount, PhonebookShareAlert.this.currentUser);
                 z = true;
             } else {
-                formatUserStatus = ((AndroidUtilities.VcardItem) phonebookShareAlert.phones.get(0)).getValue(true);
+                formatUserStatus = ((AndroidUtilities.VcardItem) PhonebookShareAlert.this.phones.get(0)).getValue(true);
                 z = false;
             }
             AvatarDrawable avatarDrawable = new AvatarDrawable();
             avatarDrawable.setTextSize(AndroidUtilities.dp(30.0f));
-            avatarDrawable.setInfo(((BottomSheet) phonebookShareAlert).currentAccount, phonebookShareAlert.currentUser);
+            avatarDrawable.setInfo(((BottomSheet) PhonebookShareAlert.this).currentAccount, PhonebookShareAlert.this.currentUser);
             BackupImageView backupImageView = new BackupImageView(context);
             backupImageView.setRoundRadius(AndroidUtilities.dp(40.0f));
-            backupImageView.setForUserOrChat(phonebookShareAlert.currentUser, avatarDrawable);
+            backupImageView.setForUserOrChat(PhonebookShareAlert.this.currentUser, avatarDrawable);
             addView(backupImageView, LayoutHelper.createLinear(80, 80, 49, 0, 32, 0, 0));
             TextView textView = new TextView(context);
             textView.setTypeface(AndroidUtilities.bold());
             textView.setTextSize(1, 17.0f);
-            textView.setTextColor(phonebookShareAlert.getThemedColor(Theme.key_dialogTextBlack));
+            textView.setTextColor(PhonebookShareAlert.this.getThemedColor(Theme.key_dialogTextBlack));
             textView.setSingleLine(true);
             textView.setEllipsize(TextUtils.TruncateAt.END);
-            textView.setText(ContactsController.formatName(phonebookShareAlert.currentUser.first_name, phonebookShareAlert.currentUser.last_name));
+            textView.setText(ContactsController.formatName(PhonebookShareAlert.this.currentUser.first_name, PhonebookShareAlert.this.currentUser.last_name));
             addView(textView, LayoutHelper.createLinear(-2, -2, 49, 10, 10, 10, formatUserStatus != null ? 0 : 27));
             if (formatUserStatus != null) {
                 TextView textView2 = new TextView(context);
                 textView2.setTextSize(1, 14.0f);
-                textView2.setTextColor(phonebookShareAlert.getThemedColor(Theme.key_dialogTextGray3));
+                textView2.setTextColor(PhonebookShareAlert.this.getThemedColor(Theme.key_dialogTextGray3));
                 textView2.setSingleLine(true);
                 textView2.setEllipsize(TextUtils.TruncateAt.END);
                 textView2.setText(formatUserStatus);
@@ -136,7 +136,7 @@ public class PhonebookShareAlert extends BottomSheet {
         private TextView textView;
         private TextView valueTextView;
 
-        public TextCheckBoxCell(PhonebookShareAlert phonebookShareAlert, Context context) {
+        public TextCheckBoxCell(Context context) {
             super(context);
             float f;
             float f2;
@@ -144,7 +144,7 @@ public class PhonebookShareAlert extends BottomSheet {
             float f4;
             TextView textView = new TextView(context);
             this.textView = textView;
-            textView.setTextColor(phonebookShareAlert.getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
+            textView.setTextColor(PhonebookShareAlert.this.getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
             this.textView.setTextSize(1, 16.0f);
             this.textView.setSingleLine(false);
             this.textView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
@@ -153,19 +153,19 @@ public class PhonebookShareAlert extends BottomSheet {
             boolean z = LocaleController.isRTL;
             int i = (z ? 5 : 3) | 48;
             if (z) {
-                f = phonebookShareAlert.isImport ? 17 : 64;
+                f = PhonebookShareAlert.this.isImport ? 17 : 64;
             } else {
                 f = 72.0f;
             }
             if (LocaleController.isRTL) {
                 f2 = 72.0f;
             } else {
-                f2 = phonebookShareAlert.isImport ? 17 : 64;
+                f2 = PhonebookShareAlert.this.isImport ? 17 : 64;
             }
             addView(textView2, LayoutHelper.createFrame(-1, -1.0f, i, f, 10.0f, f2, 0.0f));
             TextView textView3 = new TextView(context);
             this.valueTextView = textView3;
-            textView3.setTextColor(phonebookShareAlert.getThemedColor(Theme.key_windowBackgroundWhiteGrayText2));
+            textView3.setTextColor(PhonebookShareAlert.this.getThemedColor(Theme.key_windowBackgroundWhiteGrayText2));
             this.valueTextView.setTextSize(1, 13.0f);
             this.valueTextView.setLines(1);
             this.valueTextView.setMaxLines(1);
@@ -175,24 +175,24 @@ public class PhonebookShareAlert extends BottomSheet {
             boolean z2 = LocaleController.isRTL;
             int i2 = z2 ? 5 : 3;
             if (z2) {
-                f3 = phonebookShareAlert.isImport ? 17 : 64;
+                f3 = PhonebookShareAlert.this.isImport ? 17 : 64;
             } else {
                 f3 = 72.0f;
             }
             if (LocaleController.isRTL) {
                 f4 = 72.0f;
             } else {
-                f4 = phonebookShareAlert.isImport ? 17 : 64;
+                f4 = PhonebookShareAlert.this.isImport ? 17 : 64;
             }
             addView(textView4, LayoutHelper.createFrame(-2, -2.0f, i2, f3, 35.0f, f4, 0.0f));
             ImageView imageView = new ImageView(context);
             this.imageView = imageView;
             imageView.setScaleType(ImageView.ScaleType.CENTER);
-            this.imageView.setColorFilter(new PorterDuffColorFilter(phonebookShareAlert.getThemedColor(Theme.key_windowBackgroundWhiteGrayIcon), PorterDuff.Mode.MULTIPLY));
+            this.imageView.setColorFilter(new PorterDuffColorFilter(PhonebookShareAlert.this.getThemedColor(Theme.key_windowBackgroundWhiteGrayIcon), PorterDuff.Mode.MULTIPLY));
             ImageView imageView2 = this.imageView;
             boolean z3 = LocaleController.isRTL;
             addView(imageView2, LayoutHelper.createFrame(-2, -2.0f, (z3 ? 5 : 3) | 48, z3 ? 0.0f : 20.0f, 20.0f, z3 ? 20.0f : 0.0f, 0.0f));
-            if (phonebookShareAlert.isImport) {
+            if (PhonebookShareAlert.this.isImport) {
                 return;
             }
             Switch r1 = new Switch(context);
@@ -508,7 +508,7 @@ public class PhonebookShareAlert extends BottomSheet {
                 this.linearLayout = linearLayout;
                 linearLayout.setOrientation(1);
                 this.scrollView.addView(this.linearLayout, LayoutHelper.createScroll(-1, -1, 51));
-                this.scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda4
+                this.scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda0
                     @Override // androidx.core.widget.NestedScrollView.OnScrollChangeListener
                     public final void onScrollChange(NestedScrollView nestedScrollView2, int i4, int i5, int i6, int i7) {
                         PhonebookShareAlert.this.lambda$new$0(nestedScrollView2, i4, i5, i6, i7);
@@ -526,7 +526,7 @@ public class PhonebookShareAlert extends BottomSheet {
                                 PhonebookShareAlert.this.lambda$new$2(i, createView, view);
                             }
                         });
-                        createView.setOnLongClickListener(new View.OnLongClickListener() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda3
+                        createView.setOnLongClickListener(new View.OnLongClickListener() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda2
                             @Override // android.view.View.OnLongClickListener
                             public final boolean onLongClick(View view) {
                                 boolean lambda$new$3;
@@ -593,7 +593,7 @@ public class PhonebookShareAlert extends BottomSheet {
                 this.buttonTextView.setTypeface(AndroidUtilities.bold());
                 this.buttonTextView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(8.0f), getThemedColor(Theme.key_featuredStickers_addButton), getThemedColor(Theme.key_featuredStickers_addButtonPressed)));
                 frameLayout.addView(this.buttonTextView, LayoutHelper.createFrame(-1, 48.0f, 83, 14.0f, 14.0f, 14.0f, 14.0f));
-                this.buttonTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda2
+                this.buttonTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda3
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view4) {
                         PhonebookShareAlert.this.lambda$new$5(resourcesProvider, view4);
@@ -731,7 +731,7 @@ public class PhonebookShareAlert extends BottomSheet {
         this.linearLayout = linearLayout2;
         linearLayout2.setOrientation(1);
         this.scrollView.addView(this.linearLayout, LayoutHelper.createScroll(-1, -1, 51));
-        this.scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda4
+        this.scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda0
             @Override // androidx.core.widget.NestedScrollView.OnScrollChangeListener
             public final void onScrollChange(NestedScrollView nestedScrollView22, int i42, int i52, int i6, int i7) {
                 PhonebookShareAlert.this.lambda$new$0(nestedScrollView22, i42, i52, i6, i7);
@@ -791,7 +791,7 @@ public class PhonebookShareAlert extends BottomSheet {
         this.buttonTextView.setTypeface(AndroidUtilities.bold());
         this.buttonTextView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(8.0f), getThemedColor(Theme.key_featuredStickers_addButton), getThemedColor(Theme.key_featuredStickers_addButtonPressed)));
         frameLayout2.addView(this.buttonTextView, LayoutHelper.createFrame(-1, 48.0f, 83, 14.0f, 14.0f, 14.0f, 14.0f));
-        this.buttonTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda2
+        this.buttonTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view42) {
                 PhonebookShareAlert.this.lambda$new$5(resourcesProvider, view42);
@@ -842,7 +842,7 @@ public class PhonebookShareAlert extends BottomSheet {
                 return;
             } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this.parentFragment.getParentActivity());
-                builder.setItems(new CharSequence[]{LocaleController.getString("Copy", R.string.Copy)}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda0
+                builder.setItems(new CharSequence[]{LocaleController.getString("Copy", R.string.Copy)}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda5
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i5) {
                         PhonebookShareAlert.this.lambda$new$1(vcardItem, dialogInterface, i5);
@@ -1234,7 +1234,7 @@ public class PhonebookShareAlert extends BottomSheet {
         }
         BaseFragment baseFragment = this.parentFragment;
         if ((baseFragment instanceof ChatActivity) && ((ChatActivity) baseFragment).isInScheduleMode()) {
-            AlertsCreator.createScheduleDatePickerDialog(getContext(), ((ChatActivity) this.parentFragment).getDialogId(), new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda5
+            AlertsCreator.createScheduleDatePickerDialog(getContext(), ((ChatActivity) this.parentFragment).getDialogId(), new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda4
                 @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
                 public final void didSelectDate(boolean z, int i2) {
                     PhonebookShareAlert.this.lambda$new$4(z, i2);
@@ -1256,7 +1256,7 @@ public class PhonebookShareAlert extends BottomSheet {
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
     public void onStart() {
         super.onStart();
-        Bulletin.addDelegate((FrameLayout) this.containerView, new Bulletin.Delegate(this) { // from class: org.telegram.ui.Components.PhonebookShareAlert.6
+        Bulletin.addDelegate((FrameLayout) this.containerView, new Bulletin.Delegate() { // from class: org.telegram.ui.Components.PhonebookShareAlert.6
             @Override // org.telegram.ui.Components.Bulletin.Delegate
             public /* synthetic */ boolean allowLayoutChanges() {
                 return Bulletin.Delegate.-CC.$default$allowLayoutChanges(this);
@@ -1394,7 +1394,6 @@ public class PhonebookShareAlert extends BottomSheet {
     }
 
     private void updateRows() {
-        this.rowCount = 0;
         this.rowCount = 0 + 1;
         this.userRow = 0;
         if (this.phones.size() <= 1 && this.other.isEmpty()) {
@@ -1476,9 +1475,9 @@ public class PhonebookShareAlert extends BottomSheet {
             View userCell;
             int itemViewType = getItemViewType(i);
             if (itemViewType == 0) {
-                userCell = new UserCell(PhonebookShareAlert.this, context);
+                userCell = new UserCell(context);
             } else {
-                userCell = new TextCheckBoxCell(PhonebookShareAlert.this, context);
+                userCell = new TextCheckBoxCell(context);
             }
             onBindViewHolder(userCell, i, itemViewType);
             return userCell;

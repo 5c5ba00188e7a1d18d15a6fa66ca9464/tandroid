@@ -179,8 +179,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
         this.searchAdapter = new SearchAdapter(context);
         FrameLayout frameLayout = new FrameLayout(context);
         this.fragmentView = frameLayout;
-        FrameLayout frameLayout2 = frameLayout;
-        frameLayout2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
+        frameLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
         this.listView = new RecyclerListView(context);
         DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator();
         defaultItemAnimator.setDurations(200L);
@@ -190,9 +189,9 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
         this.layoutManager = linearLayoutManager;
         linearLayoutManager.setOrientation(1);
         this.listView.setLayoutManager(this.layoutManager);
-        FrameLayout frameLayout3 = new FrameLayout(context);
-        this.emptyFrameView = frameLayout3;
-        frameLayout3.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+        FrameLayout frameLayout2 = new FrameLayout(context);
+        this.emptyFrameView = frameLayout2;
+        frameLayout2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
         FlickerLoadingView flickerLoadingView = new FlickerLoadingView(context, getResourceProvider());
         this.loadingView = flickerLoadingView;
         flickerLoadingView.setViewType(19);
@@ -203,12 +202,12 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
         this.emptyView = stickerEmptyView;
         VerticalPositionAutoAnimator.attach(stickerEmptyView);
         this.emptyFrameView.addView(this.emptyView);
-        frameLayout2.addView(this.emptyFrameView);
+        frameLayout.addView(this.emptyFrameView);
         this.emptyFrameView.setVisibility(8);
         this.listView.setEmptyView(this.emptyFrameView);
-        frameLayout2.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
+        frameLayout.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
         this.listView.setAdapter(this.listAdapter);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.GroupStickersActivity$$ExternalSyntheticLambda2
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.GroupStickersActivity$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i) {
                 GroupStickersActivity.this.lambda$createView$0(view, i);
@@ -464,7 +463,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
                         tLRPC$TL_channels_setStickers = tLRPC$TL_channels_setStickers2;
                     }
                 }
-                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_setStickers, new RequestDelegate() { // from class: org.telegram.ui.GroupStickersActivity$$ExternalSyntheticLambda1
+                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_setStickers, new RequestDelegate() { // from class: org.telegram.ui.GroupStickersActivity$$ExternalSyntheticLambda0
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         GroupStickersActivity.this.lambda$saveStickerSet$2(tLObject, tLRPC$TL_error);
@@ -476,7 +475,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$saveStickerSet$2(TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.GroupStickersActivity$$ExternalSyntheticLambda0
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.GroupStickersActivity$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 GroupStickersActivity.this.lambda$saveStickerSet$1(tLRPC$TL_error);
@@ -571,7 +570,6 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
         this.rowCount = 0;
         if (this.isEmoji) {
             int i = 0 + 1;
-            this.rowCount = i;
             this.addEmojiPackTitleRow = 0;
             int i2 = i + 1;
             this.rowCount = i2;
@@ -700,7 +698,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
                 tLRPC$TL_messages_searchStickerSets2.q = str;
                 tLRPC$TL_messages_searchStickerSets = tLRPC$TL_messages_searchStickerSets2;
             }
-            this.reqId = GroupStickersActivity.this.getConnectionsManager().sendRequest(tLRPC$TL_messages_searchStickerSets, new RequestDelegate() { // from class: org.telegram.ui.GroupStickersActivity$SearchAdapter$$ExternalSyntheticLambda2
+            this.reqId = GroupStickersActivity.this.getConnectionsManager().sendRequest(tLRPC$TL_messages_searchStickerSets, new RequestDelegate() { // from class: org.telegram.ui.GroupStickersActivity$SearchAdapter$$ExternalSyntheticLambda1
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     GroupStickersActivity.SearchAdapter.this.lambda$onSearchStickers$1(str, str, tLObject, tLRPC$TL_error);
@@ -733,7 +731,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
                         arrayList2.add(next2);
                     }
                 }
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.GroupStickersActivity$SearchAdapter$$ExternalSyntheticLambda1
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.GroupStickersActivity$SearchAdapter$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
                         GroupStickersActivity.SearchAdapter.this.lambda$onSearchStickers$0(arrayList, arrayList2, str2);
@@ -1092,7 +1090,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
                 tLRPC$TL_messages_getStickerSet.stickerset = tLRPC$TL_inputStickerSetShortName;
                 tLRPC$TL_inputStickerSetShortName.short_name = str;
                 AddEmojiCell addEmojiCell = AddEmojiCell.this;
-                addEmojiCell.reqId = GroupStickersActivity.this.getConnectionsManager().sendRequest(tLRPC$TL_messages_getStickerSet, new RequestDelegate() { // from class: org.telegram.ui.GroupStickersActivity$AddEmojiCell$1$$ExternalSyntheticLambda2
+                addEmojiCell.reqId = GroupStickersActivity.this.getConnectionsManager().sendRequest(tLRPC$TL_messages_getStickerSet, new RequestDelegate() { // from class: org.telegram.ui.GroupStickersActivity$AddEmojiCell$1$$ExternalSyntheticLambda1
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         GroupStickersActivity.AddEmojiCell.1.this.lambda$afterTextChanged$1(str, tLObject, tLRPC$TL_error);
@@ -1103,7 +1101,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
             /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$afterTextChanged$1(String str, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 if (Objects.equals(AddEmojiCell.this.lastQuery, str)) {
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.GroupStickersActivity$AddEmojiCell$1$$ExternalSyntheticLambda1
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.GroupStickersActivity$AddEmojiCell$1$$ExternalSyntheticLambda2
                         @Override // java.lang.Runnable
                         public final void run() {
                             GroupStickersActivity.AddEmojiCell.1.this.lambda$afterTextChanged$0(tLObject);

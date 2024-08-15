@@ -11,6 +11,7 @@ import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
+import android.graphics.Region;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
@@ -26,9 +27,81 @@ import org.xmlpull.v1.XmlPullParserException;
 /* loaded from: classes.dex */
 public class AnimatedVectorDrawableCompat extends VectorDrawableCommon implements Animatable {
     private AnimatedVectorDrawableCompatState mAnimatedVectorState;
+    ArrayList<Object> mAnimationCallbacks;
+    private Animator.AnimatorListener mAnimatorListener;
     private android.animation.ArgbEvaluator mArgbEvaluator;
     final Drawable.Callback mCallback;
     private Context mContext;
+
+    @Override // androidx.vectordrawable.graphics.drawable.VectorDrawableCommon, android.graphics.drawable.Drawable
+    public /* bridge */ /* synthetic */ void clearColorFilter() {
+        super.clearColorFilter();
+    }
+
+    @Override // androidx.vectordrawable.graphics.drawable.VectorDrawableCommon, android.graphics.drawable.Drawable
+    public /* bridge */ /* synthetic */ Drawable getCurrent() {
+        return super.getCurrent();
+    }
+
+    @Override // androidx.vectordrawable.graphics.drawable.VectorDrawableCommon, android.graphics.drawable.Drawable
+    public /* bridge */ /* synthetic */ int getMinimumHeight() {
+        return super.getMinimumHeight();
+    }
+
+    @Override // androidx.vectordrawable.graphics.drawable.VectorDrawableCommon, android.graphics.drawable.Drawable
+    public /* bridge */ /* synthetic */ int getMinimumWidth() {
+        return super.getMinimumWidth();
+    }
+
+    @Override // androidx.vectordrawable.graphics.drawable.VectorDrawableCommon, android.graphics.drawable.Drawable
+    public /* bridge */ /* synthetic */ boolean getPadding(Rect rect) {
+        return super.getPadding(rect);
+    }
+
+    @Override // androidx.vectordrawable.graphics.drawable.VectorDrawableCommon, android.graphics.drawable.Drawable
+    public /* bridge */ /* synthetic */ int[] getState() {
+        return super.getState();
+    }
+
+    @Override // androidx.vectordrawable.graphics.drawable.VectorDrawableCommon, android.graphics.drawable.Drawable
+    public /* bridge */ /* synthetic */ Region getTransparentRegion() {
+        return super.getTransparentRegion();
+    }
+
+    @Override // androidx.vectordrawable.graphics.drawable.VectorDrawableCommon, android.graphics.drawable.Drawable
+    public /* bridge */ /* synthetic */ void jumpToCurrentState() {
+        super.jumpToCurrentState();
+    }
+
+    @Override // androidx.vectordrawable.graphics.drawable.VectorDrawableCommon, android.graphics.drawable.Drawable
+    public /* bridge */ /* synthetic */ void setChangingConfigurations(int i) {
+        super.setChangingConfigurations(i);
+    }
+
+    @Override // androidx.vectordrawable.graphics.drawable.VectorDrawableCommon, android.graphics.drawable.Drawable
+    public /* bridge */ /* synthetic */ void setColorFilter(int i, PorterDuff.Mode mode) {
+        super.setColorFilter(i, mode);
+    }
+
+    @Override // androidx.vectordrawable.graphics.drawable.VectorDrawableCommon, android.graphics.drawable.Drawable
+    public /* bridge */ /* synthetic */ void setFilterBitmap(boolean z) {
+        super.setFilterBitmap(z);
+    }
+
+    @Override // androidx.vectordrawable.graphics.drawable.VectorDrawableCommon, android.graphics.drawable.Drawable
+    public /* bridge */ /* synthetic */ void setHotspot(float f, float f2) {
+        super.setHotspot(f, f2);
+    }
+
+    @Override // androidx.vectordrawable.graphics.drawable.VectorDrawableCommon, android.graphics.drawable.Drawable
+    public /* bridge */ /* synthetic */ void setHotspotBounds(int i, int i2, int i3, int i4) {
+        super.setHotspotBounds(i, i2, i3, i4);
+    }
+
+    @Override // androidx.vectordrawable.graphics.drawable.VectorDrawableCommon, android.graphics.drawable.Drawable
+    public /* bridge */ /* synthetic */ boolean setState(int[] iArr) {
+        return super.setState(iArr);
+    }
 
     AnimatedVectorDrawableCompat() {
         this(null, null, null);
@@ -40,6 +113,8 @@ public class AnimatedVectorDrawableCompat extends VectorDrawableCommon implement
 
     private AnimatedVectorDrawableCompat(Context context, AnimatedVectorDrawableCompatState animatedVectorDrawableCompatState, Resources resources) {
         this.mArgbEvaluator = null;
+        this.mAnimatorListener = null;
+        this.mAnimationCallbacks = null;
         Drawable.Callback callback = new Drawable.Callback() { // from class: androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat.1
             @Override // android.graphics.drawable.Drawable.Callback
             public void invalidateDrawable(Drawable drawable) {
@@ -370,8 +445,9 @@ public class AnimatedVectorDrawableCompat extends VectorDrawableCommon implement
 
         @Override // android.graphics.drawable.Drawable.ConstantState
         public Drawable newDrawable(Resources resources, Resources.Theme theme) {
+            Drawable newDrawable;
             AnimatedVectorDrawableCompat animatedVectorDrawableCompat = new AnimatedVectorDrawableCompat();
-            Drawable newDrawable = this.mDelegateState.newDrawable(resources, theme);
+            newDrawable = this.mDelegateState.newDrawable(resources, theme);
             animatedVectorDrawableCompat.mDelegateDrawable = newDrawable;
             newDrawable.setCallback(animatedVectorDrawableCompat.mCallback);
             return animatedVectorDrawableCompat;
@@ -379,7 +455,9 @@ public class AnimatedVectorDrawableCompat extends VectorDrawableCommon implement
 
         @Override // android.graphics.drawable.Drawable.ConstantState
         public boolean canApplyTheme() {
-            return this.mDelegateState.canApplyTheme();
+            boolean canApplyTheme;
+            canApplyTheme = this.mDelegateState.canApplyTheme();
+            return canApplyTheme;
         }
 
         @Override // android.graphics.drawable.Drawable.ConstantState
@@ -490,9 +568,11 @@ public class AnimatedVectorDrawableCompat extends VectorDrawableCommon implement
 
     @Override // android.graphics.drawable.Animatable
     public boolean isRunning() {
+        boolean isRunning;
         Drawable drawable = this.mDelegateDrawable;
         if (drawable != null) {
-            return ((AnimatedVectorDrawable) drawable).isRunning();
+            isRunning = ((AnimatedVectorDrawable) drawable).isRunning();
+            return isRunning;
         }
         return this.mAnimatedVectorState.mAnimatorSet.isRunning();
     }

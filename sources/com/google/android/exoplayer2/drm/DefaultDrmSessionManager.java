@@ -123,7 +123,7 @@ public class DefaultDrmSessionManager implements DrmSessionManager {
         this.useDrmSessionsForClearContentTrackTypes = iArr;
         this.playClearSamplesWithoutKeys = z2;
         this.loadErrorHandlingPolicy = loadErrorHandlingPolicy;
-        this.provisioningManagerImpl = new ProvisioningManagerImpl(this);
+        this.provisioningManagerImpl = new ProvisioningManagerImpl();
         this.referenceCountListener = new ReferenceCountListenerImpl();
         this.mode = 0;
         this.sessions = new ArrayList();
@@ -343,14 +343,14 @@ public class DefaultDrmSessionManager implements DrmSessionManager {
     }
 
     private void releaseAllKeepaliveSessions() {
-        Iterator it = ImmutableSet.copyOf((Collection) this.keepaliveSessions).iterator();
+        UnmodifiableIterator it = ImmutableSet.copyOf((Collection) this.keepaliveSessions).iterator();
         while (it.hasNext()) {
             ((DrmSession) it.next()).release(null);
         }
     }
 
     private void releaseAllPreacquiredSessions() {
-        Iterator it = ImmutableSet.copyOf((Collection) this.preacquiredSessionReferences).iterator();
+        UnmodifiableIterator it = ImmutableSet.copyOf((Collection) this.preacquiredSessionReferences).iterator();
         while (it.hasNext()) {
             ((PreacquiredSessionReference) it.next()).release();
         }
@@ -414,7 +414,7 @@ public class DefaultDrmSessionManager implements DrmSessionManager {
         private DefaultDrmSession provisioningSession;
         private final Set<DefaultDrmSession> sessionsAwaitingProvisioning = new HashSet();
 
-        public ProvisioningManagerImpl(DefaultDrmSessionManager defaultDrmSessionManager) {
+        public ProvisioningManagerImpl() {
         }
 
         @Override // com.google.android.exoplayer2.drm.DefaultDrmSession.ProvisioningManager

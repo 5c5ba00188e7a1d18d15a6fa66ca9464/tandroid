@@ -1,116 +1,26 @@
 package j$.util.stream;
-
-import j$.util.function.Consumer;
-import j$.util.function.Predicate;
-import j$.util.function.ToDoubleFunction;
-import j$.util.function.ToIntFunction;
-import j$.util.function.ToLongFunction;
 /* loaded from: classes2.dex */
-class Y2 extends i3 {
-    public final /* synthetic */ int b = 5;
-    final /* synthetic */ Object c;
+final class Y2 extends Z2 implements j$.util.function.h0 {
+    final long[] c = new long[128];
 
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public Y2(L l, m3 m3Var) {
-        super(m3Var);
-        this.c = l;
-    }
-
-    @Override // j$.util.function.Consumer
-    public void accept(Object obj) {
-        switch (this.b) {
-            case 0:
-                ((Consumer) ((M) this.c).m).accept(obj);
-                this.a.accept((m3) obj);
-                return;
-            case 1:
-                if (((Predicate) ((M) this.c).m).test(obj)) {
-                    this.a.accept((m3) obj);
-                    return;
-                }
-                return;
-            case 2:
-                this.a.accept((m3) ((a3) this.c).m.apply(obj));
-                return;
-            case 3:
-                this.a.accept(((ToIntFunction) ((N) this.c).m).applyAsInt(obj));
-                return;
-            case 4:
-                this.a.accept(((ToLongFunction) ((O) this.c).m).applyAsLong(obj));
-                return;
-            case 5:
-                this.a.accept(((ToDoubleFunction) ((L) this.c).m).applyAsDouble(obj));
-                return;
-            default:
-                Stream stream = (Stream) ((a3) this.c).m.apply(obj);
-                if (stream != null) {
-                    try {
-                        ((Stream) stream.sequential()).forEach(this.a);
-                    } catch (Throwable th) {
-                        try {
-                            stream.close();
-                        } catch (Throwable th2) {
-                            th.addSuppressed(th2);
-                        }
-                        throw th;
-                    }
-                }
-                if (stream != null) {
-                    stream.close();
-                    return;
-                }
-                return;
+    @Override // j$.util.stream.Z2
+    public final void a(Object obj, long j) {
+        j$.util.function.h0 h0Var = (j$.util.function.h0) obj;
+        for (int i = 0; i < j; i++) {
+            h0Var.accept(this.c[i]);
         }
     }
 
-    @Override // j$.util.stream.m3
-    public void n(long j) {
-        switch (this.b) {
-            case 1:
-                this.a.n(-1L);
-                return;
-            case 6:
-                this.a.n(-1L);
-                return;
-            default:
-                this.a.n(j);
-                return;
-        }
+    @Override // j$.util.function.h0
+    public final void accept(long j) {
+        int i = this.b;
+        this.b = i + 1;
+        this.c[i] = j;
     }
 
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public Y2(M m, m3 m3Var) {
-        super(m3Var);
-        this.c = m;
-    }
-
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public Y2(M m, m3 m3Var, j$.lang.a aVar) {
-        super(m3Var);
-        this.c = m;
-    }
-
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public Y2(N n, m3 m3Var) {
-        super(m3Var);
-        this.c = n;
-    }
-
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public Y2(O o, m3 m3Var) {
-        super(m3Var);
-        this.c = o;
-    }
-
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public Y2(a3 a3Var, m3 m3Var) {
-        super(m3Var);
-        this.c = a3Var;
-    }
-
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public Y2(a3 a3Var, m3 m3Var, j$.lang.a aVar) {
-        super(m3Var);
-        this.c = a3Var;
+    @Override // j$.util.function.h0
+    public final j$.util.function.h0 i(j$.util.function.h0 h0Var) {
+        h0Var.getClass();
+        return new j$.util.function.e0(this, h0Var);
     }
 }

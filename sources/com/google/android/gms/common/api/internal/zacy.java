@@ -21,23 +21,19 @@ final class zacy implements Runnable {
     public final void run() {
         WeakReference weakReference;
         ResultTransform resultTransform;
-        zacz unused;
-        zacz unused2;
-        zacz unused3;
-        zacz unused4;
         try {
             try {
                 BasePendingResult.zaa.set(Boolean.TRUE);
                 resultTransform = this.zab.zaa;
                 ((ResultTransform) Preconditions.checkNotNull(resultTransform)).onSuccess(this.zaa);
                 zada zadaVar = this.zab;
-                unused = zadaVar.zah;
-                unused2 = zadaVar.zah;
+                zada.zab(zadaVar);
+                zada.zab(zadaVar);
                 throw null;
-            } catch (RuntimeException unused5) {
+            } catch (RuntimeException unused) {
                 zada zadaVar2 = this.zab;
-                unused3 = zadaVar2.zah;
-                unused4 = zadaVar2.zah;
+                zada.zab(zadaVar2);
+                zada.zab(zadaVar2);
                 throw null;
             }
         } catch (Throwable th) {

@@ -4,7 +4,7 @@ import java.util.concurrent.CancellationException;
 import kotlin.jvm.internal.Intrinsics;
 /* compiled from: Exceptions.kt */
 /* loaded from: classes.dex */
-public final class JobCancellationException extends CancellationException implements CopyableThrowable<JobCancellationException> {
+public final class JobCancellationException extends CancellationException {
     public final Job job;
 
     public JobCancellationException(String str, Throwable th, Job job) {
@@ -17,21 +17,8 @@ public final class JobCancellationException extends CancellationException implem
 
     @Override // java.lang.Throwable
     public Throwable fillInStackTrace() {
-        if (DebugKt.getDEBUG()) {
-            return super.fillInStackTrace();
-        }
         setStackTrace(new StackTraceElement[0]);
         return this;
-    }
-
-    @Override // kotlinx.coroutines.CopyableThrowable
-    public JobCancellationException createCopy() {
-        if (DebugKt.getDEBUG()) {
-            String message = getMessage();
-            Intrinsics.checkNotNull(message);
-            return new JobCancellationException(message, this, this.job);
-        }
-        return null;
     }
 
     @Override // java.lang.Throwable

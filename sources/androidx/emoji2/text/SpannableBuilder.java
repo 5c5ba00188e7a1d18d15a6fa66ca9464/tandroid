@@ -269,18 +269,17 @@ public final class SpannableBuilder extends SpannableStringBuilder {
             int i6;
             if (this.mBlockCalls.get() <= 0 || !isEmojiSpan(obj)) {
                 if (Build.VERSION.SDK_INT < 28) {
-                    int i7 = i > i2 ? 0 : i;
-                    if (i3 > i4) {
-                        i5 = i7;
-                        i6 = 0;
-                    } else {
-                        i6 = i3;
-                        i5 = i7;
+                    if (i > i2) {
+                        i = 0;
                     }
-                } else {
-                    i5 = i;
-                    i6 = i3;
+                    if (i3 > i4) {
+                        i5 = i;
+                        i6 = 0;
+                        ((SpanWatcher) this.mObject).onSpanChanged(spannable, obj, i5, i2, i6, i4);
+                    }
                 }
+                i5 = i;
+                i6 = i3;
                 ((SpanWatcher) this.mObject).onSpanChanged(spannable, obj, i5, i2, i6, i4);
             }
         }

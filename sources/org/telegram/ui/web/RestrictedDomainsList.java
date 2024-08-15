@@ -108,9 +108,9 @@ public class RestrictedDomainsList {
         if (z != isRestricted(strArr)) {
             if (z) {
                 ArrayList<String> arrayList = new ArrayList<>();
-                for (int i4 = 0; i4 < strArr.length; i4++) {
-                    if (strArr[i4] != null) {
-                        arrayList.add(strArr[i4]);
+                for (String str : strArr) {
+                    if (str != null) {
+                        arrayList.add(str);
                     }
                 }
                 this.restrictedDomainsSet.addAll(arrayList);

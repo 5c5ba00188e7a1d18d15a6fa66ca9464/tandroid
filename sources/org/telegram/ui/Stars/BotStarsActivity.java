@@ -106,7 +106,9 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
     private boolean balanceEditTextIgnore = false;
     private boolean balanceEditTextAll = true;
     private ColoredImageSpan[] starRef = new ColoredImageSpan[1];
-    private Runnable setBalanceButtonText = new Runnable() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda7
+    private int shakeDp = 4;
+    private final int BALANCE = 1;
+    private Runnable setBalanceButtonText = new Runnable() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda1
         @Override // java.lang.Runnable
         public final void run() {
             BotStarsActivity.this.lambda$new$11();
@@ -123,7 +125,7 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
         this.bot_id = j;
         BotStarsController.getInstance(this.currentAccount).preloadRevenueStats(j);
         BotStarsController.getInstance(this.currentAccount).invalidateTransactions(j, true);
-        this.withdrawInfo = AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.BotStarsWithdrawInfo), new Runnable() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda5
+        this.withdrawInfo = AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.BotStarsWithdrawInfo), new Runnable() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 BotStarsActivity.this.lambda$new$0();
@@ -169,7 +171,7 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
         int i2 = Theme.key_windowBackgroundWhite;
         actionBar.setBackgroundColor(Theme.getColor(i2));
         this.transactionsLayout = new StarsIntroActivity.StarsTransactionsLayout(context, this.currentAccount, this.bot_id, getClassGuid(), getResourceProvider());
-        LinearLayout linearLayout = new LinearLayout(this, context) { // from class: org.telegram.ui.Stars.BotStarsActivity.2
+        LinearLayout linearLayout = new LinearLayout(context) { // from class: org.telegram.ui.Stars.BotStarsActivity.2
             @Override // android.widget.LinearLayout, android.view.View
             protected void onMeasure(int i3, int i4) {
                 super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i3), 1073741824), i4);
@@ -214,7 +216,7 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
         this.balanceEditTextContainer = outlineTextContainerView;
         outlineTextContainerView.setText(LocaleController.getString(R.string.BotStarsWithdrawPlaceholder));
         this.balanceEditTextContainer.setLeftPadding(AndroidUtilities.dp(36.0f));
-        EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(this, context) { // from class: org.telegram.ui.Stars.BotStarsActivity.4
+        EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context) { // from class: org.telegram.ui.Stars.BotStarsActivity.4
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor, org.telegram.ui.Components.EditTextEffects, android.view.View
             public void onDetachedFromWindow() {
@@ -294,7 +296,7 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
         this.balanceEditTextContainer.setVisibility(8);
         LinearLayout linearLayout3 = new LinearLayout(context);
         linearLayout3.setOrientation(0);
-        ButtonWithCounterView buttonWithCounterView = new ButtonWithCounterView(this, context, getResourceProvider()) { // from class: org.telegram.ui.Stars.BotStarsActivity.6
+        ButtonWithCounterView buttonWithCounterView = new ButtonWithCounterView(context, getResourceProvider()) { // from class: org.telegram.ui.Stars.BotStarsActivity.6
             @Override // org.telegram.ui.Stories.recorder.ButtonWithCounterView
             protected boolean subTextSplitToWords() {
                 return false;
@@ -303,7 +305,7 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
         this.balanceButton = buttonWithCounterView;
         buttonWithCounterView.setEnabled(MessagesController.getInstance(this.currentAccount).channelRevenueWithdrawalEnabled);
         this.balanceButton.setText(LocaleController.getString(R.string.BotStarsButtonWithdrawShortAll), false);
-        this.balanceButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda1
+        this.balanceButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda5
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 BotStarsActivity.this.lambda$createView$3(view);
@@ -313,7 +315,7 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
         this.adsButton = buttonWithCounterView2;
         buttonWithCounterView2.setEnabled(true);
         this.adsButton.setText(LocaleController.getString(R.string.MonetizationStarsAds), false);
-        this.adsButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda2
+        this.adsButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda6
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 BotStarsActivity.this.lambda$createView$7(context, view);
@@ -323,17 +325,17 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
         linearLayout3.addView(new Space(context), LayoutHelper.createLinear(8, 48, 0.0f, 119));
         linearLayout3.addView(this.adsButton, LayoutHelper.createLinear(-1, 48, 1.0f, 119));
         this.balanceLayout.addView(linearLayout3, LayoutHelper.createFrame(-1, 48.0f, 55, 18.0f, 13.0f, 18.0f, 0.0f));
-        UniversalRecyclerView universalRecyclerView = new UniversalRecyclerView(this, new Utilities.Callback2() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda13
+        UniversalRecyclerView universalRecyclerView = new UniversalRecyclerView(this, new Utilities.Callback2() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda7
             @Override // org.telegram.messenger.Utilities.Callback2
             public final void run(Object obj, Object obj2) {
                 BotStarsActivity.this.fillItems((ArrayList) obj, (UniversalAdapter) obj2);
             }
-        }, new Utilities.Callback5() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda14
+        }, new Utilities.Callback5() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda8
             @Override // org.telegram.messenger.Utilities.Callback5
             public final void run(Object obj, Object obj2, Object obj3, Object obj4, Object obj5) {
                 BotStarsActivity.this.onItemClick((UItem) obj, (View) obj2, ((Integer) obj3).intValue(), ((Float) obj4).floatValue(), ((Float) obj5).floatValue());
             }
-        }, new Utilities.Callback5Return() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda15
+        }, new Utilities.Callback5Return() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda9
             @Override // org.telegram.messenger.Utilities.Callback5Return
             public final Object run(Object obj, Object obj2, Object obj3, Object obj4, Object obj5) {
                 boolean onItemLongClick;
@@ -375,7 +377,7 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
         this.adsButton.setLoading(true);
         TLRPC$TL_payments_getStarsRevenueAdsAccountUrl tLRPC$TL_payments_getStarsRevenueAdsAccountUrl = new TLRPC$TL_payments_getStarsRevenueAdsAccountUrl();
         tLRPC$TL_payments_getStarsRevenueAdsAccountUrl.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.bot_id);
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_getStarsRevenueAdsAccountUrl, new RequestDelegate() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda16
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_getStarsRevenueAdsAccountUrl, new RequestDelegate() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda10
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 BotStarsActivity.this.lambda$createView$6(context, tLObject, tLRPC$TL_error);
@@ -385,7 +387,7 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$6(final Context context, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda9
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda14
             @Override // java.lang.Runnable
             public final void run() {
                 BotStarsActivity.this.lambda$createView$5(tLObject, context);
@@ -398,7 +400,7 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
         if (tLObject instanceof TLRPC$TL_payments_starsRevenueAdsAccountUrl) {
             Browser.openUrl(context, ((TLRPC$TL_payments_starsRevenueAdsAccountUrl) tLObject).url);
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda8
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda15
             @Override // java.lang.Runnable
             public final void run() {
                 BotStarsActivity.this.lambda$createView$4();
@@ -419,7 +421,7 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
         if (this.balanceBlockedUntil > currentTime) {
             this.withdrawalBulletin = BulletinFactory.of(this).createSimpleBulletin(R.raw.timer_3, AndroidUtilities.replaceTags(LocaleController.formatString(R.string.BotStarsWithdrawalToast, untilString(this.balanceBlockedUntil - currentTime)))).show();
         } else if (this.balanceEditTextValue < getMessagesController().starsRevenueWithdrawalMin) {
-            BulletinFactory.of(this).createSimpleBulletin(getContext().getResources().getDrawable(R.drawable.star_small_inner).mutate(), AndroidUtilities.replaceSingleTag(LocaleController.formatPluralString("BotStarsWithdrawMinLimit", (int) getMessagesController().starsRevenueWithdrawalMin, new Object[0]), new Runnable() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda6
+            BulletinFactory.of(this).createSimpleBulletin(getContext().getResources().getDrawable(R.drawable.star_small_inner).mutate(), AndroidUtilities.replaceSingleTag(LocaleController.formatPluralString("BotStarsWithdrawMinLimit", (int) getMessagesController().starsRevenueWithdrawalMin, new Object[0]), new Runnable() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda11
                 @Override // java.lang.Runnable
                 public final void run() {
                     BotStarsActivity.this.lambda$withdraw$8();
@@ -428,14 +430,14 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
         } else {
             final long j = this.balanceEditTextValue;
             final TwoStepVerificationActivity twoStepVerificationActivity = new TwoStepVerificationActivity();
-            twoStepVerificationActivity.setDelegate(1, new TwoStepVerificationActivity.TwoStepVerificationActivityDelegate() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda19
+            twoStepVerificationActivity.setDelegate(1, new TwoStepVerificationActivity.TwoStepVerificationActivityDelegate() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda12
                 @Override // org.telegram.ui.TwoStepVerificationActivity.TwoStepVerificationActivityDelegate
                 public final void didEnterPassword(TLRPC$InputCheckPasswordSRP tLRPC$InputCheckPasswordSRP) {
                     BotStarsActivity.this.lambda$withdraw$9(j, twoStepVerificationActivity, tLRPC$InputCheckPasswordSRP);
                 }
             });
             this.balanceButton.setLoading(true);
-            twoStepVerificationActivity.preload(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda12
+            twoStepVerificationActivity.preload(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda13
                 @Override // java.lang.Runnable
                 public final void run() {
                     BotStarsActivity.this.lambda$withdraw$10(twoStepVerificationActivity);
@@ -718,6 +720,7 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
 
         @Override // androidx.core.view.NestedScrollingParent2
         public void onNestedPreScroll(View view, int i, int i2, int[] iArr, int i3) {
+            int i4;
             if (view == BotStarsActivity.this.listView && BotStarsActivity.this.transactionsLayout.isAttachedToWindow()) {
                 boolean isSearchFieldVisible = ((BaseFragment) BotStarsActivity.this).actionBar.isSearchFieldVisible();
                 int top = (((View) BotStarsActivity.this.transactionsLayout.getParent()).getTop() - AndroidUtilities.statusBarHeight) - ActionBar.getCurrentActionBarHeight();
@@ -728,12 +731,12 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
                         RecyclerListView currentListView = BotStarsActivity.this.transactionsLayout.getCurrentListView();
                         iArr[1] = i2;
                         if (top > 0) {
-                            iArr[1] = iArr[1] - i2;
+                            iArr[1] = i2 - i2;
                         }
-                        if (currentListView == null || iArr[1] <= 0) {
+                        if (currentListView == null || (i4 = iArr[1]) <= 0) {
                             return;
                         }
-                        currentListView.scrollBy(0, iArr[1]);
+                        currentListView.scrollBy(0, i4);
                         return;
                     } else if (i2 > 0) {
                         RecyclerListView currentListView2 = BotStarsActivity.this.transactionsLayout.getCurrentListView();
@@ -798,7 +801,7 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
             tLRPC$InputCheckPasswordSRP = new TLRPC$TL_inputCheckPasswordEmpty();
         }
         tLRPC$TL_payments_getStarsRevenueWithdrawalUrl.password = tLRPC$InputCheckPasswordSRP;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_getStarsRevenueWithdrawalUrl, new RequestDelegate() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda18
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_getStarsRevenueWithdrawalUrl, new RequestDelegate() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda16
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 BotStarsActivity.this.lambda$initWithdraw$16(twoStepVerificationActivity, parentActivity, j, tLObject, tLRPC$TL_error);
@@ -808,7 +811,7 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$initWithdraw$16(final TwoStepVerificationActivity twoStepVerificationActivity, final Activity activity, final long j, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda11
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda17
             @Override // java.lang.Runnable
             public final void run() {
                 BotStarsActivity.this.lambda$initWithdraw$15(tLRPC$TL_error, twoStepVerificationActivity, activity, j, tLObject);
@@ -879,7 +882,7 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
                     linearLayout3.addView(textView3, LayoutHelper.createLinear(-1, -2));
                 }
                 if ("PASSWORD_MISSING".equals(tLRPC$TL_error.text)) {
-                    builder.setPositiveButton(LocaleController.getString("EditAdminTransferSetPassword", R.string.EditAdminTransferSetPassword), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda0
+                    builder.setPositiveButton(LocaleController.getString("EditAdminTransferSetPassword", R.string.EditAdminTransferSetPassword), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda18
                         @Override // android.content.DialogInterface.OnClickListener
                         public final void onClick(DialogInterface dialogInterface, int i4) {
                             BotStarsActivity.this.lambda$initWithdraw$12(dialogInterface, i4);
@@ -906,7 +909,7 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
                     return;
                 }
             } else if ("SRP_ID_INVALID".equals(tLRPC$TL_error.text)) {
-                ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC$TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda17
+                ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC$TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda19
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error2) {
                         BotStarsActivity.this.lambda$initWithdraw$14(twoStepVerificationActivity, j, tLObject2, tLRPC$TL_error2);
@@ -937,7 +940,7 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$initWithdraw$14(final TwoStepVerificationActivity twoStepVerificationActivity, final long j, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda10
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 BotStarsActivity.this.lambda$initWithdraw$13(tLRPC$TL_error, tLObject, twoStepVerificationActivity, j);

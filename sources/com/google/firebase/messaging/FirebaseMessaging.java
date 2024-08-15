@@ -57,6 +57,7 @@ public class FirebaseMessaging {
     private final Metadata metadata;
     private final RequestDeduplicator requestDeduplicator;
     private boolean syncScheduledOrRunning;
+    private final Executor taskExecutor;
     private final Task<TopicsSubscriber> topicsSubscriberTask;
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -368,6 +369,7 @@ public class FirebaseMessaging {
         FcmLifecycleCallbacks fcmLifecycleCallbacks = new FcmLifecycleCallbacks();
         this.lifecycleCallbacks = fcmLifecycleCallbacks;
         this.metadata = metadata;
+        this.taskExecutor = executor;
         this.gmsRpc = gmsRpc;
         this.requestDeduplicator = new RequestDeduplicator(executor);
         this.fileIoExecutor = executor2;
@@ -384,6 +386,12 @@ public class FirebaseMessaging {
         }
         if (firebaseInstanceIdInternal != null) {
             firebaseInstanceIdInternal.addNewTokenListener(new FirebaseInstanceIdInternal.NewTokenListener(this) { // from class: com.google.firebase.messaging.FirebaseMessaging$$Lambda$0
+                private final FirebaseMessaging arg$1;
+
+                /* JADX INFO: Access modifiers changed from: package-private */
+                {
+                    this.arg$1 = this;
+                }
             });
         }
         synchronized (FirebaseMessaging.class) {

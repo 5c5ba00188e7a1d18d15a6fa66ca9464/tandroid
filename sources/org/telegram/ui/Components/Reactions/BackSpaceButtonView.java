@@ -66,7 +66,7 @@ public class BackSpaceButtonView extends FrameLayout {
         imageView.setScaleType(ImageView.ScaleType.CENTER);
         imageView.setContentDescription(LocaleController.getString("AccDescrBackspace", R.string.AccDescrBackspace));
         imageView.setFocusable(true);
-        imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Reactions.BackSpaceButtonView$$ExternalSyntheticLambda0
+        imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Reactions.BackSpaceButtonView$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 BackSpaceButtonView.lambda$new$0(view);
@@ -100,7 +100,7 @@ public class BackSpaceButtonView extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void postBackspaceRunnable(final int i) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Reactions.BackSpaceButtonView$$ExternalSyntheticLambda1
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Reactions.BackSpaceButtonView$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 BackSpaceButtonView.this.lambda$postBackspaceRunnable$1(i);

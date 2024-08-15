@@ -6,9 +6,7 @@ import android.os.Parcelable;
 /* compiled from: com.google.firebase:firebase-appindexing@@20.0.0 */
 /* loaded from: classes.dex */
 public final class zzc {
-    static {
-        zzc.class.getClassLoader();
-    }
+    private static final ClassLoader zza = zzc.class.getClassLoader();
 
     private zzc() {
     }

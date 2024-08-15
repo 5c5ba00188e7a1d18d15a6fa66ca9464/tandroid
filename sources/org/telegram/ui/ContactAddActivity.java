@@ -216,7 +216,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         this.linearLayout = linearLayout;
         linearLayout.setOrientation(1);
         ((ScrollView) this.fragmentView).addView(this.linearLayout, LayoutHelper.createScroll(-1, -2, 51));
-        this.linearLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda6
+        this.linearLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda3
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view, MotionEvent motionEvent) {
                 boolean lambda$createView$0;
@@ -308,7 +308,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         this.firstNameField.setCursorSize(AndroidUtilities.dp(20.0f));
         this.firstNameField.setCursorWidth(1.5f);
         this.linearLayout.addView(this.firstNameField, LayoutHelper.createLinear(-1, 36, 24.0f, 24.0f, 24.0f, 0.0f));
-        this.firstNameField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda7
+        this.firstNameField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda4
             @Override // android.widget.TextView.OnEditorActionListener
             public final boolean onEditorAction(TextView textView5, int i6, KeyEvent keyEvent) {
                 boolean lambda$createView$1;
@@ -351,7 +351,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         this.lastNameField.setCursorSize(AndroidUtilities.dp(20.0f));
         this.lastNameField.setCursorWidth(1.5f);
         this.linearLayout.addView(this.lastNameField, LayoutHelper.createLinear(-1, 36, 24.0f, 16.0f, 24.0f, 0.0f));
-        this.lastNameField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda8
+        this.lastNameField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda5
             @Override // android.widget.TextView.OnEditorActionListener
             public final boolean onEditorAction(TextView textView5, int i6, KeyEvent keyEvent) {
                 boolean lambda$createView$2;
@@ -385,7 +385,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
                 checkBoxCell.setBackgroundDrawable(Theme.getSelectorDrawable(false));
                 this.checkBoxCell.setText(AndroidUtilities.replaceCharSequence("%1$s", AndroidUtilities.replaceTags(LocaleController.getString("SharePhoneNumberWith", R.string.SharePhoneNumberWith)), Emoji.replaceEmoji((CharSequence) UserObject.getFirstName(user), this.infoTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(12.0f), false)), "", true, false);
                 this.checkBoxCell.setPadding(AndroidUtilities.dp(7.0f), 0, AndroidUtilities.dp(7.0f), 0);
-                this.checkBoxCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda2
+                this.checkBoxCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda6
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view2) {
                         ContactAddActivity.this.lambda$createView$3(view2);
@@ -406,7 +406,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
             final RLottieDrawable rLottieDrawable = new RLottieDrawable(i9, "" + i9, AndroidUtilities.dp(50.0f), AndroidUtilities.dp(50.0f), false, null);
             textCell.imageView.setTranslationX((float) (-AndroidUtilities.dp(8.0f)));
             textCell.imageView.setAnimation(rLottieDrawable);
-            textCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda4
+            textCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda7
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
                     ContactAddActivity.this.lambda$createView$6(user, rLottieDrawable, textCell, view2);
@@ -421,7 +421,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
             final RLottieDrawable rLottieDrawable2 = new RLottieDrawable(i10, "" + i10, AndroidUtilities.dp(50.0f), AndroidUtilities.dp(50.0f), false, null);
             textCell2.imageView.setTranslationX((float) (-AndroidUtilities.dp(8.0f)));
             textCell2.imageView.setAnimation(rLottieDrawable2);
-            textCell2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda5
+            textCell2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda8
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
                     ContactAddActivity.this.lambda$createView$9(user, rLottieDrawable2, textCell2, view2);
@@ -456,7 +456,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
             this.oldPhotoCell.getImageView().setVisibility(0);
             this.oldPhotoCell.setBackgroundDrawable(Theme.getSelectorDrawable(false));
             this.oldPhotoCell.setColors(i7, i8);
-            this.oldPhotoCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda3
+            this.oldPhotoCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda9
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
                     ContactAddActivity.this.lambda$createView$11(context, user, view2);
@@ -507,12 +507,12 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto;
         this.photoSelectedType = 1;
         this.imageUpdater.setUser(tLRPC$User);
-        this.imageUpdater.openMenu(((tLRPC$User == null || (tLRPC$UserProfilePhoto = tLRPC$User.photo) == null) ? null : tLRPC$UserProfilePhoto.photo_small) != null, new Runnable() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda13
+        this.imageUpdater.openMenu(((tLRPC$User == null || (tLRPC$UserProfilePhoto = tLRPC$User.photo) == null) ? null : tLRPC$UserProfilePhoto.photo_small) != null, new Runnable() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda14
             @Override // java.lang.Runnable
             public final void run() {
                 ContactAddActivity.lambda$createView$4();
             }
-        }, new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda0
+        }, new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda15
             @Override // android.content.DialogInterface.OnDismissListener
             public final void onDismiss(DialogInterface dialogInterface) {
                 ContactAddActivity.this.lambda$createView$5(rLottieDrawable, textCell, dialogInterface);
@@ -538,12 +538,12 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto;
         this.photoSelectedType = 2;
         this.imageUpdater.setUser(tLRPC$User);
-        this.imageUpdater.openMenu(((tLRPC$User == null || (tLRPC$UserProfilePhoto = tLRPC$User.photo) == null) ? null : tLRPC$UserProfilePhoto.photo_small) != null, new Runnable() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda14
+        this.imageUpdater.openMenu(((tLRPC$User == null || (tLRPC$UserProfilePhoto = tLRPC$User.photo) == null) ? null : tLRPC$UserProfilePhoto.photo_small) != null, new Runnable() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
                 ContactAddActivity.lambda$createView$7();
             }
-        }, new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda1
+        }, new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda11
             @Override // android.content.DialogInterface.OnDismissListener
             public final void onDismiss(DialogInterface dialogInterface) {
                 ContactAddActivity.this.lambda$createView$8(rLottieDrawable, textCell, dialogInterface);
@@ -566,7 +566,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$11(Context context, final TLRPC$User tLRPC$User, View view) {
-        AlertsCreator.createSimpleAlert(context, LocaleController.getString("ResetToOriginalPhotoTitle", R.string.ResetToOriginalPhotoTitle), LocaleController.formatString("ResetToOriginalPhotoMessage", R.string.ResetToOriginalPhotoMessage, tLRPC$User.first_name), LocaleController.getString("Reset", R.string.Reset), new Runnable() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda12
+        AlertsCreator.createSimpleAlert(context, LocaleController.getString("ResetToOriginalPhotoTitle", R.string.ResetToOriginalPhotoTitle), LocaleController.formatString("ResetToOriginalPhotoMessage", R.string.ResetToOriginalPhotoMessage, tLRPC$User.first_name), LocaleController.getString("Reset", R.string.Reset), new Runnable() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda13
             @Override // java.lang.Runnable
             public final void run() {
                 ContactAddActivity.this.lambda$createView$10(tLRPC$User);
@@ -772,7 +772,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
 
     @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
     public void didUploadPhoto(final TLRPC$InputFile tLRPC$InputFile, final TLRPC$InputFile tLRPC$InputFile2, final double d, String str, final TLRPC$PhotoSize tLRPC$PhotoSize, final TLRPC$PhotoSize tLRPC$PhotoSize2, final boolean z, final TLRPC$VideoSize tLRPC$VideoSize) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda11
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 ContactAddActivity.this.lambda$didUploadPhoto$13(tLRPC$PhotoSize2, tLRPC$InputFile, tLRPC$InputFile2, tLRPC$PhotoSize, tLRPC$VideoSize, d, z);
@@ -789,7 +789,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         if (i == 2) {
             this.avatar = tLRPC$PhotoSize.location;
         } else if (i == 1) {
-            NavigationExt.backToFragment(this, new NavigationExt.FragmentConsumer() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda17
+            NavigationExt.backToFragment(this, new NavigationExt.FragmentConsumer() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda12
                 @Override // org.telegram.ui.LNavigation.NavigationExt.FragmentConsumer
                 public final boolean consume(BaseFragment baseFragment) {
                     boolean lambda$didUploadPhoto$12;
@@ -835,7 +835,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
 
     @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
     public void didUploadFailed() {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda9
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 ContactAddActivity.this.lambda$didUploadFailed$14();
@@ -896,10 +896,8 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         }
         if (tLRPC$InputFile2 != null) {
             tLRPC$TL_photos_uploadContactProfilePhoto.video = tLRPC$InputFile2;
-            int i2 = tLRPC$TL_photos_uploadContactProfilePhoto.flags | 2;
-            tLRPC$TL_photos_uploadContactProfilePhoto.flags = i2;
             tLRPC$TL_photos_uploadContactProfilePhoto.video_start_ts = d;
-            tLRPC$TL_photos_uploadContactProfilePhoto.flags = i2 | 4;
+            tLRPC$TL_photos_uploadContactProfilePhoto.flags = tLRPC$TL_photos_uploadContactProfilePhoto.flags | 2 | 4;
         }
         if (tLRPC$VideoSize != null) {
             tLRPC$TL_photos_uploadContactProfilePhoto.flags |= 32;
@@ -912,7 +910,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
             tLRPC$TL_photos_uploadContactProfilePhoto.save = true;
             tLRPC$TL_photos_uploadContactProfilePhoto.flags |= 16;
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_photos_uploadContactProfilePhoto, new RequestDelegate() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda15
+        getConnectionsManager().sendRequest(tLRPC$TL_photos_uploadContactProfilePhoto, new RequestDelegate() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda16
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 ContactAddActivity.this.lambda$sendPhotoChangedRequest$16(tLRPC$FileLocation, tLRPC$InputFile2, tLRPC$FileLocation2, i, tLObject, tLRPC$TL_error);
@@ -922,7 +920,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$sendPhotoChangedRequest$16(final TLRPC$FileLocation tLRPC$FileLocation, final TLRPC$InputFile tLRPC$InputFile, final TLRPC$FileLocation tLRPC$FileLocation2, final int i, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda10
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda17
             @Override // java.lang.Runnable
             public final void run() {
                 ContactAddActivity.this.lambda$sendPhotoChangedRequest$15(tLRPC$FileLocation, tLRPC$InputFile, tLObject, tLRPC$FileLocation2, i);
@@ -1003,7 +1001,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda16
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda2
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 ContactAddActivity.this.lambda$getThemeDescriptions$17();

@@ -176,7 +176,7 @@ public class HashtagSearchController {
                     tLRPC$TL_channels_searchPosts = tLRPC$TL_channels_searchPosts2;
                 }
             }
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_searchPosts, new RequestDelegate() { // from class: org.telegram.messenger.HashtagSearchController$$ExternalSyntheticLambda1
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_searchPosts, new RequestDelegate() { // from class: org.telegram.messenger.HashtagSearchController$$ExternalSyntheticLambda0
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     HashtagSearchController.this.lambda$searchHashtag$1(i2, str2, searchResult, r5, i, i3, tLObject, tLRPC$TL_error);
@@ -199,7 +199,7 @@ public class HashtagSearchController {
                 messageObject.setQuery(str);
                 arrayList.add(messageObject);
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.HashtagSearchController$$ExternalSyntheticLambda0
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.HashtagSearchController$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     HashtagSearchController.this.lambda$searchHashtag$0(searchResult, tLRPC$messages_Messages, arrayList, i2, i3, i4);

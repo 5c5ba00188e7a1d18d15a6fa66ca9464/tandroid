@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.Surface;
 import android.view.SurfaceView;
 import android.view.TextureView;
+import com.google.android.exoplayer2.Bundleable;
+import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.audio.AudioAttributes;
 import com.google.android.exoplayer2.metadata.Metadata;
 import com.google.android.exoplayer2.text.Cue;
@@ -296,6 +298,8 @@ public interface Player {
         public final int periodIndex;
         public final Object periodUid;
         public final long positionMs;
+        @Deprecated
+        public final int windowIndex;
         public final Object windowUid;
         private static final String FIELD_MEDIA_ITEM_INDEX = Util.intToStringMaxRadix(0);
         private static final String FIELD_MEDIA_ITEM = Util.intToStringMaxRadix(1);
@@ -304,9 +308,18 @@ public interface Player {
         private static final String FIELD_CONTENT_POSITION_MS = Util.intToStringMaxRadix(4);
         private static final String FIELD_AD_GROUP_INDEX = Util.intToStringMaxRadix(5);
         private static final String FIELD_AD_INDEX_IN_AD_GROUP = Util.intToStringMaxRadix(6);
+        public static final Bundleable.Creator<PositionInfo> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.Player$PositionInfo$$ExternalSyntheticLambda0
+            @Override // com.google.android.exoplayer2.Bundleable.Creator
+            public final Bundleable fromBundle(Bundle bundle) {
+                Player.PositionInfo fromBundle;
+                fromBundle = Player.PositionInfo.fromBundle(bundle);
+                return fromBundle;
+            }
+        };
 
         public PositionInfo(Object obj, int i, MediaItem mediaItem, Object obj2, int i2, long j, long j2, int i3, int i4) {
             this.windowUid = obj;
+            this.windowIndex = i;
             this.mediaItemIndex = i;
             this.mediaItem = mediaItem;
             this.periodUid = obj2;
@@ -351,16 +364,32 @@ public interface Player {
             bundle.putInt(FIELD_AD_INDEX_IN_AD_GROUP, z ? this.adIndexInAdGroup : -1);
             return bundle;
         }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public static PositionInfo fromBundle(Bundle bundle) {
+            int i = bundle.getInt(FIELD_MEDIA_ITEM_INDEX, 0);
+            Bundle bundle2 = bundle.getBundle(FIELD_MEDIA_ITEM);
+            return new PositionInfo(null, i, bundle2 == null ? null : MediaItem.CREATOR.fromBundle(bundle2), null, bundle.getInt(FIELD_PERIOD_INDEX, 0), bundle.getLong(FIELD_POSITION_MS, 0L), bundle.getLong(FIELD_CONTENT_POSITION_MS, 0L), bundle.getInt(FIELD_AD_GROUP_INDEX, -1), bundle.getInt(FIELD_AD_INDEX_IN_AD_GROUP, -1));
+        }
     }
 
     /* loaded from: classes.dex */
     public static final class Commands implements Bundleable {
+        private final FlagSet flags;
         public static final Commands EMPTY = new Builder().build();
         private static final String FIELD_COMMANDS = Util.intToStringMaxRadix(0);
-        private final FlagSet flags;
+        public static final Bundleable.Creator<Commands> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.Player$Commands$$ExternalSyntheticLambda0
+            @Override // com.google.android.exoplayer2.Bundleable.Creator
+            public final Bundleable fromBundle(Bundle bundle) {
+                Player.Commands fromBundle;
+                fromBundle = Player.Commands.fromBundle(bundle);
+                return fromBundle;
+            }
+        };
 
         /* loaded from: classes.dex */
         public static final class Builder {
+            private static final int[] SUPPORTED_COMMANDS = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 31, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30};
             private final FlagSet.Builder flagsBuilder = new FlagSet.Builder();
 
             public Builder add(int i) {
@@ -415,6 +444,19 @@ public interface Player {
             }
             bundle.putIntegerArrayList(FIELD_COMMANDS, arrayList);
             return bundle;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public static Commands fromBundle(Bundle bundle) {
+            ArrayList<Integer> integerArrayList = bundle.getIntegerArrayList(FIELD_COMMANDS);
+            if (integerArrayList == null) {
+                return EMPTY;
+            }
+            Builder builder = new Builder();
+            for (int i = 0; i < integerArrayList.size(); i++) {
+                builder.add(integerArrayList.get(i).intValue());
+            }
+            return builder.build();
         }
     }
 

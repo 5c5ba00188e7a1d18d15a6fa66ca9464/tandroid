@@ -1,10 +1,10 @@
 package j$.util.concurrent;
-
-import java.security.PrivilegedAction;
 /* loaded from: classes2.dex */
-class d implements PrivilegedAction {
-    @Override // java.security.PrivilegedAction
-    public Object run() {
-        return Boolean.valueOf(Boolean.getBoolean("java.util.secureRandomSeed"));
+final class d {
+    volatile long value;
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public d(long j) {
+        this.value = j;
     }
 }

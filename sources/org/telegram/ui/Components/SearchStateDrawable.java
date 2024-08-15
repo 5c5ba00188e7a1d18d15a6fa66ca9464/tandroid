@@ -21,13 +21,14 @@ public class SearchStateDrawable extends Drawable {
     private int alpha = 255;
     private Path path = new Path();
     private RectF progressRect = new RectF();
+    private final float progressRadius = 0.25f;
     private long progressStart = -1;
     private float progressAngleFrom = 0.0f;
     private float progressAngleTo = 0.0f;
     private float[] progressSegments = new float[2];
     private int toState = 0;
     private boolean waitingForProgressToEnd = false;
-    private AnimatedFloat progress = new AnimatedFloat(1.0f, new Runnable() { // from class: org.telegram.ui.Components.SearchStateDrawable$$ExternalSyntheticLambda0
+    private AnimatedFloat progress = new AnimatedFloat(1.0f, new Runnable() { // from class: org.telegram.ui.Components.SearchStateDrawable$$ExternalSyntheticLambda1
         @Override // java.lang.Runnable
         public final void run() {
             SearchStateDrawable.this.invalidateSelf();
@@ -85,7 +86,7 @@ public class SearchStateDrawable extends Drawable {
             }
         } else if (!z2 && i == 2) {
             if (this.delaySetProgress == null) {
-                Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.SearchStateDrawable$$ExternalSyntheticLambda1
+                Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.SearchStateDrawable$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         SearchStateDrawable.this.lambda$setIconState$0(i, z);

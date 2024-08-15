@@ -97,7 +97,7 @@ public class PinnedLineView extends View {
             invalidate();
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
             this.animator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PinnedLineView$$ExternalSyntheticLambda0
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PinnedLineView$$ExternalSyntheticLambda1
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                     PinnedLineView.this.lambda$selectPosition$0(valueAnimator2);
@@ -282,7 +282,7 @@ public class PinnedLineView extends View {
             invalidate();
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
             this.animator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PinnedLineView$$ExternalSyntheticLambda1
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PinnedLineView$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
                     PinnedLineView.this.lambda$set$1(valueAnimator3);

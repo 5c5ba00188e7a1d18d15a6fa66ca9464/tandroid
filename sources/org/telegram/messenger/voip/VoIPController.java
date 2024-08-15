@@ -2,7 +2,6 @@ package org.telegram.messenger.voip;
 
 import android.media.audiofx.AcousticEchoCanceler;
 import android.media.audiofx.NoiseSuppressor;
-import android.os.Build;
 import android.os.SystemClock;
 import java.io.File;
 import java.util.ArrayList;
@@ -10,7 +9,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Locale;
-import java.util.Objects;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.MessagesController;
@@ -178,47 +176,45 @@ public class VoIPController {
         nativeSetMicMute(this.nativeInst, z);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0049  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0060  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0046  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x005d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void setConfig(double d, double d2, int i, long j) {
-        boolean isAvailable;
-        boolean isAvailable2;
+        boolean z;
+        boolean z2;
         String logFilePath;
         ensureNativeInstance();
-        if (Build.VERSION.SDK_INT >= 16) {
+        try {
+            z = AcousticEchoCanceler.isAvailable();
             try {
-                isAvailable = AcousticEchoCanceler.isAvailable();
-                try {
-                    isAvailable2 = NoiseSuppressor.isAvailable();
-                } catch (Throwable unused) {
+                z2 = NoiseSuppressor.isAvailable();
+            } catch (Throwable unused) {
+                z2 = false;
+                boolean z3 = MessagesController.getGlobalMainSettings().getBoolean("dbg_dump_call_stats", false);
+                long j2 = this.nativeInst;
+                if (z) {
                 }
-            } catch (Throwable unused2) {
+                if (z2) {
+                }
+                if (BuildVars.DEBUG_VERSION) {
+                }
+                nativeSetConfig(j2, d, d2, i, r9, r10, true, logFilePath, (BuildVars.DEBUG_VERSION || !z3) ? null : getLogFilePath("voipStats"), BuildVars.DEBUG_VERSION);
             }
-            boolean z = MessagesController.getGlobalMainSettings().getBoolean("dbg_dump_call_stats", false);
-            long j2 = this.nativeInst;
-            boolean z2 = isAvailable || !VoIPServerConfig.getBoolean("use_system_aec", true);
-            boolean z3 = isAvailable2 || !VoIPServerConfig.getBoolean("use_system_ns", true);
-            if (BuildVars.DEBUG_VERSION) {
-                logFilePath = getLogFilePath(j);
-            } else {
-                logFilePath = getLogFilePath("voip" + j);
-            }
-            nativeSetConfig(j2, d, d2, i, z2, z3, true, logFilePath, (BuildVars.DEBUG_VERSION || !z) ? null : getLogFilePath("voipStats"), BuildVars.DEBUG_VERSION);
+        } catch (Throwable unused2) {
+            z = false;
         }
-        isAvailable = false;
-        isAvailable2 = false;
-        boolean z4 = MessagesController.getGlobalMainSettings().getBoolean("dbg_dump_call_stats", false);
+        boolean z32 = MessagesController.getGlobalMainSettings().getBoolean("dbg_dump_call_stats", false);
         long j22 = this.nativeInst;
-        if (isAvailable) {
-        }
-        if (isAvailable2) {
-        }
+        boolean z4 = z || !VoIPServerConfig.getBoolean("use_system_aec", true);
+        boolean z5 = z2 || !VoIPServerConfig.getBoolean("use_system_ns", true);
         if (BuildVars.DEBUG_VERSION) {
+            logFilePath = getLogFilePath(j);
+        } else {
+            logFilePath = getLogFilePath("voip" + j);
         }
-        nativeSetConfig(j22, d, d2, i, z2, z3, true, logFilePath, (BuildVars.DEBUG_VERSION || !z4) ? null : getLogFilePath("voipStats"), BuildVars.DEBUG_VERSION);
+        nativeSetConfig(j22, d, d2, i, z4, z5, true, logFilePath, (BuildVars.DEBUG_VERSION || !z32) ? null : getLogFilePath("voipStats"), BuildVars.DEBUG_VERSION);
     }
 
     public void debugCtl(int i, int i2) {
@@ -238,7 +234,9 @@ public class VoIPController {
 
     public void getStats(Stats stats) {
         ensureNativeInstance();
-        Objects.requireNonNull(stats, "You're not supposed to pass null here");
+        if (stats == null) {
+            throw new NullPointerException("You're not supposed to pass null here");
+        }
         nativeGetStats(this.nativeInst, stats);
     }
 
@@ -278,7 +276,9 @@ public class VoIPController {
 
     public void setProxy(String str, int i, String str2, String str3) {
         ensureNativeInstance();
-        Objects.requireNonNull(str, "address can't be null");
+        if (str == null) {
+            throw new NullPointerException("address can't be null");
+        }
         nativeSetProxy(this.nativeInst, str, i, str2, str3);
     }
 

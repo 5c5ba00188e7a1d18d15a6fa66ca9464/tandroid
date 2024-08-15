@@ -1,13 +1,12 @@
 package androidx.biometric;
 
-import android.os.Build;
 import android.os.CancellationSignal;
 import android.util.Log;
 /* loaded from: classes.dex */
 class CancellationSignalProvider {
     private CancellationSignal mBiometricCancellationSignal;
     private androidx.core.os.CancellationSignal mFingerprintCancellationSignal;
-    private final Injector mInjector = new Injector(this) { // from class: androidx.biometric.CancellationSignalProvider.1
+    private final Injector mInjector = new Injector() { // from class: androidx.biometric.CancellationSignalProvider.1
         @Override // androidx.biometric.CancellationSignalProvider.Injector
         public CancellationSignal getBiometricCancellationSignal() {
             return Api16Impl.create();
@@ -44,8 +43,8 @@ class CancellationSignalProvider {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public void cancel() {
-        CancellationSignal cancellationSignal;
-        if (Build.VERSION.SDK_INT >= 16 && (cancellationSignal = this.mBiometricCancellationSignal) != null) {
+        CancellationSignal cancellationSignal = this.mBiometricCancellationSignal;
+        if (cancellationSignal != null) {
             try {
                 Api16Impl.cancel(cancellationSignal);
             } catch (NullPointerException e) {

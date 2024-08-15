@@ -10,9 +10,16 @@ import com.google.mlkit.common.sdkinternal.SharedPrefManager;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public final class zzcz {
-    public static final Component<?> zza;
+    private final zzcv zzc;
+    private final RemoteModel zzd;
+    private final SharedPrefManager zze;
+    private static final GmsLogger zzb = new GmsLogger("ModelDownloadLogger", "");
+    public static final Component<?> zza = Component.builder(zza.class).add(Dependency.required(zzcv.class)).add(Dependency.required(SharedPrefManager.class)).factory(zzdb.zza).build();
 
     private zzcz(zzcv zzcvVar, SharedPrefManager sharedPrefManager, RemoteModel remoteModel) {
+        this.zzc = zzcvVar;
+        this.zzd = remoteModel;
+        this.zze = sharedPrefManager;
     }
 
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
@@ -35,10 +42,5 @@ public final class zzcz {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static final /* synthetic */ zza zza(ComponentContainer componentContainer) {
         return new zza((zzcv) componentContainer.get(zzcv.class), (SharedPrefManager) componentContainer.get(SharedPrefManager.class));
-    }
-
-    static {
-        new GmsLogger("ModelDownloadLogger", "");
-        zza = Component.builder(zza.class).add(Dependency.required(zzcv.class)).add(Dependency.required(SharedPrefManager.class)).factory(zzdb.zza).build();
     }
 }

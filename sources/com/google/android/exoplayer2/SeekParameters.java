@@ -7,6 +7,8 @@ public final class SeekParameters {
     public static final SeekParameters CLOSEST_SYNC;
     public static final SeekParameters DEFAULT;
     public static final SeekParameters EXACT;
+    public static final SeekParameters NEXT_SYNC;
+    public static final SeekParameters PREVIOUS_SYNC;
     public final long toleranceAfterUs;
     public final long toleranceBeforeUs;
 
@@ -14,8 +16,8 @@ public final class SeekParameters {
         SeekParameters seekParameters = new SeekParameters(0L, 0L);
         EXACT = seekParameters;
         CLOSEST_SYNC = new SeekParameters(Long.MAX_VALUE, Long.MAX_VALUE);
-        new SeekParameters(Long.MAX_VALUE, 0L);
-        new SeekParameters(0L, Long.MAX_VALUE);
+        PREVIOUS_SYNC = new SeekParameters(Long.MAX_VALUE, 0L);
+        NEXT_SYNC = new SeekParameters(0L, Long.MAX_VALUE);
         DEFAULT = seekParameters;
     }
 

@@ -59,7 +59,7 @@ public class HandledErrorLog extends LogWithProperties {
         if (this == obj) {
             return true;
         }
-        if (obj != null && HandledErrorLog.class == obj.getClass() && super.equals(obj)) {
+        if (obj != null && getClass() == obj.getClass() && super.equals(obj)) {
             HandledErrorLog handledErrorLog = (HandledErrorLog) obj;
             UUID uuid = this.id;
             if (uuid == null ? handledErrorLog.id == null : uuid.equals(handledErrorLog.id)) {

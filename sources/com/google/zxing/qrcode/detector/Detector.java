@@ -27,6 +27,7 @@ public class Detector {
     }
 
     protected final DetectorResult processFinderPatternInfo(FinderPatternInfo finderPatternInfo) throws NotFoundException, FormatException {
+        AlignmentPattern alignmentPattern;
         FinderPattern topLeft = finderPatternInfo.getTopLeft();
         FinderPattern topRight = finderPatternInfo.getTopRight();
         FinderPattern bottomLeft = finderPatternInfo.getBottomLeft();
@@ -37,7 +38,6 @@ public class Detector {
         int computeDimension = computeDimension(topLeft, topRight, bottomLeft, calculateModuleSize);
         Version provisionalVersionForDimension = Version.getProvisionalVersionForDimension(computeDimension);
         int dimensionForVersion = provisionalVersionForDimension.getDimensionForVersion() - 7;
-        AlignmentPattern alignmentPattern = null;
         if (provisionalVersionForDimension.getAlignmentPatternCenters().length > 0) {
             float x = (topRight.getX() - topLeft.getX()) + bottomLeft.getX();
             float y = (topRight.getY() - topLeft.getY()) + bottomLeft.getY();
@@ -52,6 +52,7 @@ public class Detector {
                 }
             }
         }
+        alignmentPattern = null;
         return new DetectorResult(sampleGrid(this.image, createTransform(topLeft, topRight, bottomLeft, alignmentPattern, computeDimension), computeDimension), alignmentPattern == null ? new ResultPoint[]{bottomLeft, topLeft, topRight} : new ResultPoint[]{bottomLeft, topLeft, topRight, alignmentPattern});
     }
 

@@ -18,9 +18,10 @@ public class Hex {
             }
             int i4 = i2 + 1;
             char[] cArr2 = DIGITS;
-            cArr[i2] = cArr2[(bArr[i3] & 240) >>> 4];
+            byte b = bArr[i3];
+            cArr[i2] = cArr2[(b & 240) >>> 4];
             i2 = i4 + 1;
-            cArr[i4] = cArr2[bArr[i3] & 15];
+            cArr[i4] = cArr2[b & 15];
         }
         return new String(cArr);
     }

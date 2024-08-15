@@ -21,6 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /* loaded from: classes.dex */
 abstract class ModernAsyncTask<Params, Progress, Result> {
     public static final Executor THREAD_POOL_EXECUTOR;
+    private static volatile Executor sDefaultExecutor;
     private static InternalHandler sHandler;
     private static final BlockingQueue<Runnable> sPoolWorkQueue;
     private static final ThreadFactory sThreadFactory;
@@ -63,7 +64,9 @@ abstract class ModernAsyncTask<Params, Progress, Result> {
         sThreadFactory = threadFactory;
         LinkedBlockingQueue linkedBlockingQueue = new LinkedBlockingQueue(10);
         sPoolWorkQueue = linkedBlockingQueue;
-        THREAD_POOL_EXECUTOR = new ThreadPoolExecutor(5, 128, 1L, TimeUnit.SECONDS, linkedBlockingQueue, threadFactory);
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(5, 128, 1L, TimeUnit.SECONDS, linkedBlockingQueue, threadFactory);
+        THREAD_POOL_EXECUTOR = threadPoolExecutor;
+        sDefaultExecutor = threadPoolExecutor;
     }
 
     private static Handler getHandler() {

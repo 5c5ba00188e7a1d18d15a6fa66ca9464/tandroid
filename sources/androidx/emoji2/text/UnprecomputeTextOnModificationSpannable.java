@@ -5,8 +5,7 @@ import android.text.PrecomputedText;
 import android.text.Spannable;
 import android.text.SpannableString;
 import androidx.core.text.PrecomputedTextCompat;
-import j$.wrappers.$r8$wrapper$java$util$stream$IntStream$-V-WRP;
-import j$.wrappers.$r8$wrapper$java$util$stream$IntStream$-WRP;
+import j$.util.stream.IntStream;
 import java.util.stream.IntStream;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
@@ -16,12 +15,12 @@ public class UnprecomputeTextOnModificationSpannable implements Spannable {
 
     @Override // java.lang.CharSequence
     public /* synthetic */ IntStream chars() {
-        return $r8$wrapper$java$util$stream$IntStream$-WRP.convert(chars());
+        return IntStream.Wrapper.convert(chars());
     }
 
     @Override // java.lang.CharSequence
-    public /* synthetic */ IntStream codePoints() {
-        return $r8$wrapper$java$util$stream$IntStream$-WRP.convert(codePoints());
+    public /* synthetic */ java.util.stream.IntStream codePoints() {
+        return IntStream.Wrapper.convert(codePoints());
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -118,11 +117,15 @@ public class UnprecomputeTextOnModificationSpannable implements Spannable {
     /* loaded from: classes.dex */
     public static class CharSequenceHelper_API24 {
         static j$.util.stream.IntStream codePoints(CharSequence charSequence) {
-            return $r8$wrapper$java$util$stream$IntStream$-V-WRP.convert(charSequence.codePoints());
+            j$.util.stream.IntStream convert;
+            convert = IntStream.VivifiedWrapper.convert(charSequence.codePoints());
+            return convert;
         }
 
         static j$.util.stream.IntStream chars(CharSequence charSequence) {
-            return $r8$wrapper$java$util$stream$IntStream$-V-WRP.convert(charSequence.chars());
+            j$.util.stream.IntStream convert;
+            convert = IntStream.VivifiedWrapper.convert(charSequence.chars());
+            return convert;
         }
     }
 

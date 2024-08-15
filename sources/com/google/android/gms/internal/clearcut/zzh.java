@@ -30,24 +30,11 @@ public final class zzh extends BaseImplementation$ApiMethodImpl<Status, zzj> {
         zzi zziVar = new zzi(this);
         try {
             com.google.android.gms.clearcut.zze zzeVar = this.zzao;
-            ClearcutLogger.zzb zzbVar = zzeVar.zzt;
-            if (zzbVar != null) {
-                zzha zzhaVar = zzeVar.zzaa;
-                if (zzhaVar.zzbjp.length == 0) {
-                    zzhaVar.zzbjp = zzbVar.zza();
-                }
-            }
-            ClearcutLogger.zzb zzbVar2 = zzeVar.zzan;
-            if (zzbVar2 != null) {
-                zzha zzhaVar2 = zzeVar.zzaa;
-                if (zzhaVar2.zzbjw.length == 0) {
-                    zzhaVar2.zzbjw = zzbVar2.zza();
-                }
-            }
-            zzha zzhaVar3 = zzeVar.zzaa;
-            int zzas = zzhaVar3.zzas();
+            zzeVar.getClass();
+            zzha zzhaVar = zzeVar.zzaa;
+            int zzas = zzhaVar.zzas();
             byte[] bArr = new byte[zzas];
-            zzfz.zza(zzhaVar3, bArr, 0, zzas);
+            zzfz.zza(zzhaVar, bArr, 0, zzas);
             zzeVar.zzah = bArr;
             ((zzn) zzjVar2.getService()).zza(zziVar, this.zzao);
         } catch (RuntimeException e) {

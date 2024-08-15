@@ -286,49 +286,85 @@ public class StripeApiHandler {
         return URLEncoder.encode(str, "UTF-8");
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:15:0x0028, code lost:
-        if (r0 != 1) goto L22;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x002a, code lost:
-        r6 = createPostConnection(r7, r8, r9);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x003e, code lost:
-        throw new com.stripe.android.exception.APIConnectionException(java.lang.String.format("Unrecognized HTTP method %s. This indicates a bug in the Stripe bindings. Please contact support@stripe.com for assistance.", r6));
-     */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0029  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0040 A[Catch: all -> 0x006f, IOException -> 0x0071, TryCatch #0 {IOException -> 0x0071, blocks: (B:3:0x0003, B:17:0x002b, B:21:0x0044, B:25:0x0051, B:27:0x0062, B:26:0x005a, B:18:0x0030, B:19:0x003f, B:20:0x0040, B:8:0x0012, B:11:0x001c), top: B:38:0x0003, outer: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x004d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private static StripeResponse makeURLConnectionRequest(String str, String str2, String str3, RequestOptions requestOptions) throws APIConnectionException {
+        char c;
+        HttpURLConnection createGetConnection;
+        HttpURLConnection httpURLConnection;
+        int responseCode;
         String responseBody;
-        char c = 65535;
-        HttpURLConnection httpURLConnection = null;
+        HttpURLConnection httpURLConnection2 = null;
         try {
             try {
                 int hashCode = str.hashCode();
                 if (hashCode != 70454) {
                     if (hashCode == 2461856 && str.equals("POST")) {
                         c = 1;
+                        if (c != 0) {
+                            createGetConnection = createGetConnection(str2, str3, requestOptions);
+                        } else if (c == 1) {
+                            createGetConnection = createPostConnection(str2, str3, requestOptions);
+                        } else {
+                            throw new APIConnectionException(String.format("Unrecognized HTTP method %s. This indicates a bug in the Stripe bindings. Please contact support@stripe.com for assistance.", str));
+                        }
+                        httpURLConnection = createGetConnection;
+                        responseCode = httpURLConnection.getResponseCode();
+                        if (responseCode < 200 && responseCode < 300) {
+                            responseBody = getResponseBody(httpURLConnection.getInputStream());
+                        } else {
+                            responseBody = getResponseBody(httpURLConnection.getErrorStream());
+                        }
+                        StripeResponse stripeResponse = new StripeResponse(responseCode, responseBody, httpURLConnection.getHeaderFields());
+                        httpURLConnection.disconnect();
+                        return stripeResponse;
                     }
-                } else if (str.equals("GET")) {
+                    c = 65535;
+                    if (c != 0) {
+                    }
+                    httpURLConnection = createGetConnection;
+                    responseCode = httpURLConnection.getResponseCode();
+                    if (responseCode < 200) {
+                    }
+                    responseBody = getResponseBody(httpURLConnection.getErrorStream());
+                    StripeResponse stripeResponse2 = new StripeResponse(responseCode, responseBody, httpURLConnection.getHeaderFields());
+                    httpURLConnection.disconnect();
+                    return stripeResponse2;
+                }
+                if (str.equals("GET")) {
                     c = 0;
+                    if (c != 0) {
+                    }
+                    httpURLConnection = createGetConnection;
+                    responseCode = httpURLConnection.getResponseCode();
+                    if (responseCode < 200) {
+                    }
+                    responseBody = getResponseBody(httpURLConnection.getErrorStream());
+                    StripeResponse stripeResponse22 = new StripeResponse(responseCode, responseBody, httpURLConnection.getHeaderFields());
+                    httpURLConnection.disconnect();
+                    return stripeResponse22;
                 }
-                HttpURLConnection createGetConnection = createGetConnection(str2, str3, requestOptions);
-                HttpURLConnection httpURLConnection2 = createGetConnection;
-                int responseCode = httpURLConnection2.getResponseCode();
-                if (responseCode >= 200 && responseCode < 300) {
-                    responseBody = getResponseBody(httpURLConnection2.getInputStream());
-                } else {
-                    responseBody = getResponseBody(httpURLConnection2.getErrorStream());
+                c = 65535;
+                if (c != 0) {
                 }
-                StripeResponse stripeResponse = new StripeResponse(responseCode, responseBody, httpURLConnection2.getHeaderFields());
-                httpURLConnection2.disconnect();
-                return stripeResponse;
+                httpURLConnection = createGetConnection;
+                responseCode = httpURLConnection.getResponseCode();
+                if (responseCode < 200) {
+                }
+                responseBody = getResponseBody(httpURLConnection.getErrorStream());
+                StripeResponse stripeResponse222 = new StripeResponse(responseCode, responseBody, httpURLConnection.getHeaderFields());
+                httpURLConnection.disconnect();
+                return stripeResponse222;
             } catch (IOException e) {
                 throw new APIConnectionException(String.format("IOException during API request to Stripe (%s): %s Please check your internet connection and try again. If this problem persists, you should check Stripe's service status at https://twitter.com/stripestatus, or let us know at support@stripe.com.", getApiUrl(), e.getMessage()), e);
             }
         } catch (Throwable th) {
             if (0 != 0) {
-                httpURLConnection.disconnect();
+                httpURLConnection2.disconnect();
             }
             throw th;
         }

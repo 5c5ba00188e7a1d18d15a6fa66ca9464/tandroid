@@ -67,8 +67,8 @@ public final class TimeUtils {
         if (j2 > 0) {
             c = '+';
         } else {
-            c = '-';
             j2 = -j2;
+            c = '-';
         }
         int i8 = (int) (j2 % 1000);
         int floor = (int) Math.floor(j2 / 1000);

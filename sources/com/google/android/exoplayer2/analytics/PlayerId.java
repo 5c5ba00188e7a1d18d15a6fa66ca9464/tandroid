@@ -5,14 +5,11 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 /* loaded from: classes.dex */
 public final class PlayerId {
+    public static final PlayerId UNSET;
     private final LogSessionIdApi31 logSessionIdApi31;
 
     static {
-        if (Util.SDK_INT < 31) {
-            new PlayerId();
-        } else {
-            new PlayerId(LogSessionIdApi31.UNSET);
-        }
+        UNSET = Util.SDK_INT < 31 ? new PlayerId() : new PlayerId(LogSessionIdApi31.UNSET);
     }
 
     public PlayerId() {
@@ -34,8 +31,14 @@ public final class PlayerId {
 
     /* loaded from: classes.dex */
     private static final class LogSessionIdApi31 {
-        public static final LogSessionIdApi31 UNSET = new LogSessionIdApi31(LogSessionId.LOG_SESSION_ID_NONE);
+        public static final LogSessionIdApi31 UNSET;
         public final LogSessionId logSessionId;
+
+        static {
+            LogSessionId logSessionId;
+            logSessionId = LogSessionId.LOG_SESSION_ID_NONE;
+            UNSET = new LogSessionIdApi31(logSessionId);
+        }
 
         public LogSessionIdApi31(LogSessionId logSessionId) {
             this.logSessionId = logSessionId;

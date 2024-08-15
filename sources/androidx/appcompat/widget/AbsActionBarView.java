@@ -31,8 +31,6 @@ public abstract class AbsActionBarView extends ViewGroup {
         return z ? i - i2 : i + i2;
     }
 
-    public abstract void setContentHeight(int i);
-
     AbsActionBarView(Context context, AttributeSet attributeSet) {
         this(context, attributeSet, 0);
     }
@@ -95,6 +93,11 @@ public abstract class AbsActionBarView extends ViewGroup {
             this.mEatingHover = false;
         }
         return true;
+    }
+
+    public void setContentHeight(int i) {
+        this.mContentHeight = i;
+        requestLayout();
     }
 
     public int getContentHeight() {

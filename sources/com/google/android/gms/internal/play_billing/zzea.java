@@ -33,7 +33,10 @@ final class zzea extends AbstractSet {
         Map.Entry entry = (Map.Entry) obj;
         Object obj2 = this.zza.get(entry.getKey());
         Object value = entry.getValue();
-        return obj2 == value || (obj2 != null && obj2.equals(value));
+        if (obj2 != value) {
+            return obj2 != null && obj2.equals(value);
+        }
+        return true;
     }
 
     @Override // java.util.AbstractCollection, java.util.Collection, java.lang.Iterable, java.util.Set

@@ -39,8 +39,8 @@ import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
 public class FragmentUsernameBottomSheet {
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r6v0, types: [org.telegram.ui.ActionBar.BottomSheet] */
-    /* JADX WARN: Type inference failed for: r8v2, types: [android.widget.LinearLayout] */
-    /* JADX WARN: Type inference failed for: r9v9, types: [android.widget.LinearLayout, android.view.View] */
+    /* JADX WARN: Type inference failed for: r8v2, types: [android.widget.LinearLayout, android.view.View, android.view.ViewGroup] */
+    /* JADX WARN: Type inference failed for: r9v9, types: [android.view.View, android.view.ViewGroup] */
     public static void open(final Context context, final int i, String str, TLObject tLObject, final TL_fragment$TL_collectibleInfo tL_fragment$TL_collectibleInfo, final Theme.ResourcesProvider resourcesProvider) {
         String str2;
         Object obj;
@@ -113,7 +113,7 @@ public class FragmentUsernameBottomSheet {
             formatString2 = LocaleController.formatString(i4, objArr2);
             format = PhoneFormat.getInstance().format("+" + str);
         }
-        final Runnable runnable = format != null ? new Runnable() { // from class: org.telegram.ui.FragmentUsernameBottomSheet$$ExternalSyntheticLambda2
+        final Runnable runnable = format != null ? new Runnable() { // from class: org.telegram.ui.FragmentUsernameBottomSheet$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 FragmentUsernameBottomSheet.lambda$open$0(format, i, bottomSheet, resourcesProvider);
@@ -158,7 +158,7 @@ public class FragmentUsernameBottomSheet {
         r9.addView(textView2, LayoutHelper.createLinear(-1, -2, 1, 32, 0, 32, 19));
         ButtonWithCounterView buttonWithCounterView = new ButtonWithCounterView(context, resourcesProvider);
         buttonWithCounterView.setText(LocaleController.getString(R.string.FragmentUsernameOpen), false);
-        buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.FragmentUsernameBottomSheet$$ExternalSyntheticLambda0
+        buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.FragmentUsernameBottomSheet$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 FragmentUsernameBottomSheet.lambda$open$1(context, tL_fragment$TL_collectibleInfo, view);
@@ -168,7 +168,7 @@ public class FragmentUsernameBottomSheet {
         if (runnable != null) {
             ButtonWithCounterView buttonWithCounterView2 = new ButtonWithCounterView(context, false, resourcesProvider);
             buttonWithCounterView2.setText(LocaleController.getString(i == 0 ? R.string.FragmentUsernameCopy : R.string.FragmentPhoneCopy), false);
-            buttonWithCounterView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.FragmentUsernameBottomSheet$$ExternalSyntheticLambda1
+            buttonWithCounterView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.FragmentUsernameBottomSheet$$ExternalSyntheticLambda2
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     FragmentUsernameBottomSheet.lambda$open$2(runnable, bottomSheet, view);

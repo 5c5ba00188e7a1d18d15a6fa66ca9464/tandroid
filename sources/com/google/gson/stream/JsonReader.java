@@ -18,7 +18,6 @@ public class JsonReader implements Closeable {
     private int peekedNumberLength;
     private String peekedString;
     private int[] stack;
-    private int stackSize;
     private boolean lenient = false;
     private final char[] buffer = new char[1024];
     private int pos = 0;
@@ -26,12 +25,11 @@ public class JsonReader implements Closeable {
     private int lineNumber = 0;
     private int lineStart = 0;
     int peeked = 0;
+    private int stackSize = 0 + 1;
 
     public JsonReader(Reader reader) {
         int[] iArr = new int[32];
         this.stack = iArr;
-        this.stackSize = 0;
-        this.stackSize = 0 + 1;
         iArr[0] = 6;
         this.pathNames = new String[32];
         this.pathIndices = new int[32];
@@ -290,24 +288,24 @@ public class JsonReader implements Closeable {
     }
 
     private int peekKeyword() throws IOException {
-        int i;
         String str;
         String str2;
+        int i;
         char c = this.buffer[this.pos];
         if (c == 't' || c == 'T') {
-            i = 5;
             str = "true";
             str2 = "TRUE";
+            i = 5;
         } else if (c == 'f' || c == 'F') {
-            i = 6;
             str = "false";
             str2 = "FALSE";
+            i = 6;
         } else if (c != 'n' && c != 'N') {
             return 0;
         } else {
-            i = 7;
             str = "null";
             str2 = "NULL";
+            i = 7;
         }
         int length = str.length();
         for (int i2 = 1; i2 < length; i2++) {
@@ -730,8 +728,8 @@ public class JsonReader implements Closeable {
     */
     private String nextUnquotedValue() throws IOException {
         String sb;
-        int i = 0;
         StringBuilder sb2 = null;
+        int i = 0;
         do {
             int i2 = 0;
             while (true) {
@@ -1176,9 +1174,9 @@ public class JsonReader implements Closeable {
                     sb.append(']');
                 } else if (i3 == 3 || i3 == 4 || i3 == 5) {
                     sb.append('.');
-                    String[] strArr = this.pathNames;
-                    if (strArr[i] != null) {
-                        sb.append(strArr[i]);
+                    String str = this.pathNames[i];
+                    if (str != null) {
+                        sb.append(str);
                     }
                 }
                 i++;
@@ -1220,9 +1218,9 @@ public class JsonReader implements Closeable {
                                     if (i4 + 4 > this.limit && !fillBuffer(4)) {
                                         throw syntaxError("Unterminated escape sequence");
                                     }
-                                    char c2 = 0;
                                     int i5 = this.pos;
                                     int i6 = i5 + 4;
+                                    char c2 = 0;
                                     while (i5 < i6) {
                                         char c3 = this.buffer[i5];
                                         char c4 = (char) (c2 << 4);

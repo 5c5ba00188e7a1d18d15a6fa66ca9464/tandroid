@@ -57,7 +57,7 @@ public class UserNameResolver {
             tLRPC$TL_contacts_resolveUsername2.username = str;
             tLRPC$TL_contacts_resolveUsername = tLRPC$TL_contacts_resolveUsername2;
         }
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_contacts_resolveUsername, new RequestDelegate() { // from class: org.telegram.messenger.UserNameResolver$$ExternalSyntheticLambda1
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_contacts_resolveUsername, new RequestDelegate() { // from class: org.telegram.messenger.UserNameResolver$$ExternalSyntheticLambda0
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 UserNameResolver.this.lambda$resolve$1(str, tLObject, tLRPC$TL_error);
@@ -67,7 +67,7 @@ public class UserNameResolver {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$resolve$1(final String str, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.UserNameResolver$$ExternalSyntheticLambda0
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.UserNameResolver$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 UserNameResolver.this.lambda$resolve$0(str, tLRPC$TL_error, tLObject);

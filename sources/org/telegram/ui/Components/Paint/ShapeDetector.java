@@ -26,12 +26,14 @@ public class ShapeDetector {
     SharedPreferences preferences;
     private boolean shapeDetected;
     private int templatesUsageScore;
+    private final int MIN_POINTS = 8;
+    private final long TIMEOUT = 150;
     private ArrayList<Point> points = new ArrayList<>();
     private ArrayList<Template> templates = new ArrayList<>();
     private ArrayList<Point> toSave = null;
     private AtomicBoolean busy = new AtomicBoolean(false);
     private AtomicBoolean scheduled = new AtomicBoolean(false);
-    private Runnable detect = new Runnable() { // from class: org.telegram.ui.Components.Paint.ShapeDetector$$ExternalSyntheticLambda2
+    private Runnable detect = new Runnable() { // from class: org.telegram.ui.Components.Paint.ShapeDetector$$ExternalSyntheticLambda0
         @Override // java.lang.Runnable
         public final void run() {
             ShapeDetector.this.lambda$new$2();
@@ -179,7 +181,7 @@ public class ShapeDetector {
     }
 
     private void parseTemplates() {
-        queue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Paint.ShapeDetector$$ExternalSyntheticLambda1
+        queue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Paint.ShapeDetector$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 ShapeDetector.this.lambda$parseTemplates$0();
@@ -300,7 +302,7 @@ public class ShapeDetector {
                 sb.append(str);
                 Log.i("shapedetector", sb.toString());
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.ShapeDetector$$ExternalSyntheticLambda3
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.ShapeDetector$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     ShapeDetector.this.lambda$new$1(constructShape, i6, arrayList3);
@@ -592,7 +594,7 @@ public class ShapeDetector {
 
     private void showSaveLearnDialog() {
         final ArrayList<Point> arrayList = this.toSave;
-        new AlertDialog.Builder(this.context).setTitle("Shape?").setItems(new String[]{"Log all", "Circle", "Rectangle", "Star", "Bubble", "Arrow", "None"}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Paint.ShapeDetector$$ExternalSyntheticLambda0
+        new AlertDialog.Builder(this.context).setTitle("Shape?").setItems(new String[]{"Log all", "Circle", "Rectangle", "Star", "Bubble", "Arrow", "None"}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Paint.ShapeDetector$$ExternalSyntheticLambda1
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 ShapeDetector.this.lambda$showSaveLearnDialog$3(arrayList, dialogInterface, i);

@@ -41,7 +41,9 @@ class ConcurrencyHelpers {
     /* loaded from: classes.dex */
     static class Handler28Impl {
         public static Handler createAsync(Looper looper) {
-            return Handler.createAsync(looper);
+            Handler createAsync;
+            createAsync = Handler.createAsync(looper);
+            return createAsync;
         }
     }
 }

@@ -94,7 +94,7 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
     }
 
     private void loadSizes() {
-        ArrayList<BrowserHistory.Entry> history = BrowserHistory.getHistory(new Utilities.Callback() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda14
+        ArrayList<BrowserHistory.Entry> history = BrowserHistory.getHistory(new Utilities.Callback() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda0
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 WebBrowserSettings.this.lambda$loadSizes$0((ArrayList) obj);
@@ -107,7 +107,7 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
                 this.listView.adapter.update(true);
             }
         }
-        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda8
+        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 WebBrowserSettings.this.lambda$loadSizes$2();
@@ -144,7 +144,7 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
         final long j = length;
         File file3 = new File(ApplicationLoader.applicationContext.getApplicationInfo().dataDir, "app_webview");
         final long directorySize = file3.exists() ? 0 + getDirectorySize(file3, Boolean.TRUE) : 0L;
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda9
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 WebBrowserSettings.this.lambda$loadSizes$1(j, directorySize);
@@ -169,7 +169,7 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
         Drawable mutate2 = context.getResources().getDrawable(R.drawable.poll_add_plus).mutate();
         mutate.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_switchTrackChecked), PorterDuff.Mode.MULTIPLY));
         mutate2.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_checkboxCheck), PorterDuff.Mode.MULTIPLY));
-        this.addIcon = new CombinedDrawable(this, mutate, mutate2) { // from class: org.telegram.ui.web.WebBrowserSettings.1
+        this.addIcon = new CombinedDrawable(mutate, mutate2) { // from class: org.telegram.ui.web.WebBrowserSettings.1
             @Override // org.telegram.ui.Components.CombinedDrawable, android.graphics.drawable.Drawable
             public void setColorFilter(ColorFilter colorFilter) {
             }
@@ -289,7 +289,7 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
                     str = " (" + AndroidUtilities.formatFileSize(this.cacheSize) + ")";
                 }
                 objArr[0] = str;
-                title.setMessage(LocaleController.formatString(i3, objArr)).setPositiveButton(LocaleController.getString(R.string.Clear), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda2
+                title.setMessage(LocaleController.formatString(i3, objArr)).setPositiveButton(LocaleController.getString(R.string.Clear), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda3
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i4) {
                         WebBrowserSettings.this.lambda$onClick$3(dialogInterface, i4);
@@ -303,19 +303,19 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
                     str = " (" + AndroidUtilities.formatFileSize(this.cookiesSize) + ")";
                 }
                 objArr2[0] = str;
-                title2.setMessage(LocaleController.formatString(i4, objArr2)).setPositiveButton(LocaleController.getString(R.string.Clear), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda1
+                title2.setMessage(LocaleController.formatString(i4, objArr2)).setPositiveButton(LocaleController.getString(R.string.Clear), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda5
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i5) {
                         WebBrowserSettings.this.lambda$onClick$4(dialogInterface, i5);
                     }
                 }).setNegativeButton(LocaleController.getString(R.string.Cancel), null).makeRed(-1).show();
             } else if (i2 == 7) {
-                long j = Long.MAX_VALUE;
                 Iterator<BrowserHistory.Entry> it = BrowserHistory.getHistory().iterator();
+                long j = Long.MAX_VALUE;
                 while (it.hasNext()) {
                     j = Math.min(j, it.next().time);
                 }
-                new AlertDialog.Builder(getContext(), getResourceProvider()).setTitle(LocaleController.getString(R.string.BrowserSettingsHistoryClear)).setMessage(LocaleController.formatString(R.string.BrowserSettingsHistoryClearText, LocaleController.formatDateChat(j / 1000))).setPositiveButton(LocaleController.getString(R.string.Clear), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda3
+                new AlertDialog.Builder(getContext(), getResourceProvider()).setTitle(LocaleController.getString(R.string.BrowserSettingsHistoryClear)).setMessage(LocaleController.formatString(R.string.BrowserSettingsHistoryClearText, LocaleController.formatDateChat(j / 1000))).setPositiveButton(LocaleController.getString(R.string.Clear), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda6
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i5) {
                         WebBrowserSettings.this.lambda$onClick$5(dialogInterface, i5);
@@ -323,13 +323,14 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
                 }).setNegativeButton(LocaleController.getString(R.string.Cancel), null).makeRed(-1).show();
             } else if (i2 == 9) {
                 final HistoryFragment[] historyFragmentArr = {null};
-                historyFragmentArr[0] = new HistoryFragment(null, new Utilities.Callback() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda15
+                HistoryFragment historyFragment = new HistoryFragment(null, new Utilities.Callback() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda7
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
                         WebBrowserSettings.this.lambda$onClick$6(historyFragmentArr, (BrowserHistory.Entry) obj);
                     }
                 });
-                presentFragment(historyFragmentArr[0]);
+                historyFragmentArr[0] = historyFragment;
+                presentFragment(historyFragment);
             } else if (i2 == 5) {
                 RestrictedDomainsList.getInstance().restrictedDomains.clear();
                 RestrictedDomainsList.getInstance().scheduleSave();
@@ -337,7 +338,7 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
             } else if (uItem.instanceOf(WebsiteView.Factory.class)) {
                 WebsiteView websiteView = (WebsiteView) view;
                 final ArrayList arrayList = websiteView.domains;
-                ItemOptions.makeOptions((ViewGroup) this.fragmentView, websiteView).add(R.drawable.menu_delete_old, LocaleController.getString(R.string.Remove), new Runnable() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda10
+                ItemOptions.makeOptions((ViewGroup) this.fragmentView, websiteView).add(R.drawable.menu_delete_old, LocaleController.getString(R.string.Remove), new Runnable() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda8
                     @Override // java.lang.Runnable
                     public final void run() {
                         WebBrowserSettings.this.lambda$onClick$7(arrayList);
@@ -364,7 +365,7 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
                         radioColorCell.setTextAndValue(charSequenceArr[i6], i6 == SharedConfig.searchEngineType);
                         radioColorCell.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector), 2));
                         linearLayout.addView(radioColorCell);
-                        radioColorCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda7
+                        radioColorCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda9
                             @Override // android.view.View.OnClickListener
                             public final void onClick(View view2) {
                                 WebBrowserSettings.lambda$onClick$8(i6, view, atomicReference, view2);
@@ -386,20 +387,20 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
                     textView.setTextSize(1, 16.0f);
                     textView.setText(LocaleController.getString(R.string.BrowserSettingsAddText));
                     linearLayout2.addView(textView, LayoutHelper.createLinear(-1, -2, 24.0f, 5.0f, 24.0f, 12.0f));
-                    final EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(this, getContext()) { // from class: org.telegram.ui.web.WebBrowserSettings.2
+                    final EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(getContext()) { // from class: org.telegram.ui.web.WebBrowserSettings.2
                         /* JADX INFO: Access modifiers changed from: protected */
                         @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
                         public void onMeasure(int i8, int i9) {
                             super.onMeasure(i8, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(36.0f), 1073741824));
                         }
                     };
-                    final Runnable runnable = new Runnable() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda11
+                    final Runnable runnable = new Runnable() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda10
                         @Override // java.lang.Runnable
                         public final void run() {
                             WebBrowserSettings.this.lambda$onClick$11(editTextBoldCursor, r3);
                         }
                     };
-                    editTextBoldCursor.setOnEditorActionListener(new TextView.OnEditorActionListener(this) { // from class: org.telegram.ui.web.WebBrowserSettings.3
+                    editTextBoldCursor.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.web.WebBrowserSettings.3
                         @Override // android.widget.TextView.OnEditorActionListener
                         public boolean onEditorAction(TextView textView2, int i8, KeyEvent keyEvent) {
                             if (i8 == 6) {
@@ -424,26 +425,27 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
                     linearLayout2.addView(editTextBoldCursor, LayoutHelper.createLinear(-1, -2, 24.0f, 0.0f, 24.0f, 10.0f));
                     builder.setView(linearLayout2);
                     builder.setWidth(AndroidUtilities.dp(292.0f));
-                    builder.setPositiveButton(LocaleController.getString(R.string.Done), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda0
+                    builder.setPositiveButton(LocaleController.getString(R.string.Done), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda11
                         @Override // android.content.DialogInterface.OnClickListener
                         public final void onClick(DialogInterface dialogInterface, int i8) {
                             runnable.run();
                         }
                     });
-                    builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda4
+                    builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda12
                         @Override // android.content.DialogInterface.OnClickListener
                         public final void onClick(DialogInterface dialogInterface, int i8) {
                             dialogInterface.dismiss();
                         }
                     });
-                    final AlertDialog[] alertDialogArr = {builder.create()};
-                    alertDialogArr[0].setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda5
+                    AlertDialog create2 = builder.create();
+                    final AlertDialog[] alertDialogArr = {create2};
+                    create2.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda13
                         @Override // android.content.DialogInterface.OnDismissListener
                         public final void onDismiss(DialogInterface dialogInterface) {
                             AndroidUtilities.hideKeyboard(EditTextBoldCursor.this);
                         }
                     });
-                    alertDialogArr[0].setOnShowListener(new DialogInterface.OnShowListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda6
+                    alertDialogArr[0].setOnShowListener(new DialogInterface.OnShowListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda4
                         @Override // android.content.DialogInterface.OnShowListener
                         public final void onShow(DialogInterface dialogInterface) {
                             WebBrowserSettings.lambda$onClick$15(EditTextBoldCursor.this, dialogInterface);
@@ -555,25 +557,26 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
         RestrictedDomainsList.getInstance().setRestricted(true, lowerCase);
         WebMetadataCache.WebMetadata webMetadata = WebMetadataCache.getInstance().get(lowerCase);
         if (webMetadata != null && !TextUtils.isEmpty(webMetadata.sitename) && webMetadata.favicon != null) {
-            if (alertDialogArr[0] != null) {
-                alertDialogArr[0].dismiss();
+            AlertDialog alertDialog = alertDialogArr[0];
+            if (alertDialog != null) {
+                alertDialog.dismiss();
             }
             this.listView.adapter.update(true);
             return;
         }
-        final AlertDialog alertDialog = new AlertDialog(getContext(), 3);
-        final Runnable runnable = new Runnable() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda12
+        final AlertDialog alertDialog2 = new AlertDialog(getContext(), 3);
+        final Runnable runnable = new Runnable() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda14
             @Override // java.lang.Runnable
             public final void run() {
-                WebBrowserSettings.this.lambda$onClick$9(alertDialogArr, alertDialog);
+                WebBrowserSettings.this.lambda$onClick$9(alertDialogArr, alertDialog2);
             }
         };
         AndroidUtilities.runOnUIThread(runnable, 5000L);
-        alertDialog.showDelayed(300L);
-        WebMetadataCache.retrieveFaviconAndSitename("https://" + obj + "/", new Utilities.Callback2() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda13
+        alertDialog2.showDelayed(300L);
+        WebMetadataCache.retrieveFaviconAndSitename("https://" + obj + "/", new Utilities.Callback2() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda15
             @Override // org.telegram.messenger.Utilities.Callback2
             public final void run(Object obj2, Object obj3) {
-                WebBrowserSettings.this.lambda$onClick$10(runnable, alertDialog, lowerCase, (String) obj2, (Bitmap) obj3);
+                WebBrowserSettings.this.lambda$onClick$10(runnable, alertDialog2, lowerCase, (String) obj2, (Bitmap) obj3);
             }
         });
     }
@@ -673,7 +676,7 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
             if (bitmap != null) {
                 this.imageView.setImageBitmap(bitmap);
             } else {
-                CombinedDrawable combinedDrawable = new CombinedDrawable(Theme.createRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.multAlpha(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText), 0.1f)), new Drawable(this, charSequence2) { // from class: org.telegram.ui.web.WebBrowserSettings.WebsiteView.2
+                CombinedDrawable combinedDrawable = new CombinedDrawable(Theme.createRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.multAlpha(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText), 0.1f)), new Drawable(charSequence2) { // from class: org.telegram.ui.web.WebBrowserSettings.WebsiteView.2
                     private final Text text;
                     final /* synthetic */ String val$s;
 

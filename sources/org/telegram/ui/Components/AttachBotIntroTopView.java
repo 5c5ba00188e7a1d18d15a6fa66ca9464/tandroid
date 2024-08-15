@@ -33,7 +33,7 @@ public class AttachBotIntroTopView extends View {
         ImageReceiver imageReceiver = new ImageReceiver(this);
         this.imageReceiver = imageReceiver;
         imageReceiver.setAlpha(0.0f);
-        this.imageReceiver.setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.Components.AttachBotIntroTopView$$ExternalSyntheticLambda1
+        this.imageReceiver.setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.Components.AttachBotIntroTopView$$ExternalSyntheticLambda0
             @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
             public final void didSetImage(ImageReceiver imageReceiver2, boolean z, boolean z2, boolean z3) {
                 AttachBotIntroTopView.this.lambda$new$1(imageReceiver2, z, z2, z3);
@@ -58,7 +58,7 @@ public class AttachBotIntroTopView extends View {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(ImageReceiver imageReceiver, boolean z, boolean z2, boolean z3) {
         ValueAnimator duration = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(150L);
-        duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.AttachBotIntroTopView$$ExternalSyntheticLambda0
+        duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.AttachBotIntroTopView$$ExternalSyntheticLambda1
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 AttachBotIntroTopView.this.lambda$new$0(valueAnimator);

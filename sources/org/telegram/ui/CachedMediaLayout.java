@@ -127,8 +127,9 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
         while (true) {
             Page[] pageArr2 = this.allPages;
             if (i < pageArr2.length) {
-                if (pageArr2[i] != null) {
-                    this.pages.add(i, pageArr2[i]);
+                Page page = pageArr2[i];
+                if (page != null) {
+                    this.pages.add(i, page);
                 }
                 i++;
             } else {
@@ -267,7 +268,7 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
                 }
             });
             final BaseFragment baseFragment = this.val$parentFragment;
-            recyclerListView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListenerExtended() { // from class: org.telegram.ui.CachedMediaLayout$1$$ExternalSyntheticLambda5
+            recyclerListView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListenerExtended() { // from class: org.telegram.ui.CachedMediaLayout$1$$ExternalSyntheticLambda0
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListenerExtended
                 public final boolean onItemClick(View view, int i2, float f, float f2) {
                     boolean lambda$createView$5;
@@ -289,28 +290,28 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
         }
 
         public /* synthetic */ boolean lambda$createView$5(final RecyclerListView recyclerListView, final BaseFragment baseFragment, final View view, int i, float f, float f2) {
-            int i2;
             String str;
+            int i2;
             final BaseAdapter baseAdapter = (BaseAdapter) recyclerListView.getAdapter();
             final ItemInner itemInner = baseAdapter.itemInners.get(i);
             if ((view instanceof CacheCell) || (view instanceof SharedPhotoVideoCell2)) {
                 ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(CachedMediaLayout.this.getContext());
                 if (view instanceof SharedPhotoVideoCell2) {
-                    ActionBarMenuItem.addItem(actionBarPopupWindowLayout, R.drawable.msg_view_file, LocaleController.getString("CacheOpenFile", R.string.CacheOpenFile), false, null).setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CachedMediaLayout$1$$ExternalSyntheticLambda4
+                    ActionBarMenuItem.addItem(actionBarPopupWindowLayout, R.drawable.msg_view_file, LocaleController.getString("CacheOpenFile", R.string.CacheOpenFile), false, null).setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CachedMediaLayout$1$$ExternalSyntheticLambda1
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view2) {
                             CachedMediaLayout.1.this.lambda$createView$0(itemInner, baseAdapter, recyclerListView, view, view2);
                         }
                     });
                 } else if (((CacheCell) view).container.getChildAt(0) instanceof SharedAudioCell) {
-                    ActionBarMenuItem.addItem(actionBarPopupWindowLayout, R.drawable.msg_played, LocaleController.getString("PlayFile", R.string.PlayFile), false, null).setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CachedMediaLayout$1$$ExternalSyntheticLambda1
+                    ActionBarMenuItem.addItem(actionBarPopupWindowLayout, R.drawable.msg_played, LocaleController.getString("PlayFile", R.string.PlayFile), false, null).setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CachedMediaLayout$1$$ExternalSyntheticLambda2
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view2) {
                             CachedMediaLayout.1.this.lambda$createView$1(itemInner, view, view2);
                         }
                     });
                 } else {
-                    ActionBarMenuItem.addItem(actionBarPopupWindowLayout, R.drawable.msg_view_file, LocaleController.getString("CacheOpenFile", R.string.CacheOpenFile), false, null).setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CachedMediaLayout$1$$ExternalSyntheticLambda2
+                    ActionBarMenuItem.addItem(actionBarPopupWindowLayout, R.drawable.msg_view_file, LocaleController.getString("CacheOpenFile", R.string.CacheOpenFile), false, null).setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CachedMediaLayout$1$$ExternalSyntheticLambda3
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view2) {
                             CachedMediaLayout.1.this.lambda$createView$2(itemInner, view, view2);
@@ -319,7 +320,7 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
                 }
                 CacheModel.FileInfo fileInfo = itemInner.file;
                 if (fileInfo.dialogId != 0 && fileInfo.messageId != 0) {
-                    ActionBarMenuItem.addItem(actionBarPopupWindowLayout, R.drawable.msg_viewintopic, LocaleController.getString("ViewInChat", R.string.ViewInChat), false, null).setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CachedMediaLayout$1$$ExternalSyntheticLambda3
+                    ActionBarMenuItem.addItem(actionBarPopupWindowLayout, R.drawable.msg_viewintopic, LocaleController.getString("ViewInChat", R.string.ViewInChat), false, null).setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CachedMediaLayout$1$$ExternalSyntheticLambda4
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view2) {
                             CachedMediaLayout.1.this.lambda$createView$3(itemInner, baseFragment, view2);
@@ -328,13 +329,13 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
                 }
                 int i3 = R.drawable.msg_select;
                 if (CachedMediaLayout.this.cacheModel.selectedFiles.contains(itemInner.file)) {
-                    i2 = R.string.Deselect;
                     str = "Deselect";
+                    i2 = R.string.Deselect;
                 } else {
-                    i2 = R.string.Select;
                     str = "Select";
+                    i2 = R.string.Select;
                 }
-                ActionBarMenuItem.addItem(actionBarPopupWindowLayout, i3, LocaleController.getString(str, i2), false, null).setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CachedMediaLayout$1$$ExternalSyntheticLambda0
+                ActionBarMenuItem.addItem(actionBarPopupWindowLayout, i3, LocaleController.getString(str, i2), false, null).setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CachedMediaLayout$1$$ExternalSyntheticLambda5
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view2) {
                         CachedMediaLayout.1.this.lambda$createView$4(itemInner, view2);
@@ -491,8 +492,8 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
         super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i2), 1073741824));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:140:0x0129  */
-    /* JADX WARN: Removed duplicated region for block: B:143:0x0136  */
+    /* JADX WARN: Removed duplicated region for block: B:140:0x0127  */
+    /* JADX WARN: Removed duplicated region for block: B:143:0x0134  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -508,8 +509,9 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
                 if (i >= pageArr.length) {
                     break;
                 }
-                if (pageArr[i] != null) {
-                    if (pageArr[i].type == 0 && !this.cacheModel.entities.isEmpty()) {
+                Page page = pageArr[i];
+                if (page != null) {
+                    if (page.type == 0 && !this.cacheModel.entities.isEmpty()) {
                         this.pages.add(this.allPages[i]);
                     } else if (this.allPages[i].type == 1 && !this.cacheModel.media.isEmpty()) {
                         this.pages.add(this.allPages[i]);
@@ -584,10 +586,11 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
         public final int type;
 
         /* synthetic */ Page(CachedMediaLayout cachedMediaLayout, String str, int i, BaseAdapter baseAdapter, 1 r5) {
-            this(cachedMediaLayout, str, i, baseAdapter);
+            this(str, i, baseAdapter);
         }
 
-        private Page(CachedMediaLayout cachedMediaLayout, String str, int i, BaseAdapter baseAdapter) {
+        private Page(String str, int i, BaseAdapter baseAdapter) {
+            CachedMediaLayout.this = r1;
             this.title = str;
             this.type = i;
             this.adapter = baseAdapter;
@@ -601,7 +604,8 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
 
         abstract void update();
 
-        protected BaseAdapter(CachedMediaLayout cachedMediaLayout, int i) {
+        protected BaseAdapter(int i) {
+            CachedMediaLayout.this = r1;
             this.type = i;
         }
 
@@ -632,7 +636,7 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         private DialogsAdapter() {
-            super(r2, 0);
+            super(0);
             CachedMediaLayout.this = r2;
             this.old = new ArrayList<>();
         }
@@ -646,7 +650,7 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
                 for (int i = 0; i < CachedMediaLayout.this.cacheModel.entities.size(); i++) {
                     ArrayList<ItemInner> arrayList = this.itemInners;
                     CachedMediaLayout cachedMediaLayout = CachedMediaLayout.this;
-                    arrayList.add(new ItemInner(cachedMediaLayout, 1, cachedMediaLayout.cacheModel.entities.get(i)));
+                    arrayList.add(new ItemInner(1, cachedMediaLayout.cacheModel.entities.get(i)));
                 }
             }
             setItems(this.old, this.itemInners);
@@ -700,19 +704,19 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         protected BaseFilesAdapter(int i) {
-            super(r1, i);
+            super(i);
             CachedMediaLayout.this = r1;
             this.oldItems = new ArrayList<>();
         }
 
         @Override // org.telegram.ui.CachedMediaLayout.BaseAdapter
         void update() {
+            ArrayList<CacheModel.FileInfo> arrayList;
             this.oldItems.clear();
             this.oldItems.addAll(this.itemInners);
             this.itemInners.clear();
             CacheModel cacheModel = CachedMediaLayout.this.cacheModel;
             if (cacheModel != null) {
-                ArrayList<CacheModel.FileInfo> arrayList = null;
                 int i = this.type;
                 if (i == 1) {
                     arrayList = cacheModel.media;
@@ -722,12 +726,12 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
                     arrayList = cacheModel.music;
                 } else if (i == 5) {
                     arrayList = cacheModel.voice;
-                } else if (i == 4) {
-                    arrayList = cacheModel.stories;
+                } else {
+                    arrayList = i == 4 ? cacheModel.stories : null;
                 }
                 if (arrayList != null) {
                     for (int i2 = 0; i2 < arrayList.size(); i2++) {
-                        this.itemInners.add(new ItemInner(CachedMediaLayout.this, 2, arrayList.get(i2)));
+                        this.itemInners.add(new ItemInner(2, arrayList.get(i2)));
                     }
                 }
             }
@@ -740,13 +744,17 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
         CacheControlActivity.DialogFileEntities entities;
         CacheModel.FileInfo file;
 
-        public ItemInner(CachedMediaLayout cachedMediaLayout, int i, CacheControlActivity.DialogFileEntities dialogFileEntities) {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        public ItemInner(int i, CacheControlActivity.DialogFileEntities dialogFileEntities) {
             super(i, true);
+            CachedMediaLayout.this = r1;
             this.entities = dialogFileEntities;
         }
 
-        public ItemInner(CachedMediaLayout cachedMediaLayout, int i, CacheModel.FileInfo fileInfo) {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        public ItemInner(int i, CacheModel.FileInfo fileInfo) {
             super(i, true);
+            CachedMediaLayout.this = r1;
             this.file = fileInfo;
         }
 
@@ -758,7 +766,7 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
             if (this == obj) {
                 return true;
             }
-            if (obj != null && ItemInner.class == obj.getClass()) {
+            if (obj != null && getClass() == obj.getClass()) {
                 ItemInner itemInner = (ItemInner) obj;
                 int i = this.viewType;
                 if (i == itemInner.viewType) {
@@ -1234,8 +1242,10 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
         public void onCheckBoxPressed() {
         }
 
-        public CacheCell(CachedMediaLayout cachedMediaLayout, Context context) {
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        public CacheCell(Context context) {
             super(context);
+            CachedMediaLayout.this = r9;
             CheckBox2 checkBox2 = new CheckBox2(context, 21);
             this.checkBox = checkBox2;
             checkBox2.setDrawBackgroundAsArc(14);

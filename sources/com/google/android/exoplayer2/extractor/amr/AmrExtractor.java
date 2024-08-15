@@ -21,9 +21,6 @@ import java.util.Map;
 /* loaded from: classes.dex */
 public final class AmrExtractor implements Extractor {
     private static final int MAX_FRAME_SIZE_BYTES;
-    private static final byte[] amrSignatureNb;
-    private static final byte[] amrSignatureWb;
-    private static final int[] frameSizeBytesByTypeNb;
     private static final int[] frameSizeBytesByTypeWb;
     private int currentSampleBytesRemaining;
     private int currentSampleSize;
@@ -40,32 +37,32 @@ public final class AmrExtractor implements Extractor {
     private SeekMap seekMap;
     private long timeOffsetUs;
     private TrackOutput trackOutput;
+    public static final ExtractorsFactory FACTORY = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.amr.AmrExtractor$$ExternalSyntheticLambda0
+        @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+        public final Extractor[] createExtractors() {
+            Extractor[] lambda$static$0;
+            lambda$static$0 = AmrExtractor.lambda$static$0();
+            return lambda$static$0;
+        }
+
+        @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+        public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
+            Extractor[] createExtractors;
+            createExtractors = createExtractors();
+            return createExtractors;
+        }
+    };
+    private static final int[] frameSizeBytesByTypeNb = {13, 14, 16, 18, 20, 21, 27, 32, 6, 7, 6, 6, 1, 1, 1, 1};
+    private static final byte[] amrSignatureNb = Util.getUtf8Bytes("#!AMR\n");
+    private static final byte[] amrSignatureWb = Util.getUtf8Bytes("#!AMR-WB\n");
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
     public void release() {
     }
 
     static {
-        AmrExtractor$$ExternalSyntheticLambda0 amrExtractor$$ExternalSyntheticLambda0 = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.amr.AmrExtractor$$ExternalSyntheticLambda0
-            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
-            public final Extractor[] createExtractors() {
-                Extractor[] lambda$static$0;
-                lambda$static$0 = AmrExtractor.lambda$static$0();
-                return lambda$static$0;
-            }
-
-            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
-            public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
-                Extractor[] createExtractors;
-                createExtractors = createExtractors();
-                return createExtractors;
-            }
-        };
-        frameSizeBytesByTypeNb = new int[]{13, 14, 16, 18, 20, 21, 27, 32, 6, 7, 6, 6, 1, 1, 1, 1};
         int[] iArr = {18, 24, 33, 37, 41, 47, 51, 59, 61, 6, 1, 1, 1, 1, 1, 1};
         frameSizeBytesByTypeWb = iArr;
-        amrSignatureNb = Util.getUtf8Bytes("#!AMR\n");
-        amrSignatureWb = Util.getUtf8Bytes("#!AMR-WB\n");
         MAX_FRAME_SIZE_BYTES = iArr[8];
     }
 

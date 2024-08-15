@@ -195,7 +195,7 @@ public class QuoteSpan implements LeadingMarginSpan {
         return i3;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:57:0x0110  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x010a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -225,16 +225,18 @@ public class QuoteSpan implements LeadingMarginSpan {
         QuoteSpan[] quoteSpanArr = (QuoteSpan[]) spannable.getSpans(0, spannable.length(), QuoteSpan.class);
         ArrayList<Block> arrayList2 = arrayList;
         for (int i3 = 0; i3 < quoteSpanArr.length; i3++) {
-            boolean z2 = quoteSpanArr[i3].last;
-            Block block = new Block(view, layout, spannable, quoteSpanArr[i3]);
-            QuoteSpan quoteSpan2 = block.span;
-            if (quoteSpan2.edit) {
-                int i4 = quoteSpan2.start;
+            QuoteSpan quoteSpan2 = quoteSpanArr[i3];
+            boolean z2 = quoteSpan2.last;
+            Block block = new Block(view, layout, spannable, quoteSpan2);
+            QuoteSpan quoteSpan3 = block.span;
+            if (quoteSpan3.edit) {
+                int i4 = quoteSpan3.start;
                 if (i4 != 0 && text.charAt(i4 - 1) != '\n') {
                     spannable.removeSpan(quoteSpanArr[i3]);
                     spannable.removeSpan(quoteSpanArr[i3].styleSpan);
-                    if (quoteSpanArr[i3].collapsedSpan != null) {
-                        spannable.removeSpan(quoteSpanArr[i3].collapsedSpan);
+                    QuoteCollapsedPart quoteCollapsedPart = quoteSpanArr[i3].collapsedSpan;
+                    if (quoteCollapsedPart != null) {
+                        spannable.removeSpan(quoteCollapsedPart);
                     }
                 } else {
                     if (block.span.end != text.length() && text.charAt(block.span.end) != '\n') {
@@ -264,8 +266,8 @@ public class QuoteSpan implements LeadingMarginSpan {
                                     } else {
                                         i2 = i8 + 2;
                                         boolean z4 = Selection.getSelectionStart(spannableStringBuilder) == block.span.end && Selection.getSelectionStart(spannableStringBuilder) == Selection.getSelectionEnd(spannableStringBuilder);
-                                        QuoteSpan quoteSpan3 = block.span;
-                                        spannableStringBuilder.insert(quoteSpan3.end, (CharSequence) quoteSpan3.getNewlineHack());
+                                        QuoteSpan quoteSpan4 = block.span;
+                                        spannableStringBuilder.insert(quoteSpan4.end, (CharSequence) quoteSpan4.getNewlineHack());
                                         if (z4) {
                                             int selectionStart = Selection.getSelectionStart(spannableStringBuilder);
                                             int i9 = block.span.end;
@@ -277,12 +279,12 @@ public class QuoteSpan implements LeadingMarginSpan {
                                     block.span.end = Math.min(i2, spannable.length());
                                     spannable.removeSpan(quoteSpanArr[i3]);
                                     spannable.removeSpan(quoteSpanArr[i3].styleSpan);
-                                    QuoteSpan quoteSpan4 = quoteSpanArr[i3];
-                                    QuoteSpan quoteSpan5 = block.span;
-                                    spannable.setSpan(quoteSpan4, quoteSpan5.start, quoteSpan5.end, 33);
-                                    QuoteStyleSpan quoteStyleSpan = quoteSpanArr[i3].styleSpan;
+                                    QuoteSpan quoteSpan5 = quoteSpanArr[i3];
                                     QuoteSpan quoteSpan6 = block.span;
-                                    spannable.setSpan(quoteStyleSpan, quoteSpan6.start, quoteSpan6.end, 33);
+                                    spannable.setSpan(quoteSpan5, quoteSpan6.start, quoteSpan6.end, 33);
+                                    QuoteStyleSpan quoteStyleSpan = quoteSpanArr[i3].styleSpan;
+                                    QuoteSpan quoteSpan7 = block.span;
+                                    spannable.setSpan(quoteStyleSpan, quoteSpan7.start, quoteSpan7.end, 33);
                                     if (zArr != null) {
                                         zArr[0] = true;
                                     }
@@ -293,12 +295,12 @@ public class QuoteSpan implements LeadingMarginSpan {
                         if (z3 != z) {
                         }
                     }
-                    QuoteCollapsedPart quoteCollapsedPart = block.span.collapsedSpan;
-                    if (quoteCollapsedPart != null) {
-                        spannable.removeSpan(quoteCollapsedPart);
+                    QuoteCollapsedPart quoteCollapsedPart2 = block.span.collapsedSpan;
+                    if (quoteCollapsedPart2 != null) {
+                        spannable.removeSpan(quoteCollapsedPart2);
                     }
-                    QuoteSpan quoteSpan7 = block.span;
-                    if (quoteSpan7.isCollapsing && (lineStart = layout.getLineStart(Math.min(layout.getLineForOffset(quoteSpan7.start) + COLLAPSE_LINES, layout.getLineCount()))) < (i = (quoteSpan = block.span).end)) {
+                    QuoteSpan quoteSpan8 = block.span;
+                    if (quoteSpan8.isCollapsing && (lineStart = layout.getLineStart(Math.min(layout.getLineForOffset(quoteSpan8.start) + COLLAPSE_LINES, layout.getLineCount()))) < (i = (quoteSpan = block.span).end)) {
                         if (quoteSpan.collapsedSpan == null) {
                             quoteSpan.collapsedSpan = new QuoteCollapsedPart(block.span);
                         }
@@ -318,6 +320,7 @@ public class QuoteSpan implements LeadingMarginSpan {
     }
 
     public static ArrayList<Block> updateQuoteBlocksSpanned(Layout layout, ArrayList<Block> arrayList) {
+        QuoteSpan[] quoteSpanArr;
         if (layout == null) {
             if (arrayList != null) {
                 arrayList.clear();
@@ -335,10 +338,9 @@ public class QuoteSpan implements LeadingMarginSpan {
         if (arrayList != null) {
             arrayList.clear();
         }
-        QuoteSpan[] quoteSpanArr = (QuoteSpan[]) spanned.getSpans(0, spanned.length(), QuoteSpan.class);
-        for (int i = 0; i < quoteSpanArr.length; i++) {
-            boolean z = quoteSpanArr[i].last;
-            Block block = new Block(null, layout, spanned, quoteSpanArr[i]);
+        for (QuoteSpan quoteSpan : (QuoteSpan[]) spanned.getSpans(0, spanned.length(), QuoteSpan.class)) {
+            boolean z = quoteSpan.last;
+            Block block = new Block(null, layout, spanned, quoteSpan);
             if (arrayList == null) {
                 arrayList = new ArrayList<>();
             }

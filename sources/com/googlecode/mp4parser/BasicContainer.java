@@ -1,14 +1,11 @@
 package com.googlecode.mp4parser;
 
-import com.coremedia.iso.BoxParser;
 import com.coremedia.iso.boxes.Box;
 import com.coremedia.iso.boxes.Container;
-import com.googlecode.mp4parser.util.LazyList;
 import com.googlecode.mp4parser.util.Logger;
 import j$.util.Iterator;
 import j$.util.function.Consumer;
 import java.io.Closeable;
-import java.io.EOFException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.WritableByteChannel;
@@ -32,10 +29,10 @@ public class BasicContainer implements Container, Iterator<Box>, Closeable, j$.u
             return 0L;
         }
     };
-    protected BoxParser boxParser;
-    protected DataSource dataSource;
+    private static Logger LOG = Logger.getLogger(BasicContainer.class);
     Box lookahead = null;
     long parsePosition = 0;
+    long startPosition = 0;
     long endPosition = 0;
     private List<Box> boxes = new ArrayList();
 
@@ -44,15 +41,13 @@ public class BasicContainer implements Container, Iterator<Box>, Closeable, j$.u
         Iterator.-CC.$default$forEachRemaining(this, consumer);
     }
 
-    static {
-        Logger.getLogger(BasicContainer.class);
+    @Override // java.util.Iterator
+    public /* synthetic */ void forEachRemaining(java.util.function.Consumer<? super Box> consumer) {
+        forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
     }
 
     @Override // com.coremedia.iso.boxes.Container
     public List<Box> getBoxes() {
-        if (this.dataSource != null && this.lookahead != EOF) {
-            return new LazyList(this.boxes, this);
-        }
         return this.boxes;
     }
 
@@ -98,29 +93,13 @@ public class BasicContainer implements Container, Iterator<Box>, Closeable, j$.u
 
     @Override // java.util.Iterator, j$.util.Iterator
     public Box next() {
-        Box parseBox;
         Box box = this.lookahead;
         if (box != null && box != EOF) {
             this.lookahead = null;
             return box;
         }
-        DataSource dataSource = this.dataSource;
-        if (dataSource == null || this.parsePosition >= this.endPosition) {
-            this.lookahead = EOF;
-            throw new NoSuchElementException();
-        }
-        try {
-            synchronized (dataSource) {
-                this.dataSource.position(this.parsePosition);
-                parseBox = this.boxParser.parseBox(this.dataSource, this);
-                this.parsePosition = this.dataSource.position();
-            }
-            return parseBox;
-        } catch (EOFException unused) {
-            throw new NoSuchElementException();
-        } catch (IOException unused2) {
-            throw new NoSuchElementException();
-        }
+        this.lookahead = EOF;
+        throw new NoSuchElementException();
     }
 
     public String toString() {
@@ -144,6 +123,6 @@ public class BasicContainer implements Container, Iterator<Box>, Closeable, j$.u
     }
 
     public void close() throws IOException {
-        this.dataSource.close();
+        throw null;
     }
 }

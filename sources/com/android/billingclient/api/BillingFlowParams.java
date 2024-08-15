@@ -3,7 +3,6 @@ package com.android.billingclient.api;
 import android.text.TextUtils;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 /* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public class BillingFlowParams {
@@ -158,7 +157,7 @@ public class BillingFlowParams {
             public Builder setProductDetails(ProductDetails productDetails) {
                 this.zza = productDetails;
                 if (productDetails.getOneTimePurchaseOfferDetails() != null) {
-                    Objects.requireNonNull(productDetails.getOneTimePurchaseOfferDetails());
+                    productDetails.getOneTimePurchaseOfferDetails().getClass();
                     this.zzb = productDetails.getOneTimePurchaseOfferDetails().zza();
                 }
                 return this;

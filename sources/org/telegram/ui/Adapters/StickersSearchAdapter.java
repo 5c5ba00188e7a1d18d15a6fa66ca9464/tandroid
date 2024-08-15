@@ -199,7 +199,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
                     MediaDataController.getInstance(StickersSearchAdapter.this.currentAccount).fetchNewEmojiKeywords(currentKeyboardLanguage);
                 }
                 StickersSearchAdapter.this.delegate.setLastSearchKeyboardLanguage(currentKeyboardLanguage);
-                MediaDataController.getInstance(StickersSearchAdapter.this.currentAccount).getEmojiSuggestions(StickersSearchAdapter.this.delegate.getLastSearchKeyboardLanguage(), StickersSearchAdapter.this.searchQuery, false, new MediaDataController.KeywordResultCallback() { // from class: org.telegram.ui.Adapters.StickersSearchAdapter$1$$ExternalSyntheticLambda2
+                MediaDataController.getInstance(StickersSearchAdapter.this.currentAccount).getEmojiSuggestions(StickersSearchAdapter.this.delegate.getLastSearchKeyboardLanguage(), StickersSearchAdapter.this.searchQuery, false, new MediaDataController.KeywordResultCallback() { // from class: org.telegram.ui.Adapters.StickersSearchAdapter$1$$ExternalSyntheticLambda0
                     @Override // org.telegram.messenger.MediaDataController.KeywordResultCallback
                     public final void run(ArrayList arrayList3, String str) {
                         StickersSearchAdapter.1.this.lambda$run$0(access$804, allStickers, arrayList3, str);
@@ -252,7 +252,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
             final TLRPC$TL_messages_searchStickerSets tLRPC$TL_messages_searchStickerSets = new TLRPC$TL_messages_searchStickerSets();
             tLRPC$TL_messages_searchStickerSets.q = StickersSearchAdapter.this.searchQuery;
             StickersSearchAdapter stickersSearchAdapter2 = StickersSearchAdapter.this;
-            stickersSearchAdapter2.reqId = ConnectionsManager.getInstance(stickersSearchAdapter2.currentAccount).sendRequest(tLRPC$TL_messages_searchStickerSets, new RequestDelegate() { // from class: org.telegram.ui.Adapters.StickersSearchAdapter$1$$ExternalSyntheticLambda4
+            stickersSearchAdapter2.reqId = ConnectionsManager.getInstance(stickersSearchAdapter2.currentAccount).sendRequest(tLRPC$TL_messages_searchStickerSets, new RequestDelegate() { // from class: org.telegram.ui.Adapters.StickersSearchAdapter$1$$ExternalSyntheticLambda1
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     StickersSearchAdapter.1.this.lambda$run$2(tLRPC$TL_messages_searchStickerSets, tLObject, tLRPC$TL_error);
@@ -263,7 +263,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
                 tLRPC$TL_messages_getStickers.emoticon = StickersSearchAdapter.this.searchQuery;
                 tLRPC$TL_messages_getStickers.hash = 0L;
                 StickersSearchAdapter stickersSearchAdapter3 = StickersSearchAdapter.this;
-                stickersSearchAdapter3.reqId2 = ConnectionsManager.getInstance(stickersSearchAdapter3.currentAccount).sendRequest(tLRPC$TL_messages_getStickers, new RequestDelegate() { // from class: org.telegram.ui.Adapters.StickersSearchAdapter$1$$ExternalSyntheticLambda3
+                stickersSearchAdapter3.reqId2 = ConnectionsManager.getInstance(stickersSearchAdapter3.currentAccount).sendRequest(tLRPC$TL_messages_getStickers, new RequestDelegate() { // from class: org.telegram.ui.Adapters.StickersSearchAdapter$1$$ExternalSyntheticLambda2
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         StickersSearchAdapter.1.this.lambda$run$4(tLRPC$TL_messages_getStickers, arrayList, longSparseArray, tLObject, tLRPC$TL_error);
@@ -300,7 +300,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$run$2(final TLRPC$TL_messages_searchStickerSets tLRPC$TL_messages_searchStickerSets, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
             if (tLObject instanceof TLRPC$TL_messages_foundStickerSets) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.StickersSearchAdapter$1$$ExternalSyntheticLambda1
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.StickersSearchAdapter$1$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
                         StickersSearchAdapter.1.this.lambda$run$1(tLRPC$TL_messages_searchStickerSets, tLObject);
@@ -323,7 +323,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$run$4(final TLRPC$TL_messages_getStickers tLRPC$TL_messages_getStickers, final ArrayList arrayList, final LongSparseArray longSparseArray, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.StickersSearchAdapter$1$$ExternalSyntheticLambda0
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.StickersSearchAdapter$1$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
                     StickersSearchAdapter.1.this.lambda$run$3(tLRPC$TL_messages_getStickers, tLObject, arrayList, longSparseArray);
@@ -432,7 +432,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
         View view;
         LinearLayout linearLayout;
         if (i == 0) {
-            StickerEmojiCell stickerEmojiCell = new StickerEmojiCell(this, this.context, false, this.resourcesProvider) { // from class: org.telegram.ui.Adapters.StickersSearchAdapter.2
+            StickerEmojiCell stickerEmojiCell = new StickerEmojiCell(this.context, false, this.resourcesProvider) { // from class: org.telegram.ui.Adapters.StickersSearchAdapter.2
                 @Override // android.widget.FrameLayout, android.view.View
                 public void onMeasure(int i2, int i3) {
                     super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(82.0f), 1073741824));

@@ -9,13 +9,9 @@ import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 /* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
 public final class zzg extends AbstractSafeParcelable implements Result {
-    public static final Parcelable.Creator<zzg> CREATOR;
     private final Status zzb;
-
-    static {
-        new zzg(Status.RESULT_SUCCESS);
-        CREATOR = new zzh();
-    }
+    public static final zzg zza = new zzg(Status.RESULT_SUCCESS);
+    public static final Parcelable.Creator<zzg> CREATOR = new zzh();
 
     public zzg(Status status) {
         this.zzb = status;

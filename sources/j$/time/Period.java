@@ -27,10 +27,10 @@ public final class Period implements Serializable {
     }
 
     public static Period between(LocalDate localDate, LocalDate localDate2) {
-        return localDate.t(localDate2);
+        return localDate.s(localDate2);
     }
 
-    public boolean equals(Object obj) {
+    public final boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
@@ -45,16 +45,15 @@ public final class Period implements Serializable {
         return this.a;
     }
 
-    public int hashCode() {
+    public final int hashCode() {
         return Integer.rotateLeft(this.c, 16) + Integer.rotateLeft(this.b, 8) + this.a;
     }
 
-    public String toString() {
+    public final String toString() {
         if (this == d) {
             return "P0D";
         }
-        StringBuilder sb = new StringBuilder();
-        sb.append('P');
+        StringBuilder sb = new StringBuilder("P");
         int i = this.a;
         if (i != 0) {
             sb.append(i);

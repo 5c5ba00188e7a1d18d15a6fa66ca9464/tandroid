@@ -86,12 +86,14 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
 
     /* JADX INFO: Access modifiers changed from: private */
     public void createMediaSession() {
+        MediaSession.Token sessionToken;
         if (this.mediaSession != null) {
             return;
         }
         MediaSession mediaSession = new MediaSession(this, "MusicService");
         this.mediaSession = mediaSession;
-        setSessionToken(mediaSession.getSessionToken());
+        sessionToken = mediaSession.getSessionToken();
+        setSessionToken(sessionToken);
         this.mediaSession.setCallback(new MediaSessionCallback());
         this.mediaSession.setFlags(3);
         Context applicationContext = getApplicationContext();
@@ -135,7 +137,7 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
             }
             this.loadingChats = true;
             final MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
-            messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MusicBrowserService$$ExternalSyntheticLambda1
+            messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MusicBrowserService$$ExternalSyntheticLambda29
                 @Override // java.lang.Runnable
                 public final void run() {
                     MusicBrowserService.this.lambda$onLoadChildren$1(messagesStorage, str, result);
@@ -148,6 +150,8 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onLoadChildren$1(MessagesStorage messagesStorage, final String str, final MediaBrowserService.Result result) {
+        MediaDescription.Builder mediaId;
+        MediaDescription build;
         try {
             ArrayList<Long> arrayList = new ArrayList<>();
             ArrayList arrayList2 = new ArrayList();
@@ -187,10 +191,11 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
                             MessageObject messageObject = new MessageObject(this.currentAccount, TLdeserialize, false, true);
                             arrayList3.add(0, messageObject);
                             MediaDescription.Builder builder = new MediaDescription.Builder();
-                            MediaDescription.Builder mediaId = builder.setMediaId(longValue2 + "_" + arrayList3.size());
+                            mediaId = builder.setMediaId(longValue2 + "_" + arrayList3.size());
                             mediaId.setTitle(messageObject.getMusicTitle());
                             mediaId.setSubtitle(messageObject.getMusicAuthor());
-                            arrayList4.add(0, new MediaSession.QueueItem(mediaId.build(), (long) arrayList4.size()));
+                            build = mediaId.build();
+                            arrayList4.add(0, new MediaSession.QueueItem(build, (long) arrayList4.size()));
                         }
                     }
                 }
@@ -215,7 +220,7 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
         } catch (Exception e) {
             FileLog.e(e);
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MusicBrowserService$$ExternalSyntheticLambda0
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MusicBrowserService$$ExternalSyntheticLambda30
             @Override // java.lang.Runnable
             public final void run() {
                 MusicBrowserService.this.lambda$onLoadChildren$0(str, result);
@@ -225,6 +230,7 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onLoadChildren$0(String str, MediaBrowserService.Result result) {
+        MediaMetadata build;
         this.chatsLoaded = true;
         this.loadingChats = false;
         loadChildrenImpl(str, result);
@@ -259,7 +265,9 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
                 builder.putLong("android.media.metadata.DURATION", (long) (messageObject.getDuration() * 1000.0d));
                 builder.putString("android.media.metadata.ARTIST", messageObject.getMusicAuthor());
                 builder.putString("android.media.metadata.TITLE", messageObject.getMusicTitle());
-                this.mediaSession.setMetadata(builder.build());
+                MediaSession mediaSession = this.mediaSession;
+                build = builder.build();
+                mediaSession.setMetadata(build);
             }
         }
         updatePlaybackState(null);
@@ -282,46 +290,51 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
     */
     private void loadChildrenImpl(String str, MediaBrowserService.Result<List<MediaBrowser.MediaItem>> result) {
         int i;
+        MediaDescription.Builder mediaId;
+        MediaDescription build;
+        MediaDescription.Builder mediaId2;
         TLRPC$FileLocation tLRPC$FileLocation;
+        MediaDescription build2;
         ArrayList arrayList = new ArrayList();
         int i2 = 0;
         if (MEDIA_ID_ROOT.equals(str)) {
             while (i2 < this.dialogs.size()) {
                 long longValue = this.dialogs.get(i2).longValue();
-                MediaDescription.Builder mediaId = new MediaDescription.Builder().setMediaId("__CHAT_" + longValue);
+                mediaId2 = new MediaDescription.Builder().setMediaId("__CHAT_" + longValue);
                 Bitmap bitmap = null;
                 if (DialogObject.isUserDialog(longValue)) {
                     TLRPC$User tLRPC$User = this.users.get(longValue);
                     if (tLRPC$User != null) {
-                        mediaId.setTitle(ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name));
+                        mediaId2.setTitle(ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name));
                         TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto = tLRPC$User.photo;
                         if (tLRPC$UserProfilePhoto != null) {
                             tLRPC$FileLocation = tLRPC$UserProfilePhoto.photo_small;
                         }
                     } else {
-                        mediaId.setTitle("DELETED USER");
+                        mediaId2.setTitle("DELETED USER");
                     }
                     tLRPC$FileLocation = null;
                 } else {
                     TLRPC$Chat tLRPC$Chat = this.chats.get(-longValue);
                     if (tLRPC$Chat != null) {
-                        mediaId.setTitle(tLRPC$Chat.title);
+                        mediaId2.setTitle(tLRPC$Chat.title);
                         TLRPC$ChatPhoto tLRPC$ChatPhoto = tLRPC$Chat.photo;
                         if (tLRPC$ChatPhoto != null) {
                             tLRPC$FileLocation = tLRPC$ChatPhoto.photo_small;
                         }
                     } else {
-                        mediaId.setTitle("DELETED CHAT");
+                        mediaId2.setTitle("DELETED CHAT");
                     }
                     tLRPC$FileLocation = null;
                 }
                 if (tLRPC$FileLocation != null && (bitmap = createRoundBitmap(FileLoader.getInstance(this.currentAccount).getPathToAttach(tLRPC$FileLocation, true))) != null) {
-                    mediaId.setIconBitmap(bitmap);
+                    mediaId2.setIconBitmap(bitmap);
                 }
                 if (tLRPC$FileLocation == null || bitmap == null) {
-                    mediaId.setIconUri(Uri.parse("android.resource://" + getApplicationContext().getPackageName() + "/drawable/contact_blue"));
+                    mediaId2.setIconUri(Uri.parse("android.resource://" + getApplicationContext().getPackageName() + "/drawable/contact_blue"));
                 }
-                arrayList.add(new MediaBrowser.MediaItem(mediaId.build(), 1));
+                build2 = mediaId2.build();
+                arrayList.add(new MediaBrowser.MediaItem(build2, 1));
                 i2++;
             }
         } else if (str != null && str.startsWith("__CHAT_")) {
@@ -335,10 +348,11 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
             if (arrayList2 != null) {
                 while (i2 < arrayList2.size()) {
                     MessageObject messageObject = arrayList2.get(i2);
-                    MediaDescription.Builder mediaId2 = new MediaDescription.Builder().setMediaId(i + "_" + i2);
-                    mediaId2.setTitle(messageObject.getMusicTitle());
-                    mediaId2.setSubtitle(messageObject.getMusicAuthor());
-                    arrayList.add(new MediaBrowser.MediaItem(mediaId2.build(), 2));
+                    mediaId = new MediaDescription.Builder().setMediaId(i + "_" + i2);
+                    mediaId.setTitle(messageObject.getMusicTitle());
+                    mediaId.setSubtitle(messageObject.getMusicAuthor());
+                    build = mediaId.build();
+                    arrayList.add(new MediaBrowser.MediaItem(build, 2));
                     i2++;
                 }
             }
@@ -495,11 +509,13 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
     }
 
     private void updatePlaybackState(String str) {
+        PlaybackState.Builder actions;
         int i;
         int i2;
+        PlaybackState build;
         MessageObject playingMessageObject = MediaController.getInstance().getPlayingMessageObject();
         long j = playingMessageObject != null ? playingMessageObject.audioProgressSec * 1000 : -1L;
-        PlaybackState.Builder actions = new PlaybackState.Builder().setActions(getAvailableActions());
+        actions = new PlaybackState.Builder().setActions(getAvailableActions());
         if (playingMessageObject == null) {
             i = 1;
         } else if (MediaController.getInstance().isDownloadingCurrentMessage()) {
@@ -521,7 +537,8 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
         }
         MediaSession mediaSession = this.mediaSession;
         if (mediaSession != null) {
-            mediaSession.setPlaybackState(actions.build());
+            build = actions.build();
+            mediaSession.setPlaybackState(build);
         }
     }
 
@@ -545,8 +562,16 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x0028, code lost:
+        if (r0 == false) goto L18;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void handlePlayRequest() {
+        MediaMetadata build;
         Bitmap cover;
+        boolean isActive;
         this.delayedStopHandler.removeCallbacksAndMessages(null);
         if (!this.serviceStarted) {
             try {
@@ -557,10 +582,11 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
             this.serviceStarted = true;
         }
         MediaSession mediaSession = this.mediaSession;
-        if (mediaSession == null || !mediaSession.isActive()) {
-            createMediaSession();
-            this.mediaSession.setActive(true);
+        if (mediaSession != null) {
+            isActive = mediaSession.isActive();
         }
+        createMediaSession();
+        this.mediaSession.setActive(true);
         MessageObject playingMessageObject = MediaController.getInstance().getPlayingMessageObject();
         if (playingMessageObject == null) {
             return;
@@ -573,7 +599,9 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
         if (audioInfo != null && (cover = audioInfo.getCover()) != null) {
             builder.putBitmap("android.media.metadata.ALBUM_ART", cover);
         }
-        this.mediaSession.setMetadata(builder.build());
+        MediaSession mediaSession2 = this.mediaSession;
+        build = builder.build();
+        mediaSession2.setMetadata(build);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

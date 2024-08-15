@@ -38,6 +38,7 @@ public class AdjustPanLayoutHelper {
     private boolean ignoreOnce;
     boolean inverse;
     boolean isKeyboardVisible;
+    protected float keyboardSize;
     private boolean needDelay;
     AnimationNotificationsLocker notificationsLocker;
     ViewTreeObserver.OnPreDrawListener onPreDrawListener;
@@ -80,7 +81,7 @@ public class AdjustPanLayoutHelper {
             this.ignoreOnce = false;
         } else if (this.enabled) {
             startTransition(i, i2, z);
-            this.animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.AdjustPanLayoutHelper$$ExternalSyntheticLambda0
+            this.animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.AdjustPanLayoutHelper$$ExternalSyntheticLambda2
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     AdjustPanLayoutHelper.this.lambda$animateHeight$0(valueAnimator);
@@ -117,8 +118,8 @@ public class AdjustPanLayoutHelper {
         updateTransition(((Float) valueAnimator.getAnimatedValue()).floatValue());
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:19:0x005b  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0071  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x005e  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0074  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -140,7 +141,7 @@ public class AdjustPanLayoutHelper {
                 this.resizableView.requestLayout();
                 onTransitionStart(z, i, i2);
                 float f = i2 - i;
-                Math.abs(f);
+                this.keyboardSize = Math.abs(f);
                 this.animationInProgress = true;
                 if (i2 <= i) {
                     float f2 = f - startOffset;
@@ -169,7 +170,7 @@ public class AdjustPanLayoutHelper {
         this.resizableView.requestLayout();
         onTransitionStart(z, i, i2);
         float f4 = i2 - i;
-        Math.abs(f4);
+        this.keyboardSize = Math.abs(f4);
         this.animationInProgress = true;
         if (i2 <= i) {
         }
@@ -397,16 +398,19 @@ public class AdjustPanLayoutHelper {
         view.setWindowInsetsAnimationCallback(new WindowInsetsAnimation.Callback(1) { // from class: org.telegram.ui.ActionBar.AdjustPanLayoutHelper.4
             @Override // android.view.WindowInsetsAnimation.Callback
             public WindowInsets onProgress(WindowInsets windowInsets, List<WindowInsetsAnimation> list) {
+                WindowInsetsAnimation windowInsetsAnimation;
+                float interpolatedFraction;
+                int typeMask;
                 if (AdjustPanLayoutHelper.this.animationInProgress && AndroidUtilities.screenRefreshRate >= 90.0f) {
-                    WindowInsetsAnimation windowInsetsAnimation = null;
                     Iterator<WindowInsetsAnimation> it = list.iterator();
                     while (true) {
                         if (!it.hasNext()) {
+                            windowInsetsAnimation = null;
                             break;
                         }
-                        WindowInsetsAnimation next = it.next();
-                        if ((next.getTypeMask() & WindowInsetsCompat.Type.ime()) != 0) {
-                            windowInsetsAnimation = next;
+                        windowInsetsAnimation = it.next();
+                        typeMask = windowInsetsAnimation.getTypeMask();
+                        if ((typeMask & WindowInsetsCompat.Type.ime()) != 0) {
                             break;
                         }
                     }
@@ -415,7 +419,9 @@ public class AdjustPanLayoutHelper {
                         AdjustPanLayoutHelper adjustPanLayoutHelper = AdjustPanLayoutHelper.this;
                         if (elapsedRealtime >= adjustPanLayoutHelper.startAfter) {
                             adjustPanLayoutHelper.usingInsetAnimator = true;
-                            AdjustPanLayoutHelper.this.updateTransition(windowInsetsAnimation.getInterpolatedFraction());
+                            AdjustPanLayoutHelper adjustPanLayoutHelper2 = AdjustPanLayoutHelper.this;
+                            interpolatedFraction = windowInsetsAnimation.getInterpolatedFraction();
+                            adjustPanLayoutHelper2.updateTransition(interpolatedFraction);
                         }
                     }
                 }

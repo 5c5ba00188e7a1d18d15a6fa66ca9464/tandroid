@@ -22,6 +22,7 @@ import org.telegram.ui.Components.StickerImageView;
 public class SuggestClearDatabaseBottomSheet extends BottomSheet {
     @SuppressLint({"StaticFieldLeak"})
     private static SuggestClearDatabaseBottomSheet dialog;
+    BaseFragment fragment;
 
     public static void show(BaseFragment baseFragment) {
         if (dialog == null) {
@@ -33,6 +34,7 @@ public class SuggestClearDatabaseBottomSheet extends BottomSheet {
 
     private SuggestClearDatabaseBottomSheet(final BaseFragment baseFragment) {
         super(baseFragment.getParentActivity(), false);
+        this.fragment = baseFragment;
         Activity parentActivity = baseFragment.getParentActivity();
         LinearLayout linearLayout = new LinearLayout(parentActivity);
         linearLayout.setOrientation(1);
@@ -63,7 +65,7 @@ public class SuggestClearDatabaseBottomSheet extends BottomSheet {
         textView3.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
         textView3.setBackgroundDrawable(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor(Theme.key_featuredStickers_addButton), ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_windowBackgroundWhite), 120)));
         linearLayout.addView(textView3, LayoutHelper.createFrame(-1, 48.0f, 0, 16.0f, 15.0f, 16.0f, 16.0f));
-        textView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.SuggestClearDatabaseBottomSheet$$ExternalSyntheticLambda1
+        textView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.SuggestClearDatabaseBottomSheet$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 SuggestClearDatabaseBottomSheet.this.lambda$new$1(baseFragment, view);
@@ -80,7 +82,7 @@ public class SuggestClearDatabaseBottomSheet extends BottomSheet {
         builder.setTitle(LocaleController.getString("LocalDatabaseClearTextTitle", R.string.LocalDatabaseClearTextTitle));
         builder.setMessage(LocaleController.getString("LocalDatabaseClearText", R.string.LocalDatabaseClearText));
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-        builder.setPositiveButton(LocaleController.getString("CacheClear", R.string.CacheClear), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.SuggestClearDatabaseBottomSheet$$ExternalSyntheticLambda0
+        builder.setPositiveButton(LocaleController.getString("CacheClear", R.string.CacheClear), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.SuggestClearDatabaseBottomSheet$$ExternalSyntheticLambda1
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 SuggestClearDatabaseBottomSheet.this.lambda$new$0(baseFragment, dialogInterface, i);

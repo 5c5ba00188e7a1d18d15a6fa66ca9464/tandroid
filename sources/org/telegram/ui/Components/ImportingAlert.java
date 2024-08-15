@@ -114,7 +114,7 @@ public class ImportingAlert extends BottomSheet implements NotificationCenter.No
         super(context, false, resourcesProvider);
         this.importCountTextView = new TextView[2];
         this.infoTextView = new TextView[2];
-        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.ImportingAlert$$ExternalSyntheticLambda1
+        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.ImportingAlert$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 ImportingAlert.this.lambda$new$0();
@@ -162,7 +162,7 @@ public class ImportingAlert extends BottomSheet implements NotificationCenter.No
         bottomSheetCell.setBackground(null);
         this.cell.setText(LocaleController.getString("ImportDone", R.string.ImportDone));
         this.cell.setVisibility(4);
-        this.cell.background.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ImportingAlert$$ExternalSyntheticLambda0
+        this.cell.background.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ImportingAlert$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ImportingAlert.this.lambda$new$1(view);

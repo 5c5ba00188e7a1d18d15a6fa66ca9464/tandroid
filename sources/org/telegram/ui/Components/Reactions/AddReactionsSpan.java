@@ -59,7 +59,7 @@ public class AddReactionsSpan extends ReplacementSpan {
 
     public void show(final View view) {
         ValueAnimator ofInt = ValueAnimator.ofInt(this.alpha, 255);
-        ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Reactions.AddReactionsSpan$$ExternalSyntheticLambda1
+        ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Reactions.AddReactionsSpan$$ExternalSyntheticLambda0
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 AddReactionsSpan.this.lambda$show$0(view, valueAnimator);
@@ -77,13 +77,13 @@ public class AddReactionsSpan extends ReplacementSpan {
 
     public void hide(final View view, final Runnable runnable) {
         ValueAnimator ofInt = ValueAnimator.ofInt(this.alpha, 0);
-        ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Reactions.AddReactionsSpan$$ExternalSyntheticLambda0
+        ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Reactions.AddReactionsSpan$$ExternalSyntheticLambda1
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 AddReactionsSpan.this.lambda$hide$1(view, valueAnimator);
             }
         });
-        ofInt.addListener(new AnimatorListenerAdapter(this) { // from class: org.telegram.ui.Components.Reactions.AddReactionsSpan.1
+        ofInt.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Reactions.AddReactionsSpan.1
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 runnable.run();

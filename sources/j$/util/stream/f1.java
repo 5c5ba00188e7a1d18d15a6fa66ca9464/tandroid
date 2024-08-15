@@ -1,32 +1,56 @@
 package j$.util.stream;
 
-import j$.util.function.Predicate;
+import java.util.ArrayDeque;
 /* loaded from: classes2.dex */
-class f1 extends j1 {
-    final /* synthetic */ k1 c;
-    final /* synthetic */ Predicate d;
-
+abstract class f1 extends h1 implements j$.util.N {
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public f1(k1 k1Var, Predicate predicate) {
-        super(k1Var);
-        this.c = k1Var;
-        this.d = predicate;
+    public f1(C0 c0) {
+        super(c0);
     }
 
-    @Override // j$.util.function.Consumer
-    public void accept(Object obj) {
-        boolean z;
-        boolean z2;
-        if (this.a) {
+    @Override // j$.util.N
+    /* renamed from: forEachRemaining */
+    public final void d(Object obj) {
+        if (this.a == null) {
             return;
         }
-        boolean test = this.d.test(obj);
-        z = this.c.a;
-        if (test == z) {
-            this.a = true;
-            z2 = this.c.b;
-            this.b = z2;
+        if (this.d != null) {
+            do {
+            } while (o(obj));
+            return;
         }
+        j$.util.Q q = this.c;
+        if (q != null) {
+            ((j$.util.N) q).forEachRemaining(obj);
+            return;
+        }
+        ArrayDeque g = g();
+        while (true) {
+            C0 c0 = (C0) h1.f(g);
+            if (c0 == null) {
+                this.a = null;
+                return;
+            }
+            c0.d(obj);
+        }
+    }
+
+    @Override // j$.util.N
+    /* renamed from: tryAdvance */
+    public final boolean o(Object obj) {
+        C0 c0;
+        if (h()) {
+            boolean tryAdvance = ((j$.util.N) this.d).tryAdvance(obj);
+            if (!tryAdvance) {
+                if (this.c == null && (c0 = (C0) h1.f(this.e)) != null) {
+                    j$.util.N spliterator = c0.spliterator();
+                    this.d = spliterator;
+                    return spliterator.tryAdvance(obj);
+                }
+                this.a = null;
+            }
+            return tryAdvance;
+        }
+        return false;
     }
 }

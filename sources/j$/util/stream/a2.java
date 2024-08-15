@@ -1,34 +1,55 @@
 package j$.util.stream;
+
+import j$.util.function.Consumer;
 /* loaded from: classes2.dex */
-abstract class a2 implements A1 {
-    @Override // j$.util.stream.A1
-    public A1 b(int i) {
-        throw new IndexOutOfBoundsException();
+public abstract class a2 implements e2 {
+    protected final f2 a;
+
+    public a2(f2 f2Var) {
+        f2Var.getClass();
+        this.a = f2Var;
     }
 
-    @Override // j$.util.stream.A1
-    public long count() {
-        return 0L;
+    @Override // j$.util.stream.f2, j$.util.stream.c2, j$.util.function.m
+    public final /* synthetic */ void accept(double d) {
+        u0.i0();
+        throw null;
     }
 
-    public void d(Object obj, int i) {
+    @Override // j$.util.stream.f2
+    public final /* synthetic */ void accept(int i) {
+        u0.p0();
+        throw null;
     }
 
-    public void g(Object obj) {
+    @Override // j$.util.function.Consumer
+    public final /* bridge */ /* synthetic */ void accept(Object obj) {
+        l((Long) obj);
     }
 
-    @Override // j$.util.stream.A1
-    public /* synthetic */ int p() {
-        return 0;
+    @Override // j$.util.function.Consumer
+    public final /* synthetic */ Consumer andThen(Consumer consumer) {
+        return Consumer.-CC.$default$andThen(this, consumer);
     }
 
-    @Override // j$.util.stream.A1
-    public Object[] q(j$.util.function.m mVar) {
-        return (Object[]) mVar.apply(0);
+    @Override // j$.util.stream.f2
+    public void end() {
+        this.a.end();
     }
 
-    @Override // j$.util.stream.A1
-    public /* synthetic */ A1 r(long j, long j2, j$.util.function.m mVar) {
-        return o1.q(this, j, j2, mVar);
+    @Override // j$.util.stream.f2
+    public boolean h() {
+        return this.a.h();
+    }
+
+    @Override // j$.util.function.h0
+    public final j$.util.function.h0 i(j$.util.function.h0 h0Var) {
+        h0Var.getClass();
+        return new j$.util.function.e0(this, h0Var);
+    }
+
+    @Override // j$.util.stream.e2
+    public final /* synthetic */ void l(Long l) {
+        u0.n0(this, l);
     }
 }

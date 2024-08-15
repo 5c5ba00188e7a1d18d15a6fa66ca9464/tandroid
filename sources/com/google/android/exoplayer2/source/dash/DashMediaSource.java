@@ -611,8 +611,8 @@ public final class DashMediaSource extends BaseMediaSource {
                 f2 = serviceDescriptionElement6 != null ? serviceDescriptionElement6.maxPlaybackSpeed : -3.4028235E38f;
             }
             if (f == -3.4028235E38f && f2 == -3.4028235E38f && ((serviceDescriptionElement = this.manifest.serviceDescription) == null || serviceDescriptionElement.targetOffsetMs == -9223372036854775807L)) {
-                f2 = 1.0f;
                 f = 1.0f;
+                f2 = 1.0f;
             }
             this.liveConfiguration = new MediaItem.LiveConfiguration.Builder().setTargetOffsetMs(j7).setMinOffsetMs(j5).setMaxOffsetMs(j3).setMinPlaybackSpeed(f).setMaxPlaybackSpeed(f2).build();
         }
@@ -645,8 +645,8 @@ public final class DashMediaSource extends BaseMediaSource {
         if (f2 == -3.4028235E38f) {
         }
         if (f == -3.4028235E38f) {
-            f2 = 1.0f;
             f = 1.0f;
+            f2 = 1.0f;
         }
         this.liveConfiguration = new MediaItem.LiveConfiguration.Builder().setTargetOffsetMs(j7).setMinOffsetMs(j5).setMaxOffsetMs(j3).setMinPlaybackSpeed(f).setMaxPlaybackSpeed(f2).build();
     }

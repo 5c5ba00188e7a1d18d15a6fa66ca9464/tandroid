@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 /* loaded from: classes.dex */
 public final class DataSpec {
+    @Deprecated
+    public final long absoluteStreamPosition;
     public final Object customData;
     public final int flags;
     public final byte[] httpBody;
@@ -129,8 +131,9 @@ public final class DataSpec {
 
     private DataSpec(Uri uri, long j, int i, byte[] bArr, Map<String, String> map, long j2, long j3, String str, int i2, Object obj) {
         byte[] bArr2 = bArr;
+        long j4 = j + j2;
         boolean z = true;
-        Assertions.checkArgument(j + j2 >= 0);
+        Assertions.checkArgument(j4 >= 0);
         Assertions.checkArgument(j2 >= 0);
         if (j3 <= 0 && j3 != -1) {
             z = false;
@@ -142,6 +145,7 @@ public final class DataSpec {
         this.httpBody = (bArr2 == null || bArr2.length == 0) ? null : bArr2;
         this.httpRequestHeaders = Collections.unmodifiableMap(new HashMap(map));
         this.position = j2;
+        this.absoluteStreamPosition = j4;
         this.length = j3;
         this.key = str;
         this.flags = i2;

@@ -14,30 +14,27 @@ import java.io.IOException;
 import java.util.Map;
 /* loaded from: classes.dex */
 public class OggExtractor implements Extractor {
+    public static final ExtractorsFactory FACTORY = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.ogg.OggExtractor$$ExternalSyntheticLambda0
+        @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+        public final Extractor[] createExtractors() {
+            Extractor[] lambda$static$0;
+            lambda$static$0 = OggExtractor.lambda$static$0();
+            return lambda$static$0;
+        }
+
+        @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+        public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
+            Extractor[] createExtractors;
+            createExtractors = createExtractors();
+            return createExtractors;
+        }
+    };
     private ExtractorOutput output;
     private StreamReader streamReader;
     private boolean streamReaderInitialized;
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
     public void release() {
-    }
-
-    static {
-        OggExtractor$$ExternalSyntheticLambda0 oggExtractor$$ExternalSyntheticLambda0 = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.ogg.OggExtractor$$ExternalSyntheticLambda0
-            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
-            public final Extractor[] createExtractors() {
-                Extractor[] lambda$static$0;
-                lambda$static$0 = OggExtractor.lambda$static$0();
-                return lambda$static$0;
-            }
-
-            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
-            public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
-                Extractor[] createExtractors;
-                createExtractors = createExtractors();
-                return createExtractors;
-            }
-        };
     }
 
     /* JADX INFO: Access modifiers changed from: private */

@@ -39,13 +39,11 @@ final class SubripSubtitle implements Subtitle {
 
     @Override // com.google.android.exoplayer2.text.Subtitle
     public List<Cue> getCues(long j) {
+        Cue cue;
         int binarySearchFloor = Util.binarySearchFloor(this.cueTimesUs, j, true, false);
-        if (binarySearchFloor != -1) {
-            Cue[] cueArr = this.cues;
-            if (cueArr[binarySearchFloor] != Cue.EMPTY) {
-                return Collections.singletonList(cueArr[binarySearchFloor]);
-            }
+        if (binarySearchFloor == -1 || (cue = this.cues[binarySearchFloor]) == Cue.EMPTY) {
+            return Collections.emptyList();
         }
-        return Collections.emptyList();
+        return Collections.singletonList(cue);
     }
 }

@@ -6,7 +6,6 @@ import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.util.Assertions;
 /* loaded from: classes.dex */
 public final class SinglePeriodTimeline extends Timeline {
-    private static final Object UID = new Object();
     private final long elapsedRealtimeEpochOffsetMs;
     private final boolean isDynamic;
     private final boolean isSeekable;
@@ -20,6 +19,8 @@ public final class SinglePeriodTimeline extends Timeline {
     private final long windowDurationUs;
     private final long windowPositionInPeriodUs;
     private final long windowStartTimeMs;
+    private static final Object UID = new Object();
+    private static final MediaItem MEDIA_ITEM = new MediaItem.Builder().setMediaId("SinglePeriodTimeline").setUri(Uri.EMPTY).build();
 
     @Override // com.google.android.exoplayer2.Timeline
     public int getPeriodCount() {
@@ -29,10 +30,6 @@ public final class SinglePeriodTimeline extends Timeline {
     @Override // com.google.android.exoplayer2.Timeline
     public int getWindowCount() {
         return 1;
-    }
-
-    static {
-        new MediaItem.Builder().setMediaId("SinglePeriodTimeline").setUri(Uri.EMPTY).build();
     }
 
     public SinglePeriodTimeline(long j, boolean z, boolean z2, boolean z3, Object obj, MediaItem mediaItem) {
@@ -60,7 +57,7 @@ public final class SinglePeriodTimeline extends Timeline {
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:12:0x002b, code lost:
-        if (r1 > r5) goto L9;
+        if (r1 > r3) goto L9;
      */
     @Override // com.google.android.exoplayer2.Timeline
     /*

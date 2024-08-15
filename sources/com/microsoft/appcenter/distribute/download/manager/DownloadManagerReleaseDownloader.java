@@ -138,15 +138,15 @@ public class DownloadManagerReleaseDownloader extends AbstractReleaseDownloader 
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void onDownloadComplete(Cursor cursor) {
+        boolean z;
         if (isCancelled()) {
             return;
         }
         AppCenterLog.debug("AppCenterDistribute", "Download was successful for id=" + this.mDownloadId);
-        boolean z = false;
         if (this.mListener.onComplete(Uri.parse(cursor.getString(cursor.getColumnIndexOrThrow("local_uri"))))) {
             z = true;
-        } else if (Build.VERSION.SDK_INT < 24) {
-            z = this.mListener.onComplete(getFileUriOnOldDevices(cursor));
+        } else {
+            z = Build.VERSION.SDK_INT < 24 ? this.mListener.onComplete(getFileUriOnOldDevices(cursor)) : false;
         }
         if (!z) {
             this.mListener.onError("Installer not found");

@@ -75,8 +75,11 @@ public final class SavedStateHandlesProvider implements SavedStateRegistry.Saved
             bundle3.remove(key);
         }
         Bundle bundle4 = this.restoredState;
-        boolean z = true;
-        if ((bundle4 == null || !bundle4.isEmpty()) ? false : false) {
+        boolean z = false;
+        if (bundle4 != null && bundle4.isEmpty()) {
+            z = true;
+        }
+        if (z) {
             this.restoredState = null;
         }
         return bundle2;

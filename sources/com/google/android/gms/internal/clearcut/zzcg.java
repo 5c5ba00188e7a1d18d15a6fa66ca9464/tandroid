@@ -115,7 +115,10 @@ public abstract class zzcg<MessageType extends zzcg<MessageType, BuilderType>, B
 
     /* loaded from: classes.dex */
     public static class zzb<T extends zzcg<T, ?>> extends zzau<T> {
+        private T zzjs;
+
         public zzb(T t) {
+            this.zzjs = t;
         }
     }
 
@@ -180,11 +183,13 @@ public abstract class zzcg<MessageType extends zzcg<MessageType, BuilderType>, B
         public static final int zzkh = 5;
         public static final int zzki = 6;
         public static final int zzkj = 7;
-        private static final /* synthetic */ int[] zzkk = {1, 2, 3, 4, 5, 6, 7};
         public static final int zzkl = 1;
         public static final int zzkm = 2;
         public static final int zzko = 1;
         public static final int zzkp = 2;
+        private static final /* synthetic */ int[] zzkk = {1, 2, 3, 4, 5, 6, 7};
+        private static final /* synthetic */ int[] zzkn = {1, 2};
+        private static final /* synthetic */ int[] zzkq = {1, 2};
 
         public static int[] values$50KLMJ33DTMIUPRFDTJMOP9FE1P6UT3FC9QMCBQ7CLN6ASJ1EHIM8JB5EDPM2PR59HKN8P949LIN8Q3FCHA6UIBEEPNMMP9R0() {
             return (int[]) zzkk.clone();

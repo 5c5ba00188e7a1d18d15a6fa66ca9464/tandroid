@@ -199,7 +199,7 @@ public class PollVotesAlert extends BottomSheet {
             textView.setTextSize(1, 14.0f);
             this.middleTextView.setTextColor(Theme.getColor(i));
             this.middleTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
-            AnimatedTextView animatedTextView = new AnimatedTextView(getContext(), PollVotesAlert.this) { // from class: org.telegram.ui.Components.PollVotesAlert.SectionCell.1
+            AnimatedTextView animatedTextView = new AnimatedTextView(getContext()) { // from class: org.telegram.ui.Components.PollVotesAlert.SectionCell.1
                 @Override // android.view.View
                 public boolean post(Runnable runnable) {
                     return ((BottomSheet) PollVotesAlert.this).containerView.post(runnable);
@@ -617,13 +617,14 @@ public class PollVotesAlert extends BottomSheet {
                 final int i8 = i4;
                 i = size;
                 i2 = i4;
-                numArr[i2] = Integer.valueOf(chatActivity.getConnectionsManager().sendRequest(tLRPC$TL_messages_getPollVotes, new RequestDelegate() { // from class: org.telegram.ui.Components.PollVotesAlert$$ExternalSyntheticLambda4
+                Integer valueOf = Integer.valueOf(chatActivity.getConnectionsManager().sendRequest(tLRPC$TL_messages_getPollVotes, new RequestDelegate() { // from class: org.telegram.ui.Components.PollVotesAlert$$ExternalSyntheticLambda1
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         PollVotesAlert.this.lambda$new$1(numArr, i8, chatActivity, arrayList, tLRPC$TL_pollAnswerVoters, tLObject, tLRPC$TL_error);
                     }
                 }));
-                this.queries.add(numArr[i2]);
+                numArr[i2] = valueOf;
+                this.queries.add(valueOf);
             }
             i4 = i2 + 1;
             size = i;
@@ -813,7 +814,7 @@ public class PollVotesAlert extends BottomSheet {
         defaultItemAnimator.setTranslationInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
         this.listView.setItemAnimator(defaultItemAnimator);
         this.listView.setClipToPadding(false);
-        this.listView.setLayoutManager(new LinearLayoutManager(this, getContext(), 1, false) { // from class: org.telegram.ui.Components.PollVotesAlert.5
+        this.listView.setLayoutManager(new LinearLayoutManager(getContext(), 1, false) { // from class: org.telegram.ui.Components.PollVotesAlert.5
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.LinearLayoutManager
             public int getExtraLayoutSpace(RecyclerView.State state) {
@@ -829,7 +830,7 @@ public class PollVotesAlert extends BottomSheet {
         this.listAdapter = adapter;
         recyclerListView.setAdapter(adapter);
         this.listView.setGlowColor(Theme.getColor(Theme.key_dialogScrollGlow));
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.PollVotesAlert$$ExternalSyntheticLambda6
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.PollVotesAlert$$ExternalSyntheticLambda2
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i11) {
                 PollVotesAlert.this.lambda$new$4(chatActivity, view, i11);
@@ -921,7 +922,7 @@ public class PollVotesAlert extends BottomSheet {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(final Integer[] numArr, final int i, final ChatActivity chatActivity, final ArrayList arrayList, final TLRPC$TL_pollAnswerVoters tLRPC$TL_pollAnswerVoters, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PollVotesAlert$$ExternalSyntheticLambda1
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PollVotesAlert$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 PollVotesAlert.this.lambda$new$0(numArr, i, tLObject, chatActivity, arrayList, tLRPC$TL_pollAnswerVoters);
@@ -1032,12 +1033,10 @@ public class PollVotesAlert extends BottomSheet {
                 tLRPC$TL_messages_getPollVotes.peer = this.peer;
                 tLRPC$TL_messages_getPollVotes.id = this.messageObject.getId();
                 tLRPC$TL_messages_getPollVotes.limit = 50;
-                int i3 = tLRPC$TL_messages_getPollVotes.flags | 1;
-                tLRPC$TL_messages_getPollVotes.flags = i3;
                 tLRPC$TL_messages_getPollVotes.option = votesList.option;
-                tLRPC$TL_messages_getPollVotes.flags = i3 | 2;
+                tLRPC$TL_messages_getPollVotes.flags = tLRPC$TL_messages_getPollVotes.flags | 1 | 2;
                 tLRPC$TL_messages_getPollVotes.offset = votesList.next_offset;
-                this.chatActivity.getConnectionsManager().sendRequest(tLRPC$TL_messages_getPollVotes, new RequestDelegate() { // from class: org.telegram.ui.Components.PollVotesAlert$$ExternalSyntheticLambda3
+                this.chatActivity.getConnectionsManager().sendRequest(tLRPC$TL_messages_getPollVotes, new RequestDelegate() { // from class: org.telegram.ui.Components.PollVotesAlert$$ExternalSyntheticLambda4
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         PollVotesAlert.this.lambda$new$3(votesList, chatActivity, tLObject, tLRPC$TL_error);
@@ -1076,7 +1075,7 @@ public class PollVotesAlert extends BottomSheet {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$3(final VotesList votesList, final ChatActivity chatActivity, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PollVotesAlert$$ExternalSyntheticLambda0
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PollVotesAlert$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 PollVotesAlert.this.lambda$new$2(votesList, tLObject, chatActivity);
@@ -1141,7 +1140,7 @@ public class PollVotesAlert extends BottomSheet {
         if (!z || i == 0) {
             return;
         }
-        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.ui.Components.PollVotesAlert$$ExternalSyntheticLambda2
+        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.ui.Components.PollVotesAlert$$ExternalSyntheticLambda5
             @Override // java.util.Comparator
             public final int compare(Object obj, Object obj2) {
                 int lambda$updateButtons$5;
@@ -1257,6 +1256,7 @@ public class PollVotesAlert extends BottomSheet {
 
     /* loaded from: classes3.dex */
     public class Adapter extends RecyclerListView.SectionsAdapter {
+        private int currentAccount = UserConfig.selectedAccount;
         private Context mContext;
 
         @Override // org.telegram.ui.Components.RecyclerListView.FastScrollAdapter
@@ -1265,7 +1265,6 @@ public class PollVotesAlert extends BottomSheet {
         }
 
         public Adapter(Context context) {
-            int i = UserConfig.selectedAccount;
             this.mContext = context;
         }
 
@@ -1346,8 +1345,8 @@ public class PollVotesAlert extends BottomSheet {
             } else {
                 view.setAlpha(1.0f);
                 VotesList votesList = (VotesList) PollVotesAlert.this.voters.get(i - 1);
-                int i2 = 0;
                 int size = PollVotesAlert.this.poll.answers.size();
+                int i2 = 0;
                 while (true) {
                     if (i2 >= size) {
                         break;
@@ -1483,8 +1482,8 @@ public class PollVotesAlert extends BottomSheet {
                 if (pinnedHeader.getTag(i2) instanceof VotesList) {
                     SectionCell sectionCell = (SectionCell) pinnedHeader;
                     VotesList votesList = (VotesList) pinnedHeader.getTag(i2);
-                    int i3 = 0;
                     int size = this.poll.answers.size();
+                    int i3 = 0;
                     while (true) {
                         if (i3 < size) {
                             TLRPC$PollAnswer tLRPC$PollAnswer = this.poll.answers.get(i3);
@@ -1508,7 +1507,7 @@ public class PollVotesAlert extends BottomSheet {
     @Override // org.telegram.ui.ActionBar.BottomSheet
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.Components.PollVotesAlert$$ExternalSyntheticLambda5
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.Components.PollVotesAlert$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 PollVotesAlert.this.updatePlaceholder();

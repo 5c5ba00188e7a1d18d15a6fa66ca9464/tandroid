@@ -31,6 +31,7 @@ public final class zzy$zzy extends zzeo<zzy$zzy, zza> implements zzgb {
             zzd(3),
             zze(4);
             
+            private static final zzes<zzb> zzf = new zzae();
             private final int zzg;
 
             @Override // com.google.android.gms.internal.mlkit_language_id.zzet
@@ -49,10 +50,6 @@ public final class zzy$zzy extends zzeo<zzy$zzy, zza> implements zzgb {
 
             zzb(int i) {
                 this.zzg = i;
-            }
-
-            static {
-                new zzae();
             }
         }
 
@@ -133,7 +130,7 @@ public final class zzy$zzy extends zzeo<zzy$zzy, zza> implements zzgb {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Type inference failed for: r3v14, types: [com.google.android.gms.internal.mlkit_language_id.zzgj<com.google.android.gms.internal.mlkit_language_id.zzy$zzy>, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
+    /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.mlkit_language_id.zzgj<com.google.android.gms.internal.mlkit_language_id.zzy$zzy>, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzeo
     public final Object zza(int i, Object obj, Object obj2) {
         zzgj<zzy$zzy> zzgjVar;

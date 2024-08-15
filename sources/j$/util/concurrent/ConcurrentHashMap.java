@@ -1,1738 +1,67 @@
 package j$.util.concurrent;
 
-import j$.util.Iterator;
 import j$.util.function.BiConsumer;
 import j$.util.function.BiFunction;
-import j$.util.function.Consumer;
 import j$.util.function.Function;
-import j$.util.function.Predicate;
-import j$.wrappers.L;
-import j$.wrappers.O0;
-import j$.wrappers.S;
-import j$.wrappers.w;
-import j$.wrappers.w0;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectStreamField;
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.AbstractMap;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Comparator;
-import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Objects;
 import java.util.Set;
-import java.util.Spliterator;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.locks.LockSupport;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.function.IntFunction;
-import java.util.stream.Stream;
 import org.telegram.messenger.LiteMode;
 import org.telegram.tgnet.ConnectionsManager;
 import sun.misc.Unsafe;
 /* loaded from: classes2.dex */
-public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V>, Serializable, j$.util.concurrent.b {
-    static final int g = Runtime.getRuntime().availableProcessors();
-    private static final Unsafe h;
-    private static final long i;
-    private static final long j;
+public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V>, Serializable, v {
+    private static final int g = (1 << (32 - 16)) - 1;
+    private static final int h = 32 - 16;
+    static final int i = Runtime.getRuntime().availableProcessors();
+    private static final Unsafe j;
     private static final long k;
     private static final long l;
     private static final long m;
     private static final long n;
-    private static final int o;
+    private static final long o;
+    private static final long p;
+    private static final int q;
     private static final ObjectStreamField[] serialPersistentFields;
     private static final long serialVersionUID = 7249069246763182397L;
-    volatile transient l[] a;
-    private volatile transient l[] b;
+    volatile transient m[] a;
+    private volatile transient m[] b;
     private volatile transient long baseCount;
-    private volatile transient c[] c;
+    private volatile transient d[] c;
     private volatile transient int cellsBusy;
-    private transient i d;
-    private transient u e;
-    private transient e f;
+    private transient j d;
+    private transient t e;
+    private transient f f;
     private volatile transient int sizeCtl;
     private volatile transient int transferIndex;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes2.dex */
-    public static class a extends p {
-        final ConcurrentHashMap i;
-        l j;
-
-        a(l[] lVarArr, int i, int i2, int i3, ConcurrentHashMap concurrentHashMap) {
-            super(lVarArr, i, i2, i3);
-            this.i = concurrentHashMap;
-            a();
-        }
-
-        public final boolean hasMoreElements() {
-            return this.b != null;
-        }
-
-        public final boolean hasNext() {
-            return this.b != null;
-        }
-
-        public final void remove() {
-            l lVar = this.j;
-            if (lVar == null) {
-                throw new IllegalStateException();
-            }
-            this.j = null;
-            this.i.i(lVar.b, null, null);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes2.dex */
-    public static final class c {
-        volatile long value;
-
-        c(long j) {
-            this.value = j;
-        }
-    }
-
-    /* loaded from: classes2.dex */
-    static final class d extends a implements Iterator, j$.util.Iterator {
-        d(l[] lVarArr, int i, int i2, int i3, ConcurrentHashMap concurrentHashMap) {
-            super(lVarArr, i, i2, i3, concurrentHashMap);
-        }
-
-        @Override // j$.util.Iterator
-        public /* synthetic */ void forEachRemaining(Consumer consumer) {
-            Iterator.-CC.$default$forEachRemaining(this, consumer);
-        }
-
-        @Override // java.util.Iterator
-        public /* synthetic */ void forEachRemaining(java.util.function.Consumer consumer) {
-            Iterator.-CC.$default$forEachRemaining(this, w.b(consumer));
-        }
-
-        @Override // java.util.Iterator, j$.util.Iterator
-        public Object next() {
-            l lVar = this.b;
-            if (lVar != null) {
-                Object obj = lVar.b;
-                Object obj2 = lVar.c;
-                this.j = lVar;
-                a();
-                return new k(obj, obj2, this.i);
-            }
-            throw new NoSuchElementException();
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes2.dex */
-    public static final class e extends b implements Set, j$.util.b {
-        e(ConcurrentHashMap concurrentHashMap) {
-            super(concurrentHashMap);
-        }
-
-        @Override // java.util.Collection, java.util.Set
-        /* renamed from: a */
-        public boolean add(Map.Entry entry) {
-            return this.a.h(entry.getKey(), entry.getValue(), false) == null;
-        }
-
-        @Override // java.util.Collection, java.util.Set
-        public boolean addAll(Collection collection) {
-            java.util.Iterator it = collection.iterator();
-            boolean z = false;
-            while (it.hasNext()) {
-                if (add((Map.Entry) it.next())) {
-                    z = true;
-                }
-            }
-            return z;
-        }
-
-        @Override // j$.util.concurrent.ConcurrentHashMap.b, java.util.Collection
-        public boolean contains(Object obj) {
-            Map.Entry entry;
-            Object key;
-            Object obj2;
-            Object value;
-            return (!(obj instanceof Map.Entry) || (key = (entry = (Map.Entry) obj).getKey()) == null || (obj2 = this.a.get(key)) == null || (value = entry.getValue()) == null || (value != obj2 && !value.equals(obj2))) ? false : true;
-        }
-
-        @Override // java.util.Collection, java.util.Set
-        public final boolean equals(Object obj) {
-            Set set;
-            return (obj instanceof Set) && ((set = (Set) obj) == this || (containsAll(set) && set.containsAll(this)));
-        }
-
-        @Override // j$.util.b, j$.lang.e
-        public void forEach(Consumer consumer) {
-            Objects.requireNonNull(consumer);
-            l[] lVarArr = this.a.a;
-            if (lVarArr == null) {
-                return;
-            }
-            p pVar = new p(lVarArr, lVarArr.length, 0, lVarArr.length);
-            while (true) {
-                l a = pVar.a();
-                if (a == null) {
-                    return;
-                }
-                consumer.accept(new k(a.b, a.c, this.a));
-            }
-        }
-
-        @Override // java.lang.Iterable
-        public /* synthetic */ void forEach(java.util.function.Consumer consumer) {
-            forEach(w.b(consumer));
-        }
-
-        @Override // java.util.Collection, java.util.Set
-        public final int hashCode() {
-            l[] lVarArr = this.a.a;
-            int i = 0;
-            if (lVarArr != null) {
-                p pVar = new p(lVarArr, lVarArr.length, 0, lVarArr.length);
-                while (true) {
-                    l a = pVar.a();
-                    if (a == null) {
-                        break;
-                    }
-                    i += a.hashCode();
-                }
-            }
-            return i;
-        }
-
-        @Override // j$.util.concurrent.ConcurrentHashMap.b, java.util.Collection, java.lang.Iterable
-        public java.util.Iterator iterator() {
-            ConcurrentHashMap concurrentHashMap = this.a;
-            l[] lVarArr = concurrentHashMap.a;
-            int length = lVarArr == null ? 0 : lVarArr.length;
-            return new d(lVarArr, length, 0, length, concurrentHashMap);
-        }
-
-        @Override // j$.util.b
-        public /* synthetic */ boolean k(Predicate predicate) {
-            return j$.util.a.h(this, predicate);
-        }
-
-        @Override // java.util.Collection
-        public /* synthetic */ Stream parallelStream() {
-            return O0.i0(j$.util.a.g(this));
-        }
-
-        @Override // java.util.Collection, java.util.Set
-        public boolean remove(Object obj) {
-            Map.Entry entry;
-            Object key;
-            Object value;
-            return (obj instanceof Map.Entry) && (key = (entry = (Map.Entry) obj).getKey()) != null && (value = entry.getValue()) != null && this.a.remove(key, value);
-        }
-
-        @Override // java.util.Collection
-        public /* synthetic */ boolean removeIf(java.util.function.Predicate predicate) {
-            return j$.util.a.h(this, w0.a(predicate));
-        }
-
-        @Override // java.util.Collection, java.lang.Iterable, java.util.Set, j$.util.b, j$.lang.e
-        public j$.util.s spliterator() {
-            ConcurrentHashMap concurrentHashMap = this.a;
-            long m = concurrentHashMap.m();
-            l[] lVarArr = concurrentHashMap.a;
-            int length = lVarArr == null ? 0 : lVarArr.length;
-            return new f(lVarArr, length, 0, length, m >= 0 ? m : 0L, concurrentHashMap);
-        }
-
-        @Override // java.util.Collection, java.lang.Iterable, java.util.Set
-        public /* synthetic */ Spliterator spliterator() {
-            return j$.wrappers.h.a(spliterator());
-        }
-
-        @Override // java.util.Collection, j$.util.b
-        public /* synthetic */ j$.util.stream.Stream stream() {
-            return j$.util.a.i(this);
-        }
-
-        @Override // java.util.Collection
-        public /* synthetic */ Stream stream() {
-            return O0.i0(j$.util.a.i(this));
-        }
-
-        public Object[] toArray(IntFunction intFunction) {
-            return toArray((Object[]) S.a(intFunction).apply(0));
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes2.dex */
-    public static final class f extends p implements j$.util.s {
-        final ConcurrentHashMap i;
-        long j;
-
-        f(l[] lVarArr, int i, int i2, int i3, long j, ConcurrentHashMap concurrentHashMap) {
-            super(lVarArr, i, i2, i3);
-            this.i = concurrentHashMap;
-            this.j = j;
-        }
-
-        @Override // j$.util.s
-        public boolean b(Consumer consumer) {
-            Objects.requireNonNull(consumer);
-            l a = a();
-            if (a == null) {
-                return false;
-            }
-            consumer.accept(new k(a.b, a.c, this.i));
-            return true;
-        }
-
-        @Override // j$.util.s
-        public int characteristics() {
-            return 4353;
-        }
-
-        @Override // j$.util.s
-        public long estimateSize() {
-            return this.j;
-        }
-
-        @Override // j$.util.s
-        public void forEachRemaining(Consumer consumer) {
-            Objects.requireNonNull(consumer);
-            while (true) {
-                l a = a();
-                if (a == null) {
-                    return;
-                }
-                consumer.accept(new k(a.b, a.c, this.i));
-            }
-        }
-
-        @Override // j$.util.s
-        public Comparator getComparator() {
-            throw new IllegalStateException();
-        }
-
-        @Override // j$.util.s
-        public /* synthetic */ long getExactSizeIfKnown() {
-            return j$.util.a.e(this);
-        }
-
-        @Override // j$.util.s
-        public /* synthetic */ boolean hasCharacteristics(int i) {
-            return j$.util.a.f(this, i);
-        }
-
-        @Override // j$.util.s
-        public j$.util.s trySplit() {
-            int i = this.f;
-            int i2 = this.g;
-            int i3 = (i + i2) >>> 1;
-            if (i3 <= i) {
-                return null;
-            }
-            l[] lVarArr = this.a;
-            int i4 = this.h;
-            this.g = i3;
-            long j = this.j >>> 1;
-            this.j = j;
-            return new f(lVarArr, i4, i3, i2, j, this.i);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes2.dex */
-    public static final class g extends l {
-        final l[] e;
-
-        g(l[] lVarArr) {
-            super(-1, null, null, null);
-            this.e = lVarArr;
-        }
-
-        /* JADX WARN: Code restructure failed: missing block: B:20:0x0027, code lost:
-            if ((r0 instanceof j$.util.concurrent.ConcurrentHashMap.g) == false) goto L28;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:21:0x0029, code lost:
-            r0 = ((j$.util.concurrent.ConcurrentHashMap.g) r0).e;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:23:0x0032, code lost:
-            return r0.a(r5, r6);
-         */
-        @Override // j$.util.concurrent.ConcurrentHashMap.l
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
-        l a(int i, Object obj) {
-            int length;
-            l n;
-            Object obj2;
-            l[] lVarArr = this.e;
-            loop0: while (lVarArr != null && (length = lVarArr.length) != 0 && (n = ConcurrentHashMap.n(lVarArr, (length - 1) & i)) != null) {
-                while (true) {
-                    int i2 = n.a;
-                    if (i2 != i || ((obj2 = n.b) != obj && (obj2 == null || !obj.equals(obj2)))) {
-                        if (i2 >= 0) {
-                            n = n.d;
-                            if (n == null) {
-                                break loop0;
-                            }
-                        } else {
-                            break;
-                        }
-                    }
-                }
-                return n;
-            }
-            return null;
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes2.dex */
-    public static final class h extends a implements java.util.Iterator, Enumeration, j$.util.Iterator {
-        h(l[] lVarArr, int i, int i2, int i3, ConcurrentHashMap concurrentHashMap) {
-            super(lVarArr, i, i2, i3, concurrentHashMap);
-        }
-
-        @Override // j$.util.Iterator
-        public /* synthetic */ void forEachRemaining(Consumer consumer) {
-            Iterator.-CC.$default$forEachRemaining(this, consumer);
-        }
-
-        @Override // java.util.Iterator
-        public /* synthetic */ void forEachRemaining(java.util.function.Consumer consumer) {
-            Iterator.-CC.$default$forEachRemaining(this, w.b(consumer));
-        }
-
-        @Override // java.util.Iterator, j$.util.Iterator
-        public final Object next() {
-            l lVar = this.b;
-            if (lVar != null) {
-                Object obj = lVar.b;
-                this.j = lVar;
-                a();
-                return obj;
-            }
-            throw new NoSuchElementException();
-        }
-
-        @Override // java.util.Enumeration
-        public final Object nextElement() {
-            return next();
-        }
-    }
-
-    /* loaded from: classes2.dex */
-    public static class i extends b implements Set, j$.util.b {
-        i(ConcurrentHashMap concurrentHashMap, Object obj) {
-            super(concurrentHashMap);
-        }
-
-        @Override // java.util.Collection, java.util.Set
-        public boolean add(Object obj) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override // java.util.Collection, java.util.Set
-        public boolean addAll(Collection collection) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override // j$.util.concurrent.ConcurrentHashMap.b, java.util.Collection
-        public boolean contains(Object obj) {
-            return this.a.containsKey(obj);
-        }
-
-        @Override // java.util.Collection, java.util.Set
-        public boolean equals(Object obj) {
-            Set set;
-            return (obj instanceof Set) && ((set = (Set) obj) == this || (containsAll(set) && set.containsAll(this)));
-        }
-
-        @Override // j$.util.b, j$.lang.e
-        public void forEach(Consumer consumer) {
-            Objects.requireNonNull(consumer);
-            l[] lVarArr = this.a.a;
-            if (lVarArr == null) {
-                return;
-            }
-            p pVar = new p(lVarArr, lVarArr.length, 0, lVarArr.length);
-            while (true) {
-                l a = pVar.a();
-                if (a == null) {
-                    return;
-                }
-                consumer.accept(a.b);
-            }
-        }
-
-        @Override // java.lang.Iterable
-        public /* synthetic */ void forEach(java.util.function.Consumer consumer) {
-            forEach(w.b(consumer));
-        }
-
-        @Override // java.util.Collection, java.util.Set
-        public int hashCode() {
-            java.util.Iterator it = iterator();
-            int i = 0;
-            while (((a) it).hasNext()) {
-                i += ((h) it).next().hashCode();
-            }
-            return i;
-        }
-
-        @Override // j$.util.concurrent.ConcurrentHashMap.b, java.util.Collection, java.lang.Iterable
-        public java.util.Iterator iterator() {
-            ConcurrentHashMap concurrentHashMap = this.a;
-            l[] lVarArr = concurrentHashMap.a;
-            int length = lVarArr == null ? 0 : lVarArr.length;
-            return new h(lVarArr, length, 0, length, concurrentHashMap);
-        }
-
-        @Override // j$.util.b
-        public /* synthetic */ boolean k(Predicate predicate) {
-            return j$.util.a.h(this, predicate);
-        }
-
-        @Override // java.util.Collection
-        public /* synthetic */ Stream parallelStream() {
-            return O0.i0(j$.util.a.g(this));
-        }
-
-        @Override // java.util.Collection, java.util.Set
-        public boolean remove(Object obj) {
-            return this.a.remove(obj) != null;
-        }
-
-        @Override // java.util.Collection
-        public /* synthetic */ boolean removeIf(java.util.function.Predicate predicate) {
-            return j$.util.a.h(this, w0.a(predicate));
-        }
-
-        @Override // java.util.Collection, java.lang.Iterable, java.util.Set, j$.util.b, j$.lang.e
-        public j$.util.s spliterator() {
-            ConcurrentHashMap concurrentHashMap = this.a;
-            long m = concurrentHashMap.m();
-            l[] lVarArr = concurrentHashMap.a;
-            int length = lVarArr == null ? 0 : lVarArr.length;
-            return new j(lVarArr, length, 0, length, m >= 0 ? m : 0L);
-        }
-
-        @Override // java.util.Collection, java.lang.Iterable, java.util.Set
-        public /* synthetic */ Spliterator spliterator() {
-            return j$.wrappers.h.a(spliterator());
-        }
-
-        @Override // java.util.Collection, j$.util.b
-        public /* synthetic */ j$.util.stream.Stream stream() {
-            return j$.util.a.i(this);
-        }
-
-        @Override // java.util.Collection
-        public /* synthetic */ Stream stream() {
-            return O0.i0(j$.util.a.i(this));
-        }
-
-        public Object[] toArray(IntFunction intFunction) {
-            return toArray((Object[]) S.a(intFunction).apply(0));
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes2.dex */
-    public static final class j extends p implements j$.util.s {
-        long i;
-
-        j(l[] lVarArr, int i, int i2, int i3, long j) {
-            super(lVarArr, i, i2, i3);
-            this.i = j;
-        }
-
-        @Override // j$.util.s
-        public boolean b(Consumer consumer) {
-            Objects.requireNonNull(consumer);
-            l a = a();
-            if (a == null) {
-                return false;
-            }
-            consumer.accept(a.b);
-            return true;
-        }
-
-        @Override // j$.util.s
-        public int characteristics() {
-            return 4353;
-        }
-
-        @Override // j$.util.s
-        public long estimateSize() {
-            return this.i;
-        }
-
-        @Override // j$.util.s
-        public void forEachRemaining(Consumer consumer) {
-            Objects.requireNonNull(consumer);
-            while (true) {
-                l a = a();
-                if (a == null) {
-                    return;
-                }
-                consumer.accept(a.b);
-            }
-        }
-
-        @Override // j$.util.s
-        public Comparator getComparator() {
-            throw new IllegalStateException();
-        }
-
-        @Override // j$.util.s
-        public /* synthetic */ long getExactSizeIfKnown() {
-            return j$.util.a.e(this);
-        }
-
-        @Override // j$.util.s
-        public /* synthetic */ boolean hasCharacteristics(int i) {
-            return j$.util.a.f(this, i);
-        }
-
-        @Override // j$.util.s
-        public j$.util.s trySplit() {
-            int i = this.f;
-            int i2 = this.g;
-            int i3 = (i + i2) >>> 1;
-            if (i3 <= i) {
-                return null;
-            }
-            l[] lVarArr = this.a;
-            int i4 = this.h;
-            this.g = i3;
-            long j = this.i >>> 1;
-            this.i = j;
-            return new j(lVarArr, i4, i3, i2, j);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes2.dex */
-    public static final class k implements Map.Entry {
-        final Object a;
-        Object b;
-        final ConcurrentHashMap c;
-
-        k(Object obj, Object obj2, ConcurrentHashMap concurrentHashMap) {
-            this.a = obj;
-            this.b = obj2;
-            this.c = concurrentHashMap;
-        }
-
-        @Override // java.util.Map.Entry
-        public boolean equals(Object obj) {
-            Map.Entry entry;
-            Object key;
-            Object value;
-            Object obj2;
-            Object obj3;
-            return (obj instanceof Map.Entry) && (key = (entry = (Map.Entry) obj).getKey()) != null && (value = entry.getValue()) != null && (key == (obj2 = this.a) || key.equals(obj2)) && (value == (obj3 = this.b) || value.equals(obj3));
-        }
-
-        @Override // java.util.Map.Entry
-        public Object getKey() {
-            return this.a;
-        }
-
-        @Override // java.util.Map.Entry
-        public Object getValue() {
-            return this.b;
-        }
-
-        @Override // java.util.Map.Entry
-        public int hashCode() {
-            return this.a.hashCode() ^ this.b.hashCode();
-        }
-
-        /* JADX WARN: Multi-variable type inference failed */
-        @Override // java.util.Map.Entry
-        public Object setValue(Object obj) {
-            Objects.requireNonNull(obj);
-            Object obj2 = this.b;
-            this.b = obj;
-            this.c.put(this.a, obj);
-            return obj2;
-        }
-
-        public String toString() {
-            return this.a + "=" + this.b;
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes2.dex */
-    public static class l implements Map.Entry {
-        final int a;
-        final Object b;
-        volatile Object c;
-        volatile l d;
-
-        l(int i, Object obj, Object obj2, l lVar) {
-            this.a = i;
-            this.b = obj;
-            this.c = obj2;
-            this.d = lVar;
-        }
-
-        l a(int i, Object obj) {
-            Object obj2;
-            l lVar = this;
-            do {
-                if (lVar.a == i && ((obj2 = lVar.b) == obj || (obj2 != null && obj.equals(obj2)))) {
-                    return lVar;
-                }
-                lVar = lVar.d;
-            } while (lVar != null);
-            return null;
-        }
-
-        @Override // java.util.Map.Entry
-        public final boolean equals(Object obj) {
-            Map.Entry entry;
-            Object key;
-            Object value;
-            Object obj2;
-            Object obj3;
-            return (obj instanceof Map.Entry) && (key = (entry = (Map.Entry) obj).getKey()) != null && (value = entry.getValue()) != null && (key == (obj2 = this.b) || key.equals(obj2)) && (value == (obj3 = this.c) || value.equals(obj3));
-        }
-
-        @Override // java.util.Map.Entry
-        public final Object getKey() {
-            return this.b;
-        }
-
-        @Override // java.util.Map.Entry
-        public final Object getValue() {
-            return this.c;
-        }
-
-        @Override // java.util.Map.Entry
-        public final int hashCode() {
-            return this.b.hashCode() ^ this.c.hashCode();
-        }
-
-        @Override // java.util.Map.Entry
-        public final Object setValue(Object obj) {
-            throw new UnsupportedOperationException();
-        }
-
-        public final String toString() {
-            return this.b + "=" + this.c;
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes2.dex */
-    public static final class m extends l {
-        m() {
-            super(-3, null, null, null);
-        }
-
-        @Override // j$.util.concurrent.ConcurrentHashMap.l
-        l a(int i, Object obj) {
-            return null;
-        }
-    }
-
-    /* loaded from: classes2.dex */
-    static class n extends ReentrantLock {
-        n(float f) {
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes2.dex */
-    public static final class o {
-        int a;
-        int b;
-        l[] c;
-        o d;
-
-        o() {
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes2.dex */
-    public static class p {
-        l[] a;
-        l b = null;
-        o c;
-        o d;
-        int e;
-        int f;
-        int g;
-        final int h;
-
-        p(l[] lVarArr, int i, int i2, int i3) {
-            this.a = lVarArr;
-            this.h = i;
-            this.e = i2;
-            this.f = i2;
-            this.g = i3;
-        }
-
-        final l a() {
-            l[] lVarArr;
-            int length;
-            int i;
-            o oVar;
-            l lVar = this.b;
-            if (lVar != null) {
-                lVar = lVar.d;
-            }
-            while (lVar == null) {
-                if (this.f >= this.g || (lVarArr = this.a) == null || (length = lVarArr.length) <= (i = this.e) || i < 0) {
-                    this.b = null;
-                    return null;
-                }
-                l n = ConcurrentHashMap.n(lVarArr, i);
-                if (n == null || n.a >= 0) {
-                    lVar = n;
-                } else if (n instanceof g) {
-                    this.a = ((g) n).e;
-                    o oVar2 = this.d;
-                    if (oVar2 != null) {
-                        this.d = oVar2.d;
-                    } else {
-                        oVar2 = new o();
-                    }
-                    oVar2.c = lVarArr;
-                    oVar2.a = length;
-                    oVar2.b = i;
-                    oVar2.d = this.c;
-                    this.c = oVar2;
-                    lVar = null;
-                } else {
-                    lVar = n instanceof q ? ((q) n).f : null;
-                }
-                if (this.c != null) {
-                    while (true) {
-                        oVar = this.c;
-                        if (oVar == null) {
-                            break;
-                        }
-                        int i2 = this.e;
-                        int i3 = oVar.a;
-                        int i4 = i2 + i3;
-                        this.e = i4;
-                        if (i4 < length) {
-                            break;
-                        }
-                        this.e = oVar.b;
-                        this.a = oVar.c;
-                        oVar.c = null;
-                        o oVar3 = oVar.d;
-                        oVar.d = this.d;
-                        this.c = oVar3;
-                        this.d = oVar;
-                        length = i3;
-                    }
-                    if (oVar == null) {
-                        int i5 = this.e + this.h;
-                        this.e = i5;
-                        if (i5 >= length) {
-                            int i6 = this.f + 1;
-                            this.f = i6;
-                            this.e = i6;
-                        }
-                    }
-                } else {
-                    int i7 = i + this.h;
-                    this.e = i7;
-                    if (i7 >= length) {
-                        int i8 = this.f + 1;
-                        this.f = i8;
-                        this.e = i8;
-                    }
-                }
-            }
-            this.b = lVar;
-            return lVar;
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes2.dex */
-    public static final class q extends l {
-        private static final Unsafe h;
-        private static final long i;
-        r e;
-        volatile r f;
-        volatile Thread g;
-        volatile int lockState;
-
-        static {
-            try {
-                Unsafe c = j$.util.concurrent.c.c();
-                h = c;
-                i = c.objectFieldOffset(q.class.getDeclaredField("lockState"));
-            } catch (Exception e) {
-                throw new Error(e);
-            }
-        }
-
-        q(r rVar) {
-            super(-2, null, null, null);
-            int d;
-            int j;
-            this.f = rVar;
-            r rVar2 = null;
-            while (rVar != null) {
-                r rVar3 = (r) rVar.d;
-                rVar.g = null;
-                rVar.f = null;
-                if (rVar2 == null) {
-                    rVar.e = null;
-                    rVar.i = false;
-                } else {
-                    Object obj = rVar.b;
-                    int i2 = rVar.a;
-                    r rVar4 = rVar2;
-                    Class cls = null;
-                    while (true) {
-                        Object obj2 = rVar4.b;
-                        int i3 = rVar4.a;
-                        j = i3 > i2 ? -1 : i3 < i2 ? 1 : ((cls == null && (cls = ConcurrentHashMap.c(obj)) == null) || (d = ConcurrentHashMap.d(cls, obj, obj2)) == 0) ? j(obj, obj2) : d;
-                        r rVar5 = j <= 0 ? rVar4.f : rVar4.g;
-                        if (rVar5 == null) {
-                            break;
-                        }
-                        rVar4 = rVar5;
-                    }
-                    rVar.e = rVar4;
-                    if (j <= 0) {
-                        rVar4.f = rVar;
-                    } else {
-                        rVar4.g = rVar;
-                    }
-                    rVar = c(rVar2, rVar);
-                }
-                rVar2 = rVar;
-                rVar = rVar3;
-            }
-            this.e = rVar2;
-        }
-
-        static r b(r rVar, r rVar2) {
-            while (rVar2 != null && rVar2 != rVar) {
-                r rVar3 = rVar2.e;
-                if (rVar3 == null) {
-                    rVar2.i = false;
-                    return rVar2;
-                } else if (rVar2.i) {
-                    rVar2.i = false;
-                    return rVar;
-                } else {
-                    r rVar4 = rVar3.f;
-                    r rVar5 = null;
-                    if (rVar4 == rVar2) {
-                        rVar4 = rVar3.g;
-                        if (rVar4 != null && rVar4.i) {
-                            rVar4.i = false;
-                            rVar3.i = true;
-                            rVar = h(rVar, rVar3);
-                            rVar3 = rVar2.e;
-                            rVar4 = rVar3 == null ? null : rVar3.g;
-                        }
-                        if (rVar4 == null) {
-                            rVar2 = rVar3;
-                        } else {
-                            r rVar6 = rVar4.f;
-                            r rVar7 = rVar4.g;
-                            if ((rVar7 != null && rVar7.i) || (rVar6 != null && rVar6.i)) {
-                                if (rVar7 == null || !rVar7.i) {
-                                    if (rVar6 != null) {
-                                        rVar6.i = false;
-                                    }
-                                    rVar4.i = true;
-                                    rVar = i(rVar, rVar4);
-                                    rVar3 = rVar2.e;
-                                    if (rVar3 != null) {
-                                        rVar5 = rVar3.g;
-                                    }
-                                } else {
-                                    rVar5 = rVar4;
-                                }
-                                if (rVar5 != null) {
-                                    rVar5.i = rVar3 == null ? false : rVar3.i;
-                                    r rVar8 = rVar5.g;
-                                    if (rVar8 != null) {
-                                        rVar8.i = false;
-                                    }
-                                }
-                                if (rVar3 != null) {
-                                    rVar3.i = false;
-                                    rVar = h(rVar, rVar3);
-                                }
-                                rVar2 = rVar;
-                                rVar = rVar2;
-                            }
-                            rVar4.i = true;
-                            rVar2 = rVar3;
-                        }
-                    } else {
-                        if (rVar4 != null && rVar4.i) {
-                            rVar4.i = false;
-                            rVar3.i = true;
-                            rVar = i(rVar, rVar3);
-                            rVar3 = rVar2.e;
-                            rVar4 = rVar3 == null ? null : rVar3.f;
-                        }
-                        if (rVar4 == null) {
-                            rVar2 = rVar3;
-                        } else {
-                            r rVar9 = rVar4.f;
-                            r rVar10 = rVar4.g;
-                            if ((rVar9 != null && rVar9.i) || (rVar10 != null && rVar10.i)) {
-                                if (rVar9 == null || !rVar9.i) {
-                                    if (rVar10 != null) {
-                                        rVar10.i = false;
-                                    }
-                                    rVar4.i = true;
-                                    rVar = h(rVar, rVar4);
-                                    rVar3 = rVar2.e;
-                                    if (rVar3 != null) {
-                                        rVar5 = rVar3.f;
-                                    }
-                                } else {
-                                    rVar5 = rVar4;
-                                }
-                                if (rVar5 != null) {
-                                    rVar5.i = rVar3 == null ? false : rVar3.i;
-                                    r rVar11 = rVar5.f;
-                                    if (rVar11 != null) {
-                                        rVar11.i = false;
-                                    }
-                                }
-                                if (rVar3 != null) {
-                                    rVar3.i = false;
-                                    rVar = i(rVar, rVar3);
-                                }
-                                rVar2 = rVar;
-                                rVar = rVar2;
-                            }
-                            rVar4.i = true;
-                            rVar2 = rVar3;
-                        }
-                    }
-                }
-            }
-            return rVar;
-        }
-
-        static r c(r rVar, r rVar2) {
-            r rVar3;
-            rVar2.i = true;
-            while (true) {
-                r rVar4 = rVar2.e;
-                if (rVar4 == null) {
-                    rVar2.i = false;
-                    return rVar2;
-                } else if (!rVar4.i || (rVar3 = rVar4.e) == null) {
-                    break;
-                } else {
-                    r rVar5 = rVar3.f;
-                    if (rVar4 == rVar5) {
-                        rVar5 = rVar3.g;
-                        if (rVar5 == null || !rVar5.i) {
-                            if (rVar2 == rVar4.g) {
-                                rVar = h(rVar, rVar4);
-                                r rVar6 = rVar4.e;
-                                rVar3 = rVar6 == null ? null : rVar6.e;
-                                rVar4 = rVar6;
-                                rVar2 = rVar4;
-                            }
-                            if (rVar4 != null) {
-                                rVar4.i = false;
-                                if (rVar3 != null) {
-                                    rVar3.i = true;
-                                    rVar = i(rVar, rVar3);
-                                }
-                            }
-                        } else {
-                            rVar5.i = false;
-                            rVar4.i = false;
-                            rVar3.i = true;
-                            rVar2 = rVar3;
-                        }
-                    } else if (rVar5 == null || !rVar5.i) {
-                        if (rVar2 == rVar4.f) {
-                            rVar = i(rVar, rVar4);
-                            r rVar7 = rVar4.e;
-                            rVar3 = rVar7 == null ? null : rVar7.e;
-                            rVar4 = rVar7;
-                            rVar2 = rVar4;
-                        }
-                        if (rVar4 != null) {
-                            rVar4.i = false;
-                            if (rVar3 != null) {
-                                rVar3.i = true;
-                                rVar = h(rVar, rVar3);
-                            }
-                        }
-                    } else {
-                        rVar5.i = false;
-                        rVar4.i = false;
-                        rVar3.i = true;
-                        rVar2 = rVar3;
-                    }
-                }
-            }
-            return rVar;
-        }
-
-        private final void d() {
-            boolean z = false;
-            while (true) {
-                int i2 = this.lockState;
-                if ((i2 & (-3)) == 0) {
-                    if (h.compareAndSwapInt(this, i, i2, 1)) {
-                        break;
-                    }
-                } else if ((i2 & 2) == 0) {
-                    if (h.compareAndSwapInt(this, i, i2, i2 | 2)) {
-                        z = true;
-                        this.g = Thread.currentThread();
-                    }
-                } else if (z) {
-                    LockSupport.park(this);
-                }
-            }
-            if (z) {
-                this.g = null;
-            }
-        }
-
-        private final void e() {
-            if (h.compareAndSwapInt(this, i, 0, 1)) {
-                return;
-            }
-            d();
-        }
-
-        static r h(r rVar, r rVar2) {
-            r rVar3 = rVar2.g;
-            if (rVar3 != null) {
-                r rVar4 = rVar3.f;
-                rVar2.g = rVar4;
-                if (rVar4 != null) {
-                    rVar4.e = rVar2;
-                }
-                r rVar5 = rVar2.e;
-                rVar3.e = rVar5;
-                if (rVar5 == null) {
-                    rVar3.i = false;
-                    rVar = rVar3;
-                } else if (rVar5.f == rVar2) {
-                    rVar5.f = rVar3;
-                } else {
-                    rVar5.g = rVar3;
-                }
-                rVar3.f = rVar2;
-                rVar2.e = rVar3;
-            }
-            return rVar;
-        }
-
-        static r i(r rVar, r rVar2) {
-            r rVar3 = rVar2.f;
-            if (rVar3 != null) {
-                r rVar4 = rVar3.g;
-                rVar2.f = rVar4;
-                if (rVar4 != null) {
-                    rVar4.e = rVar2;
-                }
-                r rVar5 = rVar2.e;
-                rVar3.e = rVar5;
-                if (rVar5 == null) {
-                    rVar3.i = false;
-                    rVar = rVar3;
-                } else if (rVar5.g == rVar2) {
-                    rVar5.g = rVar3;
-                } else {
-                    rVar5.f = rVar3;
-                }
-                rVar3.g = rVar2;
-                rVar2.e = rVar3;
-            }
-            return rVar;
-        }
-
-        static int j(Object obj, Object obj2) {
-            int compareTo;
-            return (obj == null || obj2 == null || (compareTo = obj.getClass().getName().compareTo(obj2.getClass().getName())) == 0) ? System.identityHashCode(obj) <= System.identityHashCode(obj2) ? -1 : 1 : compareTo;
-        }
-
-        @Override // j$.util.concurrent.ConcurrentHashMap.l
-        final l a(int i2, Object obj) {
-            Object obj2;
-            Thread thread;
-            Thread thread2;
-            l lVar = this.f;
-            while (true) {
-                r rVar = null;
-                if (lVar == null) {
-                    return null;
-                }
-                int i3 = this.lockState;
-                if ((i3 & 3) == 0) {
-                    Unsafe unsafe = h;
-                    long j = i;
-                    if (unsafe.compareAndSwapInt(this, j, i3, i3 + 4)) {
-                        try {
-                            r rVar2 = this.e;
-                            if (rVar2 != null) {
-                                rVar = rVar2.b(i2, obj, null);
-                            }
-                            if (j$.util.concurrent.c.a(unsafe, this, j, -4) == 6 && (thread2 = this.g) != null) {
-                                LockSupport.unpark(thread2);
-                            }
-                            return rVar;
-                        } catch (Throwable th) {
-                            if (j$.util.concurrent.c.a(h, this, i, -4) == 6 && (thread = this.g) != null) {
-                                LockSupport.unpark(thread);
-                            }
-                            throw th;
-                        }
-                    }
-                } else if (lVar.a != i2 || ((obj2 = lVar.b) != obj && (obj2 == null || !obj.equals(obj2)))) {
-                    lVar = lVar.d;
-                }
-            }
-            return lVar;
-        }
-
-        /* JADX WARN: Code restructure failed: missing block: B:30:0x0060, code lost:
-            return r3;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:50:0x00a3, code lost:
-            return null;
-         */
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
-        final r f(int i2, Object obj, Object obj2) {
-            int d;
-            int i3;
-            r rVar;
-            r rVar2 = this.e;
-            Class cls = null;
-            boolean z = false;
-            while (true) {
-                if (rVar2 == null) {
-                    r rVar3 = new r(i2, obj, obj2, null, null);
-                    this.e = rVar3;
-                    this.f = rVar3;
-                    break;
-                }
-                int i4 = rVar2.a;
-                if (i4 > i2) {
-                    i3 = -1;
-                } else if (i4 < i2) {
-                    i3 = 1;
-                } else {
-                    Object obj3 = rVar2.b;
-                    if (obj3 == obj || (obj3 != null && obj.equals(obj3))) {
-                        break;
-                    } else if ((cls == null && (cls = ConcurrentHashMap.c(obj)) == null) || (d = ConcurrentHashMap.d(cls, obj, obj3)) == 0) {
-                        if (!z) {
-                            r rVar4 = rVar2.f;
-                            if ((rVar4 == null || (r3 = rVar4.b(i2, obj, cls)) == null) && ((rVar = rVar2.g) == null || (r3 = rVar.b(i2, obj, cls)) == null)) {
-                                z = true;
-                            }
-                        }
-                        i3 = j(obj, obj3);
-                    } else {
-                        i3 = d;
-                    }
-                }
-                r rVar5 = i3 <= 0 ? rVar2.f : rVar2.g;
-                if (rVar5 == null) {
-                    r rVar6 = this.f;
-                    r rVar7 = new r(i2, obj, obj2, rVar6, rVar2);
-                    this.f = rVar7;
-                    if (rVar6 != null) {
-                        rVar6.h = rVar7;
-                    }
-                    if (i3 <= 0) {
-                        rVar2.f = rVar7;
-                    } else {
-                        rVar2.g = rVar7;
-                    }
-                    if (rVar2.i) {
-                        e();
-                        try {
-                            this.e = c(this.e, rVar7);
-                        } finally {
-                            this.lockState = 0;
-                        }
-                    } else {
-                        rVar7.i = true;
-                    }
-                } else {
-                    rVar2 = rVar5;
-                }
-            }
-            return rVar2;
-        }
-
-        /* JADX WARN: Removed duplicated region for block: B:57:0x008e A[Catch: all -> 0x00c8, TryCatch #0 {all -> 0x00c8, blocks: (B:22:0x0030, B:26:0x0039, B:29:0x003f, B:31:0x004d, B:39:0x0065, B:41:0x006b, B:42:0x006d, B:57:0x008e, B:64:0x009f, B:60:0x0096, B:62:0x009a, B:63:0x009d, B:65:0x00a5, B:69:0x00ae, B:71:0x00b2, B:73:0x00b6, B:75:0x00ba, B:79:0x00c3, B:76:0x00bd, B:78:0x00c1, B:68:0x00aa, B:45:0x0077, B:47:0x007b, B:48:0x007e, B:32:0x0052, B:34:0x0058, B:36:0x005c, B:37:0x005f, B:38:0x0061), top: B:86:0x0030 }] */
-        /* JADX WARN: Removed duplicated region for block: B:67:0x00a9  */
-        /* JADX WARN: Removed duplicated region for block: B:68:0x00aa A[Catch: all -> 0x00c8, TryCatch #0 {all -> 0x00c8, blocks: (B:22:0x0030, B:26:0x0039, B:29:0x003f, B:31:0x004d, B:39:0x0065, B:41:0x006b, B:42:0x006d, B:57:0x008e, B:64:0x009f, B:60:0x0096, B:62:0x009a, B:63:0x009d, B:65:0x00a5, B:69:0x00ae, B:71:0x00b2, B:73:0x00b6, B:75:0x00ba, B:79:0x00c3, B:76:0x00bd, B:78:0x00c1, B:68:0x00aa, B:45:0x0077, B:47:0x007b, B:48:0x007e, B:32:0x0052, B:34:0x0058, B:36:0x005c, B:37:0x005f, B:38:0x0061), top: B:86:0x0030 }] */
-        /* JADX WARN: Removed duplicated region for block: B:71:0x00b2 A[Catch: all -> 0x00c8, TryCatch #0 {all -> 0x00c8, blocks: (B:22:0x0030, B:26:0x0039, B:29:0x003f, B:31:0x004d, B:39:0x0065, B:41:0x006b, B:42:0x006d, B:57:0x008e, B:64:0x009f, B:60:0x0096, B:62:0x009a, B:63:0x009d, B:65:0x00a5, B:69:0x00ae, B:71:0x00b2, B:73:0x00b6, B:75:0x00ba, B:79:0x00c3, B:76:0x00bd, B:78:0x00c1, B:68:0x00aa, B:45:0x0077, B:47:0x007b, B:48:0x007e, B:32:0x0052, B:34:0x0058, B:36:0x005c, B:37:0x005f, B:38:0x0061), top: B:86:0x0030 }] */
-        /* JADX WARN: Removed duplicated region for block: B:75:0x00ba A[Catch: all -> 0x00c8, TryCatch #0 {all -> 0x00c8, blocks: (B:22:0x0030, B:26:0x0039, B:29:0x003f, B:31:0x004d, B:39:0x0065, B:41:0x006b, B:42:0x006d, B:57:0x008e, B:64:0x009f, B:60:0x0096, B:62:0x009a, B:63:0x009d, B:65:0x00a5, B:69:0x00ae, B:71:0x00b2, B:73:0x00b6, B:75:0x00ba, B:79:0x00c3, B:76:0x00bd, B:78:0x00c1, B:68:0x00aa, B:45:0x0077, B:47:0x007b, B:48:0x007e, B:32:0x0052, B:34:0x0058, B:36:0x005c, B:37:0x005f, B:38:0x0061), top: B:86:0x0030 }] */
-        /* JADX WARN: Removed duplicated region for block: B:76:0x00bd A[Catch: all -> 0x00c8, TryCatch #0 {all -> 0x00c8, blocks: (B:22:0x0030, B:26:0x0039, B:29:0x003f, B:31:0x004d, B:39:0x0065, B:41:0x006b, B:42:0x006d, B:57:0x008e, B:64:0x009f, B:60:0x0096, B:62:0x009a, B:63:0x009d, B:65:0x00a5, B:69:0x00ae, B:71:0x00b2, B:73:0x00b6, B:75:0x00ba, B:79:0x00c3, B:76:0x00bd, B:78:0x00c1, B:68:0x00aa, B:45:0x0077, B:47:0x007b, B:48:0x007e, B:32:0x0052, B:34:0x0058, B:36:0x005c, B:37:0x005f, B:38:0x0061), top: B:86:0x0030 }] */
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
-        final boolean g(r rVar) {
-            r rVar2;
-            r rVar3;
-            r rVar4 = (r) rVar.d;
-            r rVar5 = rVar.h;
-            if (rVar5 == null) {
-                this.f = rVar4;
-            } else {
-                rVar5.d = rVar4;
-            }
-            if (rVar4 != null) {
-                rVar4.h = rVar5;
-            }
-            if (this.f == null) {
-                this.e = null;
-                return true;
-            }
-            r rVar6 = this.e;
-            if (rVar6 == null || rVar6.g == null || (rVar2 = rVar6.f) == null || rVar2.f == null) {
-                return true;
-            }
-            e();
-            try {
-                r rVar7 = rVar.f;
-                r rVar8 = rVar.g;
-                if (rVar7 == null || rVar8 == null) {
-                    if (rVar7 == null) {
-                        if (rVar8 != null) {
-                            rVar7 = rVar8;
-                        }
-                        rVar7 = rVar;
-                    }
-                    if (rVar7 != rVar) {
-                        r rVar9 = rVar.e;
-                        rVar7.e = rVar9;
-                        if (rVar9 == null) {
-                            rVar6 = rVar7;
-                        } else if (rVar == rVar9.f) {
-                            rVar9.f = rVar7;
-                        } else {
-                            rVar9.g = rVar7;
-                        }
-                        rVar.e = null;
-                        rVar.g = null;
-                        rVar.f = null;
-                    }
-                    if (!rVar.i) {
-                        rVar6 = b(rVar6, rVar7);
-                    }
-                    this.e = rVar6;
-                    if (rVar == rVar7 && (rVar3 = rVar.e) != null) {
-                        if (rVar != rVar3.f) {
-                            rVar3.f = null;
-                        } else if (rVar == rVar3.g) {
-                            rVar3.g = null;
-                        }
-                        rVar.e = null;
-                    }
-                    return false;
-                }
-                r rVar10 = rVar8;
-                while (true) {
-                    r rVar11 = rVar10.f;
-                    if (rVar11 == null) {
-                        break;
-                    }
-                    rVar10 = rVar11;
-                }
-                boolean z = rVar10.i;
-                rVar10.i = rVar.i;
-                rVar.i = z;
-                r rVar12 = rVar10.g;
-                r rVar13 = rVar.e;
-                if (rVar10 == rVar8) {
-                    rVar.e = rVar10;
-                    rVar10.g = rVar;
-                } else {
-                    r rVar14 = rVar10.e;
-                    rVar.e = rVar14;
-                    if (rVar14 != null) {
-                        if (rVar10 == rVar14.f) {
-                            rVar14.f = rVar;
-                        } else {
-                            rVar14.g = rVar;
-                        }
-                    }
-                    rVar10.g = rVar8;
-                    rVar8.e = rVar10;
-                }
-                rVar.f = null;
-                rVar.g = rVar12;
-                if (rVar12 != null) {
-                    rVar12.e = rVar;
-                }
-                rVar10.f = rVar7;
-                rVar7.e = rVar10;
-                rVar10.e = rVar13;
-                if (rVar13 == null) {
-                    rVar6 = rVar10;
-                } else if (rVar == rVar13.f) {
-                    rVar13.f = rVar10;
-                } else {
-                    rVar13.g = rVar10;
-                }
-                if (rVar12 != null) {
-                    rVar7 = rVar12;
-                    if (rVar7 != rVar) {
-                    }
-                    if (!rVar.i) {
-                    }
-                    this.e = rVar6;
-                    if (rVar == rVar7) {
-                        if (rVar != rVar3.f) {
-                        }
-                        rVar.e = null;
-                    }
-                    return false;
-                }
-                rVar7 = rVar;
-                if (rVar7 != rVar) {
-                }
-                if (!rVar.i) {
-                }
-                this.e = rVar6;
-                if (rVar == rVar7) {
-                }
-                return false;
-            } finally {
-                this.lockState = 0;
-            }
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes2.dex */
-    public static final class r extends l {
-        r e;
-        r f;
-        r g;
-        r h;
-        boolean i;
-
-        r(int i, Object obj, Object obj2, l lVar, r rVar) {
-            super(i, obj, obj2, lVar);
-            this.e = rVar;
-        }
-
-        @Override // j$.util.concurrent.ConcurrentHashMap.l
-        l a(int i, Object obj) {
-            return b(i, obj, null);
-        }
-
-        final r b(int i, Object obj, Class cls) {
-            int d;
-            if (obj != null) {
-                r rVar = this;
-                do {
-                    r rVar2 = rVar.f;
-                    r rVar3 = rVar.g;
-                    int i2 = rVar.a;
-                    if (i2 <= i) {
-                        if (i2 >= i) {
-                            Object obj2 = rVar.b;
-                            if (obj2 == obj || (obj2 != null && obj.equals(obj2))) {
-                                return rVar;
-                            }
-                            if (rVar2 != null) {
-                                if (rVar3 != null) {
-                                    if ((cls == null && (cls = ConcurrentHashMap.c(obj)) == null) || (d = ConcurrentHashMap.d(cls, obj, obj2)) == 0) {
-                                        r b = rVar3.b(i, obj, cls);
-                                        if (b != null) {
-                                            return b;
-                                        }
-                                    } else if (d >= 0) {
-                                        rVar2 = rVar3;
-                                    }
-                                }
-                            }
-                        }
-                        rVar = rVar3;
-                        continue;
-                    }
-                    rVar = rVar2;
-                    continue;
-                } while (rVar != null);
-                return null;
-            }
-            return null;
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes2.dex */
-    public static final class s extends a implements java.util.Iterator, Enumeration, j$.util.Iterator {
-        s(l[] lVarArr, int i, int i2, int i3, ConcurrentHashMap concurrentHashMap) {
-            super(lVarArr, i, i2, i3, concurrentHashMap);
-        }
-
-        @Override // j$.util.Iterator
-        public /* synthetic */ void forEachRemaining(Consumer consumer) {
-            Iterator.-CC.$default$forEachRemaining(this, consumer);
-        }
-
-        @Override // java.util.Iterator
-        public /* synthetic */ void forEachRemaining(java.util.function.Consumer consumer) {
-            Iterator.-CC.$default$forEachRemaining(this, w.b(consumer));
-        }
-
-        @Override // java.util.Iterator, j$.util.Iterator
-        public final Object next() {
-            l lVar = this.b;
-            if (lVar != null) {
-                Object obj = lVar.c;
-                this.j = lVar;
-                a();
-                return obj;
-            }
-            throw new NoSuchElementException();
-        }
-
-        @Override // java.util.Enumeration
-        public final Object nextElement() {
-            return next();
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes2.dex */
-    public static final class t extends p implements j$.util.s {
-        long i;
-
-        t(l[] lVarArr, int i, int i2, int i3, long j) {
-            super(lVarArr, i, i2, i3);
-            this.i = j;
-        }
-
-        @Override // j$.util.s
-        public boolean b(Consumer consumer) {
-            Objects.requireNonNull(consumer);
-            l a = a();
-            if (a == null) {
-                return false;
-            }
-            consumer.accept(a.c);
-            return true;
-        }
-
-        @Override // j$.util.s
-        public int characteristics() {
-            return 4352;
-        }
-
-        @Override // j$.util.s
-        public long estimateSize() {
-            return this.i;
-        }
-
-        @Override // j$.util.s
-        public void forEachRemaining(Consumer consumer) {
-            Objects.requireNonNull(consumer);
-            while (true) {
-                l a = a();
-                if (a == null) {
-                    return;
-                }
-                consumer.accept(a.c);
-            }
-        }
-
-        @Override // j$.util.s
-        public Comparator getComparator() {
-            throw new IllegalStateException();
-        }
-
-        @Override // j$.util.s
-        public /* synthetic */ long getExactSizeIfKnown() {
-            return j$.util.a.e(this);
-        }
-
-        @Override // j$.util.s
-        public /* synthetic */ boolean hasCharacteristics(int i) {
-            return j$.util.a.f(this, i);
-        }
-
-        @Override // j$.util.s
-        public j$.util.s trySplit() {
-            int i = this.f;
-            int i2 = this.g;
-            int i3 = (i + i2) >>> 1;
-            if (i3 <= i) {
-                return null;
-            }
-            l[] lVarArr = this.a;
-            int i4 = this.h;
-            this.g = i3;
-            long j = this.i >>> 1;
-            this.i = j;
-            return new t(lVarArr, i4, i3, i2, j);
-        }
-    }
-
-    /* loaded from: classes2.dex */
-    static final class u extends b implements j$.util.b {
-        u(ConcurrentHashMap concurrentHashMap) {
-            super(concurrentHashMap);
-        }
-
-        @Override // java.util.Collection
-        public final boolean add(Object obj) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override // java.util.Collection
-        public final boolean addAll(Collection collection) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override // j$.util.concurrent.ConcurrentHashMap.b, java.util.Collection
-        public final boolean contains(Object obj) {
-            return this.a.containsValue(obj);
-        }
-
-        @Override // j$.util.b, j$.lang.e
-        public void forEach(Consumer consumer) {
-            Objects.requireNonNull(consumer);
-            l[] lVarArr = this.a.a;
-            if (lVarArr == null) {
-                return;
-            }
-            p pVar = new p(lVarArr, lVarArr.length, 0, lVarArr.length);
-            while (true) {
-                l a = pVar.a();
-                if (a == null) {
-                    return;
-                }
-                consumer.accept(a.c);
-            }
-        }
-
-        @Override // java.lang.Iterable
-        public /* synthetic */ void forEach(java.util.function.Consumer consumer) {
-            forEach(w.b(consumer));
-        }
-
-        @Override // j$.util.concurrent.ConcurrentHashMap.b, java.util.Collection, java.lang.Iterable
-        public final java.util.Iterator iterator() {
-            ConcurrentHashMap concurrentHashMap = this.a;
-            l[] lVarArr = concurrentHashMap.a;
-            int length = lVarArr == null ? 0 : lVarArr.length;
-            return new s(lVarArr, length, 0, length, concurrentHashMap);
-        }
-
-        @Override // j$.util.b
-        public /* synthetic */ boolean k(Predicate predicate) {
-            return j$.util.a.h(this, predicate);
-        }
-
-        @Override // java.util.Collection
-        public /* synthetic */ Stream parallelStream() {
-            return O0.i0(j$.util.a.g(this));
-        }
-
-        @Override // java.util.Collection
-        public final boolean remove(Object obj) {
-            a aVar;
-            if (obj != null) {
-                java.util.Iterator it = iterator();
-                do {
-                    aVar = (a) it;
-                    if (!aVar.hasNext()) {
-                        return false;
-                    }
-                } while (!obj.equals(((s) it).next()));
-                aVar.remove();
-                return true;
-            }
-            return false;
-        }
-
-        @Override // java.util.Collection
-        public /* synthetic */ boolean removeIf(java.util.function.Predicate predicate) {
-            return j$.util.a.h(this, w0.a(predicate));
-        }
-
-        @Override // java.util.Collection, java.lang.Iterable, j$.util.b, j$.lang.e
-        public j$.util.s spliterator() {
-            ConcurrentHashMap concurrentHashMap = this.a;
-            long m = concurrentHashMap.m();
-            l[] lVarArr = concurrentHashMap.a;
-            int length = lVarArr == null ? 0 : lVarArr.length;
-            return new t(lVarArr, length, 0, length, m >= 0 ? m : 0L);
-        }
-
-        @Override // java.util.Collection, java.lang.Iterable
-        public /* synthetic */ Spliterator spliterator() {
-            return j$.wrappers.h.a(spliterator());
-        }
-
-        @Override // java.util.Collection, j$.util.b
-        public /* synthetic */ j$.util.stream.Stream stream() {
-            return j$.util.a.i(this);
-        }
-
-        @Override // java.util.Collection
-        public /* synthetic */ Stream stream() {
-            return O0.i0(j$.util.a.i(this));
-        }
-
-        public Object[] toArray(IntFunction intFunction) {
-            return toArray((Object[]) S.a(intFunction).apply(0));
-        }
-    }
-
     static {
         Class cls = Integer.TYPE;
-        serialPersistentFields = new ObjectStreamField[]{new ObjectStreamField("segments", n[].class), new ObjectStreamField("segmentMask", cls), new ObjectStreamField("segmentShift", cls)};
+        serialPersistentFields = new ObjectStreamField[]{new ObjectStreamField("segments", o[].class), new ObjectStreamField("segmentMask", cls), new ObjectStreamField("segmentShift", cls)};
         try {
-            Unsafe c2 = j$.util.concurrent.c.c();
-            h = c2;
-            i = c2.objectFieldOffset(ConcurrentHashMap.class.getDeclaredField("sizeCtl"));
-            j = c2.objectFieldOffset(ConcurrentHashMap.class.getDeclaredField("transferIndex"));
-            k = c2.objectFieldOffset(ConcurrentHashMap.class.getDeclaredField("baseCount"));
-            l = c2.objectFieldOffset(ConcurrentHashMap.class.getDeclaredField("cellsBusy"));
-            m = c2.objectFieldOffset(c.class.getDeclaredField("value"));
-            n = c2.arrayBaseOffset(l[].class);
-            int arrayIndexScale = c2.arrayIndexScale(l[].class);
+            Unsafe c = w.c();
+            j = c;
+            k = c.objectFieldOffset(ConcurrentHashMap.class.getDeclaredField("sizeCtl"));
+            l = c.objectFieldOffset(ConcurrentHashMap.class.getDeclaredField("transferIndex"));
+            m = c.objectFieldOffset(ConcurrentHashMap.class.getDeclaredField("baseCount"));
+            n = c.objectFieldOffset(ConcurrentHashMap.class.getDeclaredField("cellsBusy"));
+            o = c.objectFieldOffset(d.class.getDeclaredField("value"));
+            p = c.arrayBaseOffset(m[].class);
+            int arrayIndexScale = c.arrayIndexScale(m[].class);
             if (((arrayIndexScale - 1) & arrayIndexScale) != 0) {
                 throw new Error("data type scale not a power of two");
             }
-            o = 31 - Integer.numberOfLeadingZeros(arrayIndexScale);
-        } catch (Exception e2) {
-            throw new Error(e2);
+            q = 31 - Integer.numberOfLeadingZeros(arrayIndexScale);
+        } catch (Exception e) {
+            throw new Error(e);
         }
     }
 
@@ -1743,17 +72,17 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         if (i2 < 0) {
             throw new IllegalArgumentException();
         }
-        this.sizeCtl = i2 >= 536870912 ? 1073741824 : o(i2 + (i2 >>> 1) + 1);
+        this.sizeCtl = i2 >= 536870912 ? 1073741824 : n(i2 + (i2 >>> 1) + 1);
     }
 
-    public ConcurrentHashMap(int i2, float f2, int i3) {
-        if (f2 <= 0.0f || i2 < 0 || i3 <= 0) {
+    public ConcurrentHashMap(int i2, float f, int i3) {
+        if (f <= 0.0f || i2 < 0 || i3 <= 0) {
             throw new IllegalArgumentException();
         }
-        double d2 = (i2 < i3 ? i3 : i2) / f2;
-        Double.isNaN(d2);
-        long j2 = (long) (d2 + 1.0d);
-        this.sizeCtl = j2 >= 1073741824 ? 1073741824 : o((int) j2);
+        double d = (i2 < i3 ? i3 : i2) / f;
+        Double.isNaN(d);
+        long j2 = (long) (d + 1.0d);
+        this.sizeCtl = j2 >= 1073741824 ? 1073741824 : n((int) j2);
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:5:0x0012, code lost:
@@ -1764,61 +93,64 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     */
     private final void a(long j2, int i2) {
         int length;
-        c cVar;
-        long m2;
-        l[] lVarArr;
+        d dVar;
+        long l2;
+        m[] mVarArr;
         int length2;
-        l[] lVarArr2;
-        c[] cVarArr = this.c;
-        if (cVarArr == null) {
-            Unsafe unsafe = h;
-            long j3 = k;
+        m[] mVarArr2;
+        d[] dVarArr = this.c;
+        if (dVarArr == null) {
+            Unsafe unsafe = j;
+            long j3 = m;
             long j4 = this.baseCount;
-            m2 = j4 + j2;
+            l2 = j4 + j2;
         }
         boolean z = true;
-        if (cVarArr != null && (length = cVarArr.length - 1) >= 0 && (cVar = cVarArr[length & ThreadLocalRandom.b()]) != null) {
-            Unsafe unsafe2 = h;
-            long j5 = m;
-            long j6 = cVar.value;
-            boolean compareAndSwapLong = unsafe2.compareAndSwapLong(cVar, j5, j6, j6 + j2);
+        if (dVarArr != null && (length = dVarArr.length - 1) >= 0 && (dVar = dVarArr[length & ThreadLocalRandom.b()]) != null) {
+            Unsafe unsafe2 = j;
+            long j5 = o;
+            long j6 = dVar.value;
+            boolean compareAndSwapLong = unsafe2.compareAndSwapLong(dVar, j5, j6, j6 + j2);
             if (!compareAndSwapLong) {
                 z = compareAndSwapLong;
             } else if (i2 <= 1) {
                 return;
             } else {
-                m2 = m();
+                l2 = l();
                 if (i2 < 0) {
                     return;
                 }
                 while (true) {
                     int i3 = this.sizeCtl;
-                    if (m2 < i3 || (lVarArr = this.a) == null || (length2 = lVarArr.length) >= 1073741824) {
+                    if (l2 < i3 || (mVarArr = this.a) == null || (length2 = mVarArr.length) >= 1073741824) {
                         return;
                     }
-                    int j7 = j(length2);
+                    int numberOfLeadingZeros = Integer.numberOfLeadingZeros(length2) | LiteMode.FLAG_CHAT_SCALE;
+                    int i4 = h;
                     if (i3 < 0) {
-                        if ((i3 >>> 16) != j7 || i3 == j7 + 1 || i3 == j7 + 65535 || (lVarArr2 = this.b) == null || this.transferIndex <= 0) {
+                        if ((i3 >>> i4) != numberOfLeadingZeros || i3 == numberOfLeadingZeros + 1 || i3 == numberOfLeadingZeros + g || (mVarArr2 = this.b) == null || this.transferIndex <= 0) {
                             return;
                         }
-                        if (h.compareAndSwapInt(this, i, i3, i3 + 1)) {
-                            p(lVarArr, lVarArr2);
+                        if (j.compareAndSwapInt(this, k, i3, i3 + 1)) {
+                            o(mVarArr, mVarArr2);
                         }
-                    } else if (h.compareAndSwapInt(this, i, i3, (j7 << 16) + 2)) {
-                        p(lVarArr, null);
+                    } else if (j.compareAndSwapInt(this, k, i3, (numberOfLeadingZeros << i4) + 2)) {
+                        o(mVarArr, null);
                     }
-                    m2 = m();
+                    l2 = l();
                 }
             }
         }
         e(j2, z);
     }
 
-    static final boolean b(l[] lVarArr, int i2, l lVar, l lVar2) {
-        return h.compareAndSwapObject(lVarArr, (i2 << o) + n, (Object) null, lVar2);
+    static final boolean b(m[] mVarArr, int i2, m mVar) {
+        long j2 = p;
+        return a.a(j, mVarArr, j2 + (i2 << q), mVar);
     }
 
-    static Class c(Object obj) {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static Class c(Object obj) {
         Type[] actualTypeArguments;
         if (obj instanceof Comparable) {
             Class<?> cls = obj.getClass();
@@ -1842,32 +174,33 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         return null;
     }
 
-    static int d(Class cls, Object obj, Object obj2) {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static int d(Class cls, Object obj, Object obj2) {
         if (obj2 == null || obj2.getClass() != cls) {
             return 0;
         }
         return ((Comparable) obj).compareTo(obj2);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:51:0x009b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:53:0x009d, code lost:
         if (r24.c != r7) goto L101;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:52:0x009d, code lost:
-        r1 = new j$.util.concurrent.ConcurrentHashMap.c[r8 << 1];
+    /* JADX WARN: Code restructure failed: missing block: B:54:0x009f, code lost:
+        r1 = new j$.util.concurrent.d[r8 << 1];
         r2 = 0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:53:0x00a2, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:55:0x00a4, code lost:
         if (r2 >= r8) goto L97;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:54:0x00a4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:56:0x00a6, code lost:
         r1[r2] = r7[r2];
         r2 = r2 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:55:0x00ab, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:57:0x00ad, code lost:
         r24.c = r1;
      */
     /* JADX WARN: Removed duplicated region for block: B:108:0x001b A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x0101 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x0102 A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1878,34 +211,34 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         int length;
         boolean z4;
         int length2;
-        int b2 = ThreadLocalRandom.b();
-        if (b2 == 0) {
+        int b = ThreadLocalRandom.b();
+        if (b == 0) {
             ThreadLocalRandom.f();
             i2 = ThreadLocalRandom.b();
             z2 = true;
         } else {
-            i2 = b2;
+            i2 = b;
             z2 = z;
         }
+        int i3 = i2;
         while (true) {
-            int i3 = i2;
             boolean z5 = false;
             while (true) {
-                c[] cVarArr = this.c;
-                if (cVarArr != null && (length = cVarArr.length) > 0) {
-                    c cVar = cVarArr[(length - 1) & i3];
-                    if (cVar != null) {
+                d[] dVarArr = this.c;
+                if (dVarArr != null && (length = dVarArr.length) > 0) {
+                    d dVar = dVarArr[(length - 1) & i3];
+                    if (dVar != null) {
                         if (z2) {
-                            Unsafe unsafe = h;
-                            long j3 = m;
-                            long j4 = cVar.value;
-                            if (unsafe.compareAndSwapLong(cVar, j3, j4, j4 + j2)) {
+                            Unsafe unsafe = j;
+                            long j3 = o;
+                            long j4 = dVar.value;
+                            if (unsafe.compareAndSwapLong(dVar, j3, j4, j4 + j2)) {
                                 return;
                             }
-                            if (this.c == cVarArr && length < g) {
+                            if (this.c == dVarArr && length < i) {
                                 if (!z5) {
                                     z5 = true;
-                                } else if (this.cellsBusy == 0 && unsafe.compareAndSwapInt(this, l, 0, 1)) {
+                                } else if (this.cellsBusy == 0 && unsafe.compareAndSwapInt(this, n, 0, 1)) {
                                     try {
                                         break;
                                     } finally {
@@ -1917,14 +250,14 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
                         }
                         i3 = ThreadLocalRandom.a(i3);
                     } else if (this.cellsBusy == 0) {
-                        c cVar2 = new c(j2);
-                        if (this.cellsBusy == 0 && h.compareAndSwapInt(this, l, 0, 1)) {
+                        d dVar2 = new d(j2);
+                        if (this.cellsBusy == 0 && j.compareAndSwapInt(this, n, 0, 1)) {
                             try {
-                                c[] cVarArr2 = this.c;
-                                if (cVarArr2 != null && (length2 = cVarArr2.length) > 0) {
+                                d[] dVarArr2 = this.c;
+                                if (dVarArr2 != null && (length2 = dVarArr2.length) > 0) {
                                     int i4 = (length2 - 1) & i3;
-                                    if (cVarArr2[i4] == null) {
-                                        cVarArr2[i4] = cVar2;
+                                    if (dVarArr2[i4] == null) {
+                                        dVarArr2[i4] = dVar2;
                                         z4 = true;
                                         if (!z4) {
                                             return;
@@ -1940,12 +273,12 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
                     }
                     z5 = false;
                     i3 = ThreadLocalRandom.a(i3);
-                } else if (this.cellsBusy == 0 && this.c == cVarArr && h.compareAndSwapInt(this, l, 0, 1)) {
+                } else if (this.cellsBusy == 0 && this.c == dVarArr && j.compareAndSwapInt(this, n, 0, 1)) {
                     try {
-                        if (this.c == cVarArr) {
-                            c[] cVarArr3 = new c[2];
-                            cVarArr3[i3 & 1] = new c(j2);
-                            this.c = cVarArr3;
+                        if (this.c == dVarArr) {
+                            d[] dVarArr3 = new d[2];
+                            dVarArr3[i3 & 1] = new d(j2);
+                            this.c = dVarArr3;
                             z3 = true;
                         } else {
                             z3 = false;
@@ -1956,40 +289,38 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
                     } finally {
                     }
                 } else {
-                    Unsafe unsafe2 = h;
-                    long j5 = k;
+                    Unsafe unsafe2 = j;
+                    long j5 = m;
                     long j6 = this.baseCount;
                     if (unsafe2.compareAndSwapLong(this, j5, j6, j6 + j2)) {
                         return;
                     }
                 }
             }
-            this.cellsBusy = 0;
-            i2 = i3;
         }
     }
 
-    private final l[] g() {
+    private final m[] g() {
         while (true) {
-            l[] lVarArr = this.a;
-            if (lVarArr != null && lVarArr.length != 0) {
-                return lVarArr;
+            m[] mVarArr = this.a;
+            if (mVarArr != null && mVarArr.length != 0) {
+                return mVarArr;
             }
             int i2 = this.sizeCtl;
             if (i2 < 0) {
                 Thread.yield();
-            } else if (h.compareAndSwapInt(this, i, i2, -1)) {
+            } else if (j.compareAndSwapInt(this, k, i2, -1)) {
                 try {
-                    l[] lVarArr2 = this.a;
-                    if (lVarArr2 == null || lVarArr2.length == 0) {
+                    m[] mVarArr2 = this.a;
+                    if (mVarArr2 == null || mVarArr2.length == 0) {
                         int i3 = i2 > 0 ? i2 : 16;
-                        l[] lVarArr3 = new l[i3];
-                        this.a = lVarArr3;
+                        m[] mVarArr3 = new m[i3];
+                        this.a = mVarArr3;
                         i2 = i3 - (i3 >>> 2);
-                        lVarArr2 = lVarArr3;
+                        mVarArr2 = mVarArr3;
                     }
                     this.sizeCtl = i2;
-                    return lVarArr2;
+                    return mVarArr2;
                 } catch (Throwable th) {
                     this.sizeCtl = i2;
                     throw th;
@@ -1998,23 +329,20 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         }
     }
 
-    static final int j(int i2) {
-        return Integer.numberOfLeadingZeros(i2) | LiteMode.FLAG_CHAT_SCALE;
+    static final void j(m[] mVarArr, int i2, m mVar) {
+        j.putObjectVolatile(mVarArr, (i2 << q) + p, mVar);
     }
 
-    static final void k(l[] lVarArr, int i2, l lVar) {
-        h.putObjectVolatile(lVarArr, (i2 << o) + n, lVar);
-    }
-
-    static final int l(int i2) {
+    static final int k(int i2) {
         return (i2 ^ (i2 >>> 16)) & ConnectionsManager.DEFAULT_DATACENTER_ID;
     }
 
-    static final l n(l[] lVarArr, int i2) {
-        return (l) h.getObjectVolatile(lVarArr, (i2 << o) + n);
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static final m m(m[] mVarArr, int i2) {
+        return (m) j.getObjectVolatile(mVarArr, (i2 << q) + p);
     }
 
-    private static final int o(int i2) {
+    private static final int n(int i2) {
         int i3 = i2 - 1;
         int i4 = i3 | (i3 >>> 1);
         int i5 = i4 | (i4 >>> 2);
@@ -2031,288 +359,297 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r13v12, types: [j$.util.concurrent.ConcurrentHashMap$l] */
-    /* JADX WARN: Type inference failed for: r13v14, types: [j$.util.concurrent.ConcurrentHashMap$l] */
-    /* JADX WARN: Type inference failed for: r6v20, types: [j$.util.concurrent.ConcurrentHashMap$l] */
-    /* JADX WARN: Type inference failed for: r6v25, types: [j$.util.concurrent.ConcurrentHashMap$l] */
-    private final void p(l[] lVarArr, l[] lVarArr2) {
-        l[] lVarArr3;
-        l[] lVarArr4;
+    /* JADX WARN: Type inference failed for: r15v15, types: [j$.util.concurrent.m] */
+    /* JADX WARN: Type inference failed for: r15v17, types: [j$.util.concurrent.m] */
+    /* JADX WARN: Type inference failed for: r6v17, types: [j$.util.concurrent.m] */
+    /* JADX WARN: Type inference failed for: r6v22, types: [j$.util.concurrent.m] */
+    private final void o(m[] mVarArr, m[] mVarArr2) {
+        m[] mVarArr3;
+        ConcurrentHashMap<K, V> concurrentHashMap;
+        m[] mVarArr4;
         int i2;
         int i3;
+        h hVar;
+        ConcurrentHashMap<K, V> concurrentHashMap2;
         int i4;
-        int i5;
-        g gVar;
-        r rVar;
-        int i6;
-        ConcurrentHashMap<K, V> concurrentHashMap = this;
-        int length = lVarArr.length;
-        int i7 = g;
-        int i8 = i7 > 1 ? (length >>> 3) / i7 : length;
-        int i9 = i8 < 16 ? 16 : i8;
-        if (lVarArr2 == null) {
+        s sVar;
+        s sVar2;
+        ConcurrentHashMap<K, V> concurrentHashMap3 = this;
+        int length = mVarArr.length;
+        int i5 = i;
+        int i6 = i5 > 1 ? (length >>> 3) / i5 : length;
+        int i7 = i6 < 16 ? 16 : i6;
+        if (mVarArr2 == null) {
             try {
-                l[] lVarArr5 = new l[length << 1];
-                concurrentHashMap.b = lVarArr5;
-                concurrentHashMap.transferIndex = length;
-                lVarArr3 = lVarArr5;
+                m[] mVarArr5 = new m[length << 1];
+                concurrentHashMap3.b = mVarArr5;
+                concurrentHashMap3.transferIndex = length;
+                mVarArr3 = mVarArr5;
             } catch (Throwable unused) {
-                concurrentHashMap.sizeCtl = ConnectionsManager.DEFAULT_DATACENTER_ID;
+                concurrentHashMap3.sizeCtl = ConnectionsManager.DEFAULT_DATACENTER_ID;
                 return;
             }
         } else {
-            lVarArr3 = lVarArr2;
+            mVarArr3 = mVarArr2;
         }
-        int length2 = lVarArr3.length;
-        g gVar2 = new g(lVarArr3);
-        l[] lVarArr6 = lVarArr;
-        int i10 = 0;
-        int i11 = 0;
+        int length2 = mVarArr3.length;
+        h hVar2 = new h(mVarArr3);
+        m[] mVarArr6 = mVarArr;
+        ConcurrentHashMap<K, V> concurrentHashMap4 = concurrentHashMap3;
+        int i8 = 0;
+        int i9 = 0;
         boolean z = true;
         boolean z2 = false;
         while (true) {
             if (z) {
-                int i12 = i10 - 1;
-                if (i12 >= i11 || z2) {
-                    lVarArr4 = lVarArr6;
-                    i10 = i12;
-                    i11 = i11;
+                int i10 = i8 - 1;
+                if (i10 >= i9 || z2) {
+                    concurrentHashMap = concurrentHashMap4;
+                    mVarArr4 = mVarArr6;
+                    i8 = i10;
+                    i9 = i9;
                 } else {
-                    int i13 = concurrentHashMap.transferIndex;
-                    if (i13 <= 0) {
-                        lVarArr4 = lVarArr6;
-                        i10 = -1;
+                    int i11 = concurrentHashMap4.transferIndex;
+                    if (i11 <= 0) {
+                        concurrentHashMap = concurrentHashMap4;
+                        mVarArr4 = mVarArr6;
+                        i8 = -1;
                     } else {
-                        Unsafe unsafe = h;
-                        long j2 = j;
-                        int i14 = i13 > i9 ? i13 - i9 : 0;
-                        lVarArr4 = lVarArr6;
-                        i2 = i11;
-                        if (unsafe.compareAndSwapInt(this, j2, i13, i14)) {
-                            i10 = i13 - 1;
-                            i11 = i14;
+                        Unsafe unsafe = j;
+                        long j2 = l;
+                        int i12 = i11 > i7 ? i11 - i7 : 0;
+                        concurrentHashMap = concurrentHashMap4;
+                        mVarArr4 = mVarArr6;
+                        int i13 = i9;
+                        if (unsafe.compareAndSwapInt(this, j2, i11, i12)) {
+                            i8 = i11 - 1;
+                            i9 = i12;
                         } else {
-                            lVarArr6 = lVarArr4;
-                            i10 = i12;
-                            i11 = i2;
+                            mVarArr6 = mVarArr4;
+                            i8 = i10;
+                            i9 = i13;
+                            concurrentHashMap4 = concurrentHashMap;
                         }
                     }
                 }
-                lVarArr6 = lVarArr4;
+                mVarArr6 = mVarArr4;
+                concurrentHashMap4 = concurrentHashMap;
                 z = false;
             } else {
-                l[] lVarArr7 = lVarArr6;
-                i2 = i11;
-                r rVar2 = null;
-                if (i10 < 0 || i10 >= length || (i3 = i10 + length) >= length2) {
-                    int i15 = i9;
-                    int i16 = length2;
-                    g gVar3 = gVar2;
+                ConcurrentHashMap<K, V> concurrentHashMap5 = concurrentHashMap4;
+                m[] mVarArr7 = mVarArr6;
+                int i14 = i9;
+                s sVar3 = null;
+                if (i8 < 0 || i8 >= length || (i4 = i8 + length) >= length2) {
+                    i2 = i7;
+                    i3 = length2;
+                    hVar = hVar2;
                     if (z2) {
                         this.b = null;
-                        this.a = lVarArr3;
+                        this.a = mVarArr3;
                         this.sizeCtl = (length << 1) - (length >>> 1);
                         return;
                     }
-                    Unsafe unsafe2 = h;
-                    long j3 = i;
-                    int i17 = this.sizeCtl;
-                    int i18 = i10;
-                    if (!unsafe2.compareAndSwapInt(this, j3, i17, i17 - 1)) {
-                        gVar2 = gVar3;
-                        concurrentHashMap = this;
-                        i10 = i18;
-                        lVarArr6 = lVarArr7;
-                        i11 = i2;
-                        i9 = i15;
-                        length2 = i16;
-                    } else if (i17 - 2 != (j(length) << 16)) {
+                    concurrentHashMap2 = this;
+                    Unsafe unsafe2 = j;
+                    long j3 = k;
+                    int i15 = concurrentHashMap2.sizeCtl;
+                    int i16 = i8;
+                    if (!unsafe2.compareAndSwapInt(this, j3, i15, i15 - 1)) {
+                        concurrentHashMap4 = concurrentHashMap2;
+                        mVarArr6 = mVarArr7;
+                        i8 = i16;
+                    } else if (i15 - 2 != ((Integer.numberOfLeadingZeros(length) | LiteMode.FLAG_CHAT_SCALE) << h)) {
                         return;
                     } else {
-                        gVar2 = gVar3;
-                        i10 = length;
-                        concurrentHashMap = this;
-                        lVarArr6 = lVarArr7;
-                        i11 = i2;
-                        i9 = i15;
-                        length2 = i16;
+                        i8 = length;
+                        concurrentHashMap4 = concurrentHashMap2;
+                        mVarArr6 = mVarArr7;
                         z = true;
                         z2 = true;
                     }
                 } else {
-                    l n2 = n(lVarArr7, i10);
-                    if (n2 == null) {
-                        z = b(lVarArr7, i10, null, gVar2);
-                        lVarArr6 = lVarArr7;
-                        i11 = i2;
+                    m m2 = m(mVarArr7, i8);
+                    if (m2 == null) {
+                        z = b(mVarArr7, i8, hVar2);
+                        i2 = i7;
+                        i3 = length2;
+                        hVar = hVar2;
+                        mVarArr6 = mVarArr7;
+                        concurrentHashMap4 = concurrentHashMap5;
                     } else {
-                        int i19 = n2.a;
-                        if (i19 == -1) {
-                            lVarArr6 = lVarArr7;
-                            i11 = i2;
+                        int i17 = m2.a;
+                        if (i17 == -1) {
+                            concurrentHashMap2 = concurrentHashMap3;
+                            i2 = i7;
+                            i3 = length2;
+                            hVar = hVar2;
+                            mVarArr6 = mVarArr7;
+                            concurrentHashMap4 = concurrentHashMap5;
                             z = true;
                         } else {
-                            synchronized (n2) {
-                                if (n(lVarArr7, i10) == n2) {
-                                    if (i19 >= 0) {
-                                        int i20 = i19 & length;
-                                        r rVar3 = n2;
-                                        for (r rVar4 = n2.d; rVar4 != null; rVar4 = rVar4.d) {
-                                            int i21 = rVar4.a & length;
-                                            if (i21 != i20) {
-                                                rVar3 = rVar4;
-                                                i20 = i21;
+                            synchronized (m2) {
+                                if (m(mVarArr7, i8) == m2) {
+                                    if (i17 >= 0) {
+                                        int i18 = i17 & length;
+                                        s sVar4 = m2;
+                                        for (s sVar5 = m2.d; sVar5 != null; sVar5 = sVar5.d) {
+                                            int i19 = sVar5.a & length;
+                                            if (i19 != i18) {
+                                                sVar4 = sVar5;
+                                                i18 = i19;
                                             }
                                         }
-                                        if (i20 == 0) {
-                                            rVar = null;
-                                            rVar2 = rVar3;
+                                        if (i18 == 0) {
+                                            sVar = sVar4;
                                         } else {
-                                            rVar = rVar3;
+                                            sVar = null;
+                                            sVar3 = sVar4;
                                         }
-                                        l lVar = n2;
-                                        while (lVar != rVar3) {
-                                            int i22 = lVar.a;
-                                            r rVar5 = rVar3;
-                                            Object obj = lVar.b;
-                                            int i23 = i9;
-                                            Object obj2 = lVar.c;
-                                            if ((i22 & length) == 0) {
-                                                i6 = length2;
-                                                rVar2 = new l(i22, obj, obj2, rVar2);
+                                        m mVar = m2;
+                                        while (mVar != sVar4) {
+                                            int i20 = mVar.a;
+                                            int i21 = i7;
+                                            Object obj = mVar.b;
+                                            int i22 = length2;
+                                            Object obj2 = mVar.c;
+                                            if ((i20 & length) == 0) {
+                                                sVar2 = sVar4;
+                                                sVar = new m(i20, obj, obj2, sVar);
                                             } else {
-                                                i6 = length2;
-                                                rVar = new l(i22, obj, obj2, rVar);
+                                                sVar2 = sVar4;
+                                                sVar3 = new m(i20, obj, obj2, sVar3);
                                             }
-                                            lVar = lVar.d;
-                                            rVar3 = rVar5;
-                                            i9 = i23;
-                                            length2 = i6;
+                                            mVar = mVar.d;
+                                            i7 = i21;
+                                            length2 = i22;
+                                            sVar4 = sVar2;
                                         }
-                                        i4 = i9;
-                                        i5 = length2;
-                                        k(lVarArr3, i10, rVar2);
-                                        k(lVarArr3, i3, rVar);
-                                        k(lVarArr7, i10, gVar2);
-                                        gVar = gVar2;
-                                        lVarArr6 = lVarArr7;
+                                        i2 = i7;
+                                        i3 = length2;
+                                        j(mVarArr3, i8, sVar);
+                                        j(mVarArr3, i4, sVar3);
+                                        j(mVarArr7, i8, hVar2);
+                                        hVar = hVar2;
                                     } else {
-                                        i4 = i9;
-                                        i5 = length2;
-                                        if (n2 instanceof q) {
-                                            q qVar = (q) n2;
-                                            r rVar6 = null;
-                                            r rVar7 = null;
-                                            l lVar2 = qVar.f;
+                                        i2 = i7;
+                                        i3 = length2;
+                                        if (m2 instanceof r) {
+                                            r rVar = (r) m2;
+                                            s sVar6 = null;
+                                            s sVar7 = null;
+                                            m mVar2 = rVar.f;
+                                            int i23 = 0;
                                             int i24 = 0;
-                                            int i25 = 0;
-                                            r rVar8 = null;
-                                            while (lVar2 != null) {
-                                                q qVar2 = qVar;
-                                                int i26 = lVar2.a;
-                                                g gVar4 = gVar2;
-                                                r rVar9 = new r(i26, lVar2.b, lVar2.c, null, null);
-                                                if ((i26 & length) == 0) {
-                                                    rVar9.h = rVar7;
-                                                    if (rVar7 == null) {
-                                                        rVar2 = rVar9;
+                                            s sVar8 = null;
+                                            while (mVar2 != null) {
+                                                r rVar2 = rVar;
+                                                int i25 = mVar2.a;
+                                                h hVar3 = hVar2;
+                                                s sVar9 = new s(i25, mVar2.b, mVar2.c, null, null);
+                                                if ((i25 & length) == 0) {
+                                                    sVar9.h = sVar7;
+                                                    if (sVar7 == null) {
+                                                        sVar3 = sVar9;
                                                     } else {
-                                                        rVar7.d = rVar9;
+                                                        sVar7.d = sVar9;
+                                                    }
+                                                    i23++;
+                                                    sVar7 = sVar9;
+                                                } else {
+                                                    sVar9.h = sVar6;
+                                                    if (sVar6 == null) {
+                                                        sVar8 = sVar9;
+                                                    } else {
+                                                        sVar6.d = sVar9;
                                                     }
                                                     i24++;
-                                                    rVar7 = rVar9;
-                                                } else {
-                                                    rVar9.h = rVar6;
-                                                    if (rVar6 == null) {
-                                                        rVar8 = rVar9;
-                                                    } else {
-                                                        rVar6.d = rVar9;
-                                                    }
-                                                    i25++;
-                                                    rVar6 = rVar9;
+                                                    sVar6 = sVar9;
                                                 }
-                                                lVar2 = lVar2.d;
-                                                qVar = qVar2;
-                                                gVar2 = gVar4;
+                                                mVar2 = mVar2.d;
+                                                rVar = rVar2;
+                                                hVar2 = hVar3;
                                             }
-                                            q qVar3 = qVar;
-                                            g gVar5 = gVar2;
-                                            l s2 = i24 <= 6 ? s(rVar2) : i25 != 0 ? new q(rVar2) : qVar3;
-                                            l s3 = i25 <= 6 ? s(rVar8) : i24 != 0 ? new q(rVar8) : qVar3;
-                                            k(lVarArr3, i10, s2);
-                                            k(lVarArr3, i3, s3);
-                                            gVar = gVar5;
-                                            k(lVarArr, i10, gVar);
-                                            lVarArr6 = lVarArr;
+                                            r rVar3 = rVar;
+                                            h hVar4 = hVar2;
+                                            m r = i23 <= 6 ? r(sVar3) : i24 != 0 ? new r(sVar3) : rVar3;
+                                            m r2 = i24 <= 6 ? r(sVar8) : i23 != 0 ? new r(sVar8) : rVar3;
+                                            j(mVarArr3, i8, r);
+                                            j(mVarArr3, i4, r2);
+                                            hVar = hVar4;
+                                            j(mVarArr, i8, hVar);
+                                            mVarArr7 = mVarArr;
                                         }
                                     }
                                     z = true;
                                 } else {
-                                    i4 = i9;
-                                    i5 = length2;
+                                    i2 = i7;
+                                    i3 = length2;
                                 }
-                                gVar = gVar2;
-                                lVarArr6 = lVarArr7;
+                                hVar = hVar2;
                             }
-                            gVar2 = gVar;
-                            i11 = i2;
-                            i9 = i4;
-                            length2 = i5;
-                            concurrentHashMap = this;
+                            concurrentHashMap4 = this;
+                            mVarArr6 = mVarArr7;
                         }
                     }
+                    concurrentHashMap2 = this;
                 }
+                hVar2 = hVar;
+                concurrentHashMap3 = concurrentHashMap2;
+                i9 = i14;
+                i7 = i2;
+                length2 = i3;
             }
         }
     }
 
-    private final void q(l[] lVarArr, int i2) {
-        int length = lVarArr.length;
+    private final void p(m[] mVarArr, int i2) {
+        int length = mVarArr.length;
         if (length < 64) {
-            r(length << 1);
+            q(length << 1);
             return;
         }
-        l n2 = n(lVarArr, i2);
-        if (n2 == null || n2.a < 0) {
+        m m2 = m(mVarArr, i2);
+        if (m2 == null || m2.a < 0) {
             return;
         }
-        synchronized (n2) {
-            if (n(lVarArr, i2) == n2) {
-                r rVar = null;
-                l lVar = n2;
-                r rVar2 = null;
-                while (lVar != null) {
-                    r rVar3 = new r(lVar.a, lVar.b, lVar.c, null, null);
-                    rVar3.h = rVar2;
-                    if (rVar2 == null) {
-                        rVar = rVar3;
+        synchronized (m2) {
+            if (m(mVarArr, i2) == m2) {
+                s sVar = null;
+                m mVar = m2;
+                s sVar2 = null;
+                while (mVar != null) {
+                    s sVar3 = new s(mVar.a, mVar.b, mVar.c, null, null);
+                    sVar3.h = sVar2;
+                    if (sVar2 == null) {
+                        sVar = sVar3;
                     } else {
-                        rVar2.d = rVar3;
+                        sVar2.d = sVar3;
                     }
-                    lVar = lVar.d;
-                    rVar2 = rVar3;
+                    mVar = mVar.d;
+                    sVar2 = sVar3;
                 }
-                k(lVarArr, i2, new q(rVar));
+                j(mVarArr, i2, new r(sVar));
             }
         }
     }
 
-    private final void r(int i2) {
+    private final void q(int i2) {
         int length;
-        l[] lVarArr;
-        int o2 = i2 >= 536870912 ? 1073741824 : o(i2 + (i2 >>> 1) + 1);
+        m[] mVarArr;
+        int n2 = i2 >= 536870912 ? 1073741824 : n(i2 + (i2 >>> 1) + 1);
         while (true) {
             int i3 = this.sizeCtl;
             if (i3 < 0) {
                 return;
             }
-            l[] lVarArr2 = this.a;
-            if (lVarArr2 == null || (length = lVarArr2.length) == 0) {
-                int i4 = i3 > o2 ? i3 : o2;
-                if (h.compareAndSwapInt(this, i, i3, -1)) {
+            m[] mVarArr2 = this.a;
+            if (mVarArr2 == null || (length = mVarArr2.length) == 0) {
+                int i4 = i3 > n2 ? i3 : n2;
+                if (j.compareAndSwapInt(this, k, i3, -1)) {
                     try {
-                        if (this.a == lVarArr2) {
-                            this.a = new l[i4];
+                        if (this.a == mVarArr2) {
+                            this.a = new m[i4];
                             i3 = i4 - (i4 >>> 2);
                         }
                     } finally {
@@ -2321,20 +658,21 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
                 } else {
                     continue;
                 }
-            } else if (o2 <= i3 || length >= 1073741824) {
+            } else if (n2 <= i3 || length >= 1073741824) {
                 return;
             } else {
-                if (lVarArr2 == this.a) {
-                    int j2 = j(length);
+                if (mVarArr2 == this.a) {
+                    int numberOfLeadingZeros = Integer.numberOfLeadingZeros(length) | LiteMode.FLAG_CHAT_SCALE;
+                    int i5 = h;
                     if (i3 < 0) {
-                        if ((i3 >>> 16) != j2 || i3 == j2 + 1 || i3 == j2 + 65535 || (lVarArr = this.b) == null || this.transferIndex <= 0) {
+                        if ((i3 >>> i5) != numberOfLeadingZeros || i3 == numberOfLeadingZeros + 1 || i3 == numberOfLeadingZeros + g || (mVarArr = this.b) == null || this.transferIndex <= 0) {
                             return;
                         }
-                        if (h.compareAndSwapInt(this, i, i3, i3 + 1)) {
-                            p(lVarArr2, lVarArr);
+                        if (j.compareAndSwapInt(this, k, i3, i3 + 1)) {
+                            o(mVarArr2, mVarArr);
                         }
-                    } else if (h.compareAndSwapInt(this, i, i3, (j2 << 16) + 2)) {
-                        p(lVarArr2, null);
+                    } else if (j.compareAndSwapInt(this, k, i3, (numberOfLeadingZeros << i5) + 2)) {
+                        o(mVarArr2, null);
                     }
                 } else {
                     continue;
@@ -2343,16 +681,33 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         }
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Type inference failed for: r7v2, types: [j$.util.concurrent.m] */
+    static m r(s sVar) {
+        m mVar = null;
+        m mVar2 = null;
+        for (s sVar2 = sVar; sVar2 != null; sVar2 = sVar2.d) {
+            m mVar3 = new m(sVar2.a, sVar2.b, sVar2.c, null);
+            if (mVar2 == null) {
+                mVar = mVar3;
+            } else {
+                mVar2.d = mVar3;
+            }
+            mVar2 = mVar3;
+        }
+        return mVar;
+    }
+
     private void readObject(ObjectInputStream objectInputStream) {
         long j2;
-        int o2;
+        int n2;
         boolean z;
         Object obj;
         this.sizeCtl = -1;
         objectInputStream.defaultReadObject();
         long j3 = 0;
         long j4 = 0;
-        l lVar = null;
+        m mVar = null;
         while (true) {
             Object readObject = objectInputStream.readObject();
             Object readObject2 = objectInputStream.readObject();
@@ -2361,33 +716,33 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
                 break;
             }
             j4++;
-            lVar = new l(l(readObject.hashCode()), readObject, readObject2, lVar);
+            mVar = new m(k(readObject.hashCode()), readObject, readObject2, mVar);
         }
         if (j4 == 0) {
             this.sizeCtl = 0;
             return;
         }
         if (j4 >= 536870912) {
-            o2 = 1073741824;
+            n2 = 1073741824;
         } else {
             int i2 = (int) j4;
-            o2 = o(i2 + (i2 >>> 1) + 1);
+            n2 = n(i2 + (i2 >>> 1) + 1);
         }
-        l[] lVarArr = new l[o2];
-        int i3 = o2 - 1;
-        while (lVar != null) {
-            l lVar2 = lVar.d;
-            int i4 = lVar.a;
+        m[] mVarArr = new m[n2];
+        int i3 = n2 - 1;
+        while (mVar != null) {
+            m mVar2 = mVar.d;
+            int i4 = mVar.a;
             int i5 = i4 & i3;
-            l n2 = n(lVarArr, i5);
-            if (n2 == null) {
+            m m2 = m(mVarArr, i5);
+            if (m2 == null) {
                 z = true;
             } else {
-                Object obj2 = lVar.b;
-                if (n2.a >= 0) {
+                Object obj2 = mVar.b;
+                if (m2.a >= 0) {
                     int i6 = 0;
-                    for (l lVar3 = n2; lVar3 != null; lVar3 = lVar3.d) {
-                        if (lVar3.a == i4 && ((obj = lVar3.b) == obj2 || (obj != null && obj2.equals(obj)))) {
+                    for (m mVar3 = m2; mVar3 != null; mVar3 = mVar3.d) {
+                        if (mVar3.a == i4 && ((obj = mVar3.b) == obj2 || (obj != null && obj2.equals(obj)))) {
                             z = false;
                             break;
                         }
@@ -2395,58 +750,43 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
                     }
                     z = true;
                     if (z && i6 >= 8) {
-                        j3++;
-                        lVar.d = n2;
-                        l lVar4 = lVar;
-                        r rVar = null;
-                        r rVar2 = null;
-                        while (lVar4 != null) {
-                            long j5 = j3;
-                            r rVar3 = new r(lVar4.a, lVar4.b, lVar4.c, null, null);
-                            rVar3.h = rVar2;
-                            if (rVar2 == null) {
-                                rVar = rVar3;
+                        long j5 = j3 + 1;
+                        mVar.d = m2;
+                        m mVar4 = mVar;
+                        s sVar = null;
+                        s sVar2 = null;
+                        while (mVar4 != null) {
+                            long j6 = j5;
+                            s sVar3 = new s(mVar4.a, mVar4.b, mVar4.c, null, null);
+                            sVar3.h = sVar2;
+                            if (sVar2 == null) {
+                                sVar = sVar3;
                             } else {
-                                rVar2.d = rVar3;
+                                sVar2.d = sVar3;
                             }
-                            lVar4 = lVar4.d;
-                            rVar2 = rVar3;
-                            j3 = j5;
+                            mVar4 = mVar4.d;
+                            sVar2 = sVar3;
+                            j5 = j6;
                         }
-                        k(lVarArr, i5, new q(rVar));
+                        j(mVarArr, i5, new r(sVar));
+                        j3 = j5;
                     }
-                } else if (((q) n2).f(i4, obj2, lVar.c) == null) {
+                } else if (((r) m2).f(i4, obj2, mVar.c) == null) {
                     j3 += j2;
                 }
                 z = false;
             }
             if (z) {
                 j3++;
-                lVar.d = n2;
-                k(lVarArr, i5, lVar);
+                mVar.d = m2;
+                j(mVarArr, i5, mVar);
             }
             j2 = 1;
-            lVar = lVar2;
+            mVar = mVar2;
         }
-        this.a = lVarArr;
-        this.sizeCtl = o2 - (o2 >>> 2);
+        this.a = mVarArr;
+        this.sizeCtl = n2 - (n2 >>> 2);
         this.baseCount = j3;
-    }
-
-    static l s(l lVar) {
-        l lVar2 = null;
-        l lVar3 = null;
-        while (lVar != null) {
-            l lVar4 = new l(lVar.a, lVar.b, lVar.c, null);
-            if (lVar3 == null) {
-                lVar2 = lVar4;
-            } else {
-                lVar3.d = lVar4;
-            }
-            lVar = lVar.d;
-            lVar3 = lVar4;
-        }
-        return lVar2;
     }
 
     private void writeObject(ObjectOutputStream objectOutputStream) {
@@ -2458,24 +798,24 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         }
         int i4 = 32 - i3;
         int i5 = i2 - 1;
-        n[] nVarArr = new n[16];
+        o[] oVarArr = new o[16];
         for (int i6 = 0; i6 < 16; i6++) {
-            nVarArr[i6] = new n(0.75f);
+            oVarArr[i6] = new o();
         }
-        objectOutputStream.putFields().put("segments", nVarArr);
+        objectOutputStream.putFields().put("segments", oVarArr);
         objectOutputStream.putFields().put("segmentShift", i4);
         objectOutputStream.putFields().put("segmentMask", i5);
         objectOutputStream.writeFields();
-        l[] lVarArr = this.a;
-        if (lVarArr != null) {
-            p pVar = new p(lVarArr, lVarArr.length, 0, lVarArr.length);
+        m[] mVarArr = this.a;
+        if (mVarArr != null) {
+            q qVar = new q(mVarArr, mVarArr.length, 0, mVarArr.length);
             while (true) {
-                l a2 = pVar.a();
-                if (a2 == null) {
+                m f = qVar.f();
+                if (f == null) {
                     break;
                 }
-                objectOutputStream.writeObject(a2.b);
-                objectOutputStream.writeObject(a2.c);
+                objectOutputStream.writeObject(f.b);
+                objectOutputStream.writeObject(f.c);
             }
         }
         objectOutputStream.writeObject(null);
@@ -2484,32 +824,32 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
     @Override // java.util.AbstractMap, java.util.Map, j$.util.Map
     public void clear() {
-        l n2;
-        l[] lVarArr = this.a;
+        m m2;
+        m[] mVarArr = this.a;
         long j2 = 0;
         loop0: while (true) {
             int i2 = 0;
-            while (lVarArr != null && i2 < lVarArr.length) {
-                n2 = n(lVarArr, i2);
-                if (n2 == null) {
+            while (mVarArr != null && i2 < mVarArr.length) {
+                m2 = m(mVarArr, i2);
+                if (m2 == null) {
                     i2++;
                 } else {
-                    int i3 = n2.a;
+                    int i3 = m2.a;
                     if (i3 == -1) {
                         break;
                     }
-                    synchronized (n2) {
-                        if (n(lVarArr, i2) == n2) {
-                            for (l lVar = i3 >= 0 ? n2 : n2 instanceof q ? ((q) n2).f : null; lVar != null; lVar = lVar.d) {
+                    synchronized (m2) {
+                        if (m(mVarArr, i2) == m2) {
+                            for (m mVar = i3 >= 0 ? m2 : m2 instanceof r ? ((r) m2).f : null; mVar != null; mVar = mVar.d) {
                                 j2--;
                             }
-                            k(lVarArr, i2, null);
+                            j(mVarArr, i2, null);
                             i2++;
                         }
                     }
                 }
             }
-            lVarArr = f(lVarArr, n2);
+            mVarArr = f(mVarArr, m2);
         }
         if (j2 != 0) {
             a(j2, -1);
@@ -2517,121 +857,131 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     }
 
     @Override // j$.util.Map
-    public Object compute(Object obj, BiFunction biFunction) {
+    public final Object compute(Object obj, BiFunction biFunction) {
         int i2;
-        l lVar;
+        m mVar;
         Object obj2;
         Object obj3;
         if (obj == null || biFunction == null) {
             throw null;
         }
-        int l2 = l(obj.hashCode());
-        l[] lVarArr = this.a;
+        int k2 = k(obj.hashCode());
+        m[] mVarArr = this.a;
         int i3 = 0;
         Object obj4 = null;
         int i4 = 0;
         while (true) {
-            if (lVarArr != null) {
-                int length = lVarArr.length;
+            if (mVarArr != null) {
+                int length = mVarArr.length;
                 if (length != 0) {
-                    int i5 = (length - 1) & l2;
-                    l n2 = n(lVarArr, i5);
-                    if (n2 == null) {
-                        m mVar = new m();
-                        synchronized (mVar) {
-                            if (b(lVarArr, i5, null, mVar)) {
+                    int i5 = (length - 1) & k2;
+                    m m2 = m(mVarArr, i5);
+                    if (m2 == null) {
+                        n nVar = new n();
+                        synchronized (nVar) {
+                            if (b(mVarArr, i5, nVar)) {
                                 Object apply = biFunction.apply(obj, null);
                                 if (apply != null) {
-                                    lVar = new l(l2, obj, apply, null);
+                                    mVar = new m(k2, obj, apply, null);
                                     i2 = 1;
                                 } else {
                                     i2 = i3;
-                                    lVar = null;
+                                    mVar = null;
                                 }
-                                k(lVarArr, i5, lVar);
+                                j(mVarArr, i5, mVar);
                                 i3 = i2;
                                 obj4 = apply;
                                 i4 = 1;
                             }
                         }
                         if (i4 != 0) {
-                            break;
                         }
                     } else {
-                        int i6 = n2.a;
+                        int i6 = m2.a;
                         if (i6 == -1) {
-                            lVarArr = f(lVarArr, n2);
+                            mVarArr = f(mVarArr, m2);
                         } else {
-                            synchronized (n2) {
-                                if (n(lVarArr, i5) == n2) {
-                                    if (i6 >= 0) {
-                                        l lVar2 = null;
-                                        l lVar3 = n2;
-                                        int i7 = 1;
-                                        while (true) {
-                                            if (lVar3.a != l2 || ((obj3 = lVar3.b) != obj && (obj3 == null || !obj.equals(obj3)))) {
-                                                l lVar4 = lVar3.d;
-                                                if (lVar4 == null) {
-                                                    Object apply2 = biFunction.apply(obj, null);
-                                                    if (apply2 != null) {
-                                                        lVar3.d = new l(l2, obj, apply2, null);
-                                                        i3 = 1;
+                            synchronized (m2) {
+                                try {
+                                    if (m(mVarArr, i5) == m2) {
+                                        if (i6 >= 0) {
+                                            m mVar2 = null;
+                                            m mVar3 = m2;
+                                            int i7 = 1;
+                                            while (true) {
+                                                if (mVar3.a != k2 || ((obj3 = mVar3.b) != obj && (obj3 == null || !obj.equals(obj3)))) {
+                                                    m mVar4 = mVar3.d;
+                                                    if (mVar4 == null) {
+                                                        Object apply2 = biFunction.apply(obj, null);
+                                                        if (apply2 != null) {
+                                                            mVar3.d = new m(k2, obj, apply2, null);
+                                                            obj2 = apply2;
+                                                            i3 = 1;
+                                                        } else {
+                                                            obj2 = apply2;
+                                                        }
+                                                    } else {
+                                                        i7++;
+                                                        mVar2 = mVar3;
+                                                        mVar3 = mVar4;
                                                     }
-                                                    obj2 = apply2;
-                                                } else {
-                                                    i7++;
-                                                    lVar2 = lVar3;
-                                                    lVar3 = lVar4;
                                                 }
                                             }
-                                        }
-                                        obj2 = biFunction.apply(obj, lVar3.c);
-                                        if (obj2 != null) {
-                                            lVar3.c = obj2;
-                                        } else {
-                                            l lVar5 = lVar3.d;
-                                            if (lVar2 != null) {
-                                                lVar2.d = lVar5;
+                                            obj2 = biFunction.apply(obj, mVar3.c);
+                                            if (obj2 != null) {
+                                                mVar3.c = obj2;
                                             } else {
-                                                k(lVarArr, i5, lVar5);
+                                                m mVar5 = mVar3.d;
+                                                if (mVar2 != null) {
+                                                    mVar2.d = mVar5;
+                                                } else {
+                                                    j(mVarArr, i5, mVar5);
+                                                }
+                                                i3 = -1;
                                             }
-                                            i3 = -1;
-                                        }
-                                        i4 = i7;
-                                        obj4 = obj2;
-                                    } else if (n2 instanceof q) {
-                                        q qVar = (q) n2;
-                                        r rVar = qVar.e;
-                                        r b2 = rVar != null ? rVar.b(l2, obj, null) : null;
-                                        Object apply3 = biFunction.apply(obj, b2 == null ? null : b2.c);
-                                        if (apply3 != null) {
-                                            if (b2 != null) {
-                                                b2.c = apply3;
+                                            i4 = i7;
+                                            obj4 = obj2;
+                                        } else if (m2 instanceof r) {
+                                            r rVar = (r) m2;
+                                            s sVar = rVar.e;
+                                            s b = sVar != null ? sVar.b(k2, obj, null) : null;
+                                            Object apply3 = biFunction.apply(obj, b == null ? null : b.c);
+                                            if (apply3 == null) {
+                                                if (b != null) {
+                                                    if (rVar.g(b)) {
+                                                        j(mVarArr, i5, r(rVar.f));
+                                                    }
+                                                    obj4 = apply3;
+                                                    i3 = -1;
+                                                    i4 = 1;
+                                                }
+                                                obj4 = apply3;
+                                                i4 = 1;
+                                            } else if (b != null) {
+                                                b.c = apply3;
+                                                obj4 = apply3;
+                                                i4 = 1;
                                             } else {
-                                                qVar.f(l2, obj, apply3);
+                                                rVar.f(k2, obj, apply3);
+                                                obj4 = apply3;
                                                 i3 = 1;
+                                                i4 = 1;
                                             }
-                                        } else if (b2 != null) {
-                                            if (qVar.g(b2)) {
-                                                k(lVarArr, i5, s(qVar.f));
-                                            }
-                                            i3 = -1;
                                         }
-                                        obj4 = apply3;
-                                        i4 = 1;
                                     }
+                                } finally {
                                 }
                             }
                             if (i4 != 0) {
                                 if (i4 >= 8) {
-                                    q(lVarArr, i5);
+                                    p(mVarArr, i5);
                                 }
                             }
                         }
                     }
                 }
             }
-            lVarArr = g();
+            mVarArr = g();
         }
         if (i3 != 0) {
             a(i3, i4);
@@ -2640,101 +990,94 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     }
 
     @Override // java.util.Map, java.util.concurrent.ConcurrentMap
-    public /* synthetic */ Object compute(Object obj, java.util.function.BiFunction biFunction) {
-        return compute(obj, j$.wrappers.s.a(biFunction));
+    public final /* synthetic */ Object compute(Object obj, java.util.function.BiFunction biFunction) {
+        return compute(obj, BiFunction.VivifiedWrapper.convert(biFunction));
     }
 
     @Override // j$.util.Map
-    public Object computeIfAbsent(Object obj, Function function) {
-        int i2;
+    public final Object computeIfAbsent(Object obj, Function function) {
+        s b;
         Object apply;
-        r b2;
         Object obj2;
         Object obj3;
         if (obj == null || function == null) {
             throw null;
         }
-        int l2 = l(obj.hashCode());
-        l[] lVarArr = this.a;
+        int k2 = k(obj.hashCode());
+        m[] mVarArr = this.a;
         Object obj4 = null;
-        int i3 = 0;
+        int i2 = 0;
         while (true) {
-            if (lVarArr != null) {
-                int length = lVarArr.length;
+            if (mVarArr != null) {
+                int length = mVarArr.length;
                 if (length != 0) {
-                    int i4 = (length - 1) & l2;
-                    l n2 = n(lVarArr, i4);
+                    int i3 = (length - 1) & k2;
+                    m m2 = m(mVarArr, i3);
                     boolean z = true;
-                    if (n2 == null) {
-                        m mVar = new m();
-                        synchronized (mVar) {
-                            if (b(lVarArr, i4, null, mVar)) {
+                    if (m2 == null) {
+                        n nVar = new n();
+                        synchronized (nVar) {
+                            if (b(mVarArr, i3, nVar)) {
                                 Object apply2 = function.apply(obj);
-                                k(lVarArr, i4, apply2 != null ? new l(l2, obj, apply2, null) : null);
+                                j(mVarArr, i3, apply2 != null ? new m(k2, obj, apply2, null) : null);
                                 obj4 = apply2;
-                                i3 = 1;
+                                i2 = 1;
                             }
                         }
-                        if (i3 != 0) {
+                        if (i2 != 0) {
                             break;
                         }
                     } else {
-                        int i5 = n2.a;
-                        if (i5 == -1) {
-                            lVarArr = f(lVarArr, n2);
+                        int i4 = m2.a;
+                        if (i4 == -1) {
+                            mVarArr = f(mVarArr, m2);
                         } else {
-                            synchronized (n2) {
-                                if (n(lVarArr, i4) == n2) {
-                                    if (i5 >= 0) {
-                                        l lVar = n2;
-                                        i2 = 1;
+                            synchronized (m2) {
+                                if (m(mVarArr, i3) == m2) {
+                                    if (i4 >= 0) {
+                                        m mVar = m2;
+                                        int i5 = 1;
                                         while (true) {
-                                            if (lVar.a != l2 || ((obj3 = lVar.b) != obj && (obj3 == null || !obj.equals(obj3)))) {
-                                                l lVar2 = lVar.d;
-                                                if (lVar2 == null) {
+                                            if (mVar.a != k2 || ((obj3 = mVar.b) != obj && (obj3 == null || !obj.equals(obj3)))) {
+                                                m mVar2 = mVar.d;
+                                                if (mVar2 == null) {
                                                     apply = function.apply(obj);
                                                     if (apply != null) {
-                                                        lVar.d = new l(l2, obj, apply, null);
+                                                        mVar.d = new m(k2, obj, apply, null);
+                                                    } else {
+                                                        obj2 = apply;
                                                     }
                                                 } else {
-                                                    i2++;
-                                                    lVar = lVar2;
+                                                    i5++;
+                                                    mVar = mVar2;
                                                 }
                                             }
                                         }
-                                        obj2 = lVar.c;
+                                        obj2 = mVar.c;
+                                        apply = obj2;
                                         z = false;
-                                        int i6 = i2;
-                                        obj4 = obj2;
-                                        i3 = i6;
-                                    } else if (n2 instanceof q) {
-                                        i2 = 2;
-                                        q qVar = (q) n2;
-                                        r rVar = qVar.e;
-                                        if (rVar == null || (b2 = rVar.b(l2, obj, null)) == null) {
-                                            apply = function.apply(obj);
-                                            if (apply != null) {
-                                                qVar.f(l2, obj, apply);
-                                                i3 = i2;
-                                                obj4 = apply;
+                                        i2 = i5;
+                                        obj4 = apply;
+                                    } else if (m2 instanceof r) {
+                                        r rVar = (r) m2;
+                                        s sVar = rVar.e;
+                                        if (sVar == null || (b = sVar.b(k2, obj, null)) == null) {
+                                            obj4 = function.apply(obj);
+                                            if (obj4 != null) {
+                                                rVar.f(k2, obj, obj4);
+                                                i2 = 2;
                                             }
-                                            z = false;
-                                            i3 = i2;
-                                            obj4 = apply;
                                         } else {
-                                            obj2 = b2.c;
-                                            z = false;
-                                            int i62 = i2;
-                                            obj4 = obj2;
-                                            i3 = i62;
+                                            obj4 = b.c;
                                         }
+                                        i2 = 2;
                                     }
                                 }
                                 z = false;
                             }
-                            if (i3 != 0) {
-                                if (i3 >= 8) {
-                                    q(lVarArr, i4);
+                            if (i2 != 0) {
+                                if (i2 >= 8) {
+                                    p(mVarArr, i3);
                                 }
                                 if (!z) {
                                     return obj4;
@@ -2744,91 +1087,93 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
                     }
                 }
             }
-            lVarArr = g();
+            mVarArr = g();
         }
         if (obj4 != null) {
-            a(1L, i3);
+            a(1L, i2);
         }
         return obj4;
     }
 
     @Override // java.util.Map, java.util.concurrent.ConcurrentMap
-    public /* synthetic */ Object computeIfAbsent(Object obj, java.util.function.Function function) {
-        return computeIfAbsent(obj, L.a(function));
+    public final /* synthetic */ Object computeIfAbsent(Object obj, java.util.function.Function function) {
+        return computeIfAbsent(obj, Function.VivifiedWrapper.convert(function));
     }
 
     @Override // j$.util.Map
-    public Object computeIfPresent(Object obj, BiFunction biFunction) {
-        r b2;
-        l s2;
+    public final Object computeIfPresent(Object obj, BiFunction biFunction) {
+        s b;
         Object obj2;
         if (obj == null || biFunction == null) {
             throw null;
         }
-        int l2 = l(obj.hashCode());
-        l[] lVarArr = this.a;
+        int k2 = k(obj.hashCode());
+        m[] mVarArr = this.a;
         int i2 = 0;
         Object obj3 = null;
         int i3 = 0;
         while (true) {
-            if (lVarArr != null) {
-                int length = lVarArr.length;
+            if (mVarArr != null) {
+                int length = mVarArr.length;
                 if (length != 0) {
-                    int i4 = (length - 1) & l2;
-                    l n2 = n(lVarArr, i4);
-                    if (n2 == null) {
+                    int i4 = (length - 1) & k2;
+                    m m2 = m(mVarArr, i4);
+                    if (m2 == null) {
                         break;
                     }
-                    int i5 = n2.a;
+                    int i5 = m2.a;
                     if (i5 == -1) {
-                        lVarArr = f(lVarArr, n2);
+                        mVarArr = f(mVarArr, m2);
                     } else {
-                        synchronized (n2) {
-                            if (n(lVarArr, i4) == n2) {
-                                if (i5 >= 0) {
-                                    i3 = 1;
-                                    l lVar = null;
-                                    l lVar2 = n2;
-                                    while (true) {
-                                        if (lVar2.a != l2 || ((obj2 = lVar2.b) != obj && (obj2 == null || !obj.equals(obj2)))) {
-                                            l lVar3 = lVar2.d;
-                                            if (lVar3 == null) {
-                                                break;
+                        synchronized (m2) {
+                            try {
+                                if (m(mVarArr, i4) == m2) {
+                                    if (i5 >= 0) {
+                                        i3 = 1;
+                                        m mVar = null;
+                                        m mVar2 = m2;
+                                        while (true) {
+                                            if (mVar2.a != k2 || ((obj2 = mVar2.b) != obj && (obj2 == null || !obj.equals(obj2)))) {
+                                                m mVar3 = mVar2.d;
+                                                if (mVar3 == null) {
+                                                    break;
+                                                }
+                                                i3++;
+                                                mVar = mVar2;
+                                                mVar2 = mVar3;
                                             }
-                                            i3++;
-                                            lVar = lVar2;
-                                            lVar2 = lVar3;
                                         }
-                                    }
-                                    obj3 = biFunction.apply(obj, lVar2.c);
-                                    if (obj3 != null) {
-                                        lVar2.c = obj3;
-                                    } else {
-                                        s2 = lVar2.d;
-                                        if (lVar != null) {
-                                            lVar.d = s2;
-                                            i2 = -1;
-                                        }
-                                        k(lVarArr, i4, s2);
-                                        i2 = -1;
-                                    }
-                                } else if (n2 instanceof q) {
-                                    i3 = 2;
-                                    q qVar = (q) n2;
-                                    r rVar = qVar.e;
-                                    if (rVar != null && (b2 = rVar.b(l2, obj, null)) != null) {
-                                        obj3 = biFunction.apply(obj, b2.c);
+                                        obj3 = biFunction.apply(obj, mVar2.c);
                                         if (obj3 != null) {
-                                            b2.c = obj3;
+                                            mVar2.c = obj3;
                                         } else {
-                                            if (qVar.g(b2)) {
-                                                s2 = s(qVar.f);
-                                                k(lVarArr, i4, s2);
+                                            m mVar4 = mVar2.d;
+                                            if (mVar != null) {
+                                                mVar.d = mVar4;
+                                            } else {
+                                                j(mVarArr, i4, mVar4);
                                             }
                                             i2 = -1;
                                         }
+                                    } else if (m2 instanceof r) {
+                                        r rVar = (r) m2;
+                                        s sVar = rVar.e;
+                                        if (sVar != null && (b = sVar.b(k2, obj, null)) != null) {
+                                            obj3 = biFunction.apply(obj, b.c);
+                                            if (obj3 != null) {
+                                                b.c = obj3;
+                                            } else {
+                                                if (rVar.g(b)) {
+                                                    j(mVarArr, i4, r(rVar.f));
+                                                }
+                                                i2 = -1;
+                                            }
+                                        }
+                                        i3 = 2;
                                     }
                                 }
+                            } catch (Throwable th) {
+                                throw th;
                             }
                         }
                         if (i3 != 0) {
@@ -2837,7 +1182,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
                     }
                 }
             }
-            lVarArr = g();
+            mVarArr = g();
         }
         if (i2 != 0) {
             a(i2, i3);
@@ -2846,8 +1191,8 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     }
 
     @Override // java.util.Map, java.util.concurrent.ConcurrentMap
-    public /* synthetic */ Object computeIfPresent(Object obj, java.util.function.BiFunction biFunction) {
-        return computeIfPresent(obj, j$.wrappers.s.a(biFunction));
+    public final /* synthetic */ Object computeIfPresent(Object obj, java.util.function.BiFunction biFunction) {
+        return computeIfPresent(obj, BiFunction.VivifiedWrapper.convert(biFunction));
     }
 
     @Override // java.util.AbstractMap, java.util.Map, j$.util.Map
@@ -2856,17 +1201,17 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     }
 
     @Override // java.util.AbstractMap, java.util.Map, j$.util.Map
-    public boolean containsValue(Object obj) {
-        Objects.requireNonNull(obj);
-        l[] lVarArr = this.a;
-        if (lVarArr != null) {
-            p pVar = new p(lVarArr, lVarArr.length, 0, lVarArr.length);
+    public final boolean containsValue(Object obj) {
+        obj.getClass();
+        m[] mVarArr = this.a;
+        if (mVarArr != null) {
+            q qVar = new q(mVarArr, mVarArr.length, 0, mVarArr.length);
             while (true) {
-                l a2 = pVar.a();
-                if (a2 == null) {
+                m f = qVar.f();
+                if (f == null) {
                     break;
                 }
-                Object obj2 = a2.c;
+                Object obj2 = f.c;
                 if (obj2 == obj) {
                     return true;
                 }
@@ -2880,28 +1225,28 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
     @Override // java.util.AbstractMap, java.util.Map, j$.util.Map
     public Set<Map.Entry<K, V>> entrySet() {
-        e eVar = this.f;
-        if (eVar != null) {
-            return eVar;
+        f fVar = this.f;
+        if (fVar != null) {
+            return fVar;
         }
-        e eVar2 = new e(this);
-        this.f = eVar2;
-        return eVar2;
+        f fVar2 = new f(this);
+        this.f = fVar2;
+        return fVar2;
     }
 
     @Override // java.util.AbstractMap, java.util.Map, j$.util.Map
-    public boolean equals(Object obj) {
+    public final boolean equals(Object obj) {
         V value;
         V v;
         if (obj != this) {
             if (obj instanceof Map) {
                 Map map = (Map) obj;
-                l[] lVarArr = this.a;
-                int length = lVarArr == null ? 0 : lVarArr.length;
-                p pVar = new p(lVarArr, length, 0, length);
+                m[] mVarArr = this.a;
+                int length = mVarArr == null ? 0 : mVarArr.length;
+                q qVar = new q(mVarArr, length, 0, length);
                 while (true) {
-                    l a2 = pVar.a();
-                    if (a2 == null) {
+                    m f = qVar.f();
+                    if (f == null) {
                         for (Map.Entry<K, V> entry : map.entrySet()) {
                             K key = entry.getKey();
                             if (key == null || (value = entry.getValue()) == null || (v = get(key)) == null || (value != v && !value.equals(v))) {
@@ -2910,8 +1255,8 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
                         }
                         return true;
                     }
-                    Object obj2 = a2.c;
-                    Object obj3 = map.get(a2.b);
+                    Object obj2 = f.c;
+                    Object obj3 = map.get(f.b);
                     if (obj3 == null || (obj3 != obj2 && !obj3.equals(obj2))) {
                         break;
                     }
@@ -2923,44 +1268,44 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         return true;
     }
 
-    final l[] f(l[] lVarArr, l lVar) {
-        l[] lVarArr2;
+    final m[] f(m[] mVarArr, m mVar) {
+        m[] mVarArr2;
         int i2;
-        if (!(lVar instanceof g) || (lVarArr2 = ((g) lVar).e) == null) {
+        if (!(mVar instanceof h) || (mVarArr2 = ((h) mVar).e) == null) {
             return this.a;
         }
-        int j2 = j(lVarArr.length);
+        int numberOfLeadingZeros = Integer.numberOfLeadingZeros(mVarArr.length) | LiteMode.FLAG_CHAT_SCALE;
         while (true) {
-            if (lVarArr2 != this.b || this.a != lVarArr || (i2 = this.sizeCtl) >= 0 || (i2 >>> 16) != j2 || i2 == j2 + 1 || i2 == 65535 + j2 || this.transferIndex <= 0) {
+            if (mVarArr2 != this.b || this.a != mVarArr || (i2 = this.sizeCtl) >= 0 || (i2 >>> h) != numberOfLeadingZeros || i2 == numberOfLeadingZeros + 1 || i2 == g + numberOfLeadingZeros || this.transferIndex <= 0) {
                 break;
-            } else if (h.compareAndSwapInt(this, i, i2, i2 + 1)) {
-                p(lVarArr, lVarArr2);
+            } else if (j.compareAndSwapInt(this, k, i2, i2 + 1)) {
+                o(mVarArr, mVarArr2);
                 break;
             }
         }
-        return lVarArr2;
+        return mVarArr2;
     }
 
-    @Override // j$.util.concurrent.b, j$.util.Map
-    public void forEach(BiConsumer biConsumer) {
-        Objects.requireNonNull(biConsumer);
-        l[] lVarArr = this.a;
-        if (lVarArr == null) {
+    @Override // j$.util.concurrent.v, j$.util.Map
+    public final void forEach(BiConsumer biConsumer) {
+        biConsumer.getClass();
+        m[] mVarArr = this.a;
+        if (mVarArr == null) {
             return;
         }
-        p pVar = new p(lVarArr, lVarArr.length, 0, lVarArr.length);
+        q qVar = new q(mVarArr, mVarArr.length, 0, mVarArr.length);
         while (true) {
-            l a2 = pVar.a();
-            if (a2 == null) {
+            m f = qVar.f();
+            if (f == null) {
                 return;
             }
-            biConsumer.accept(a2.b, a2.c);
+            biConsumer.accept(f.b, f.c);
         }
     }
 
     @Override // java.util.Map, java.util.concurrent.ConcurrentMap
-    public /* synthetic */ void forEach(java.util.function.BiConsumer biConsumer) {
-        forEach(j$.wrappers.q.a(biConsumer));
+    public final /* synthetic */ void forEach(java.util.function.BiConsumer biConsumer) {
+        forEach(BiConsumer.VivifiedWrapper.convert(biConsumer));
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:32:0x004d, code lost:
@@ -2972,203 +1317,214 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     */
     public V get(Object obj) {
         int length;
-        l n2;
+        m m2;
         Object obj2;
-        int l2 = l(obj.hashCode());
-        l[] lVarArr = this.a;
-        if (lVarArr != null && (length = lVarArr.length) > 0 && (n2 = n(lVarArr, (length - 1) & l2)) != null) {
-            int i2 = n2.a;
-            if (i2 == l2) {
-                Object obj3 = n2.b;
+        int k2 = k(obj.hashCode());
+        m[] mVarArr = this.a;
+        if (mVarArr != null && (length = mVarArr.length) > 0 && (m2 = m(mVarArr, (length - 1) & k2)) != null) {
+            int i2 = m2.a;
+            if (i2 == k2) {
+                Object obj3 = m2.b;
                 if (obj3 == obj || (obj3 != null && obj.equals(obj3))) {
-                    return (V) n2.c;
+                    return (V) m2.c;
                 }
             } else if (i2 < 0) {
-                l a2 = n2.a(l2, obj);
-                if (a2 != null) {
-                    return (V) a2.c;
+                m a = m2.a(obj, k2);
+                if (a != null) {
+                    return (V) a.c;
                 }
                 return null;
             }
             while (true) {
-                n2 = n2.d;
-                if (n2 == null) {
+                m2 = m2.d;
+                if (m2 == null) {
                     break;
-                } else if (n2.a != l2 || ((obj2 = n2.b) != obj && (obj2 == null || !obj.equals(obj2)))) {
+                } else if (m2.a != k2 || ((obj2 = m2.b) != obj && (obj2 == null || !obj.equals(obj2)))) {
                 }
             }
         }
         return null;
     }
 
-    @Override // java.util.Map, java.util.concurrent.ConcurrentMap, j$.util.concurrent.b, j$.util.Map
-    public Object getOrDefault(Object obj, Object obj2) {
+    @Override // java.util.Map, java.util.concurrent.ConcurrentMap, j$.util.concurrent.v, j$.util.Map
+    public final Object getOrDefault(Object obj, Object obj2) {
         V v = get(obj);
         return v == null ? obj2 : v;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x0053, code lost:
-        if (r11 == false) goto L35;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* JADX WARN: Code restructure failed: missing block: B:30:0x0052, code lost:
+        r7 = r6.c;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:31:0x0054, code lost:
+        if (r11 != false) goto L36;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x0056, code lost:
+        r6.c = r10;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    final Object h(Object obj, Object obj2, boolean z) {
+    public final Object h(Object obj, Object obj2, boolean z) {
         Object obj3;
-        r f2;
         Object obj4;
         if (obj == null || obj2 == null) {
             throw null;
         }
-        int l2 = l(obj.hashCode());
+        int k2 = k(obj.hashCode());
+        m[] mVarArr = this.a;
         int i2 = 0;
-        l[] lVarArr = this.a;
         while (true) {
-            if (lVarArr != null) {
-                int length = lVarArr.length;
+            if (mVarArr != null) {
+                int length = mVarArr.length;
                 if (length != 0) {
-                    int i3 = (length - 1) & l2;
-                    l n2 = n(lVarArr, i3);
-                    if (n2 != null) {
-                        int i4 = n2.a;
+                    int i3 = (length - 1) & k2;
+                    m m2 = m(mVarArr, i3);
+                    if (m2 != null) {
+                        int i4 = m2.a;
                         if (i4 == -1) {
-                            lVarArr = f(lVarArr, n2);
+                            mVarArr = f(mVarArr, m2);
                         } else {
-                            synchronized (n2) {
-                                if (n(lVarArr, i3) == n2) {
+                            synchronized (m2) {
+                                if (m(mVarArr, i3) == m2) {
                                     if (i4 >= 0) {
                                         i2 = 1;
-                                        f2 = n2;
+                                        m mVar = m2;
                                         while (true) {
-                                            if (f2.a != l2 || ((obj4 = f2.b) != obj && (obj4 == null || !obj.equals(obj4)))) {
-                                                l lVar = f2.d;
-                                                if (lVar == null) {
-                                                    f2.d = new l(l2, obj, obj2, null);
+                                            if (mVar.a != k2 || ((obj4 = mVar.b) != obj && (obj4 == null || !obj.equals(obj4)))) {
+                                                m mVar2 = mVar.d;
+                                                if (mVar2 == null) {
+                                                    mVar.d = new m(k2, obj, obj2, null);
                                                     break;
                                                 }
                                                 i2++;
-                                                f2 = lVar;
+                                                mVar = mVar2;
                                             }
                                         }
-                                        obj3 = f2.c;
-                                    } else if (n2 instanceof q) {
-                                        i2 = 2;
-                                        f2 = ((q) n2).f(l2, obj, obj2);
-                                        if (f2 != null) {
-                                            obj3 = f2.c;
+                                    } else if (m2 instanceof r) {
+                                        s f = ((r) m2).f(k2, obj, obj2);
+                                        if (f != null) {
+                                            Object obj5 = f.c;
                                             if (!z) {
-                                                f2.c = obj2;
+                                                f.c = obj2;
                                             }
+                                            obj3 = obj5;
+                                        } else {
+                                            obj3 = null;
                                         }
+                                        i2 = 2;
                                     }
                                 }
                                 obj3 = null;
                             }
                             if (i2 != 0) {
                                 if (i2 >= 8) {
-                                    q(lVarArr, i3);
+                                    p(mVarArr, i3);
                                 }
                                 if (obj3 != null) {
                                     return obj3;
                                 }
                             }
                         }
-                    } else if (b(lVarArr, i3, null, new l(l2, obj, obj2, null))) {
+                    } else if (b(mVarArr, i3, new m(k2, obj, obj2, null))) {
                         break;
                     }
                 }
             }
-            lVarArr = g();
+            mVarArr = g();
         }
         a(1L, i2);
         return null;
     }
 
     @Override // java.util.AbstractMap, java.util.Map, j$.util.Map
-    public int hashCode() {
-        l[] lVarArr = this.a;
+    public final int hashCode() {
+        m[] mVarArr = this.a;
         int i2 = 0;
-        if (lVarArr != null) {
-            p pVar = new p(lVarArr, lVarArr.length, 0, lVarArr.length);
+        if (mVarArr != null) {
+            q qVar = new q(mVarArr, mVarArr.length, 0, mVarArr.length);
             while (true) {
-                l a2 = pVar.a();
-                if (a2 == null) {
+                m f = qVar.f();
+                if (f == null) {
                     break;
                 }
-                i2 += a2.c.hashCode() ^ a2.b.hashCode();
+                i2 += f.c.hashCode() ^ f.b.hashCode();
             }
         }
         return i2;
     }
 
-    final Object i(Object obj, Object obj2, Object obj3) {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final Object i(Object obj, Object obj2, Object obj3) {
         int length;
         int i2;
-        l n2;
+        m m2;
+        boolean z;
         Object obj4;
-        r b2;
-        l s2;
+        s b;
+        m r;
         Object obj5;
-        int l2 = l(obj.hashCode());
-        l[] lVarArr = this.a;
+        int k2 = k(obj.hashCode());
+        m[] mVarArr = this.a;
         while (true) {
-            if (lVarArr == null || (length = lVarArr.length) == 0 || (n2 = n(lVarArr, (i2 = (length - 1) & l2))) == null) {
+            if (mVarArr == null || (length = mVarArr.length) == 0 || (m2 = m(mVarArr, (i2 = (length - 1) & k2))) == null) {
                 break;
             }
-            int i3 = n2.a;
+            int i3 = m2.a;
             if (i3 == -1) {
-                lVarArr = f(lVarArr, n2);
+                mVarArr = f(mVarArr, m2);
             } else {
-                boolean z = false;
-                synchronized (n2) {
-                    if (n(lVarArr, i2) == n2) {
-                        if (i3 >= 0) {
-                            l lVar = null;
-                            l lVar2 = n2;
-                            while (true) {
-                                if (lVar2.a != l2 || ((obj5 = lVar2.b) != obj && (obj5 == null || !obj.equals(obj5)))) {
-                                    l lVar3 = lVar2.d;
-                                    if (lVar3 == null) {
-                                        break;
-                                    }
-                                    lVar = lVar2;
-                                    lVar2 = lVar3;
-                                }
-                            }
-                            obj4 = lVar2.c;
-                            if (obj3 == null || obj3 == obj4 || (obj4 != null && obj3.equals(obj4))) {
-                                if (obj2 != null) {
-                                    lVar2.c = obj2;
-                                } else if (lVar != null) {
-                                    lVar.d = lVar2.d;
-                                } else {
-                                    s2 = lVar2.d;
-                                    k(lVarArr, i2, s2);
-                                }
-                                z = true;
-                            }
-                            obj4 = null;
+                synchronized (m2) {
+                    try {
+                        if (m(mVarArr, i2) == m2) {
                             z = true;
-                        } else if (n2 instanceof q) {
-                            q qVar = (q) n2;
-                            r rVar = qVar.e;
-                            if (rVar != null && (b2 = rVar.b(l2, obj, null)) != null) {
-                                obj4 = b2.c;
+                            if (i3 >= 0) {
+                                m mVar = null;
+                                m mVar2 = m2;
+                                while (true) {
+                                    if (mVar2.a != k2 || ((obj5 = mVar2.b) != obj && (obj5 == null || !obj.equals(obj5)))) {
+                                        m mVar3 = mVar2.d;
+                                        if (mVar3 == null) {
+                                            break;
+                                        }
+                                        mVar = mVar2;
+                                        mVar2 = mVar3;
+                                    }
+                                }
+                                obj4 = mVar2.c;
                                 if (obj3 == null || obj3 == obj4 || (obj4 != null && obj3.equals(obj4))) {
                                     if (obj2 != null) {
-                                        b2.c = obj2;
-                                    } else if (qVar.g(b2)) {
-                                        s2 = s(qVar.f);
-                                        k(lVarArr, i2, s2);
+                                        mVar2.c = obj2;
+                                    } else if (mVar != null) {
+                                        mVar.d = mVar2.d;
+                                    } else {
+                                        r = mVar2.d;
+                                        j(mVarArr, i2, r);
                                     }
-                                    z = true;
                                 }
+                                obj4 = null;
+                            } else if (m2 instanceof r) {
+                                r rVar = (r) m2;
+                                s sVar = rVar.e;
+                                if (sVar != null && (b = sVar.b(k2, obj, null)) != null) {
+                                    obj4 = b.c;
+                                    if (obj3 == null || obj3 == obj4 || (obj4 != null && obj3.equals(obj4))) {
+                                        if (obj2 != null) {
+                                            b.c = obj2;
+                                        } else if (rVar.g(b)) {
+                                            r = r(rVar.f);
+                                            j(mVarArr, i2, r);
+                                        }
+                                    }
+                                }
+                                obj4 = null;
                             }
-                            obj4 = null;
-                            z = true;
                         }
+                        z = false;
+                        obj4 = null;
+                    } catch (Throwable th) {
+                        throw th;
                     }
-                    obj4 = null;
                 }
                 if (z) {
                     if (obj4 != null) {
@@ -3185,27 +1541,28 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
     @Override // java.util.AbstractMap, java.util.Map, j$.util.Map
     public boolean isEmpty() {
-        return m() <= 0;
+        return l() <= 0;
     }
 
     @Override // java.util.AbstractMap, java.util.Map, j$.util.Map
     public Set<K> keySet() {
-        i iVar = this.d;
-        if (iVar != null) {
-            return iVar;
+        j jVar = this.d;
+        if (jVar != null) {
+            return jVar;
         }
-        i iVar2 = new i(this, null);
-        this.d = iVar2;
-        return iVar2;
+        j jVar2 = new j(this);
+        this.d = jVar2;
+        return jVar2;
     }
 
-    final long m() {
-        c[] cVarArr = this.c;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final long l() {
+        d[] dVarArr = this.c;
         long j2 = this.baseCount;
-        if (cVarArr != null) {
-            for (c cVar : cVarArr) {
-                if (cVar != null) {
-                    j2 += cVar.value;
+        if (dVarArr != null) {
+            for (d dVar : dVarArr) {
+                if (dVar != null) {
+                    j2 += dVar.value;
                 }
             }
         }
@@ -3213,7 +1570,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     }
 
     @Override // j$.util.Map
-    public Object merge(Object obj, Object obj2, BiFunction biFunction) {
+    public final Object merge(Object obj, Object obj2, BiFunction biFunction) {
         int i2;
         Object obj3;
         Object obj4;
@@ -3221,106 +1578,114 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         if (obj == null || obj5 == null || biFunction == null) {
             throw null;
         }
-        int l2 = l(obj.hashCode());
-        l[] lVarArr = this.a;
+        int k2 = k(obj.hashCode());
+        m[] mVarArr = this.a;
         int i3 = 0;
         Object obj6 = null;
         int i4 = 0;
         while (true) {
-            if (lVarArr != null) {
-                int length = lVarArr.length;
+            if (mVarArr != null) {
+                int length = mVarArr.length;
                 if (length != 0) {
-                    int i5 = (length - 1) & l2;
-                    l n2 = n(lVarArr, i5);
+                    int i5 = (length - 1) & k2;
+                    m m2 = m(mVarArr, i5);
                     i2 = 1;
-                    if (n2 != null) {
-                        int i6 = n2.a;
+                    if (m2 != null) {
+                        int i6 = m2.a;
                         if (i6 == -1) {
-                            lVarArr = f(lVarArr, n2);
+                            mVarArr = f(mVarArr, m2);
                         } else {
-                            synchronized (n2) {
-                                if (n(lVarArr, i5) == n2) {
-                                    if (i6 >= 0) {
-                                        l lVar = null;
-                                        l lVar2 = n2;
-                                        int i7 = 1;
-                                        while (true) {
-                                            if (lVar2.a != l2 || ((obj4 = lVar2.b) != obj && (obj4 == null || !obj.equals(obj4)))) {
-                                                l lVar3 = lVar2.d;
-                                                if (lVar3 == null) {
-                                                    lVar2.d = new l(l2, obj, obj5, null);
-                                                    obj3 = obj5;
-                                                    break;
+                            synchronized (m2) {
+                                try {
+                                    if (m(mVarArr, i5) == m2) {
+                                        if (i6 >= 0) {
+                                            m mVar = null;
+                                            m mVar2 = m2;
+                                            int i7 = 1;
+                                            while (true) {
+                                                if (mVar2.a != k2 || ((obj4 = mVar2.b) != obj && (obj4 == null || !obj.equals(obj4)))) {
+                                                    m mVar3 = mVar2.d;
+                                                    if (mVar3 == null) {
+                                                        mVar2.d = new m(k2, obj, obj5, null);
+                                                        obj3 = obj5;
+                                                        i4 = 1;
+                                                        break;
+                                                    }
+                                                    i7++;
+                                                    mVar = mVar2;
+                                                    mVar2 = mVar3;
                                                 }
-                                                i7++;
-                                                lVar = lVar2;
-                                                lVar2 = lVar3;
                                             }
-                                        }
-                                        Object apply = biFunction.apply(lVar2.c, obj5);
-                                        if (apply != null) {
-                                            lVar2.c = apply;
-                                        } else {
-                                            l lVar4 = lVar2.d;
-                                            if (lVar != null) {
-                                                lVar.d = lVar4;
+                                            obj3 = biFunction.apply(mVar2.c, obj5);
+                                            if (obj3 != null) {
+                                                mVar2.c = obj3;
                                             } else {
-                                                k(lVarArr, i5, lVar4);
+                                                m mVar4 = mVar2.d;
+                                                if (mVar != null) {
+                                                    mVar.d = mVar4;
+                                                } else {
+                                                    j(mVarArr, i5, mVar4);
+                                                }
+                                                i4 = -1;
                                             }
-                                            i3 = -1;
-                                        }
-                                        i2 = i3;
-                                        obj3 = apply;
-                                        i4 = i7;
-                                        obj6 = obj3;
-                                        i3 = i2;
-                                    } else if (n2 instanceof q) {
-                                        i4 = 2;
-                                        q qVar = (q) n2;
-                                        r rVar = qVar.e;
-                                        r b2 = rVar == null ? null : rVar.b(l2, obj, null);
-                                        Object apply2 = b2 == null ? obj5 : biFunction.apply(b2.c, obj5);
-                                        if (apply2 != null) {
-                                            if (b2 != null) {
-                                                b2.c = apply2;
+                                            i3 = i7;
+                                            obj6 = obj3;
+                                        } else if (m2 instanceof r) {
+                                            r rVar = (r) m2;
+                                            s sVar = rVar.e;
+                                            s b = sVar == null ? null : sVar.b(k2, obj, null);
+                                            Object apply = b == null ? obj5 : biFunction.apply(b.c, obj5);
+                                            if (apply == null) {
+                                                if (b != null) {
+                                                    if (rVar.g(b)) {
+                                                        j(mVarArr, i5, r(rVar.f));
+                                                    }
+                                                    obj6 = apply;
+                                                    i3 = 2;
+                                                    i4 = -1;
+                                                }
+                                                obj6 = apply;
+                                                i3 = 2;
+                                            } else if (b != null) {
+                                                b.c = apply;
+                                                obj6 = apply;
+                                                i3 = 2;
                                             } else {
-                                                qVar.f(l2, obj, apply2);
-                                                i3 = 1;
+                                                rVar.f(k2, obj, apply);
+                                                obj6 = apply;
+                                                i3 = 2;
+                                                i4 = 1;
                                             }
-                                        } else if (b2 != null) {
-                                            if (qVar.g(b2)) {
-                                                k(lVarArr, i5, s(qVar.f));
-                                            }
-                                            i3 = -1;
                                         }
-                                        obj6 = apply2;
                                     }
+                                } catch (Throwable th) {
+                                    throw th;
                                 }
                             }
-                            if (i4 != 0) {
-                                if (i4 >= 8) {
-                                    q(lVarArr, i5);
+                            if (i3 != 0) {
+                                if (i3 >= 8) {
+                                    p(mVarArr, i5);
                                 }
-                                i2 = i3;
+                                i2 = i4;
                                 obj5 = obj6;
                             }
                         }
-                    } else if (b(lVarArr, i5, null, new l(l2, obj, obj5, null))) {
+                    } else if (b(mVarArr, i5, new m(k2, obj, obj5, null))) {
                         break;
                     }
                 }
             }
-            lVarArr = g();
+            mVarArr = g();
         }
         if (i2 != 0) {
-            a(i2, i4);
+            a(i2, i3);
         }
         return obj5;
     }
 
     @Override // java.util.Map, java.util.concurrent.ConcurrentMap
-    public /* synthetic */ Object merge(Object obj, Object obj2, java.util.function.BiFunction biFunction) {
-        return merge(obj, obj2, j$.wrappers.s.a(biFunction));
+    public final /* synthetic */ Object merge(Object obj, Object obj2, java.util.function.BiFunction biFunction) {
+        return merge(obj, obj2, BiFunction.VivifiedWrapper.convert(biFunction));
     }
 
     @Override // java.util.AbstractMap, java.util.Map, j$.util.Map
@@ -3330,7 +1695,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
     @Override // java.util.AbstractMap, java.util.Map, j$.util.Map
     public void putAll(Map<? extends K, ? extends V> map) {
-        r(map.size());
+        q(map.size());
         for (Map.Entry<? extends K, ? extends V> entry : map.entrySet()) {
             h(entry.getKey(), entry.getValue(), false);
         }
@@ -3348,12 +1713,12 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
     @Override // java.util.Map, java.util.concurrent.ConcurrentMap, j$.util.Map
     public boolean remove(Object obj, Object obj2) {
-        Objects.requireNonNull(obj);
+        obj.getClass();
         return (obj2 == null || i(obj, null, obj2) == null) ? false : true;
     }
 
     @Override // java.util.Map, java.util.concurrent.ConcurrentMap, j$.util.Map
-    public Object replace(Object obj, Object obj2) {
+    public final Object replace(Object obj, Object obj2) {
         if (obj == null || obj2 == null) {
             throw null;
         }
@@ -3361,7 +1726,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     }
 
     @Override // java.util.Map, java.util.concurrent.ConcurrentMap, j$.util.Map
-    public boolean replace(Object obj, Object obj2, Object obj3) {
+    public final boolean replace(Object obj, Object obj2, Object obj3) {
         if (obj == null || obj2 == null || obj3 == null) {
             throw null;
         }
@@ -3369,23 +1734,23 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     }
 
     @Override // j$.util.Map
-    public void replaceAll(BiFunction biFunction) {
-        Objects.requireNonNull(biFunction);
-        l[] lVarArr = this.a;
-        if (lVarArr == null) {
+    public final void replaceAll(BiFunction biFunction) {
+        biFunction.getClass();
+        m[] mVarArr = this.a;
+        if (mVarArr == null) {
             return;
         }
-        p pVar = new p(lVarArr, lVarArr.length, 0, lVarArr.length);
+        q qVar = new q(mVarArr, mVarArr.length, 0, mVarArr.length);
         while (true) {
-            l a2 = pVar.a();
-            if (a2 == null) {
+            m f = qVar.f();
+            if (f == null) {
                 return;
             }
-            Object obj = a2.c;
-            Object obj2 = a2.b;
+            Object obj = f.c;
+            Object obj2 = f.b;
             do {
                 Object apply = biFunction.apply(obj2, obj);
-                Objects.requireNonNull(apply);
+                apply.getClass();
                 if (i(obj2, apply, obj) == null) {
                     obj = get(obj2);
                 }
@@ -3394,31 +1759,30 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     }
 
     @Override // java.util.Map, java.util.concurrent.ConcurrentMap
-    public /* synthetic */ void replaceAll(java.util.function.BiFunction biFunction) {
-        replaceAll(j$.wrappers.s.a(biFunction));
+    public final /* synthetic */ void replaceAll(java.util.function.BiFunction biFunction) {
+        replaceAll(BiFunction.VivifiedWrapper.convert(biFunction));
     }
 
     @Override // java.util.AbstractMap, java.util.Map, j$.util.Map
     public int size() {
-        long m2 = m();
-        if (m2 < 0) {
+        long l2 = l();
+        if (l2 < 0) {
             return 0;
         }
-        return m2 > 2147483647L ? ConnectionsManager.DEFAULT_DATACENTER_ID : (int) m2;
+        return l2 > 2147483647L ? ConnectionsManager.DEFAULT_DATACENTER_ID : (int) l2;
     }
 
     @Override // java.util.AbstractMap
-    public String toString() {
-        l[] lVarArr = this.a;
-        int length = lVarArr == null ? 0 : lVarArr.length;
-        p pVar = new p(lVarArr, length, 0, length);
-        StringBuilder sb = new StringBuilder();
-        sb.append('{');
-        l a2 = pVar.a();
-        if (a2 != null) {
+    public final String toString() {
+        m[] mVarArr = this.a;
+        int length = mVarArr == null ? 0 : mVarArr.length;
+        q qVar = new q(mVarArr, length, 0, length);
+        StringBuilder sb = new StringBuilder("{");
+        m f = qVar.f();
+        if (f != null) {
             while (true) {
-                Object obj = a2.b;
-                Object obj2 = a2.c;
+                Object obj = f.b;
+                Object obj2 = f.c;
                 if (obj == this) {
                     obj = "(this Map)";
                 }
@@ -3428,12 +1792,11 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
                     obj2 = "(this Map)";
                 }
                 sb.append(obj2);
-                a2 = pVar.a();
-                if (a2 == null) {
+                f = qVar.f();
+                if (f == null) {
                     break;
                 }
-                sb.append(',');
-                sb.append(' ');
+                sb.append(", ");
             }
         }
         sb.append('}');
@@ -3442,175 +1805,12 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
     @Override // java.util.AbstractMap, java.util.Map, j$.util.Map
     public Collection<V> values() {
-        u uVar = this.e;
-        if (uVar != null) {
-            return uVar;
+        t tVar = this.e;
+        if (tVar != null) {
+            return tVar;
         }
-        u uVar2 = new u(this);
-        this.e = uVar2;
-        return uVar2;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes2.dex */
-    public static abstract class b implements Collection, Serializable {
-        final ConcurrentHashMap a;
-
-        b(ConcurrentHashMap concurrentHashMap) {
-            this.a = concurrentHashMap;
-        }
-
-        @Override // java.util.Collection
-        public final void clear() {
-            this.a.clear();
-        }
-
-        @Override // java.util.Collection
-        public abstract boolean contains(Object obj);
-
-        /* JADX WARN: Removed duplicated region for block: B:6:0x000c  */
-        @Override // java.util.Collection
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
-        public final boolean containsAll(Collection collection) {
-            if (collection != this) {
-                for (Object obj : collection) {
-                    if (obj == null || !contains(obj)) {
-                        return false;
-                    }
-                    while (r2.hasNext()) {
-                    }
-                }
-                return true;
-            }
-            return true;
-        }
-
-        @Override // java.util.Collection
-        public final boolean isEmpty() {
-            return this.a.isEmpty();
-        }
-
-        @Override // java.util.Collection, java.lang.Iterable
-        public abstract java.util.Iterator iterator();
-
-        @Override // java.util.Collection
-        public final boolean removeAll(Collection collection) {
-            Objects.requireNonNull(collection);
-            java.util.Iterator it = iterator();
-            boolean z = false;
-            while (it.hasNext()) {
-                if (collection.contains(it.next())) {
-                    it.remove();
-                    z = true;
-                }
-            }
-            return z;
-        }
-
-        @Override // java.util.Collection
-        public final boolean retainAll(Collection collection) {
-            Objects.requireNonNull(collection);
-            java.util.Iterator it = iterator();
-            boolean z = false;
-            while (it.hasNext()) {
-                if (!collection.contains(it.next())) {
-                    it.remove();
-                    z = true;
-                }
-            }
-            return z;
-        }
-
-        @Override // java.util.Collection
-        public final int size() {
-            return this.a.size();
-        }
-
-        @Override // java.util.Collection
-        public final Object[] toArray() {
-            long m = this.a.m();
-            if (m < 0) {
-                m = 0;
-            }
-            if (m <= 2147483639) {
-                int i = (int) m;
-                Object[] objArr = new Object[i];
-                int i2 = 0;
-                java.util.Iterator it = iterator();
-                while (it.hasNext()) {
-                    Object next = it.next();
-                    if (i2 == i) {
-                        if (i >= 2147483639) {
-                            throw new OutOfMemoryError("Required array size too large");
-                        }
-                        int i3 = i < 1073741819 ? (i >>> 1) + 1 + i : 2147483639;
-                        objArr = Arrays.copyOf(objArr, i3);
-                        i = i3;
-                    }
-                    objArr[i2] = next;
-                    i2++;
-                }
-                return i2 == i ? objArr : Arrays.copyOf(objArr, i2);
-            }
-            throw new OutOfMemoryError("Required array size too large");
-        }
-
-        public final String toString() {
-            StringBuilder sb = new StringBuilder();
-            sb.append('[');
-            java.util.Iterator it = iterator();
-            if (it.hasNext()) {
-                while (true) {
-                    Object next = it.next();
-                    if (next == this) {
-                        next = "(this Collection)";
-                    }
-                    sb.append(next);
-                    if (!it.hasNext()) {
-                        break;
-                    }
-                    sb.append(',');
-                    sb.append(' ');
-                }
-            }
-            sb.append(']');
-            return sb.toString();
-        }
-
-        @Override // java.util.Collection
-        public final Object[] toArray(Object[] objArr) {
-            long m = this.a.m();
-            if (m < 0) {
-                m = 0;
-            }
-            if (m <= 2147483639) {
-                int i = (int) m;
-                Object[] objArr2 = objArr.length >= i ? objArr : (Object[]) Array.newInstance(objArr.getClass().getComponentType(), i);
-                int length = objArr2.length;
-                int i2 = 0;
-                java.util.Iterator it = iterator();
-                while (it.hasNext()) {
-                    Object next = it.next();
-                    if (i2 == length) {
-                        if (length >= 2147483639) {
-                            throw new OutOfMemoryError("Required array size too large");
-                        }
-                        int i3 = length < 1073741819 ? (length >>> 1) + 1 + length : 2147483639;
-                        objArr2 = Arrays.copyOf(objArr2, i3);
-                        length = i3;
-                    }
-                    objArr2[i2] = next;
-                    i2++;
-                }
-                if (objArr != objArr2 || i2 >= length) {
-                    return i2 == length ? objArr2 : Arrays.copyOf(objArr2, i2);
-                }
-                objArr2[i2] = null;
-                return objArr2;
-            }
-            throw new OutOfMemoryError("Required array size too large");
-        }
+        t tVar2 = new t(this);
+        this.e = tVar2;
+        return tVar2;
     }
 }

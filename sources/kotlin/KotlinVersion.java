@@ -6,11 +6,12 @@ import kotlin.ranges.IntRange;
 /* compiled from: KotlinVersion.kt */
 /* loaded from: classes.dex */
 public final class KotlinVersion implements Comparable<KotlinVersion> {
-    public static final KotlinVersion CURRENT;
     private final int major;
     private final int minor;
     private final int patch;
     private final int version;
+    public static final Companion Companion = new Companion(null);
+    public static final KotlinVersion CURRENT = KotlinVersionCurrentValue.get();
 
     public KotlinVersion(int i, int i2, int i3) {
         this.major = i;
@@ -67,10 +68,5 @@ public final class KotlinVersion implements Comparable<KotlinVersion> {
 
         private Companion() {
         }
-    }
-
-    static {
-        new Companion(null);
-        CURRENT = KotlinVersionCurrentValue.get();
     }
 }

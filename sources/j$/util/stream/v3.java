@@ -1,65 +1,82 @@
 package j$.util.stream;
 
-import j$.util.s;
-import org.telegram.messenger.LiteMode;
-/* JADX INFO: Access modifiers changed from: package-private */
+import java.util.Comparator;
 /* loaded from: classes2.dex */
-public class v3 extends c1 {
-    final /* synthetic */ long l;
-    final /* synthetic */ long m;
-
+abstract class v3 extends y3 implements j$.util.N {
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public v3(c cVar, e4 e4Var, int i, long j, long j2) {
-        super(cVar, e4Var, i);
-        this.l = j;
-        this.m = j2;
+    public v3(j$.util.N n, long j, long j2) {
+        super(n, j, j2);
     }
 
-    @Override // j$.util.stream.c
-    j$.util.s A0(y2 y2Var, j$.util.s sVar) {
-        long d;
-        long l0 = y2Var.l0(sVar);
-        if (l0 > 0 && sVar.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
-            s.c cVar = (s.c) y2Var.r0(sVar);
-            long j = this.l;
-            d = B3.d(j, this.m);
-            return new y4(cVar, j, d);
-        }
-        return !d4.ORDERED.d(y2Var.n0()) ? I0((s.c) y2Var.r0(sVar), this.l, this.m, l0) : ((A1) new A3(this, y2Var, sVar, new j$.util.function.m() { // from class: j$.util.stream.t3
-            @Override // j$.util.function.m
-            public final Object apply(int i) {
-                return new Long[i];
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public v3(j$.util.N n, v3 v3Var) {
+        super(n, v3Var);
+    }
+
+    @Override // j$.util.N
+    /* renamed from: forEachRemaining */
+    public final void d(Object obj) {
+        obj.getClass();
+        Z2 z2 = null;
+        while (true) {
+            x3 s = s();
+            if (s == x3.NO_MORE) {
+                return;
             }
-        }, this.l, this.m).invoke()).spliterator();
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // j$.util.stream.c
-    public m3 C0(int i, m3 m3Var) {
-        return new u3(this, m3Var);
-    }
-
-    s.c I0(s.c cVar, long j, long j2, long j3) {
-        long j4;
-        long j5;
-        if (j <= j3) {
-            long j6 = j3 - j;
-            j5 = j2 >= 0 ? Math.min(j2, j6) : j6;
-            j4 = 0;
-        } else {
-            j4 = j;
-            j5 = j2;
+            x3 x3Var = x3.MAYBE_MORE;
+            j$.util.Q q = this.a;
+            if (s != x3Var) {
+                ((j$.util.N) q).forEachRemaining(obj);
+                return;
+            }
+            if (z2 == null) {
+                z2 = u();
+            } else {
+                z2.b = 0;
+            }
+            long j = 0;
+            while (((j$.util.N) q).tryAdvance(z2)) {
+                j++;
+                if (j >= 128) {
+                    break;
+                }
+            }
+            if (j == 0) {
+                return;
+            }
+            z2.a(obj, q(j));
         }
-        return new G4(cVar, j4, j5);
     }
 
-    @Override // j$.util.stream.c
-    A1 z0(y2 y2Var, j$.util.s sVar, j$.util.function.m mVar) {
-        long l0 = y2Var.l0(sVar);
-        if (l0 > 0 && sVar.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
-            return x2.h(y2Var, B3.b(y2Var.m0(), sVar, this.l, this.m), true);
-        }
-        return !d4.ORDERED.d(y2Var.n0()) ? x2.h(this, I0((s.c) y2Var.r0(sVar), this.l, this.m, l0), true) : (A1) new A3(this, y2Var, sVar, mVar, this.l, this.m).invoke();
+    @Override // j$.util.Q
+    public final Comparator getComparator() {
+        throw new IllegalStateException();
     }
+
+    @Override // j$.util.Q
+    public final /* synthetic */ long getExactSizeIfKnown() {
+        return j$.util.a.i(this);
+    }
+
+    @Override // j$.util.Q
+    public final /* synthetic */ boolean hasCharacteristics(int i) {
+        return j$.util.a.k(this, i);
+    }
+
+    protected abstract void t(Object obj);
+
+    @Override // j$.util.N
+    /* renamed from: tryAdvance */
+    public final boolean o(Object obj) {
+        obj.getClass();
+        while (s() != x3.NO_MORE && ((j$.util.N) this.a).tryAdvance(this)) {
+            if (q(1L) == 1) {
+                t(obj);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected abstract Z2 u();
 }

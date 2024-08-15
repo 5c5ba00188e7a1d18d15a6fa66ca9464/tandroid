@@ -1,6 +1,5 @@
 package androidx.emoji2.viewsintegration;
 
-import android.os.Build;
 import android.text.InputFilter;
 import android.text.method.PasswordTransformationMethod;
 import android.text.method.TransformationMethod;
@@ -14,9 +13,7 @@ public final class EmojiTextViewHelper {
 
     public EmojiTextViewHelper(TextView textView, boolean z) {
         Preconditions.checkNotNull(textView, "textView cannot be null");
-        if (Build.VERSION.SDK_INT < 19) {
-            this.mHelper = new HelperInternal();
-        } else if (!z) {
+        if (!z) {
             this.mHelper = new SkippingHelper19(textView);
         } else {
             this.mHelper = new HelperInternal19(textView);
@@ -38,13 +35,15 @@ public final class EmojiTextViewHelper {
     /* loaded from: classes.dex */
     static class HelperInternal {
         InputFilter[] getFilters(InputFilter[] inputFilterArr) {
-            return inputFilterArr;
+            throw null;
         }
 
         void setAllCaps(boolean z) {
+            throw null;
         }
 
         void setEnabled(boolean z) {
+            throw null;
         }
 
         HelperInternal() {
@@ -146,8 +145,9 @@ public final class EmojiTextViewHelper {
         private SparseArray<InputFilter> getEmojiInputFilterPositionArray(InputFilter[] inputFilterArr) {
             SparseArray<InputFilter> sparseArray = new SparseArray<>(1);
             for (int i = 0; i < inputFilterArr.length; i++) {
-                if (inputFilterArr[i] instanceof EmojiInputFilter) {
-                    sparseArray.put(i, inputFilterArr[i]);
+                InputFilter inputFilter = inputFilterArr[i];
+                if (inputFilter instanceof EmojiInputFilter) {
+                    sparseArray.put(i, inputFilter);
                 }
             }
             return sparseArray;

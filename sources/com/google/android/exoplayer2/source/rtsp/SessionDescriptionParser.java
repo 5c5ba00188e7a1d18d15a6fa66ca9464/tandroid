@@ -16,7 +16,8 @@ final class SessionDescriptionParser {
     private static final Pattern ATTRIBUTE_PATTERN = Pattern.compile("([\\x21\\x23-\\x27\\x2a\\x2b\\x2d\\x2e\\x30-\\x39\\x41-\\x5a\\x5e-\\x7e]+)(?::(.*))?");
     private static final Pattern MEDIA_DESCRIPTION_PATTERN = Pattern.compile("(\\S+)\\s(\\S+)\\s(\\S+)\\s(\\S+)");
 
-    /* JADX WARN: Code restructure failed: missing block: B:135:0x01b4, code lost:
+    /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
+    /* JADX WARN: Code restructure failed: missing block: B:136:0x01b6, code lost:
         continue;
      */
     /*
@@ -24,6 +25,7 @@ final class SessionDescriptionParser {
     */
     public static SessionDescription parse(String str) throws ParserException {
         String[] splitRtspMessageBody;
+        char c;
         SessionDescription.Builder builder = new SessionDescription.Builder();
         MediaDescription.Builder builder2 = null;
         for (String str2 : RtspMessageUtil.splitRtspMessageBody(str)) {
@@ -34,97 +36,125 @@ final class SessionDescriptionParser {
                 }
                 String str3 = (String) Assertions.checkNotNull(matcher.group(1));
                 String str4 = (String) Assertions.checkNotNull(matcher.group(2));
-                char c = 65535;
                 switch (str3.hashCode()) {
                     case R.styleable.AppCompatTheme_selectableItemBackground /* 97 */:
                         if (str3.equals("a")) {
                             c = 11;
                             break;
                         }
+                        c = 65535;
                         break;
                     case R.styleable.AppCompatTheme_selectableItemBackgroundBorderless /* 98 */:
                         if (str3.equals("b")) {
                             c = '\b';
                             break;
                         }
+                        c = 65535;
                         break;
                     case R.styleable.AppCompatTheme_spinnerDropDownItemStyle /* 99 */:
                         if (str3.equals("c")) {
                             c = 7;
                             break;
                         }
+                        c = 65535;
+                        break;
+                    case 100:
+                    case R.styleable.AppCompatTheme_textAppearanceLargePopupMenu /* 102 */:
+                    case R.styleable.AppCompatTheme_textAppearanceListItem /* 103 */:
+                    case R.styleable.AppCompatTheme_textAppearanceListItemSecondary /* 104 */:
+                    case R.styleable.AppCompatTheme_textAppearancePopupMenuHeader /* 106 */:
+                    case R.styleable.AppCompatTheme_textAppearanceSearchResultTitle /* 108 */:
+                    case R.styleable.AppCompatTheme_textColorAlertDialogListItem /* 110 */:
+                    case R.styleable.AppCompatTheme_toolbarStyle /* 113 */:
+                    case 119:
+                    case 120:
+                    case 121:
+                    default:
+                        c = 65535;
                         break;
                     case 101:
                         if (str3.equals("e")) {
                             c = 5;
                             break;
                         }
+                        c = 65535;
                         break;
                     case R.styleable.AppCompatTheme_textAppearanceListItemSmall /* 105 */:
                         if (str3.equals("i")) {
                             c = 3;
                             break;
                         }
+                        c = 65535;
                         break;
                     case R.styleable.AppCompatTheme_textAppearanceSearchResultSubtitle /* 107 */:
                         if (str3.equals("k")) {
                             c = '\n';
                             break;
                         }
+                        c = 65535;
                         break;
                     case R.styleable.AppCompatTheme_textAppearanceSmallPopupMenu /* 109 */:
                         if (str3.equals("m")) {
                             c = '\f';
                             break;
                         }
+                        c = 65535;
                         break;
                     case R.styleable.AppCompatTheme_textColorSearchUrl /* 111 */:
                         if (str3.equals("o")) {
                             c = 1;
                             break;
                         }
+                        c = 65535;
                         break;
                     case R.styleable.AppCompatTheme_toolbarNavigationButtonStyle /* 112 */:
                         if (str3.equals("p")) {
                             c = 6;
                             break;
                         }
+                        c = 65535;
                         break;
                     case R.styleable.AppCompatTheme_tooltipForegroundColor /* 114 */:
                         if (str3.equals("r")) {
                             c = '\r';
                             break;
                         }
+                        c = 65535;
                         break;
                     case R.styleable.AppCompatTheme_tooltipFrameBackground /* 115 */:
                         if (str3.equals("s")) {
                             c = 2;
                             break;
                         }
+                        c = 65535;
                         break;
                     case 116:
                         if (str3.equals("t")) {
                             c = '\t';
                             break;
                         }
+                        c = 65535;
                         break;
                     case 117:
                         if (str3.equals("u")) {
                             c = 4;
                             break;
                         }
+                        c = 65535;
                         break;
                     case 118:
                         if (str3.equals("v")) {
                             c = 0;
                             break;
                         }
+                        c = 65535;
                         break;
                     case 122:
                         if (str3.equals("z")) {
                             c = 14;
                             break;
                         }
+                        c = 65535;
                         break;
                 }
                 switch (c) {

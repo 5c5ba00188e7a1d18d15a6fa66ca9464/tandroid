@@ -2,39 +2,36 @@ package com.google.android.gms.internal.vision;
 
 import java.util.Map;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* JADX INFO: Add missing generic type declarations: [V, K] */
-/* JADX WARN: Incorrect field signature: TK; */
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
-public final class zzlm<K, V> implements Comparable<zzlm>, Map.Entry<K, V> {
+public final class zzlm implements Comparable, Map.Entry {
     private final Comparable zza;
-    private V zzb;
+    private Object zzb;
     private final /* synthetic */ zzlh zzc;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public zzlm(zzlh zzlhVar, Map.Entry<K, V> entry) {
+    public zzlm(zzlh zzlhVar, Map.Entry entry) {
         this(zzlhVar, (Comparable) entry.getKey(), entry.getValue());
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Multi-variable type inference failed */
-    public zzlm(zzlh zzlhVar, K k, V v) {
+    public zzlm(zzlh zzlhVar, Comparable comparable, Object obj) {
         this.zzc = zzlhVar;
-        this.zza = k;
-        this.zzb = v;
+        this.zza = comparable;
+        this.zzb = obj;
     }
 
     @Override // java.util.Map.Entry
-    public final V getValue() {
+    public final Object getValue() {
         return this.zzb;
     }
 
     @Override // java.util.Map.Entry
-    public final V setValue(V v) {
+    public final Object setValue(Object obj) {
         this.zzc.zzf();
-        V v2 = this.zzb;
-        this.zzb = v;
-        return v2;
+        Object obj2 = this.zzb;
+        this.zzb = obj;
+        return obj2;
     }
 
     @Override // java.util.Map.Entry
@@ -53,8 +50,8 @@ public final class zzlm<K, V> implements Comparable<zzlm>, Map.Entry<K, V> {
     public final int hashCode() {
         Comparable comparable = this.zza;
         int hashCode = comparable == null ? 0 : comparable.hashCode();
-        V v = this.zzb;
-        return hashCode ^ (v != null ? v.hashCode() : 0);
+        Object obj = this.zzb;
+        return hashCode ^ (obj != null ? obj.hashCode() : 0);
     }
 
     public final String toString() {
@@ -80,7 +77,7 @@ public final class zzlm<K, V> implements Comparable<zzlm>, Map.Entry<K, V> {
     }
 
     @Override // java.lang.Comparable
-    public final /* synthetic */ int compareTo(zzlm zzlmVar) {
-        return ((Comparable) getKey()).compareTo((Comparable) zzlmVar.getKey());
+    public final /* synthetic */ int compareTo(Object obj) {
+        return ((Comparable) getKey()).compareTo((Comparable) ((zzlm) obj).getKey());
     }
 }

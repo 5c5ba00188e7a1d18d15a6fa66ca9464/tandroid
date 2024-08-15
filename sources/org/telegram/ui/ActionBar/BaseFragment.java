@@ -944,20 +944,22 @@ public abstract class BaseFragment {
         if (getParentActivity() == null) {
             return null;
         }
-        INavigationLayout[] iNavigationLayoutArr = {INavigationLayout.-CC.newLayout(getParentActivity(), false, new Supplier() { // from class: org.telegram.ui.ActionBar.BaseFragment$$ExternalSyntheticLambda1
+        INavigationLayout newLayout = INavigationLayout.-CC.newLayout(getParentActivity(), false, new Supplier() { // from class: org.telegram.ui.ActionBar.BaseFragment$$ExternalSyntheticLambda1
             @Override // androidx.core.util.Supplier
             public final Object get() {
                 BottomSheet lambda$showAsSheet$1;
                 lambda$showAsSheet$1 = BaseFragment.lambda$showAsSheet$1(r1);
                 return lambda$showAsSheet$1;
             }
-        })};
-        iNavigationLayoutArr[0].setIsSheet(true);
+        });
+        INavigationLayout[] iNavigationLayoutArr = {newLayout};
+        newLayout.setIsSheet(true);
         LaunchActivity.instance.sheetFragmentsStack.add(iNavigationLayoutArr[0]);
         baseFragment.onTransitionAnimationStart(true, false);
-        final BottomSheet[] bottomSheetArr = {new 1(this, getParentActivity(), true, baseFragment.getResourceProvider(), bottomSheetParams, iNavigationLayoutArr, baseFragment, bottomSheetArr)};
+        1 r15 = new 1(getParentActivity(), true, baseFragment.getResourceProvider(), bottomSheetParams, iNavigationLayoutArr, baseFragment, r12);
+        final BottomSheet[] bottomSheetArr = {r15};
         if (bottomSheetParams != null) {
-            bottomSheetArr[0].setAllowNestedScroll(bottomSheetParams.allowNestedScroll);
+            r15.setAllowNestedScroll(bottomSheetParams.allowNestedScroll);
             bottomSheetArr[0].transitionFromRight(bottomSheetParams.transitionFromLeft);
         }
         baseFragment.setParentDialog(bottomSheetArr[0]);
@@ -985,17 +987,17 @@ public abstract class BaseFragment {
         }
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        1(BaseFragment baseFragment, Context context, boolean z, Theme.ResourcesProvider resourcesProvider, final BottomSheetParams bottomSheetParams, INavigationLayout[] iNavigationLayoutArr, final BaseFragment baseFragment2, BottomSheet[] bottomSheetArr) {
+        1(Context context, boolean z, Theme.ResourcesProvider resourcesProvider, final BottomSheetParams bottomSheetParams, INavigationLayout[] iNavigationLayoutArr, final BaseFragment baseFragment, BottomSheet[] bottomSheetArr) {
             super(context, z, resourcesProvider);
             this.val$params = bottomSheetParams;
             this.val$actionBarLayout = iNavigationLayoutArr;
-            this.val$fragment = baseFragment2;
+            this.val$fragment = baseFragment;
             this.val$bottomSheet = bottomSheetArr;
             boolean z2 = bottomSheetParams != null && bottomSheetParams.occupyNavigationBar;
             this.occupyNavigationBar = z2;
             this.drawNavigationBar = true ^ z2;
             iNavigationLayoutArr[0].setFragmentStack(new ArrayList());
-            iNavigationLayoutArr[0].addFragmentToStack(baseFragment2);
+            iNavigationLayoutArr[0].addFragmentToStack(baseFragment);
             iNavigationLayoutArr[0].showLastFragment();
             ViewGroup view = iNavigationLayoutArr[0].getView();
             int i = this.backgroundPaddingLeft;
@@ -1037,20 +1039,18 @@ public abstract class BaseFragment {
 
         @Override // org.telegram.ui.ActionBar.BottomSheet
         protected boolean canSwipeToBack(MotionEvent motionEvent) {
+            INavigationLayout iNavigationLayout;
             BottomSheetParams bottomSheetParams = this.val$params;
-            if (bottomSheetParams != null && bottomSheetParams.transitionFromLeft) {
-                INavigationLayout[] iNavigationLayoutArr = this.val$actionBarLayout;
-                if (iNavigationLayoutArr[0] != null && iNavigationLayoutArr[0].getFragmentStack().size() <= 1) {
-                    return this.val$actionBarLayout[0].getFragmentStack().size() != 1 || this.val$actionBarLayout[0].getFragmentStack().get(0).isSwipeBackEnabled(motionEvent);
-                }
+            if (bottomSheetParams == null || !bottomSheetParams.transitionFromLeft || (iNavigationLayout = this.val$actionBarLayout[0]) == null || iNavigationLayout.getFragmentStack().size() > 1) {
+                return false;
             }
-            return false;
+            return this.val$actionBarLayout[0].getFragmentStack().size() != 1 || this.val$actionBarLayout[0].getFragmentStack().get(0).isSwipeBackEnabled(motionEvent);
         }
 
         @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
         public void onBackPressed() {
-            INavigationLayout[] iNavigationLayoutArr = this.val$actionBarLayout;
-            if (iNavigationLayoutArr[0] == null || iNavigationLayoutArr[0].getFragmentStack().size() <= 1) {
+            INavigationLayout iNavigationLayout = this.val$actionBarLayout[0];
+            if (iNavigationLayout == null || iNavigationLayout.getFragmentStack().size() <= 1) {
                 super.onBackPressed();
             } else {
                 this.val$actionBarLayout[0].onBackPressed();
@@ -1082,9 +1082,9 @@ public abstract class BaseFragment {
 
         @Override // org.telegram.ui.ActionBar.BottomSheet
         protected void onInsetsChanged() {
-            INavigationLayout[] iNavigationLayoutArr = this.val$actionBarLayout;
-            if (iNavigationLayoutArr[0] != null) {
-                for (BaseFragment baseFragment : iNavigationLayoutArr[0].getFragmentStack()) {
+            INavigationLayout iNavigationLayout = this.val$actionBarLayout[0];
+            if (iNavigationLayout != null) {
+                for (BaseFragment baseFragment : iNavigationLayout.getFragmentStack()) {
                     if (baseFragment.getFragmentView() != null) {
                         baseFragment.getFragmentView().requestLayout();
                     }
@@ -1120,14 +1120,18 @@ public abstract class BaseFragment {
     }
 
     public void setNavigationBarColor(int i) {
+        int navigationBarColor;
         Activity parentActivity = getParentActivity();
         if (parentActivity instanceof LaunchActivity) {
             ((LaunchActivity) parentActivity).setNavigationBarColor(i, true);
         } else if (parentActivity != null) {
             Window window = parentActivity.getWindow();
-            if (Build.VERSION.SDK_INT >= 26 && window != null && window.getNavigationBarColor() != i) {
-                window.setNavigationBarColor(i);
-                AndroidUtilities.setLightNavigationBar(window, AndroidUtilities.computePerceivedBrightness(i) >= 0.721f);
+            if (Build.VERSION.SDK_INT >= 26 && window != null) {
+                navigationBarColor = window.getNavigationBarColor();
+                if (navigationBarColor != i) {
+                    window.setNavigationBarColor(i);
+                    AndroidUtilities.setLightNavigationBar(window, AndroidUtilities.computePerceivedBrightness(i) >= 0.721f);
+                }
             }
         }
         INavigationLayout iNavigationLayout = this.parentLayout;
@@ -1228,26 +1232,34 @@ public abstract class BaseFragment {
         }
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:12:0x0034  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public StoryViewer getOrCreateStoryViewer() {
+        StoryViewer storyViewer;
         if (this.sheetsStack == null) {
             this.sheetsStack = new ArrayList<>();
         }
-        StoryViewer storyViewer = null;
         if (!this.sheetsStack.isEmpty()) {
             ArrayList<AttachedSheet> arrayList = this.sheetsStack;
             if (arrayList.get(arrayList.size() - 1) instanceof StoryViewer) {
                 ArrayList<AttachedSheet> arrayList2 = this.sheetsStack;
                 storyViewer = (StoryViewer) arrayList2.get(arrayList2.size() - 1);
+                if (storyViewer == null) {
+                    storyViewer = new StoryViewer(this);
+                    INavigationLayout iNavigationLayout = this.parentLayout;
+                    if (iNavigationLayout != null && iNavigationLayout.isSheet()) {
+                        storyViewer.fromBottomSheet = true;
+                    }
+                    this.sheetsStack.add(storyViewer);
+                    updateSheetsVisibility();
+                }
+                return storyViewer;
             }
         }
+        storyViewer = null;
         if (storyViewer == null) {
-            storyViewer = new StoryViewer(this);
-            INavigationLayout iNavigationLayout = this.parentLayout;
-            if (iNavigationLayout != null && iNavigationLayout.isSheet()) {
-                storyViewer.fromBottomSheet = true;
-            }
-            this.sheetsStack.add(storyViewer);
-            updateSheetsVisibility();
         }
         return storyViewer;
     }

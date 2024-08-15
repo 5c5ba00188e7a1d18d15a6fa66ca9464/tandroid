@@ -105,7 +105,7 @@ public class FirebaseInstallations implements FirebaseInstallationsApi {
             return Tasks.forResult(cacheFid);
         }
         Task<String> addGetIdListener = addGetIdListener();
-        this.backgroundExecutor.execute(new Runnable() { // from class: com.google.firebase.installations.FirebaseInstallations$$ExternalSyntheticLambda0
+        this.backgroundExecutor.execute(new Runnable() { // from class: com.google.firebase.installations.FirebaseInstallations$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 FirebaseInstallations.this.lambda$getId$0();
@@ -123,7 +123,7 @@ public class FirebaseInstallations implements FirebaseInstallationsApi {
     public Task<InstallationTokenResult> getToken(final boolean z) {
         preConditionChecks();
         Task<InstallationTokenResult> addGetAuthTokenListener = addGetAuthTokenListener();
-        this.backgroundExecutor.execute(new Runnable() { // from class: com.google.firebase.installations.FirebaseInstallations$$ExternalSyntheticLambda2
+        this.backgroundExecutor.execute(new Runnable() { // from class: com.google.firebase.installations.FirebaseInstallations$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 FirebaseInstallations.this.lambda$getToken$1(z);
@@ -188,7 +188,7 @@ public class FirebaseInstallations implements FirebaseInstallationsApi {
             prefsWithGeneratedIdMultiProcessSafe = prefsWithGeneratedIdMultiProcessSafe.withClearedAuthToken();
         }
         triggerOnStateReached(prefsWithGeneratedIdMultiProcessSafe);
-        this.networkExecutor.execute(new Runnable() { // from class: com.google.firebase.installations.FirebaseInstallations$$ExternalSyntheticLambda1
+        this.networkExecutor.execute(new Runnable() { // from class: com.google.firebase.installations.FirebaseInstallations$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 FirebaseInstallations.this.lambda$doRegistrationOrRefresh$2(z);

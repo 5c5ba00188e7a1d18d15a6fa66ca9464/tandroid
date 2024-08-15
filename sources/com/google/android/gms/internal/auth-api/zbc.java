@@ -7,9 +7,7 @@ import android.os.Parcelable;
 /* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
 /* loaded from: classes.dex */
 public final class zbc {
-    static {
-        zbc.class.getClassLoader();
-    }
+    private static final ClassLoader zba = zbc.class.getClassLoader();
 
     private zbc() {
     }

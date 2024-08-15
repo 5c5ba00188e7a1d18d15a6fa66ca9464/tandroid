@@ -113,7 +113,7 @@ public class MessagePrivateSeenView extends FrameLayout {
         TLRPC$TL_messages_getOutboxReadDate tLRPC$TL_messages_getOutboxReadDate = new TLRPC$TL_messages_getOutboxReadDate();
         tLRPC$TL_messages_getOutboxReadDate.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.dialogId);
         tLRPC$TL_messages_getOutboxReadDate.msg_id = this.messageId;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getOutboxReadDate, new RequestDelegate() { // from class: org.telegram.ui.Components.MessagePrivateSeenView$$ExternalSyntheticLambda8
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getOutboxReadDate, new RequestDelegate() { // from class: org.telegram.ui.Components.MessagePrivateSeenView$$ExternalSyntheticLambda2
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagePrivateSeenView.this.lambda$request$2(tLObject, tLRPC$TL_error);
@@ -123,7 +123,7 @@ public class MessagePrivateSeenView extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$request$2(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.MessagePrivateSeenView$$ExternalSyntheticLambda6
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.MessagePrivateSeenView$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 MessagePrivateSeenView.this.lambda$request$1(tLRPC$TL_error, tLObject);
@@ -156,7 +156,7 @@ public class MessagePrivateSeenView extends FrameLayout {
         this.loadingView.animate().alpha(0.0f).setInterpolator(cubicBezierInterpolator).setDuration(320L).start();
         if (this.isPremiumLocked) {
             setBackground(Theme.createRadSelectorDrawable(Theme.getColor(Theme.key_listSelector, this.resourcesProvider), 6, 0));
-            setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePrivateSeenView$$ExternalSyntheticLambda0
+            setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePrivateSeenView$$ExternalSyntheticLambda7
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     MessagePrivateSeenView.this.lambda$request$0(view);
@@ -170,7 +170,7 @@ public class MessagePrivateSeenView extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$request$0(View view) {
-        showSheet(getContext(), this.currentAccount, this.dialogId, false, this.dismiss, new Runnable() { // from class: org.telegram.ui.Components.MessagePrivateSeenView$$ExternalSyntheticLambda5
+        showSheet(getContext(), this.currentAccount, this.dialogId, false, this.dismiss, new Runnable() { // from class: org.telegram.ui.Components.MessagePrivateSeenView$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
             public final void run() {
                 MessagePrivateSeenView.this.request();
@@ -217,7 +217,7 @@ public class MessagePrivateSeenView extends FrameLayout {
         final ButtonWithCounterView buttonWithCounterView = new ButtonWithCounterView(context, resourcesProvider);
         buttonWithCounterView.setText(LocaleController.getString(z ? R.string.PremiumLastSeenButton1 : R.string.PremiumReadButton1), false);
         linearLayout.addView(buttonWithCounterView, LayoutHelper.createLinear(-1, 48, 1));
-        buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePrivateSeenView$$ExternalSyntheticLambda1
+        buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePrivateSeenView$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 MessagePrivateSeenView.lambda$showSheet$7(ButtonWithCounterView.this, z, i, bottomSheet2, runnable2, context, resourcesProvider, view);
@@ -261,7 +261,7 @@ public class MessagePrivateSeenView extends FrameLayout {
             linearLayout.addView(textView4, LayoutHelper.createLinear(-1, -2, 1, 32, 9, 32, 19));
             PremiumButtonView premiumButtonView = new PremiumButtonView(context, true, resourcesProvider);
             bottomSheet = bottomSheet2;
-            premiumButtonView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePrivateSeenView$$ExternalSyntheticLambda2
+            premiumButtonView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePrivateSeenView$$ExternalSyntheticLambda1
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     MessagePrivateSeenView.lambda$showSheet$8(z, bottomSheet, runnable, view);
@@ -281,7 +281,7 @@ public class MessagePrivateSeenView extends FrameLayout {
             TLRPC$TL_account_setPrivacy tLRPC$TL_account_setPrivacy = new TLRPC$TL_account_setPrivacy();
             tLRPC$TL_account_setPrivacy.key = new TLRPC$TL_inputPrivacyKeyStatusTimestamp();
             tLRPC$TL_account_setPrivacy.rules.add(new TLRPC$TL_inputPrivacyValueAllowAll());
-            ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_account_setPrivacy, new RequestDelegate() { // from class: org.telegram.ui.Components.MessagePrivateSeenView$$ExternalSyntheticLambda9
+            ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_account_setPrivacy, new RequestDelegate() { // from class: org.telegram.ui.Components.MessagePrivateSeenView$$ExternalSyntheticLambda4
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessagePrivateSeenView.lambda$showSheet$4(ButtonWithCounterView.this, bottomSheet, runnable, tLObject, tLRPC$TL_error);
@@ -296,7 +296,7 @@ public class MessagePrivateSeenView extends FrameLayout {
             tLRPC$TL_account_setGlobalPrivacySettings.settings = new TLRPC$TL_globalPrivacySettings();
         }
         tLRPC$TL_account_setGlobalPrivacySettings.settings.hide_read_marks = false;
-        ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_account_setGlobalPrivacySettings, new RequestDelegate() { // from class: org.telegram.ui.Components.MessagePrivateSeenView$$ExternalSyntheticLambda7
+        ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_account_setGlobalPrivacySettings, new RequestDelegate() { // from class: org.telegram.ui.Components.MessagePrivateSeenView$$ExternalSyntheticLambda5
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessagePrivateSeenView.lambda$showSheet$6(context, resourcesProvider, buttonWithCounterView, bottomSheet, runnable, tLObject, tLRPC$TL_error);
@@ -306,7 +306,7 @@ public class MessagePrivateSeenView extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$showSheet$4(final ButtonWithCounterView buttonWithCounterView, final BottomSheet bottomSheet, final Runnable runnable, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.MessagePrivateSeenView$$ExternalSyntheticLambda4
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.MessagePrivateSeenView$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 MessagePrivateSeenView.lambda$showSheet$3(TLRPC$TL_error.this, buttonWithCounterView, bottomSheet, runnable);
@@ -330,7 +330,7 @@ public class MessagePrivateSeenView extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$showSheet$6(final Context context, final Theme.ResourcesProvider resourcesProvider, final ButtonWithCounterView buttonWithCounterView, final BottomSheet bottomSheet, final Runnable runnable, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.MessagePrivateSeenView$$ExternalSyntheticLambda3
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.MessagePrivateSeenView$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
                 MessagePrivateSeenView.lambda$showSheet$5(TLRPC$TL_error.this, context, resourcesProvider, buttonWithCounterView, bottomSheet, runnable);

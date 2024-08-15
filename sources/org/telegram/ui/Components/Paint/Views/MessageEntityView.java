@@ -50,6 +50,7 @@ import org.telegram.ui.Stories.recorder.PreviewView;
 import org.telegram.ui.Stories.recorder.StoryEntry;
 /* loaded from: classes3.dex */
 public class MessageEntityView extends EntityView {
+    private final BlurringShader.BlurManager blurManager;
     private boolean clipVideoMessageForBitmap;
     public final FrameLayout container;
     private final SparseIntArray currentColors;
@@ -94,6 +95,7 @@ public class MessageEntityView extends EntityView {
         this.currentColors = new SparseIntArray();
         this.resourcesProvider = new Theme.ResourcesProvider() { // from class: org.telegram.ui.Components.Paint.Views.MessageEntityView.7
             public final Paint chat_actionBackgroundGradientDarkenPaint;
+            public final Paint chat_actionBackgroundPaint;
             public final Paint chat_actionBackgroundSelectedPaint;
             public final TextPaint chat_actionTextPaint;
             public final TextPaint chat_actionTextPaint2;
@@ -142,7 +144,7 @@ public class MessageEntityView extends EntityView {
                 this.chat_actionTextPaint2 = textPaint2;
                 TextPaint textPaint3 = new TextPaint();
                 this.chat_botButtonPaint = textPaint3;
-                new Paint(3);
+                this.chat_actionBackgroundPaint = new Paint(3);
                 this.chat_actionBackgroundSelectedPaint = new Paint(3);
                 Paint paint = new Paint(3);
                 this.chat_actionBackgroundGradientDarkenPaint = paint;
@@ -265,6 +267,7 @@ public class MessageEntityView extends EntityView {
                 return MessageEntityView.this.isDark;
             }
         };
+        this.blurManager = blurManager;
         setRotation(f);
         setScale(f2);
         for (int i = 0; i < arrayList.size(); i++) {
@@ -1066,7 +1069,7 @@ public class MessageEntityView extends EntityView {
             }
         });
         recyclerListView.setLayoutManager(gridLayoutManagerFixed);
-        recyclerListView.addItemDecoration(new RecyclerView.ItemDecoration(this) { // from class: org.telegram.ui.Components.Paint.Views.MessageEntityView.6
+        recyclerListView.addItemDecoration(new RecyclerView.ItemDecoration() { // from class: org.telegram.ui.Components.Paint.Views.MessageEntityView.6
             @Override // androidx.recyclerview.widget.RecyclerView.ItemDecoration
             public void getItemOffsets(Rect rect, View view, RecyclerView recyclerView, RecyclerView.State state) {
                 ChatMessageCell chatMessageCell;
@@ -1110,7 +1113,7 @@ public class MessageEntityView extends EntityView {
         });
         frameLayout.addView(recyclerListView, LayoutHelper.createFrame(-1, -1.0f));
         if (textureViewHolder != null && textureViewHolder.active) {
-            textureViewHolder.takeTextureView(new Utilities.Callback() { // from class: org.telegram.ui.Components.Paint.Views.MessageEntityView$$ExternalSyntheticLambda2
+            textureViewHolder.takeTextureView(new Utilities.Callback() { // from class: org.telegram.ui.Components.Paint.Views.MessageEntityView$$ExternalSyntheticLambda0
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     MessageEntityView.this.lambda$new$0((TextureView) obj);
@@ -1137,7 +1140,7 @@ public class MessageEntityView extends EntityView {
     public /* synthetic */ void lambda$new$2(Integer num, Integer num2) {
         this.videoWidth = num.intValue();
         this.videoHeight = num2.intValue();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.MessageEntityView$$ExternalSyntheticLambda0
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.MessageEntityView$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 MessageEntityView.this.lambda$new$1();
@@ -1169,10 +1172,10 @@ public class MessageEntityView extends EntityView {
         float y2;
         float f;
         float f2;
-        float f3 = -2.14748365E9f;
-        float f4 = -2.14748365E9f;
-        float f5 = 2.14748365E9f;
-        float f6 = 2.14748365E9f;
+        float f3 = 2.14748365E9f;
+        float f4 = 2.14748365E9f;
+        float f5 = -2.14748365E9f;
+        float f6 = -2.14748365E9f;
         for (int i = 0; i < this.listView.getChildCount(); i++) {
             View childAt = this.listView.getChildAt(i);
             if (childAt instanceof ChatMessageCell) {
@@ -1193,13 +1196,13 @@ public class MessageEntityView extends EntityView {
                     f = x;
                     f2 = x2;
                 }
-                f5 = Math.min(Math.min(f5, f), f2);
-                f3 = Math.max(Math.max(f3, f), f2);
-                f6 = Math.min(Math.min(f6, y), y2);
-                f4 = Math.max(Math.max(f4, y), y2);
+                f3 = Math.min(Math.min(f3, f), f2);
+                f5 = Math.max(Math.max(f5, f), f2);
+                f4 = Math.min(Math.min(f4, y), y2);
+                f6 = Math.max(Math.max(f6, y), y2);
             }
         }
-        rectF.set(f5, f6, f3, f4);
+        rectF.set(f3, f4, f5, f6);
         return AndroidUtilities.dp(SharedConfig.bubbleRadius);
     }
 
@@ -1260,7 +1263,7 @@ public class MessageEntityView extends EntityView {
 
     @Override // org.telegram.ui.Components.Paint.Views.EntityView
     protected EntityView.SelectionView createSelectionView() {
-        return new MessageEntityViewSelectionView(this, getContext());
+        return new MessageEntityViewSelectionView(getContext());
     }
 
     /* loaded from: classes3.dex */
@@ -1268,7 +1271,7 @@ public class MessageEntityView extends EntityView {
         private final Paint clearPaint;
         private Path path;
 
-        public MessageEntityViewSelectionView(MessageEntityView messageEntityView, Context context) {
+        public MessageEntityViewSelectionView(Context context) {
             super(context);
             Paint paint = new Paint(1);
             this.clearPaint = paint;

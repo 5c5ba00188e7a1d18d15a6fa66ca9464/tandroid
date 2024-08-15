@@ -11,6 +11,8 @@ import java.util.ArrayList;
 public abstract class BaseMenuPresenter implements MenuPresenter {
     private MenuPresenter.Callback mCallback;
     protected Context mContext;
+    private int mId;
+    protected LayoutInflater mInflater;
     private int mItemLayoutRes;
     protected MenuBuilder mMenu;
     private int mMenuLayoutRes;
@@ -30,9 +32,6 @@ public abstract class BaseMenuPresenter implements MenuPresenter {
         return false;
     }
 
-    public void setId(int i) {
-    }
-
     public abstract boolean shouldIncludeItem(int i, MenuItemImpl menuItemImpl);
 
     public BaseMenuPresenter(Context context, int i, int i2) {
@@ -45,7 +44,7 @@ public abstract class BaseMenuPresenter implements MenuPresenter {
     @Override // androidx.appcompat.view.menu.MenuPresenter
     public void initForMenu(Context context, MenuBuilder menuBuilder) {
         this.mContext = context;
-        LayoutInflater.from(context);
+        this.mInflater = LayoutInflater.from(context);
         this.mMenu = menuBuilder;
     }
 
@@ -156,5 +155,9 @@ public abstract class BaseMenuPresenter implements MenuPresenter {
             return callback.onOpenSubMenu(subMenuBuilder2);
         }
         return false;
+    }
+
+    public void setId(int i) {
+        this.mId = i;
     }
 }

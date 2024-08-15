@@ -2,7 +2,6 @@ package com.google.firebase.installations.local;
 
 import com.google.firebase.installations.local.PersistedInstallation;
 import com.google.firebase.installations.local.PersistedInstallationEntry;
-import java.util.Objects;
 /* loaded from: classes.dex */
 final class AutoValue_PersistedInstallationEntry extends PersistedInstallationEntry {
     private final String authToken;
@@ -139,7 +138,9 @@ final class AutoValue_PersistedInstallationEntry extends PersistedInstallationEn
 
         @Override // com.google.firebase.installations.local.PersistedInstallationEntry.Builder
         public PersistedInstallationEntry.Builder setRegistrationStatus(PersistedInstallation.RegistrationStatus registrationStatus) {
-            Objects.requireNonNull(registrationStatus, "Null registrationStatus");
+            if (registrationStatus == null) {
+                throw new NullPointerException("Null registrationStatus");
+            }
             this.registrationStatus = registrationStatus;
             return this;
         }

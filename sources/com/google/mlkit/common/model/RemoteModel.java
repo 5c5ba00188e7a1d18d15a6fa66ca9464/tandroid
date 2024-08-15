@@ -6,17 +6,15 @@ import com.google.android.gms.internal.mlkit_common.zzz;
 import com.google.mlkit.common.sdkinternal.ModelType;
 import com.google.mlkit.common.sdkinternal.model.BaseModel;
 import java.util.EnumMap;
+import java.util.Map;
 /* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
 public abstract class RemoteModel {
     private final String zzc;
     private final BaseModel zzd;
     private final ModelType zze;
-
-    static {
-        new EnumMap(BaseModel.class);
-        new EnumMap(BaseModel.class);
-    }
+    private static final Map zzb = new EnumMap(BaseModel.class);
+    public static final Map zza = new EnumMap(BaseModel.class);
 
     public boolean equals(Object obj) {
         if (obj == this) {
@@ -34,10 +32,10 @@ public abstract class RemoteModel {
     }
 
     public String toString() {
-        zzy zzb = zzz.zzb("RemoteModel");
-        zzb.zza("modelName", this.zzc);
-        zzb.zza("baseModel", this.zzd);
-        zzb.zza("modelType", this.zze);
-        return zzb.toString();
+        zzy zzb2 = zzz.zzb("RemoteModel");
+        zzb2.zza("modelName", this.zzc);
+        zzb2.zza("baseModel", this.zzd);
+        zzb2.zza("modelType", this.zze);
+        return zzb2.toString();
     }
 }

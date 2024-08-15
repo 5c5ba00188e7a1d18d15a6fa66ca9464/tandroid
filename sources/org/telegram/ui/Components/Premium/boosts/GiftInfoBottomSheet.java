@@ -51,12 +51,12 @@ public class GiftInfoBottomSheet extends BottomSheetWithRecyclerListView {
                 }
             });
         }
-        BoostRepository.checkGiftCode(str, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.GiftInfoBottomSheet$$ExternalSyntheticLambda2
+        BoostRepository.checkGiftCode(str, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.GiftInfoBottomSheet$$ExternalSyntheticLambda1
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 GiftInfoBottomSheet.lambda$show$1(atomicBoolean, baseFragment, str, progress, (TLRPC$TL_payments_checkedGiftCode) obj);
             }
-        }, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.GiftInfoBottomSheet$$ExternalSyntheticLambda1
+        }, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.GiftInfoBottomSheet$$ExternalSyntheticLambda2
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 GiftInfoBottomSheet.lambda$show$2(atomicBoolean, progress, (TLRPC$TL_error) obj);
@@ -143,7 +143,7 @@ public class GiftInfoBottomSheet extends BottomSheetWithRecyclerListView {
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
     public void onViewCreated(FrameLayout frameLayout) {
         super.onViewCreated(frameLayout);
-        Bulletin.addDelegate(this.container, new Bulletin.Delegate(this) { // from class: org.telegram.ui.Components.Premium.boosts.GiftInfoBottomSheet.1
+        Bulletin.addDelegate(this.container, new Bulletin.Delegate() { // from class: org.telegram.ui.Components.Premium.boosts.GiftInfoBottomSheet.1
             @Override // org.telegram.ui.Components.Bulletin.Delegate
             public /* synthetic */ boolean allowLayoutChanges() {
                 return Bulletin.Delegate.-CC.$default$allowLayoutChanges(this);

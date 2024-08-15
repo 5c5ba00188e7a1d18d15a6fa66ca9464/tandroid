@@ -30,7 +30,7 @@ public class DefaultScheduler implements Scheduler {
 
     @Override // com.google.android.datatransport.runtime.scheduling.Scheduler
     public void schedule(final TransportContext transportContext, final EventInternal eventInternal, final TransportScheduleCallback transportScheduleCallback) {
-        this.executor.execute(new Runnable() { // from class: com.google.android.datatransport.runtime.scheduling.DefaultScheduler$$ExternalSyntheticLambda1
+        this.executor.execute(new Runnable() { // from class: com.google.android.datatransport.runtime.scheduling.DefaultScheduler$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 DefaultScheduler.this.lambda$schedule$1(transportContext, transportScheduleCallback, eventInternal);
@@ -49,7 +49,7 @@ public class DefaultScheduler implements Scheduler {
                 return;
             }
             final EventInternal decorate = transportBackend.decorate(eventInternal);
-            this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.DefaultScheduler$$ExternalSyntheticLambda0
+            this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.DefaultScheduler$$ExternalSyntheticLambda1
                 @Override // com.google.android.datatransport.runtime.synchronization.SynchronizationGuard.CriticalSection
                 public final Object execute() {
                     Object lambda$schedule$0;

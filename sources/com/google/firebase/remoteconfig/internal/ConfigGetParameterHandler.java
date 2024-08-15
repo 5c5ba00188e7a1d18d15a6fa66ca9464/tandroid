@@ -14,12 +14,9 @@ public class ConfigGetParameterHandler {
     private final ConfigCacheClient defaultConfigsCache;
     private final Executor executor;
     private final Set<BiConsumer<String, ConfigContainer>> listeners = new HashSet();
-
-    static {
-        Charset.forName("UTF-8");
-        Pattern.compile("^(1|true|t|yes|y|on)$", 2);
-        Pattern.compile("^(0|false|f|no|n|off|)$", 2);
-    }
+    public static final Charset FRC_BYTE_ARRAY_ENCODING = Charset.forName("UTF-8");
+    static final Pattern TRUE_REGEX = Pattern.compile("^(1|true|t|yes|y|on)$", 2);
+    static final Pattern FALSE_REGEX = Pattern.compile("^(0|false|f|no|n|off|)$", 2);
 
     public ConfigGetParameterHandler(Executor executor, ConfigCacheClient configCacheClient, ConfigCacheClient configCacheClient2) {
         this.executor = executor;

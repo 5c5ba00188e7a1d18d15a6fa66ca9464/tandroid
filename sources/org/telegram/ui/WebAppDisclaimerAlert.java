@@ -42,20 +42,20 @@ public class WebAppDisclaimerAlert {
         linearLayout.addView(webAppDisclaimerAlert.cell, LayoutHelper.createLinear(-1, 48, 3, 8, 0, 8, 0));
         final boolean[] zArr = new boolean[1];
         textView.setText(AndroidUtilities.replaceTags(LocaleController.getString("BotWebAppDisclaimerSubtitle", R.string.BotWebAppDisclaimerSubtitle)));
-        webAppDisclaimerAlert.cell.setText(AndroidUtilities.replaceSingleTag(LocaleController.getString("BotWebAppDisclaimerCheck", R.string.BotWebAppDisclaimerCheck), new Runnable() { // from class: org.telegram.ui.WebAppDisclaimerAlert$$ExternalSyntheticLambda4
+        webAppDisclaimerAlert.cell.setText(AndroidUtilities.replaceSingleTag(LocaleController.getString("BotWebAppDisclaimerCheck", R.string.BotWebAppDisclaimerCheck), new Runnable() { // from class: org.telegram.ui.WebAppDisclaimerAlert$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 WebAppDisclaimerAlert.lambda$show$0(context);
             }
         }), "", false, false);
         builder.setView(linearLayout);
-        builder.setPositiveButton(LocaleController.getString("Continue", R.string.Continue), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.WebAppDisclaimerAlert$$ExternalSyntheticLambda0
+        builder.setPositiveButton(LocaleController.getString("Continue", R.string.Continue), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.WebAppDisclaimerAlert$$ExternalSyntheticLambda1
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 WebAppDisclaimerAlert.lambda$show$1(Consumer.this, zArr, dialogInterface, i);
             }
         });
-        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.WebAppDisclaimerAlert$$ExternalSyntheticLambda1
+        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.WebAppDisclaimerAlert$$ExternalSyntheticLambda2
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
@@ -75,7 +75,7 @@ public class WebAppDisclaimerAlert {
             }
         });
         webAppDisclaimerAlert.cell.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector), 7));
-        webAppDisclaimerAlert.alert.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.WebAppDisclaimerAlert$$ExternalSyntheticLambda2
+        webAppDisclaimerAlert.alert.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.WebAppDisclaimerAlert$$ExternalSyntheticLambda4
             @Override // android.content.DialogInterface.OnDismissListener
             public final void onDismiss(DialogInterface dialogInterface) {
                 WebAppDisclaimerAlert.lambda$show$4(zArr, runnable, dialogInterface);

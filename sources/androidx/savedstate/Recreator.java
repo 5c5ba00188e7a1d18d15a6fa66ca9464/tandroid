@@ -14,11 +14,8 @@ import kotlin.jvm.internal.Intrinsics;
 /* compiled from: Recreator.kt */
 /* loaded from: classes.dex */
 public final class Recreator implements LifecycleEventObserver {
+    public static final Companion Companion = new Companion(null);
     private final SavedStateRegistryOwner owner;
-
-    static {
-        new Companion(null);
-    }
 
     public Recreator(SavedStateRegistryOwner owner) {
         Intrinsics.checkNotNullParameter(owner, "owner");

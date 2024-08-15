@@ -1,80 +1,54 @@
 package j$.util.stream;
 
-import j$.util.function.Function;
-import j$.util.function.ToDoubleFunction;
+import j$.util.function.Consumer;
 /* loaded from: classes2.dex */
-class L extends T {
-    public final /* synthetic */ int l = 4;
-    final /* synthetic */ Object m;
+abstract class L implements D3 {
+    boolean a;
+    Object b;
 
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public L(U u, c cVar, e4 e4Var, int i, j$.util.function.f fVar) {
-        super(cVar, e4Var, i);
-        this.m = fVar;
+    @Override // j$.util.stream.f2, j$.util.stream.c2, j$.util.function.m
+    public /* synthetic */ void accept(double d) {
+        u0.i0();
+        throw null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // j$.util.stream.c
-    public m3 C0(int i, m3 m3Var) {
-        switch (this.l) {
-            case 0:
-                return new K(this, m3Var);
-            case 1:
-                return new K(this, m3Var, (j$.lang.a) null);
-            case 2:
-                return new K(this, m3Var, (j$.lang.b) null);
-            case 3:
-                return new K(this, m3Var, (j$.lang.c) null);
-            case 4:
-                return new G0(this, m3Var);
-            case 5:
-                return new a1(this, m3Var);
-            case 6:
-                return new Y2(this, m3Var);
-            default:
-                return new s(this, m3Var);
+    @Override // j$.util.stream.f2
+    public /* synthetic */ void accept(int i) {
+        u0.p0();
+        throw null;
+    }
+
+    @Override // j$.util.stream.f2
+    public /* synthetic */ void accept(long j) {
+        u0.q0();
+        throw null;
+    }
+
+    @Override // j$.util.function.Consumer
+    /* renamed from: accept */
+    public final void p(Object obj) {
+        if (this.a) {
+            return;
         }
+        this.a = true;
+        this.b = obj;
     }
 
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public L(U u, c cVar, e4 e4Var, int i, j$.util.function.g gVar) {
-        super(cVar, e4Var, i);
-        this.m = gVar;
+    @Override // j$.util.function.Consumer
+    public final /* synthetic */ Consumer andThen(Consumer consumer) {
+        return Consumer.-CC.$default$andThen(this, consumer);
     }
 
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public L(U u, c cVar, e4 e4Var, int i, j$.wrappers.D d) {
-        super(cVar, e4Var, i);
-        this.m = d;
+    @Override // j$.util.stream.f2
+    public final /* synthetic */ void end() {
     }
 
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public L(U u, c cVar, e4 e4Var, int i, j$.wrappers.J j) {
-        super(cVar, e4Var, i);
-        this.m = j;
+    @Override // j$.util.stream.f2
+    public final /* synthetic */ void f(long j) {
     }
 
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public L(M0 m0, c cVar, e4 e4Var, int i, j$.wrappers.W w) {
-        super(cVar, e4Var, i);
-        this.m = w;
-    }
-
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public L(e1 e1Var, c cVar, e4 e4Var, int i, j$.wrappers.k0 k0Var) {
-        super(cVar, e4Var, i);
-        this.m = k0Var;
-    }
-
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public L(e3 e3Var, c cVar, e4 e4Var, int i, Function function) {
-        super(cVar, e4Var, i);
-        this.m = function;
-    }
-
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public L(e3 e3Var, c cVar, e4 e4Var, int i, ToDoubleFunction toDoubleFunction) {
-        super(cVar, e4Var, i);
-        this.m = toDoubleFunction;
+    @Override // j$.util.stream.f2
+    public final boolean h() {
+        return this.a;
     }
 }

@@ -61,7 +61,9 @@ public abstract class EnhancedIntentService extends Service {
         return taskCompletionSource.getTask();
     }
 
-    protected abstract Intent getStartCommandIntent(Intent intent);
+    protected Intent getStartCommandIntent(Intent intent) {
+        return intent;
+    }
 
     public abstract void handleIntent(Intent intent);
 

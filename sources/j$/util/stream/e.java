@@ -22,13 +22,8 @@ abstract class e {
 
     public abstract void clear();
 
-    public long count() {
+    public final long count() {
         int i = this.c;
         return i == 0 ? this.b : this.d[i] + this.b;
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public int s(int i) {
-        return 1 << ((i == 0 || i == 1) ? this.a : Math.min((this.a + i) - 1, 30));
     }
 }

@@ -3,7 +3,6 @@ package androidx.collection;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 /* loaded from: classes.dex */
 public class LruCache<K, V> {
     private int createCount;
@@ -36,7 +35,9 @@ public class LruCache<K, V> {
 
     public final V get(K k) {
         V put;
-        Objects.requireNonNull(k, "key == null");
+        if (k == null) {
+            throw new NullPointerException("key == null");
+        }
         synchronized (this) {
             V v = this.map.get(k);
             if (v != null) {

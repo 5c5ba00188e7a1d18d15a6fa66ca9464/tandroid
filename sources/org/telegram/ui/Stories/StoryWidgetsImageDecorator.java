@@ -183,7 +183,7 @@ public class StoryWidgetsImageDecorator extends ImageReceiver.Decorator {
             Weather.State state = new Weather.State();
             state.emoji = tL_stories$TL_mediaAreaWeather.emoji;
             state.temperature = (float) tL_stories$TL_mediaAreaWeather.temperature_c;
-            LocationMarker locationMarker = new LocationMarker(ApplicationLoader.applicationContext, 1, AndroidUtilities.density, 0, StoryWidgetsImageDecorator.this) { // from class: org.telegram.ui.Stories.StoryWidgetsImageDecorator.WeatherWidget.1
+            LocationMarker locationMarker = new LocationMarker(ApplicationLoader.applicationContext, 1, AndroidUtilities.density, 0) { // from class: org.telegram.ui.Stories.StoryWidgetsImageDecorator.WeatherWidget.1
                 @Override // android.view.View
                 public void invalidate() {
                     if (WeatherWidget.this.parentView != null) {

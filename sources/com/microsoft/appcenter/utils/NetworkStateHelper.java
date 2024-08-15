@@ -49,6 +49,7 @@ public class NetworkStateHelper implements Closeable {
     }
 
     public void reopen() {
+        NetworkRequest build;
         try {
             if (Build.VERSION.SDK_INT >= 21) {
                 NetworkRequest.Builder builder = new NetworkRequest.Builder();
@@ -64,7 +65,9 @@ public class NetworkStateHelper implements Closeable {
                         NetworkStateHelper.this.onNetworkLost(network);
                     }
                 };
-                this.mConnectivityManager.registerNetworkCallback(builder.build(), this.mNetworkCallback);
+                ConnectivityManager connectivityManager = this.mConnectivityManager;
+                build = builder.build();
+                connectivityManager.registerNetworkCallback(build, this.mNetworkCallback);
             } else {
                 ConnectivityReceiver connectivityReceiver = new ConnectivityReceiver();
                 this.mConnectivityReceiver = connectivityReceiver;
@@ -86,13 +89,15 @@ public class NetworkStateHelper implements Closeable {
     }
 
     private boolean isAnyNetworkConnected() {
+        Network[] allNetworks;
+        NetworkInfo networkInfo;
         if (Build.VERSION.SDK_INT >= 21) {
-            Network[] allNetworks = this.mConnectivityManager.getAllNetworks();
+            allNetworks = this.mConnectivityManager.getAllNetworks();
             if (allNetworks == null) {
                 return false;
             }
             for (Network network : allNetworks) {
-                NetworkInfo networkInfo = this.mConnectivityManager.getNetworkInfo(network);
+                networkInfo = this.mConnectivityManager.getNetworkInfo(network);
                 if (networkInfo != null && networkInfo.isConnected()) {
                     return true;
                 }
@@ -121,8 +126,9 @@ public class NetworkStateHelper implements Closeable {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void onNetworkLost(Network network) {
+        Network[] allNetworks;
         AppCenterLog.debug("AppCenter", "Network " + network + " is lost.");
-        Network[] allNetworks = this.mConnectivityManager.getAllNetworks();
+        allNetworks = this.mConnectivityManager.getAllNetworks();
         if ((allNetworks == null || allNetworks.length == 0 || Arrays.equals(allNetworks, new Network[]{network})) && this.mConnected.compareAndSet(true, false)) {
             notifyNetworkStateUpdated(false);
         }

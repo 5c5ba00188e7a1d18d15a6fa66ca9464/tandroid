@@ -55,7 +55,7 @@ public class TextCheckCell2 extends FrameLayout {
             this.collapseViewContainer.setClipChildren(false);
             setClipChildren(false);
             addView(this.collapseViewContainer, LayoutHelper.createFrame(-2, -2, 16));
-            View view = new View(this, getContext()) { // from class: org.telegram.ui.Cells.TextCheckCell2.1
+            View view = new View(getContext()) { // from class: org.telegram.ui.Cells.TextCheckCell2.1
                 @Override // android.view.View
                 protected void onDraw(Canvas canvas) {
                     super.onDraw(canvas);

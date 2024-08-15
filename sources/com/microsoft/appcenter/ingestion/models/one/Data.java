@@ -44,7 +44,7 @@ public class Data implements Model {
         if (this == obj) {
             return true;
         }
-        if (obj == null || Data.class != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         return this.mProperties.toString().equals(((Data) obj).mProperties.toString());

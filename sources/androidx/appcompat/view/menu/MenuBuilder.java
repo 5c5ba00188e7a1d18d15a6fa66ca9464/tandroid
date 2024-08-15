@@ -17,11 +17,9 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
-import android.view.ViewConfiguration;
 import androidx.core.content.ContextCompat;
 import androidx.core.internal.view.SupportMenu;
 import androidx.core.view.ActionProvider;
-import androidx.core.view.ViewConfigurationCompat;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -480,9 +478,21 @@ public class MenuBuilder implements SupportMenu {
         return this.mQwertyMode;
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:6:0x0019, code lost:
+        if (androidx.core.view.ViewConfigurationCompat.shouldShowMenuShortcutsWhenKeyboardPresent(android.view.ViewConfiguration.get(r2.mContext), r2.mContext) != false) goto L6;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private void setShortcutsVisibleInner(boolean z) {
-        boolean z2 = true;
-        this.mShortcutsVisible = (z && this.mResources.getConfiguration().keyboard != 1 && ViewConfigurationCompat.shouldShowMenuShortcutsWhenKeyboardPresent(ViewConfiguration.get(this.mContext), this.mContext)) ? false : false;
+        boolean z2;
+        if (z) {
+            z2 = true;
+            if (this.mResources.getConfiguration().keyboard != 1) {
+            }
+        }
+        z2 = false;
+        this.mShortcutsVisible = z2;
     }
 
     public boolean isShortcutsVisible() {

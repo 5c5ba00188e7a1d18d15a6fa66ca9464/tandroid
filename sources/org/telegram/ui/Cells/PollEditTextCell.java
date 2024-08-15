@@ -197,7 +197,7 @@ public class PollEditTextCell extends FrameLayout implements SuggestEmojiView.An
             this.checkBox.setAlpha(0.0f);
             this.checkBox.setDrawBackgroundAsArc(8);
             addView(this.checkBox, LayoutHelper.createFrame(48, 48.0f, (LocaleController.isRTL ? 5 : 3) | 48, 6.0f, 2.0f, 6.0f, 0.0f));
-            this.checkBox.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.PollEditTextCell$$ExternalSyntheticLambda2
+            this.checkBox.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.PollEditTextCell$$ExternalSyntheticLambda1
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     PollEditTextCell.this.lambda$new$0(view);
@@ -225,7 +225,7 @@ public class PollEditTextCell extends FrameLayout implements SuggestEmojiView.An
             if (Build.VERSION.SDK_INT >= 21) {
                 this.emojiButton.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_stickers_menuSelector)));
             }
-            this.emojiButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.PollEditTextCell$$ExternalSyntheticLambda1
+            this.emojiButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.PollEditTextCell$$ExternalSyntheticLambda2
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     PollEditTextCell.this.lambda$new$1(view);

@@ -1,26 +1,18 @@
 package j$.util;
 
-import java.util.Objects;
+import j$.util.function.Consumer;
 /* loaded from: classes2.dex */
-abstract class E {
-    public int characteristics() {
-        return 16448;
-    }
+public interface E extends N {
+    @Override // j$.util.Q
+    boolean a(Consumer consumer);
 
-    public long estimateSize() {
-        return 0L;
-    }
+    void d(j$.util.function.m mVar);
 
-    public void forEachRemaining(Object obj) {
-        Objects.requireNonNull(obj);
-    }
+    @Override // j$.util.Q
+    void forEachRemaining(Consumer consumer);
 
-    public boolean tryAdvance(Object obj) {
-        Objects.requireNonNull(obj);
-        return false;
-    }
+    boolean o(j$.util.function.m mVar);
 
-    public s trySplit() {
-        return null;
-    }
+    @Override // j$.util.N, j$.util.Q
+    E trySplit();
 }

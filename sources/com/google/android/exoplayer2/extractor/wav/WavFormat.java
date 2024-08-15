@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.extractor.wav;
 /* loaded from: classes.dex */
 final class WavFormat {
+    public final int averageBytesPerSecond;
     public final int bitsPerSample;
     public final int blockSize;
     public final byte[] extraData;
@@ -12,6 +13,7 @@ final class WavFormat {
         this.formatType = i;
         this.numChannels = i2;
         this.frameRateHz = i3;
+        this.averageBytesPerSecond = i4;
         this.blockSize = i5;
         this.bitsPerSample = i6;
         this.extraData = bArr;

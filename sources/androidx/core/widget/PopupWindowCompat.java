@@ -4,8 +4,6 @@ import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.widget.PopupWindow;
-import androidx.core.view.GravityCompat;
-import androidx.core.view.ViewCompat;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 /* loaded from: classes.dex */
@@ -16,14 +14,7 @@ public final class PopupWindowCompat {
     private static boolean sSetWindowLayoutTypeMethodAttempted;
 
     public static void showAsDropDown(PopupWindow popupWindow, View view, int i, int i2, int i3) {
-        if (Build.VERSION.SDK_INT >= 19) {
-            Api19Impl.showAsDropDown(popupWindow, view, i, i2, i3);
-            return;
-        }
-        if ((GravityCompat.getAbsoluteGravity(i3, ViewCompat.getLayoutDirection(view)) & 7) == 5) {
-            i -= popupWindow.getWidth() - view.getWidth();
-        }
-        popupWindow.showAsDropDown(view, i, i2);
+        Api19Impl.showAsDropDown(popupWindow, view, i, i2, i3);
     }
 
     public static void setOverlapAnchor(PopupWindow popupWindow, boolean z) {
@@ -82,7 +73,9 @@ public final class PopupWindowCompat {
         }
 
         static boolean getOverlapAnchor(PopupWindow popupWindow) {
-            return popupWindow.getOverlapAnchor();
+            boolean overlapAnchor;
+            overlapAnchor = popupWindow.getOverlapAnchor();
+            return overlapAnchor;
         }
 
         static void setWindowLayoutType(PopupWindow popupWindow, int i) {
@@ -90,7 +83,9 @@ public final class PopupWindowCompat {
         }
 
         static int getWindowLayoutType(PopupWindow popupWindow) {
-            return popupWindow.getWindowLayoutType();
+            int windowLayoutType;
+            windowLayoutType = popupWindow.getWindowLayoutType();
+            return windowLayoutType;
         }
     }
 

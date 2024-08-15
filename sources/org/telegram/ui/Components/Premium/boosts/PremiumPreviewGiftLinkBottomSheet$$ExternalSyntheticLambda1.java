@@ -1,4 +1,5 @@
 package org.telegram.ui.Components.Premium.boosts;
+/* compiled from: R8$$SyntheticClass */
 /* loaded from: classes3.dex */
 public final /* synthetic */ class PremiumPreviewGiftLinkBottomSheet$$ExternalSyntheticLambda1 implements Runnable {
     public final /* synthetic */ PremiumPreviewGiftLinkBottomSheet f$0;

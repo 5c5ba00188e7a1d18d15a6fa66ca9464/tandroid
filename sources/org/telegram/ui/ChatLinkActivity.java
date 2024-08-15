@@ -159,8 +159,6 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
         if (chat == null) {
             return;
         }
-        this.rowCount = 0;
-        this.helpRow = -1;
         this.createChatRow = -1;
         this.chatStartRow = -1;
         this.chatEndRow = -1;
@@ -187,7 +185,6 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
         } else {
             this.chatStartRow = i;
             int size2 = i + this.chats.size();
-            this.rowCount = size2;
             this.chatEndRow = size2;
             this.rowCount = size2 + 1;
             this.createChatRow = size2;
@@ -284,6 +281,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
         this.searching = false;
+        this.searchWas = false;
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setAllowOverlayTitle(true);
         this.actionBar.setTitle(LocaleController.getString("Discussion", R.string.Discussion));
@@ -366,7 +364,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
         recyclerListView2.setAdapter(listAdapter);
         this.listView.setVerticalScrollbarPosition(LocaleController.isRTL ? 1 : 2);
         frameLayout2.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda18
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i2) {
                 ChatLinkActivity.this.lambda$createView$6(view, i2);
@@ -439,7 +437,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
                 }
                 builder.setTitle(string);
                 builder.setMessage(AndroidUtilities.replaceTags(formatString));
-                builder.setPositiveButton(LocaleController.getString("DiscussionUnlink", R.string.DiscussionUnlink), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda3
+                builder.setPositiveButton(LocaleController.getString("DiscussionUnlink", R.string.DiscussionUnlink), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda8
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i3) {
                         ChatLinkActivity.this.lambda$createView$5(dialogInterface, i3);
@@ -470,13 +468,13 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
             tLRPC$TL_channels_setDiscussionGroup.broadcast = new TLRPC$TL_inputChannelEmpty();
             tLRPC$TL_channels_setDiscussionGroup.group = MessagesController.getInputChannel(this.currentChat);
         }
-        final int sendRequest = getConnectionsManager().sendRequest(tLRPC$TL_channels_setDiscussionGroup, new RequestDelegate() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda15
+        final int sendRequest = getConnectionsManager().sendRequest(tLRPC$TL_channels_setDiscussionGroup, new RequestDelegate() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda11
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 ChatLinkActivity.this.lambda$createView$2(alertDialogArr, tLObject, tLRPC$TL_error);
             }
         });
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda10
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
                 ChatLinkActivity.this.lambda$createView$4(alertDialogArr, sendRequest);
@@ -486,7 +484,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$2(final AlertDialog[] alertDialogArr, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda9
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda17
             @Override // java.lang.Runnable
             public final void run() {
                 ChatLinkActivity.this.lambda$createView$1(alertDialogArr);
@@ -506,7 +504,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
         int i = NotificationCenter.chatInfoDidLoad;
         Boolean bool = Boolean.FALSE;
         notificationCenter.lambda$postNotificationNameOnUIThread$1(i, this.info, 0, bool, bool);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda6
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda18
             @Override // java.lang.Runnable
             public final void run() {
                 ChatLinkActivity.this.lambda$createView$0();
@@ -525,10 +523,11 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$4(AlertDialog[] alertDialogArr, final int i) {
-        if (alertDialogArr[0] == null) {
+        AlertDialog alertDialog = alertDialogArr[0];
+        if (alertDialog == null) {
             return;
         }
-        alertDialogArr[0].setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda2
+        alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda16
             @Override // android.content.DialogInterface.OnCancelListener
             public final void onCancel(DialogInterface dialogInterface) {
                 ChatLinkActivity.this.lambda$createView$3(i, dialogInterface);
@@ -550,7 +549,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
                 getMessagesController().loadFullChat(tLRPC$Chat.id, 0, true);
                 this.waitingForFullChat = tLRPC$Chat;
                 this.waitingForFullChatProgressAlert = new AlertDialog(getParentActivity(), 3);
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda5
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
                         ChatLinkActivity.this.lambda$showLinkAlert$8();
@@ -614,7 +613,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
         if (alertDialog == null) {
             return;
         }
-        alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda0
+        alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda10
             @Override // android.content.DialogInterface.OnCancelListener
             public final void onCancel(DialogInterface dialogInterface) {
                 ChatLinkActivity.this.lambda$showLinkAlert$7(dialogInterface);
@@ -642,7 +641,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
             return;
         }
         if (!ChatObject.isChannel(tLRPC$Chat)) {
-            getMessagesController().convertToMegaGroup(getParentActivity(), tLRPC$Chat.id, this, new MessagesStorage.LongCallback() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda13
+            getMessagesController().convertToMegaGroup(getParentActivity(), tLRPC$Chat.id, this, new MessagesStorage.LongCallback() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda5
                 @Override // org.telegram.messenger.MessagesStorage.LongCallback
                 public final void run(long j) {
                     ChatLinkActivity.this.lambda$linkChat$10(baseFragment, j);
@@ -655,13 +654,13 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
         TLRPC$TL_channels_setDiscussionGroup tLRPC$TL_channels_setDiscussionGroup = new TLRPC$TL_channels_setDiscussionGroup();
         tLRPC$TL_channels_setDiscussionGroup.broadcast = MessagesController.getInputChannel(this.currentChat);
         tLRPC$TL_channels_setDiscussionGroup.group = MessagesController.getInputChannel(tLRPC$Chat);
-        final int sendRequest = getConnectionsManager().sendRequest(tLRPC$TL_channels_setDiscussionGroup, new RequestDelegate() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda16
+        final int sendRequest = getConnectionsManager().sendRequest(tLRPC$TL_channels_setDiscussionGroup, new RequestDelegate() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda6
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 ChatLinkActivity.this.lambda$linkChat$13(alertDialogArr, tLRPC$Chat, baseFragment, tLObject, tLRPC$TL_error);
             }
         }, 64);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda11
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 ChatLinkActivity.this.lambda$linkChat$15(alertDialogArr, sendRequest);
@@ -679,7 +678,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$linkChat$13(final AlertDialog[] alertDialogArr, final TLRPC$Chat tLRPC$Chat, final BaseFragment baseFragment, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda12
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda14
             @Override // java.lang.Runnable
             public final void run() {
                 ChatLinkActivity.this.lambda$linkChat$12(alertDialogArr, tLRPC$Chat, baseFragment);
@@ -689,9 +688,10 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$linkChat$12(AlertDialog[] alertDialogArr, TLRPC$Chat tLRPC$Chat, BaseFragment baseFragment) {
-        if (alertDialogArr[0] != null) {
+        AlertDialog alertDialog = alertDialogArr[0];
+        if (alertDialog != null) {
             try {
-                alertDialogArr[0].dismiss();
+                alertDialog.dismiss();
             } catch (Throwable unused) {
             }
             alertDialogArr[0] = null;
@@ -701,7 +701,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
         int i = NotificationCenter.chatInfoDidLoad;
         Boolean bool = Boolean.FALSE;
         notificationCenter.lambda$postNotificationNameOnUIThread$1(i, this.info, 0, bool, bool);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda7
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda15
             @Override // java.lang.Runnable
             public final void run() {
                 ChatLinkActivity.this.lambda$linkChat$11();
@@ -722,10 +722,11 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$linkChat$15(AlertDialog[] alertDialogArr, final int i) {
-        if (alertDialogArr[0] == null) {
+        AlertDialog alertDialog = alertDialogArr[0];
+        if (alertDialog == null) {
             return;
         }
-        alertDialogArr[0].setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda1
+        alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda13
             @Override // android.content.DialogInterface.OnCancelListener
             public final void onCancel(DialogInterface dialogInterface) {
                 ChatLinkActivity.this.lambda$linkChat$14(i, dialogInterface);
@@ -767,7 +768,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
                 public void serializeToStream(AbstractSerializedData abstractSerializedData) {
                     abstractSerializedData.writeInt32(-170208392);
                 }
-            }, new RequestDelegate() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda14
+            }, new RequestDelegate() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda2
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     ChatLinkActivity.this.lambda$loadChats$17(tLObject, tLRPC$TL_error);
@@ -778,7 +779,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadChats$17(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda8
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
             public final void run() {
                 ChatLinkActivity.this.lambda$loadChats$16(tLObject);
@@ -819,7 +820,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
         private EmptyView emptyView;
         private TextView messageTextView;
 
-        public HintInnerCell(ChatLinkActivity chatLinkActivity, Context context) {
+        public HintInnerCell(Context context) {
             super(context);
             EmptyView emptyView = new EmptyView(context);
             this.emptyView = emptyView;
@@ -829,9 +830,9 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
             textView.setTextColor(Theme.getColor(Theme.key_chats_message));
             this.messageTextView.setTextSize(1, 14.0f);
             this.messageTextView.setGravity(17);
-            if (chatLinkActivity.isChannel) {
-                if (chatLinkActivity.info != null && chatLinkActivity.info.linked_chat_id != 0) {
-                    TLRPC$Chat chat = chatLinkActivity.getMessagesController().getChat(Long.valueOf(chatLinkActivity.info.linked_chat_id));
+            if (ChatLinkActivity.this.isChannel) {
+                if (ChatLinkActivity.this.info != null && ChatLinkActivity.this.info.linked_chat_id != 0) {
+                    TLRPC$Chat chat = ChatLinkActivity.this.getMessagesController().getChat(Long.valueOf(ChatLinkActivity.this.info.linked_chat_id));
                     if (chat != null) {
                         this.messageTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("DiscussionChannelGroupSetHelp2", R.string.DiscussionChannelGroupSetHelp2, chat.title)));
                     }
@@ -839,7 +840,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
                     this.messageTextView.setText(LocaleController.getString("DiscussionChannelHelp3", R.string.DiscussionChannelHelp3));
                 }
             } else {
-                TLRPC$Chat chat2 = chatLinkActivity.getMessagesController().getChat(Long.valueOf(chatLinkActivity.info.linked_chat_id));
+                TLRPC$Chat chat2 = ChatLinkActivity.this.getMessagesController().getChat(Long.valueOf(ChatLinkActivity.this.info.linked_chat_id));
                 if (chat2 != null) {
                     this.messageTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("DiscussionGroupHelp", R.string.DiscussionGroupHelp, chat2.title)));
                 }
@@ -916,11 +917,11 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Code restructure failed: missing block: B:34:0x00b2, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:34:0x00b0, code lost:
             if (r12.contains(" " + r3) != false) goto L67;
          */
-        /* JADX WARN: Removed duplicated region for block: B:63:0x0139 A[LOOP:1: B:25:0x0074->B:63:0x0139, LOOP_END] */
-        /* JADX WARN: Removed duplicated region for block: B:72:0x00fe A[SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:63:0x0137 A[LOOP:1: B:25:0x0074->B:63:0x0137, LOOP_END] */
+        /* JADX WARN: Removed duplicated region for block: B:72:0x00fc A[SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -1121,7 +1122,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
 
             private void migrateIfNeeded(Runnable runnable, final Runnable runnable2) {
                 if (!ChatObject.isChannel(ChatLinkActivity.this.currentChat)) {
-                    ChatLinkActivity.this.getMessagesController().convertToMegaGroup(ChatLinkActivity.this.getParentActivity(), this.val$chat.id, ChatLinkActivity.this, new MessagesStorage.LongCallback() { // from class: org.telegram.ui.ChatLinkActivity$ListAdapter$1$$ExternalSyntheticLambda9
+                    ChatLinkActivity.this.getMessagesController().convertToMegaGroup(ChatLinkActivity.this.getParentActivity(), this.val$chat.id, ChatLinkActivity.this, new MessagesStorage.LongCallback() { // from class: org.telegram.ui.ChatLinkActivity$ListAdapter$1$$ExternalSyntheticLambda6
                         @Override // org.telegram.messenger.MessagesStorage.LongCallback
                         public final void run(long j) {
                             ChatLinkActivity.ListAdapter.1.this.lambda$migrateIfNeeded$0(runnable2, j);
@@ -1154,7 +1155,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
                 ChatLinkActivity.this.joinRequestProgress = true;
                 Runnable overrideCancel = overrideCancel(runnable);
                 final TLRPC$Chat tLRPC$Chat = this.val$chat;
-                migrateIfNeeded(overrideCancel, new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$ListAdapter$1$$ExternalSyntheticLambda6
+                migrateIfNeeded(overrideCancel, new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$ListAdapter$1$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         ChatLinkActivity.ListAdapter.1.this.lambda$onJoinRequestToggle$3(tLRPC$Chat, z, runnable);
@@ -1166,12 +1167,12 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
             /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$onJoinRequestToggle$3(TLRPC$Chat tLRPC$Chat, boolean z, final Runnable runnable) {
                 tLRPC$Chat.join_request = z;
-                ChatLinkActivity.this.getMessagesController().toggleChatJoinRequest(tLRPC$Chat.id, z, new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$ListAdapter$1$$ExternalSyntheticLambda0
+                ChatLinkActivity.this.getMessagesController().toggleChatJoinRequest(tLRPC$Chat.id, z, new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$ListAdapter$1$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
                         ChatLinkActivity.ListAdapter.1.this.lambda$onJoinRequestToggle$1();
                     }
-                }, new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$ListAdapter$1$$ExternalSyntheticLambda2
+                }, new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$ListAdapter$1$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
                         ChatLinkActivity.ListAdapter.1.this.lambda$onJoinRequestToggle$2(runnable);
@@ -1191,7 +1192,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
             }
 
             private Runnable overrideCancel(final Runnable runnable) {
-                return new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$ListAdapter$1$$ExternalSyntheticLambda3
+                return new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$ListAdapter$1$$ExternalSyntheticLambda7
                     @Override // java.lang.Runnable
                     public final void run() {
                         ChatLinkActivity.ListAdapter.1.this.lambda$overrideCancel$4(runnable);
@@ -1214,7 +1215,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
                 ChatLinkActivity.this.joinToSendProgress = true;
                 Runnable overrideCancel = overrideCancel(runnable);
                 final TLRPC$Chat tLRPC$Chat = this.val$chat;
-                migrateIfNeeded(overrideCancel, new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$ListAdapter$1$$ExternalSyntheticLambda7
+                migrateIfNeeded(overrideCancel, new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$ListAdapter$1$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         ChatLinkActivity.ListAdapter.1.this.lambda$onJoinToSendToggle$9(tLRPC$Chat, z, runnable);
@@ -1226,12 +1227,12 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
             /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$onJoinToSendToggle$9(final TLRPC$Chat tLRPC$Chat, final boolean z, final Runnable runnable) {
                 tLRPC$Chat.join_to_send = z;
-                ChatLinkActivity.this.getMessagesController().toggleChatJoinToSend(tLRPC$Chat.id, z, new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$ListAdapter$1$$ExternalSyntheticLambda8
+                ChatLinkActivity.this.getMessagesController().toggleChatJoinToSend(tLRPC$Chat.id, z, new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$ListAdapter$1$$ExternalSyntheticLambda4
                     @Override // java.lang.Runnable
                     public final void run() {
                         ChatLinkActivity.ListAdapter.1.this.lambda$onJoinToSendToggle$7(z, tLRPC$Chat);
                     }
-                }, new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$ListAdapter$1$$ExternalSyntheticLambda4
+                }, new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$ListAdapter$1$$ExternalSyntheticLambda5
                     @Override // java.lang.Runnable
                     public final void run() {
                         ChatLinkActivity.ListAdapter.1.this.lambda$onJoinToSendToggle$8(runnable);
@@ -1247,12 +1248,12 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
                 }
                 tLRPC$Chat.join_request = false;
                 ChatLinkActivity.this.joinRequestProgress = true;
-                ChatLinkActivity.this.getMessagesController().toggleChatJoinRequest(tLRPC$Chat.id, false, new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$ListAdapter$1$$ExternalSyntheticLambda1
+                ChatLinkActivity.this.getMessagesController().toggleChatJoinRequest(tLRPC$Chat.id, false, new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$ListAdapter$1$$ExternalSyntheticLambda8
                     @Override // java.lang.Runnable
                     public final void run() {
                         ChatLinkActivity.ListAdapter.1.this.lambda$onJoinToSendToggle$5();
                     }
-                }, new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$ListAdapter$1$$ExternalSyntheticLambda5
+                }, new Runnable() { // from class: org.telegram.ui.ChatLinkActivity$ListAdapter$1$$ExternalSyntheticLambda9
                     @Override // java.lang.Runnable
                     public final void run() {
                         ChatLinkActivity.ListAdapter.1.this.lambda$onJoinToSendToggle$6(tLRPC$Chat);
@@ -1296,7 +1297,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
                 TLRPC$Chat tLRPC$Chat = ChatLinkActivity.this.isChannel ? (TLRPC$Chat) ChatLinkActivity.this.chats.get(0) : ChatLinkActivity.this.currentChat;
                 view = ChatLinkActivity.this.joinToSendSettings = new 1(this.mContext, tLRPC$Chat, tLRPC$Chat);
             } else {
-                view = new HintInnerCell(ChatLinkActivity.this, this.mContext);
+                view = new HintInnerCell(this.mContext);
             }
             return new RecyclerListView.Holder(view);
         }
@@ -1372,7 +1373,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda17
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 ChatLinkActivity.this.lambda$getThemeDescriptions$18();

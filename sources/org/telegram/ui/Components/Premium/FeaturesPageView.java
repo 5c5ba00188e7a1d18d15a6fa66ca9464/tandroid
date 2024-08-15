@@ -59,24 +59,24 @@ public class FeaturesPageView extends BaseListPageView {
         ArrayList arrayList = new ArrayList();
         MessagesController messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
         if (i == 0) {
-            arrayList.add(new Item(this, 1, R.drawable.msg_stories_order, LocaleController.getString("PremiumStoriesPriority", R.string.PremiumStoriesPriority), LocaleController.getString("PremiumStoriesPriorityDescription", R.string.PremiumStoriesPriorityDescription), 20));
-            arrayList.add(new Item(this, 1, R.drawable.msg_stories_stealth, LocaleController.getString("PremiumStoriesStealth", R.string.PremiumStoriesStealth), LocaleController.getString("PremiumStoriesStealthDescription", R.string.PremiumStoriesStealthDescription), 15));
-            arrayList.add(new Item(this, 1, R.drawable.menu_quality_hd, LocaleController.getString(R.string.PremiumStoriesQuality), LocaleController.getString(R.string.PremiumStoriesQualityDescription), 25));
-            arrayList.add(new Item(this, 1, R.drawable.msg_stories_views, LocaleController.getString("PremiumStoriesViews", R.string.PremiumStoriesViews), LocaleController.getString("PremiumStoriesViewsDescription", R.string.PremiumStoriesViewsDescription), 16));
-            arrayList.add(new Item(this, 1, R.drawable.msg_stories_timer, LocaleController.getString("PremiumStoriesExpiration", R.string.PremiumStoriesExpiration), LocaleController.getString("PremiumStoriesExpirationDescription", R.string.PremiumStoriesExpirationDescription), 17));
-            arrayList.add(new Item(this, 1, R.drawable.msg_stories_save, LocaleController.getString("PremiumStoriesSaveToGallery", R.string.PremiumStoriesSaveToGallery), LocaleController.getString("PremiumStoriesSaveToGalleryDescription", R.string.PremiumStoriesSaveToGalleryDescription), 18));
-            arrayList.add(new Item(this, 1, R.drawable.msg_stories_caption, LocaleController.getString("PremiumStoriesCaption", R.string.PremiumStoriesCaption), LocaleController.getString("PremiumStoriesCaptionDescription", R.string.PremiumStoriesCaptionDescription), 21));
-            arrayList.add(new Item(this, 1, R.drawable.msg_stories_link, LocaleController.getString("PremiumStoriesFormatting", R.string.PremiumStoriesFormatting), LocaleController.getString("PremiumStoriesFormattingDescription", R.string.PremiumStoriesFormattingDescription), 19));
+            arrayList.add(new Item(1, R.drawable.msg_stories_order, LocaleController.getString("PremiumStoriesPriority", R.string.PremiumStoriesPriority), LocaleController.getString("PremiumStoriesPriorityDescription", R.string.PremiumStoriesPriorityDescription), 20));
+            arrayList.add(new Item(1, R.drawable.msg_stories_stealth, LocaleController.getString("PremiumStoriesStealth", R.string.PremiumStoriesStealth), LocaleController.getString("PremiumStoriesStealthDescription", R.string.PremiumStoriesStealthDescription), 15));
+            arrayList.add(new Item(1, R.drawable.menu_quality_hd, LocaleController.getString(R.string.PremiumStoriesQuality), LocaleController.getString(R.string.PremiumStoriesQualityDescription), 25));
+            arrayList.add(new Item(1, R.drawable.msg_stories_views, LocaleController.getString("PremiumStoriesViews", R.string.PremiumStoriesViews), LocaleController.getString("PremiumStoriesViewsDescription", R.string.PremiumStoriesViewsDescription), 16));
+            arrayList.add(new Item(1, R.drawable.msg_stories_timer, LocaleController.getString("PremiumStoriesExpiration", R.string.PremiumStoriesExpiration), LocaleController.getString("PremiumStoriesExpirationDescription", R.string.PremiumStoriesExpirationDescription), 17));
+            arrayList.add(new Item(1, R.drawable.msg_stories_save, LocaleController.getString("PremiumStoriesSaveToGallery", R.string.PremiumStoriesSaveToGallery), LocaleController.getString("PremiumStoriesSaveToGalleryDescription", R.string.PremiumStoriesSaveToGalleryDescription), 18));
+            arrayList.add(new Item(1, R.drawable.msg_stories_caption, LocaleController.getString("PremiumStoriesCaption", R.string.PremiumStoriesCaption), LocaleController.getString("PremiumStoriesCaptionDescription", R.string.PremiumStoriesCaptionDescription), 21));
+            arrayList.add(new Item(1, R.drawable.msg_stories_link, LocaleController.getString("PremiumStoriesFormatting", R.string.PremiumStoriesFormatting), LocaleController.getString("PremiumStoriesFormattingDescription", R.string.PremiumStoriesFormattingDescription), 19));
         } else if (i == 1) {
             sparseIntArray = messagesController.businessFeaturesTypesToPosition;
-            arrayList.add(new Item(this, 1, R.drawable.menu_premium_location, LocaleController.getString(R.string.PremiumBusinessLocation), LocaleController.getString(R.string.PremiumBusinessLocationDescription), 29));
-            arrayList.add(new Item(this, 1, R.drawable.menu_premium_clock, LocaleController.getString(R.string.PremiumBusinessOpeningHours), LocaleController.getString(R.string.PremiumBusinessOpeningHoursDescription), 30));
-            arrayList.add(new Item(this, 1, R.drawable.menu_quickreply, LocaleController.getString(R.string.PremiumBusinessQuickReplies), LocaleController.getString(R.string.PremiumBusinessQuickRepliesDescription), 31));
-            arrayList.add(new Item(this, 1, R.drawable.menu_feature_status, LocaleController.getString(R.string.PremiumBusinessGreetingMessages), LocaleController.getString(R.string.PremiumBusinessGreetingMessagesDescription), 32));
-            arrayList.add(new Item(this, 1, R.drawable.menu_premium_away, LocaleController.getString(R.string.PremiumBusinessAwayMessages), LocaleController.getString(R.string.PremiumBusinessAwayMessagesDescription), 33));
-            arrayList.add(new Item(this, 1, R.drawable.menu_premium_chatbot, LocaleController.getString(R.string.PremiumBusinessChatbots2), LocaleController.getString(R.string.PremiumBusinessChatbotsDescription), 34));
-            arrayList.add(new Item(this, 1, R.drawable.menu_feature_intro, LocaleController.getString(R.string.PremiumBusinessIntro), LocaleController.getString(R.string.PremiumBusinessIntroDescription), 36));
-            arrayList.add(new Item(this, 1, R.drawable.menu_premium_chatlink, LocaleController.getString(R.string.PremiumBusinessChatLinks), LocaleController.getString(R.string.PremiumBusinessChatLinksDescription), 37));
+            arrayList.add(new Item(1, R.drawable.menu_premium_location, LocaleController.getString(R.string.PremiumBusinessLocation), LocaleController.getString(R.string.PremiumBusinessLocationDescription), 29));
+            arrayList.add(new Item(1, R.drawable.menu_premium_clock, LocaleController.getString(R.string.PremiumBusinessOpeningHours), LocaleController.getString(R.string.PremiumBusinessOpeningHoursDescription), 30));
+            arrayList.add(new Item(1, R.drawable.menu_quickreply, LocaleController.getString(R.string.PremiumBusinessQuickReplies), LocaleController.getString(R.string.PremiumBusinessQuickRepliesDescription), 31));
+            arrayList.add(new Item(1, R.drawable.menu_feature_status, LocaleController.getString(R.string.PremiumBusinessGreetingMessages), LocaleController.getString(R.string.PremiumBusinessGreetingMessagesDescription), 32));
+            arrayList.add(new Item(1, R.drawable.menu_premium_away, LocaleController.getString(R.string.PremiumBusinessAwayMessages), LocaleController.getString(R.string.PremiumBusinessAwayMessagesDescription), 33));
+            arrayList.add(new Item(1, R.drawable.menu_premium_chatbot, LocaleController.getString(R.string.PremiumBusinessChatbots2), LocaleController.getString(R.string.PremiumBusinessChatbotsDescription), 34));
+            arrayList.add(new Item(1, R.drawable.menu_feature_intro, LocaleController.getString(R.string.PremiumBusinessIntro), LocaleController.getString(R.string.PremiumBusinessIntroDescription), 36));
+            arrayList.add(new Item(1, R.drawable.menu_premium_chatlink, LocaleController.getString(R.string.PremiumBusinessChatLinks), LocaleController.getString(R.string.PremiumBusinessChatLinksDescription), 37));
             if (sparseIntArray != null) {
                 Collections.sort(arrayList, new Comparator() { // from class: org.telegram.ui.Components.Premium.FeaturesPageView$$ExternalSyntheticLambda0
                     @Override // java.util.Comparator
@@ -132,7 +132,7 @@ public class FeaturesPageView extends BaseListPageView {
                     itemCell = new FixedHeightEmptyCell(FeaturesPageView.this.getContext(), 16);
                 } else {
                     FeaturesPageView featuresPageView2 = FeaturesPageView.this;
-                    itemCell = new ItemCell(featuresPageView2, featuresPageView2.getContext());
+                    itemCell = new ItemCell(featuresPageView2.getContext());
                 }
                 itemCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
                 return new RecyclerListView.Holder(itemCell);
@@ -172,11 +172,11 @@ public class FeaturesPageView extends BaseListPageView {
         String text;
         final int viewType;
 
-        private Item(FeaturesPageView featuresPageView, int i) {
+        private Item(int i) {
             this.viewType = i;
         }
 
-        public Item(FeaturesPageView featuresPageView, int i, int i2, String str, String str2, int i3) {
+        public Item(int i, int i2, String str, String str2, int i3) {
             this.viewType = i;
             this.iconRes = i2;
             this.text = str;
@@ -221,7 +221,7 @@ public class FeaturesPageView extends BaseListPageView {
                 this.gradientTools.paint.setStrokeCap(Paint.Cap.ROUND);
                 this.gradientTools.paint.setStrokeWidth(AndroidUtilities.dpf2(3.3f));
             } else if (i == 1) {
-                StarParticlesView starParticlesView = new StarParticlesView(this, context, FeaturesPageView.this) { // from class: org.telegram.ui.Components.Premium.FeaturesPageView.HeaderView.1
+                StarParticlesView starParticlesView = new StarParticlesView(context) { // from class: org.telegram.ui.Components.Premium.FeaturesPageView.HeaderView.1
                     /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Components.Premium.StarParticlesView, android.view.View
                     public void onMeasure(int i2, int i3) {
@@ -250,7 +250,7 @@ public class FeaturesPageView extends BaseListPageView {
                 };
                 this.starParticlesView = starParticlesView;
                 addView(starParticlesView, LayoutHelper.createFrame(-1, 190, 55));
-                GLIconTextureView gLIconTextureView = new GLIconTextureView(this, context, 1, 1, FeaturesPageView.this) { // from class: org.telegram.ui.Components.Premium.FeaturesPageView.HeaderView.2
+                GLIconTextureView gLIconTextureView = new GLIconTextureView(context, 1, 1) { // from class: org.telegram.ui.Components.Premium.FeaturesPageView.HeaderView.2
                     /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView, android.view.TextureView, android.view.View
                     public void onAttachedToWindow() {
@@ -334,7 +334,7 @@ public class FeaturesPageView extends BaseListPageView {
         ImageView imageView;
         TextView textView;
 
-        public ItemCell(FeaturesPageView featuresPageView, Context context) {
+        public ItemCell(Context context) {
             super(context);
             ImageView imageView = new ImageView(context);
             this.imageView = imageView;
@@ -343,12 +343,12 @@ public class FeaturesPageView extends BaseListPageView {
             TextView textView = new TextView(context);
             this.textView = textView;
             textView.setTypeface(AndroidUtilities.bold());
-            this.textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, featuresPageView.resourcesProvider));
+            this.textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, FeaturesPageView.this.resourcesProvider));
             this.textView.setTextSize(1, 14.0f);
             addView(this.textView, LayoutHelper.createFrame(-1, -2.0f, 0, 68.0f, 8.0f, 16.0f, 0.0f));
             TextView textView2 = new TextView(context);
             this.description = textView2;
-            textView2.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText, featuresPageView.resourcesProvider));
+            textView2.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText, FeaturesPageView.this.resourcesProvider));
             this.description.setTextSize(1, 14.0f);
             addView(this.description, LayoutHelper.createFrame(-1, -2.0f, 0, 68.0f, 28.0f, 16.0f, 8.0f));
         }

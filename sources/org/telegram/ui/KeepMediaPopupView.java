@@ -77,7 +77,7 @@ public class KeepMediaPopupView extends ActionBarPopupWindow.ActionBarPopupWindo
         ExceptionsView exceptionsView = new ExceptionsView(context);
         this.exceptionsView = exceptionsView;
         addView((View) exceptionsView, LayoutHelper.createLinear(-1, 48));
-        this.exceptionsView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.KeepMediaPopupView$$ExternalSyntheticLambda1
+        this.exceptionsView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.KeepMediaPopupView$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 KeepMediaPopupView.this.lambda$new$2(baseFragment, view2);
@@ -85,7 +85,7 @@ public class KeepMediaPopupView extends ActionBarPopupWindow.ActionBarPopupWindo
         });
         for (int i2 = 0; i2 < this.checkItems.size(); i2++) {
             final int i3 = this.checkItems.get(i2).type;
-            this.checkItems.get(i2).item.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.KeepMediaPopupView$$ExternalSyntheticLambda0
+            this.checkItems.get(i2).item.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.KeepMediaPopupView$$ExternalSyntheticLambda1
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
                     KeepMediaPopupView.this.lambda$new$3(i3, view2);
@@ -122,7 +122,7 @@ public class KeepMediaPopupView extends ActionBarPopupWindow.ActionBarPopupWindo
             }
             bundle.putBoolean("allowGlobalSearch", false);
             final DialogsActivity dialogsActivity = new DialogsActivity(bundle);
-            dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.KeepMediaPopupView$$ExternalSyntheticLambda3
+            dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.KeepMediaPopupView$$ExternalSyntheticLambda2
                 @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
                 public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
                     boolean lambda$new$1;
@@ -154,7 +154,7 @@ public class KeepMediaPopupView extends ActionBarPopupWindow.ActionBarPopupWindo
         this.cacheByChatsController.saveKeepMediaExceptions(this.currentType, this.exceptions);
         Bundle bundle = new Bundle();
         bundle.putInt("type", this.currentType);
-        final CacheChatsExceptionsFragment cacheChatsExceptionsFragment = new CacheChatsExceptionsFragment(this, bundle) { // from class: org.telegram.ui.KeepMediaPopupView.1
+        final CacheChatsExceptionsFragment cacheChatsExceptionsFragment = new CacheChatsExceptionsFragment(bundle) { // from class: org.telegram.ui.KeepMediaPopupView.1
             @Override // org.telegram.ui.ActionBar.BaseFragment
             public void onTransitionAnimationEnd(boolean z2, boolean z3) {
                 super.onTransitionAnimationEnd(z2, z3);
@@ -166,7 +166,7 @@ public class KeepMediaPopupView extends ActionBarPopupWindow.ActionBarPopupWindo
         };
         cacheChatsExceptionsFragment.setExceptions(this.exceptions);
         this.parentFragment.presentFragment(cacheChatsExceptionsFragment);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.KeepMediaPopupView$$ExternalSyntheticLambda2
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.KeepMediaPopupView$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 CacheChatsExceptionsFragment.this.showPopupFor(keepMediaException);

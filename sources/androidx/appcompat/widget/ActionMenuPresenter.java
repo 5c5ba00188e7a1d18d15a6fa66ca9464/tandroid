@@ -242,7 +242,7 @@ public class ActionMenuPresenter extends BaseMenuPresenter implements ActionProv
             if (findViewForItem == null) {
                 return false;
             }
-            subMenuBuilder.getItem().getItemId();
+            this.mOpenSubMenuId = subMenuBuilder.getItem().getItemId();
             int size = subMenuBuilder.size();
             int i = 0;
             while (true) {
@@ -496,7 +496,7 @@ public class ActionMenuPresenter extends BaseMenuPresenter implements ActionProv
             setVisibility(0);
             setEnabled(true);
             TooltipCompat.setTooltipText(this, getContentDescription());
-            setOnTouchListener(new ForwardingListener(this, ActionMenuPresenter.this) { // from class: androidx.appcompat.widget.ActionMenuPresenter.OverflowMenuButton.1
+            setOnTouchListener(new ForwardingListener(this) { // from class: androidx.appcompat.widget.ActionMenuPresenter.OverflowMenuButton.1
                 @Override // androidx.appcompat.widget.ForwardingListener
                 public ShowableListMenu getPopup() {
                     OverflowPopup overflowPopup = ActionMenuPresenter.this.mOverflowPopup;

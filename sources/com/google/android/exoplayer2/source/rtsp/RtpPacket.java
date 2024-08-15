@@ -8,12 +8,16 @@ import com.google.common.math.IntMath;
 public final class RtpPacket {
     private static final byte[] EMPTY = new byte[0];
     public final byte[] csrc;
+    public final byte csrcCount;
+    public final boolean extension;
     public final boolean marker;
+    public final boolean padding;
     public final byte[] payloadData;
     public final byte payloadType;
     public final int sequenceNumber;
     public final int ssrc;
     public final long timestamp;
+    public final byte version;
 
     /* loaded from: classes.dex */
     public static final class Builder {
@@ -114,7 +118,9 @@ public final class RtpPacket {
     }
 
     private RtpPacket(Builder builder) {
-        boolean unused = builder.padding;
+        this.version = (byte) 2;
+        this.padding = builder.padding;
+        this.extension = false;
         this.marker = builder.marker;
         this.payloadType = builder.payloadType;
         this.sequenceNumber = builder.sequenceNumber;
@@ -122,7 +128,7 @@ public final class RtpPacket {
         this.ssrc = builder.ssrc;
         byte[] bArr = builder.csrc;
         this.csrc = bArr;
-        int length = bArr.length / 4;
+        this.csrcCount = (byte) (bArr.length / 4);
         this.payloadData = builder.payloadData;
     }
 

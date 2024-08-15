@@ -23,12 +23,15 @@ public final class ClippingMediaSource extends WrappingMediaSource {
 
     /* loaded from: classes.dex */
     public static final class IllegalClippingException extends IOException {
+        public final int reason;
+
         private static String getReasonDescription(int i) {
             return i != 0 ? i != 1 ? i != 2 ? "unknown" : "start exceeds end" : "not seekable to start" : "invalid period count";
         }
 
         public IllegalClippingException(int i) {
             super("Illegal clipping: " + getReasonDescription(i));
+            this.reason = i;
         }
     }
 
@@ -176,7 +179,6 @@ public final class ClippingMediaSource extends WrappingMediaSource {
                 if (j5 != -9223372036854775807L) {
                     max = Math.min(max, j5);
                 }
-                window.defaultPositionUs = max;
                 window.defaultPositionUs = max - this.startUs;
             }
             long usToMs = Util.usToMs(this.startUs);

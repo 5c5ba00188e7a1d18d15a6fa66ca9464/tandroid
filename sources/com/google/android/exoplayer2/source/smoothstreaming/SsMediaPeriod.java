@@ -93,10 +93,12 @@ final class SsMediaPeriod implements MediaPeriod, SequenceableLoader.Callback<Ch
 
     @Override // com.google.android.exoplayer2.source.MediaPeriod
     public long selectTracks(ExoTrackSelection[] exoTrackSelectionArr, boolean[] zArr, SampleStream[] sampleStreamArr, boolean[] zArr2, long j) {
+        ExoTrackSelection exoTrackSelection;
         ArrayList arrayList = new ArrayList();
         for (int i = 0; i < exoTrackSelectionArr.length; i++) {
-            if (sampleStreamArr[i] != null) {
-                ChunkSampleStream chunkSampleStream = (ChunkSampleStream) sampleStreamArr[i];
+            SampleStream sampleStream = sampleStreamArr[i];
+            if (sampleStream != null) {
+                ChunkSampleStream chunkSampleStream = (ChunkSampleStream) sampleStream;
                 if (exoTrackSelectionArr[i] == null || !zArr[i]) {
                     chunkSampleStream.release();
                     sampleStreamArr[i] = null;
@@ -105,8 +107,8 @@ final class SsMediaPeriod implements MediaPeriod, SequenceableLoader.Callback<Ch
                     arrayList.add(chunkSampleStream);
                 }
             }
-            if (sampleStreamArr[i] == null && exoTrackSelectionArr[i] != null) {
-                ChunkSampleStream<SsChunkSource> buildSampleStream = buildSampleStream(exoTrackSelectionArr[i], j);
+            if (sampleStreamArr[i] == null && (exoTrackSelection = exoTrackSelectionArr[i]) != null) {
+                ChunkSampleStream<SsChunkSource> buildSampleStream = buildSampleStream(exoTrackSelection, j);
                 arrayList.add(buildSampleStream);
                 sampleStreamArr[i] = buildSampleStream;
                 zArr2[i] = true;

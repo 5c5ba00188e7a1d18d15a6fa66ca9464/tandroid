@@ -6,9 +6,9 @@ import java.io.FileDescriptor;
 import java.io.PrintWriter;
 /* loaded from: classes.dex */
 public class Loader<D> {
+    Context mContext;
     int mId;
     OnLoadCompleteListener<D> mListener;
-    OnLoadCanceledListener<D> mOnLoadCanceledListener;
     boolean mStarted = false;
     boolean mAbandoned = false;
     boolean mReset = true;
@@ -16,13 +16,11 @@ public class Loader<D> {
     boolean mProcessingChange = false;
 
     /* loaded from: classes.dex */
-    public interface OnLoadCanceledListener<D> {
-        void onLoadCanceled(Loader<D> loader);
-    }
-
-    /* loaded from: classes.dex */
     public interface OnLoadCompleteListener<D> {
         void onLoadComplete(Loader<D> loader, D d);
+    }
+
+    public void deliverCancellation() {
     }
 
     protected void onAbandon() {
@@ -47,20 +45,13 @@ public class Loader<D> {
     }
 
     public Loader(Context context) {
-        context.getApplicationContext();
+        this.mContext = context.getApplicationContext();
     }
 
     public void deliverResult(D d) {
         OnLoadCompleteListener<D> onLoadCompleteListener = this.mListener;
         if (onLoadCompleteListener != null) {
             onLoadCompleteListener.onLoadComplete(this, d);
-        }
-    }
-
-    public void deliverCancellation() {
-        OnLoadCanceledListener<D> onLoadCanceledListener = this.mOnLoadCanceledListener;
-        if (onLoadCanceledListener != null) {
-            onLoadCanceledListener.onLoadCanceled(this);
         }
     }
 

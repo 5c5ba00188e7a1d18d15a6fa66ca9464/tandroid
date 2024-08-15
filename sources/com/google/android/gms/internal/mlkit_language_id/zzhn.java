@@ -21,6 +21,20 @@ public final class zzhn {
     private static final boolean zzh;
     private static final boolean zzi;
     private static final long zzj;
+    private static final long zzk;
+    private static final long zzl;
+    private static final long zzm;
+    private static final long zzn;
+    private static final long zzo;
+    private static final long zzp;
+    private static final long zzq;
+    private static final long zzr;
+    private static final long zzs;
+    private static final long zzt;
+    private static final long zzu;
+    private static final long zzv;
+    private static final long zzw;
+    private static final int zzx;
 
     private zzhn() {
     }
@@ -537,23 +551,23 @@ public final class zzhn {
         zzg = zzcVar;
         zzh = zze();
         zzi = zzd();
-        zzj = zzb(byte[].class);
-        zzb(boolean[].class);
-        zzc(boolean[].class);
-        zzb(int[].class);
-        zzc(int[].class);
-        zzb(long[].class);
-        zzc(long[].class);
-        zzb(float[].class);
-        zzc(float[].class);
-        zzb(double[].class);
-        zzc(double[].class);
-        zzb(Object[].class);
-        zzc(Object[].class);
+        long zzb2 = zzb(byte[].class);
+        zzj = zzb2;
+        zzk = zzb(boolean[].class);
+        zzl = zzc(boolean[].class);
+        zzm = zzb(int[].class);
+        zzn = zzc(int[].class);
+        zzo = zzb(long[].class);
+        zzp = zzc(long[].class);
+        zzq = zzb(float[].class);
+        zzr = zzc(float[].class);
+        zzs = zzb(double[].class);
+        zzt = zzc(double[].class);
+        zzu = zzb(Object[].class);
+        zzv = zzc(Object[].class);
         Field zzf2 = zzf();
-        if (zzf2 != null && zzcVar != null) {
-            zzcVar.zza.objectFieldOffset(zzf2);
-        }
+        zzw = (zzf2 == null || zzcVar == null) ? -1L : zzcVar.zza.objectFieldOffset(zzf2);
+        zzx = (int) (zzb2 & 7);
         zza = ByteOrder.nativeOrder() == ByteOrder.BIG_ENDIAN;
     }
 }

@@ -119,7 +119,7 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
             TextCheckCell textCheckCell2 = this.enableReactionsCell;
             textCheckCell2.setBackgroundColor(Theme.getColor(textCheckCell2.isChecked() ? Theme.key_windowBackgroundChecked : Theme.key_windowBackgroundUnchecked));
             this.enableReactionsCell.setTypeface(AndroidUtilities.bold());
-            this.enableReactionsCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatReactionsEditActivity$$ExternalSyntheticLambda3
+            this.enableReactionsCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatReactionsEditActivity$$ExternalSyntheticLambda0
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     ChatReactionsEditActivity.this.lambda$createView$0(view);
@@ -149,19 +149,19 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
         this.radioCells.add(this.allReactions);
         this.radioCells.add(this.someReactions);
         this.radioCells.add(this.disableReactions);
-        this.allReactions.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatReactionsEditActivity$$ExternalSyntheticLambda2
+        this.allReactions.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatReactionsEditActivity$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ChatReactionsEditActivity.this.lambda$createView$2(view);
             }
         });
-        this.someReactions.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatReactionsEditActivity$$ExternalSyntheticLambda1
+        this.someReactions.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatReactionsEditActivity$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ChatReactionsEditActivity.this.lambda$createView$4(view);
             }
         });
-        this.disableReactions.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatReactionsEditActivity$$ExternalSyntheticLambda0
+        this.disableReactions.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatReactionsEditActivity$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ChatReactionsEditActivity.this.lambda$createView$6(view);
@@ -265,7 +265,7 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
         };
         this.listAdapter = adapter;
         recyclerListView2.setAdapter(adapter);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ChatReactionsEditActivity$$ExternalSyntheticLambda8
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ChatReactionsEditActivity$$ExternalSyntheticLambda4
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i3) {
                 ChatReactionsEditActivity.this.lambda$createView$7(view, i3);
@@ -290,7 +290,7 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$2(View view) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatReactionsEditActivity$$ExternalSyntheticLambda4
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatReactionsEditActivity$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
                 ChatReactionsEditActivity.this.lambda$createView$1();
@@ -305,7 +305,7 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$4(View view) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatReactionsEditActivity$$ExternalSyntheticLambda5
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatReactionsEditActivity$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 ChatReactionsEditActivity.this.lambda$createView$3();
@@ -443,7 +443,7 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
-        return SimpleThemeDescription.createThemeDescriptions(new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ChatReactionsEditActivity$$ExternalSyntheticLambda7
+        return SimpleThemeDescription.createThemeDescriptions(new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ChatReactionsEditActivity$$ExternalSyntheticLambda5
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 ChatReactionsEditActivity.this.updateColors();

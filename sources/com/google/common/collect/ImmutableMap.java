@@ -17,6 +17,7 @@ import java.util.Objects;
 import java.util.SortedMap;
 /* loaded from: classes.dex */
 public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable, j$.util.Map {
+    static final Map.Entry<?, ?>[] EMPTY_ENTRY_ARRAY = new Map.Entry[0];
     private transient ImmutableSet<Map.Entry<K, V>> entrySet;
     private transient ImmutableSet<K> keySet;
     private transient ImmutableCollection<V> values;
@@ -26,14 +27,29 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable, j$.
         return Map.-CC.$default$compute(this, obj, biFunction);
     }
 
+    @Override // java.util.Map
+    public /* synthetic */ Object compute(Object obj, java.util.function.BiFunction biFunction) {
+        return compute(obj, BiFunction.VivifiedWrapper.convert(biFunction));
+    }
+
     @Override // j$.util.Map
     public /* synthetic */ Object computeIfAbsent(Object obj, Function function) {
         return Map.-CC.$default$computeIfAbsent(this, obj, function);
     }
 
+    @Override // java.util.Map
+    public /* synthetic */ Object computeIfAbsent(Object obj, java.util.function.Function function) {
+        return computeIfAbsent(obj, Function.VivifiedWrapper.convert(function));
+    }
+
     @Override // j$.util.Map
     public /* synthetic */ Object computeIfPresent(Object obj, BiFunction biFunction) {
         return Map.-CC.$default$computeIfPresent(this, obj, biFunction);
+    }
+
+    @Override // java.util.Map
+    public /* synthetic */ Object computeIfPresent(Object obj, java.util.function.BiFunction biFunction) {
+        return computeIfPresent(obj, BiFunction.VivifiedWrapper.convert(biFunction));
     }
 
     abstract ImmutableSet<Map.Entry<K, V>> createEntrySet();
@@ -47,6 +63,11 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable, j$.
         Map.-CC.$default$forEach(this, biConsumer);
     }
 
+    @Override // java.util.Map
+    public /* synthetic */ void forEach(java.util.function.BiConsumer biConsumer) {
+        forEach(BiConsumer.VivifiedWrapper.convert(biConsumer));
+    }
+
     @Override // java.util.Map, j$.util.Map
     public abstract V get(Object obj);
 
@@ -55,6 +76,11 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable, j$.
     @Override // j$.util.Map
     public /* synthetic */ Object merge(Object obj, Object obj2, BiFunction biFunction) {
         return Map.-CC.$default$merge(this, obj, obj2, biFunction);
+    }
+
+    @Override // java.util.Map
+    public /* synthetic */ Object merge(Object obj, Object obj2, java.util.function.BiFunction biFunction) {
+        return merge(obj, obj2, BiFunction.VivifiedWrapper.convert(biFunction));
     }
 
     @Override // java.util.Map, j$.util.Map
@@ -80,6 +106,11 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable, j$.
     @Override // j$.util.Map
     public /* synthetic */ void replaceAll(BiFunction biFunction) {
         Map.-CC.$default$replaceAll(this, biFunction);
+    }
+
+    @Override // java.util.Map
+    public /* synthetic */ void replaceAll(java.util.function.BiFunction biFunction) {
+        replaceAll(BiFunction.VivifiedWrapper.convert(biFunction));
     }
 
     public static <K, V> ImmutableMap<K, V> of() {

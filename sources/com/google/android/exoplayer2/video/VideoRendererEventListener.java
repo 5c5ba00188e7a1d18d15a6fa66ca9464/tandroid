@@ -54,7 +54,7 @@ public interface VideoRendererEventListener {
         public void enabled(final DecoderCounters decoderCounters) {
             Handler handler = this.handler;
             if (handler != null) {
-                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.video.VideoRendererEventListener$EventDispatcher$$ExternalSyntheticLambda4
+                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.video.VideoRendererEventListener$EventDispatcher$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         VideoRendererEventListener.EventDispatcher.this.lambda$enabled$0(decoderCounters);
@@ -88,7 +88,7 @@ public interface VideoRendererEventListener {
         public void inputFormatChanged(final Format format, final DecoderReuseEvaluation decoderReuseEvaluation) {
             Handler handler = this.handler;
             if (handler != null) {
-                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.video.VideoRendererEventListener$EventDispatcher$$ExternalSyntheticLambda2
+                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.video.VideoRendererEventListener$EventDispatcher$$ExternalSyntheticLambda5
                     @Override // java.lang.Runnable
                     public final void run() {
                         VideoRendererEventListener.EventDispatcher.this.lambda$inputFormatChanged$2(format, decoderReuseEvaluation);
@@ -106,7 +106,7 @@ public interface VideoRendererEventListener {
         public void droppedFrames(final int i, final long j) {
             Handler handler = this.handler;
             if (handler != null) {
-                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.video.VideoRendererEventListener$EventDispatcher$$ExternalSyntheticLambda0
+                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.video.VideoRendererEventListener$EventDispatcher$$ExternalSyntheticLambda8
                     @Override // java.lang.Runnable
                     public final void run() {
                         VideoRendererEventListener.EventDispatcher.this.lambda$droppedFrames$3(i, j);
@@ -123,7 +123,7 @@ public interface VideoRendererEventListener {
         public void reportVideoFrameProcessingOffset(final long j, final int i) {
             Handler handler = this.handler;
             if (handler != null) {
-                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.video.VideoRendererEventListener$EventDispatcher$$ExternalSyntheticLambda1
+                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.video.VideoRendererEventListener$EventDispatcher$$ExternalSyntheticLambda4
                     @Override // java.lang.Runnable
                     public final void run() {
                         VideoRendererEventListener.EventDispatcher.this.lambda$reportVideoFrameProcessingOffset$4(j, i);
@@ -140,7 +140,7 @@ public interface VideoRendererEventListener {
         public void videoSizeChanged(final VideoSize videoSize) {
             Handler handler = this.handler;
             if (handler != null) {
-                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.video.VideoRendererEventListener$EventDispatcher$$ExternalSyntheticLambda5
+                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.video.VideoRendererEventListener$EventDispatcher$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
                         VideoRendererEventListener.EventDispatcher.this.lambda$videoSizeChanged$5(videoSize);
@@ -174,7 +174,7 @@ public interface VideoRendererEventListener {
         public void decoderReleased(final String str) {
             Handler handler = this.handler;
             if (handler != null) {
-                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.video.VideoRendererEventListener$EventDispatcher$$ExternalSyntheticLambda8
+                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.video.VideoRendererEventListener$EventDispatcher$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
                         VideoRendererEventListener.EventDispatcher.this.lambda$decoderReleased$7(str);
@@ -192,7 +192,7 @@ public interface VideoRendererEventListener {
             decoderCounters.ensureUpdated();
             Handler handler = this.handler;
             if (handler != null) {
-                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.video.VideoRendererEventListener$EventDispatcher$$ExternalSyntheticLambda3
+                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.video.VideoRendererEventListener$EventDispatcher$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         VideoRendererEventListener.EventDispatcher.this.lambda$disabled$8(decoderCounters);

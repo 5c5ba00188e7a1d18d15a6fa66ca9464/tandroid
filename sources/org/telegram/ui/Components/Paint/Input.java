@@ -33,6 +33,7 @@ public class Input {
     private boolean lastAngleSet;
     private Point lastLocation;
     private double lastRemainder;
+    private float lastScale;
     private Point lastThickLocation;
     private long lastVelocityUpdate;
     private int pointsCount;
@@ -44,7 +45,7 @@ public class Input {
     private float velocity;
     private Point[] points = new Point[3];
     private float[] tempPoint = new float[2];
-    private final Runnable fillWithCurrentBrush = new Runnable() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda3
+    private final Runnable fillWithCurrentBrush = new Runnable() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda0
         @Override // java.lang.Runnable
         public final void run() {
             Input.this.lambda$new$1();
@@ -71,7 +72,7 @@ public class Input {
 
     public Input(RenderView renderView) {
         this.renderView = renderView;
-        this.detector = new ShapeDetector(renderView.getContext(), new Utilities.Callback() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda6
+        this.detector = new ShapeDetector(renderView.getContext(), new Utilities.Callback() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda1
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 Input.this.setShapeHelper((Shape) obj);
@@ -131,7 +132,7 @@ public class Input {
         final Point point6 = new Point(point5.x, point5.y, 1.0d);
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.fillAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda1
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda4
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
                 Input.this.lambda$fill$0(point6, brush2, max2, valueAnimator3);
@@ -184,11 +185,11 @@ public class Input {
         this.ignore = true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:20:0x009c  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x00cf  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x01d7  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x0206 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0207  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x00a0  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x00d2  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x01d5  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0204 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0205  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -210,6 +211,7 @@ public class Input {
         if (this.renderView.getCurrentBrush() != null && (this.renderView.getCurrentBrush() instanceof Brush.Arrow)) {
             this.velocity = 1.0f - this.velocity;
         }
+        this.lastScale = f;
         this.lastVelocityUpdate = System.currentTimeMillis();
         float f2 = this.velocity;
         if (motionEvent.getToolType(motionEvent.getActionIndex()) == 2) {
@@ -220,7 +222,6 @@ public class Input {
                     f2 = ((f2 - 1.0f) * AndroidUtilities.lerp(this.renderView.getCurrentBrush().getSmoothThicknessRate(), 1.0f, androidx.core.math.MathUtils.clamp(this.realPointsCount / 16.0f, 0.0f, 1.0f))) + 1.0f;
                 }
                 float[] fArr2 = this.tempPoint;
-                boolean z3 = z;
                 Point point = new Point(fArr2[0], fArr2[1], f2);
                 if (actionMasked != 0) {
                     if (actionMasked == 1) {
@@ -254,7 +255,7 @@ public class Input {
                                     final boolean[] zArr = new boolean[1];
                                     ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
                                     this.arrowAnimator = ofFloat;
-                                    ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda0
+                                    ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda2
                                         @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                                         public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                                             Input.this.lambda$process$2(f3, point2, currentWeight, fArr3, d, zArr, valueAnimator2);
@@ -272,7 +273,7 @@ public class Input {
                                     this.arrowAnimator.start();
                                     z2 = false;
                                     if (z2) {
-                                        this.renderView.getPainting().commitPath(null, this.renderView.getCurrentColor(), true, new Runnable() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda2
+                                        this.renderView.getPainting().commitPath(null, this.renderView.getCurrentColor(), true, new Runnable() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda3
                                             @Override // java.lang.Runnable
                                             public final void run() {
                                                 Input.this.lambda$process$3();
@@ -348,7 +349,7 @@ public class Input {
                     if (!this.hasMoved) {
                         this.renderView.onBeganDrawing();
                         this.hasMoved = true;
-                        if (z3 && (this.renderView.getCurrentBrush() instanceof Brush.Radial)) {
+                        if (z && (this.renderView.getCurrentBrush() instanceof Brush.Radial)) {
                             this.switchedBrushByStylusFrom = this.renderView.getCurrentBrush();
                             RenderView renderView = this.renderView;
                             List<Brush> list = Brush.BRUSHES_LIST;
@@ -369,7 +370,10 @@ public class Input {
                     this.realPointsCount++;
                     if (i == 3) {
                         Point[] pointArr = this.points;
-                        float atan2 = (float) Math.atan2(pointArr[2].y - pointArr[1].y, pointArr[2].x - pointArr[1].x);
+                        Point point4 = pointArr[2];
+                        double d2 = point4.y;
+                        Point point5 = pointArr[1];
+                        float atan2 = (float) Math.atan2(d2 - point5.y, point4.x - point5.x);
                         if (!this.lastAngleSet) {
                             this.lastAngle = atan2;
                             this.lastAngleSet = true;
@@ -395,8 +399,7 @@ public class Input {
         if (this.renderView.getCurrentBrush() != null) {
         }
         float[] fArr22 = this.tempPoint;
-        boolean z32 = z;
-        Point point4 = new Point(fArr22[0], fArr22[1], f2);
+        Point point6 = new Point(fArr22[0], fArr22[1], f2);
         if (actionMasked != 0) {
         }
         if (this.ignore) {
@@ -415,18 +418,19 @@ public class Input {
         double d4 = f2;
         Double.isNaN(d4);
         double d5 = cos * d4;
-        double d6 = fArr[0];
+        float f3 = fArr[0];
+        double d6 = f3;
         Double.isNaN(d6);
         double d7 = d3 + (d6 * d5);
         double d8 = point.y;
         Double.isNaN(d4);
         double d9 = sin * d4;
-        double d10 = fArr[0];
+        double d10 = f3;
         Double.isNaN(d10);
         double d11 = point.x;
         double d12 = floatValue;
         Double.isNaN(d12);
-        double d13 = d11 + (d5 * d12);
+        double d13 = (d5 * d12) + d11;
         double d14 = point.y;
         Double.isNaN(d12);
         paintPath(new Path(new Point[]{new Point(d7, d8 + (d10 * d9), d), new Point(d13, d14 + (d9 * d12), d, true)}));
@@ -437,13 +441,14 @@ public class Input {
         double d15 = point.x;
         Double.isNaN(d4);
         double d16 = cos2 * d4;
-        double d17 = fArr[0];
+        float f4 = fArr[0];
+        double d17 = f4;
         Double.isNaN(d17);
         double d18 = d15 + (d17 * d16);
         double d19 = point.y;
         Double.isNaN(d4);
-        double d20 = d4 * sin2;
-        double d21 = fArr[0];
+        double d20 = sin2 * d4;
+        double d21 = f4;
         Double.isNaN(d21);
         double d22 = point.x;
         Double.isNaN(d12);
@@ -577,7 +582,7 @@ public class Input {
             this.lastRemainder = 0.0d;
         }
         path.remainder = this.lastRemainder;
-        this.renderView.getPainting().paintStroke(path, this.clearBuffer, false, new Runnable() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda4
+        this.renderView.getPainting().paintStroke(path, this.clearBuffer, false, new Runnable() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 Input.this.lambda$paintPath$5(path);
@@ -593,7 +598,7 @@ public class Input {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$paintPath$5(final Path path) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda5
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 Input.this.lambda$paintPath$4(path);

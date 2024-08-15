@@ -202,7 +202,7 @@ public class EglRenderer implements VideoSink {
                 }
             });
             this.renderThreadHandler = handlerWithExceptionCallback;
-            handlerWithExceptionCallback.post(new Runnable() { // from class: org.webrtc.EglRenderer$$ExternalSyntheticLambda5
+            handlerWithExceptionCallback.post(new Runnable() { // from class: org.webrtc.EglRenderer$$ExternalSyntheticLambda8
                 @Override // java.lang.Runnable
                 public final void run() {
                     EglRenderer.this.lambda$init$0(context, iArr);
@@ -265,14 +265,14 @@ public class EglRenderer implements VideoSink {
                 logD("Already released");
                 return;
             }
-            handler.postAtFrontOfQueue(new Runnable() { // from class: org.webrtc.EglRenderer$$ExternalSyntheticLambda3
+            handler.postAtFrontOfQueue(new Runnable() { // from class: org.webrtc.EglRenderer$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     EglRenderer.this.lambda$release$1(countDownLatch);
                 }
             });
             final Looper looper = this.renderThreadHandler.getLooper();
-            this.renderThreadHandler.post(new Runnable() { // from class: org.webrtc.EglRenderer$$ExternalSyntheticLambda2
+            this.renderThreadHandler.post(new Runnable() { // from class: org.webrtc.EglRenderer$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     EglRenderer.this.lambda$release$2(looper);
@@ -389,7 +389,7 @@ public class EglRenderer implements VideoSink {
     }
 
     public void addFrameListener(final FrameListener frameListener, final float f, final RendererCommon.GlDrawer glDrawer, final boolean z) {
-        postToRenderThread(new Runnable() { // from class: org.webrtc.EglRenderer$$ExternalSyntheticLambda7
+        postToRenderThread(new Runnable() { // from class: org.webrtc.EglRenderer$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 EglRenderer.this.lambda$addFrameListener$3(glDrawer, frameListener, f, z);
@@ -414,7 +414,7 @@ public class EglRenderer implements VideoSink {
             if (Thread.currentThread() == this.renderThreadHandler.getLooper().getThread()) {
                 throw new RuntimeException("removeFrameListener must not be called on the render thread.");
             }
-            postToRenderThread(new Runnable() { // from class: org.webrtc.EglRenderer$$ExternalSyntheticLambda4
+            postToRenderThread(new Runnable() { // from class: org.webrtc.EglRenderer$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     EglRenderer.this.lambda$removeFrameListener$4(countDownLatch, frameListener);
@@ -475,7 +475,7 @@ public class EglRenderer implements VideoSink {
             Handler handler = this.renderThreadHandler;
             if (handler != null) {
                 handler.removeCallbacks(this.eglSurfaceCreationRunnable);
-                this.renderThreadHandler.postAtFrontOfQueue(new Runnable() { // from class: org.webrtc.EglRenderer$$ExternalSyntheticLambda8
+                this.renderThreadHandler.postAtFrontOfQueue(new Runnable() { // from class: org.webrtc.EglRenderer$$ExternalSyntheticLambda6
                     @Override // java.lang.Runnable
                     public final void run() {
                         EglRenderer.this.lambda$releaseEglSurface$5(z, runnable);
@@ -532,7 +532,7 @@ public class EglRenderer implements VideoSink {
             if (handler == null) {
                 return;
             }
-            handler.postAtFrontOfQueue(new Runnable() { // from class: org.webrtc.EglRenderer$$ExternalSyntheticLambda1
+            handler.postAtFrontOfQueue(new Runnable() { // from class: org.webrtc.EglRenderer$$ExternalSyntheticLambda7
                 @Override // java.lang.Runnable
                 public final void run() {
                     EglRenderer.this.lambda$clearImage$6(f, f2, f3, f4);
@@ -546,7 +546,7 @@ public class EglRenderer implements VideoSink {
             try {
                 Handler handler = this.renderThreadHandler;
                 if (handler != null) {
-                    handler.post(new Runnable() { // from class: org.webrtc.EglRenderer$$ExternalSyntheticLambda6
+                    handler.post(new Runnable() { // from class: org.webrtc.EglRenderer$$ExternalSyntheticLambda5
                         @Override // java.lang.Runnable
                         public final void run() {
                             EglRenderer.this.lambda$getTexture$7(textureCallback);

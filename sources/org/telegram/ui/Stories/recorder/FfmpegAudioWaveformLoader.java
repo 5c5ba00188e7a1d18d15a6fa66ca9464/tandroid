@@ -13,7 +13,7 @@ public class FfmpegAudioWaveformLoader {
 
     public FfmpegAudioWaveformLoader(final String str, final int i, Utilities.Callback2<short[], Integer> callback2) {
         this.onChunkReceived = callback2;
-        Utilities.phoneBookQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.FfmpegAudioWaveformLoader$$ExternalSyntheticLambda1
+        Utilities.phoneBookQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.FfmpegAudioWaveformLoader$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 FfmpegAudioWaveformLoader.this.lambda$new$0(str, i);
@@ -22,7 +22,7 @@ public class FfmpegAudioWaveformLoader {
     }
 
     private void receiveChunk(final short[] sArr, final int i) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.FfmpegAudioWaveformLoader$$ExternalSyntheticLambda2
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.FfmpegAudioWaveformLoader$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 FfmpegAudioWaveformLoader.this.lambda$receiveChunk$1(sArr, i);
@@ -36,7 +36,7 @@ public class FfmpegAudioWaveformLoader {
     }
 
     public void destroy() {
-        Utilities.phoneBookQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.FfmpegAudioWaveformLoader$$ExternalSyntheticLambda0
+        Utilities.phoneBookQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.FfmpegAudioWaveformLoader$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 FfmpegAudioWaveformLoader.this.lambda$destroy$2();

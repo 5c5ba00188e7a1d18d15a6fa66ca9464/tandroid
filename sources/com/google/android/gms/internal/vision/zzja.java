@@ -3,10 +3,12 @@ package com.google.android.gms.internal.vision;
 import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.RandomAccess;
 import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
-final class zzja extends zzhj<Float> implements zzjl<Float>, zzkw {
+final class zzja extends zzhj<Float> implements zzkw, RandomAccess {
+    private static final zzja zza;
     private float[] zzb;
     private int zzc;
 
@@ -199,7 +201,7 @@ final class zzja extends zzhj<Float> implements zzjl<Float>, zzkw {
     }
 
     @Override // com.google.android.gms.internal.vision.zzjl
-    public final /* synthetic */ zzjl<Float> zza(int i) {
+    public final /* synthetic */ zzjl zza(int i) {
         if (i < this.zzc) {
             throw new IllegalArgumentException();
         }
@@ -213,6 +215,8 @@ final class zzja extends zzhj<Float> implements zzjl<Float>, zzkw {
     }
 
     static {
-        new zzja(new float[0], 0).zzb();
+        zzja zzjaVar = new zzja(new float[0], 0);
+        zza = zzjaVar;
+        zzjaVar.zzb();
     }
 }

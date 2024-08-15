@@ -190,15 +190,13 @@ public class TextPaintView extends EntityView {
         int align = getAlign();
         int i = 2;
         this.editText.setGravity(align != 1 ? align != 2 ? 19 : 21 : 17);
-        if (Build.VERSION.SDK_INT >= 17) {
-            int align2 = getAlign();
-            if (align2 == 1) {
-                i = 4;
-            } else if (align2 == 2 ? !LocaleController.isRTL : LocaleController.isRTL) {
-                i = 3;
-            }
-            this.editText.setTextAlignment(i);
+        int align2 = getAlign();
+        if (align2 == 1) {
+            i = 4;
+        } else if (align2 == 2 ? !LocaleController.isRTL : LocaleController.isRTL) {
+            i = 3;
         }
+        this.editText.setTextAlignment(i);
     }
 
     public int getBaseFontSize() {
@@ -408,7 +406,7 @@ public class TextPaintView extends EntityView {
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.Paint.Views.EntityView
     public TextViewSelectionView createSelectionView() {
-        return new TextViewSelectionView(this, getContext());
+        return new TextViewSelectionView(getContext());
     }
 
     /* loaded from: classes3.dex */
@@ -416,7 +414,7 @@ public class TextPaintView extends EntityView {
         private final Paint clearPaint;
         private Path path;
 
-        public TextViewSelectionView(TextPaintView textPaintView, Context context) {
+        public TextViewSelectionView(Context context) {
             super(context);
             Paint paint = new Paint(1);
             this.clearPaint = paint;

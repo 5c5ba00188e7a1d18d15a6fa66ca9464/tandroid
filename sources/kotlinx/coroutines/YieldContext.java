@@ -7,6 +7,7 @@ import kotlin.jvm.internal.DefaultConstructorMarker;
 /* loaded from: classes.dex */
 public final class YieldContext extends AbstractCoroutineContextElement {
     public static final Key Key = new Key(null);
+    public boolean dispatcherWasUnconfined;
 
     /* compiled from: Unconfined.kt */
     /* loaded from: classes.dex */

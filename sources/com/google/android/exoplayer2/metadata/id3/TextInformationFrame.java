@@ -23,6 +23,8 @@ public final class TextInformationFrame extends Id3Frame {
         }
     };
     public final String description;
+    @Deprecated
+    public final String value;
     public final ImmutableList<String> values;
 
     public TextInformationFrame(String str, String str2, List<String> list) {
@@ -31,7 +33,7 @@ public final class TextInformationFrame extends Id3Frame {
         this.description = str2;
         ImmutableList<String> copyOf = ImmutableList.copyOf((Collection) list);
         this.values = copyOf;
-        copyOf.get(0);
+        this.value = copyOf.get(0);
     }
 
     private TextInformationFrame(Parcel parcel) {

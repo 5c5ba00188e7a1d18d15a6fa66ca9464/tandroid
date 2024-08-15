@@ -33,6 +33,7 @@ class ResourcesFlusher {
     }
 
     private static void flushLollipops(Resources resources) {
+        Map map;
         if (!sDrawableCacheFieldFetched) {
             try {
                 Field declaredField = Resources.class.getDeclaredField("mDrawableCache");
@@ -45,11 +46,11 @@ class ResourcesFlusher {
         }
         Field field = sDrawableCacheField;
         if (field != null) {
-            Map map = null;
             try {
                 map = (Map) field.get(resources);
             } catch (IllegalAccessException e2) {
                 Log.e("ResourcesFlusher", "Could not retrieve value from Resources#mDrawableCache", e2);
+                map = null;
             }
             if (map != null) {
                 map.clear();
@@ -57,7 +58,13 @@ class ResourcesFlusher {
         }
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:18:0x002f A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x0030  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private static void flushMarshmallows(Resources resources) {
+        Object obj;
         if (!sDrawableCacheFieldFetched) {
             try {
                 Field declaredField = Resources.class.getDeclaredField("mDrawableCache");
@@ -68,7 +75,6 @@ class ResourcesFlusher {
             }
             sDrawableCacheFieldFetched = true;
         }
-        Object obj = null;
         Field field = sDrawableCacheField;
         if (field != null) {
             try {
@@ -76,11 +82,15 @@ class ResourcesFlusher {
             } catch (IllegalAccessException e2) {
                 Log.e("ResourcesFlusher", "Could not retrieve value from Resources#mDrawableCache", e2);
             }
-        }
-        if (obj == null) {
+            if (obj != null) {
+                return;
+            }
+            flushThemedResourcesCache(obj);
             return;
         }
-        flushThemedResourcesCache(obj);
+        obj = null;
+        if (obj != null) {
+        }
     }
 
     private static void flushNougats(Resources resources) {
@@ -133,6 +143,7 @@ class ResourcesFlusher {
     }
 
     private static void flushThemedResourcesCache(Object obj) {
+        LongSparseArray longSparseArray;
         if (!sThemedResourceCacheClazzFetched) {
             try {
                 sThemedResourceCacheClazz = Class.forName("android.content.res.ThemedResourceCache");
@@ -159,11 +170,11 @@ class ResourcesFlusher {
         if (field == null) {
             return;
         }
-        LongSparseArray longSparseArray = null;
         try {
             longSparseArray = (LongSparseArray) field.get(obj);
         } catch (IllegalAccessException e3) {
             Log.e("ResourcesFlusher", "Could not retrieve value from ThemedResourceCache#mUnthemedEntries", e3);
+            longSparseArray = null;
         }
         if (longSparseArray != null) {
             Api16Impl.clear(longSparseArray);

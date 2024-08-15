@@ -5,12 +5,9 @@ import java.nio.ByteBuffer;
 public class Table {
     protected ByteBuffer bb;
     protected int bb_pos;
+    Utf8 utf8 = Utf8.getDefault();
     private int vtable_size;
     private int vtable_start;
-
-    public Table() {
-        Utf8.getDefault();
-    }
 
     /* JADX INFO: Access modifiers changed from: protected */
     public int __offset(int i) {

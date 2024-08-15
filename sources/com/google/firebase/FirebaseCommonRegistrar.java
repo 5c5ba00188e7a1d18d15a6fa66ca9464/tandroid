@@ -47,7 +47,7 @@ public class FirebaseCommonRegistrar implements ComponentRegistrar {
                 return lambda$getComponents$2;
             }
         }));
-        arrayList.add(LibraryVersionComponent.fromContext("android-installer", new LibraryVersionComponent.VersionExtractor() { // from class: com.google.firebase.FirebaseCommonRegistrar$$ExternalSyntheticLambda0
+        arrayList.add(LibraryVersionComponent.fromContext("android-installer", new LibraryVersionComponent.VersionExtractor() { // from class: com.google.firebase.FirebaseCommonRegistrar$$ExternalSyntheticLambda4
             @Override // com.google.firebase.platforminfo.LibraryVersionComponent.VersionExtractor
             public final String extract(Object obj) {
                 String lambda$getComponents$3;
@@ -70,14 +70,19 @@ public class FirebaseCommonRegistrar implements ComponentRegistrar {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ String lambda$getComponents$1(Context context) {
+        int i;
         ApplicationInfo applicationInfo = context.getApplicationInfo();
-        return (applicationInfo == null || Build.VERSION.SDK_INT < 24) ? "" : String.valueOf(applicationInfo.minSdkVersion);
+        if (applicationInfo == null || Build.VERSION.SDK_INT < 24) {
+            return "";
+        }
+        i = applicationInfo.minSdkVersion;
+        return String.valueOf(i);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ String lambda$getComponents$2(Context context) {
         int i = Build.VERSION.SDK_INT;
-        return (i < 16 || !context.getPackageManager().hasSystemFeature("android.hardware.type.television")) ? (i < 20 || !context.getPackageManager().hasSystemFeature("android.hardware.type.watch")) ? (i < 23 || !context.getPackageManager().hasSystemFeature("android.hardware.type.automotive")) ? (i < 26 || !context.getPackageManager().hasSystemFeature("android.hardware.type.embedded")) ? "" : "embedded" : "auto" : "watch" : "tv";
+        return context.getPackageManager().hasSystemFeature("android.hardware.type.television") ? "tv" : (i < 20 || !context.getPackageManager().hasSystemFeature("android.hardware.type.watch")) ? (i < 23 || !context.getPackageManager().hasSystemFeature("android.hardware.type.automotive")) ? (i < 26 || !context.getPackageManager().hasSystemFeature("android.hardware.type.embedded")) ? "" : "embedded" : "auto" : "watch";
     }
 
     /* JADX INFO: Access modifiers changed from: private */

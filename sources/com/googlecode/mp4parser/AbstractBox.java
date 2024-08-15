@@ -39,8 +39,7 @@ public abstract class AbstractBox implements Box {
             try {
                 Logger logger = LOG;
                 logger.logDebug("mem mapping " + getType());
-                this.content = this.dataSource.map(this.contentStartPosition, this.memMapSize);
-                this.isRead = true;
+                throw null;
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -66,7 +65,6 @@ public abstract class AbstractBox implements Box {
         this.contentStartPosition = position;
         this.offset = position - byteBuffer.remaining();
         this.memMapSize = j;
-        this.dataSource = dataSource;
         dataSource.position(dataSource.position() + j);
         this.isRead = false;
         this.isParsed = false;
@@ -98,7 +96,7 @@ public abstract class AbstractBox implements Box {
         ByteBuffer allocate3 = ByteBuffer.allocate((isSmallBox() ? 8 : 16) + ("uuid".equals(getType()) ? 16 : 0));
         getHeader(allocate3);
         writableByteChannel.write((ByteBuffer) allocate3.rewind());
-        this.dataSource.transferTo(this.contentStartPosition, this.memMapSize, writableByteChannel);
+        throw null;
     }
 
     public final synchronized void parseDetails() {

@@ -226,15 +226,10 @@ public class WebviewActivity extends BaseFragment {
         this.webView.getSettings().setDomStorageEnabled(true);
         FrameLayout frameLayout = new FrameLayout(context);
         this.fragmentView = frameLayout;
-        FrameLayout frameLayout2 = frameLayout;
         int i3 = Build.VERSION.SDK_INT;
-        if (i3 >= 19) {
-            this.webView.setLayerType(2, null);
-            this.webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING);
-        }
-        if (i3 >= 17) {
-            this.webView.getSettings().setMediaPlaybackRequiresUserGesture(false);
-        }
+        this.webView.setLayerType(2, null);
+        this.webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING);
+        this.webView.getSettings().setMediaPlaybackRequiresUserGesture(false);
         if (i3 >= 21) {
             this.webView.getSettings().setMixedContentMode(0);
             CookieManager.getInstance().setAcceptThirdPartyCookies(this.webView, true);
@@ -312,7 +307,7 @@ public class WebviewActivity extends BaseFragment {
                 animatorSet.start();
             }
         });
-        frameLayout2.addView(this.webView, LayoutHelper.createFrame(-1, -1.0f));
+        frameLayout.addView(this.webView, LayoutHelper.createFrame(-1, -1.0f));
         return this.fragmentView;
     }
 
@@ -349,7 +344,7 @@ public class WebviewActivity extends BaseFragment {
         }
         tLRPC$TL_messages_getStatsURL.params = str;
         tLRPC$TL_messages_getStatsURL.dark = Theme.getCurrentTheme().isDark();
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getStatsURL, new RequestDelegate() { // from class: org.telegram.ui.WebviewActivity$$ExternalSyntheticLambda1
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getStatsURL, new RequestDelegate() { // from class: org.telegram.ui.WebviewActivity$$ExternalSyntheticLambda0
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 WebviewActivity.this.lambda$reloadStats$1(tLObject, tLRPC$TL_error);
@@ -359,7 +354,7 @@ public class WebviewActivity extends BaseFragment {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$reloadStats$1(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.WebviewActivity$$ExternalSyntheticLambda0
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.WebviewActivity$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 WebviewActivity.this.lambda$reloadStats$0(tLObject);

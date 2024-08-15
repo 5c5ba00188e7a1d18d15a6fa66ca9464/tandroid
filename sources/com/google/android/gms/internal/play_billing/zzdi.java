@@ -5,7 +5,6 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 import java.util.RandomAccess;
 import org.telegram.messenger.CharacterCompat;
 import org.telegram.messenger.LiteMode;
@@ -31,6 +30,8 @@ public final class zzdi<T> implements zzdp<T> {
     private final zzeg zzm;
     private final zzbo zzn;
     private final int zzo;
+    private final zzdk zzp;
+    private final zzda zzq;
 
     private zzdi(int[] iArr, Object[] objArr, int i, int i2, zzdf zzdfVar, int i3, boolean z, int[] iArr2, int i4, int i5, zzdk zzdkVar, zzct zzctVar, zzeg zzegVar, zzbo zzboVar, zzda zzdaVar) {
         this.zzc = iArr;
@@ -46,10 +47,12 @@ public final class zzdi<T> implements zzdp<T> {
         this.zzi = iArr2;
         this.zzj = i4;
         this.zzk = i5;
+        this.zzp = zzdkVar;
         this.zzl = zzctVar;
         this.zzm = zzegVar;
         this.zzn = zzboVar;
         this.zzg = zzdfVar;
+        this.zzq = zzdaVar;
     }
 
     private final zzce zzA(int i) {
@@ -964,7 +967,7 @@ public final class zzdi<T> implements zzdp<T> {
                     } else {
                         Object object = unsafe.getObject(obj, j);
                         if (object instanceof zzba) {
-                            int i12 = zzbi.zzb;
+                            int i12 = zzbi.$r8$clinit;
                             int zzd = ((zzba) object).zzd();
                             zzx5 = zzbi.zzx(zzd) + zzd;
                             zzx6 = zzbi.zzx(i8 << 3);
@@ -990,7 +993,7 @@ public final class zzdi<T> implements zzdp<T> {
                     if ((i7 & i) == 0) {
                         break;
                     } else {
-                        int i13 = zzbi.zzb;
+                        int i13 = zzbi.$r8$clinit;
                         int zzd2 = ((zzba) unsafe.getObject(obj, j)).zzd();
                         zzx5 = zzbi.zzx(zzd2) + zzd2;
                         zzx6 = zzbi.zzx(i8 << 3);
@@ -1192,7 +1195,7 @@ public final class zzdi<T> implements zzdp<T> {
                     }
                     break;
                 case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
-                    int i15 = zzdr.zza;
+                    int i15 = zzdr.$r8$clinit;
                     zzh = ((List) unsafe.getObject(obj, j)).size();
                     if (zzh > 0) {
                         zzx7 = zzbi.zzx(zzh);
@@ -1321,7 +1324,7 @@ public final class zzdi<T> implements zzdp<T> {
                     if (zzT(obj, i8, i4)) {
                         Object object2 = unsafe.getObject(obj, j);
                         if (object2 instanceof zzba) {
-                            int i16 = zzbi.zzb;
+                            int i16 = zzbi.$r8$clinit;
                             int zzd3 = ((zzba) object2).zzd();
                             zzx11 = zzbi.zzx(zzd3) + zzd3;
                             zzx12 = zzbi.zzx(i8 << 3);
@@ -1342,7 +1345,7 @@ public final class zzdi<T> implements zzdp<T> {
                     break;
                 case R.styleable.AppCompatTheme_dialogCornerRadius /* 61 */:
                     if (zzT(obj, i8, i4)) {
-                        int i17 = zzbi.zzb;
+                        int i17 = zzbi.$r8$clinit;
                         int zzd4 = ((zzba) unsafe.getObject(obj, j)).zzd();
                         zzx11 = zzbi.zzx(zzd4) + zzd4;
                         zzx12 = zzbi.zzx(i8 << 3);
@@ -1924,7 +1927,7 @@ public final class zzdi<T> implements zzdp<T> {
                 }
                 zzce zzA = zzA(i6);
                 zzeg zzegVar = this.zzm;
-                int i24 = zzdr.zza;
+                int i24 = zzdr.$r8$clinit;
                 if (zzA != null) {
                     Object obj2 = null;
                     if (zzcfVar instanceof RandomAccess) {
@@ -2189,7 +2192,7 @@ public final class zzdi<T> implements zzdp<T> {
                             Object zzf = zzeq.zzf(obj, j);
                             if (zzf instanceof zzba) {
                                 int i6 = i3 << 3;
-                                int i7 = zzbi.zzb;
+                                int i7 = zzbi.$r8$clinit;
                                 int zzd = ((zzba) zzf).zzd();
                                 zzx5 = zzbi.zzx(zzd) + zzd;
                                 zzx6 = zzbi.zzx(i6);
@@ -2216,7 +2219,7 @@ public final class zzdi<T> implements zzdp<T> {
                     case 10:
                         if (zzP(obj, i2)) {
                             int i8 = i3 << 3;
-                            int i9 = zzbi.zzb;
+                            int i9 = zzbi.$r8$clinit;
                             int zzd2 = ((zzba) zzeq.zzf(obj, j)).zzd();
                             zzx5 = zzbi.zzx(zzd2) + zzd2;
                             zzx6 = zzbi.zzx(i8);
@@ -2444,7 +2447,7 @@ public final class zzdi<T> implements zzdp<T> {
                             break;
                         }
                     case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
-                        int i17 = zzdr.zza;
+                        int i17 = zzdr.$r8$clinit;
                         zzy = ((List) unsafe.getObject(obj, j)).size();
                         if (zzy > 0) {
                             int i18 = i3 << 3;
@@ -2612,7 +2615,7 @@ public final class zzdi<T> implements zzdp<T> {
                             Object zzf2 = zzeq.zzf(obj, j);
                             if (zzf2 instanceof zzba) {
                                 int i25 = i3 << 3;
-                                int i26 = zzbi.zzb;
+                                int i26 = zzbi.$r8$clinit;
                                 int zzd4 = ((zzba) zzf2).zzd();
                                 zzx5 = zzbi.zzx(zzd4) + zzd4;
                                 zzx6 = zzbi.zzx(i25);
@@ -2639,7 +2642,7 @@ public final class zzdi<T> implements zzdp<T> {
                     case R.styleable.AppCompatTheme_dialogCornerRadius /* 61 */:
                         if (zzT(obj, i3, i2)) {
                             int i27 = i3 << 3;
-                            int i28 = zzbi.zzb;
+                            int i28 = zzbi.$r8$clinit;
                             int zzd5 = ((zzba) zzeq.zzf(obj, j)).zzd();
                             zzx5 = zzbi.zzx(zzd5) + zzd5;
                             zzx6 = zzbi.zzx(i27);
@@ -3909,7 +3912,7 @@ public final class zzdi<T> implements zzdp<T> {
     @Override // com.google.android.gms.internal.play_billing.zzdp
     public final void zzg(Object obj, Object obj2) {
         zzG(obj);
-        Objects.requireNonNull(obj2);
+        obj2.getClass();
         for (int i = 0; i < this.zzc.length; i += 3) {
             int zzy = zzy(i);
             int i2 = this.zzc[i];
@@ -4084,7 +4087,7 @@ public final class zzdi<T> implements zzdp<T> {
                     this.zzl.zzb(obj, obj2, j);
                     break;
                 case R.styleable.AppCompatTheme_colorAccent /* 50 */:
-                    int i3 = zzdr.zza;
+                    int i3 = zzdr.$r8$clinit;
                     zzeq.zzs(obj, j, zzda.zzb(zzeq.zzf(obj, j), zzeq.zzf(obj2, j)));
                     break;
                 case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:

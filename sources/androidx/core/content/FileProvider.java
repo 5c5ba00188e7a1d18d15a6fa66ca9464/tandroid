@@ -321,7 +321,9 @@ public class FileProvider extends ContentProvider {
     /* loaded from: classes.dex */
     public static class Api21Impl {
         static File[] getExternalMediaDirs(Context context) {
-            return context.getExternalMediaDirs();
+            File[] externalMediaDirs;
+            externalMediaDirs = context.getExternalMediaDirs();
+            return externalMediaDirs;
         }
     }
 }

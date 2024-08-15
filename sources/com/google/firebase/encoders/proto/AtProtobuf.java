@@ -59,7 +59,7 @@ public final class AtProtobuf {
 
         @Override // java.lang.annotation.Annotation
         public int hashCode() {
-            return (this.tag ^ 14552422) + (this.intEncoding.hashCode() ^ 2041407134);
+            return (14552422 ^ this.tag) + (this.intEncoding.hashCode() ^ 2041407134);
         }
 
         @Override // java.lang.annotation.Annotation

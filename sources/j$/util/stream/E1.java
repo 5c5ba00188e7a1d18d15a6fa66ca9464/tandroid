@@ -1,62 +1,34 @@
 package j$.util.stream;
 
-import j$.util.Collection$-EL;
-import j$.util.function.Consumer;
-import java.util.Collection;
+import j$.util.function.BiConsumer;
+import j$.util.function.Supplier;
 /* loaded from: classes2.dex */
-final class E1 implements A1 {
-    private final Collection a;
+final class E1 extends u1 {
+    final /* synthetic */ j$.util.function.f h;
+    final /* synthetic */ BiConsumer i;
+    final /* synthetic */ Supplier j;
+    final /* synthetic */ Collector k;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public E1(Collection collection) {
-        this.a = collection;
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public E1(U2 u2, j$.util.function.f fVar, BiConsumer biConsumer, Supplier supplier, Collector collector) {
+        super(u2);
+        this.h = fVar;
+        this.i = biConsumer;
+        this.j = supplier;
+        this.k = collector;
     }
 
-    @Override // j$.util.stream.A1
-    public A1 b(int i) {
-        throw new IndexOutOfBoundsException();
-    }
-
-    @Override // j$.util.stream.A1
-    public long count() {
-        return this.a.size();
-    }
-
-    @Override // j$.util.stream.A1
-    public void forEach(Consumer consumer) {
-        Collection$-EL.a(this.a, consumer);
-    }
-
-    @Override // j$.util.stream.A1
-    public void i(Object[] objArr, int i) {
-        for (Object obj : this.a) {
-            objArr[i] = obj;
-            i++;
+    @Override // j$.util.stream.u1, j$.util.stream.C3
+    public final int b() {
+        if (this.k.characteristics().contains(i.UNORDERED)) {
+            return T2.r;
         }
-    }
-
-    @Override // j$.util.stream.A1
-    public /* synthetic */ int p() {
         return 0;
     }
 
-    @Override // j$.util.stream.A1
-    public Object[] q(j$.util.function.m mVar) {
-        Collection collection = this.a;
-        return collection.toArray((Object[]) mVar.apply(collection.size()));
-    }
-
-    @Override // j$.util.stream.A1
-    public /* synthetic */ A1 r(long j, long j2, j$.util.function.m mVar) {
-        return o1.q(this, j, j2, mVar);
-    }
-
-    @Override // j$.util.stream.A1
-    public j$.util.s spliterator() {
-        return Collection$-EL.stream(this.a).spliterator();
-    }
-
-    public String toString() {
-        return String.format("CollectionNode[%d][%s]", Integer.valueOf(this.a.size()), this.a);
+    @Override // j$.util.stream.u1
+    public final O1 u() {
+        return new F1(this.j, this.i, this.h);
     }
 }

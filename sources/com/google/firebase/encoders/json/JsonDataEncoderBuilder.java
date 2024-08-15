@@ -26,13 +26,13 @@ public final class JsonDataEncoderBuilder implements EncoderConfig<JsonDataEncod
             JsonDataEncoderBuilder.lambda$static$0(obj, (ObjectEncoderContext) obj2);
         }
     };
-    private static final ValueEncoder<String> STRING_ENCODER = new ValueEncoder() { // from class: com.google.firebase.encoders.json.JsonDataEncoderBuilder$$ExternalSyntheticLambda2
+    private static final ValueEncoder<String> STRING_ENCODER = new ValueEncoder() { // from class: com.google.firebase.encoders.json.JsonDataEncoderBuilder$$ExternalSyntheticLambda1
         @Override // com.google.firebase.encoders.ValueEncoder
         public final void encode(Object obj, Object obj2) {
             ((ValueEncoderContext) obj2).add((String) obj);
         }
     };
-    private static final ValueEncoder<Boolean> BOOLEAN_ENCODER = new ValueEncoder() { // from class: com.google.firebase.encoders.json.JsonDataEncoderBuilder$$ExternalSyntheticLambda1
+    private static final ValueEncoder<Boolean> BOOLEAN_ENCODER = new ValueEncoder() { // from class: com.google.firebase.encoders.json.JsonDataEncoderBuilder$$ExternalSyntheticLambda2
         @Override // com.google.firebase.encoders.ValueEncoder
         public final void encode(Object obj, Object obj2) {
             JsonDataEncoderBuilder.lambda$static$2((Boolean) obj, (ValueEncoderContext) obj2);

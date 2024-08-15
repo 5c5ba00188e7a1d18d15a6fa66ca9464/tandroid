@@ -548,8 +548,8 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(final Context context) {
-        int i;
         String str;
+        int i;
         this.searching = false;
         this.searchWas = false;
         this.allSpans.clear();
@@ -592,11 +592,11 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
         } else {
             ActionBar actionBar = this.actionBar;
             if (i2 == 0) {
-                i = R.string.NewGroup;
                 str = "NewGroup";
+                i = R.string.NewGroup;
             } else {
-                i = R.string.NewBroadcastList;
                 str = "NewBroadcastList";
+                i = R.string.NewBroadcastList;
             }
             actionBar.setTitle(LocaleController.getString(str, i));
         }
@@ -719,7 +719,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
         SpansContainer spansContainer = new SpansContainer(context);
         this.spansContainer = spansContainer;
         this.scrollView.addView(spansContainer, LayoutHelper.createFrame(-1, -2.0f));
-        this.spansContainer.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.GroupCreateActivity$$ExternalSyntheticLambda2
+        this.spansContainer.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.GroupCreateActivity$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 GroupCreateActivity.this.lambda$createView$0(view);
@@ -756,7 +756,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
         this.editText.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
         this.spansContainer.addView(this.editText);
         updateEditTextHint();
-        this.editText.setCustomSelectionActionModeCallback(new ActionMode.Callback(this) { // from class: org.telegram.ui.GroupCreateActivity.5
+        this.editText.setCustomSelectionActionModeCallback(new ActionMode.Callback() { // from class: org.telegram.ui.GroupCreateActivity.5
             @Override // android.view.ActionMode.Callback
             public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
                 return false;
@@ -776,7 +776,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                 return false;
             }
         });
-        this.editText.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.GroupCreateActivity$$ExternalSyntheticLambda6
+        this.editText.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.GroupCreateActivity$$ExternalSyntheticLambda2
             @Override // android.widget.TextView.OnEditorActionListener
             public final boolean onEditorAction(TextView textView, int i5, KeyEvent keyEvent) {
                 boolean lambda$createView$1;
@@ -859,7 +859,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
         this.itemDecoration = groupCreateDividerItemDecoration;
         recyclerListView3.addItemDecoration(groupCreateDividerItemDecoration);
         viewGroup2.addView(this.listView);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.GroupCreateActivity$$ExternalSyntheticLambda9
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.GroupCreateActivity$$ExternalSyntheticLambda3
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i5) {
                 GroupCreateActivity.this.lambda$createView$3(context, view, i5);
@@ -901,7 +901,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
             stateListAnimator.addState(new int[]{16842919}, ObjectAnimator.ofFloat(this.floatingButton, "translationZ", AndroidUtilities.dp(2.0f), AndroidUtilities.dp(4.0f)).setDuration(200L));
             stateListAnimator.addState(new int[0], ObjectAnimator.ofFloat(this.floatingButton, "translationZ", AndroidUtilities.dp(4.0f), AndroidUtilities.dp(2.0f)).setDuration(200L));
             this.floatingButton.setStateListAnimator(stateListAnimator);
-            this.floatingButton.setOutlineProvider(new ViewOutlineProvider(this) { // from class: org.telegram.ui.GroupCreateActivity.9
+            this.floatingButton.setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.GroupCreateActivity.9
                 @Override // android.view.ViewOutlineProvider
                 @SuppressLint({"NewApi"})
                 public void getOutline(View view, Outline outline) {
@@ -1008,7 +1008,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                                 if (ChatObject.canAddAdmins(chat)) {
                                     builder2.setTitle(LocaleController.getString("AddBotAdminAlert", R.string.AddBotAdminAlert));
                                     builder2.setMessage(LocaleController.getString("AddBotAsAdmin", R.string.AddBotAsAdmin));
-                                    builder2.setPositiveButton(LocaleController.getString("AddAsAdmin", R.string.AddAsAdmin), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.GroupCreateActivity$$ExternalSyntheticLambda0
+                                    builder2.setPositiveButton(LocaleController.getString("AddAsAdmin", R.string.AddAsAdmin), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.GroupCreateActivity$$ExternalSyntheticLambda8
                                         @Override // android.content.DialogInterface.OnClickListener
                                         public final void onClick(DialogInterface dialogInterface, int i2) {
                                             GroupCreateActivity.this.lambda$createView$2(tLRPC$User, dialogInterface, i2);
@@ -1067,7 +1067,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
         if (MessagesController.getInstance(this.currentAccount).premiumFeaturesBlocked()) {
             createSimpleBulletin = BulletinFactory.of(this).createSimpleBulletin(R.raw.star_premium_2, AndroidUtilities.replaceTags(LocaleController.formatString(R.string.UserBlockedNonPremium, userName)));
         } else {
-            createSimpleBulletin = BulletinFactory.of(this).createSimpleBulletin(R.raw.star_premium_2, AndroidUtilities.replaceTags(LocaleController.formatString(R.string.UserBlockedNonPremium, userName)), LocaleController.getString(R.string.UserBlockedNonPremiumButton), new Runnable() { // from class: org.telegram.ui.GroupCreateActivity$$ExternalSyntheticLambda7
+            createSimpleBulletin = BulletinFactory.of(this).createSimpleBulletin(R.raw.star_premium_2, AndroidUtilities.replaceTags(LocaleController.formatString(R.string.UserBlockedNonPremium, userName)), LocaleController.getString(R.string.UserBlockedNonPremiumButton), new Runnable() { // from class: org.telegram.ui.GroupCreateActivity$$ExternalSyntheticLambda9
                 @Override // java.lang.Runnable
                 public final void run() {
                     GroupCreateActivity.this.lambda$showPremiumBlockedToast$5();
@@ -1214,7 +1214,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                     }
                 }
             } else if ((childAt instanceof GraySectionCell) && this.listView.getChildAdapterPosition(childAt) == this.adapter.firstSectionRow) {
-                ((GraySectionCell) childAt).setRightText((this.selectedPremium == null && this.selectedContacts.isEmpty()) ? "" : LocaleController.getString(R.string.DeselectAll), true, new View.OnClickListener() { // from class: org.telegram.ui.GroupCreateActivity$$ExternalSyntheticLambda3
+                ((GraySectionCell) childAt).setRightText((this.selectedPremium == null && this.selectedContacts.isEmpty()) ? "" : LocaleController.getString(R.string.DeselectAll), true, new View.OnClickListener() { // from class: org.telegram.ui.GroupCreateActivity$$ExternalSyntheticLambda0
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         GroupCreateActivity.this.lambda$checkVisibleRows$6(view);
@@ -1296,8 +1296,9 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
             if (!ChatObject.isChannel(chat)) {
                 LinearLayout linearLayout = new LinearLayout(getParentActivity());
                 linearLayout.setOrientation(1);
-                checkBoxCellArr[0] = new CheckBoxCell(getParentActivity(), 1, this.resourceProvider);
-                checkBoxCellArr[0].setBackgroundDrawable(Theme.getSelectorDrawable(false));
+                CheckBoxCell checkBoxCell = new CheckBoxCell(getParentActivity(), 1, this.resourceProvider);
+                checkBoxCellArr[0] = checkBoxCell;
+                checkBoxCell.setBackgroundDrawable(Theme.getSelectorDrawable(false));
                 checkBoxCellArr[0].setMultiline(true);
                 if (this.selectedContacts.size() == 1) {
                     checkBoxCellArr[0].setText(AndroidUtilities.replaceTags(LocaleController.formatString(R.string.AddOneMemberForwardMessages, UserObject.getFirstName(getMessagesController().getUser(Long.valueOf(this.selectedContacts.keyAt(0)))))), "", true, false);
@@ -1306,7 +1307,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                 }
                 checkBoxCellArr[0].setPadding(LocaleController.isRTL ? AndroidUtilities.dp(16.0f) : AndroidUtilities.dp(8.0f), 0, LocaleController.isRTL ? AndroidUtilities.dp(8.0f) : AndroidUtilities.dp(16.0f), 0);
                 linearLayout.addView(checkBoxCellArr[0], LayoutHelper.createLinear(-1, -2));
-                checkBoxCellArr[0].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.GroupCreateActivity$$ExternalSyntheticLambda5
+                checkBoxCellArr[0].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.GroupCreateActivity$$ExternalSyntheticLambda6
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         GroupCreateActivity.lambda$onDonePressed$7(checkBoxCellArr, view);
@@ -1314,7 +1315,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                 });
                 builder.setView(linearLayout);
             }
-            builder.setPositiveButton(LocaleController.getString("Add", R.string.Add), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.GroupCreateActivity$$ExternalSyntheticLambda1
+            builder.setPositiveButton(LocaleController.getString("Add", R.string.Add), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.GroupCreateActivity$$ExternalSyntheticLambda7
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i3) {
                     GroupCreateActivity.this.lambda$onDonePressed$8(checkBoxCellArr, dialogInterface, i3);
@@ -1371,13 +1372,15 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onDonePressed$7(CheckBoxCell[] checkBoxCellArr, View view) {
-        checkBoxCellArr[0].setChecked(!checkBoxCellArr[0].isChecked(), true);
+        CheckBoxCell checkBoxCell = checkBoxCellArr[0];
+        checkBoxCell.setChecked(!checkBoxCell.isChecked(), true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onDonePressed$8(CheckBoxCell[] checkBoxCellArr, DialogInterface dialogInterface, int i) {
         int i2 = 0;
-        if (checkBoxCellArr[0] != null && checkBoxCellArr[0].isChecked()) {
+        CheckBoxCell checkBoxCell = checkBoxCellArr[0];
+        if (checkBoxCell != null && checkBoxCell.isChecked()) {
             i2 = 100;
         }
         onAddToGroupDone(i2);
@@ -1522,7 +1525,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
             }
             SearchAdapterHelper searchAdapterHelper = new SearchAdapterHelper(false);
             this.searchAdapterHelper = searchAdapterHelper;
-            searchAdapterHelper.setDelegate(new SearchAdapterHelper.SearchAdapterHelperDelegate() { // from class: org.telegram.ui.GroupCreateActivity$GroupCreateAdapter$$ExternalSyntheticLambda5
+            searchAdapterHelper.setDelegate(new SearchAdapterHelper.SearchAdapterHelperDelegate() { // from class: org.telegram.ui.GroupCreateActivity$GroupCreateAdapter$$ExternalSyntheticLambda2
                 @Override // org.telegram.ui.Adapters.SearchAdapterHelper.SearchAdapterHelperDelegate
                 public /* synthetic */ boolean canApplySearchResults(int i4) {
                     return SearchAdapterHelper.SearchAdapterHelperDelegate.-CC.$default$canApplySearchResults(this, i4);
@@ -1673,7 +1676,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                 if (i == 1) {
                     groupCreateUserCell = new GroupCreateUserCell(this.context, 1, 0, false);
                 } else if (i == 3) {
-                    StickerEmptyView stickerEmptyView = new StickerEmptyView(this, this.context, null, 0) { // from class: org.telegram.ui.GroupCreateActivity.GroupCreateAdapter.1
+                    StickerEmptyView stickerEmptyView = new StickerEmptyView(this.context, null, 0) { // from class: org.telegram.ui.GroupCreateActivity.GroupCreateAdapter.1
                         /* JADX INFO: Access modifiers changed from: protected */
                         @Override // org.telegram.ui.Components.StickerEmptyView, android.view.ViewGroup, android.view.View
                         public void onAttachedToWindow() {
@@ -1720,7 +1723,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                     }
                 }
                 if (i == this.firstSectionRow) {
-                    graySectionCell.setRightText((GroupCreateActivity.this.selectedPremium == null && GroupCreateActivity.this.selectedContacts.isEmpty()) ? "" : LocaleController.getString(R.string.DeselectAll), true, new View.OnClickListener() { // from class: org.telegram.ui.GroupCreateActivity$GroupCreateAdapter$$ExternalSyntheticLambda0
+                    graySectionCell.setRightText((GroupCreateActivity.this.selectedPremium == null && GroupCreateActivity.this.selectedContacts.isEmpty()) ? "" : LocaleController.getString(R.string.DeselectAll), true, new View.OnClickListener() { // from class: org.telegram.ui.GroupCreateActivity$GroupCreateAdapter$$ExternalSyntheticLambda1
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
                             GroupCreateActivity.GroupCreateAdapter.this.lambda$onBindViewHolder$1(view);
@@ -1900,7 +1903,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                 return;
             }
             DispatchQueue dispatchQueue = Utilities.searchQueue;
-            Runnable runnable = new Runnable() { // from class: org.telegram.ui.GroupCreateActivity$GroupCreateAdapter$$ExternalSyntheticLambda3
+            Runnable runnable = new Runnable() { // from class: org.telegram.ui.GroupCreateActivity$GroupCreateAdapter$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     GroupCreateActivity.GroupCreateAdapter.this.lambda$searchDialogs$4(str);
@@ -1912,7 +1915,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$searchDialogs$4(final String str) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.GroupCreateActivity$GroupCreateAdapter$$ExternalSyntheticLambda2
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.GroupCreateActivity$GroupCreateAdapter$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     GroupCreateActivity.GroupCreateAdapter.this.lambda$searchDialogs$3(str);
@@ -1924,7 +1927,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
         public /* synthetic */ void lambda$searchDialogs$3(final String str) {
             this.searchAdapterHelper.queryServerSearch(str, true, GroupCreateActivity.this.isAlwaysShare || GroupCreateActivity.this.isNeverShare, true, false, false, 0L, false, 0, 0);
             DispatchQueue dispatchQueue = Utilities.searchQueue;
-            Runnable runnable = new Runnable() { // from class: org.telegram.ui.GroupCreateActivity$GroupCreateAdapter$$ExternalSyntheticLambda1
+            Runnable runnable = new Runnable() { // from class: org.telegram.ui.GroupCreateActivity$GroupCreateAdapter$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
                     GroupCreateActivity.GroupCreateAdapter.this.lambda$searchDialogs$2(str);
@@ -2018,7 +2021,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
         }
 
         private void updateSearchResults(final ArrayList<Object> arrayList, final ArrayList<CharSequence> arrayList2) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.GroupCreateActivity$GroupCreateAdapter$$ExternalSyntheticLambda4
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.GroupCreateActivity$GroupCreateAdapter$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
                 public final void run() {
                     GroupCreateActivity.GroupCreateAdapter.this.lambda$updateSearchResults$5(arrayList, arrayList2);
@@ -2045,7 +2048,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.GroupCreateActivity$$ExternalSyntheticLambda8
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.GroupCreateActivity$$ExternalSyntheticLambda5
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 GroupCreateActivity.this.lambda$getThemeDescriptions$9();

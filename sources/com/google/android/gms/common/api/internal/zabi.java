@@ -19,7 +19,6 @@ import java.util.concurrent.locks.Lock;
 /* loaded from: classes.dex */
 public final class zabi implements zaca, zau {
     final Map zaa;
-    final Map zab = new HashMap();
     final ClientSettings zac;
     final Map zad;
     final Api.AbstractClientBuilder zae;
@@ -32,6 +31,8 @@ public final class zabi implements zaca, zau {
     private final GoogleApiAvailabilityLight zal;
     private final zabh zam;
     private volatile zabf zan;
+    final Map zab = new HashMap();
+    private ConnectionResult zao = null;
 
     public zabi(Context context, zabe zabeVar, Lock lock, Looper looper, GoogleApiAvailabilityLight googleApiAvailabilityLight, Map map, ClientSettings clientSettings, Map map2, Api.AbstractClientBuilder abstractClientBuilder, ArrayList arrayList, zabz zabzVar) {
         this.zak = context;
@@ -124,6 +125,7 @@ public final class zabi implements zaca, zau {
     public final void zak(ConnectionResult connectionResult) {
         this.zai.lock();
         try {
+            this.zao = connectionResult;
             this.zan = new zaax(this);
             this.zan.zad();
             this.zaj.signalAll();

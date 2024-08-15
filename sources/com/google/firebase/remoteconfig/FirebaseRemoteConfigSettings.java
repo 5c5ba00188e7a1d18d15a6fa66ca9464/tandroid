@@ -3,9 +3,12 @@ package com.google.firebase.remoteconfig;
 import com.google.firebase.remoteconfig.internal.ConfigFetchHandler;
 /* loaded from: classes.dex */
 public class FirebaseRemoteConfigSettings {
+    private final long fetchTimeoutInSeconds;
+    private final long minimumFetchInterval;
+
     private FirebaseRemoteConfigSettings(Builder builder) {
-        long unused = builder.fetchTimeoutInSeconds;
-        long unused2 = builder.minimumFetchInterval;
+        this.fetchTimeoutInSeconds = builder.fetchTimeoutInSeconds;
+        this.minimumFetchInterval = builder.minimumFetchInterval;
     }
 
     /* loaded from: classes.dex */

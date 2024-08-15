@@ -30,9 +30,10 @@ public final class zzcv {
     private final String zzd;
     private final zzb zze;
     private final SharedPrefManager zzf;
-    private final Task<String> zzg;
     private final Task<String> zzh;
     private final Map<zzaj, Long> zzi = new HashMap();
+    private final Map<zzaj, Object> zzj = new HashMap();
+    private final Task<String> zzg = MLTaskExecutor.getInstance().scheduleCallable(zzcu.zza);
 
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
@@ -47,12 +48,10 @@ public final class zzcv {
     }
 
     private zzcv(Context context, SharedPrefManager sharedPrefManager, zzb zzbVar) {
-        new HashMap();
         this.zzc = context.getPackageName();
         this.zzd = CommonUtils.getAppVersion(context);
         this.zzf = sharedPrefManager;
         this.zze = zzbVar;
-        this.zzg = MLTaskExecutor.getInstance().scheduleCallable(zzcu.zza);
         MLTaskExecutor mLTaskExecutor = MLTaskExecutor.getInstance();
         sharedPrefManager.getClass();
         this.zzh = mLTaskExecutor.scheduleCallable(zzcx.zza(sharedPrefManager));

@@ -73,8 +73,8 @@ public final class IcyHeaders implements Metadata.Entry {
         List<String> list5;
         int i2;
         List<String> list6 = map.get("icy-br");
-        int i3 = -1;
         boolean z3 = true;
+        int i3 = -1;
         if (list6 != null) {
             String str4 = list6.get(0);
             try {

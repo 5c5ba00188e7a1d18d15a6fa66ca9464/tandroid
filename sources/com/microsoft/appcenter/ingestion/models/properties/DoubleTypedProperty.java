@@ -37,7 +37,7 @@ public class DoubleTypedProperty extends TypedProperty {
         if (this == obj) {
             return true;
         }
-        return obj != null && DoubleTypedProperty.class == obj.getClass() && super.equals(obj) && Double.compare(((DoubleTypedProperty) obj).value, this.value) == 0;
+        return obj != null && getClass() == obj.getClass() && super.equals(obj) && Double.compare(((DoubleTypedProperty) obj).value, this.value) == 0;
     }
 
     @Override // com.microsoft.appcenter.ingestion.models.properties.TypedProperty

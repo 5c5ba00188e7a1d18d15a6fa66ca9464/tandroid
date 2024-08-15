@@ -230,39 +230,41 @@ public class DefaultHttpDataSource extends BaseDataSource implements HttpDataSou
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:39:0x00ad, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:39:0x00b1, code lost:
         return r0;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private HttpURLConnection makeConnection(DataSpec dataSpec) throws IOException {
-        URL url = new URL(dataSpec.uri.toString());
+        URL url;
+        URL url2 = new URL(dataSpec.uri.toString());
         int i = dataSpec.httpMethod;
         byte[] bArr = dataSpec.httpBody;
         long j = dataSpec.position;
         long j2 = dataSpec.length;
         boolean isFlagSet = dataSpec.isFlagSet(1);
         if (!this.allowCrossProtocolRedirects && !this.keepPostFor302Redirects) {
-            return makeConnection(url, i, bArr, j, j2, isFlagSet, true, dataSpec.httpRequestHeaders);
+            return makeConnection(url2, i, bArr, j, j2, isFlagSet, true, dataSpec.httpRequestHeaders);
         }
-        URL url2 = url;
+        URL url3 = url2;
         int i2 = i;
         byte[] bArr2 = bArr;
         int i3 = 0;
         while (true) {
             int i4 = i3 + 1;
             if (i3 <= 20) {
-                int i5 = i2;
                 long j3 = j;
-                URL url3 = url2;
-                long j4 = j2;
-                HttpURLConnection makeConnection = makeConnection(url2, i2, bArr2, j, j2, isFlagSet, false, dataSpec.httpRequestHeaders);
+                long j4 = j;
+                int i5 = i2;
+                URL url4 = url3;
+                long j5 = j2;
+                HttpURLConnection makeConnection = makeConnection(url3, i2, bArr2, j3, j2, isFlagSet, false, dataSpec.httpRequestHeaders);
                 int responseCode = makeConnection.getResponseCode();
                 String headerField = makeConnection.getHeaderField("Location");
                 if ((i5 == 1 || i5 == 3) && (responseCode == 300 || responseCode == 301 || responseCode == 302 || responseCode == 303 || responseCode == 307 || responseCode == 308)) {
                     makeConnection.disconnect();
-                    url2 = handleRedirect(url3, headerField, dataSpec);
+                    url3 = handleRedirect(url4, headerField, dataSpec);
                     i2 = i5;
                 } else if (i5 != 2 || (responseCode != 300 && responseCode != 301 && responseCode != 302 && responseCode != 303)) {
                     break;
@@ -270,15 +272,17 @@ public class DefaultHttpDataSource extends BaseDataSource implements HttpDataSou
                     makeConnection.disconnect();
                     if (this.keepPostFor302Redirects && responseCode == 302) {
                         i2 = i5;
+                        url = url4;
                     } else {
                         bArr2 = null;
+                        url = url4;
                         i2 = 1;
                     }
-                    url2 = handleRedirect(url3, headerField, dataSpec);
+                    url3 = handleRedirect(url, headerField, dataSpec);
                 }
                 i3 = i4;
-                j = j3;
-                j2 = j4;
+                j = j4;
+                j2 = j5;
             } else {
                 throw new HttpDataSource.HttpDataSourceException(new NoRouteToHostException("Too many redirects: " + i4), dataSpec, 2001, 1);
             }

@@ -9,9 +9,11 @@ import java.util.List;
 /* loaded from: classes.dex */
 public final class HevcConfig {
     public final String codecs;
+    public final int height;
     public final List<byte[]> initializationData;
     public final int nalUnitLengthFieldLength;
     public final float pixelWidthHeightRatio;
+    public final int width;
 
     public static HevcConfig parse(ParsableByteArray parsableByteArray) throws ParserException {
         int i;
@@ -84,6 +86,8 @@ public final class HevcConfig {
     private HevcConfig(List<byte[]> list, int i, int i2, int i3, float f, String str) {
         this.initializationData = list;
         this.nalUnitLengthFieldLength = i;
+        this.width = i2;
+        this.height = i3;
         this.pixelWidthHeightRatio = f;
         this.codecs = str;
     }

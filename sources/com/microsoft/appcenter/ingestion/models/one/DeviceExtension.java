@@ -31,7 +31,7 @@ public class DeviceExtension implements Model {
         if (this == obj) {
             return true;
         }
-        if (obj == null || DeviceExtension.class != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         String str = this.localId;

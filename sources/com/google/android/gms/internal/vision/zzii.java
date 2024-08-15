@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.vision;
 
 import java.io.IOException;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
@@ -36,8 +35,8 @@ public abstract class zzii extends zzhq {
             return 10;
         }
         if (((-34359738368L) & j) != 0) {
-            i = 6;
             j >>>= 28;
+            i = 6;
         } else {
             i = 2;
         }
@@ -174,16 +173,20 @@ public abstract class zzii extends zzhq {
     /* loaded from: classes.dex */
     private static class zza extends zzii {
         private final byte[] zzb;
+        private final int zzc;
         private final int zzd;
         private int zze;
 
         zza(byte[] bArr, int i, int i2) {
             super();
-            Objects.requireNonNull(bArr, "buffer");
+            if (bArr == null) {
+                throw new NullPointerException("buffer");
+            }
             if ((i2 | 0 | (bArr.length - i2)) < 0) {
                 throw new IllegalArgumentException(String.format("Array range is invalid. Buffer.length=%d, offset=%d, length=%d", Integer.valueOf(bArr.length), 0, Integer.valueOf(i2)));
             }
             this.zzb = bArr;
+            this.zzc = 0;
             this.zze = 0;
             this.zzd = i2;
         }
@@ -381,13 +384,10 @@ public abstract class zzii extends zzhq {
                 byte[] bArr = this.zzb;
                 int i2 = this.zze;
                 int i3 = i2 + 1;
-                this.zze = i3;
                 bArr[i2] = (byte) i;
                 int i4 = i3 + 1;
-                this.zze = i4;
                 bArr[i3] = (byte) (i >> 8);
                 int i5 = i4 + 1;
-                this.zze = i5;
                 bArr[i4] = (byte) (i >> 16);
                 this.zze = i5 + 1;
                 bArr[i5] = (byte) (i >>> 24);
@@ -435,25 +435,18 @@ public abstract class zzii extends zzhq {
                 byte[] bArr = this.zzb;
                 int i = this.zze;
                 int i2 = i + 1;
-                this.zze = i2;
                 bArr[i] = (byte) j;
                 int i3 = i2 + 1;
-                this.zze = i3;
                 bArr[i2] = (byte) (j >> 8);
                 int i4 = i3 + 1;
-                this.zze = i4;
                 bArr[i3] = (byte) (j >> 16);
                 int i5 = i4 + 1;
-                this.zze = i5;
                 bArr[i4] = (byte) (j >> 24);
                 int i6 = i5 + 1;
-                this.zze = i6;
                 bArr[i5] = (byte) (j >> 32);
                 int i7 = i6 + 1;
-                this.zze = i7;
                 bArr[i6] = (byte) (j >> 40);
                 int i8 = i7 + 1;
-                this.zze = i8;
                 bArr[i7] = (byte) (j >> 48);
                 this.zze = i8 + 1;
                 bArr[i8] = (byte) (j >> 56);

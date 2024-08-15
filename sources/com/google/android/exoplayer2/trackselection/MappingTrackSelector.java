@@ -12,6 +12,8 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
 /* loaded from: classes.dex */
 public abstract class MappingTrackSelector extends TrackSelector {
+    private MappedTrackInfo currentMappedTrackInfo;
+
     protected abstract Pair<RendererConfiguration[], ExoTrackSelection[]> selectTracks(MappedTrackInfo mappedTrackInfo, int[][][] iArr, int[] iArr2, MediaSource.MediaPeriodId mediaPeriodId, Timeline timeline) throws ExoPlaybackException;
 
     /* loaded from: classes.dex */
@@ -19,11 +21,13 @@ public abstract class MappingTrackSelector extends TrackSelector {
         private final int rendererCount;
         private final int[][][] rendererFormatSupports;
         private final int[] rendererMixedMimeTypeAdaptiveSupports;
+        private final String[] rendererNames;
         private final TrackGroupArray[] rendererTrackGroups;
         private final int[] rendererTrackTypes;
         private final TrackGroupArray unmappedTrackGroups;
 
         MappedTrackInfo(String[] strArr, int[] iArr, TrackGroupArray[] trackGroupArrayArr, int[] iArr2, int[][][] iArr3, TrackGroupArray trackGroupArray) {
+            this.rendererNames = strArr;
             this.rendererTrackTypes = iArr;
             this.rendererTrackGroups = trackGroupArrayArr;
             this.rendererFormatSupports = iArr3;
@@ -94,7 +98,7 @@ public abstract class MappingTrackSelector extends TrackSelector {
 
     @Override // com.google.android.exoplayer2.trackselection.TrackSelector
     public final void onSelectionActivated(Object obj) {
-        MappedTrackInfo mappedTrackInfo = (MappedTrackInfo) obj;
+        this.currentMappedTrackInfo = (MappedTrackInfo) obj;
     }
 
     @Override // com.google.android.exoplayer2.trackselection.TrackSelector
@@ -121,7 +125,7 @@ public abstract class MappingTrackSelector extends TrackSelector {
             int i4 = iArr[findRenderer];
             trackGroupArr[findRenderer][i4] = trackGroup;
             iArr2[findRenderer][i4] = formatSupport;
-            iArr[findRenderer] = iArr[findRenderer] + 1;
+            iArr[findRenderer] = i4 + 1;
         }
         TrackGroupArray[] trackGroupArrayArr = new TrackGroupArray[rendererCapabilitiesArr.length];
         String[] strArr = new String[rendererCapabilitiesArr.length];

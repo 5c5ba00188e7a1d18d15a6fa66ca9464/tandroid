@@ -115,7 +115,7 @@ public final class RtspMessageChannel implements Closeable {
 
         public void send(final List<String> list) {
             final byte[] convertMessageToByteArray = RtspMessageUtil.convertMessageToByteArray(list);
-            this.senderThreadHandler.post(new Runnable() { // from class: com.google.android.exoplayer2.source.rtsp.RtspMessageChannel$Sender$$ExternalSyntheticLambda1
+            this.senderThreadHandler.post(new Runnable() { // from class: com.google.android.exoplayer2.source.rtsp.RtspMessageChannel$Sender$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     RtspMessageChannel.Sender.this.lambda$send$0(convertMessageToByteArray, list);
@@ -140,7 +140,7 @@ public final class RtspMessageChannel implements Closeable {
             Handler handler = this.senderThreadHandler;
             final HandlerThread handlerThread = this.senderThread;
             Objects.requireNonNull(handlerThread);
-            handler.post(new Runnable() { // from class: com.google.android.exoplayer2.source.rtsp.RtspMessageChannel$Sender$$ExternalSyntheticLambda0
+            handler.post(new Runnable() { // from class: com.google.android.exoplayer2.source.rtsp.RtspMessageChannel$Sender$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     handlerThread.quit();
@@ -258,8 +258,9 @@ public final class RtspMessageChannel implements Closeable {
             while (true) {
                 if (bArr[0] != 13 || bArr[1] != 10) {
                     bArr[0] = bArr[1];
-                    bArr[1] = dataInputStream.readByte();
-                    byteArrayOutputStream.write(bArr[1]);
+                    byte readByte = dataInputStream.readByte();
+                    bArr[1] = readByte;
+                    byteArrayOutputStream.write(readByte);
                 } else {
                     return byteArrayOutputStream.toByteArray();
                 }

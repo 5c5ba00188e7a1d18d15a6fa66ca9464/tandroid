@@ -3,6 +3,7 @@ package com.google.android.gms.internal.vision;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.charset.Charset;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Locale;
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
@@ -10,6 +11,7 @@ import java.util.Locale;
 public abstract class zzht implements Serializable, Iterable<Byte> {
     public static final zzht zza = new zzid(zzjf.zzb);
     private static final zzhz zzb;
+    private static final Comparator<zzht> zzd;
     private int zzc = 0;
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -118,6 +120,6 @@ public abstract class zzht implements Serializable, Iterable<Byte> {
 
     static {
         zzb = zzhi.zza() ? new zzic(null) : new zzhx(null);
-        new zzhv();
+        zzd = new zzhv();
     }
 }

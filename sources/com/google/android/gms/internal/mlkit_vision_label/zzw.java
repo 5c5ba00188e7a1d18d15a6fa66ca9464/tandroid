@@ -2,7 +2,6 @@ package com.google.android.gms.internal.mlkit_vision_label;
 
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 /* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
@@ -17,7 +16,7 @@ final class zzw extends zzbm {
     @Override // com.google.android.gms.internal.mlkit_vision_label.zzbm, java.util.AbstractCollection, java.util.Collection, java.util.Set
     public final boolean contains(Object obj) {
         Set entrySet = this.zza.zza.entrySet();
-        Objects.requireNonNull(entrySet);
+        entrySet.getClass();
         try {
             return entrySet.contains(obj);
         } catch (ClassCastException | NullPointerException unused) {

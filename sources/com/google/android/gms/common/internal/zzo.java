@@ -87,10 +87,12 @@ final class zzo implements ServiceConnection, zzs {
         Handler handler;
         Handler handler2;
         long j;
+        StrictMode.VmPolicy.Builder permitUnsafeIntentLaunch;
         this.zzc = 3;
         StrictMode.VmPolicy vmPolicy = StrictMode.getVmPolicy();
         if (PlatformVersion.isAtLeastS()) {
-            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder(vmPolicy).permitUnsafeIntentLaunch().build());
+            permitUnsafeIntentLaunch = new StrictMode.VmPolicy.Builder(vmPolicy).permitUnsafeIntentLaunch();
+            StrictMode.setVmPolicy(permitUnsafeIntentLaunch.build());
         }
         try {
             zzr zzrVar = this.zza;

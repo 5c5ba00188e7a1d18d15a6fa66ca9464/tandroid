@@ -32,8 +32,8 @@ final class XmpMotionPhotoDescriptionParser {
         if (!XmlPullParserUtil.isStartTag(newPullParser, "x:xmpmeta")) {
             throw ParserException.createForMalformedContainer("Couldn't find xmp metadata", null);
         }
-        long j = -9223372036854775807L;
         ImmutableList<MotionPhotoDescription.ContainerItem> of = ImmutableList.of();
+        long j = -9223372036854775807L;
         do {
             newPullParser.next();
             if (XmlPullParserUtil.isStartTag(newPullParser, "rdf:Description")) {

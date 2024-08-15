@@ -3,43 +3,45 @@ package j$.time.format;
 import j$.time.LocalDate;
 import j$.time.ZoneId;
 /* loaded from: classes2.dex */
-class s implements j$.time.temporal.k {
+final class s implements j$.time.temporal.k {
     final /* synthetic */ j$.time.chrono.b a;
     final /* synthetic */ j$.time.temporal.k b;
-    final /* synthetic */ j$.time.chrono.g c;
+    final /* synthetic */ j$.time.chrono.d c;
     final /* synthetic */ ZoneId d;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public s(j$.time.chrono.b bVar, j$.time.temporal.k kVar, j$.time.chrono.g gVar, ZoneId zoneId) {
-        this.a = bVar;
+    public s(LocalDate localDate, j$.time.temporal.k kVar, j$.time.chrono.d dVar, ZoneId zoneId) {
+        this.a = localDate;
         this.b = kVar;
-        this.c = gVar;
+        this.c = dVar;
         this.d = zoneId;
     }
 
     @Override // j$.time.temporal.k
-    public /* synthetic */ int a(j$.time.temporal.l lVar) {
-        return j$.time.temporal.j.a(this, lVar);
+    public final j$.time.temporal.q a(j$.time.temporal.l lVar) {
+        j$.time.chrono.b bVar = this.a;
+        return (bVar == null || !lVar.isDateBased()) ? this.b.a(lVar) : ((LocalDate) bVar).a(lVar);
     }
 
     @Override // j$.time.temporal.k
-    public j$.time.temporal.x b(j$.time.temporal.l lVar) {
-        return (this.a == null || !lVar.f()) ? this.b.b(lVar) : ((LocalDate) this.a).b(lVar);
+    public final boolean b(j$.time.temporal.l lVar) {
+        j$.time.chrono.b bVar = this.a;
+        return (bVar == null || !lVar.isDateBased()) ? this.b.b(lVar) : ((LocalDate) bVar).b(lVar);
     }
 
     @Override // j$.time.temporal.k
-    public long c(j$.time.temporal.l lVar) {
-        return (this.a == null || !lVar.f()) ? this.b.c(lVar) : ((LocalDate) this.a).c(lVar);
+    public final long c(j$.time.temporal.l lVar) {
+        j$.time.chrono.b bVar = this.a;
+        return (bVar == null || !lVar.isDateBased()) ? this.b.c(lVar) : ((LocalDate) bVar).c(lVar);
     }
 
     @Override // j$.time.temporal.k
-    public Object d(j$.time.temporal.u uVar) {
-        int i = j$.time.temporal.t.a;
-        return uVar == j$.time.temporal.n.a ? this.c : uVar == j$.time.temporal.m.a ? this.d : uVar == j$.time.temporal.o.a ? this.b.d(uVar) : uVar.a(this);
+    public final Object d(j$.time.temporal.n nVar) {
+        return nVar == j$.time.temporal.j.d() ? this.c : nVar == j$.time.temporal.j.j() ? this.d : nVar == j$.time.temporal.j.h() ? this.b.d(nVar) : nVar.a(this);
     }
 
     @Override // j$.time.temporal.k
-    public boolean e(j$.time.temporal.l lVar) {
-        return (this.a == null || !lVar.f()) ? this.b.e(lVar) : ((LocalDate) this.a).e(lVar);
+    public final /* synthetic */ int e(j$.time.temporal.a aVar) {
+        return j$.time.temporal.j.a(this, aVar);
     }
 }

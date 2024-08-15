@@ -55,12 +55,12 @@ public class JoinGroupAlert extends BottomSheet {
         boolean z2;
         int i3;
         String lowerCase;
-        int i4;
         String str3;
-        int i5;
+        int i4;
         String str4;
-        int i6;
+        int i5;
         String str5;
+        int i6;
         CharSequence format;
         setApplyBottomPadding(false);
         setApplyTopPadding(false);
@@ -84,7 +84,7 @@ public class JoinGroupAlert extends BottomSheet {
         imageView.setBackground(Theme.createSelectorDrawable(getThemedColor(Theme.key_listSelector)));
         imageView.setColorFilter(getThemedColor(Theme.key_sheet_other));
         imageView.setImageResource(R.drawable.ic_layer_close);
-        imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda2
+        imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 JoinGroupAlert.this.lambda$new$0(view);
@@ -202,17 +202,17 @@ public class JoinGroupAlert extends BottomSheet {
             this.requestTextView.setSingleLine(true);
             TextView textView4 = this.requestTextView;
             if (z4) {
-                i4 = R.string.RequestToJoinChannel;
                 str3 = "RequestToJoinChannel";
+                i4 = R.string.RequestToJoinChannel;
             } else {
-                i4 = R.string.RequestToJoinGroup;
                 str3 = "RequestToJoinGroup";
+                i4 = R.string.RequestToJoinGroup;
             }
             textView4.setText(LocaleController.getString(str3, i4));
             this.requestTextView.setTextColor(getThemedColor(Theme.key_featuredStickers_buttonText));
             this.requestTextView.setTextSize(1, 14.0f);
             this.requestTextView.setTypeface(AndroidUtilities.bold());
-            this.requestTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda4
+            this.requestTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda1
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     JoinGroupAlert.this.lambda$new$7(z4, view);
@@ -223,11 +223,11 @@ public class JoinGroupAlert extends BottomSheet {
             textView5.setGravity(17);
             textView5.setTextSize(1, 14.0f);
             if (z4) {
-                i5 = R.string.RequestToJoinChannelDescription;
                 str4 = "RequestToJoinChannelDescription";
+                i5 = R.string.RequestToJoinChannelDescription;
             } else {
-                i5 = R.string.RequestToJoinGroupDescription;
                 str4 = "RequestToJoinGroupDescription";
+                i5 = R.string.RequestToJoinGroupDescription;
             }
             textView5.setText(LocaleController.getString(str4, i5));
             textView5.setTextColor(getThemedColor(i8));
@@ -273,18 +273,18 @@ public class JoinGroupAlert extends BottomSheet {
             textView7.setGravity(17);
             textView7.setSingleLine(true);
             if (z6) {
-                i6 = R.string.ProfileJoinChannel;
                 str5 = "ProfileJoinChannel";
+                i6 = R.string.ProfileJoinChannel;
             } else {
-                i6 = R.string.ProfileJoinGroup;
                 str5 = "ProfileJoinGroup";
+                i6 = R.string.ProfileJoinGroup;
             }
             textView7.setText(LocaleController.getString(str5, i6));
             textView7.setTextColor(getThemedColor(Theme.key_featuredStickers_buttonText));
             textView7.setTextSize(1, 14.0f);
             textView7.setTypeface(AndroidUtilities.bold());
             linearLayout.addView(textView7, LayoutHelper.createLinear(-1, 48, 8388611, 14, 0, 14, 14));
-            textView7.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda3
+            textView7.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda2
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     JoinGroupAlert.this.lambda$new$10(i, view);
@@ -300,19 +300,19 @@ public class JoinGroupAlert extends BottomSheet {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$7(final boolean z, View view) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda6
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 JoinGroupAlert.this.lambda$new$1();
             }
         }, 400L);
         if (this.chatInvite == null && this.currentChat != null) {
-            MessagesController.getInstance(this.currentAccount).addUserToChat(this.currentChat.id, UserConfig.getInstance(this.currentAccount).getCurrentUser(), 0, null, null, true, new Runnable() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda5
+            MessagesController.getInstance(this.currentAccount).addUserToChat(this.currentChat.id, UserConfig.getInstance(this.currentAccount).getCurrentUser(), 0, null, null, true, new Runnable() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
                     JoinGroupAlert.this.dismiss();
                 }
-            }, new MessagesController.ErrorDelegate() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda9
+            }, new MessagesController.ErrorDelegate() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda5
                 @Override // org.telegram.messenger.MessagesController.ErrorDelegate
                 public final boolean run(TLRPC$TL_error tLRPC$TL_error) {
                     boolean lambda$new$3;
@@ -324,7 +324,7 @@ public class JoinGroupAlert extends BottomSheet {
         }
         final TLRPC$TL_messages_importChatInvite tLRPC$TL_messages_importChatInvite = new TLRPC$TL_messages_importChatInvite();
         tLRPC$TL_messages_importChatInvite.hash = this.hash;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_importChatInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda11
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_importChatInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda6
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 JoinGroupAlert.this.lambda$new$6(z, tLRPC$TL_messages_importChatInvite, tLObject, tLRPC$TL_error);
@@ -344,7 +344,7 @@ public class JoinGroupAlert extends BottomSheet {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$new$3(final boolean z, TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error != null && "INVITE_REQUEST_SENT".equals(tLRPC$TL_error.text)) {
-            setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda1
+            setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda8
                 @Override // android.content.DialogInterface.OnDismissListener
                 public final void onDismiss(DialogInterface dialogInterface) {
                     JoinGroupAlert.this.lambda$new$2(z, dialogInterface);
@@ -362,7 +362,7 @@ public class JoinGroupAlert extends BottomSheet {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$6(final boolean z, final TLRPC$TL_messages_importChatInvite tLRPC$TL_messages_importChatInvite, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda8
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
                 JoinGroupAlert.this.lambda$new$5(tLRPC$TL_error, z, tLRPC$TL_messages_importChatInvite);
@@ -378,7 +378,7 @@ public class JoinGroupAlert extends BottomSheet {
         }
         if (tLRPC$TL_error != null) {
             if ("INVITE_REQUEST_SENT".equals(tLRPC$TL_error.text)) {
-                setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda0
+                setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda11
                     @Override // android.content.DialogInterface.OnDismissListener
                     public final void onDismiss(DialogInterface dialogInterface) {
                         JoinGroupAlert.this.lambda$new$4(z, dialogInterface);
@@ -401,7 +401,7 @@ public class JoinGroupAlert extends BottomSheet {
         dismiss();
         final TLRPC$TL_messages_importChatInvite tLRPC$TL_messages_importChatInvite = new TLRPC$TL_messages_importChatInvite();
         tLRPC$TL_messages_importChatInvite.hash = this.hash;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_importChatInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda10
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_importChatInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda7
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 JoinGroupAlert.this.lambda$new$9(i, tLRPC$TL_messages_importChatInvite, tLObject, tLRPC$TL_error);
@@ -414,7 +414,7 @@ public class JoinGroupAlert extends BottomSheet {
         if (tLRPC$TL_error == null) {
             MessagesController.getInstance(this.currentAccount).processUpdates((TLRPC$Updates) tLObject, false);
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda7
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
             public final void run() {
                 JoinGroupAlert.this.lambda$new$8(tLRPC$TL_error, tLObject, i, tLRPC$TL_messages_importChatInvite);

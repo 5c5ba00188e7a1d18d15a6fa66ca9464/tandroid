@@ -22,7 +22,7 @@ public class ProfileLevelIndicationDescriptor extends BaseDescriptor {
         if (this == obj) {
             return true;
         }
-        return obj != null && ProfileLevelIndicationDescriptor.class == obj.getClass() && this.profileLevelIndicationIndex == ((ProfileLevelIndicationDescriptor) obj).profileLevelIndicationIndex;
+        return obj != null && getClass() == obj.getClass() && this.profileLevelIndicationIndex == ((ProfileLevelIndicationDescriptor) obj).profileLevelIndicationIndex;
     }
 
     public int hashCode() {

@@ -3,7 +3,6 @@ package com.google.common.collect;
 import com.google.common.base.Preconditions;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
 import java.util.SortedSet;
@@ -20,9 +19,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     }
 
     @Override // com.google.common.collect.ImmutableCollection, java.util.AbstractCollection, java.util.Collection, java.lang.Iterable
-    public /* bridge */ /* synthetic */ Iterator iterator() {
-        return iterator();
-    }
+    public abstract UnmodifiableIterator<E> iterator();
 
     public static <E> ImmutableSet<E> of() {
         return RegularImmutableSet.EMPTY;

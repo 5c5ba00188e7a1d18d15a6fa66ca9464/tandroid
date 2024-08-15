@@ -8,8 +8,8 @@ import java.util.RandomAccess;
 /* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public abstract class zzu extends zzr implements List, RandomAccess {
+    public static final /* synthetic */ int $r8$clinit = 0;
     private static final zzai zza = new zzs(zzaa.zza, 0);
-    public static final /* synthetic */ int zzd = 0;
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static zzu zzi(Object[] objArr, int i) {
@@ -21,12 +21,12 @@ public abstract class zzu extends zzr implements List, RandomAccess {
 
     public static zzu zzj(Collection collection) {
         if (collection instanceof zzr) {
-            zzu zzd2 = ((zzr) collection).zzd();
-            if (zzd2.zzf()) {
-                Object[] array = zzd2.toArray();
+            zzu zzd = ((zzr) collection).zzd();
+            if (zzd.zzf()) {
+                Object[] array = zzd.toArray();
                 return zzi(array, array.length);
             }
-            return zzd2;
+            return zzd;
         }
         Object[] array2 = collection.toArray();
         int length = array2.length;

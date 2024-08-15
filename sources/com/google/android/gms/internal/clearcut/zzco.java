@@ -7,6 +7,7 @@ public class zzco extends IOException {
 
     public zzco(String str) {
         super(str);
+        this.zzkw = null;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

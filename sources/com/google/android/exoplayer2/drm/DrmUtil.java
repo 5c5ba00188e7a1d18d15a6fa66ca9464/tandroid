@@ -1,7 +1,7 @@
 package com.google.android.exoplayer2.drm;
 
 import android.media.DeniedByServerException;
-import android.media.MediaDrm;
+import android.media.MediaDrm$MediaDrmStateException;
 import android.media.MediaDrmResetException;
 import android.media.NotProvisionedException;
 import com.google.android.exoplayer2.drm.DefaultDrmSessionManager;
@@ -59,11 +59,13 @@ public final class DrmUtil {
     /* loaded from: classes.dex */
     public static final class Api21 {
         public static boolean isMediaDrmStateException(Throwable th) {
-            return th instanceof MediaDrm.MediaDrmStateException;
+            return th instanceof MediaDrm$MediaDrmStateException;
         }
 
         public static int mediaDrmStateExceptionToErrorCode(Throwable th) {
-            return Util.getErrorCodeForMediaDrmErrorCode(Util.getErrorCodeFromPlatformDiagnosticsInfo(((MediaDrm.MediaDrmStateException) th).getDiagnosticInfo()));
+            String diagnosticInfo;
+            diagnosticInfo = ((MediaDrm$MediaDrmStateException) th).getDiagnosticInfo();
+            return Util.getErrorCodeForMediaDrmErrorCode(Util.getErrorCodeFromPlatformDiagnosticsInfo(diagnosticInfo));
         }
     }
 

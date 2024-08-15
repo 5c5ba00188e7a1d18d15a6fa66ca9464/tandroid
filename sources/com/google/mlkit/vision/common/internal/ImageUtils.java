@@ -12,12 +12,8 @@ import java.nio.ByteBuffer;
 /* compiled from: com.google.mlkit:vision-common@@17.3.0 */
 /* loaded from: classes.dex */
 public class ImageUtils {
-    private static final ImageUtils zzb;
-
-    static {
-        new GmsLogger("MLKitImageUtils", "");
-        zzb = new ImageUtils();
-    }
+    private static final GmsLogger zza = new GmsLogger("MLKitImageUtils", "");
+    private static final ImageUtils zzb = new ImageUtils();
 
     private ImageUtils() {
     }

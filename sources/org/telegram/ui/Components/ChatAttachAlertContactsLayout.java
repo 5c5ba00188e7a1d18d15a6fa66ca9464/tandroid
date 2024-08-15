@@ -126,7 +126,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
             BackupImageView backupImageView2 = this.avatarImageView;
             boolean z = LocaleController.isRTL;
             addView(backupImageView2, LayoutHelper.createFrame(46, 46.0f, (z ? 5 : 3) | 48, z ? 0.0f : 14.0f, 9.0f, z ? 14.0f : 0.0f, 0.0f));
-            SimpleTextView simpleTextView = new SimpleTextView(this, context) { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout.UserCell.1
+            SimpleTextView simpleTextView = new SimpleTextView(context) { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout.UserCell.1
                 @Override // org.telegram.ui.ActionBar.SimpleTextView
                 public boolean setText(CharSequence charSequence, boolean z2) {
                     return super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), AndroidUtilities.dp(14.0f), false), z2);
@@ -182,7 +182,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
 
         public void setData(TLRPC$User tLRPC$User, CharSequence charSequence, final CharSequenceCallback charSequenceCallback, boolean z) {
             setData(tLRPC$User, charSequence, (CharSequence) null, z);
-            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$UserCell$$ExternalSyntheticLambda3
+            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$UserCell$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatAttachAlertContactsLayout.UserCell.this.lambda$setData$1(charSequenceCallback);
@@ -193,7 +193,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$setData$1(CharSequenceCallback charSequenceCallback) {
             final CharSequence run = charSequenceCallback.run();
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$UserCell$$ExternalSyntheticLambda2
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$UserCell$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatAttachAlertContactsLayout.UserCell.this.lambda$setData$0(run);
@@ -240,7 +240,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                 PhoneFormat phoneFormat = PhoneFormat.getInstance();
                 this.formattedPhoneNumber = phoneFormat.format("+" + this.currentUser.phone);
                 this.formattedPhoneNumberUser = this.currentUser;
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$UserCell$$ExternalSyntheticLambda1
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$UserCell$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
                         ChatAttachAlertContactsLayout.UserCell.this.lambda$setStatus$2();
@@ -378,7 +378,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
             if (this == obj) {
                 return true;
             }
-            if (obj == null || ListItemID.class != obj.getClass()) {
+            if (obj == null || getClass() != obj.getClass()) {
                 return false;
             }
             ListItemID listItemID = (ListItemID) obj;
@@ -489,7 +489,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
         this.listAdapter = shareAdapter;
         recyclerListView3.setAdapter(shareAdapter);
         this.listView.setGlowColor(getThemedColor(Theme.key_dialogScrollGlow));
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$$ExternalSyntheticLambda2
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i) {
                 ChatAttachAlertContactsLayout.this.lambda$new$1(resourcesProvider, view, i);
@@ -503,7 +503,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                 ChatAttachAlertContactsLayout.this.updateEmptyViewPosition();
             }
         });
-        this.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$$ExternalSyntheticLambda3
+        this.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$$ExternalSyntheticLambda2
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
             public final boolean onItemClick(View view, int i) {
                 boolean lambda$new$2;
@@ -576,7 +576,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                 str2 = str6;
             }
             PhonebookShareAlert phonebookShareAlert = new PhonebookShareAlert(this.parentAlert.baseFragment, contact, (TLRPC$User) null, (Uri) null, (File) null, str, str2, resourcesProvider);
-            phonebookShareAlert.setDelegate(new PhonebookShareAlertDelegate() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$$ExternalSyntheticLambda1
+            phonebookShareAlert.setDelegate(new PhonebookShareAlertDelegate() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$$ExternalSyntheticLambda3
                 @Override // org.telegram.ui.Components.ChatAttachAlertContactsLayout.PhonebookShareAlertDelegate
                 public final void didSelectContact(TLRPC$User tLRPC$User3, boolean z, int i2, long j, boolean z2) {
                     ChatAttachAlertContactsLayout.this.lambda$new$0(tLRPC$User3, z, i2, j, z2);
@@ -1180,7 +1180,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
             final int i = this.lastSearchId + 1;
             this.lastSearchId = i;
             DispatchQueue dispatchQueue = Utilities.searchQueue;
-            Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$ShareSearchAdapter$$ExternalSyntheticLambda1
+            Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$ShareSearchAdapter$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatAttachAlertContactsLayout.ShareSearchAdapter.this.lambda$search$0(str, i);
@@ -1193,7 +1193,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
         /* JADX INFO: Access modifiers changed from: private */
         /* renamed from: processSearch */
         public void lambda$search$0(final String str, final int i) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$ShareSearchAdapter$$ExternalSyntheticLambda2
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$ShareSearchAdapter$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatAttachAlertContactsLayout.ShareSearchAdapter.this.lambda$processSearch$2(str, i);
@@ -1206,7 +1206,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
             final int i2 = UserConfig.selectedAccount;
             final ArrayList arrayList = new ArrayList(ContactsController.getInstance(i2).contactsBook.values());
             final ArrayList arrayList2 = new ArrayList(ContactsController.getInstance(i2).contacts);
-            Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$ShareSearchAdapter$$ExternalSyntheticLambda3
+            Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$ShareSearchAdapter$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatAttachAlertContactsLayout.ShareSearchAdapter.this.lambda$processSearch$1(str, arrayList, arrayList2, i2, i);
@@ -1374,7 +1374,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
         }
 
         private void updateSearchResults(String str, final ArrayList<Object> arrayList, final ArrayList<CharSequence> arrayList2, final int i) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$ShareSearchAdapter$$ExternalSyntheticLambda0
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$ShareSearchAdapter$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatAttachAlertContactsLayout.ShareSearchAdapter.this.lambda$updateSearchResults$3(i, arrayList, arrayList2);
@@ -1434,7 +1434,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                     tLRPC$User = contact.user;
                     if (tLRPC$User == null) {
                         userCell.setCurrentId(contact.contact_id);
-                        userCell.setData((TLRPC$User) null, this.searchResultNames.get(i - 1), new UserCell.CharSequenceCallback() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$ShareSearchAdapter$$ExternalSyntheticLambda4
+                        userCell.setData((TLRPC$User) null, this.searchResultNames.get(i - 1), new UserCell.CharSequenceCallback() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$ShareSearchAdapter$$ExternalSyntheticLambda0
                             @Override // org.telegram.ui.Components.ChatAttachAlertContactsLayout.UserCell.CharSequenceCallback
                             public final CharSequence run() {
                                 CharSequence lambda$onBindViewHolder$4;
@@ -1448,7 +1448,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                     tLRPC$User = (TLRPC$User) item;
                 }
                 if (tLRPC$User != null) {
-                    userCell.setData(tLRPC$User, this.searchResultNames.get(i - 1), new UserCell.CharSequenceCallback() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$ShareSearchAdapter$$ExternalSyntheticLambda5
+                    userCell.setData(tLRPC$User, this.searchResultNames.get(i - 1), new UserCell.CharSequenceCallback() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$ShareSearchAdapter$$ExternalSyntheticLambda1
                         @Override // org.telegram.ui.Components.ChatAttachAlertContactsLayout.UserCell.CharSequenceCallback
                         public final CharSequence run() {
                             CharSequence lambda$onBindViewHolder$5;

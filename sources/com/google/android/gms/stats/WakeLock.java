@@ -15,23 +15,32 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 /* loaded from: classes.dex */
 public class WakeLock {
     private static ScheduledExecutorService zzn;
+    private static volatile zza zzo = new com.google.android.gms.stats.zza();
     private final Object zza;
     private final PowerManager.WakeLock zzb;
     private WorkSource zzc;
     private final int zzd;
     private final String zze;
     private final String zzf;
+    private final String zzg;
     private final Context zzh;
     private boolean zzi;
     private final Map<String, Integer[]> zzj;
+    private final Set<Future<?>> zzk;
     private int zzl;
     private AtomicInteger zzm;
+
+    /* loaded from: classes.dex */
+    public interface zza {
+    }
 
     public WakeLock(Context context, int i, String str) {
         this(context, i, str, null, context == null ? null : context.getPackageName());
@@ -46,12 +55,13 @@ public class WakeLock {
         this.zza = this;
         this.zzi = true;
         this.zzj = new HashMap();
-        Collections.synchronizedSet(new HashSet());
+        this.zzk = Collections.synchronizedSet(new HashSet());
         this.zzm = new AtomicInteger(0);
         Preconditions.checkNotNull(context, "WakeLock: context must not be null");
         Preconditions.checkNotEmpty(str, "WakeLock: wakeLockName must not be empty");
         this.zzd = i;
         this.zzf = null;
+        this.zzg = null;
         Context applicationContext = context.getApplicationContext();
         this.zzh = applicationContext;
         if (!"com.google.android.gms".equals(context.getPackageName())) {
@@ -103,7 +113,7 @@ public class WakeLock {
     */
     public void acquire(long j) {
         this.zzm.incrementAndGet();
-        String zza = zza((String) null);
+        String zza2 = zza((String) null);
         synchronized (this.zza) {
             boolean z = false;
             if ((!this.zzj.isEmpty() || this.zzl > 0) && !this.zzb.isHeld()) {
@@ -111,9 +121,9 @@ public class WakeLock {
                 this.zzl = 0;
             }
             if (this.zzi) {
-                Integer[] numArr = this.zzj.get(zza);
+                Integer[] numArr = this.zzj.get(zza2);
                 if (numArr == null) {
-                    this.zzj.put(zza, new Integer[]{1});
+                    this.zzj.put(zza2, new Integer[]{1});
                     z = true;
                 } else {
                     numArr[0] = Integer.valueOf(numArr[0].intValue() + 1);
@@ -146,13 +156,13 @@ public class WakeLock {
         if (this.zzm.decrementAndGet() < 0) {
             Log.e("WakeLock", String.valueOf(this.zze).concat(" release without a matched acquire!"));
         }
-        String zza = zza((String) null);
+        String zza2 = zza((String) null);
         synchronized (this.zza) {
             if (this.zzi) {
-                Integer[] numArr = this.zzj.get(zza);
+                Integer[] numArr = this.zzj.get(zza2);
                 if (numArr != null) {
                     if (numArr[0].intValue() == 1) {
-                        this.zzj.remove(zza);
+                        this.zzj.remove(zza2);
                         z = true;
                     } else {
                         numArr[0] = Integer.valueOf(numArr[0].intValue() - 1);
@@ -189,9 +199,5 @@ public class WakeLock {
     public void setReferenceCounted(boolean z) {
         this.zzb.setReferenceCounted(z);
         this.zzi = z;
-    }
-
-    static {
-        new zza();
     }
 }

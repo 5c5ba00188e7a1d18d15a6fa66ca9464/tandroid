@@ -8,16 +8,18 @@ import java.io.IOException;
 /* loaded from: classes.dex */
 final class zzhb implements ObjectEncoder {
     static final zzhb zza = new zzhb();
+    private static final FieldDescriptor zzb;
+    private static final FieldDescriptor zzc;
 
     static {
         FieldDescriptor.Builder builder = FieldDescriptor.builder("metric");
         zzae zzaeVar = new zzae();
         zzaeVar.zza(1);
-        builder.withProperty(zzaeVar.zzb()).build();
+        zzb = builder.withProperty(zzaeVar.zzb()).build();
         FieldDescriptor.Builder builder2 = FieldDescriptor.builder("result");
         zzae zzaeVar2 = new zzae();
         zzaeVar2.zza(2);
-        builder2.withProperty(zzaeVar2.zzb()).build();
+        zzc = builder2.withProperty(zzaeVar2.zzb()).build();
     }
 
     private zzhb() {

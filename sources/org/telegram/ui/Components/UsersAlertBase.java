@@ -41,6 +41,17 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.UsersAlertBase;
 /* loaded from: classes3.dex */
 public class UsersAlertBase extends BottomSheet {
+    public static final Property<UsersAlertBase, Float> COLOR_PROGRESS = new AnimationProperties.FloatProperty<UsersAlertBase>("colorProgress") { // from class: org.telegram.ui.Components.UsersAlertBase.3
+        @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
+        public void setValue(UsersAlertBase usersAlertBase, float f) {
+            usersAlertBase.setColorProgress(f);
+        }
+
+        @Override // android.util.Property
+        public Float get(UsersAlertBase usersAlertBase) {
+            return Float.valueOf(usersAlertBase.getColorProgress());
+        }
+    };
     private int backgroundColor;
     private float colorProgress;
     private boolean drawTitle;
@@ -236,7 +247,7 @@ public class UsersAlertBase extends BottomSheet {
             ImageView imageView2 = new ImageView(context);
             this.clearSearchImageView = imageView2;
             imageView2.setScaleType(ImageView.ScaleType.CENTER);
-            CloseProgressDrawable2 closeProgressDrawable2 = new CloseProgressDrawable2(UsersAlertBase.this) { // from class: org.telegram.ui.Components.UsersAlertBase.SearchField.1
+            CloseProgressDrawable2 closeProgressDrawable2 = new CloseProgressDrawable2() { // from class: org.telegram.ui.Components.UsersAlertBase.SearchField.1
                 @Override // org.telegram.ui.Components.CloseProgressDrawable2
                 protected int getCurrentColor() {
                     return Theme.getColor(UsersAlertBase.this.keySearchPlaceholder);
@@ -255,7 +266,7 @@ public class UsersAlertBase extends BottomSheet {
                     UsersAlertBase.SearchField.this.lambda$new$0(view2);
                 }
             });
-            EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context, UsersAlertBase.this) { // from class: org.telegram.ui.Components.UsersAlertBase.SearchField.2
+            EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context) { // from class: org.telegram.ui.Components.UsersAlertBase.SearchField.2
                 @Override // org.telegram.ui.Components.EditTextEffects, android.view.View
                 public boolean dispatchTouchEvent(MotionEvent motionEvent) {
                     MotionEvent obtain = MotionEvent.obtain(motionEvent);
@@ -283,7 +294,7 @@ public class UsersAlertBase extends BottomSheet {
             this.searchEditText.setCursorSize(AndroidUtilities.dp(20.0f));
             this.searchEditText.setCursorWidth(1.5f);
             addView(this.searchEditText, LayoutHelper.createFrame(-1, 40.0f, 51, 54.0f, 9.0f, 46.0f, 0.0f));
-            this.searchEditText.addTextChangedListener(new TextWatcher(UsersAlertBase.this) { // from class: org.telegram.ui.Components.UsersAlertBase.SearchField.3
+            this.searchEditText.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.Components.UsersAlertBase.SearchField.3
                 @Override // android.text.TextWatcher
                 public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
                 }
@@ -356,20 +367,6 @@ public class UsersAlertBase extends BottomSheet {
             this.clearSearchImageView.callOnClick();
             AndroidUtilities.hideKeyboard(this.searchEditText);
         }
-    }
-
-    static {
-        new AnimationProperties.FloatProperty<UsersAlertBase>("colorProgress") { // from class: org.telegram.ui.Components.UsersAlertBase.3
-            @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
-            public void setValue(UsersAlertBase usersAlertBase, float f) {
-                usersAlertBase.setColorProgress(f);
-            }
-
-            @Override // android.util.Property
-            public Float get(UsersAlertBase usersAlertBase) {
-                return Float.valueOf(usersAlertBase.getColorProgress());
-            }
-        };
     }
 
     /* JADX INFO: Access modifiers changed from: private */

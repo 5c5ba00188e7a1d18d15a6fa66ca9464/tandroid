@@ -9,12 +9,12 @@ import java.util.Map;
 /* compiled from: com.google.mlkit:vision-common@@17.3.0 */
 /* loaded from: classes.dex */
 public final class zzam implements EncoderConfig {
-    public static final /* synthetic */ int zza = 0;
+    public static final /* synthetic */ int $r8$clinit = 0;
     private static final ObjectEncoder zzb = new ObjectEncoder() { // from class: com.google.android.gms.internal.mlkit_vision_common.zzal
         @Override // com.google.firebase.encoders.ObjectEncoder
         public final void encode(Object obj, Object obj2) {
             ObjectEncoderContext objectEncoderContext = (ObjectEncoderContext) obj2;
-            int i = zzam.zza;
+            int i = zzam.$r8$clinit;
             throw new EncodingException("Couldn't find encoder for type ".concat(String.valueOf(obj.getClass().getCanonicalName())));
         }
     };

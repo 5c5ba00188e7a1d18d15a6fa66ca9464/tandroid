@@ -559,7 +559,7 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
         }
         if (z) {
             ValueAnimator ofFloat = ValueAnimator.ofFloat(this.swipeToReleaseProgress, 1.0f);
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChatPullingDownDrawable$$ExternalSyntheticLambda5
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChatPullingDownDrawable$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     ChatPullingDownDrawable.this.lambda$showReleaseState$0(view, valueAnimator);
@@ -569,7 +569,7 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
             ofFloat.setDuration(250L);
             this.bounceProgress = 0.0f;
             ValueAnimator ofFloat2 = ValueAnimator.ofFloat(0.0f, 1.0f);
-            ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChatPullingDownDrawable$$ExternalSyntheticLambda4
+            ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChatPullingDownDrawable$$ExternalSyntheticLambda1
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     ChatPullingDownDrawable.this.lambda$showReleaseState$1(view, valueAnimator);
@@ -579,7 +579,7 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
             ofFloat2.setInterpolator(cubicBezierInterpolator);
             ofFloat2.setDuration(180L);
             ValueAnimator ofFloat3 = ValueAnimator.ofFloat(1.0f, -0.5f);
-            ofFloat3.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChatPullingDownDrawable$$ExternalSyntheticLambda3
+            ofFloat3.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChatPullingDownDrawable$$ExternalSyntheticLambda2
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     ChatPullingDownDrawable.this.lambda$showReleaseState$2(view, valueAnimator);
@@ -588,7 +588,7 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
             ofFloat3.setInterpolator(cubicBezierInterpolator);
             ofFloat3.setDuration(120L);
             ValueAnimator ofFloat4 = ValueAnimator.ofFloat(-0.5f, 0.0f);
-            ofFloat4.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChatPullingDownDrawable$$ExternalSyntheticLambda6
+            ofFloat4.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChatPullingDownDrawable$$ExternalSyntheticLambda3
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     ChatPullingDownDrawable.this.lambda$showReleaseState$3(view, valueAnimator);
@@ -620,7 +620,7 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
             return;
         }
         ValueAnimator ofFloat5 = ValueAnimator.ofFloat(this.swipeToReleaseProgress, 0.0f);
-        ofFloat5.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChatPullingDownDrawable$$ExternalSyntheticLambda2
+        ofFloat5.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChatPullingDownDrawable$$ExternalSyntheticLambda4
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 ChatPullingDownDrawable.this.lambda$showReleaseState$4(view, valueAnimator);
@@ -891,14 +891,14 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
         this.onAnimationFinishRunnable = runnable;
         this.showReleaseAnimator = new AnimatorSet();
         ValueAnimator ofFloat = ValueAnimator.ofFloat(this.swipeToReleaseProgress, 1.0f);
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChatPullingDownDrawable$$ExternalSyntheticLambda1
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChatPullingDownDrawable$$ExternalSyntheticLambda5
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 ChatPullingDownDrawable.this.lambda$runOnAnimationFinish$5(valueAnimator);
             }
         });
         ValueAnimator ofFloat2 = ValueAnimator.ofFloat(this.bounceProgress, 0.0f);
-        ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChatPullingDownDrawable$$ExternalSyntheticLambda0
+        ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChatPullingDownDrawable$$ExternalSyntheticLambda6
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 ChatPullingDownDrawable.this.lambda$runOnAnimationFinish$6(valueAnimator);

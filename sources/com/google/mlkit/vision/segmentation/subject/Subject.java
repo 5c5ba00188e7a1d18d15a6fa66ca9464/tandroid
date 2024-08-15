@@ -5,6 +5,7 @@ import java.nio.FloatBuffer;
 /* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
 public class Subject {
+    private final FloatBuffer zza;
     private final Bitmap zzb;
     private final int zzc;
     private final int zzd;
@@ -12,6 +13,7 @@ public class Subject {
     private final int zzf;
 
     public Subject(FloatBuffer floatBuffer, Bitmap bitmap, int i, int i2, int i3, int i4) {
+        this.zza = floatBuffer;
         this.zzb = bitmap;
         this.zzc = i;
         this.zzd = i2;

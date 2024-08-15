@@ -2,7 +2,6 @@ package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Objects;
 /* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
 class zzbe extends zzbr {
@@ -10,7 +9,7 @@ class zzbe extends zzbr {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public zzbe(Map map) {
-        Objects.requireNonNull(map);
+        map.getClass();
         this.zzb = map;
     }
 

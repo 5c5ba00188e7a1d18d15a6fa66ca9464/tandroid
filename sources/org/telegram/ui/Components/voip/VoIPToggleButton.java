@@ -136,8 +136,8 @@ public class VoIPToggleButton extends FrameLayout {
     /* JADX WARN: Removed duplicated region for block: B:10:0x0056  */
     /* JADX WARN: Removed duplicated region for block: B:13:0x0068  */
     /* JADX WARN: Removed duplicated region for block: B:16:0x0092  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x01d7  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x02a4  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x01d5  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x02a0  */
     @Override // android.view.View
     @SuppressLint({"DrawAllocation"})
     /*
@@ -182,8 +182,8 @@ public class VoIPToggleButton extends FrameLayout {
                                         }
                                         canvas.scale(f3, f3, width, dp);
                                         this.icon[i].setAlpha((int) (f3 * 255.0f));
-                                        Drawable[] drawableArr2 = this.icon;
-                                        drawableArr2[i].setBounds((int) (width - (drawableArr2[i].getIntrinsicWidth() / 2.0f)), (int) (dp - (this.icon[i].getIntrinsicHeight() / 2)), (int) ((this.icon[i].getIntrinsicWidth() / 2) + width), (int) ((this.icon[i].getIntrinsicHeight() / 2) + dp));
+                                        Drawable drawable = this.icon[i];
+                                        drawable.setBounds((int) (width - (drawable.getIntrinsicWidth() / 2.0f)), (int) (dp - (this.icon[i].getIntrinsicHeight() / 2)), (int) ((this.icon[i].getIntrinsicWidth() / 2) + width), (int) ((this.icon[i].getIntrinsicHeight() / 2) + dp));
                                         this.icon[i].draw(canvas);
                                         canvas.restore();
                                     }
@@ -194,8 +194,8 @@ public class VoIPToggleButton extends FrameLayout {
                                     this.crossPaint.setColor(blendARGB);
                                 }
                                 this.icon[i].setAlpha(255);
-                                Drawable[] drawableArr22 = this.icon;
-                                drawableArr22[i].setBounds((int) (width - (drawableArr22[i].getIntrinsicWidth() / 2.0f)), (int) (dp - (this.icon[i].getIntrinsicHeight() / 2)), (int) ((this.icon[i].getIntrinsicWidth() / 2) + width), (int) ((this.icon[i].getIntrinsicHeight() / 2) + dp));
+                                Drawable drawable2 = this.icon[i];
+                                drawable2.setBounds((int) (width - (drawable2.getIntrinsicWidth() / 2.0f)), (int) (dp - (this.icon[i].getIntrinsicHeight() / 2)), (int) ((this.icon[i].getIntrinsicWidth() / 2) + width), (int) ((this.icon[i].getIntrinsicHeight() / 2) + dp));
                                 this.icon[i].draw(canvas);
                                 canvas.restore();
                             }
@@ -233,15 +233,15 @@ public class VoIPToggleButton extends FrameLayout {
                                     float dp3 = (intrinsicWidth - AndroidUtilities.dp(1.0f)) + (AndroidUtilities.dp(17.0f) * cubicBezierInterpolator.getInterpolation(this.crossProgress));
                                     float dp4 = intrinsicHeight + (AndroidUtilities.dp(17.0f) * cubicBezierInterpolator.getInterpolation(this.crossProgress));
                                     canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), 255, 31);
-                                    Drawable[] drawableArr3 = this.icon;
-                                    drawableArr3[0].setBounds((int) (width - (drawableArr3[0].getIntrinsicWidth() / 2.0f)), (int) (dp - (this.icon[0].getIntrinsicHeight() / 2)), (int) (width + (this.icon[0].getIntrinsicWidth() / 2)), (int) (dp + (this.icon[0].getIntrinsicHeight() / 2)));
+                                    Drawable drawable3 = this.icon[0];
+                                    drawable3.setBounds((int) (width - (drawable3.getIntrinsicWidth() / 2.0f)), (int) (dp - (this.icon[0].getIntrinsicHeight() / 2)), (int) (width + (this.icon[0].getIntrinsicWidth() / 2)), (int) (dp + (this.icon[0].getIntrinsicHeight() / 2)));
                                     this.icon[0].draw(canvas);
                                     canvas.drawLine(intrinsicWidth, intrinsicHeight - AndroidUtilities.dp(2.0f), dp3, dp4 - AndroidUtilities.dp(2.0f), this.xRefPaint);
                                     canvas.drawLine(intrinsicWidth, intrinsicHeight, dp3, dp4, this.crossPaint);
                                     canvas.restore();
                                 } else {
-                                    Drawable[] drawableArr4 = this.icon;
-                                    drawableArr4[0].setBounds((int) (width - (drawableArr4[0].getIntrinsicWidth() / 2.0f)), (int) (dp - (this.icon[0].getIntrinsicHeight() / 2)), (int) (width + (this.icon[0].getIntrinsicWidth() / 2)), (int) (dp + (this.icon[0].getIntrinsicHeight() / 2)));
+                                    Drawable drawable4 = this.icon[0];
+                                    drawable4.setBounds((int) (width - (drawable4.getIntrinsicWidth() / 2.0f)), (int) (dp - (this.icon[0].getIntrinsicHeight() / 2)), (int) (width + (this.icon[0].getIntrinsicWidth() / 2)), (int) (dp + (this.icon[0].getIntrinsicHeight() / 2)));
                                     this.icon[0].draw(canvas);
                                 }
                             }
@@ -377,6 +377,8 @@ public class VoIPToggleButton extends FrameLayout {
         this.replaceAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.VoIPToggleButton.1
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
+                Drawable[] drawableArr;
+                Drawable drawable;
                 VoIPToggleButton voIPToggleButton = VoIPToggleButton.this;
                 voIPToggleButton.replaceAnimator = null;
                 if (z5) {
@@ -384,14 +386,11 @@ public class VoIPToggleButton extends FrameLayout {
                     TextView textView = textViewArr[0];
                     textViewArr[0] = textViewArr[1];
                     textViewArr[1] = textView;
-                    textViewArr[1].setVisibility(8);
+                    textView.setVisibility(8);
                 }
-                if (!VoIPToggleButton.this.iconChangeColor) {
-                    Drawable[] drawableArr = VoIPToggleButton.this.icon;
-                    if (drawableArr[1] != null) {
-                        drawableArr[0] = drawableArr[1];
-                        drawableArr[1] = null;
-                    }
+                if (!VoIPToggleButton.this.iconChangeColor && (drawable = (drawableArr = VoIPToggleButton.this.icon)[1]) != null) {
+                    drawableArr[0] = drawable;
+                    drawableArr[1] = null;
                 }
                 VoIPToggleButton.this.iconChangeColor = false;
                 if (!VoIPToggleButton.this.checkable) {

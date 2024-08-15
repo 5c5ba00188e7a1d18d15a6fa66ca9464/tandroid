@@ -1,7 +1,6 @@
 package com.google.android.play.core.integrity;
 
 import com.google.android.play.core.integrity.IntegrityTokenRequest;
-import java.util.Objects;
 /* compiled from: com.google.android.play:integrity@@1.3.0 */
 /* loaded from: classes.dex */
 final class am extends IntegrityTokenRequest.Builder {
@@ -25,8 +24,10 @@ final class am extends IntegrityTokenRequest.Builder {
 
     @Override // com.google.android.play.core.integrity.IntegrityTokenRequest.Builder
     public final IntegrityTokenRequest.Builder setNonce(String str) {
-        Objects.requireNonNull(str, "Null nonce");
-        this.a = str;
-        return this;
+        if (str != null) {
+            this.a = str;
+            return this;
+        }
+        throw new NullPointerException("Null nonce");
     }
 }

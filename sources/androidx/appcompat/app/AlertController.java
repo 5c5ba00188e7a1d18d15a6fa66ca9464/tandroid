@@ -347,12 +347,9 @@ public class AlertController {
             if (nestedScrollView != null) {
                 nestedScrollView.setClipToPadding(true);
             }
-            View view = null;
-            if (this.mMessage != null || this.mListView != null) {
-                view = resolvePanel.findViewById(R$id.titleDividerNoCustom);
-            }
-            if (view != null) {
-                view.setVisibility(0);
+            View findViewById10 = (this.mMessage == null && this.mListView == null) ? null : resolvePanel.findViewById(R$id.titleDividerNoCustom);
+            if (findViewById10 != null) {
+                findViewById10.setVisibility(0);
             }
         } else if (resolvePanel2 != null && (findViewById = resolvePanel2.findViewById(R$id.textSpacerNoTitle)) != null) {
             findViewById.setVisibility(0);
@@ -362,12 +359,12 @@ public class AlertController {
             ((RecycleListView) listView).setHasDecor(z2, z3);
         }
         if (!z) {
-            View view2 = this.mListView;
-            if (view2 == null) {
-                view2 = this.mScrollView;
+            View view = this.mListView;
+            if (view == null) {
+                view = this.mScrollView;
             }
-            if (view2 != null) {
-                setScrollIndicators(resolvePanel2, view2, z2 | (z3 ? 2 : 0), 3);
+            if (view != null) {
+                setScrollIndicators(resolvePanel2, view, z2 | (z3 ? 2 : 0), 3);
             }
         }
         ListView listView2 = this.mListView;
@@ -408,7 +405,7 @@ public class AlertController {
             return;
         }
         if (this.mMessage != null) {
-            this.mScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener(this) { // from class: androidx.appcompat.app.AlertController.2
+            this.mScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() { // from class: androidx.appcompat.app.AlertController.2
                 @Override // androidx.core.widget.NestedScrollView.OnScrollChangeListener
                 public void onScrollChange(NestedScrollView nestedScrollView, int i3, int i4, int i5, int i6) {
                     AlertController.manageScrollIndicators(nestedScrollView, findViewById, findViewById2);
@@ -424,7 +421,7 @@ public class AlertController {
         }
         ListView listView = this.mListView;
         if (listView != null) {
-            listView.setOnScrollListener(new AbsListView.OnScrollListener(this) { // from class: androidx.appcompat.app.AlertController.4
+            listView.setOnScrollListener(new AbsListView.OnScrollListener() { // from class: androidx.appcompat.app.AlertController.4
                 @Override // android.widget.AbsListView.OnScrollListener
                 public void onScrollStateChanged(AbsListView absListView, int i3) {
                 }
@@ -660,7 +657,6 @@ public class AlertController {
         public DialogInterface.OnDismissListener mOnDismissListener;
         public AdapterView.OnItemSelectedListener mOnItemSelectedListener;
         public DialogInterface.OnKeyListener mOnKeyListener;
-        public OnPrepareListViewListener mOnPrepareListViewListener;
         public Drawable mPositiveButtonIcon;
         public DialogInterface.OnClickListener mPositiveButtonListener;
         public CharSequence mPositiveButtonText;
@@ -675,12 +671,8 @@ public class AlertController {
         public int mIconAttrId = 0;
         public boolean mViewSpacingSpecified = false;
         public int mCheckedItem = -1;
+        public boolean mRecycleOnMeasure = true;
         public boolean mCancelable = true;
-
-        /* loaded from: classes.dex */
-        public interface OnPrepareListViewListener {
-            void onPrepareListView(ListView listView);
-        }
 
         public AlertParams(Context context) {
             this.mContext = context;
@@ -799,10 +791,6 @@ public class AlertController {
                         listAdapter = new CheckedItemAdapter(this.mContext, i2, 16908308, this.mItems);
                     }
                 }
-            }
-            OnPrepareListViewListener onPrepareListViewListener = this.mOnPrepareListViewListener;
-            if (onPrepareListViewListener != null) {
-                onPrepareListViewListener.onPrepareListView(recycleListView);
             }
             alertController.mAdapter = listAdapter;
             alertController.mCheckedItem = this.mCheckedItem;

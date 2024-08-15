@@ -48,17 +48,17 @@ public class HashtagHistoryView extends FrameLayout {
         this.currentAccount = i;
         this.resourcesProvider = resourcesProvider;
         setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite, resourcesProvider));
-        UniversalRecyclerView universalRecyclerView = new UniversalRecyclerView(context, i, 0, new Utilities.Callback2() { // from class: org.telegram.ui.Components.HashtagHistoryView$$ExternalSyntheticLambda1
+        UniversalRecyclerView universalRecyclerView = new UniversalRecyclerView(context, i, 0, new Utilities.Callback2() { // from class: org.telegram.ui.Components.HashtagHistoryView$$ExternalSyntheticLambda0
             @Override // org.telegram.messenger.Utilities.Callback2
             public final void run(Object obj, Object obj2) {
                 HashtagHistoryView.this.fillItems((ArrayList) obj, (UniversalAdapter) obj2);
             }
-        }, new Utilities.Callback5() { // from class: org.telegram.ui.Components.HashtagHistoryView$$ExternalSyntheticLambda2
+        }, new Utilities.Callback5() { // from class: org.telegram.ui.Components.HashtagHistoryView$$ExternalSyntheticLambda1
             @Override // org.telegram.messenger.Utilities.Callback5
             public final void run(Object obj, Object obj2, Object obj3, Object obj4, Object obj5) {
                 HashtagHistoryView.this.onClick((UItem) obj, (View) obj2, ((Integer) obj3).intValue(), ((Float) obj4).floatValue(), ((Float) obj5).floatValue());
             }
-        }, new Utilities.Callback5Return() { // from class: org.telegram.ui.Components.HashtagHistoryView$$ExternalSyntheticLambda3
+        }, new Utilities.Callback5Return() { // from class: org.telegram.ui.Components.HashtagHistoryView$$ExternalSyntheticLambda2
             @Override // org.telegram.messenger.Utilities.Callback5Return
             public final Object run(Object obj, Object obj2, Object obj3, Object obj4, Object obj5) {
                 boolean onLongClick;
@@ -183,7 +183,7 @@ public class HashtagHistoryView extends FrameLayout {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), this.resourcesProvider);
             builder.setTitle(LocaleController.getString("ClearSearchSingleAlertTitle", R.string.ClearSearchSingleAlertTitle));
             builder.setMessage(LocaleController.formatString(R.string.ClearSearchSingleHashtagAlertText, str));
-            builder.setPositiveButton(LocaleController.getString("ClearSearchRemove", R.string.ClearSearchRemove), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.HashtagHistoryView$$ExternalSyntheticLambda0
+            builder.setPositiveButton(LocaleController.getString("ClearSearchRemove", R.string.ClearSearchRemove), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.HashtagHistoryView$$ExternalSyntheticLambda3
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i3) {
                     HashtagHistoryView.this.lambda$onLongClick$0(str, dialogInterface, i3);

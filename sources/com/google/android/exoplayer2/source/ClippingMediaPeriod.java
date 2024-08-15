@@ -57,11 +57,11 @@ public final class ClippingMediaPeriod implements MediaPeriod, MediaPeriod.Callb
         return this.mediaPeriod.getTrackGroups();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:24:0x0062, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:24:0x005e, code lost:
         if (r2 > r4) goto L26;
      */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x0052  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x006e  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x004e  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x006a  */
     @Override // com.google.android.exoplayer2.source.MediaPeriod
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -78,9 +78,10 @@ public final class ClippingMediaPeriod implements MediaPeriod, MediaPeriod.Callb
                 break;
             }
             ClippingSampleStream[] clippingSampleStreamArr = this.sampleStreams;
-            clippingSampleStreamArr[i] = (ClippingSampleStream) sampleStreamArr[i];
-            if (clippingSampleStreamArr[i] != null) {
-                sampleStream = clippingSampleStreamArr[i].childStream;
+            ClippingSampleStream clippingSampleStream = (ClippingSampleStream) sampleStreamArr[i];
+            clippingSampleStreamArr[i] = clippingSampleStream;
+            if (clippingSampleStream != null) {
+                sampleStream = clippingSampleStream.childStream;
             }
             sampleStreamArr2[i] = sampleStream;
             i++;
@@ -100,12 +101,14 @@ public final class ClippingMediaPeriod implements MediaPeriod, MediaPeriod.Callb
                     z = false;
                     Assertions.checkState(z);
                     for (int i2 = 0; i2 < sampleStreamArr.length; i2++) {
-                        if (sampleStreamArr2[i2] == null) {
+                        SampleStream sampleStream2 = sampleStreamArr2[i2];
+                        if (sampleStream2 == null) {
                             this.sampleStreams[i2] = null;
                         } else {
                             ClippingSampleStream[] clippingSampleStreamArr2 = this.sampleStreams;
-                            if (clippingSampleStreamArr2[i2] == null || clippingSampleStreamArr2[i2].childStream != sampleStreamArr2[i2]) {
-                                clippingSampleStreamArr2[i2] = new ClippingSampleStream(sampleStreamArr2[i2]);
+                            ClippingSampleStream clippingSampleStream2 = clippingSampleStreamArr2[i2];
+                            if (clippingSampleStream2 == null || clippingSampleStream2.childStream != sampleStream2) {
+                                clippingSampleStreamArr2[i2] = new ClippingSampleStream(sampleStream2);
                             }
                         }
                         sampleStreamArr[i2] = this.sampleStreams[i2];

@@ -110,6 +110,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
     private OnlyUserFiltersAdapter dialogsAdapter;
     StickerEmptyView emptyView;
     private boolean endReached;
+    private boolean firstLoading;
     private AnimatorSet floatingDateAnimation;
     private final ChatActionCell floatingDateView;
     private Runnable hideFloatingDateRunnable;
@@ -286,8 +287,9 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
                 return null;
             }
         };
+        this.firstLoading = true;
         this.notificationsLocker = new AnimationNotificationsLocker();
-        this.hideFloatingDateRunnable = new Runnable() { // from class: org.telegram.ui.FilteredSearchView$$ExternalSyntheticLambda0
+        this.hideFloatingDateRunnable = new Runnable() { // from class: org.telegram.ui.FilteredSearchView$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 FilteredSearchView.this.lambda$new$0();
@@ -324,7 +326,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
             }
         };
         this.recyclerListView = blurredRecyclerView;
-        blurredRecyclerView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.FilteredSearchView$$ExternalSyntheticLambda4
+        blurredRecyclerView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.FilteredSearchView$$ExternalSyntheticLambda2
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i) {
                 FilteredSearchView.this.lambda$new$1(view, i);
@@ -518,8 +520,8 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
                 if (i == 1 || i == 2) {
                     coloredImageSpan.setScale(0.85f);
                 }
-                SpannableStringBuilder[] spannableStringBuilderArr2 = arrowSpan;
-                spannableStringBuilderArr2[i].setSpan(coloredImageSpan, 0, spannableStringBuilderArr2[i].length(), 0);
+                SpannableStringBuilder spannableStringBuilder = arrowSpan[i];
+                spannableStringBuilder.setSpan(coloredImageSpan, 0, spannableStringBuilder.length(), 0);
             }
             TLRPC$Message tLRPC$Message = messageObject.messageOwner;
             CharSequence charSequence = null;
@@ -559,9 +561,9 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
                     charSequence2 = ForumUtilities.getTopicSpannedName(findTopic2, null, false);
                 }
                 CharSequence replaceEmoji = Emoji.replaceEmoji(charSequence2, textPaint == null ? null : textPaint.getFontMetricsInt(), false);
-                SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
-                spannableStringBuilder.append(Emoji.replaceEmoji(UserObject.getFirstName(tLRPC$User), textPaint != null ? textPaint.getFontMetricsInt() : null, false)).append((char) 8202).append((CharSequence) arrowSpan[i]).append((char) 8202).append(replaceEmoji);
-                charSequence = spannableStringBuilder;
+                SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder();
+                spannableStringBuilder2.append(Emoji.replaceEmoji(UserObject.getFirstName(tLRPC$User), textPaint != null ? textPaint.getFontMetricsInt() : null, false)).append((char) 8202).append((CharSequence) arrowSpan[i]).append((char) 8202).append(replaceEmoji);
+                charSequence = spannableStringBuilder2;
             } else if (tLRPC$User != null) {
                 charSequence = Emoji.replaceEmoji(UserObject.getUserName(tLRPC$User), textPaint != null ? textPaint.getFontMetricsInt() : null, false);
             } else if (chat != null) {
@@ -614,6 +616,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
                 adapter.notifyDataSetChanged();
             }
             this.requestIndex++;
+            this.firstLoading = true;
             if (this.recyclerListView.getPinnedHeader() != null) {
                 this.recyclerListView.getPinnedHeader().setAlpha(0.0f);
             }
@@ -646,7 +649,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         this.requestIndex = i;
         final int i2 = UserConfig.selectedAccount;
         final boolean z5 = z3;
-        Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.FilteredSearchView$$ExternalSyntheticLambda2
+        Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.FilteredSearchView$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 FilteredSearchView.this.lambda$search$4(j, str, mediaFilterData, i2, j2, j3, z5, z, format, i);
@@ -755,7 +758,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
                 arrayList3.add(messageObject);
             }
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FilteredSearchView$$ExternalSyntheticLambda1
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FilteredSearchView$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 FilteredSearchView.this.lambda$search$2(i2, tLRPC$TL_error, tLObject, i, z, str, arrayList3, mediaFilterData, j, j2, arrayList, arrayList2);
@@ -898,6 +901,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
                 delegate.updateFiltersView(TextUtils.isEmpty(this.currentDataQuery), this.localTipChats, this.localTipDates, this.localTipArchive);
             }
         }
+        this.firstLoading = false;
         final View view = null;
         final int i7 = -1;
         for (int i8 = 0; i8 < size; i8++) {
@@ -1672,7 +1676,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
             if (this == obj) {
                 return true;
             }
-            if (obj == null || MessageHashId.class != obj.getClass()) {
+            if (obj == null || getClass() != obj.getClass()) {
                 return false;
             }
             MessageHashId messageHashId = (MessageHashId) obj;
@@ -1700,7 +1704,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             DialogCell dialogCell;
             if (i == 0) {
-                dialogCell = new DialogCell(this, null, viewGroup.getContext(), true, true) { // from class: org.telegram.ui.FilteredSearchView.OnlyUserFiltersAdapter.1
+                dialogCell = new DialogCell(null, viewGroup.getContext(), true, true) { // from class: org.telegram.ui.FilteredSearchView.OnlyUserFiltersAdapter.1
                     @Override // org.telegram.ui.Cells.DialogCell
                     public boolean isForumCell() {
                         return false;

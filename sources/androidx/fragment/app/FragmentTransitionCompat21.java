@@ -53,7 +53,7 @@ class FragmentTransitionCompat21 extends FragmentTransitionImpl {
         if (view != null) {
             final Rect rect = new Rect();
             getBoundsOnScreen(view, rect);
-            ((Transition) obj).setEpicenterCallback(new Transition.EpicenterCallback(this) { // from class: androidx.fragment.app.FragmentTransitionCompat21.1
+            ((Transition) obj).setEpicenterCallback(new Transition.EpicenterCallback() { // from class: androidx.fragment.app.FragmentTransitionCompat21.1
                 @Override // android.transition.Transition.EpicenterCallback
                 public Rect onGetEpicenter(Transition transition) {
                     return rect;
@@ -64,6 +64,8 @@ class FragmentTransitionCompat21 extends FragmentTransitionImpl {
 
     @Override // androidx.fragment.app.FragmentTransitionImpl
     public void addTargets(Object obj, ArrayList<View> arrayList) {
+        int transitionCount;
+        Transition transitionAt;
         Transition transition = (Transition) obj;
         if (transition == null) {
             return;
@@ -71,9 +73,10 @@ class FragmentTransitionCompat21 extends FragmentTransitionImpl {
         int i = 0;
         if (transition instanceof TransitionSet) {
             TransitionSet transitionSet = (TransitionSet) transition;
-            int transitionCount = transitionSet.getTransitionCount();
+            transitionCount = transitionSet.getTransitionCount();
             while (i < transitionCount) {
-                addTargets(transitionSet.getTransitionAt(i), arrayList);
+                transitionAt = transitionSet.getTransitionAt(i);
+                addTargets(transitionAt, arrayList);
                 i++;
             }
         } else if (hasSimpleTarget(transition) || !FragmentTransitionImpl.isNullOrEmpty(transition.getTargets())) {
@@ -87,7 +90,18 @@ class FragmentTransitionCompat21 extends FragmentTransitionImpl {
     }
 
     private static boolean hasSimpleTarget(Transition transition) {
-        return (FragmentTransitionImpl.isNullOrEmpty(transition.getTargetIds()) && FragmentTransitionImpl.isNullOrEmpty(transition.getTargetNames()) && FragmentTransitionImpl.isNullOrEmpty(transition.getTargetTypes())) ? false : true;
+        List targetNames;
+        List targetTypes;
+        if (FragmentTransitionImpl.isNullOrEmpty(transition.getTargetIds())) {
+            targetNames = transition.getTargetNames();
+            if (FragmentTransitionImpl.isNullOrEmpty(targetNames)) {
+                targetTypes = transition.getTargetTypes();
+                if (FragmentTransitionImpl.isNullOrEmpty(targetTypes)) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     @Override // androidx.fragment.app.FragmentTransitionImpl
@@ -107,7 +121,7 @@ class FragmentTransitionCompat21 extends FragmentTransitionImpl {
 
     @Override // androidx.fragment.app.FragmentTransitionImpl
     public void scheduleHideFragmentView(Object obj, final View view, final ArrayList<View> arrayList) {
-        ((Transition) obj).addListener(new Transition.TransitionListener(this) { // from class: androidx.fragment.app.FragmentTransitionCompat21.2
+        ((Transition) obj).addListener(new Transition.TransitionListener() { // from class: androidx.fragment.app.FragmentTransitionCompat21.2
             @Override // android.transition.Transition.TransitionListener
             public void onTransitionCancel(Transition transition) {
             }
@@ -204,7 +218,7 @@ class FragmentTransitionCompat21 extends FragmentTransitionImpl {
 
     @Override // androidx.fragment.app.FragmentTransitionImpl
     public void setListenerForTransitionEnd(Fragment fragment, Object obj, CancellationSignal cancellationSignal, final Runnable runnable) {
-        ((Transition) obj).addListener(new Transition.TransitionListener(this) { // from class: androidx.fragment.app.FragmentTransitionCompat21.4
+        ((Transition) obj).addListener(new Transition.TransitionListener() { // from class: androidx.fragment.app.FragmentTransitionCompat21.4
             @Override // android.transition.Transition.TransitionListener
             public void onTransitionCancel(Transition transition) {
             }
@@ -241,13 +255,16 @@ class FragmentTransitionCompat21 extends FragmentTransitionImpl {
     @Override // androidx.fragment.app.FragmentTransitionImpl
     public void replaceTargets(Object obj, ArrayList<View> arrayList, ArrayList<View> arrayList2) {
         List<View> targets;
+        int transitionCount;
+        Transition transitionAt;
         Transition transition = (Transition) obj;
         int i = 0;
         if (transition instanceof TransitionSet) {
             TransitionSet transitionSet = (TransitionSet) transition;
-            int transitionCount = transitionSet.getTransitionCount();
+            transitionCount = transitionSet.getTransitionCount();
             while (i < transitionCount) {
-                replaceTargets(transitionSet.getTransitionAt(i), arrayList, arrayList2);
+                transitionAt = transitionSet.getTransitionAt(i);
+                replaceTargets(transitionAt, arrayList, arrayList2);
                 i++;
             }
         } else if (!hasSimpleTarget(transition) && (targets = transition.getTargets()) != null && targets.size() == arrayList.size() && targets.containsAll(arrayList)) {
@@ -279,7 +296,7 @@ class FragmentTransitionCompat21 extends FragmentTransitionImpl {
     @Override // androidx.fragment.app.FragmentTransitionImpl
     public void setEpicenter(Object obj, final Rect rect) {
         if (obj != null) {
-            ((Transition) obj).setEpicenterCallback(new Transition.EpicenterCallback(this) { // from class: androidx.fragment.app.FragmentTransitionCompat21.5
+            ((Transition) obj).setEpicenterCallback(new Transition.EpicenterCallback() { // from class: androidx.fragment.app.FragmentTransitionCompat21.5
                 @Override // android.transition.Transition.EpicenterCallback
                 public Rect onGetEpicenter(Transition transition) {
                     Rect rect2 = rect;

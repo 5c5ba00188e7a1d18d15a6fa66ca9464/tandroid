@@ -10,7 +10,7 @@ public interface HasDefaultViewModelProviderFactory {
 
     /* loaded from: classes.dex */
     public final /* synthetic */ class -CC {
-        public static CreationExtras $default$getDefaultViewModelCreationExtras(HasDefaultViewModelProviderFactory _this) {
+        public static CreationExtras $default$getDefaultViewModelCreationExtras(HasDefaultViewModelProviderFactory hasDefaultViewModelProviderFactory) {
             return CreationExtras.Empty.INSTANCE;
         }
     }

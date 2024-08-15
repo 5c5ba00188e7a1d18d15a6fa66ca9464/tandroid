@@ -126,17 +126,21 @@ public class TopicsSyncTask implements Runnable {
 
     /* JADX INFO: Access modifiers changed from: private */
     public synchronized boolean isDeviceConnected() {
-        boolean z;
         ConnectivityManager connectivityManager = (ConnectivityManager) this.context.getSystemService("connectivity");
         NetworkInfo activeNetworkInfo = connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null;
         if (activeNetworkInfo != null) {
-            z = activeNetworkInfo.isConnected();
+            if (activeNetworkInfo.isConnected()) {
+                return true;
+            }
         }
-        return z;
+        return false;
     }
 
     private static boolean isLoggable() {
-        return Log.isLoggable("FirebaseMessaging", 3) || (Build.VERSION.SDK_INT == 23 && Log.isLoggable("FirebaseMessaging", 3));
+        if (Log.isLoggable("FirebaseMessaging", 3)) {
+            return true;
+        }
+        return Build.VERSION.SDK_INT == 23 && Log.isLoggable("FirebaseMessaging", 3);
     }
 
     @Override // java.lang.Runnable

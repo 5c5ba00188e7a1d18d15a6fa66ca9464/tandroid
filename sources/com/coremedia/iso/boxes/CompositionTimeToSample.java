@@ -13,6 +13,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.runtime.reflect.Factory;
 /* loaded from: classes.dex */
 public class CompositionTimeToSample extends AbstractFullBox {
+    private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_0 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_1 = null;
     List<Entry> entries;
 
@@ -22,7 +23,7 @@ public class CompositionTimeToSample extends AbstractFullBox {
 
     private static /* synthetic */ void ajc$preClinit() {
         Factory factory = new Factory("CompositionTimeToSample.java", CompositionTimeToSample.class);
-        factory.makeSJP("method-execution", factory.makeMethodSig("1", "getEntries", "com.coremedia.iso.boxes.CompositionTimeToSample", "", "", "", "java.util.List"), 57);
+        ajc$tjp_0 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "getEntries", "com.coremedia.iso.boxes.CompositionTimeToSample", "", "", "", "java.util.List"), 57);
         ajc$tjp_1 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setEntries", "com.coremedia.iso.boxes.CompositionTimeToSample", "java.util.List", "entries", "", "void"), 61);
     }
 

@@ -126,7 +126,7 @@ public class BiometricViewModel extends ViewModel {
     /* JADX INFO: Access modifiers changed from: package-private */
     public BiometricPrompt.AuthenticationCallback getClientCallback() {
         if (this.mClientCallback == null) {
-            this.mClientCallback = new BiometricPrompt.AuthenticationCallback(this) { // from class: androidx.biometric.BiometricViewModel.1
+            this.mClientCallback = new BiometricPrompt.AuthenticationCallback() { // from class: androidx.biometric.BiometricViewModel.1
             };
         }
         return this.mClientCallback;

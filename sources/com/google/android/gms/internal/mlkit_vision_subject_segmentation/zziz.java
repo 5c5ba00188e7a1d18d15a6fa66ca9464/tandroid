@@ -8,20 +8,23 @@ import java.io.IOException;
 /* loaded from: classes.dex */
 final class zziz implements ObjectEncoder {
     static final zziz zza = new zziz();
+    private static final FieldDescriptor zzb;
+    private static final FieldDescriptor zzc;
+    private static final FieldDescriptor zzd;
 
     static {
         FieldDescriptor.Builder builder = FieldDescriptor.builder("textEnhancementParam");
         zzbz zzbzVar = new zzbz();
         zzbzVar.zza(1);
-        builder.withProperty(zzbzVar.zzb()).build();
+        zzb = builder.withProperty(zzbzVar.zzb()).build();
         FieldDescriptor.Builder builder2 = FieldDescriptor.builder("autoWhiteBalanceEnabled");
         zzbz zzbzVar2 = new zzbz();
         zzbzVar2.zza(2);
-        builder2.withProperty(zzbzVar2.zzb()).build();
+        zzc = builder2.withProperty(zzbzVar2.zzb()).build();
         FieldDescriptor.Builder builder3 = FieldDescriptor.builder("lightnessEnhancementParam");
         zzbz zzbzVar3 = new zzbz();
         zzbzVar3.zza(3);
-        builder3.withProperty(zzbzVar3.zzb()).build();
+        zzd = builder3.withProperty(zzbzVar3.zzb()).build();
     }
 
     private zziz() {

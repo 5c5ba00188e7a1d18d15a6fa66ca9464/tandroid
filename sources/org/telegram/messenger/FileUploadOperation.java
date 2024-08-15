@@ -115,7 +115,7 @@ public class FileUploadOperation {
         }
         this.state = 1;
         AutoDeleteMediaTask.lockFile(this.uploadingFilePath);
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileUploadOperation$$ExternalSyntheticLambda2
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileUploadOperation$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 FileUploadOperation.this.lambda$start$0();
@@ -141,7 +141,7 @@ public class FileUploadOperation {
         if (this.state != 1) {
             return;
         }
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileUploadOperation$$ExternalSyntheticLambda4
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileUploadOperation$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 FileUploadOperation.this.lambda$onNetworkChanged$1(z);
@@ -193,7 +193,7 @@ public class FileUploadOperation {
             return;
         }
         this.state = 2;
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileUploadOperation$$ExternalSyntheticLambda0
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileUploadOperation$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 FileUploadOperation.this.lambda$cancel$2();
@@ -237,7 +237,7 @@ public class FileUploadOperation {
 
     /* JADX INFO: Access modifiers changed from: protected */
     public void checkNewDataAvailable(final long j, final long j2, final Float f) {
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileUploadOperation$$ExternalSyntheticLambda3
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileUploadOperation$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 FileUploadOperation.this.lambda$checkNewDataAvailable$3(f, j2, j);
@@ -655,12 +655,12 @@ public class FileUploadOperation {
                 int i20 = this.slowNetwork ? 4 : ((i18 % 4) << 16) | 4;
                 System.currentTimeMillis();
                 final int[] iArr = new int[1];
-                iArr[0] = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_upload_saveFilePart3, new RequestDelegate() { // from class: org.telegram.messenger.FileUploadOperation$$ExternalSyntheticLambda5
+                iArr[0] = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_upload_saveFilePart3, new RequestDelegate() { // from class: org.telegram.messenger.FileUploadOperation$$ExternalSyntheticLambda2
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         FileUploadOperation.this.lambda$startUploadRequest$4(i19, iArr, objectSize, bArr2, i18, i12, i17, j6, tLObject, tLRPC$TL_error);
                     }
-                }, null, new WriteToSocketDelegate() { // from class: org.telegram.messenger.FileUploadOperation$$ExternalSyntheticLambda6
+                }, null, new WriteToSocketDelegate() { // from class: org.telegram.messenger.FileUploadOperation$$ExternalSyntheticLambda3
                     @Override // org.telegram.tgnet.WriteToSocketDelegate
                     public final void run() {
                         FileUploadOperation.this.lambda$startUploadRequest$6();
@@ -891,7 +891,7 @@ public class FileUploadOperation {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startUploadRequest$6() {
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileUploadOperation$$ExternalSyntheticLambda1
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileUploadOperation$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 FileUploadOperation.this.lambda$startUploadRequest$5();

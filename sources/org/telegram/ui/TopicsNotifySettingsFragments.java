@@ -39,6 +39,10 @@ import org.telegram.ui.TopicsFragment;
 import org.telegram.ui.TopicsNotifySettingsFragments;
 /* loaded from: classes4.dex */
 public class TopicsNotifySettingsFragments extends BaseFragment {
+    private final int VIEW_TYPE_ADD_EXCEPTION;
+    private final int VIEW_TYPE_DELETE_ALL;
+    private final int VIEW_TYPE_DIVIDER;
+    private final int VIEW_TYPE_TOPIC;
     Adapter adapter;
     long dialogId;
     HashSet<Integer> exceptionsTopics;
@@ -51,6 +55,10 @@ public class TopicsNotifySettingsFragments extends BaseFragment {
 
     public TopicsNotifySettingsFragments(Bundle bundle) {
         super(bundle);
+        this.VIEW_TYPE_ADD_EXCEPTION = 1;
+        this.VIEW_TYPE_TOPIC = 2;
+        this.VIEW_TYPE_DIVIDER = 3;
+        this.VIEW_TYPE_DELETE_ALL = 4;
         this.items = new ArrayList<>();
         this.exceptionsTopics = new HashSet<>();
     }
@@ -99,7 +107,7 @@ public class TopicsNotifySettingsFragments extends BaseFragment {
                 bundle.putBoolean("for_select", true);
                 TopicsFragment topicsFragment = new TopicsFragment(bundle);
                 topicsFragment.setExcludeTopics(TopicsNotifySettingsFragments.this.exceptionsTopics);
-                topicsFragment.setOnTopicSelectedListener(new TopicsFragment.OnTopicSelectedListener() { // from class: org.telegram.ui.TopicsNotifySettingsFragments$2$$ExternalSyntheticLambda2
+                topicsFragment.setOnTopicSelectedListener(new TopicsFragment.OnTopicSelectedListener() { // from class: org.telegram.ui.TopicsNotifySettingsFragments$2$$ExternalSyntheticLambda0
                     @Override // org.telegram.ui.TopicsFragment.OnTopicSelectedListener
                     public final void onTopicSelected(TLRPC$TL_forumTopic tLRPC$TL_forumTopic) {
                         TopicsNotifySettingsFragments.2.this.lambda$onItemClick$1(tLRPC$TL_forumTopic);
@@ -121,7 +129,7 @@ public class TopicsNotifySettingsFragments extends BaseFragment {
                 AlertDialog.Builder builder = new AlertDialog.Builder(TopicsNotifySettingsFragments.this.getParentActivity());
                 builder.setTitle(LocaleController.getString("NotificationsDeleteAllExceptionTitle", R.string.NotificationsDeleteAllExceptionTitle));
                 builder.setMessage(LocaleController.getString("NotificationsDeleteAllExceptionAlert", R.string.NotificationsDeleteAllExceptionAlert));
-                builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.TopicsNotifySettingsFragments$2$$ExternalSyntheticLambda0
+                builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.TopicsNotifySettingsFragments$2$$ExternalSyntheticLambda1
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i2) {
                         TopicsNotifySettingsFragments.2.this.lambda$onItemClick$2(dialogInterface, i2);
@@ -144,7 +152,7 @@ public class TopicsNotifySettingsFragments extends BaseFragment {
             bundle.putLong("topic_id", tLRPC$TL_forumTopic.id);
             bundle.putBoolean("exception", true);
             ProfileNotificationsActivity profileNotificationsActivity = new ProfileNotificationsActivity(bundle);
-            profileNotificationsActivity.setDelegate(new ProfileNotificationsActivity.ProfileNotificationsActivityDelegate() { // from class: org.telegram.ui.TopicsNotifySettingsFragments$2$$ExternalSyntheticLambda1
+            profileNotificationsActivity.setDelegate(new ProfileNotificationsActivity.ProfileNotificationsActivityDelegate() { // from class: org.telegram.ui.TopicsNotifySettingsFragments$2$$ExternalSyntheticLambda2
                 @Override // org.telegram.ui.ProfileNotificationsActivity.ProfileNotificationsActivityDelegate
                 public final void didCreateNewException(NotificationsSettingsActivity.NotificationException notificationException) {
                     TopicsNotifySettingsFragments.2.this.lambda$onItemClick$0(tLRPC$TL_forumTopic, notificationException);
@@ -343,7 +351,7 @@ public class TopicsNotifySettingsFragments extends BaseFragment {
     public class Item extends AdapterWithDiffUtils.Item {
         final TLRPC$TL_forumTopic topic;
 
-        private Item(TopicsNotifySettingsFragments topicsNotifySettingsFragments, int i, TLRPC$TL_forumTopic tLRPC$TL_forumTopic) {
+        private Item(int i, TLRPC$TL_forumTopic tLRPC$TL_forumTopic) {
             super(i, false);
             this.topic = tLRPC$TL_forumTopic;
         }
@@ -353,7 +361,7 @@ public class TopicsNotifySettingsFragments extends BaseFragment {
             if (this == obj) {
                 return true;
             }
-            if (obj == null || Item.class != obj.getClass()) {
+            if (obj == null || getClass() != obj.getClass()) {
                 return false;
             }
             Item item = (Item) obj;

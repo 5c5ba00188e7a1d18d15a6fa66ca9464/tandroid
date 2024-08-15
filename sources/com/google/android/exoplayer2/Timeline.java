@@ -2,6 +2,7 @@ package com.google.android.exoplayer2;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Pair;
 import com.google.android.exoplayer2.Bundleable;
 import com.google.android.exoplayer2.MediaItem;
@@ -10,6 +11,7 @@ import com.google.android.exoplayer2.source.ads.AdPlaybackState;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.BundleUtil;
 import com.google.android.exoplayer2.util.Util;
+import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 /* loaded from: classes.dex */
 public abstract class Timeline implements Bundleable {
@@ -47,6 +49,14 @@ public abstract class Timeline implements Bundleable {
     private static final String FIELD_WINDOWS = Util.intToStringMaxRadix(0);
     private static final String FIELD_PERIODS = Util.intToStringMaxRadix(1);
     private static final String FIELD_SHUFFLED_WINDOW_INDICES = Util.intToStringMaxRadix(2);
+    public static final Bundleable.Creator<Timeline> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.Timeline$$ExternalSyntheticLambda0
+        @Override // com.google.android.exoplayer2.Bundleable.Creator
+        public final Bundleable fromBundle(Bundle bundle) {
+            Timeline fromBundle;
+            fromBundle = Timeline.fromBundle(bundle);
+            return fromBundle;
+        }
+    };
 
     public abstract int getIndexOfPeriod(Object obj);
 
@@ -631,5 +641,140 @@ public abstract class Timeline implements Bundleable {
         BundleUtil.putBinder(bundle, FIELD_PERIODS, new BundleListRetriever(arrayList2));
         bundle.putIntArray(FIELD_SHUFFLED_WINDOW_INDICES, iArr);
         return bundle;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static Timeline fromBundle(Bundle bundle) {
+        ImmutableList fromBundleListRetriever = fromBundleListRetriever(Window.CREATOR, BundleUtil.getBinder(bundle, FIELD_WINDOWS));
+        ImmutableList fromBundleListRetriever2 = fromBundleListRetriever(Period.CREATOR, BundleUtil.getBinder(bundle, FIELD_PERIODS));
+        int[] intArray = bundle.getIntArray(FIELD_SHUFFLED_WINDOW_INDICES);
+        if (intArray == null) {
+            intArray = generateUnshuffledIndices(fromBundleListRetriever.size());
+        }
+        return new RemotableTimeline(fromBundleListRetriever, fromBundleListRetriever2, intArray);
+    }
+
+    private static <T extends Bundleable> ImmutableList<T> fromBundleListRetriever(Bundleable.Creator<T> creator, IBinder iBinder) {
+        if (iBinder == null) {
+            return ImmutableList.of();
+        }
+        ImmutableList.Builder builder = new ImmutableList.Builder();
+        ImmutableList<Bundle> list = BundleListRetriever.getList(iBinder);
+        for (int i = 0; i < list.size(); i++) {
+            builder.add((ImmutableList.Builder) creator.fromBundle(list.get(i)));
+        }
+        return builder.build();
+    }
+
+    private static int[] generateUnshuffledIndices(int i) {
+        int[] iArr = new int[i];
+        for (int i2 = 0; i2 < i; i2++) {
+            iArr[i2] = i2;
+        }
+        return iArr;
+    }
+
+    /* loaded from: classes.dex */
+    public static final class RemotableTimeline extends Timeline {
+        private final ImmutableList<Period> periods;
+        private final int[] shuffledWindowIndices;
+        private final int[] windowIndicesInShuffled;
+        private final ImmutableList<Window> windows;
+
+        public RemotableTimeline(ImmutableList<Window> immutableList, ImmutableList<Period> immutableList2, int[] iArr) {
+            Assertions.checkArgument(immutableList.size() == iArr.length);
+            this.windows = immutableList;
+            this.periods = immutableList2;
+            this.shuffledWindowIndices = iArr;
+            this.windowIndicesInShuffled = new int[iArr.length];
+            for (int i = 0; i < iArr.length; i++) {
+                this.windowIndicesInShuffled[iArr[i]] = i;
+            }
+        }
+
+        @Override // com.google.android.exoplayer2.Timeline
+        public int getWindowCount() {
+            return this.windows.size();
+        }
+
+        @Override // com.google.android.exoplayer2.Timeline
+        public Window getWindow(int i, Window window, long j) {
+            Window window2 = this.windows.get(i);
+            window.set(window2.uid, window2.mediaItem, window2.manifest, window2.presentationStartTimeMs, window2.windowStartTimeMs, window2.elapsedRealtimeEpochOffsetMs, window2.isSeekable, window2.isDynamic, window2.liveConfiguration, window2.defaultPositionUs, window2.durationUs, window2.firstPeriodIndex, window2.lastPeriodIndex, window2.positionInFirstPeriodUs);
+            window.isPlaceholder = window2.isPlaceholder;
+            return window;
+        }
+
+        @Override // com.google.android.exoplayer2.Timeline
+        public int getNextWindowIndex(int i, int i2, boolean z) {
+            if (i2 == 1) {
+                return i;
+            }
+            if (i != getLastWindowIndex(z)) {
+                return z ? this.shuffledWindowIndices[this.windowIndicesInShuffled[i] + 1] : i + 1;
+            } else if (i2 == 2) {
+                return getFirstWindowIndex(z);
+            } else {
+                return -1;
+            }
+        }
+
+        @Override // com.google.android.exoplayer2.Timeline
+        public int getPreviousWindowIndex(int i, int i2, boolean z) {
+            if (i2 == 1) {
+                return i;
+            }
+            if (i != getFirstWindowIndex(z)) {
+                return z ? this.shuffledWindowIndices[this.windowIndicesInShuffled[i] - 1] : i - 1;
+            } else if (i2 == 2) {
+                return getLastWindowIndex(z);
+            } else {
+                return -1;
+            }
+        }
+
+        @Override // com.google.android.exoplayer2.Timeline
+        public int getLastWindowIndex(boolean z) {
+            if (isEmpty()) {
+                return -1;
+            }
+            if (z) {
+                return this.shuffledWindowIndices[getWindowCount() - 1];
+            }
+            return getWindowCount() - 1;
+        }
+
+        @Override // com.google.android.exoplayer2.Timeline
+        public int getFirstWindowIndex(boolean z) {
+            if (isEmpty()) {
+                return -1;
+            }
+            if (z) {
+                return this.shuffledWindowIndices[0];
+            }
+            return 0;
+        }
+
+        @Override // com.google.android.exoplayer2.Timeline
+        public int getPeriodCount() {
+            return this.periods.size();
+        }
+
+        @Override // com.google.android.exoplayer2.Timeline
+        public Period getPeriod(int i, Period period, boolean z) {
+            Period period2 = this.periods.get(i);
+            period.set(period2.id, period2.uid, period2.windowIndex, period2.durationUs, period2.positionInWindowUs, period2.adPlaybackState, period2.isPlaceholder);
+            return period;
+        }
+
+        @Override // com.google.android.exoplayer2.Timeline
+        public int getIndexOfPeriod(Object obj) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override // com.google.android.exoplayer2.Timeline
+        public Object getUidOfPeriod(int i) {
+            throw new UnsupportedOperationException();
+        }
     }
 }

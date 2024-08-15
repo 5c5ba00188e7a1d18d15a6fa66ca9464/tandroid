@@ -8,6 +8,7 @@ import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 /* compiled from: com.google.firebase:firebase-appindexing@@20.0.0 */
 /* loaded from: classes.dex */
 public final class zzk extends AbstractSafeParcelable {
+    private static final zzs zzf;
     public final String zzb;
     final zzs zzc;
     public final int zzd;
@@ -19,11 +20,12 @@ public final class zzk extends AbstractSafeParcelable {
         zzr zzrVar = new zzr("SsbContext");
         zzrVar.zzb(true);
         zzrVar.zza("blob");
-        zzrVar.zze();
+        zzf = zzrVar.zze();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public zzk(String str, zzs zzsVar, int i, byte[] bArr) {
+        String str2;
         int i2 = zza;
         boolean z = true;
         if (i != i2 && zzq.zza(i) == null) {
@@ -37,14 +39,13 @@ public final class zzk extends AbstractSafeParcelable {
         this.zzc = zzsVar;
         this.zzd = i;
         this.zze = bArr;
-        String str2 = null;
-        if (i != i2 && zzq.zza(i) == null) {
+        if (i == i2 || zzq.zza(i) != null) {
+            str2 = (str == null || bArr == null) ? null : "Both content and blobContent set";
+        } else {
             StringBuilder sb2 = new StringBuilder(32);
             sb2.append("Invalid section type ");
             sb2.append(i);
             str2 = sb2.toString();
-        } else if (str != null && bArr != null) {
-            str2 = "Both content and blobContent set";
         }
         if (str2 != null) {
             throw new IllegalArgumentException(str2);

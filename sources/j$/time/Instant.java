@@ -1,87 +1,18 @@
 package j$.time;
 
-import j$.time.temporal.n;
-import j$.time.temporal.o;
 import j$.time.temporal.p;
 import j$.time.temporal.q;
-import j$.time.temporal.r;
-import j$.time.temporal.s;
-import j$.time.temporal.t;
-import j$.time.temporal.u;
-import j$.time.temporal.w;
-import j$.time.temporal.x;
 import java.io.Serializable;
 import org.telegram.messenger.MediaController;
 /* loaded from: classes2.dex */
-public final class Instant implements Comparable<Instant>, Serializable, Serializable {
+public final class Instant implements j$.time.temporal.k, Comparable<Instant>, Serializable {
     public static final Instant c = new Instant(0, 0);
     private final long a;
     private final int b;
 
-    /* loaded from: classes2.dex */
-    static /* synthetic */ class a {
-        static final /* synthetic */ int[] a;
-        static final /* synthetic */ int[] b;
-
-        static {
-            int[] iArr = new int[j$.time.temporal.b.values().length];
-            b = iArr;
-            try {
-                iArr[j$.time.temporal.b.NANOS.ordinal()] = 1;
-            } catch (NoSuchFieldError unused) {
-            }
-            try {
-                b[j$.time.temporal.b.MICROS.ordinal()] = 2;
-            } catch (NoSuchFieldError unused2) {
-            }
-            try {
-                b[j$.time.temporal.b.MILLIS.ordinal()] = 3;
-            } catch (NoSuchFieldError unused3) {
-            }
-            try {
-                b[j$.time.temporal.b.SECONDS.ordinal()] = 4;
-            } catch (NoSuchFieldError unused4) {
-            }
-            try {
-                b[j$.time.temporal.b.MINUTES.ordinal()] = 5;
-            } catch (NoSuchFieldError unused5) {
-            }
-            try {
-                b[j$.time.temporal.b.HOURS.ordinal()] = 6;
-            } catch (NoSuchFieldError unused6) {
-            }
-            try {
-                b[j$.time.temporal.b.HALF_DAYS.ordinal()] = 7;
-            } catch (NoSuchFieldError unused7) {
-            }
-            try {
-                b[j$.time.temporal.b.DAYS.ordinal()] = 8;
-            } catch (NoSuchFieldError unused8) {
-            }
-            int[] iArr2 = new int[j$.time.temporal.a.values().length];
-            a = iArr2;
-            try {
-                iArr2[j$.time.temporal.a.NANO_OF_SECOND.ordinal()] = 1;
-            } catch (NoSuchFieldError unused9) {
-            }
-            try {
-                a[j$.time.temporal.a.MICRO_OF_SECOND.ordinal()] = 2;
-            } catch (NoSuchFieldError unused10) {
-            }
-            try {
-                a[j$.time.temporal.a.MILLI_OF_SECOND.ordinal()] = 3;
-            } catch (NoSuchFieldError unused11) {
-            }
-            try {
-                a[j$.time.temporal.a.INSTANT_SECONDS.ordinal()] = 4;
-            } catch (NoSuchFieldError unused12) {
-            }
-        }
-    }
-
     static {
-        l(-31557014167219200L, 0L);
-        l(31556889864403199L, 999999999L);
+        k(-31557014167219200L, 0L);
+        k(31556889864403199L, 999999999L);
     }
 
     private Instant(long j, int i) {
@@ -94,7 +25,7 @@ public final class Instant implements Comparable<Instant>, Serializable, Seriali
             return c;
         }
         if (j < -31557014167219200L || j > 31556889864403199L) {
-            throw new c("Instant exceeds minimum or maximum instant");
+            throw new d("Instant exceeds minimum or maximum instant");
         }
         return new Instant(j, i);
     }
@@ -103,94 +34,97 @@ public final class Instant implements Comparable<Instant>, Serializable, Seriali
         if (kVar instanceof Instant) {
             return (Instant) kVar;
         }
-        try {
-            return l(kVar.c(j$.time.temporal.a.INSTANT_SECONDS), kVar.a(j$.time.temporal.a.NANO_OF_SECOND));
-        } catch (c e) {
-            throw new c("Unable to obtain Instant from TemporalAccessor: " + kVar + " of type " + kVar.getClass().getName(), e);
+        if (kVar != null) {
+            try {
+                return k(kVar.c(j$.time.temporal.a.INSTANT_SECONDS), kVar.e(j$.time.temporal.a.NANO_OF_SECOND));
+            } catch (d e) {
+                throw new d("Unable to obtain Instant from TemporalAccessor: " + kVar + " of type " + kVar.getClass().getName(), e);
+            }
         }
+        throw new NullPointerException("temporal");
     }
 
-    public static Instant k(long j) {
-        return g(j$.lang.d.d(j, 1000L), ((int) j$.lang.d.c(j, 1000L)) * MediaController.VIDEO_BITRATE_480);
+    public static Instant j(long j) {
+        return g(a.f(j, 1000L), ((int) a.d(j, 1000L)) * MediaController.VIDEO_BITRATE_480);
     }
 
-    public static Instant l(long j, long j2) {
-        return g(j$.lang.d.b(j, j$.lang.d.d(j2, 1000000000L)), (int) j$.lang.d.c(j2, 1000000000L));
+    public static Instant k(long j, long j2) {
+        return g(a.c(j, a.f(j2, 1000000000L)), (int) a.d(j2, 1000000000L));
     }
 
     public static Instant now() {
-        ZoneOffset zoneOffset = ZoneOffset.f;
-        return k(System.currentTimeMillis());
+        c.a();
+        return j(System.currentTimeMillis());
     }
 
-    public int a(j$.time.temporal.l lVar) {
+    @Override // j$.time.temporal.k
+    public final q a(j$.time.temporal.l lVar) {
+        return j$.time.temporal.j.c(this, lVar);
+    }
+
+    @Override // j$.time.temporal.k
+    public final boolean b(j$.time.temporal.l lVar) {
+        return lVar instanceof j$.time.temporal.a ? lVar == j$.time.temporal.a.INSTANT_SECONDS || lVar == j$.time.temporal.a.NANO_OF_SECOND || lVar == j$.time.temporal.a.MICRO_OF_SECOND || lVar == j$.time.temporal.a.MILLI_OF_SECOND : lVar != null && lVar.a(this);
+    }
+
+    @Override // j$.time.temporal.k
+    public final long c(j$.time.temporal.l lVar) {
+        int i;
         if (lVar instanceof j$.time.temporal.a) {
-            int i = a.a[((j$.time.temporal.a) lVar).ordinal()];
+            int i2 = f.a[((j$.time.temporal.a) lVar).ordinal()];
+            int i3 = this.b;
+            if (i2 != 1) {
+                if (i2 == 2) {
+                    i = i3 / 1000;
+                } else if (i2 != 3) {
+                    if (i2 == 4) {
+                        return this.a;
+                    }
+                    throw new p("Unsupported field: " + lVar);
+                } else {
+                    i = i3 / MediaController.VIDEO_BITRATE_480;
+                }
+                return i;
+            }
+            return i3;
+        }
+        return lVar.d(this);
+    }
+
+    @Override // j$.time.temporal.k
+    public final Object d(j$.time.temporal.n nVar) {
+        if (nVar == j$.time.temporal.j.h()) {
+            return j$.time.temporal.b.NANOS;
+        }
+        if (nVar == j$.time.temporal.j.d() || nVar == j$.time.temporal.j.j() || nVar == j$.time.temporal.j.i() || nVar == j$.time.temporal.j.g() || nVar == j$.time.temporal.j.e() || nVar == j$.time.temporal.j.f()) {
+            return null;
+        }
+        return nVar.a(this);
+    }
+
+    @Override // j$.time.temporal.k
+    public final int e(j$.time.temporal.a aVar) {
+        if (aVar instanceof j$.time.temporal.a) {
+            int i = f.a[aVar.ordinal()];
+            int i2 = this.b;
             if (i != 1) {
                 if (i != 2) {
                     if (i != 3) {
                         if (i == 4) {
-                            j$.time.temporal.a.INSTANT_SECONDS.g(this.a);
+                            j$.time.temporal.a.INSTANT_SECONDS.e(this.a);
                         }
-                        throw new w("Unsupported field: " + lVar);
+                        throw new p("Unsupported field: " + aVar);
                     }
-                    return this.b / MediaController.VIDEO_BITRATE_480;
+                    return i2 / MediaController.VIDEO_BITRATE_480;
                 }
-                return this.b / 1000;
+                return i2 / 1000;
             }
-            return this.b;
+            return i2;
         }
-        return j$.time.temporal.j.c(this, lVar).a(lVar.c(this), lVar);
+        return j$.time.temporal.j.c(this, aVar).a(c(aVar), aVar);
     }
 
-    public x b(j$.time.temporal.l lVar) {
-        return j$.time.temporal.j.c(this, lVar);
-    }
-
-    public long c(j$.time.temporal.l lVar) {
-        int i;
-        if (lVar instanceof j$.time.temporal.a) {
-            int i2 = a.a[((j$.time.temporal.a) lVar).ordinal()];
-            if (i2 == 1) {
-                i = this.b;
-            } else if (i2 == 2) {
-                i = this.b / 1000;
-            } else if (i2 != 3) {
-                if (i2 == 4) {
-                    return this.a;
-                }
-                throw new w("Unsupported field: " + lVar);
-            } else {
-                i = this.b / MediaController.VIDEO_BITRATE_480;
-            }
-            return i;
-        }
-        return lVar.c(this);
-    }
-
-    @Override // java.lang.Comparable
-    public int compareTo(Instant instant) {
-        Instant instant2 = instant;
-        int compare = Long.compare(this.a, instant2.a);
-        return compare != 0 ? compare : this.b - instant2.b;
-    }
-
-    public Object d(u uVar) {
-        int i = t.a;
-        if (uVar == o.a) {
-            return j$.time.temporal.b.NANOS;
-        }
-        if (uVar == n.a || uVar == j$.time.temporal.m.a || uVar == q.a || uVar == p.a || uVar == r.a || uVar == s.a) {
-            return null;
-        }
-        return uVar.a(this);
-    }
-
-    public boolean e(j$.time.temporal.l lVar) {
-        return lVar instanceof j$.time.temporal.a ? lVar == j$.time.temporal.a.INSTANT_SECONDS || lVar == j$.time.temporal.a.NANO_OF_SECOND || lVar == j$.time.temporal.a.MICRO_OF_SECOND || lVar == j$.time.temporal.a.MILLI_OF_SECOND : lVar != null && lVar.d(this);
-    }
-
-    public boolean equals(Object obj) {
+    public final boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
@@ -201,39 +135,38 @@ public final class Instant implements Comparable<Instant>, Serializable, Seriali
         return false;
     }
 
-    public int f(Instant instant) {
+    @Override // java.lang.Comparable
+    /* renamed from: f */
+    public final int compareTo(Instant instant) {
         int compare = Long.compare(this.a, instant.a);
         return compare != 0 ? compare : this.b - instant.b;
     }
 
-    public int hashCode() {
+    public final int hashCode() {
         long j = this.a;
         return (this.b * 51) + ((int) (j ^ (j >>> 32)));
     }
 
-    public long i() {
+    public final long i() {
         return this.a;
     }
 
-    public int j() {
-        return this.b;
-    }
-
-    public long m() {
+    public final long l() {
         long e;
         int i;
+        int i2 = this.b;
         long j = this.a;
-        if (j >= 0 || this.b <= 0) {
-            e = j$.lang.d.e(j, 1000L);
-            i = this.b / MediaController.VIDEO_BITRATE_480;
+        if (j >= 0 || i2 <= 0) {
+            e = a.e(j);
+            i = i2 / MediaController.VIDEO_BITRATE_480;
         } else {
-            e = j$.lang.d.e(j + 1, 1000L);
-            i = (this.b / MediaController.VIDEO_BITRATE_480) - 1000;
+            e = a.e(j + 1);
+            i = (i2 / MediaController.VIDEO_BITRATE_480) - 1000;
         }
-        return j$.lang.d.b(e, i);
+        return a.c(e, i);
     }
 
-    public String toString() {
-        return j$.time.format.a.f.a(this);
+    public final String toString() {
+        return j$.time.format.b.d.a(this);
     }
 }

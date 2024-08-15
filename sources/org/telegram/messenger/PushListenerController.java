@@ -61,7 +61,7 @@ public class PushListenerController {
     }
 
     public static void sendRegistrationToServer(final int i, final String str) {
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.PushListenerController$$ExternalSyntheticLambda4
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.PushListenerController$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 PushListenerController.lambda$sendRegistrationToServer$1(str, i);
@@ -109,7 +109,7 @@ public class PushListenerController {
                     ConnectionsManager.getInstance(i2).sendRequest(tLRPC$TL_help_saveAppLog, null);
                     z = false;
                 }
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.PushListenerController$$ExternalSyntheticLambda2
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.PushListenerController$$ExternalSyntheticLambda5
                     @Override // java.lang.Runnable
                     public final void run() {
                         PushListenerController.lambda$sendRegistrationToServer$0(i2, i, str);
@@ -130,7 +130,7 @@ public class PushListenerController {
             FileLog.d(str2 + " PRE START PROCESSING");
         }
         long elapsedRealtime = SystemClock.elapsedRealtime();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.PushListenerController$$ExternalSyntheticLambda5
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.PushListenerController$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 PushListenerController.lambda$processRemoteMessage$6(str2, str, j);
@@ -711,7 +711,7 @@ public class PushListenerController {
             tLRPC$TL_updateServiceNotification.media = new TLRPC$TL_messageMediaEmpty();
             final TLRPC$TL_updates tLRPC$TL_updates = new TLRPC$TL_updates();
             tLRPC$TL_updates.updates.add(tLRPC$TL_updateServiceNotification);
-            Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.PushListenerController$$ExternalSyntheticLambda3
+            Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.PushListenerController$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     PushListenerController.lambda$processRemoteMessage$2(i2, tLRPC$TL_updates);
@@ -720,7 +720,7 @@ public class PushListenerController {
             ConnectionsManager.getInstance(i2).resumeNetworkMaybe();
             countDownLatch.countDown();
         } else if (c == 2) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.PushListenerController$$ExternalSyntheticLambda1
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.PushListenerController$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     PushListenerController.lambda$processRemoteMessage$3(i2);
@@ -731,7 +731,7 @@ public class PushListenerController {
             final int i11 = i2;
             str5 = str4;
             try {
-                Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.PushListenerController$$ExternalSyntheticLambda0
+                Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.PushListenerController$$ExternalSyntheticLambda4
                     @Override // java.lang.Runnable
                     public final void run() {
                         PushListenerController.lambda$processRemoteMessage$4(i11);

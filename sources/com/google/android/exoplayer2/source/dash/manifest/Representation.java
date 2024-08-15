@@ -17,6 +17,7 @@ public abstract class Representation {
     public final List<Descriptor> inbandEventStreams;
     private final RangedUri initializationUri;
     public final long presentationTimeOffsetUs;
+    public final long revisionId;
     public final List<Descriptor> supplementalProperties;
 
     public abstract String getCacheKey();
@@ -38,6 +39,7 @@ public abstract class Representation {
     private Representation(long j, Format format, List<BaseUrl> list, SegmentBase segmentBase, List<Descriptor> list2, List<Descriptor> list3, List<Descriptor> list4) {
         List<Descriptor> unmodifiableList;
         Assertions.checkArgument(!list.isEmpty());
+        this.revisionId = j;
         this.format = format;
         this.baseUrls = ImmutableList.copyOf((Collection) list);
         if (list2 == null) {
@@ -59,15 +61,18 @@ public abstract class Representation {
     /* loaded from: classes.dex */
     public static class SingleSegmentRepresentation extends Representation {
         private final String cacheKey;
+        public final long contentLength;
         private final RangedUri indexUri;
         private final SingleSegmentIndex segmentIndex;
+        public final Uri uri;
 
         public SingleSegmentRepresentation(long j, Format format, List<BaseUrl> list, SegmentBase.SingleSegmentBase singleSegmentBase, List<Descriptor> list2, List<Descriptor> list3, List<Descriptor> list4, String str, long j2) {
             super(j, format, list, singleSegmentBase, list2, list3, list4);
-            Uri.parse(list.get(0).url);
+            this.uri = Uri.parse(list.get(0).url);
             RangedUri index = singleSegmentBase.getIndex();
             this.indexUri = index;
             this.cacheKey = str;
+            this.contentLength = j2;
             this.segmentIndex = index != null ? null : new SingleSegmentIndex(new RangedUri(null, 0L, j2));
         }
 

@@ -176,10 +176,6 @@ public class DrawableWrapperCompat extends Drawable implements Drawable.Callback
         DrawableCompat.setHotspotBounds(this.mDrawable, i, i2, i3, i4);
     }
 
-    public Drawable getDrawable() {
-        return this.mDrawable;
-    }
-
     public void setDrawable(Drawable drawable) {
         Drawable drawable2 = this.mDrawable;
         if (drawable2 != null) {

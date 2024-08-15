@@ -14,10 +14,14 @@ public class Compatibility$Api21Impl {
     }
 
     public static int getChangingConfigurations(TypedArray typedArray) {
-        return typedArray.getChangingConfigurations();
+        int changingConfigurations;
+        changingConfigurations = typedArray.getChangingConfigurations();
+        return changingConfigurations;
     }
 
     public static Drawable createFromXmlInner(Resources resources, XmlPullParser xmlPullParser, AttributeSet attributeSet, Resources.Theme theme) throws IOException, XmlPullParserException {
-        return Drawable.createFromXmlInner(resources, xmlPullParser, attributeSet, theme);
+        Drawable createFromXmlInner;
+        createFromXmlInner = Drawable.createFromXmlInner(resources, xmlPullParser, attributeSet, theme);
+        return createFromXmlInner;
     }
 }

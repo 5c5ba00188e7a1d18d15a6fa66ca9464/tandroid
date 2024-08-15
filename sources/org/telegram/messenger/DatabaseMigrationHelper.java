@@ -1397,11 +1397,17 @@ public class DatabaseMigrationHelper {
         return i7;
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:57:0x02d0 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x02d2 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public static boolean recoverDatabase(File file, File file2, File file3, int i) {
+        long j;
         boolean z;
         SQLiteDatabase sQLiteDatabase;
         int intValue;
-        SQLiteDatabase sQLiteDatabase2;
+        long j2;
         SQLiteCursor sQLiteCursor;
         int i2;
         File filesDirFixed = ApplicationLoader.getFilesDirFixed();
@@ -1417,25 +1423,31 @@ public class DatabaseMigrationHelper {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        long j = 0;
         ArrayList arrayList = new ArrayList();
         ArrayList arrayList2 = new ArrayList();
         FileLog.d("start recover database");
-        int i3 = 1;
-        int i4 = 0;
+        int i3 = 0;
         try {
             j = System.currentTimeMillis();
-            sQLiteDatabase = new SQLiteDatabase(file5.getPath());
-            sQLiteDatabase.executeFast("PRAGMA secure_delete = ON").stepThis().dispose();
-            sQLiteDatabase.executeFast("PRAGMA temp_store = MEMORY").stepThis().dispose();
-            sQLiteDatabase.executeFast("PRAGMA journal_mode = WAL").stepThis().dispose();
-            sQLiteDatabase.executeFast("PRAGMA journal_size_limit = 10485760").stepThis().dispose();
-            MessagesStorage.createTables(sQLiteDatabase);
-            sQLiteDatabase.executeFast("ATTACH DATABASE \"" + file.getAbsolutePath() + "\" AS old;").stepThis().dispose();
-            intValue = sQLiteDatabase.executeInt("PRAGMA old.user_version", new Object[0]).intValue();
-        } catch (Exception e2) {
-            FileLog.e(e2);
-            z = false;
+            try {
+                sQLiteDatabase = new SQLiteDatabase(file5.getPath());
+                sQLiteDatabase.executeFast("PRAGMA secure_delete = ON").stepThis().dispose();
+                sQLiteDatabase.executeFast("PRAGMA temp_store = MEMORY").stepThis().dispose();
+                sQLiteDatabase.executeFast("PRAGMA journal_mode = WAL").stepThis().dispose();
+                sQLiteDatabase.executeFast("PRAGMA journal_size_limit = 10485760").stepThis().dispose();
+                MessagesStorage.createTables(sQLiteDatabase);
+                sQLiteDatabase.executeFast("ATTACH DATABASE \"" + file.getAbsolutePath() + "\" AS old;").stepThis().dispose();
+                intValue = sQLiteDatabase.executeInt("PRAGMA old.user_version", new Object[0]).intValue();
+                try {
+                } catch (Exception e2) {
+                    e = e2;
+                }
+            } catch (Exception e3) {
+                e = e3;
+            }
+        } catch (Exception e4) {
+            e = e4;
+            j = 0;
         }
         if (intValue != 155) {
             FileLog.e("can't restore database from version " + intValue);
@@ -1458,17 +1470,17 @@ public class DatabaseMigrationHelper {
         hashSet.add("dialog_filter");
         hashSet.add("dialog_filter_ep");
         hashSet.add("dialog_filter_pin_v2");
-        int i5 = 0;
+        int i4 = 0;
         while (true) {
             String[] strArr = MessagesStorage.DATABASE_TABLES;
-            if (i5 >= strArr.length) {
+            if (i4 >= strArr.length) {
                 break;
             }
-            String str = strArr[i5];
+            String str = strArr[i4];
             if (!hashSet.contains(str)) {
                 sQLiteDatabase.executeFast(String.format(Locale.US, "INSERT OR IGNORE INTO %s SELECT * FROM old.%s;", str, str)).stepThis().dispose();
             }
-            i5++;
+            i4++;
         }
         SQLiteCursor queryFinalized = sQLiteDatabase.queryFinalized("SELECT did FROM old.dialogs", new Object[0]);
         while (queryFinalized.next()) {
@@ -1480,8 +1492,8 @@ public class DatabaseMigrationHelper {
             }
         }
         queryFinalized.dispose();
-        for (int i6 = 0; i6 < arrayList.size(); i6++) {
-            long longValue2 = ((Long) arrayList.get(i6)).longValue();
+        for (int i5 = 0; i5 < arrayList.size(); i5++) {
+            long longValue2 = ((Long) arrayList.get(i5)).longValue();
             Locale locale = Locale.US;
             sQLiteDatabase.executeFast(String.format(locale, "INSERT OR IGNORE INTO messages_v2 SELECT * FROM old.messages_v2 WHERE uid = %d;", Long.valueOf(longValue2))).stepThis().dispose();
             sQLiteDatabase.executeFast(String.format(locale, "INSERT OR IGNORE INTO messages_holes SELECT * FROM old.messages_holes WHERE uid = %d;", Long.valueOf(longValue2))).stepThis().dispose();
@@ -1490,54 +1502,63 @@ public class DatabaseMigrationHelper {
         }
         SQLitePreparedStatement executeFast = sQLiteDatabase.executeFast("REPLACE INTO messages_holes VALUES(?, ?, ?)");
         SQLitePreparedStatement executeFast2 = sQLiteDatabase.executeFast("REPLACE INTO media_holes_v2 VALUES(?, ?, ?, ?)");
-        int i7 = 0;
-        while (i7 < arrayList2.size()) {
-            Long l = (Long) arrayList2.get(i7);
-            SQLiteCursor queryFinalized2 = sQLiteDatabase.queryFinalized("SELECT last_mid_i, last_mid FROM old.dialogs WHERE did = " + l, new Object[i4]);
+        int i6 = 0;
+        while (i6 < arrayList2.size()) {
+            Long l = (Long) arrayList2.get(i6);
+            SQLiteCursor queryFinalized2 = sQLiteDatabase.queryFinalized("SELECT last_mid_i, last_mid FROM old.dialogs WHERE did = " + l, new Object[i3]);
             if (queryFinalized2.next()) {
-                long longValue3 = queryFinalized2.longValue(i4);
-                SQLiteDatabase sQLiteDatabase3 = sQLiteDatabase;
-                long longValue4 = queryFinalized2.longValue(i3);
-                sQLiteDatabase3.executeFast("INSERT OR IGNORE INTO messages_v2 SELECT * FROM old.messages_v2 WHERE uid = " + l + " AND mid IN (" + longValue3 + "," + longValue4 + ")").stepThis().dispose();
-                sQLiteDatabase2 = sQLiteDatabase3;
-                sQLiteCursor = queryFinalized2;
-                i2 = i7;
-                MessagesStorage.createFirstHoles(l.longValue(), executeFast, executeFast2, (int) longValue4, 0L);
+                long longValue3 = queryFinalized2.longValue(i3);
+                j2 = j;
+                try {
+                    long longValue4 = queryFinalized2.longValue(1);
+                    sQLiteDatabase.executeFast("INSERT OR IGNORE INTO messages_v2 SELECT * FROM old.messages_v2 WHERE uid = " + l + " AND mid IN (" + longValue3 + "," + longValue4 + ")").stepThis().dispose();
+                    int i7 = (int) longValue4;
+                    sQLiteCursor = queryFinalized2;
+                    i2 = i6;
+                    MessagesStorage.createFirstHoles(l.longValue(), executeFast, executeFast2, i7, 0L);
+                } catch (Exception e5) {
+                    e = e5;
+                    j = j2;
+                    FileLog.e(e);
+                    z = false;
+                    if (z) {
+                    }
+                }
             } else {
-                sQLiteDatabase2 = sQLiteDatabase;
+                j2 = j;
                 sQLiteCursor = queryFinalized2;
-                i2 = i7;
+                i2 = i6;
             }
             sQLiteCursor.dispose();
-            i7 = i2 + 1;
-            sQLiteDatabase = sQLiteDatabase2;
-            i3 = 1;
-            i4 = 0;
+            i6 = i2 + 1;
+            j = j2;
+            i3 = 0;
         }
-        SQLiteDatabase sQLiteDatabase4 = sQLiteDatabase;
+        j2 = j;
         executeFast.dispose();
         executeFast2.dispose();
-        sQLiteDatabase4.executeFast("DETACH DATABASE old;").stepThis().dispose();
-        sQLiteDatabase4.close();
+        sQLiteDatabase.executeFast("DETACH DATABASE old;").stepThis().dispose();
+        sQLiteDatabase.close();
+        j = j2;
         z = true;
         if (z) {
-            try {
-                file.delete();
-                file2.delete();
-                file3.delete();
-                AndroidUtilities.copyFile(file5, file);
-                AndroidUtilities.copyFile(file6, file2);
-                AndroidUtilities.copyFile(file7, file3);
-                file5.delete();
-                file6.delete();
-                file7.delete();
-                FileLog.d("database recovered time " + (System.currentTimeMillis() - j));
-                return true;
-            } catch (IOException e3) {
-                e3.printStackTrace();
-                return false;
-            }
+            return false;
         }
-        return false;
+        try {
+            file.delete();
+            file2.delete();
+            file3.delete();
+            AndroidUtilities.copyFile(file5, file);
+            AndroidUtilities.copyFile(file6, file2);
+            AndroidUtilities.copyFile(file7, file3);
+            file5.delete();
+            file6.delete();
+            file7.delete();
+            FileLog.d("database recovered time " + (System.currentTimeMillis() - j));
+            return true;
+        } catch (IOException e6) {
+            e6.printStackTrace();
+            return false;
+        }
     }
 }

@@ -7,11 +7,12 @@ import android.text.TextUtils;
 /* loaded from: classes.dex */
 public final class zzt {
     private static final Uri zza;
+    private static final Uri zzb;
 
     static {
         Uri parse = Uri.parse("https://plus.google.com/");
         zza = parse;
-        parse.buildUpon().appendPath("circles").appendPath("find").build();
+        zzb = parse.buildUpon().appendPath("circles").appendPath("find").build();
     }
 
     public static Intent zza() {

@@ -2,6 +2,8 @@ package com.google.android.gms.flags;
 @Deprecated
 /* loaded from: classes.dex */
 public abstract class Flag<T> {
+    private final String mKey;
+    private final int zze;
     private final T zzf;
 
     @Deprecated
@@ -13,6 +15,8 @@ public abstract class Flag<T> {
     }
 
     private Flag(int i, String str, T t) {
+        this.zze = i;
+        this.mKey = str;
         this.zzf = t;
         Singletons.flagRegistry().zza(this);
     }

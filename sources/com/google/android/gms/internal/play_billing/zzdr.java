@@ -6,7 +6,7 @@ import java.util.List;
 /* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public final class zzdr {
-    public static final /* synthetic */ int zza = 0;
+    public static final /* synthetic */ int $r8$clinit = 0;
     private static final Class zzb;
     private static final zzeg zzc;
     private static final zzeg zzd;
@@ -189,7 +189,10 @@ public final class zzdr {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static boolean zzV(Object obj, Object obj2) {
-        return obj == obj2 || (obj != null && obj.equals(obj2));
+        if (obj != obj2) {
+            return obj != null && obj.equals(obj2);
+        }
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -360,9 +363,9 @@ public final class zzdr {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzn(int i, Object obj, zzdp zzdpVar) {
         if (obj instanceof zzcl) {
-            int i2 = zzbi.zzb;
-            int zza2 = ((zzcl) obj).zza();
-            return zzbi.zzx(i << 3) + zzbi.zzx(zza2) + zza2;
+            int i2 = zzbi.$r8$clinit;
+            int zza = ((zzcl) obj).zza();
+            return zzbi.zzx(i << 3) + zzbi.zzx(zza) + zza;
         }
         return zzbi.zzx(i << 3) + zzbi.zzv((zzdf) obj, zzdpVar);
     }
@@ -377,8 +380,8 @@ public final class zzdr {
         for (int i2 = 0; i2 < size; i2++) {
             Object obj = list.get(i2);
             if (obj instanceof zzcl) {
-                int zza2 = ((zzcl) obj).zza();
-                zzx += zzbi.zzx(zza2) + zza2;
+                int zza = ((zzcl) obj).zza();
+                zzx += zzbi.zzx(zza) + zza;
             } else {
                 zzx += zzbi.zzv((zzdf) obj, zzdpVar);
             }

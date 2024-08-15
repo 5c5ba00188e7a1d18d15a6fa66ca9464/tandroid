@@ -80,7 +80,8 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
         }
     };
     float[] point = new float[2];
-    Runnable collapseRunnable = new Runnable(this) { // from class: org.telegram.ui.Components.voip.VoIPPiPView.1
+    int animationIndex = -1;
+    Runnable collapseRunnable = new Runnable() { // from class: org.telegram.ui.Components.voip.VoIPPiPView.1
         @Override // java.lang.Runnable
         public void run() {
             if (VoIPPiPView.instance != null) {
@@ -321,13 +322,13 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
             this.enlargeIcon.setPadding(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f));
             this.enlargeIcon.setContentDescription(LocaleController.getString("Open", R.string.Open));
             this.floatingView.addView(this.enlargeIcon, LayoutHelper.createFrame(40, 40.0f, 51, 4.0f, 4.0f, 4.0f, 0.0f));
-            this.closeIcon.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.VoIPPiPView$$ExternalSyntheticLambda2
+            this.closeIcon.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.VoIPPiPView$$ExternalSyntheticLambda1
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
                     VoIPPiPView.lambda$new$1(view2);
                 }
             });
-            this.enlargeIcon.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.VoIPPiPView$$ExternalSyntheticLambda1
+            this.enlargeIcon.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.VoIPPiPView$$ExternalSyntheticLambda2
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
                     VoIPPiPView.this.lambda$new$2(context, view2);
@@ -500,7 +501,7 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
             super(context);
             this.touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
             if (Build.VERSION.SDK_INT >= 21) {
-                setOutlineProvider(new ViewOutlineProvider(this, VoIPPiPView.this) { // from class: org.telegram.ui.Components.voip.VoIPPiPView.FloatingView.1
+                setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.Components.voip.VoIPPiPView.FloatingView.1
                     @Override // android.view.ViewOutlineProvider
                     @TargetApi(21)
                     public void getOutline(View view, Outline outline) {
@@ -725,7 +726,7 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
                 VoIPPiPView.expandedInstance.topShadow.setAlpha(0.0f);
                 VoIPPiPView.expandedInstance.closeIcon.setAlpha(0.0f);
                 VoIPPiPView.expandedInstance.enlargeIcon.setAlpha(0.0f);
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.VoIPPiPView$FloatingView$$ExternalSyntheticLambda2
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.VoIPPiPView$FloatingView$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         VoIPPiPView.FloatingView.this.lambda$expand$1(scaleX, voIPPiPView4);
@@ -744,7 +745,7 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
                 VoIPPiPView.expandedInstance.floatingView.setPivotY(f8 * VoIPPiPView.this.parentHeight * 0.4f);
                 showUi(false);
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPPiPView$FloatingView$$ExternalSyntheticLambda0
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPPiPView$FloatingView$$ExternalSyntheticLambda1
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                         VoIPPiPView.FloatingView.lambda$expand$2(scaleX2, valueAnimator);
@@ -771,7 +772,7 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
             animate().cancel();
             showUi(true);
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPPiPView$FloatingView$$ExternalSyntheticLambda1
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPPiPView$FloatingView$$ExternalSyntheticLambda2
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     VoIPPiPView.FloatingView.lambda$expand$0(f, r2, voIPPiPView, valueAnimator);

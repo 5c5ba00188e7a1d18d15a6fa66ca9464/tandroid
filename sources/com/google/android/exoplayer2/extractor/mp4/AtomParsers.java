@@ -184,22 +184,22 @@ public final class AtomParsers {
         return new Track(parseTkhd.id, trackTypeForHdlr, ((Long) parseMdhd.first).longValue(), parseMvhd, scaleLargeTimestamp, parseStsd.format, parseStsd.requiredSampleTransformation, parseStsd.trackEncryptionBoxes, parseStsd.nalUnitLengthFieldLength, jArr, jArr2);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:116:0x02b1  */
-    /* JADX WARN: Removed duplicated region for block: B:118:0x02c1  */
-    /* JADX WARN: Removed duplicated region for block: B:150:0x03b2  */
-    /* JADX WARN: Removed duplicated region for block: B:151:0x03b4  */
-    /* JADX WARN: Removed duplicated region for block: B:155:0x03cc  */
-    /* JADX WARN: Removed duplicated region for block: B:173:0x043c  */
-    /* JADX WARN: Removed duplicated region for block: B:176:0x0441  */
-    /* JADX WARN: Removed duplicated region for block: B:177:0x0444  */
-    /* JADX WARN: Removed duplicated region for block: B:179:0x0447  */
-    /* JADX WARN: Removed duplicated region for block: B:180:0x044a  */
-    /* JADX WARN: Removed duplicated region for block: B:182:0x044d  */
-    /* JADX WARN: Removed duplicated region for block: B:183:0x044f  */
-    /* JADX WARN: Removed duplicated region for block: B:185:0x0453  */
-    /* JADX WARN: Removed duplicated region for block: B:186:0x0456  */
-    /* JADX WARN: Removed duplicated region for block: B:190:0x0465  */
-    /* JADX WARN: Removed duplicated region for block: B:212:0x0431 A[EDGE_INSN: B:212:0x0431->B:170:0x0431 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:116:0x02ad  */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x02bd  */
+    /* JADX WARN: Removed duplicated region for block: B:150:0x03ae  */
+    /* JADX WARN: Removed duplicated region for block: B:151:0x03b0  */
+    /* JADX WARN: Removed duplicated region for block: B:155:0x03c8  */
+    /* JADX WARN: Removed duplicated region for block: B:173:0x042f  */
+    /* JADX WARN: Removed duplicated region for block: B:176:0x0434  */
+    /* JADX WARN: Removed duplicated region for block: B:177:0x0437  */
+    /* JADX WARN: Removed duplicated region for block: B:179:0x043a  */
+    /* JADX WARN: Removed duplicated region for block: B:180:0x043d  */
+    /* JADX WARN: Removed duplicated region for block: B:182:0x0440  */
+    /* JADX WARN: Removed duplicated region for block: B:183:0x0442  */
+    /* JADX WARN: Removed duplicated region for block: B:185:0x0446  */
+    /* JADX WARN: Removed duplicated region for block: B:186:0x0449  */
+    /* JADX WARN: Removed duplicated region for block: B:190:0x0458  */
+    /* JADX WARN: Removed duplicated region for block: B:212:0x0424 A[EDGE_INSN: B:212:0x0424->B:170:0x0424 ?: BREAK  , SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:50:0x00ff  */
     /* JADX WARN: Removed duplicated region for block: B:55:0x0131  */
     /*
@@ -242,8 +242,9 @@ public final class AtomParsers {
         long[] jArr6;
         int[] iArr3;
         int i19;
-        int i20;
         boolean z5;
+        int i20;
+        int i21;
         Atom.LeafAtom leafAtomOfType = containerAtom.getLeafAtomOfType(1937011578);
         if (leafAtomOfType != null) {
             stz2SampleSizeBox = new StszSampleSizeBox(leafAtomOfType, track.format);
@@ -298,18 +299,18 @@ public final class AtomParsers {
                     z2 = false;
                 }
                 if (!z2) {
-                    int i21 = chunkIterator.length;
-                    long[] jArr7 = new long[i21];
-                    int[] iArr4 = new int[i21];
+                    int i22 = chunkIterator.length;
+                    long[] jArr7 = new long[i22];
+                    int[] iArr4 = new int[i22];
                     while (chunkIterator.moveNext()) {
-                        int i22 = chunkIterator.index;
-                        jArr7[i22] = chunkIterator.offset;
-                        iArr4[i22] = chunkIterator.numSamples;
+                        int i23 = chunkIterator.index;
+                        jArr7[i23] = chunkIterator.offset;
+                        iArr4[i23] = chunkIterator.numSamples;
                     }
                     FixedSampleSizeRechunker.Results rechunk = FixedSampleSizeRechunker.rechunk(fixedSampleSize, jArr7, iArr4, readUnsignedIntToInt3);
                     long[] jArr8 = rechunk.offsets;
                     int[] iArr5 = rechunk.sizes;
-                    int i23 = rechunk.maximumSize;
+                    int i24 = rechunk.maximumSize;
                     long[] jArr9 = rechunk.timestamps;
                     int[] iArr6 = rechunk.flags;
                     long j2 = rechunk.duration;
@@ -317,7 +318,7 @@ public final class AtomParsers {
                     i10 = sampleCount;
                     jArr = jArr8;
                     iArr = iArr5;
-                    i11 = i23;
+                    i11 = i24;
                     iArr2 = iArr6;
                     j = j2;
                     jArr2 = jArr9;
@@ -326,135 +327,136 @@ public final class AtomParsers {
                     int[] iArr7 = new int[sampleCount];
                     long[] jArr11 = new long[sampleCount];
                     int[] iArr8 = new int[sampleCount];
-                    int i24 = i3;
-                    int i25 = 0;
+                    int i25 = i3;
                     int i26 = 0;
                     int i27 = 0;
                     int i28 = 0;
                     int i29 = 0;
+                    int i30 = 0;
                     long j3 = 0;
                     long j4 = 0;
-                    int i30 = i;
-                    int i31 = readUnsignedIntToInt3;
-                    int i32 = readUnsignedIntToInt2;
-                    int i33 = readUnsignedIntToInt;
-                    int i34 = i4;
+                    int i31 = i;
+                    int i32 = readUnsignedIntToInt3;
+                    int i33 = readUnsignedIntToInt2;
+                    int i34 = readUnsignedIntToInt;
+                    int i35 = i4;
                     while (true) {
-                        i5 = i33;
-                        if (i25 >= sampleCount) {
-                            i6 = i32;
-                            i7 = i27;
-                            i8 = i28;
+                        i5 = i34;
+                        if (i26 >= sampleCount) {
+                            i6 = i33;
+                            i7 = i28;
+                            i8 = i29;
                             break;
                         }
                         long j5 = j4;
-                        int i35 = i28;
+                        int i36 = i29;
                         boolean z6 = true;
-                        while (i35 == 0) {
+                        while (i36 == 0) {
                             z6 = chunkIterator.moveNext();
                             if (!z6) {
                                 break;
                             }
-                            int i36 = i32;
+                            int i37 = i33;
                             long j6 = chunkIterator.offset;
-                            i35 = chunkIterator.numSamples;
+                            i36 = chunkIterator.numSamples;
                             j5 = j6;
-                            i32 = i36;
-                            i31 = i31;
+                            i33 = i37;
+                            i32 = i32;
                             sampleCount = sampleCount;
                         }
-                        int i37 = sampleCount;
-                        i6 = i32;
-                        int i38 = i31;
+                        int i38 = sampleCount;
+                        i6 = i33;
+                        int i39 = i32;
                         if (!z6) {
                             Log.w("AtomParsers", "Unexpected end of chunk data");
-                            jArr10 = Arrays.copyOf(jArr10, i25);
-                            iArr7 = Arrays.copyOf(iArr7, i25);
-                            jArr11 = Arrays.copyOf(jArr11, i25);
-                            iArr8 = Arrays.copyOf(iArr8, i25);
-                            sampleCount = i25;
-                            i7 = i27;
-                            i8 = i35;
+                            jArr10 = Arrays.copyOf(jArr10, i26);
+                            iArr7 = Arrays.copyOf(iArr7, i26);
+                            jArr11 = Arrays.copyOf(jArr11, i26);
+                            iArr8 = Arrays.copyOf(iArr8, i26);
+                            sampleCount = i26;
+                            i7 = i28;
+                            i8 = i36;
                             break;
                         }
                         if (parsableByteArray5 != null) {
-                            while (i29 == 0 && i30 > 0) {
-                                i29 = parsableByteArray5.readUnsignedIntToInt();
-                                i27 = parsableByteArray5.readInt();
-                                i30--;
+                            while (i30 == 0 && i31 > 0) {
+                                i30 = parsableByteArray5.readUnsignedIntToInt();
+                                i28 = parsableByteArray5.readInt();
+                                i31--;
                             }
-                            i29--;
+                            i30--;
                         }
-                        int i39 = i27;
-                        jArr10[i25] = j5;
-                        iArr7[i25] = stz2SampleSizeBox.readNextSampleSize();
-                        if (iArr7[i25] > i26) {
-                            i26 = iArr7[i25];
+                        int i40 = i28;
+                        jArr10[i26] = j5;
+                        int readNextSampleSize = stz2SampleSizeBox.readNextSampleSize();
+                        iArr7[i26] = readNextSampleSize;
+                        if (readNextSampleSize > i27) {
+                            i27 = readNextSampleSize;
                         }
-                        jArr11[i25] = j3 + i39;
-                        iArr8[i25] = parsableByteArray4 == null ? 1 : 0;
-                        if (i25 == i24) {
-                            iArr8[i25] = 1;
-                            i34--;
-                            if (i34 > 0) {
-                                i24 = ((ParsableByteArray) Assertions.checkNotNull(parsableByteArray4)).readUnsignedIntToInt() - 1;
+                        jArr11[i26] = j3 + i40;
+                        iArr8[i26] = parsableByteArray4 == null ? 1 : 0;
+                        if (i26 == i25) {
+                            iArr8[i26] = 1;
+                            i35--;
+                            if (i35 > 0) {
+                                i25 = ((ParsableByteArray) Assertions.checkNotNull(parsableByteArray4)).readUnsignedIntToInt() - 1;
                             }
                         }
-                        int i40 = i24;
-                        j3 += i38;
-                        int i41 = i6 - 1;
-                        if (i41 != 0 || i5 <= 0) {
-                            i12 = i38;
+                        int i41 = i25;
+                        j3 += i39;
+                        int i42 = i6 - 1;
+                        if (i42 != 0 || i5 <= 0) {
+                            i12 = i39;
                             i13 = i5;
                         } else {
-                            i41 = parsableByteArray3.readUnsignedIntToInt();
+                            i42 = parsableByteArray3.readUnsignedIntToInt();
                             i12 = parsableByteArray3.readInt();
                             i13 = i5 - 1;
                         }
-                        int i42 = i41;
-                        i28 = i35 - 1;
-                        i25++;
-                        j4 = j5 + iArr7[i25];
-                        i24 = i40;
-                        i31 = i12;
-                        sampleCount = i37;
-                        i27 = i39;
-                        i33 = i13;
-                        i32 = i42;
+                        int i43 = i42;
+                        i29 = i36 - 1;
+                        i26++;
+                        j4 = j5 + iArr7[i26];
+                        i25 = i41;
+                        i32 = i12;
+                        sampleCount = i38;
+                        i28 = i40;
+                        i34 = i13;
+                        i33 = i43;
                     }
                     long j7 = j3 + i7;
                     if (parsableByteArray5 != null) {
-                        while (i30 > 0) {
+                        while (i31 > 0) {
                             if (parsableByteArray5.readUnsignedIntToInt() != 0) {
                                 z3 = false;
                                 break;
                             }
                             parsableByteArray5.readInt();
-                            i30--;
+                            i31--;
                         }
                     }
                     z3 = true;
-                    if (i34 == 0 && i6 == 0 && i8 == 0 && i5 == 0) {
-                        i9 = i29;
+                    if (i35 == 0 && i6 == 0 && i8 == 0 && i5 == 0) {
+                        i9 = i30;
                         if (i9 == 0 && z3) {
                             track2 = track;
                             i10 = sampleCount;
                             jArr = jArr10;
                             iArr = iArr7;
-                            i11 = i26;
+                            i11 = i27;
                             j = j7;
                             jArr2 = jArr11;
                             iArr2 = iArr8;
                         }
                     } else {
-                        i9 = i29;
+                        i9 = i30;
                     }
                     StringBuilder sb = new StringBuilder();
                     sb.append("Inconsistent stbl box for track ");
                     track2 = track;
                     sb.append(track2.id);
                     sb.append(": remainingSynchronizationSamples ");
-                    sb.append(i34);
+                    sb.append(i35);
                     sb.append(", remainingSamplesAtTimestampDelta ");
                     sb.append(i6);
                     sb.append(", remainingSamplesInChunk ");
@@ -468,7 +470,7 @@ public final class AtomParsers {
                     i10 = sampleCount;
                     jArr = jArr10;
                     iArr = iArr7;
-                    i11 = i26;
+                    i11 = i27;
                     j = j7;
                     jArr2 = jArr11;
                     iArr2 = iArr8;
@@ -496,8 +498,8 @@ public final class AtomParsers {
                         jArr4 = track2.editListDurations;
                         if (jArr4.length != 1 && jArr4[0] == 0) {
                             long j9 = ((long[]) Assertions.checkNotNull(track2.editListMediaTimes))[0];
-                            for (int i43 = 0; i43 < jArr2.length; i43++) {
-                                jArr2[i43] = Util.scaleLargeTimestamp(jArr2[i43] - j9, 1000000L, track2.timescale);
+                            for (int i44 = 0; i44 < jArr2.length; i44++) {
+                                jArr2[i44] = Util.scaleLargeTimestamp(jArr2[i44] - j9, 1000000L, track2.timescale);
                             }
                             return new TrackSampleTable(track, jArr, iArr, i15, jArr2, iArr2, Util.scaleLargeTimestamp(j - j9, 1000000L, track2.timescale));
                         }
@@ -507,7 +509,7 @@ public final class AtomParsers {
                         long[] jArr12 = (long[]) Assertions.checkNotNull(track2.editListMediaTimes);
                         i16 = 0;
                         z4 = false;
-                        int i44 = 0;
+                        int i45 = 0;
                         i17 = 0;
                         while (true) {
                             jArr5 = track2.editListDurations;
@@ -518,21 +520,25 @@ public final class AtomParsers {
                             int[] iArr11 = iArr;
                             long j10 = jArr12[i16];
                             if (j10 != -1) {
-                                int i45 = i17;
+                                int i46 = i17;
                                 boolean z8 = z4;
-                                int i46 = i44;
+                                int i47 = i45;
                                 long scaleLargeTimestamp5 = Util.scaleLargeTimestamp(jArr5[i16], track2.timescale, track2.movieTimescale);
                                 iArr9[i16] = Util.binarySearchFloor(jArr2, j10, true, true);
                                 iArr10[i16] = Util.binarySearchCeil(jArr2, j10 + scaleLargeTimestamp5, z7, false);
-                                while (iArr9[i16] < iArr10[i16] && (iArr2[iArr9[i16]] & 1) == 0) {
-                                    iArr9[i16] = iArr9[i16] + 1;
+                                while (true) {
+                                    i21 = iArr9[i16];
+                                    i20 = iArr10[i16];
+                                    if (i21 >= i20 || (iArr2[i21] & 1) != 0) {
+                                        break;
+                                    }
+                                    iArr9[i16] = i21 + 1;
                                 }
-                                i44 = i46 + (iArr10[i16] - iArr9[i16]);
-                                z5 = z8 | (i45 != iArr9[i16]);
-                                i20 = iArr10[i16];
+                                i45 = i47 + (i20 - i21);
+                                z5 = z8 | (i46 != i21);
                             } else {
-                                i20 = i17;
                                 z5 = z4;
+                                i20 = i17;
                             }
                             i16++;
                             z4 = z5;
@@ -544,68 +550,68 @@ public final class AtomParsers {
                         int[] iArr12 = iArr;
                         boolean z9 = z4;
                         i18 = 0;
-                        boolean z10 = z9 | (i44 != i14);
-                        long[] jArr15 = !z10 ? new long[i44] : jArr14;
-                        int[] iArr13 = !z10 ? new int[i44] : iArr12;
-                        int i47 = !z10 ? 0 : i15;
-                        int[] iArr14 = !z10 ? new int[i44] : iArr2;
-                        long[] jArr16 = new long[i44];
-                        int i48 = i47;
+                        boolean z10 = z9 | (i45 != i14);
+                        long[] jArr15 = !z10 ? new long[i45] : jArr14;
+                        int[] iArr13 = !z10 ? new int[i45] : iArr12;
+                        int i48 = !z10 ? 0 : i15;
+                        int[] iArr14 = !z10 ? new int[i45] : iArr2;
+                        long[] jArr16 = new long[i45];
+                        int i49 = i48;
                         int[] iArr15 = iArr12;
                         long j11 = 0;
-                        int i49 = 0;
+                        int i50 = 0;
                         while (i18 < track2.editListDurations.length) {
                             long j12 = track2.editListMediaTimes[i18];
-                            int i50 = iArr9[i18];
+                            int i51 = iArr9[i18];
                             int[] iArr16 = iArr9;
-                            int i51 = iArr10[i18];
+                            int i52 = iArr10[i18];
                             int[] iArr17 = iArr10;
                             if (z10) {
-                                int i52 = i51 - i50;
-                                System.arraycopy(jArr14, i50, jArr15, i49, i52);
+                                int i53 = i52 - i51;
+                                System.arraycopy(jArr14, i51, jArr15, i50, i53);
                                 jArr6 = jArr14;
                                 iArr3 = iArr15;
-                                System.arraycopy(iArr3, i50, iArr13, i49, i52);
-                                System.arraycopy(iArr2, i50, iArr14, i49, i52);
+                                System.arraycopy(iArr3, i51, iArr13, i50, i53);
+                                System.arraycopy(iArr2, i51, iArr14, i50, i53);
                             } else {
                                 jArr6 = jArr14;
                                 iArr3 = iArr15;
                             }
-                            int i53 = i48;
-                            while (i50 < i51) {
-                                int i54 = i53;
-                                int i55 = i51;
+                            int i54 = i49;
+                            while (i51 < i52) {
+                                int i55 = i54;
+                                int i56 = i52;
                                 long[] jArr17 = jArr2;
                                 int[] iArr18 = iArr2;
                                 int[] iArr19 = iArr14;
                                 long j13 = j11;
-                                jArr16[i49] = Util.scaleLargeTimestamp(j11, 1000000L, track2.movieTimescale) + Util.scaleLargeTimestamp(Math.max(0L, jArr2[i50] - j12), 1000000L, track2.timescale);
+                                jArr16[i50] = Util.scaleLargeTimestamp(j11, 1000000L, track2.movieTimescale) + Util.scaleLargeTimestamp(Math.max(0L, jArr2[i51] - j12), 1000000L, track2.timescale);
                                 if (z10) {
-                                    i19 = i54;
-                                    if (iArr13[i49] > i19) {
-                                        i53 = iArr3[i50];
-                                        i49++;
+                                    i19 = i55;
+                                    if (iArr13[i50] > i19) {
+                                        i54 = iArr3[i51];
                                         i50++;
-                                        i51 = i55;
+                                        i51++;
+                                        i52 = i56;
                                         j11 = j13;
                                         jArr2 = jArr17;
                                         iArr2 = iArr18;
                                         iArr14 = iArr19;
                                     }
                                 } else {
-                                    i19 = i54;
+                                    i19 = i55;
                                 }
-                                i53 = i19;
-                                i49++;
+                                i54 = i19;
                                 i50++;
-                                i51 = i55;
+                                i51++;
+                                i52 = i56;
                                 j11 = j13;
                                 jArr2 = jArr17;
                                 iArr2 = iArr18;
                                 iArr14 = iArr19;
                             }
                             i18++;
-                            i48 = i53;
+                            i49 = i54;
                             iArr15 = iArr3;
                             j11 += track2.editListDurations[i18];
                             iArr9 = iArr16;
@@ -615,7 +621,7 @@ public final class AtomParsers {
                             jArr14 = jArr6;
                             iArr14 = iArr14;
                         }
-                        return new TrackSampleTable(track, jArr15, iArr13, i48, jArr16, iArr14, Util.scaleLargeTimestamp(j11, 1000000L, track2.movieTimescale));
+                        return new TrackSampleTable(track, jArr15, iArr13, i49, jArr16, iArr14, Util.scaleLargeTimestamp(j11, 1000000L, track2.movieTimescale));
                     }
                 } else {
                     i14 = i10;
@@ -631,7 +637,7 @@ public final class AtomParsers {
                 long[] jArr122 = (long[]) Assertions.checkNotNull(track2.editListMediaTimes);
                 i16 = 0;
                 z4 = false;
-                int i442 = 0;
+                int i452 = 0;
                 i17 = 0;
                 while (true) {
                     jArr5 = track2.editListDurations;
@@ -647,7 +653,7 @@ public final class AtomParsers {
                 int[] iArr122 = iArr;
                 boolean z92 = z4;
                 i18 = 0;
-                boolean z102 = z92 | (i442 != i14);
+                boolean z102 = z92 | (i452 != i14);
                 if (!z102) {
                 }
                 if (!z102) {
@@ -656,14 +662,14 @@ public final class AtomParsers {
                 }
                 if (!z102) {
                 }
-                long[] jArr162 = new long[i442];
-                int i482 = i47;
+                long[] jArr162 = new long[i452];
+                int i492 = i48;
                 int[] iArr152 = iArr122;
                 long j112 = 0;
-                int i492 = 0;
+                int i502 = 0;
                 while (i18 < track2.editListDurations.length) {
                 }
-                return new TrackSampleTable(track, jArr15, iArr13, i482, jArr162, iArr14, Util.scaleLargeTimestamp(j112, 1000000L, track2.movieTimescale));
+                return new TrackSampleTable(track, jArr15, iArr13, i492, jArr162, iArr14, Util.scaleLargeTimestamp(j112, 1000000L, track2.movieTimescale));
             }
             parsableByteArray4 = null;
         } else {
@@ -1185,7 +1191,7 @@ public final class AtomParsers {
         return parsableByteArray.readUnsignedIntToInt() / parsableByteArray.readUnsignedIntToInt();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:100:0x0166  */
+    /* JADX WARN: Removed duplicated region for block: B:100:0x0168  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1194,6 +1200,8 @@ public final class AtomParsers {
         int readInt;
         int i7;
         int i8;
+        String str2;
+        String str3;
         int i9;
         int i10 = i2;
         int i11 = i3;
@@ -1237,7 +1245,6 @@ public final class AtomParsers {
             }
             parsableByteArray.setPosition(position);
         }
-        String str2 = "audio/raw";
         if (i12 == 1633889587) {
             str2 = "audio/ac3";
         } else if (i12 == 1700998451) {
@@ -1255,6 +1262,7 @@ public final class AtomParsers {
         } else if (i12 == 1935764850) {
             str2 = "audio/3gpp";
         } else if (i12 != 1935767394) {
+            str3 = "audio/raw";
             if (i12 == 1819304813 || i12 == 1936684916) {
                 i9 = 2;
             } else if (i12 == 1953984371) {
@@ -1279,11 +1287,11 @@ public final class AtomParsers {
                 str2 = "audio/true-hd";
             } else {
                 i9 = -1;
-                str2 = null;
+                str3 = null;
             }
-            String str3 = str2;
+            String str4 = str3;
             EsdsData esdsData = null;
-            String str4 = null;
+            String str5 = null;
             List<byte[]> list = null;
             while (position - i10 < i11) {
                 parsableByteArray.setPosition(position);
@@ -1300,14 +1308,14 @@ public final class AtomParsers {
                     int findBoxPosition = readInt3 == 1702061171 ? position : findBoxPosition(parsableByteArray, 1702061171, position, readInt2);
                     if (findBoxPosition != -1) {
                         esdsData = parseEsdsFromParent(parsableByteArray, findBoxPosition);
-                        str3 = esdsData.mimeType;
+                        str4 = esdsData.mimeType;
                         byte[] bArr2 = esdsData.initializationData;
                         if (bArr2 != null) {
-                            if (MediaController.AUDIO_MIME_TYPE.equals(str3)) {
+                            if (MediaController.AUDIO_MIME_TYPE.equals(str4)) {
                                 AacUtil.Config parseAudioSpecificConfig = AacUtil.parseAudioSpecificConfig(bArr2);
                                 i7 = parseAudioSpecificConfig.sampleRateHz;
                                 i8 = parseAudioSpecificConfig.channelCount;
-                                str4 = parseAudioSpecificConfig.codecs;
+                                str5 = parseAudioSpecificConfig.codecs;
                             }
                             list = ImmutableList.of(bArr2);
                         }
@@ -1332,7 +1340,7 @@ public final class AtomParsers {
                         i7 = readInt;
                         i8 = 2;
                     } else if (readInt3 == 1684305011) {
-                        stsdData.format = new Format.Builder().setId(i4).setSampleMimeType(str3).setChannelCount(i8).setSampleRate(i7).setDrmInitData(drmInitData2).setLanguage(str).build();
+                        stsdData.format = new Format.Builder().setId(i4).setSampleMimeType(str4).setChannelCount(i8).setSampleRate(i7).setDrmInitData(drmInitData2).setLanguage(str).build();
                     } else if (readInt3 == 1682927731) {
                         int i14 = readInt2 - 8;
                         byte[] bArr3 = opusMagic;
@@ -1377,9 +1385,9 @@ public final class AtomParsers {
                 i10 = i2;
                 i11 = i3;
             }
-            if (stsdData.format == null || str3 == null) {
+            if (stsdData.format == null || str4 == null) {
             }
-            Format.Builder language = new Format.Builder().setId(i4).setSampleMimeType(str3).setCodecs(str4).setChannelCount(i8).setSampleRate(i7).setPcmEncoding(i9).setInitializationData(list).setDrmInitData(drmInitData2).setLanguage(str);
+            Format.Builder language = new Format.Builder().setId(i4).setSampleMimeType(str4).setCodecs(str5).setChannelCount(i8).setSampleRate(i7).setPcmEncoding(i9).setInitializationData(list).setDrmInitData(drmInitData2).setLanguage(str);
             if (esdsData != null) {
                 language.setAverageBitrate(Ints.saturatedCast(esdsData.bitrate)).setPeakBitrate(Ints.saturatedCast(esdsData.peakBitrate));
             }
@@ -1388,10 +1396,11 @@ public final class AtomParsers {
         } else {
             str2 = "audio/amr-wb";
         }
+        str3 = str2;
         i9 = -1;
-        String str32 = str2;
+        String str42 = str3;
         EsdsData esdsData2 = null;
-        String str42 = null;
+        String str52 = null;
         List<byte[]> list2 = null;
         while (position - i10 < i11) {
         }

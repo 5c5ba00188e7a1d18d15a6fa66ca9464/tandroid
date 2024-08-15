@@ -24,6 +24,7 @@ public final class zzfi$zzf extends zzjb<zzfi$zzf, zzb> implements zzkm {
         zzc(2),
         zzd(3);
         
+        private static final zzjh<zza> zze = new zzfp();
         private final int zzf;
 
         @Override // com.google.android.gms.internal.vision.zzje
@@ -58,10 +59,6 @@ public final class zzfi$zzf extends zzjb<zzfi$zzf, zzb> implements zzkm {
 
         zza(int i) {
             this.zzf = i;
-        }
-
-        static {
-            new zzfp();
         }
     }
 

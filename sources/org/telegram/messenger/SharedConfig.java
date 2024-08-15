@@ -212,7 +212,7 @@ public class SharedConfig {
         if (file == null || storageCacheDir == null || readOnlyStorageDirAlertShowed || !file.getPath().startsWith(storageCacheDir)) {
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda3
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 SharedConfig.lambda$checkSdCard$2();
@@ -228,7 +228,7 @@ public class SharedConfig {
         }
         storageCacheDir = null;
         saveConfig();
-        ImageLoader.getInstance().checkMediaPaths(new Runnable() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda2
+        ImageLoader.getInstance().checkMediaPaths(new Runnable() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 SharedConfig.lambda$checkSdCard$0();
@@ -238,7 +238,7 @@ public class SharedConfig {
         AlertDialog.Builder builder = new AlertDialog.Builder(lastFragment.getParentActivity());
         builder.setTitle(LocaleController.getString("SdCardError", R.string.SdCardError));
         builder.setSubtitle(LocaleController.getString("SdCardErrorDescription", R.string.SdCardErrorDescription));
-        builder.setPositiveButton(LocaleController.getString("DoNotUseSDCard", R.string.DoNotUseSDCard), new DialogInterface.OnClickListener() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda0
+        builder.setPositiveButton(LocaleController.getString("DoNotUseSDCard", R.string.DoNotUseSDCard), new DialogInterface.OnClickListener() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda7
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 SharedConfig.lambda$checkSdCard$1(dialogInterface, i);
@@ -249,6 +249,12 @@ public class SharedConfig {
         create.show();
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x003f, code lost:
+        r4 = r5.getCapabilitiesForType("video/hevc").getMaxSupportedInstances();
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public static boolean allowPreparingHevcPlayers() {
         int maxSupportedInstances;
         if (Build.VERSION.SDK_INT < 23) {
@@ -276,7 +282,7 @@ public class SharedConfig {
                             i3++;
                         }
                     }
-                    if (z && (maxSupportedInstances = codecInfoAt.getCapabilitiesForType("video/hevc").getMaxSupportedInstances()) > i2) {
+                    if (z && maxSupportedInstances > i2) {
                         i2 = maxSupportedInstances;
                     }
                 }
@@ -358,16 +364,20 @@ public class SharedConfig {
     }
 
     public static String findGoodHevcEncoder() {
+        boolean isHardwareAccelerated;
         if (goodHevcEncoder == null) {
             int codecCount = MediaCodecList.getCodecCount();
             for (int i = 0; i < codecCount; i++) {
                 MediaCodecInfo codecInfoAt = MediaCodecList.getCodecInfoAt(i);
                 if (codecInfoAt.isEncoder()) {
                     for (int i2 = 0; i2 < codecInfoAt.getSupportedTypes().length; i2++) {
-                        if (codecInfoAt.getSupportedTypes()[i2].contains("video/hevc") && codecInfoAt.isHardwareAccelerated() && isWhitelisted(codecInfoAt)) {
-                            String name = codecInfoAt.getName();
-                            goodHevcEncoder = name;
-                            return name;
+                        if (codecInfoAt.getSupportedTypes()[i2].contains("video/hevc")) {
+                            isHardwareAccelerated = codecInfoAt.isHardwareAccelerated();
+                            if (isHardwareAccelerated && isWhitelisted(codecInfoAt)) {
+                                String name = codecInfoAt.getName();
+                                goodHevcEncoder = name;
+                                return name;
+                            }
                         }
                     }
                     continue;
@@ -520,24 +530,23 @@ public class SharedConfig {
         return i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0174 A[Catch: Exception -> 0x0198, all -> 0x0488, TryCatch #3 {Exception -> 0x0198, blocks: (B:22:0x0123, B:24:0x012b, B:26:0x013d, B:27:0x0151, B:38:0x0174, B:40:0x017a, B:41:0x017c, B:43:0x0180, B:45:0x0186, B:47:0x018c, B:49:0x0190, B:36:0x016e), top: B:97:0x0123, outer: #4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x017a A[Catch: Exception -> 0x0198, all -> 0x0488, TryCatch #3 {Exception -> 0x0198, blocks: (B:22:0x0123, B:24:0x012b, B:26:0x013d, B:27:0x0151, B:38:0x0174, B:40:0x017a, B:41:0x017c, B:43:0x0180, B:45:0x0186, B:47:0x018c, B:49:0x0190, B:36:0x016e), top: B:97:0x0123, outer: #4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0230  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0233  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x0243  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0245  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x0417  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x0418 A[Catch: all -> 0x0488, TryCatch #4 {, blocks: (B:4:0x0003, B:6:0x0007, B:9:0x000d, B:11:0x00df, B:12:0x00e5, B:14:0x00ed, B:16:0x00f1, B:17:0x00fe, B:19:0x010c, B:21:0x0117, B:22:0x0123, B:24:0x012b, B:26:0x013d, B:27:0x0151, B:29:0x0155, B:30:0x0167, B:38:0x0174, B:40:0x017a, B:41:0x017c, B:43:0x0180, B:45:0x0186, B:47:0x018c, B:49:0x0190, B:36:0x016e, B:53:0x019c, B:55:0x0201, B:59:0x020c, B:63:0x0235, B:67:0x0246, B:71:0x0423, B:75:0x0431, B:78:0x0478, B:80:0x047c, B:84:0x0484, B:83:0x0481, B:70:0x0418, B:52:0x0199, B:20:0x0113, B:86:0x0486), top: B:99:0x0003, inners: #0, #3 }] */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x042e  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x0430  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x0478 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0174 A[Catch: Exception -> 0x019b, all -> 0x0488, TryCatch #2 {Exception -> 0x019b, blocks: (B:22:0x0123, B:24:0x012b, B:26:0x013d, B:27:0x0151, B:38:0x0174, B:40:0x017a, B:41:0x017c, B:43:0x0180, B:45:0x0186, B:47:0x018c, B:49:0x0190, B:36:0x016e), top: B:93:0x0123, outer: #4 }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x017a A[Catch: Exception -> 0x019b, all -> 0x0488, TryCatch #2 {Exception -> 0x019b, blocks: (B:22:0x0123, B:24:0x012b, B:26:0x013d, B:27:0x0151, B:38:0x0174, B:40:0x017a, B:41:0x017c, B:43:0x0180, B:45:0x0186, B:47:0x018c, B:49:0x0190, B:36:0x016e), top: B:93:0x0123, outer: #4 }] */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0233  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0236  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0246  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0248  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x041b  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x041c A[Catch: all -> 0x0488, TryCatch #4 {, blocks: (B:4:0x0003, B:6:0x0007, B:9:0x000d, B:11:0x00df, B:12:0x00e5, B:14:0x00ed, B:16:0x00f1, B:17:0x00fe, B:19:0x010c, B:21:0x0117, B:22:0x0123, B:24:0x012b, B:26:0x013d, B:27:0x0151, B:29:0x0155, B:30:0x0167, B:38:0x0174, B:40:0x017a, B:41:0x017c, B:43:0x0180, B:45:0x0186, B:47:0x018c, B:49:0x0190, B:36:0x016e, B:53:0x019f, B:55:0x0204, B:59:0x020f, B:63:0x0238, B:67:0x0249, B:71:0x0427, B:75:0x0435, B:76:0x0478, B:78:0x047c, B:82:0x0484, B:81:0x0481, B:70:0x041c, B:52:0x019c, B:20:0x0113, B:84:0x0486), top: B:97:0x0003, inners: #0, #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x0432  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x0434  */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x047c A[Catch: Exception -> 0x0480, all -> 0x0488, TRY_LEAVE, TryCatch #0 {Exception -> 0x0480, blocks: (B:76:0x0478, B:78:0x047c), top: B:89:0x0478, outer: #4 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static void loadConfig() {
         SharedPreferences sharedPreferences;
         int i;
-        int i2;
         String str;
         String str2;
         PackageInfo packageInfo;
@@ -594,10 +603,10 @@ public class SharedConfig {
                     if (pendingAppUpdate != null) {
                         try {
                             packageInfo = ApplicationLoader.applicationContext.getPackageManager().getPackageInfo(ApplicationLoader.applicationContext.getPackageName(), 0);
-                            i2 = packageInfo.versionCode;
+                            i = packageInfo.versionCode;
                         } catch (Exception e) {
                             e = e;
-                            i2 = 0;
+                            i = 0;
                         }
                         try {
                             str = packageInfo.versionName;
@@ -605,14 +614,14 @@ public class SharedConfig {
                             e = e2;
                             FileLog.e(e);
                             str = null;
-                            if (i2 == 0) {
+                            if (i == 0) {
                             }
                             if (str == null) {
                             }
-                            if (pendingAppUpdateBuildVersion == i2) {
+                            if (pendingAppUpdateBuildVersion == i) {
                             }
                             pendingAppUpdate = null;
-                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda5
+                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda3
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     SharedConfig.saveConfig();
@@ -697,8 +706,7 @@ public class SharedConfig {
                             if (!sharedPreferences.contains("useCamera2Force_2")) {
                             }
                             useCamera2Force = bool;
-                            i = Build.VERSION.SDK_INT;
-                            useSurfaceInStories = sharedPreferences.getBoolean("useSurfaceInStories", i < 30);
+                            useSurfaceInStories = sharedPreferences.getBoolean("useSurfaceInStories", Build.VERSION.SDK_INT < 30);
                             payByInvoice = sharedPreferences.getBoolean("payByInvoice", false);
                             photoViewerBlur = sharedPreferences.getBoolean("photoViewerBlur", true);
                             multipleReactionsPromoShowed = sharedPreferences.getBoolean("multipleReactionsPromoShowed", false);
@@ -707,18 +715,18 @@ public class SharedConfig {
                             loadDebugConfig(sharedPreferences);
                             showNotificationsForAllAccounts = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", 0).getBoolean("AllAccounts", true);
                             configLoaded = true;
-                            if (i >= 19) {
+                            if (debugWebView) {
                             }
                         }
-                        if (i2 == 0) {
-                            i2 = buildVersion();
+                        if (i == 0) {
+                            i = buildVersion();
                         }
                         if (str == null) {
                             str = BuildVars.BUILD_VERSION_STRING;
                         }
-                        if (pendingAppUpdateBuildVersion == i2 || (str2 = pendingAppUpdate.version) == null || str.compareTo(str2) >= 0 || BuildVars.DEBUG_PRIVATE_VERSION) {
+                        if (pendingAppUpdateBuildVersion == i || (str2 = pendingAppUpdate.version) == null || str.compareTo(str2) >= 0 || BuildVars.DEBUG_PRIVATE_VERSION) {
                             pendingAppUpdate = null;
-                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda5
+                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda3
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     SharedConfig.saveConfig();
@@ -809,8 +817,7 @@ public class SharedConfig {
                     bool = Boolean.valueOf(sharedPreferences.getBoolean("useCamera2Force_2", false));
                 }
                 useCamera2Force = bool;
-                i = Build.VERSION.SDK_INT;
-                useSurfaceInStories = sharedPreferences.getBoolean("useSurfaceInStories", i < 30);
+                useSurfaceInStories = sharedPreferences.getBoolean("useSurfaceInStories", Build.VERSION.SDK_INT < 30);
                 payByInvoice = sharedPreferences.getBoolean("payByInvoice", false);
                 photoViewerBlur = sharedPreferences.getBoolean("photoViewerBlur", true);
                 multipleReactionsPromoShowed = sharedPreferences.getBoolean("multipleReactionsPromoShowed", false);
@@ -819,14 +826,12 @@ public class SharedConfig {
                 loadDebugConfig(sharedPreferences);
                 showNotificationsForAllAccounts = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", 0).getBoolean("AllAccounts", true);
                 configLoaded = true;
-                if (i >= 19) {
-                    try {
-                        if (debugWebView) {
-                            WebView.setWebContentsDebuggingEnabled(true);
-                        }
-                    } catch (Exception e4) {
-                        FileLog.e(e4);
+                try {
+                    if (debugWebView) {
+                        WebView.setWebContentsDebuggingEnabled(true);
                     }
+                } catch (Exception e4) {
+                    FileLog.e(e4);
                 }
             }
         }
@@ -1199,7 +1204,7 @@ public class SharedConfig {
                 return;
             }
             lastLogsCheckTime = currentTimeMillis;
-            Utilities.cacheClearQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda1
+            Utilities.cacheClearQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     SharedConfig.lambda$checkLogsToDelete$3(currentTimeMillis);
@@ -1241,11 +1246,8 @@ public class SharedConfig {
     }
 
     public static void toggleDebugWebView() {
-        boolean z = !debugWebView;
-        debugWebView = z;
-        if (Build.VERSION.SDK_INT >= 19) {
-            WebView.setWebContentsDebuggingEnabled(z);
-        }
+        debugWebView = !debugWebView;
+        WebView.setWebContentsDebuggingEnabled(debugWebView);
         SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
         edit.putBoolean("debugWebView", debugWebView);
         edit.apply();
@@ -1569,7 +1571,7 @@ public class SharedConfig {
 
     public static void saveProxyList() {
         ArrayList arrayList = new ArrayList(proxyList);
-        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda6
+        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda1
             @Override // java.util.Comparator
             public final int compare(Object obj, Object obj2) {
                 int lambda$saveProxyList$4;
@@ -1668,7 +1670,7 @@ public class SharedConfig {
     }
 
     public static void checkSaveToGalleryFiles() {
-        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda4
+        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 SharedConfig.lambda$checkSaveToGalleryFiles$5();
@@ -1755,21 +1757,26 @@ public class SharedConfig {
     public static int measureDevicePerformanceClass() {
         long j;
         String str;
+        String str2;
         int i = Build.VERSION.SDK_INT;
         int i2 = ConnectionsManager.CPU_COUNT;
         int memoryClass = ((ActivityManager) ApplicationLoader.applicationContext.getSystemService("activity")).getMemoryClass();
         int i3 = 0;
-        if (i >= 31 && (str = Build.SOC_MODEL) != null) {
-            int hashCode = str.toUpperCase().hashCode();
-            int i4 = 0;
-            while (true) {
-                int[] iArr = LOW_SOC;
-                if (i4 >= iArr.length) {
-                    break;
-                } else if (iArr[i4] == hashCode) {
-                    return 0;
-                } else {
-                    i4++;
+        if (i >= 31) {
+            str = Build.SOC_MODEL;
+            if (str != null) {
+                str2 = Build.SOC_MODEL;
+                int hashCode = str2.toUpperCase().hashCode();
+                int i4 = 0;
+                while (true) {
+                    int[] iArr = LOW_SOC;
+                    if (i4 >= iArr.length) {
+                        break;
+                    } else if (iArr[i4] == hashCode) {
+                        return 0;
+                    } else {
+                        i4++;
+                    }
                 }
             }
         }

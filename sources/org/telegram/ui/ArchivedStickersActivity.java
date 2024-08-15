@@ -106,8 +106,7 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
         this.listAdapter = new ListAdapter(context);
         FrameLayout frameLayout = new FrameLayout(context);
         this.fragmentView = frameLayout;
-        FrameLayout frameLayout2 = frameLayout;
-        frameLayout2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
+        frameLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
         EmptyTextProgressView emptyTextProgressView = new EmptyTextProgressView(context);
         this.emptyView = emptyTextProgressView;
         if (this.currentType == 0) {
@@ -115,7 +114,7 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
         } else {
             emptyTextProgressView.setText(LocaleController.getString("ArchivedMasksEmpty", R.string.ArchivedMasksEmpty));
         }
-        frameLayout2.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f));
+        frameLayout.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f));
         if (this.loadingStickers) {
             this.emptyView.showProgress();
         } else {
@@ -129,9 +128,9 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, 1, false);
         this.layoutManager = linearLayoutManager;
         recyclerListView2.setLayoutManager(linearLayoutManager);
-        frameLayout2.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
+        frameLayout.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
         this.listView.setAdapter(this.listAdapter);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ArchivedStickersActivity$$ExternalSyntheticLambda3
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ArchivedStickersActivity$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i2) {
                 ArchivedStickersActivity.this.lambda$createView$0(view, i2);
@@ -244,7 +243,7 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
         int i = this.currentType;
         tLRPC$TL_messages_getArchivedStickers.masks = i == 1;
         tLRPC$TL_messages_getArchivedStickers.emojis = i == 5;
-        getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_messages_getArchivedStickers, new RequestDelegate() { // from class: org.telegram.ui.ArchivedStickersActivity$$ExternalSyntheticLambda2
+        getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_messages_getArchivedStickers, new RequestDelegate() { // from class: org.telegram.ui.ArchivedStickersActivity$$ExternalSyntheticLambda0
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 ArchivedStickersActivity.this.lambda$getStickers$2(tLObject, tLRPC$TL_error);
@@ -254,7 +253,7 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getStickers$2(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ArchivedStickersActivity$$ExternalSyntheticLambda0
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ArchivedStickersActivity$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 ArchivedStickersActivity.this.lambda$getStickers$1(tLRPC$TL_error, tLObject);
@@ -298,7 +297,7 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
             }
             return;
         }
-        this.doOnTransitionEnd = new Runnable() { // from class: org.telegram.ui.ArchivedStickersActivity$$ExternalSyntheticLambda1
+        this.doOnTransitionEnd = new Runnable() { // from class: org.telegram.ui.ArchivedStickersActivity$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 ArchivedStickersActivity.this.lambda$processResponse$3(tLRPC$TL_messages_archivedStickers);
@@ -392,8 +391,8 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-            int i2;
             String str;
+            int i2;
             if (getItemViewType(i) == 0) {
                 int i3 = i - ArchivedStickersActivity.this.stickersStartRow;
                 ArchivedStickerSetCell archivedStickerSetCell = (ArchivedStickerSetCell) viewHolder.itemView;
@@ -419,11 +418,11 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
                     textInfoPrivacyCell.setTopPadding(17);
                     textInfoPrivacyCell.setBottomPadding(10);
                     if (ArchivedStickersActivity.this.currentType == 5) {
-                        i2 = R.string.ArchivedEmojiInfo;
                         str = "ArchivedEmojiInfo";
+                        i2 = R.string.ArchivedEmojiInfo;
                     } else {
-                        i2 = R.string.ArchivedStickersInfo;
                         str = "ArchivedStickersInfo";
+                        i2 = R.string.ArchivedStickersInfo;
                     }
                     textInfoPrivacyCell.setText(LocaleController.getString(str, i2));
                     return;

@@ -10,6 +10,7 @@ import java.util.RandomAccess;
 /* loaded from: classes.dex */
 public final class zzjs extends zzhj<String> implements zzjv, RandomAccess {
     private static final zzjs zza;
+    private static final zzjv zzb;
     private final List<Object> zzc;
 
     public zzjs() {
@@ -90,6 +91,21 @@ public final class zzjs extends zzhj<String> implements zzjv, RandomAccess {
         return zza(this.zzc.set(i, (String) obj));
     }
 
+    @Override // com.google.android.gms.internal.vision.zzhj, java.util.AbstractCollection, java.util.Collection, java.util.List
+    public final /* bridge */ /* synthetic */ boolean retainAll(Collection collection) {
+        return super.retainAll(collection);
+    }
+
+    @Override // com.google.android.gms.internal.vision.zzhj, java.util.AbstractCollection, java.util.Collection, java.util.List
+    public final /* bridge */ /* synthetic */ boolean removeAll(Collection collection) {
+        return super.removeAll(collection);
+    }
+
+    @Override // com.google.android.gms.internal.vision.zzhj, java.util.AbstractCollection, java.util.Collection, java.util.List
+    public final /* bridge */ /* synthetic */ boolean remove(Object obj) {
+        return super.remove(obj);
+    }
+
     @Override // com.google.android.gms.internal.vision.zzhj, java.util.AbstractList, java.util.List
     public final /* synthetic */ Object remove(int i) {
         zzc();
@@ -98,11 +114,31 @@ public final class zzjs extends zzhj<String> implements zzjv, RandomAccess {
         return zza(remove);
     }
 
+    @Override // com.google.android.gms.internal.vision.zzhj, com.google.android.gms.internal.vision.zzjl
+    public final /* bridge */ /* synthetic */ boolean zza() {
+        return super.zza();
+    }
+
     @Override // java.util.AbstractList, java.util.List
     public final /* synthetic */ void add(int i, Object obj) {
         zzc();
         this.zzc.add(i, (String) obj);
         ((AbstractList) this).modCount++;
+    }
+
+    @Override // com.google.android.gms.internal.vision.zzhj, java.util.AbstractList, java.util.AbstractCollection, java.util.Collection, java.util.List
+    public final /* bridge */ /* synthetic */ boolean add(Object obj) {
+        return super.add(obj);
+    }
+
+    @Override // com.google.android.gms.internal.vision.zzhj, java.util.AbstractList, java.util.Collection, java.util.List
+    public final /* bridge */ /* synthetic */ int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override // com.google.android.gms.internal.vision.zzhj, java.util.AbstractList, java.util.Collection, java.util.List
+    public final /* bridge */ /* synthetic */ boolean equals(Object obj) {
+        return super.equals(obj);
     }
 
     @Override // com.google.android.gms.internal.vision.zzjl
@@ -123,23 +159,24 @@ public final class zzjs extends zzhj<String> implements zzjv, RandomAccess {
         }
         if (obj instanceof zzht) {
             zzht zzhtVar = (zzht) obj;
-            String zzb = zzhtVar.zzb();
+            String zzb2 = zzhtVar.zzb();
             if (zzhtVar.zzc()) {
-                this.zzc.set(i, zzb);
+                this.zzc.set(i, zzb2);
             }
-            return zzb;
+            return zzb2;
         }
         byte[] bArr = (byte[]) obj;
-        String zzb2 = zzjf.zzb(bArr);
+        String zzb3 = zzjf.zzb(bArr);
         if (zzjf.zza(bArr)) {
-            this.zzc.set(i, zzb2);
+            this.zzc.set(i, zzb3);
         }
-        return zzb2;
+        return zzb3;
     }
 
     static {
         zzjs zzjsVar = new zzjs();
         zza = zzjsVar;
         zzjsVar.zzb();
+        zzb = zzjsVar;
     }
 }

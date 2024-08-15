@@ -2,7 +2,6 @@ package androidx.multidex;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.util.Log;
 import java.io.BufferedOutputStream;
 import java.io.Closeable;
@@ -246,11 +245,11 @@ final class MultiDexExtractor implements Closeable {
     }
 
     private static SharedPreferences getMultiDexPreferences(Context context) {
-        return context.getSharedPreferences("multidex.version", Build.VERSION.SDK_INT < 11 ? 0 : 4);
+        return context.getSharedPreferences("multidex.version", 4);
     }
 
     private void clearDexDir() {
-        File[] listFiles = this.dexDir.listFiles(new FileFilter(this) { // from class: androidx.multidex.MultiDexExtractor.1
+        File[] listFiles = this.dexDir.listFiles(new FileFilter() { // from class: androidx.multidex.MultiDexExtractor.1
             @Override // java.io.FileFilter
             public boolean accept(File file) {
                 return !file.getName().equals("MultiDex.lock");

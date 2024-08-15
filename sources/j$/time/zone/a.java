@@ -2,43 +2,44 @@ package j$.time.zone;
 
 import j$.time.Instant;
 import j$.time.ZoneOffset;
+import j$.time.h;
 import java.io.Serializable;
 /* loaded from: classes2.dex */
 public final class a implements Comparable, Serializable {
-    private final j$.time.e a;
+    private final h a;
     private final ZoneOffset b;
     private final ZoneOffset c;
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public a(long j, ZoneOffset zoneOffset, ZoneOffset zoneOffset2) {
-        this.a = j$.time.e.k(j, 0, zoneOffset);
+        this.a = h.j(j, 0, zoneOffset);
         this.b = zoneOffset;
         this.c = zoneOffset2;
     }
 
-    public Instant a() {
-        j$.time.e eVar = this.a;
-        return Instant.l(eVar.l(this.b), eVar.o().h());
-    }
-
-    public ZoneOffset b() {
+    public final ZoneOffset a() {
         return this.c;
     }
 
-    public ZoneOffset c() {
+    public final ZoneOffset b() {
         return this.b;
     }
 
+    public final long c() {
+        return this.a.k(this.b);
+    }
+
     @Override // java.lang.Comparable
-    public int compareTo(Object obj) {
-        return a().f(((a) obj).a());
+    public final int compareTo(Object obj) {
+        a aVar = (a) obj;
+        ZoneOffset zoneOffset = this.b;
+        h hVar = this.a;
+        Instant k = Instant.k(hVar.k(zoneOffset), hVar.m().h());
+        h hVar2 = aVar.a;
+        return k.compareTo(Instant.k(hVar2.k(aVar.b), hVar2.m().h()));
     }
 
-    public long d() {
-        return this.a.l(this.b);
-    }
-
-    public boolean equals(Object obj) {
+    public final boolean equals(Object obj) {
         if (obj == this) {
             return true;
         }
@@ -49,19 +50,21 @@ public final class a implements Comparable, Serializable {
         return false;
     }
 
-    public int hashCode() {
+    public final int hashCode() {
         return (this.a.hashCode() ^ this.b.hashCode()) ^ Integer.rotateLeft(this.c.hashCode(), 16);
     }
 
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Transition[");
-        sb.append(this.c.getTotalSeconds() > this.b.getTotalSeconds() ? "Gap" : "Overlap");
+    public final String toString() {
+        StringBuilder sb = new StringBuilder("Transition[");
+        ZoneOffset zoneOffset = this.c;
+        int totalSeconds = zoneOffset.getTotalSeconds();
+        ZoneOffset zoneOffset2 = this.b;
+        sb.append(totalSeconds > zoneOffset2.getTotalSeconds() ? "Gap" : "Overlap");
         sb.append(" at ");
         sb.append(this.a);
-        sb.append(this.b);
+        sb.append(zoneOffset2);
         sb.append(" to ");
-        sb.append(this.c);
+        sb.append(zoneOffset);
         sb.append(']');
         return sb.toString();
     }

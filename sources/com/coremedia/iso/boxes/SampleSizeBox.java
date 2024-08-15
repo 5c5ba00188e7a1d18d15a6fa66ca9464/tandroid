@@ -11,7 +11,10 @@ import org.aspectj.runtime.reflect.Factory;
 /* loaded from: classes.dex */
 public class SampleSizeBox extends AbstractFullBox {
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_0 = null;
+    private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_1 = null;
+    private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_2 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_3 = null;
+    private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_4 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_5 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_6 = null;
     int sampleCount;
@@ -25,10 +28,10 @@ public class SampleSizeBox extends AbstractFullBox {
     private static /* synthetic */ void ajc$preClinit() {
         Factory factory = new Factory("SampleSizeBox.java", SampleSizeBox.class);
         ajc$tjp_0 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "getSampleSize", "com.coremedia.iso.boxes.SampleSizeBox", "", "", "", "long"), 50);
-        factory.makeSJP("method-execution", factory.makeMethodSig("1", "setSampleSize", "com.coremedia.iso.boxes.SampleSizeBox", "long", "sampleSize", "", "void"), 54);
-        factory.makeSJP("method-execution", factory.makeMethodSig("1", "getSampleSizeAtIndex", "com.coremedia.iso.boxes.SampleSizeBox", "int", "index", "", "long"), 59);
+        ajc$tjp_1 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setSampleSize", "com.coremedia.iso.boxes.SampleSizeBox", "long", "sampleSize", "", "void"), 54);
+        ajc$tjp_2 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "getSampleSizeAtIndex", "com.coremedia.iso.boxes.SampleSizeBox", "int", "index", "", "long"), 59);
         ajc$tjp_3 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "getSampleCount", "com.coremedia.iso.boxes.SampleSizeBox", "", "", "", "long"), 67);
-        factory.makeSJP("method-execution", factory.makeMethodSig("1", "getSampleSizes", "com.coremedia.iso.boxes.SampleSizeBox", "", "", "", "[J"), 76);
+        ajc$tjp_4 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "getSampleSizes", "com.coremedia.iso.boxes.SampleSizeBox", "", "", "", "[J"), 76);
         ajc$tjp_5 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setSampleSizes", "com.coremedia.iso.boxes.SampleSizeBox", "[J", "sampleSizes", "", "void"), 80);
         ajc$tjp_6 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "toString", "com.coremedia.iso.boxes.SampleSizeBox", "", "", "", "java.lang.String"), 119);
     }

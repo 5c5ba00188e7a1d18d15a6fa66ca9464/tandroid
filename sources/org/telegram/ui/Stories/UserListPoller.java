@@ -26,14 +26,13 @@ import org.telegram.ui.Stories.UserListPoller;
 public class UserListPoller {
     private static UserListPoller[] istances = new UserListPoller[4];
     final int currentAccount;
-    Runnable requestCollectedRunnables;
     LongSparseLongArray userPollLastTime = new LongSparseLongArray();
     ArrayList<Long> dialogIds = new ArrayList<>();
     ArrayList<Long> collectedDialogIds = new ArrayList<>();
+    ArrayList<Integer> runningRequests = new ArrayList<>();
+    Runnable requestCollectedRunnables = new 1();
 
     private UserListPoller(int i) {
-        new ArrayList();
-        this.requestCollectedRunnables = new 1();
         this.currentAccount = i;
     }
 
@@ -62,7 +61,7 @@ public class UserListPoller {
             for (int i = 0; i < arrayList.size(); i++) {
                 tL_stories$TL_stories_getPeerMaxIDs.id.add(MessagesController.getInstance(UserListPoller.this.currentAccount).getInputPeer(((Long) arrayList.get(i)).longValue()));
             }
-            ConnectionsManager.getInstance(UserListPoller.this.currentAccount).sendRequest(tL_stories$TL_stories_getPeerMaxIDs, new RequestDelegate() { // from class: org.telegram.ui.Stories.UserListPoller$1$$ExternalSyntheticLambda1
+            ConnectionsManager.getInstance(UserListPoller.this.currentAccount).sendRequest(tL_stories$TL_stories_getPeerMaxIDs, new RequestDelegate() { // from class: org.telegram.ui.Stories.UserListPoller$1$$ExternalSyntheticLambda0
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     UserListPoller.1.this.lambda$run$1(arrayList, tLObject, tLRPC$TL_error);
@@ -72,7 +71,7 @@ public class UserListPoller {
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$run$1(final ArrayList arrayList, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.UserListPoller$1$$ExternalSyntheticLambda0
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.UserListPoller$1$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     UserListPoller.1.this.lambda$run$0(tLObject, arrayList);

@@ -32,10 +32,11 @@ public class EmojiThemes {
     private static final int[] previewColorKeys = {Theme.key_chat_inBubble, Theme.key_chat_outBubble, Theme.key_featuredStickers_addButton, Theme.key_chat_wallpaper, Theme.key_chat_wallpaper_gradient_to1, Theme.key_chat_wallpaper_gradient_to2, Theme.key_chat_wallpaper_gradient_to3, Theme.key_chat_wallpaper_gradient_rotation};
     private final int currentAccount;
     public String emoji;
-    public ArrayList<ThemeItem> items = new ArrayList<>();
     public boolean showAsDefaultStub;
     public boolean showAsRemovedStub;
     public TLRPC$WallPaper wallpaper;
+    int currentIndex = 0;
+    public ArrayList<ThemeItem> items = new ArrayList<>();
 
     public EmojiThemes(int i) {
         this.currentAccount = i;
@@ -365,7 +366,7 @@ public class EmojiThemes {
     }
 
     public static void loadWallpaperImage(final int i, final long j, final TLRPC$WallPaper tLRPC$WallPaper, final ResultCallback<Pair<Long, Bitmap>> resultCallback) {
-        ChatThemeController.getInstance(i).getWallpaperBitmap(j, new ResultCallback() { // from class: org.telegram.ui.ActionBar.EmojiThemes$$ExternalSyntheticLambda3
+        ChatThemeController.getInstance(i).getWallpaperBitmap(j, new ResultCallback() { // from class: org.telegram.ui.ActionBar.EmojiThemes$$ExternalSyntheticLambda0
             @Override // org.telegram.tgnet.ResultCallback
             public final void onComplete(Object obj) {
                 EmojiThemes.lambda$loadWallpaperImage$1(ResultCallback.this, j, tLRPC$WallPaper, i, (Bitmap) obj);
@@ -392,7 +393,7 @@ public class EmojiThemes {
         Point point2 = AndroidUtilities.displaySize;
         int max = Math.max(point2.x, point2.y);
         imageReceiver.setImage(forDocument, ((int) (min / AndroidUtilities.density)) + "_" + ((int) (max / AndroidUtilities.density)) + "_f", null, ".jpg", tLRPC$WallPaper, 1);
-        imageReceiver.setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.ActionBar.EmojiThemes$$ExternalSyntheticLambda1
+        imageReceiver.setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.ActionBar.EmojiThemes$$ExternalSyntheticLambda2
             @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
             public final void didSetImage(ImageReceiver imageReceiver2, boolean z, boolean z2, boolean z3) {
                 EmojiThemes.lambda$loadWallpaperImage$0(ResultCallback.this, j, i, imageReceiver2, z, z2, z3);
@@ -468,7 +469,7 @@ public class EmojiThemes {
         ImageReceiver imageReceiver = new ImageReceiver();
         imageReceiver.setAllowLoadingOnAttachedOnly(false);
         imageReceiver.setImage(forDocument, "120_140", null, null, null, 1);
-        imageReceiver.setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.ActionBar.EmojiThemes$$ExternalSyntheticLambda2
+        imageReceiver.setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.ActionBar.EmojiThemes$$ExternalSyntheticLambda1
             @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
             public final void didSetImage(ImageReceiver imageReceiver2, boolean z, boolean z2, boolean z3) {
                 EmojiThemes.lambda$loadWallpaperThumb$3(ResultCallback.this, j, wallpaperThumbFile, imageReceiver2, z, z2, z3);
@@ -504,7 +505,7 @@ public class EmojiThemes {
             if (resultCallback != null) {
                 resultCallback.onComplete(new Pair(Long.valueOf(j), bitmap));
             }
-            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.ActionBar.EmojiThemes$$ExternalSyntheticLambda0
+            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.ActionBar.EmojiThemes$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     EmojiThemes.lambda$loadWallpaperThumb$2(file, bitmap);

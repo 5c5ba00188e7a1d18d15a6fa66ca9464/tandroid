@@ -51,7 +51,6 @@ public class LogoutActivity extends BaseFragment {
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean onFragmentCreate() {
         super.onFragmentCreate();
-        this.rowCount = 0;
         this.rowCount = 0 + 1;
         this.alternativeHeaderRow = 0;
         if (UserConfig.getActivatedAccountsCount() < 4) {
@@ -70,19 +69,14 @@ public class LogoutActivity extends BaseFragment {
         }
         int i3 = this.rowCount;
         int i4 = i3 + 1;
-        this.rowCount = i4;
         this.cacheRow = i3;
         int i5 = i4 + 1;
-        this.rowCount = i5;
         this.phoneRow = i4;
         int i6 = i5 + 1;
-        this.rowCount = i6;
         this.supportRow = i5;
         int i7 = i6 + 1;
-        this.rowCount = i7;
         this.alternativeSectionRow = i6;
         int i8 = i7 + 1;
-        this.rowCount = i8;
         this.logoutRow = i7;
         this.rowCount = i8 + 1;
         this.logoutSectionRow = i8;
@@ -115,7 +109,7 @@ public class LogoutActivity extends BaseFragment {
         this.listView.setLayoutManager(new LinearLayoutManager(context, 1, false));
         ((FrameLayout) this.fragmentView).addView(this.listView, LayoutHelper.createFrame(-1, -1, 51));
         this.listView.setAdapter(this.listAdapter);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.LogoutActivity$$ExternalSyntheticLambda1
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.LogoutActivity$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
             public /* synthetic */ boolean hasDoubleTap(View view, int i) {
                 return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i);
@@ -173,7 +167,7 @@ public class LogoutActivity extends BaseFragment {
         builder.setMessage(LocaleController.getString("AreYouSureLogout", R.string.AreYouSureLogout));
         int i2 = R.string.LogOut;
         builder.setTitle(LocaleController.getString("LogOut", i2));
-        builder.setPositiveButton(LocaleController.getString("LogOut", i2), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LogoutActivity$$ExternalSyntheticLambda0
+        builder.setPositiveButton(LocaleController.getString("LogOut", i2), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LogoutActivity$$ExternalSyntheticLambda1
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i3) {
                 LogoutActivity.lambda$makeLogOutDialog$1(i, dialogInterface, i3);

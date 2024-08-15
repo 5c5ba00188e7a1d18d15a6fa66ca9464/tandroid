@@ -3,7 +3,6 @@ package androidx.loader.content;
 import android.content.Context;
 import android.os.Handler;
 import android.os.SystemClock;
-import androidx.core.os.OperationCanceledException;
 import androidx.core.util.TimeUtils;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
@@ -38,14 +37,7 @@ public abstract class AsyncTaskLoader<D> extends Loader<D> {
         /* JADX INFO: Access modifiers changed from: protected */
         @Override // androidx.loader.content.ModernAsyncTask
         public D doInBackground(Void... voidArr) {
-            try {
-                return (D) AsyncTaskLoader.this.onLoadInBackground();
-            } catch (OperationCanceledException e) {
-                if (isCancelled()) {
-                    return null;
-                }
-                throw e;
-            }
+            return (D) AsyncTaskLoader.this.onLoadInBackground();
         }
 
         @Override // androidx.loader.content.ModernAsyncTask

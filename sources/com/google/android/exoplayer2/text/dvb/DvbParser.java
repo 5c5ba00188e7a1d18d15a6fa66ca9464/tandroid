@@ -572,8 +572,8 @@ final class DvbParser {
     }
 
     /* JADX WARN: Removed duplicated region for block: B:31:0x0074  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x008e A[LOOP:0: B:3:0x0009->B:36:0x008e, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x008d A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x0090 A[LOOP:0: B:3:0x0009->B:36:0x0090, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x008f A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -581,21 +581,22 @@ final class DvbParser {
         boolean z;
         int i3;
         int readBits;
+        int readBits2;
         int i4 = i;
         boolean z2 = false;
         while (true) {
-            byte readBits2 = parsableBitArray.readBits(4);
-            if (readBits2 != 0) {
+            byte readBits3 = parsableBitArray.readBits(4);
+            if (readBits3 != 0) {
                 z = z2;
             } else {
                 if (!parsableBitArray.readBit()) {
-                    int readBits3 = parsableBitArray.readBits(3);
-                    if (readBits3 != 0) {
+                    int readBits4 = parsableBitArray.readBits(3);
+                    if (readBits4 != 0) {
                         z = z2;
-                        i3 = readBits3 + 2;
-                        readBits2 = 0;
+                        i3 = readBits4 + 2;
+                        readBits3 = 0;
                     } else {
-                        readBits2 = 0;
+                        readBits3 = 0;
                         z = true;
                         i3 = 0;
                     }
@@ -604,20 +605,20 @@ final class DvbParser {
                         readBits = parsableBitArray.readBits(2) + 4;
                         readBits2 = parsableBitArray.readBits(4);
                     } else {
-                        int readBits4 = parsableBitArray.readBits(2);
-                        if (readBits4 == 0) {
+                        int readBits5 = parsableBitArray.readBits(2);
+                        if (readBits5 == 0) {
                             z = z2;
-                            readBits2 = 0;
-                        } else if (readBits4 == 1) {
+                            readBits3 = 0;
+                        } else if (readBits5 == 1) {
                             z = z2;
-                            readBits2 = 0;
+                            readBits3 = 0;
                             i3 = 2;
-                        } else if (readBits4 == 2) {
+                        } else if (readBits5 == 2) {
                             readBits = parsableBitArray.readBits(4) + 9;
                             readBits2 = parsableBitArray.readBits(4);
-                        } else if (readBits4 != 3) {
+                        } else if (readBits5 != 3) {
                             z = z2;
-                            readBits2 = 0;
+                            readBits3 = 0;
                             i3 = 0;
                         } else {
                             readBits = parsableBitArray.readBits(8) + 25;
@@ -626,12 +627,13 @@ final class DvbParser {
                     }
                     z = z2;
                     i3 = readBits;
+                    readBits3 = readBits2;
                 }
                 if (i3 != 0 && paint != null) {
                     if (bArr != null) {
-                        readBits2 = bArr[readBits2];
+                        readBits3 = bArr[readBits3];
                     }
-                    paint.setColor(iArr[readBits2]);
+                    paint.setColor(iArr[readBits3]);
                     canvas.drawRect(i4, i2, i4 + i3, i2 + 1, paint);
                 }
                 i4 += i3;
@@ -644,7 +646,7 @@ final class DvbParser {
             if (i3 != 0) {
                 if (bArr != null) {
                 }
-                paint.setColor(iArr[readBits2]);
+                paint.setColor(iArr[readBits3]);
                 canvas.drawRect(i4, i2, i4 + i3, i2 + 1, paint);
             }
             i4 += i3;
@@ -756,9 +758,11 @@ final class DvbParser {
     public static final class PageComposition {
         public final SparseArray<PageRegion> regions;
         public final int state;
+        public final int timeOutSecs;
         public final int version;
 
         public PageComposition(int i, int i2, int i3, SparseArray<PageRegion> sparseArray) {
+            this.timeOutSecs = i;
             this.version = i2;
             this.state = i3;
             this.regions = sparseArray;
@@ -785,6 +789,7 @@ final class DvbParser {
         public final boolean fillFlag;
         public final int height;
         public final int id;
+        public final int levelOfCompatibility;
         public final int pixelCode2Bit;
         public final int pixelCode4Bit;
         public final int pixelCode8Bit;
@@ -796,6 +801,7 @@ final class DvbParser {
             this.fillFlag = z;
             this.width = i2;
             this.height = i3;
+            this.levelOfCompatibility = i4;
             this.depth = i5;
             this.clutId = i6;
             this.pixelCode8Bit = i7;
@@ -815,12 +821,20 @@ final class DvbParser {
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class RegionObject {
+        public final int backgroundPixelCode;
+        public final int foregroundPixelCode;
         public final int horizontalPosition;
+        public final int provider;
+        public final int type;
         public final int verticalPosition;
 
         public RegionObject(int i, int i2, int i3, int i4, int i5, int i6) {
+            this.type = i;
+            this.provider = i2;
             this.horizontalPosition = i3;
             this.verticalPosition = i4;
+            this.foregroundPixelCode = i5;
+            this.backgroundPixelCode = i6;
         }
     }
 

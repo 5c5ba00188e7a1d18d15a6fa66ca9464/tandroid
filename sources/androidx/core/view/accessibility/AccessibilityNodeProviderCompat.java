@@ -95,15 +95,10 @@ public class AccessibilityNodeProviderCompat {
     }
 
     public AccessibilityNodeProviderCompat() {
-        int i = Build.VERSION.SDK_INT;
-        if (i >= 26) {
+        if (Build.VERSION.SDK_INT >= 26) {
             this.mProvider = new AccessibilityNodeProviderApi26(this);
-        } else if (i >= 19) {
-            this.mProvider = new AccessibilityNodeProviderApi19(this);
-        } else if (i >= 16) {
-            this.mProvider = new AccessibilityNodeProviderApi16(this);
         } else {
-            this.mProvider = null;
+            this.mProvider = new AccessibilityNodeProviderApi19(this);
         }
     }
 

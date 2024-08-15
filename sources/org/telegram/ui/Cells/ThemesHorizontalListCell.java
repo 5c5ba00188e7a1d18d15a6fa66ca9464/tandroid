@@ -366,7 +366,7 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$parseTheme$1(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Cells.ThemesHorizontalListCell$InnerThemeView$$ExternalSyntheticLambda0
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Cells.ThemesHorizontalListCell$InnerThemeView$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     ThemesHorizontalListCell.InnerThemeView.this.lambda$parseTheme$0(tLObject);
@@ -719,6 +719,7 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
 
         @Override // android.view.View
         public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
+            AccessibilityNodeInfo.AccessibilityAction accessibilityAction;
             super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
             accessibilityNodeInfo.setText(getThemeName());
             accessibilityNodeInfo.setClassName(Button.class.getName());
@@ -726,7 +727,8 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
             accessibilityNodeInfo.setCheckable(true);
             accessibilityNodeInfo.setEnabled(true);
             if (Build.VERSION.SDK_INT >= 21) {
-                accessibilityNodeInfo.addAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_CLICK);
+                accessibilityAction = AccessibilityNodeInfo.AccessibilityAction.ACTION_CLICK;
+                accessibilityNodeInfo.addAction(accessibilityAction);
                 accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(32, LocaleController.getString("AccDescrMoreOptions", R.string.AccDescrMoreOptions)));
             }
         }
@@ -747,7 +749,7 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
         }
         setItemAnimator(null);
         setLayoutAnimation(null);
-        this.horizontalLayoutManager = new LinearLayoutManager(this, context) { // from class: org.telegram.ui.Cells.ThemesHorizontalListCell.1
+        this.horizontalLayoutManager = new LinearLayoutManager(context) { // from class: org.telegram.ui.Cells.ThemesHorizontalListCell.1
             @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
             public boolean supportsPredictiveItemAnimations() {
                 return false;
@@ -904,7 +906,7 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
             if (themeInfo != null) {
                 this.loadingThemes.remove(str);
                 if (this.loadingWallpapers.remove(themeInfo) != null) {
-                    Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Cells.ThemesHorizontalListCell$$ExternalSyntheticLambda1
+                    Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Cells.ThemesHorizontalListCell$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
                         public final void run() {
                             ThemesHorizontalListCell.this.lambda$didReceivedNotification$3(themeInfo, file);
@@ -922,7 +924,7 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$didReceivedNotification$3(final Theme.ThemeInfo themeInfo, File file) {
         themeInfo.badWallpaper = !themeInfo.createBackground(file, themeInfo.pathToWallpaper);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Cells.ThemesHorizontalListCell$$ExternalSyntheticLambda0
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Cells.ThemesHorizontalListCell$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 ThemesHorizontalListCell.this.lambda$didReceivedNotification$2(themeInfo);

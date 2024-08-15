@@ -55,7 +55,7 @@ public class Uploader {
     }
 
     public void upload(final TransportContext transportContext, final int i, final Runnable runnable) {
-        this.executor.execute(new Runnable() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda10
+        this.executor.execute(new Runnable() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 Uploader.this.lambda$upload$1(transportContext, i, runnable);
@@ -70,14 +70,14 @@ public class Uploader {
                 SynchronizationGuard synchronizationGuard = this.guard;
                 final EventStore eventStore = this.eventStore;
                 Objects.requireNonNull(eventStore);
-                synchronizationGuard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda9
+                synchronizationGuard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda1
                     @Override // com.google.android.datatransport.runtime.synchronization.SynchronizationGuard.CriticalSection
                     public final Object execute() {
                         return Integer.valueOf(EventStore.this.cleanUp());
                     }
                 });
                 if (!isNetworkAvailable()) {
-                    this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda3
+                    this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda2
                         @Override // com.google.android.datatransport.runtime.synchronization.SynchronizationGuard.CriticalSection
                         public final Object execute() {
                             Object lambda$upload$0;
@@ -109,7 +109,7 @@ public class Uploader {
         BackendResponse ok = BackendResponse.ok(0L);
         while (true) {
             final long j2 = j;
-            while (((Boolean) this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda1
+            while (((Boolean) this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda3
                 @Override // com.google.android.datatransport.runtime.synchronization.SynchronizationGuard.CriticalSection
                 public final Object execute() {
                     Boolean lambda$logAndUpdateState$2;
@@ -117,7 +117,7 @@ public class Uploader {
                     return lambda$logAndUpdateState$2;
                 }
             })).booleanValue()) {
-                final Iterable<PersistedEvent> iterable = (Iterable) this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda2
+                final Iterable<PersistedEvent> iterable = (Iterable) this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda4
                     @Override // com.google.android.datatransport.runtime.synchronization.SynchronizationGuard.CriticalSection
                     public final Object execute() {
                         Iterable lambda$logAndUpdateState$3;
@@ -143,7 +143,7 @@ public class Uploader {
                 }
                 ok = send;
                 if (ok.getStatus() == BackendResponse.Status.TRANSIENT_ERROR) {
-                    this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda6
+                    this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda5
                         @Override // com.google.android.datatransport.runtime.synchronization.SynchronizationGuard.CriticalSection
                         public final Object execute() {
                             Object lambda$logAndUpdateState$4;
@@ -154,7 +154,7 @@ public class Uploader {
                     this.workScheduler.schedule(transportContext, i + 1, true);
                     return ok;
                 }
-                this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda5
+                this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda6
                     @Override // com.google.android.datatransport.runtime.synchronization.SynchronizationGuard.CriticalSection
                     public final Object execute() {
                         Object lambda$logAndUpdateState$5;
@@ -165,7 +165,7 @@ public class Uploader {
                 if (ok.getStatus() == BackendResponse.Status.OK) {
                     j = Math.max(j2, ok.getNextRequestWaitMillis());
                     if (transportContext.shouldUploadClientHealthMetrics()) {
-                        this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda0
+                        this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda7
                             @Override // com.google.android.datatransport.runtime.synchronization.SynchronizationGuard.CriticalSection
                             public final Object execute() {
                                 Object lambda$logAndUpdateState$6;
@@ -184,7 +184,7 @@ public class Uploader {
                             hashMap.put(transportName, Integer.valueOf(((Integer) hashMap.get(transportName)).intValue() + 1));
                         }
                     }
-                    this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda7
+                    this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda8
                         @Override // com.google.android.datatransport.runtime.synchronization.SynchronizationGuard.CriticalSection
                         public final Object execute() {
                             Object lambda$logAndUpdateState$7;
@@ -194,7 +194,7 @@ public class Uploader {
                     });
                 }
             }
-            this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda4
+            this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda9
                 @Override // com.google.android.datatransport.runtime.synchronization.SynchronizationGuard.CriticalSection
                 public final Object execute() {
                     Object lambda$logAndUpdateState$8;
@@ -253,7 +253,7 @@ public class Uploader {
         SynchronizationGuard synchronizationGuard = this.guard;
         final ClientHealthMetricsStore clientHealthMetricsStore = this.clientHealthMetricsStore;
         Objects.requireNonNull(clientHealthMetricsStore);
-        return transportBackend.decorate(EventInternal.builder().setEventMillis(this.clock.getTime()).setUptimeMillis(this.uptimeClock.getTime()).setTransportName("GDT_CLIENT_METRICS").setEncodedPayload(new EncodedPayload(Encoding.of("proto"), ((ClientMetrics) synchronizationGuard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda8
+        return transportBackend.decorate(EventInternal.builder().setEventMillis(this.clock.getTime()).setUptimeMillis(this.uptimeClock.getTime()).setTransportName("GDT_CLIENT_METRICS").setEncodedPayload(new EncodedPayload(Encoding.of("proto"), ((ClientMetrics) synchronizationGuard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda10
             @Override // com.google.android.datatransport.runtime.synchronization.SynchronizationGuard.CriticalSection
             public final Object execute() {
                 return ClientHealthMetricsStore.this.loadClientMetrics();

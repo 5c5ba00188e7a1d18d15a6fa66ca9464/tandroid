@@ -29,7 +29,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 /* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public abstract class BaseGmsClient<T extends IInterface> {
-    private static final Feature[] zze = new Feature[0];
     private volatile String zzA;
     zzu zza;
     final Handler zzb;
@@ -40,7 +39,9 @@ public abstract class BaseGmsClient<T extends IInterface> {
     private int zzi;
     private long zzj;
     private final Context zzl;
+    private final Looper zzm;
     private final GmsClientSupervisor zzn;
+    private final GoogleApiAvailabilityLight zzo;
     private IGmsServiceBroker zzr;
     private IInterface zzs;
     private zze zzu;
@@ -48,6 +49,8 @@ public abstract class BaseGmsClient<T extends IInterface> {
     private final BaseOnConnectionFailedListener zzx;
     private final int zzy;
     private final String zzz;
+    private static final Feature[] zze = new Feature[0];
+    public static final String[] GOOGLE_PLUS_REQUIRED_FEATURES = {"service_esmobile", "service_googleme"};
     private volatile String zzk = null;
     private final Object zzp = new Object();
     private final Object zzq = new Object();
@@ -594,9 +597,11 @@ public abstract class BaseGmsClient<T extends IInterface> {
         Preconditions.checkNotNull(context, "Context must not be null");
         this.zzl = context;
         Preconditions.checkNotNull(looper, "Looper must not be null");
+        this.zzm = looper;
         Preconditions.checkNotNull(gmsClientSupervisor, "Supervisor must not be null");
         this.zzn = gmsClientSupervisor;
         Preconditions.checkNotNull(googleApiAvailabilityLight, "API availability must not be null");
+        this.zzo = googleApiAvailabilityLight;
         this.zzb = new zzb(this, looper);
         this.zzy = i;
         this.zzw = baseConnectionCallbacks;

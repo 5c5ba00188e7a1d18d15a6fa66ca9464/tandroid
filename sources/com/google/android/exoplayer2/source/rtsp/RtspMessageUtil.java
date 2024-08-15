@@ -28,9 +28,11 @@ public final class RtspMessageUtil {
     /* loaded from: classes.dex */
     public static final class RtspSessionHeader {
         public final String sessionId;
+        public final long timeoutMs;
 
         public RtspSessionHeader(String str, long j) {
             this.sessionId = str;
+            this.timeoutMs = j;
         }
     }
 
@@ -304,21 +306,23 @@ public final class RtspMessageUtil {
     }
 
     public static RtspSessionHeader parseSessionHeader(String str) throws ParserException {
+        long parseInt;
         Matcher matcher = SESSION_HEADER_PATTERN.matcher(str);
         if (!matcher.matches()) {
             throw ParserException.createForMalformedManifest(str, null);
         }
         String str2 = (String) Assertions.checkNotNull(matcher.group(1));
-        long j = 60000;
         String group = matcher.group(2);
         if (group != null) {
             try {
-                j = Integer.parseInt(group) * 1000;
+                parseInt = Integer.parseInt(group) * 1000;
             } catch (NumberFormatException e) {
                 throw ParserException.createForMalformedManifest(str, e);
             }
+        } else {
+            parseInt = 60000;
         }
-        return new RtspSessionHeader(str2, j);
+        return new RtspSessionHeader(str2, parseInt);
     }
 
     public static RtspAuthenticationInfo parseWwwAuthenticateHeader(String str) throws ParserException {

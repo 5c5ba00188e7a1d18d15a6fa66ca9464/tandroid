@@ -327,28 +327,28 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
                 } else if (!this.fromStories) {
                     i2 = 1;
                 }
-                r2 = 2 + i2;
+                r1 = 2 + i2;
             } else if (i == 2) {
                 LocationController.SharingLocationInfo sharingLocationInfo = LocationController.getInstance(this.currentAccount).getSharingLocationInfo(this.dialogId);
                 int size = this.currentLiveLocations.size() + 2;
                 if (sharingLocationInfo != null && sharingLocationInfo.period != Integer.MAX_VALUE) {
                     i2 = 1;
                 }
-                r2 = size + i2;
+                r1 = size + i2;
             } else if (this.searching || !this.searched || this.places.isEmpty()) {
                 int i3 = this.locationType;
                 if (i3 == 0) {
-                    r1 = 5;
+                    r2 = 5;
                 } else if (i3 == 7) {
-                    r1 = (this.street == null ? 0 : 1) + 5;
+                    r2 = (this.street == null ? 0 : 1) + 5;
                 }
                 boolean z = this.myLocationDenied;
-                r2 = r1 + ((((z || (!this.searching && this.searched)) ? 0 : 2) + (this.needEmptyView ? 1 : 0)) - (z ? 2 : 0));
+                r1 = r2 + ((((z || (!this.searching && this.searched)) ? 0 : 2) + (this.needEmptyView ? 1 : 0)) - (z ? 2 : 0));
             } else {
-                r2 = (this.locationType != 1 ? 5 : 6) + this.locations.size() + this.places.size() + (this.needEmptyView ? 1 : 0);
+                r1 = (this.locationType != 1 ? 5 : 6) + this.locations.size() + this.places.size() + (this.needEmptyView ? 1 : 0);
             }
         }
-        return (this.sharedMediaLayout == null || !this.sharedMediaLayoutVisible) ? r2 : r2 + 1;
+        return (this.sharedMediaLayout == null || !this.sharedMediaLayoutVisible) ? r1 : r1 + 1;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -626,8 +626,8 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
         return null;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:107:0x00ec A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:108:0x00ed  */
+    /* JADX WARN: Removed duplicated region for block: B:109:0x00ee A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:110:0x00ef  */
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -653,10 +653,7 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
         if (i3 == 4) {
             return 1;
         }
-        LocationController.SharingLocationInfo sharingLocationInfo = null;
-        if (i3 == 2 || i3 == 1) {
-            sharingLocationInfo = LocationController.getInstance(this.currentAccount).getSharingLocationInfo(this.dialogId);
-        }
+        LocationController.SharingLocationInfo sharingLocationInfo = (i3 == 2 || i3 == 1) ? LocationController.getInstance(this.currentAccount).getSharingLocationInfo(this.dialogId) : null;
         if (this.currentMessageObject != null) {
             if (this.currentLiveLocations.isEmpty()) {
                 if (i == 2) {

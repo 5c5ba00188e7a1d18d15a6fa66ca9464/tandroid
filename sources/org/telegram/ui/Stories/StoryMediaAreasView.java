@@ -77,6 +77,7 @@ public class StoryMediaAreasView extends FrameLayout implements View.OnClickList
     public final AnimatedFloat parentHighlightScaleAlpha;
     private View parentView;
     float[] point;
+    private final float[] radii;
     private final Rect rect;
     private final RectF rectF;
     private Theme.ResourcesProvider resourcesProvider;
@@ -110,6 +111,7 @@ public class StoryMediaAreasView extends FrameLayout implements View.OnClickList
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
         paint.setColor(-1);
         this.clipPath = new Path();
+        this.radii = new float[8];
         this.shined = false;
         this.parentView = view;
         this.resourcesProvider = resourcesProvider;
@@ -266,7 +268,7 @@ public class StoryMediaAreasView extends FrameLayout implements View.OnClickList
             }
             AreaView areaView2 = this.selectedArea;
             if (areaView2 == view) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoryMediaAreasView$$ExternalSyntheticLambda1
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoryMediaAreasView$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         StoryMediaAreasView.this.lambda$onClick$0();
@@ -285,7 +287,7 @@ public class StoryMediaAreasView extends FrameLayout implements View.OnClickList
                     this.selectedArea = null;
                     invalidate();
                 } else {
-                    LocationActivity locationActivity = new LocationActivity(this, 3) { // from class: org.telegram.ui.Stories.StoryMediaAreasView.1
+                    LocationActivity locationActivity = new LocationActivity(3) { // from class: org.telegram.ui.Stories.StoryMediaAreasView.1
                         @Override // org.telegram.ui.LocationActivity
                         protected boolean disablePermissionCheck() {
                             return true;
@@ -348,7 +350,7 @@ public class StoryMediaAreasView extends FrameLayout implements View.OnClickList
                     spannableStringBuilder.append(TextUtils.ellipsize(((TL_stories$TL_mediaAreaUrl) this.selectedArea.mediaArea).url, this.hintView.getTextPaint(), AndroidUtilities.displaySize.x * 0.6f, TextUtils.TruncateAt.END));
                     spannableStringBuilder.setSpan(new RelativeSizeSpan(0.85f), length, spannableStringBuilder.length(), 33);
                     spannableStringBuilder.setSpan(new ForegroundColorSpan(Theme.multAlpha(-1, 0.6f)), length, spannableStringBuilder.length(), 33);
-                    spannableStringBuilder.setSpan(new LineHeightSpan(this) { // from class: org.telegram.ui.Stories.StoryMediaAreasView.2
+                    spannableStringBuilder.setSpan(new LineHeightSpan() { // from class: org.telegram.ui.Stories.StoryMediaAreasView.2
                         @Override // android.text.style.LineHeightSpan
                         public void chooseHeight(CharSequence charSequence, int i, int i2, int i3, int i4, Paint.FontMetricsInt fontMetricsInt) {
                             fontMetricsInt.ascent -= AndroidUtilities.dp(2.0f);
@@ -371,7 +373,7 @@ public class StoryMediaAreasView extends FrameLayout implements View.OnClickList
                     }
                     AndroidUtilities.replaceCharSequence(">", spannableStringBuilder, spannableString);
                     duration.setText(spannableStringBuilder);
-                    duration.setOnHiddenListener(new Runnable() { // from class: org.telegram.ui.Stories.StoryMediaAreasView$$ExternalSyntheticLambda2
+                    duration.setOnHiddenListener(new Runnable() { // from class: org.telegram.ui.Stories.StoryMediaAreasView$$ExternalSyntheticLambda1
                         @Override // java.lang.Runnable
                         public final void run() {
                             StoryMediaAreasView.this.lambda$onClick$1(duration);
@@ -388,7 +390,7 @@ public class StoryMediaAreasView extends FrameLayout implements View.OnClickList
                     } else {
                         duration.setTranslationY((this.selectedArea.getTranslationY() - (this.selectedArea.getMeasuredHeight() / 2.0f)) - AndroidUtilities.dp(f));
                     }
-                    duration.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.StoryMediaAreasView$$ExternalSyntheticLambda0
+                    duration.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.StoryMediaAreasView$$ExternalSyntheticLambda2
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view2) {
                             StoryMediaAreasView.this.lambda$onClick$2(view2);
@@ -415,7 +417,7 @@ public class StoryMediaAreasView extends FrameLayout implements View.OnClickList
                 }
                 AndroidUtilities.replaceCharSequence(">", spannableStringBuilder, spannableString3);
                 duration.setText(spannableStringBuilder);
-                duration.setOnHiddenListener(new Runnable() { // from class: org.telegram.ui.Stories.StoryMediaAreasView$$ExternalSyntheticLambda2
+                duration.setOnHiddenListener(new Runnable() { // from class: org.telegram.ui.Stories.StoryMediaAreasView$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         StoryMediaAreasView.this.lambda$onClick$1(duration);
@@ -430,7 +432,7 @@ public class StoryMediaAreasView extends FrameLayout implements View.OnClickList
                 }
                 if (!z2) {
                 }
-                duration.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.StoryMediaAreasView$$ExternalSyntheticLambda0
+                duration.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.StoryMediaAreasView$$ExternalSyntheticLambda2
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view2) {
                         StoryMediaAreasView.this.lambda$onClick$2(view2);

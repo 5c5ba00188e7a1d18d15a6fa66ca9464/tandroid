@@ -1,92 +1,73 @@
 package j$.util;
 
 import j$.util.function.Consumer;
-import java.util.Comparator;
-import java.util.Objects;
-import org.telegram.messenger.LiteMode;
+import java.util.PrimitiveIterator;
+import java.util.function.Consumer;
+import java.util.function.LongConsumer;
 /* loaded from: classes2.dex */
-final class y implements s {
-    private final Object[] a;
-    private int b;
-    private final int c;
-    private final int d;
+public final /* synthetic */ class y implements PrimitiveIterator.OfLong {
+    public final /* synthetic */ z a;
 
-    public y(Object[] objArr, int i, int i2, int i3) {
-        this.a = objArr;
-        this.b = i;
-        this.c = i2;
-        this.d = i3 | 64 | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
+    private /* synthetic */ y(z zVar) {
+        this.a = zVar;
     }
 
-    @Override // j$.util.s
-    public boolean b(Consumer consumer) {
-        Objects.requireNonNull(consumer);
-        int i = this.b;
-        if (i < 0 || i >= this.c) {
-            return false;
-        }
-        Object[] objArr = this.a;
-        this.b = i + 1;
-        consumer.accept(objArr[i]);
-        return true;
-    }
-
-    @Override // j$.util.s
-    public int characteristics() {
-        return this.d;
-    }
-
-    @Override // j$.util.s
-    public long estimateSize() {
-        return this.c - this.b;
-    }
-
-    @Override // j$.util.s
-    public void forEachRemaining(Consumer consumer) {
-        int i;
-        Objects.requireNonNull(consumer);
-        Object[] objArr = this.a;
-        int length = objArr.length;
-        int i2 = this.c;
-        if (length < i2 || (i = this.b) < 0) {
-            return;
-        }
-        this.b = i2;
-        if (i < i2) {
-            do {
-                consumer.accept(objArr[i]);
-                i++;
-            } while (i < i2);
-        }
-    }
-
-    @Override // j$.util.s
-    public Comparator getComparator() {
-        if (a.f(this, 4)) {
+    public static /* synthetic */ PrimitiveIterator.OfLong a(z zVar) {
+        if (zVar == null) {
             return null;
         }
-        throw new IllegalStateException();
+        return zVar instanceof x ? ((x) zVar).a : new y(zVar);
     }
 
-    @Override // j$.util.s
-    public /* synthetic */ long getExactSizeIfKnown() {
-        return a.e(this);
-    }
-
-    @Override // j$.util.s
-    public /* synthetic */ boolean hasCharacteristics(int i) {
-        return a.f(this, i);
-    }
-
-    @Override // j$.util.s
-    public s trySplit() {
-        int i = this.b;
-        int i2 = (this.c + i) >>> 1;
-        if (i >= i2) {
-            return null;
+    public final /* synthetic */ boolean equals(Object obj) {
+        z zVar = this.a;
+        if (obj instanceof y) {
+            obj = ((y) obj).a;
         }
-        Object[] objArr = this.a;
-        this.b = i2;
-        return new y(objArr, i, i2, this.d);
+        return zVar.equals(obj);
+    }
+
+    @Override // java.util.PrimitiveIterator
+    public final /* synthetic */ void forEachRemaining(LongConsumer longConsumer) {
+        this.a.forEachRemaining(longConsumer);
+    }
+
+    @Override // java.util.PrimitiveIterator.OfLong, java.util.Iterator
+    public final /* synthetic */ void forEachRemaining(Consumer consumer) {
+        this.a.forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
+    }
+
+    @Override // java.util.PrimitiveIterator.OfLong
+    public final /* synthetic */ void forEachRemaining(LongConsumer longConsumer) {
+        this.a.b(j$.util.function.f0.a(longConsumer));
+    }
+
+    @Override // java.util.Iterator
+    public final /* synthetic */ boolean hasNext() {
+        return this.a.hasNext();
+    }
+
+    public final /* synthetic */ int hashCode() {
+        return this.a.hashCode();
+    }
+
+    @Override // java.util.PrimitiveIterator.OfLong, java.util.Iterator
+    public final /* synthetic */ Long next() {
+        return this.a.next();
+    }
+
+    @Override // java.util.PrimitiveIterator.OfLong, java.util.Iterator
+    public final /* synthetic */ Object next() {
+        return this.a.next();
+    }
+
+    @Override // java.util.PrimitiveIterator.OfLong
+    public final /* synthetic */ long nextLong() {
+        return this.a.nextLong();
+    }
+
+    @Override // java.util.Iterator
+    public final /* synthetic */ void remove() {
+        this.a.remove();
     }
 }

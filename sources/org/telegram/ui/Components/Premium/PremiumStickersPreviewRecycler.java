@@ -85,7 +85,7 @@ public class PremiumStickersPreviewRecycler extends RecyclerListView implements 
         };
         this.interpolator = new CubicBezierInterpolator(0.0f, 0.5f, 0.5f, 1.0f);
         this.sortedView = new ArrayList<>();
-        this.comparator = new Comparator() { // from class: org.telegram.ui.Components.Premium.PremiumStickersPreviewRecycler$$ExternalSyntheticLambda1
+        this.comparator = new Comparator() { // from class: org.telegram.ui.Components.Premium.PremiumStickersPreviewRecycler$$ExternalSyntheticLambda0
             @Override // java.util.Comparator
             public final int compare(Object obj, Object obj2) {
                 int lambda$new$0;
@@ -136,7 +136,7 @@ public class PremiumStickersPreviewRecycler extends RecyclerListView implements 
                 AndroidUtilities.cancelRunOnUIThread(PremiumStickersPreviewRecycler.this.autoScrollRunnable);
             }
         });
-        setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.Premium.PremiumStickersPreviewRecycler$$ExternalSyntheticLambda2
+        setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.Premium.PremiumStickersPreviewRecycler$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i2) {
                 PremiumStickersPreviewRecycler.this.lambda$new$1(view, i2);
@@ -193,7 +193,7 @@ public class PremiumStickersPreviewRecycler extends RecyclerListView implements 
         super.onLayout(z, i, i2, i3, i4);
         if (this.firstMeasure && !this.premiumStickers.isEmpty() && getChildCount() > 0) {
             this.firstMeasure = false;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.PremiumStickersPreviewRecycler$$ExternalSyntheticLambda0
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.PremiumStickersPreviewRecycler$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     PremiumStickersPreviewRecycler.this.lambda$onLayout$2();
@@ -374,7 +374,7 @@ public class PremiumStickersPreviewRecycler extends RecyclerListView implements 
         public StickerView(Context context) {
             super(context);
             this.animateImage = true;
-            this.view = new View(context, PremiumStickersPreviewRecycler.this) { // from class: org.telegram.ui.Components.Premium.PremiumStickersPreviewRecycler.StickerView.1
+            this.view = new View(context) { // from class: org.telegram.ui.Components.Premium.PremiumStickersPreviewRecycler.StickerView.1
                 @Override // android.view.View
                 public void draw(Canvas canvas) {
                     super.draw(canvas);

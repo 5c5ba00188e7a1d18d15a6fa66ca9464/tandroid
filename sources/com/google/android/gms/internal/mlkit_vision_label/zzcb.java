@@ -2,7 +2,6 @@ package com.google.android.gms.internal.mlkit_vision_label;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Objects;
 import java.util.Set;
 /* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
@@ -29,7 +28,7 @@ public final class zzcb {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static boolean zzb(Set set, Collection collection) {
-        Objects.requireNonNull(collection);
+        collection.getClass();
         if (collection instanceof zzbs) {
             collection = ((zzbs) collection).zza();
         }

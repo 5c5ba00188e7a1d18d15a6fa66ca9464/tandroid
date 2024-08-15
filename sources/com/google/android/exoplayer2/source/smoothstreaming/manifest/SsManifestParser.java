@@ -504,6 +504,7 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
 
         @Override // com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifestParser.ElementParser
         public void parseStartTag(XmlPullParser xmlPullParser) throws ParserException {
+            int i;
             Format.Builder builder = new Format.Builder();
             String fourCCToMimeType = fourCCToMimeType(parseRequiredString(xmlPullParser, "FourCC"));
             int intValue = ((Integer) getNormalizedAttribute("Type")).intValue();
@@ -521,7 +522,6 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
                 }
                 builder.setContainerMimeType("audio/mp4").setChannelCount(parseRequiredInt).setSampleRate(parseRequiredInt2).setInitializationData(buildCodecSpecificData);
             } else if (intValue == 3) {
-                int i = 0;
                 String str = (String) getNormalizedAttribute("Subtype");
                 if (str != null) {
                     if (str.equals("CAPT")) {
@@ -529,7 +529,9 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
                     } else if (str.equals("DESC")) {
                         i = 1024;
                     }
+                    builder.setContainerMimeType("application/mp4").setRoleFlags(i);
                 }
+                i = 0;
                 builder.setContainerMimeType("application/mp4").setRoleFlags(i);
             } else {
                 builder.setContainerMimeType("application/mp4");

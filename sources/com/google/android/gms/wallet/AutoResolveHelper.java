@@ -82,6 +82,7 @@ public class AutoResolveHelper {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static void zzf(Activity activity, int i, Task task) {
+        int i2;
         if (activity.isFinishing()) {
             if (Log.isLoggable("AutoResolveHelper", 3)) {
                 Log.d("AutoResolveHelper", "Ignoring task result for, Activity is finishing.");
@@ -103,18 +104,20 @@ public class AutoResolveHelper {
             }
         }
         Intent intent = new Intent();
-        int i2 = 1;
         if (task.isSuccessful()) {
             ((AutoResolvableResult) task.getResult()).putIntoIntent(intent);
             i2 = -1;
-        } else if (exception instanceof ApiException) {
-            ApiException apiException = (ApiException) exception;
-            putStatusIntoIntent(intent, new Status(apiException.getStatusCode(), apiException.getMessage(), (PendingIntent) null));
         } else {
-            if (Log.isLoggable("AutoResolveHelper", 6)) {
-                Log.e("AutoResolveHelper", "Unexpected non API exception!", exception);
+            if (exception instanceof ApiException) {
+                ApiException apiException = (ApiException) exception;
+                putStatusIntoIntent(intent, new Status(apiException.getStatusCode(), apiException.getMessage(), (PendingIntent) null));
+            } else {
+                if (Log.isLoggable("AutoResolveHelper", 6)) {
+                    Log.e("AutoResolveHelper", "Unexpected non API exception!", exception);
+                }
+                putStatusIntoIntent(intent, new Status(8, "Unexpected non API exception when trying to deliver the task result to an activity!"));
             }
-            putStatusIntoIntent(intent, new Status(8, "Unexpected non API exception when trying to deliver the task result to an activity!"));
+            i2 = 1;
         }
         zze(activity, i, i2, intent);
     }

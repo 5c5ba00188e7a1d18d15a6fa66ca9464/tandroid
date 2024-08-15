@@ -990,7 +990,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
                 PremiumPreviewFragment.this.checkButtonDivider();
             }
         });
-        this.backgroundView = new BackgroundView(this, context) { // from class: org.telegram.ui.PremiumPreviewFragment.4
+        this.backgroundView = new BackgroundView(context) { // from class: org.telegram.ui.PremiumPreviewFragment.4
             @Override // android.view.ViewGroup
             public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
                 return true;
@@ -1029,7 +1029,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         this.backgroundView.imageView.setStarParticlesView(this.particlesView);
         this.contentView.addView(this.particlesView, LayoutHelper.createFrame(-1, -2.0f));
         this.contentView.addView(this.backgroundView, LayoutHelper.createFrame(-1, -2.0f));
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda22
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i3) {
                 PremiumPreviewFragment.this.lambda$createView$3(view, i3);
@@ -1065,7 +1065,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         updateRows();
         this.backgroundView.imageView.startEnterAnimation(-180, 200L);
         if (this.forcePremium) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda9
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     PremiumPreviewFragment.this.lambda$createView$4();
@@ -1089,7 +1089,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
             userFull.sponsored_enabled = textCell.isChecked();
             TLRPC$TL_account_toggleSponsoredMessages tLRPC$TL_account_toggleSponsoredMessages = new TLRPC$TL_account_toggleSponsoredMessages();
             tLRPC$TL_account_toggleSponsoredMessages.enabled = userFull.sponsored_enabled;
-            getConnectionsManager().sendRequest(tLRPC$TL_account_toggleSponsoredMessages, new RequestDelegate() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda16
+            getConnectionsManager().sendRequest(tLRPC$TL_account_toggleSponsoredMessages, new RequestDelegate() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda12
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     PremiumPreviewFragment.this.lambda$createView$1(tLObject, tLRPC$TL_error);
@@ -1157,7 +1157,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$1(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda10
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda15
             @Override // java.lang.Runnable
             public final void run() {
                 PremiumPreviewFragment.this.lambda$createView$0(tLRPC$TL_error, tLObject);
@@ -1238,7 +1238,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
                 i2++;
             }
         }
-        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda11
+        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda7
             @Override // java.util.Comparator
             public final int compare(Object obj, Object obj2) {
                 int lambda$fillPremiumFeaturesList$5;
@@ -1279,7 +1279,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
                 i2++;
             }
         }
-        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda12
+        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda14
             @Override // java.util.Comparator
             public final int compare(Object obj, Object obj2) {
                 int lambda$fillBusinessFeaturesList$6;
@@ -1402,7 +1402,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         if (subscriptionTier.getOfferDetails() == null) {
             return;
         }
-        BillingController.getInstance().queryPurchases("subs", new PurchasesResponseListener() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda4
+        BillingController.getInstance().queryPurchases("subs", new PurchasesResponseListener() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda11
             @Override // com.android.billingclient.api.PurchasesResponseListener
             public final void onQueryPurchasesResponse(BillingResult billingResult, List list) {
                 PremiumPreviewFragment.lambda$buyPremium$14(BaseFragment.this, z, subscriptionUpdateParams, subscriptionTier, billingResult, list);
@@ -1412,7 +1412,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$buyPremium$14(final BaseFragment baseFragment, final boolean z, final BillingFlowParams.SubscriptionUpdateParams subscriptionUpdateParams, final SubscriptionTier subscriptionTier, final BillingResult billingResult, final List list) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda5
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda16
             @Override // java.lang.Runnable
             public final void run() {
                 PremiumPreviewFragment.lambda$buyPremium$13(BillingResult.this, baseFragment, z, list, subscriptionUpdateParams, subscriptionTier);
@@ -1423,7 +1423,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$buyPremium$13(BillingResult billingResult, final BaseFragment baseFragment, final boolean z, List list, final BillingFlowParams.SubscriptionUpdateParams subscriptionUpdateParams, final SubscriptionTier subscriptionTier) {
         if (billingResult.getResponseCode() == 0) {
-            final Runnable runnable = new Runnable() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda8
+            final Runnable runnable = new Runnable() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda17
                 @Override // java.lang.Runnable
                 public final void run() {
                     PremiumPreviewFragment.lambda$buyPremium$7(BaseFragment.this, z);
@@ -1444,7 +1444,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
                             tLRPC$TL_inputStorePaymentPremiumSubscription.upgrade = true;
                         }
                         tLRPC$TL_payments_assignPlayMarketTransaction.purpose = tLRPC$TL_inputStorePaymentPremiumSubscription;
-                        baseFragment.getConnectionsManager().sendRequest(tLRPC$TL_payments_assignPlayMarketTransaction, new RequestDelegate() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda14
+                        baseFragment.getConnectionsManager().sendRequest(tLRPC$TL_payments_assignPlayMarketTransaction, new RequestDelegate() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda18
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                                 PremiumPreviewFragment.lambda$buyPremium$9(BaseFragment.this, runnable, tLRPC$TL_payments_assignPlayMarketTransaction, tLObject, tLRPC$TL_error);
@@ -1454,7 +1454,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
                     }
                 }
             }
-            BillingController.getInstance().addResultListener(BillingController.PREMIUM_PRODUCT_ID, new Consumer() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda3
+            BillingController.getInstance().addResultListener(BillingController.PREMIUM_PRODUCT_ID, new Consumer() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda19
                 @Override // androidx.core.util.Consumer
                 public final void accept(Object obj) {
                     PremiumPreviewFragment.lambda$buyPremium$10(runnable, (BillingResult) obj);
@@ -1466,7 +1466,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
                 tLRPC$TL_inputStorePaymentPremiumSubscription2.upgrade = true;
             }
             tLRPC$TL_payments_canPurchasePremium.purpose = tLRPC$TL_inputStorePaymentPremiumSubscription2;
-            baseFragment.getConnectionsManager().sendRequest(tLRPC$TL_payments_canPurchasePremium, new RequestDelegate() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda15
+            baseFragment.getConnectionsManager().sendRequest(tLRPC$TL_payments_canPurchasePremium, new RequestDelegate() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda20
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     PremiumPreviewFragment.lambda$buyPremium$12(BaseFragment.this, tLRPC$TL_inputStorePaymentPremiumSubscription2, subscriptionTier, subscriptionUpdateParams, tLRPC$TL_payments_canPurchasePremium, tLObject, tLRPC$TL_error);
@@ -1506,7 +1506,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
             baseFragment.getMessagesController().processUpdates((TLRPC$Updates) tLObject, false);
             AndroidUtilities.runOnUIThread(runnable);
         } else if (tLRPC$TL_error != null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda7
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda21
                 @Override // java.lang.Runnable
                 public final void run() {
                     PremiumPreviewFragment.lambda$buyPremium$8(BaseFragment.this, tLRPC$TL_error, tLRPC$TL_payments_assignPlayMarketTransaction);
@@ -1529,7 +1529,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$buyPremium$12(final BaseFragment baseFragment, final TLRPC$TL_inputStorePaymentPremiumSubscription tLRPC$TL_inputStorePaymentPremiumSubscription, final SubscriptionTier subscriptionTier, final BillingFlowParams.SubscriptionUpdateParams subscriptionUpdateParams, final TLRPC$TL_payments_canPurchasePremium tLRPC$TL_payments_canPurchasePremium, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda6
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda22
             @Override // java.lang.Runnable
             public final void run() {
                 PremiumPreviewFragment.lambda$buyPremium$11(TLObject.this, baseFragment, tLRPC$TL_inputStorePaymentPremiumSubscription, subscriptionTier, subscriptionUpdateParams, tLRPC$TL_error, tLRPC$TL_payments_canPurchasePremium);
@@ -1662,7 +1662,6 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
 
     private void updateRows() {
         SubscriptionTier subscriptionTier;
-        this.rowCount = 0;
         this.sectionRow = -1;
         this.privacyRow = -1;
         this.moreHeaderRow = -1;
@@ -1682,7 +1681,6 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         if (this.type == 1 && getUserConfig().isPremium()) {
             int i2 = this.rowCount;
             int i3 = i2 + 1;
-            this.rowCount = i3;
             this.sectionRow = i2;
             int i4 = i3 + 1;
             this.rowCount = i4;
@@ -1694,17 +1692,14 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         }
         int i5 = this.rowCount;
         int i6 = i5 + 1;
-        this.rowCount = i6;
         this.statusRow = i5;
         this.rowCount = i6 + 1;
         this.lastPaddingRow = i6;
         if (this.type == 1 && getUserConfig().isPremium()) {
             int i7 = this.rowCount;
             int i8 = i7 + 1;
-            this.rowCount = i8;
             this.showAdsHeaderRow = i7;
             int i9 = i8 + 1;
-            this.rowCount = i9;
             this.showAdsRow = i8;
             this.rowCount = i9 + 1;
             this.showAdsInfoRow = i9;
@@ -2056,28 +2051,22 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         private boolean tierListViewVisible;
         TextView titleView;
 
-        public BackgroundView(Context context) {
+        public BackgroundView(final Context context) {
             super(context);
             setOrientation(1);
             FrameLayout frameLayout = new FrameLayout(context);
             this.imageFrameLayout = frameLayout;
             int i = PremiumPreviewFragment.this.type == 1 ? 175 : 190;
             addView(frameLayout, LayoutHelper.createLinear(i, i, 1));
-            GLIconTextureView gLIconTextureView = new GLIconTextureView(context, PremiumPreviewFragment.this.whiteBackground ? 1 : 0, PremiumPreviewFragment.this.type == 1 ? 1 : 0, PremiumPreviewFragment.this, context) { // from class: org.telegram.ui.PremiumPreviewFragment.BackgroundView.1
-                final /* synthetic */ Context val$context;
-
-                {
-                    this.val$context = context;
-                }
-
+            GLIconTextureView gLIconTextureView = new GLIconTextureView(context, PremiumPreviewFragment.this.whiteBackground ? 1 : 0, PremiumPreviewFragment.this.type == 1 ? 1 : 0) { // from class: org.telegram.ui.PremiumPreviewFragment.BackgroundView.1
                 @Override // org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView
                 public void onLongPress() {
                     super.onLongPress();
                     PremiumPreviewFragment premiumPreviewFragment = PremiumPreviewFragment.this;
                     if (premiumPreviewFragment.settingsView == null && BuildVars.DEBUG_PRIVATE_VERSION) {
-                        premiumPreviewFragment.settingsView = new FrameLayout(this.val$context);
-                        ScrollView scrollView = new ScrollView(this.val$context);
-                        scrollView.addView(new GLIconSettingsView(this.val$context, BackgroundView.this.imageView.mRenderer));
+                        premiumPreviewFragment.settingsView = new FrameLayout(context);
+                        ScrollView scrollView = new ScrollView(context);
+                        scrollView.addView(new GLIconSettingsView(context, BackgroundView.this.imageView.mRenderer));
                         PremiumPreviewFragment.this.settingsView.addView(scrollView);
                         PremiumPreviewFragment.this.settingsView.setBackgroundColor(Theme.getColor(Theme.key_dialogBackground));
                         PremiumPreviewFragment.this.contentView.addView(PremiumPreviewFragment.this.settingsView, LayoutHelper.createFrame(-1, -1, 80));
@@ -2103,7 +2092,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
             textView2.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
             textView2.setGravity(1);
             addView(textView2, LayoutHelper.createLinear(-1, -2, 0.0f, 1, 16, 7, 16, 0));
-            RecyclerListView recyclerListView = new RecyclerListView(context, PremiumPreviewFragment.this) { // from class: org.telegram.ui.PremiumPreviewFragment.BackgroundView.2
+            RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.PremiumPreviewFragment.BackgroundView.2
                 Paint paint;
                 private Path path;
 
@@ -2157,7 +2146,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
             recyclerListView.setOverScrollMode(2);
             this.tierListView.setLayoutManager(new LinearLayoutManager(context));
             this.tierListView.setAdapter(new 3(PremiumPreviewFragment.this, context));
-            this.tierListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.PremiumPreviewFragment$BackgroundView$$ExternalSyntheticLambda2
+            this.tierListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.PremiumPreviewFragment$BackgroundView$$ExternalSyntheticLambda0
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
                 public final void onItemClick(View view, int i2) {
                     PremiumPreviewFragment.BackgroundView.this.lambda$new$0(view, i2);
@@ -2182,8 +2171,10 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         /* loaded from: classes4.dex */
         public class 3 extends RecyclerListView.SelectionAdapter {
             final /* synthetic */ Context val$context;
+            final /* synthetic */ PremiumPreviewFragment val$this$0;
 
             3(PremiumPreviewFragment premiumPreviewFragment, Context context) {
+                this.val$this$0 = premiumPreviewFragment;
                 this.val$context = context;
             }
 
@@ -2448,7 +2439,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
             } else if (this.tierListView.getVisibility() == 0 && z && this.tierListViewVisible == z) {
                 final RecyclerListView recyclerListView = this.tierListView;
                 final ValueAnimator duration = ValueAnimator.ofFloat(1.0f, 0.0f).setDuration(250L);
-                duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.PremiumPreviewFragment$BackgroundView$$ExternalSyntheticLambda0
+                duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.PremiumPreviewFragment$BackgroundView$$ExternalSyntheticLambda2
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                         PremiumPreviewFragment.BackgroundView.this.lambda$updateText$2(recyclerListView, duration, valueAnimator);
@@ -2502,14 +2493,14 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
                     z = false;
                 }
                 if (BuildVars.IS_BILLING_UNAVAILABLE) {
-                    this.premiumButtonView.setButton(getPremiumButtonText(this.currentAccount, this.subscriptionTiers.get(this.selectedTierIndex)), new View.OnClickListener() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda0
+                    this.premiumButtonView.setButton(getPremiumButtonText(this.currentAccount, this.subscriptionTiers.get(this.selectedTierIndex)), new View.OnClickListener() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda4
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
                             PremiumPreviewFragment.this.lambda$updateButtonText$15(view);
                         }
                     }, z);
                 } else if (!BuildVars.useInvoiceBilling() && (!BillingController.getInstance().isReady() || this.subscriptionTiers.isEmpty() || this.selectedTierIndex >= this.subscriptionTiers.size() || this.subscriptionTiers.get(this.selectedTierIndex).googlePlayProductDetails == null)) {
-                    this.premiumButtonView.setButton(LocaleController.getString(R.string.Loading), new View.OnClickListener() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda2
+                    this.premiumButtonView.setButton(LocaleController.getString(R.string.Loading), new View.OnClickListener() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda5
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
                             PremiumPreviewFragment.lambda$updateButtonText$16(view);
@@ -2518,7 +2509,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
                     this.premiumButtonView.setFlickerDisabled(true);
                 } else if (this.subscriptionTiers.isEmpty()) {
                 } else {
-                    this.premiumButtonView.setButton(getPremiumButtonText(this.currentAccount, this.subscriptionTiers.get(this.selectedTierIndex)), new View.OnClickListener() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda1
+                    this.premiumButtonView.setButton(getPremiumButtonText(this.currentAccount, this.subscriptionTiers.get(this.selectedTierIndex)), new View.OnClickListener() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda6
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
                             PremiumPreviewFragment.this.lambda$updateButtonText$17(view);
@@ -2580,7 +2571,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
-        return SimpleThemeDescription.createThemeDescriptions(new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda21
+        return SimpleThemeDescription.createThemeDescriptions(new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 PremiumPreviewFragment.this.updateColors();
@@ -2692,7 +2683,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         tLRPC$TL_jsonObjectValue.value = tLRPC$TL_jsonNull;
         tLRPC$TL_jsonObject.value.add(tLRPC$TL_jsonObjectValue);
         tLRPC$TL_help_saveAppLog.events.add(tLRPC$TL_inputAppEvent);
-        connectionsManager.sendRequest(tLRPC$TL_help_saveAppLog, new RequestDelegate() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda18
+        connectionsManager.sendRequest(tLRPC$TL_help_saveAppLog, new RequestDelegate() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda8
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 PremiumPreviewFragment.lambda$sentShowScreenStat$18(tLObject, tLRPC$TL_error);
@@ -2707,7 +2698,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         tLRPC$TL_inputAppEvent.type = "premium.promo_screen_accept";
         tLRPC$TL_inputAppEvent.data = new TLRPC$TL_jsonNull();
         tLRPC$TL_help_saveAppLog.events.add(tLRPC$TL_inputAppEvent);
-        ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_help_saveAppLog, new RequestDelegate() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda17
+        ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_help_saveAppLog, new RequestDelegate() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda9
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 PremiumPreviewFragment.lambda$sentPremiumButtonClick$19(tLObject, tLRPC$TL_error);
@@ -2722,7 +2713,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         tLRPC$TL_inputAppEvent.type = "premium.promo_screen_fail";
         tLRPC$TL_inputAppEvent.data = new TLRPC$TL_jsonNull();
         tLRPC$TL_help_saveAppLog.events.add(tLRPC$TL_inputAppEvent);
-        ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_help_saveAppLog, new RequestDelegate() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda20
+        ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_help_saveAppLog, new RequestDelegate() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda3
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 PremiumPreviewFragment.lambda$sentPremiumBuyCanceled$20(tLObject, tLRPC$TL_error);
@@ -2749,7 +2740,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         tLRPC$TL_jsonObjectValue.key = "item";
         tLRPC$TL_jsonObject.value.add(tLRPC$TL_jsonObjectValue);
         tLRPC$TL_help_saveAppLog.events.add(tLRPC$TL_inputAppEvent);
-        ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_help_saveAppLog, new RequestDelegate() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda19
+        ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_help_saveAppLog, new RequestDelegate() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda10
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 PremiumPreviewFragment.lambda$sentShowFeaturePreview$21(tLObject, tLRPC$TL_error);
@@ -2980,7 +2971,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
                 };
                 this.selectAnimatedEmojiDialog = selectAnimatedEmojiDialogWindow;
                 selectAnimatedEmojiDialogWindowArr[0] = selectAnimatedEmojiDialogWindow;
-                selectAnimatedEmojiDialogWindowArr[0].showAsDropDown(premiumFeatureCell, 0, i2, 53);
+                selectAnimatedEmojiDialogWindow.showAsDropDown(premiumFeatureCell, 0, i2, 53);
                 selectAnimatedEmojiDialogWindowArr[0].dimBehind();
             }
             swapAnimatedEmojiDrawable = swapAnimatedEmojiDrawable3;
@@ -3024,7 +3015,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         };
         this.selectAnimatedEmojiDialog = selectAnimatedEmojiDialogWindow2;
         selectAnimatedEmojiDialogWindowArr[0] = selectAnimatedEmojiDialogWindow2;
-        selectAnimatedEmojiDialogWindowArr[0].showAsDropDown(premiumFeatureCell, 0, i2, 53);
+        selectAnimatedEmojiDialogWindow2.showAsDropDown(premiumFeatureCell, 0, i2, 53);
         selectAnimatedEmojiDialogWindowArr[0].dimBehind();
     }
 }

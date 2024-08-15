@@ -49,7 +49,7 @@ public class HeaderCell extends FrameLayout {
         LinearLayout linearLayout = new LinearLayout(context);
         this.linearLayout = linearLayout;
         linearLayout.setOrientation(1);
-        GLIconTextureView gLIconTextureView = new GLIconTextureView(this, context, 1) { // from class: org.telegram.ui.Components.Premium.boosts.cells.HeaderCell.1
+        GLIconTextureView gLIconTextureView = new GLIconTextureView(context, 1) { // from class: org.telegram.ui.Components.Premium.boosts.cells.HeaderCell.1
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView, android.view.TextureView, android.view.View
             public void onAttachedToWindow() {
@@ -130,7 +130,7 @@ public class HeaderCell extends FrameLayout {
 
     public void setBoostViaGifsText(TLRPC$Chat tLRPC$Chat) {
         if (Build.VERSION.SDK_INT >= 21) {
-            setOutlineProvider(new ViewOutlineProvider(this) { // from class: org.telegram.ui.Components.Premium.boosts.cells.HeaderCell.3
+            setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.Components.Premium.boosts.cells.HeaderCell.3
                 @Override // android.view.ViewOutlineProvider
                 public void getOutline(View view, Outline outline) {
                     float dp = AndroidUtilities.dp(12.0f);

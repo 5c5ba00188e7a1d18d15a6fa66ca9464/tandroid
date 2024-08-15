@@ -3,7 +3,7 @@ package kotlin.collections;
 import java.util.Map;
 /* loaded from: classes.dex */
 public final class MapsKt extends MapsKt___MapsKt {
-    public static /* bridge */ /* synthetic */ <K, V> Map<K, V> emptyMap() {
+    public static /* bridge */ /* synthetic */ Map emptyMap() {
         return MapsKt__MapsKt.emptyMap();
     }
 

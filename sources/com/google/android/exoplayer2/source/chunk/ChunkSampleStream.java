@@ -159,30 +159,24 @@ public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, S
     }
 
     public void seekToUs(long j) {
+        BaseMediaChunk baseMediaChunk;
         boolean seekTo;
         this.lastSeekPositionUs = j;
         if (isPendingReset()) {
             this.pendingResetPositionUs = j;
             return;
         }
-        BaseMediaChunk baseMediaChunk = null;
         int i = 0;
-        int i2 = 0;
-        while (true) {
-            if (i2 >= this.mediaChunks.size()) {
-                break;
-            }
-            BaseMediaChunk baseMediaChunk2 = this.mediaChunks.get(i2);
-            long j2 = baseMediaChunk2.startTimeUs;
-            if (j2 == j && baseMediaChunk2.clippedStartTimeUs == -9223372036854775807L) {
-                baseMediaChunk = baseMediaChunk2;
+        for (int i2 = 0; i2 < this.mediaChunks.size(); i2++) {
+            baseMediaChunk = this.mediaChunks.get(i2);
+            long j2 = baseMediaChunk.startTimeUs;
+            if (j2 == j && baseMediaChunk.clippedStartTimeUs == -9223372036854775807L) {
                 break;
             } else if (j2 > j) {
                 break;
-            } else {
-                i2++;
             }
         }
+        baseMediaChunk = null;
         if (baseMediaChunk != null) {
             seekTo = this.primarySampleQueue.seekTo(baseMediaChunk.getFirstSampleIndex(0));
         } else {

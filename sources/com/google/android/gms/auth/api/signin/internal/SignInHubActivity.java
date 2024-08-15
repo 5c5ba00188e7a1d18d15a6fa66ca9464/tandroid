@@ -11,7 +11,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.SignInAccount;
 import com.google.android.gms.common.annotation.KeepName;
 import com.google.android.gms.common.api.Status;
-import java.util.Objects;
 /* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
 @KeepName
 /* loaded from: classes.dex */
@@ -83,7 +82,7 @@ public class SignInHubActivity extends FragmentActivity {
                 GoogleSignInAccount zba2 = signInAccount.zba();
                 zbn zbc = zbn.zbc(this);
                 GoogleSignInOptions zba3 = this.zbc.zba();
-                Objects.requireNonNull(zba2);
+                zba2.getClass();
                 zbc.zbe(zba3, zba2);
                 intent.removeExtra("signInAccount");
                 intent.putExtra("googleSignInAccount", zba2);
@@ -102,12 +101,12 @@ public class SignInHubActivity extends FragmentActivity {
         super.onCreate(bundle);
         Intent intent = getIntent();
         String action = intent.getAction();
-        Objects.requireNonNull(action);
+        action.getClass();
         if ("com.google.android.gms.auth.NO_IMPL".equals(action)) {
             zbd(12500);
         } else if (action.equals("com.google.android.gms.auth.GOOGLE_SIGN_IN") || action.equals("com.google.android.gms.auth.APPAUTH_SIGN_IN")) {
             Bundle bundleExtra = intent.getBundleExtra("config");
-            Objects.requireNonNull(bundleExtra);
+            bundleExtra.getClass();
             SignInConfiguration signInConfiguration = (SignInConfiguration) bundleExtra.getParcelable("config");
             if (signInConfiguration == null) {
                 Log.e("AuthSignInClient", "Activity started with invalid configuration.");
@@ -131,7 +130,7 @@ public class SignInHubActivity extends FragmentActivity {
             if (z) {
                 this.zbe = bundle.getInt("signInResultCode");
                 Intent intent2 = (Intent) bundle.getParcelable("signInResultData");
-                Objects.requireNonNull(intent2);
+                intent2.getClass();
                 this.zbf = intent2;
                 zbc();
             }

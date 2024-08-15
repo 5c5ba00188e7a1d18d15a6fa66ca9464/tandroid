@@ -76,7 +76,7 @@ public class SettingsSuggestionCell extends LinearLayout {
             linearLayout.addView(textView2, LayoutHelper.createLinear(0, 44, 0.5f, i == 0 ? 0 : 4, 0, i == 0 ? 4 : 0, 0));
             if (i == 0) {
                 this.yesButton = textView2;
-                textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.SettingsSuggestionCell$$ExternalSyntheticLambda1
+                textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.SettingsSuggestionCell$$ExternalSyntheticLambda0
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         SettingsSuggestionCell.this.lambda$new$0(view);
@@ -84,7 +84,7 @@ public class SettingsSuggestionCell extends LinearLayout {
                 });
             } else {
                 this.noButton = textView2;
-                textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.SettingsSuggestionCell$$ExternalSyntheticLambda0
+                textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.SettingsSuggestionCell$$ExternalSyntheticLambda1
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         SettingsSuggestionCell.this.lambda$new$1(view);

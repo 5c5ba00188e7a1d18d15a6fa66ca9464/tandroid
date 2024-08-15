@@ -18,7 +18,7 @@ final class e extends f {
     }
 
     @Override // j$.time.zone.f
-    protected ZoneRules b(String str, boolean z) {
+    protected final ZoneRules b(String str) {
         if (this.c.contains(str)) {
             return new ZoneRules(TimeZone.getTimeZone(str));
         }
@@ -26,7 +26,7 @@ final class e extends f {
     }
 
     @Override // j$.time.zone.f
-    protected Set c() {
+    protected final Set c() {
         return this.c;
     }
 }

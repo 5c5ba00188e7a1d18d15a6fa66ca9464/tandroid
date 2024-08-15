@@ -81,7 +81,7 @@ public class RequestPeerRequirementsCell extends LinearLayout {
             addView(emptyView(9, Theme.getColor(i)), LayoutHelper.createLinear(-1, -2));
             Iterator<Requirement> it = this.requirements.iterator();
             while (it.hasNext()) {
-                addView(new RequirementCell(this, getContext(), it.next()), LayoutHelper.createLinear(-1, -2));
+                addView(new RequirementCell(getContext(), it.next()), LayoutHelper.createLinear(-1, -2));
             }
             addView(emptyView(12, Theme.getColor(Theme.key_windowBackgroundWhite)), LayoutHelper.createLinear(-1, -2));
             addView(emptyView(12, Theme.getThemedDrawableByKey(getContext(), R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow)), LayoutHelper.createLinear(-1, -2));
@@ -93,7 +93,7 @@ public class RequestPeerRequirementsCell extends LinearLayout {
     }
 
     private View emptyView(final int i, Drawable drawable) {
-        View view = new View(this, getContext()) { // from class: org.telegram.ui.Cells.RequestPeerRequirementsCell.1
+        View view = new View(getContext()) { // from class: org.telegram.ui.Cells.RequestPeerRequirementsCell.1
             @Override // android.view.View
             protected void onMeasure(int i2, int i3) {
                 super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(i), 1073741824));
@@ -114,8 +114,8 @@ public class RequestPeerRequirementsCell extends LinearLayout {
     }
 
     public static CharSequence rightsToString(TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights, boolean z) {
-        int i;
         String str;
+        int i;
         String string;
         ArrayList arrayList = new ArrayList();
         if (tLRPC$TL_chatAdminRights.change_info) {
@@ -134,11 +134,11 @@ public class RequestPeerRequirementsCell extends LinearLayout {
         }
         if (tLRPC$TL_chatAdminRights.delete_messages) {
             if (z) {
-                i = R.string.EditAdminDeleteMessages;
                 str = "EditAdminDeleteMessages";
+                i = R.string.EditAdminDeleteMessages;
             } else {
-                i = R.string.EditAdminGroupDeleteMessages;
                 str = "EditAdminGroupDeleteMessages";
+                i = R.string.EditAdminGroupDeleteMessages;
             }
             arrayList.add(Requirement.make(1, LocaleController.getString(str, i)));
         }
@@ -180,8 +180,8 @@ public class RequestPeerRequirementsCell extends LinearLayout {
     }
 
     private void checkAdminRights(TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights, boolean z, CharSequence charSequence, CharSequence charSequence2) {
-        int i;
         String str;
+        int i;
         String string;
         if (tLRPC$TL_chatAdminRights == null) {
             return;
@@ -203,11 +203,11 @@ public class RequestPeerRequirementsCell extends LinearLayout {
         }
         if (tLRPC$TL_chatAdminRights.delete_messages) {
             if (z) {
-                i = R.string.EditAdminDeleteMessages;
                 str = "EditAdminDeleteMessages";
+                i = R.string.EditAdminDeleteMessages;
             } else {
-                i = R.string.EditAdminGroupDeleteMessages;
                 str = "EditAdminGroupDeleteMessages";
+                i = R.string.EditAdminGroupDeleteMessages;
             }
             arrayList.add(Requirement.make(1, LocaleController.getString(str, i)));
         }
@@ -257,7 +257,7 @@ public class RequestPeerRequirementsCell extends LinearLayout {
         private ImageView imageView;
         private TextView textView;
 
-        public RequirementCell(RequestPeerRequirementsCell requestPeerRequirementsCell, Context context, Requirement requirement) {
+        public RequirementCell(Context context, Requirement requirement) {
             super(context);
             setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
             setOrientation(0);

@@ -5,7 +5,9 @@ public final class MoreObjects {
         if (t != null) {
             return t;
         }
-        java.util.Objects.requireNonNull(t2, "Both parameters are null");
-        return t2;
+        if (t2 != null) {
+            return t2;
+        }
+        throw new NullPointerException("Both parameters are null");
     }
 }

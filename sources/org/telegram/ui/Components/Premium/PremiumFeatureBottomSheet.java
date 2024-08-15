@@ -175,7 +175,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         imageView.setImageResource(R.drawable.msg_close);
         imageView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(12.0f), ColorUtils.setAlphaComponent(-1, 40), ColorUtils.setAlphaComponent(-1, 100)));
         this.closeLayout.addView(imageView, LayoutHelper.createFrame(24, 24, 17));
-        this.closeLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet$$ExternalSyntheticLambda1
+        this.closeLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 PremiumFeatureBottomSheet.this.lambda$new$0(view);
@@ -306,13 +306,13 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         }
         PremiumButtonView premiumButtonView = new PremiumButtonView(getContext(), true, this.resourcesProvider);
         this.premiumButtonView = premiumButtonView;
-        premiumButtonView.buttonLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet$$ExternalSyntheticLambda2
+        premiumButtonView.buttonLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 PremiumFeatureBottomSheet.this.lambda$new$1(baseFragment, z2, premiumFeatureData, view);
             }
         });
-        this.premiumButtonView.overlayTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet$$ExternalSyntheticLambda0
+        this.premiumButtonView.overlayTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 PremiumFeatureBottomSheet.this.lambda$new$2(view);
@@ -334,6 +334,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         this.customViewGravity = 83;
         final Drawable mutate = ContextCompat.getDrawable(getContext(), R.drawable.header_shadow).mutate();
         FrameLayout frameLayout3 = new FrameLayout(getContext()) { // from class: org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet.6
+            int lastSize;
             Path path = new Path();
 
             @Override // android.view.View
@@ -349,6 +350,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
 
             @Override // android.widget.FrameLayout, android.view.View
             protected void onMeasure(int i4, int i5) {
+                this.lastSize = (i4 + i5) << 16;
                 PremiumFeatureBottomSheet.this.topGlobalOffset = 0;
                 scrollView.measure(i4, View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i5), Integer.MIN_VALUE));
                 PremiumFeatureBottomSheet.this.topGlobalOffset = (View.MeasureSpec.getSize(i5) - scrollView.getMeasuredHeight()) + ((BottomSheet) PremiumFeatureBottomSheet.this).backgroundPaddingTop;
@@ -943,7 +945,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
             });
             return featuresPageView;
         } else if (i2 == 5) {
-            return new PremiumStickersPreviewRecycler(this, context, this.currentAccount) { // from class: org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet.11
+            return new PremiumStickersPreviewRecycler(context, this.currentAccount) { // from class: org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet.11
                 @Override // org.telegram.ui.Components.Premium.PremiumStickersPreviewRecycler, org.telegram.ui.Components.Premium.PagerHeaderView
                 public void setOffset(float f) {
                     setAutoPlayEnabled(f == 0.0f);
@@ -969,7 +971,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(viewPage.getMeasuredWidth(), 0.0f);
                 premiumAppIconsPreviewView.setOffset(viewPage.getMeasuredWidth());
                 this.enterAnimationIsRunning = true;
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener(this) { // from class: org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet.12
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet.12
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public void onAnimationUpdate(ValueAnimator valueAnimator) {
                         premiumAppIconsPreviewView.setOffset(((Float) valueAnimator.getAnimatedValue()).floatValue());

@@ -154,13 +154,13 @@ public final class HlsSampleStreamWrapper implements Loader.Callback<Chunk>, Loa
         this.mediaChunks = arrayList;
         this.readOnlyMediaChunks = Collections.unmodifiableList(arrayList);
         this.hlsSampleStreams = new ArrayList<>();
-        this.maybeFinishPrepareRunnable = new Runnable() { // from class: com.google.android.exoplayer2.source.hls.HlsSampleStreamWrapper$$ExternalSyntheticLambda2
+        this.maybeFinishPrepareRunnable = new Runnable() { // from class: com.google.android.exoplayer2.source.hls.HlsSampleStreamWrapper$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 HlsSampleStreamWrapper.this.maybeFinishPrepare();
             }
         };
-        this.onTracksEndedRunnable = new Runnable() { // from class: com.google.android.exoplayer2.source.hls.HlsSampleStreamWrapper$$ExternalSyntheticLambda1
+        this.onTracksEndedRunnable = new Runnable() { // from class: com.google.android.exoplayer2.source.hls.HlsSampleStreamWrapper$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 HlsSampleStreamWrapper.this.onTracksEnded();
@@ -232,8 +232,8 @@ public final class HlsSampleStreamWrapper implements Loader.Callback<Chunk>, Loa
         this.sampleQueuesEnabledStates[i2] = false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:72:0x0127  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x0131  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x0123  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x012d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -265,10 +265,11 @@ public final class HlsSampleStreamWrapper implements Loader.Callback<Chunk>, Loa
                 }
                 if (sampleStreamArr[i4] == null) {
                     this.enabledTrackGroupCount++;
-                    sampleStreamArr[i4] = new HlsSampleStream(this, indexOf);
+                    HlsSampleStream hlsSampleStream2 = new HlsSampleStream(this, indexOf);
+                    sampleStreamArr[i4] = hlsSampleStream2;
                     zArr2[i4] = true;
                     if (this.trackGroupToSampleQueueIndex != null) {
-                        ((HlsSampleStream) sampleStreamArr[i4]).bindSampleQueue();
+                        hlsSampleStream2.bindSampleQueue();
                         if (!z5) {
                             HlsSampleQueue hlsSampleQueue = this.sampleQueues[this.trackGroupToSampleQueueIndex[indexOf]];
                             z5 = (hlsSampleQueue.seekTo(j, true) || hlsSampleQueue.getReadIndex() == 0) ? false : true;
@@ -807,7 +808,7 @@ public final class HlsSampleStreamWrapper implements Loader.Callback<Chunk>, Loa
         boolean[] copyOf2 = Arrays.copyOf(this.sampleQueueIsAudioVideoFlags, i3);
         this.sampleQueueIsAudioVideoFlags = copyOf2;
         copyOf2[length] = z;
-        this.haveAudioVideoSampleQueues = copyOf2[length] | this.haveAudioVideoSampleQueues;
+        this.haveAudioVideoSampleQueues |= z;
         this.sampleQueueMappingDoneByType.add(Integer.valueOf(i2));
         this.sampleQueueIndicesByType.append(i2, length);
         if (getTrackTypeScore(i2) > getTrackTypeScore(this.primarySampleQueueType)) {

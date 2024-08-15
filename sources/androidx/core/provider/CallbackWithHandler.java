@@ -18,7 +18,7 @@ public class CallbackWithHandler {
 
     private void onTypefaceRetrieved(final Typeface typeface) {
         final FontsContractCompat.FontRequestCallback fontRequestCallback = this.mCallback;
-        this.mCallbackHandler.post(new Runnable(this) { // from class: androidx.core.provider.CallbackWithHandler.1
+        this.mCallbackHandler.post(new Runnable() { // from class: androidx.core.provider.CallbackWithHandler.1
             @Override // java.lang.Runnable
             public void run() {
                 fontRequestCallback.onTypefaceRetrieved(typeface);
@@ -28,7 +28,7 @@ public class CallbackWithHandler {
 
     private void onTypefaceRequestFailed(final int i) {
         final FontsContractCompat.FontRequestCallback fontRequestCallback = this.mCallback;
-        this.mCallbackHandler.post(new Runnable(this) { // from class: androidx.core.provider.CallbackWithHandler.2
+        this.mCallbackHandler.post(new Runnable() { // from class: androidx.core.provider.CallbackWithHandler.2
             @Override // java.lang.Runnable
             public void run() {
                 fontRequestCallback.onTypefaceRequestFailed(i);

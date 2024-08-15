@@ -14,10 +14,10 @@ public final class zzm implements Parcelable.Creator<LandmarkParcel> {
     @Override // android.os.Parcelable.Creator
     public final /* synthetic */ LandmarkParcel createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
-        float f = 0.0f;
-        float f2 = 0.0f;
         int i = 0;
         int i2 = 0;
+        float f = 0.0f;
+        float f2 = 0.0f;
         while (parcel.dataPosition() < validateObjectHeader) {
             int readHeader = SafeParcelReader.readHeader(parcel);
             int fieldId = SafeParcelReader.getFieldId(readHeader);

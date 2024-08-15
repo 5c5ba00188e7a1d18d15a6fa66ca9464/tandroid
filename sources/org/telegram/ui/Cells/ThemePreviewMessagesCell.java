@@ -73,6 +73,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
     private ChatMessageCell[] cells;
     public boolean customAnimation;
     public BaseFragment fragment;
+    private final Runnable invalidateRunnable;
     private Drawable oldBackgroundDrawable;
     private BackgroundGradientDrawable.Disposable oldBackgroundGradientDisposable;
     private Drawable overrideDrawable;
@@ -95,8 +96,9 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             if (i >= chatMessageCellArr.length) {
                 return;
             }
-            if (chatMessageCellArr[i] != null) {
-                chatMessageCellArr[i].invalidate();
+            ChatMessageCell chatMessageCell = chatMessageCellArr[i];
+            if (chatMessageCell != null) {
+                chatMessageCell.invalidate();
             }
             i++;
         }
@@ -110,8 +112,8 @@ public class ThemePreviewMessagesCell extends LinearLayout {
         this(context, iNavigationLayout, i, j, null);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:78:0x041a  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x047b A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x041c  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x047d A[SYNTHETIC] */
     @SuppressLint({"ClickableViewAccessibility"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -122,7 +124,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
         MessageObject messageObject2;
         int i2;
         ChatMessageCell[] chatMessageCellArr;
-        new Runnable() { // from class: org.telegram.ui.Cells.ThemePreviewMessagesCell$$ExternalSyntheticLambda0
+        this.invalidateRunnable = new Runnable() { // from class: org.telegram.ui.Cells.ThemePreviewMessagesCell$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 ThemePreviewMessagesCell.this.invalidate();
@@ -851,9 +853,9 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                         return i5 == ThemePreviewMessagesCell.this.progress;
                     }
                 });
-                ChatMessageCell[] chatMessageCellArr2 = this.cells;
-                chatMessageCellArr2[i2].isChat = i == 2 || i == 4;
-                chatMessageCellArr2[i2].setFullyDraw(true);
+                ChatMessageCell chatMessageCell = this.cells[i2];
+                chatMessageCell.isChat = i == 2 || i == 4;
+                chatMessageCell.setFullyDraw(true);
                 MessageObject messageObject8 = i2 == 0 ? messageObject2 : messageObject;
                 if (messageObject8 != null) {
                     this.cells[i2].setMessageObject(messageObject8, null, false, false);

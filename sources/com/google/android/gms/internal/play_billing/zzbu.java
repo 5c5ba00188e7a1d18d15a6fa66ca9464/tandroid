@@ -3,18 +3,14 @@ package com.google.android.gms.internal.play_billing;
 import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Objects;
 import java.util.RandomAccess;
 import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 final class zzbu extends zzal implements RandomAccess, zzdm {
+    private static final zzbu zza = new zzbu(new float[0], 0, false);
     private float[] zzb;
     private int zzc;
-
-    static {
-        new zzbu(new float[0], 0, false);
-    }
 
     zzbu() {
         this(new float[10], 0, true);
@@ -57,7 +53,7 @@ final class zzbu extends zzal implements RandomAccess, zzdm {
     public final boolean addAll(Collection collection) {
         zza();
         byte[] bArr = zzcg.zzd;
-        Objects.requireNonNull(collection);
+        collection.getClass();
         if (!(collection instanceof zzbu)) {
             return super.addAll(collection);
         }

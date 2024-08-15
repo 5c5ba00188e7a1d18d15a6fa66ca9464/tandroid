@@ -5,6 +5,7 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 final class AviMainHeaderChunk implements AviChunk {
     public final int flags;
     public final int frameDurationUs;
+    public final int streams;
     public final int totalFrames;
 
     @Override // com.google.android.exoplayer2.extractor.avi.AviChunk
@@ -27,6 +28,7 @@ final class AviMainHeaderChunk implements AviChunk {
         this.frameDurationUs = i;
         this.flags = i2;
         this.totalFrames = i3;
+        this.streams = i4;
     }
 
     public boolean hasIndex() {

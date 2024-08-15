@@ -6,16 +6,24 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class ColorInfo implements Bundleable {
-    public static final Bundleable.Creator<ColorInfo> CREATOR;
-    private static final String FIELD_COLOR_RANGE;
-    private static final String FIELD_COLOR_SPACE;
-    private static final String FIELD_COLOR_TRANSFER;
-    private static final String FIELD_HDR_STATIC_INFO;
     public final int colorRange;
     public final int colorSpace;
     public final int colorTransfer;
     private int hashCode;
     public final byte[] hdrStaticInfo;
+    public static final ColorInfo SDR_BT709_LIMITED = new ColorInfo(1, 2, 3, null);
+    private static final String FIELD_COLOR_SPACE = Util.intToStringMaxRadix(0);
+    private static final String FIELD_COLOR_RANGE = Util.intToStringMaxRadix(1);
+    private static final String FIELD_COLOR_TRANSFER = Util.intToStringMaxRadix(2);
+    private static final String FIELD_HDR_STATIC_INFO = Util.intToStringMaxRadix(3);
+    public static final Bundleable.Creator<ColorInfo> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.video.ColorInfo$$ExternalSyntheticLambda0
+        @Override // com.google.android.exoplayer2.Bundleable.Creator
+        public final Bundleable fromBundle(Bundle bundle) {
+            ColorInfo lambda$static$0;
+            lambda$static$0 = ColorInfo.lambda$static$0(bundle);
+            return lambda$static$0;
+        }
+    };
 
     public static int isoColorPrimariesToColorSpace(int i) {
         if (i != 1) {
@@ -38,22 +46,6 @@ public final class ColorInfo implements Bundleable {
             return 6;
         }
         return 3;
-    }
-
-    static {
-        new ColorInfo(1, 2, 3, null);
-        FIELD_COLOR_SPACE = Util.intToStringMaxRadix(0);
-        FIELD_COLOR_RANGE = Util.intToStringMaxRadix(1);
-        FIELD_COLOR_TRANSFER = Util.intToStringMaxRadix(2);
-        FIELD_HDR_STATIC_INFO = Util.intToStringMaxRadix(3);
-        CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.video.ColorInfo$$ExternalSyntheticLambda0
-            @Override // com.google.android.exoplayer2.Bundleable.Creator
-            public final Bundleable fromBundle(Bundle bundle) {
-                ColorInfo lambda$static$0;
-                lambda$static$0 = ColorInfo.lambda$static$0(bundle);
-                return lambda$static$0;
-            }
-        };
     }
 
     public ColorInfo(int i, int i2, int i3, byte[] bArr) {

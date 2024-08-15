@@ -1,8 +1,5 @@
 package androidx.dynamicanimation.animation;
 
-import android.os.Build;
-import android.os.Handler;
-import android.os.Looper;
 import android.os.SystemClock;
 import android.view.Choreographer;
 import androidx.collection.SimpleArrayMap;
@@ -53,11 +50,7 @@ public class AnimationHandler {
 
     AnimationFrameCallbackProvider getProvider() {
         if (this.mProvider == null) {
-            if (Build.VERSION.SDK_INT >= 16) {
-                this.mProvider = new FrameCallbackProvider16(this.mCallbackDispatcher);
-            } else {
-                this.mProvider = new FrameCallbackProvider14(this.mCallbackDispatcher);
-            }
+            this.mProvider = new FrameCallbackProvider16(this.mCallbackDispatcher);
         }
         return this.mProvider;
     }
@@ -137,32 +130,6 @@ public class AnimationHandler {
         @Override // androidx.dynamicanimation.animation.AnimationHandler.AnimationFrameCallbackProvider
         void postFrameCallback() {
             this.mChoreographer.postFrameCallback(this.mChoreographerCallback);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class FrameCallbackProvider14 extends AnimationFrameCallbackProvider {
-        private final Handler mHandler;
-        long mLastFrameTime;
-        private final Runnable mRunnable;
-
-        FrameCallbackProvider14(AnimationCallbackDispatcher animationCallbackDispatcher) {
-            super(animationCallbackDispatcher);
-            this.mLastFrameTime = -1L;
-            this.mRunnable = new Runnable() { // from class: androidx.dynamicanimation.animation.AnimationHandler.FrameCallbackProvider14.1
-                @Override // java.lang.Runnable
-                public void run() {
-                    FrameCallbackProvider14.this.mLastFrameTime = SystemClock.uptimeMillis();
-                    FrameCallbackProvider14.this.mDispatcher.dispatchAnimationFrame();
-                }
-            };
-            this.mHandler = new Handler(Looper.myLooper());
-        }
-
-        @Override // androidx.dynamicanimation.animation.AnimationHandler.AnimationFrameCallbackProvider
-        void postFrameCallback() {
-            this.mHandler.postDelayed(this.mRunnable, Math.max(10 - (SystemClock.uptimeMillis() - this.mLastFrameTime), 0L));
         }
     }
 

@@ -659,7 +659,7 @@ public final class BulletinFactory {
             if (loadingSpan != null && (createEmojiLoadingBulletin.getLayout() instanceof Bulletin.LoadingLottieLayout)) {
                 loadingSpan.setView(((Bulletin.LoadingLottieLayout) createEmojiLoadingBulletin.getLayout()).textLoadingView);
             }
-            MediaDataController.getInstance(UserConfig.selectedAccount).getStickerSet(inputStickerSet, null, false, new Utilities.Callback() { // from class: org.telegram.ui.Components.BulletinFactory$$ExternalSyntheticLambda7
+            MediaDataController.getInstance(UserConfig.selectedAccount).getStickerSet(inputStickerSet, null, false, new Utilities.Callback() { // from class: org.telegram.ui.Components.BulletinFactory$$ExternalSyntheticLambda2
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     BulletinFactory.lambda$createContainsEmojiBulletin$2(i, createEmojiLoadingBulletin, currentTimeMillis, (TLRPC$TL_messages_stickerSet) obj);
@@ -667,7 +667,7 @@ public final class BulletinFactory {
             });
             return createEmojiLoadingBulletin;
         }
-        return createEmojiBulletin(tLRPC$Document, i == 1 ? AndroidUtilities.replaceTags(LocaleController.formatString("TopicContainsEmojiPackSingle", R.string.TopicContainsEmojiPackSingle, tLRPC$StickerSet.title)) : i == 2 ? AndroidUtilities.replaceTags(LocaleController.formatString("StoryContainsEmojiPackSingle", R.string.StoryContainsEmojiPackSingle, tLRPC$StickerSet.title)) : AndroidUtilities.replaceTags(LocaleController.formatString("MessageContainsEmojiPackSingle", R.string.MessageContainsEmojiPackSingle, tLRPC$StickerSet.title)), LocaleController.getString("ViewAction", R.string.ViewAction), new Runnable() { // from class: org.telegram.ui.Components.BulletinFactory$$ExternalSyntheticLambda0
+        return createEmojiBulletin(tLRPC$Document, i == 1 ? AndroidUtilities.replaceTags(LocaleController.formatString("TopicContainsEmojiPackSingle", R.string.TopicContainsEmojiPackSingle, tLRPC$StickerSet.title)) : i == 2 ? AndroidUtilities.replaceTags(LocaleController.formatString("StoryContainsEmojiPackSingle", R.string.StoryContainsEmojiPackSingle, tLRPC$StickerSet.title)) : AndroidUtilities.replaceTags(LocaleController.formatString("MessageContainsEmojiPackSingle", R.string.MessageContainsEmojiPackSingle, tLRPC$StickerSet.title)), LocaleController.getString("ViewAction", R.string.ViewAction), new Runnable() { // from class: org.telegram.ui.Components.BulletinFactory$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 Utilities.Callback.this.run(inputStickerSet);
@@ -684,7 +684,7 @@ public final class BulletinFactory {
         } else {
             string = i == 1 ? AndroidUtilities.replaceTags(LocaleController.formatString("TopicContainsEmojiPackSingle", R.string.TopicContainsEmojiPackSingle, tLRPC$StickerSet.title)) : i == 2 ? AndroidUtilities.replaceTags(LocaleController.formatString("StoryContainsEmojiPackSingle", R.string.StoryContainsEmojiPackSingle, tLRPC$StickerSet.title)) : AndroidUtilities.replaceTags(LocaleController.formatString("MessageContainsEmojiPackSingle", R.string.MessageContainsEmojiPackSingle, tLRPC$StickerSet.title));
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.BulletinFactory$$ExternalSyntheticLambda4
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.BulletinFactory$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 Bulletin.this.onLoaded(string);
@@ -723,7 +723,7 @@ public final class BulletinFactory {
             lottieLayout = new Bulletin.LottieLayout(getContext(), resourcesProvider);
         }
         lottieLayout.setAnimation(fileType.icon.resId, fileType.icon.layers);
-        lottieLayout.textView.setText(AndroidUtilities.replaceSingleTag(fileType.getText(i), new Runnable() { // from class: org.telegram.ui.Components.BulletinFactory$$ExternalSyntheticLambda6
+        lottieLayout.textView.setText(AndroidUtilities.replaceSingleTag(fileType.getText(i), new Runnable() { // from class: org.telegram.ui.Components.BulletinFactory$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 BulletinFactory.lambda$createDownloadBulletin$4();
@@ -781,7 +781,7 @@ public final class BulletinFactory {
         int i2 = indexOf + 1;
         int indexOf2 = formatPluralString.indexOf(42, i2);
         valueOf.replace(indexOf, indexOf2 + 1, (CharSequence) formatPluralString.substring(i2, indexOf2));
-        valueOf.setSpan(new ClickableSpan(this) { // from class: org.telegram.ui.Components.BulletinFactory.1
+        valueOf.setSpan(new ClickableSpan() { // from class: org.telegram.ui.Components.BulletinFactory.1
             @Override // android.text.style.ClickableSpan
             public void onClick(View view) {
                 runnable.run();
@@ -1052,7 +1052,7 @@ public final class BulletinFactory {
                 i5 = -1;
                 lottieLayout.textView.setText(spannableStringBuilder);
                 if (i5 > 0) {
-                    lottieLayout.postDelayed(new Runnable() { // from class: org.telegram.ui.Components.BulletinFactory$$ExternalSyntheticLambda2
+                    lottieLayout.postDelayed(new Runnable() { // from class: org.telegram.ui.Components.BulletinFactory$$ExternalSyntheticLambda6
                         @Override // java.lang.Runnable
                         public final void run() {
                             Bulletin.LottieLayout.this.performHapticFeedback(3, 2);
@@ -1097,9 +1097,9 @@ public final class BulletinFactory {
             Bulletin.LottieLayoutWithReactions lottieLayoutWithReactions = new Bulletin.LottieLayoutWithReactions(this.fragment, i);
             if (j == UserConfig.getInstance(UserConfig.selectedAccount).clientUserId) {
                 if (i <= 1) {
-                    replaceSingleTag = AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.FwdMessageToSavedMessages), -1, 2, BulletinFactory$$ExternalSyntheticLambda5.INSTANCE);
+                    replaceSingleTag = AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.FwdMessageToSavedMessages), -1, 2, new BulletinFactory$$ExternalSyntheticLambda0());
                 } else {
-                    replaceSingleTag = AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.FwdMessagesToSavedMessages), -1, 2, BulletinFactory$$ExternalSyntheticLambda5.INSTANCE);
+                    replaceSingleTag = AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.FwdMessagesToSavedMessages), -1, 2, new BulletinFactory$$ExternalSyntheticLambda0());
                 }
                 lottieLayoutWithReactions.setAnimation(R.raw.saved_messages, 36, 36, new String[0]);
                 lottieLayoutWithReactions.textView.setText(replaceSingleTag);
@@ -1116,7 +1116,7 @@ public final class BulletinFactory {
         return false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:28:0x00e9  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x00ef  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1128,15 +1128,15 @@ public final class BulletinFactory {
         if (i <= 1) {
             if (j == UserConfig.getInstance(UserConfig.selectedAccount).clientUserId) {
                 if (i2 <= 1) {
-                    spannableStringBuilder = AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.FwdMessageToSavedMessages), BulletinFactory$$ExternalSyntheticLambda5.INSTANCE);
+                    spannableStringBuilder = AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.FwdMessageToSavedMessages), new BulletinFactory$$ExternalSyntheticLambda0());
                 } else {
-                    spannableStringBuilder = AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.FwdMessagesToSavedMessages), BulletinFactory$$ExternalSyntheticLambda5.INSTANCE);
+                    spannableStringBuilder = AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.FwdMessagesToSavedMessages), new BulletinFactory$$ExternalSyntheticLambda0());
                 }
                 lottieLayout.setAnimation(R.raw.saved_messages, 30, 30, new String[0]);
                 i5 = -1;
                 lottieLayout.textView.setText(spannableStringBuilder);
                 if (i5 > 0) {
-                    lottieLayout.postDelayed(new Runnable() { // from class: org.telegram.ui.Components.BulletinFactory$$ExternalSyntheticLambda3
+                    lottieLayout.postDelayed(new Runnable() { // from class: org.telegram.ui.Components.BulletinFactory$$ExternalSyntheticLambda7
                         @Override // java.lang.Runnable
                         public final void run() {
                             Bulletin.LottieLayout.this.performHapticFeedback(3, 2);

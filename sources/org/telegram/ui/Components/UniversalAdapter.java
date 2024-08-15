@@ -231,7 +231,7 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
             callback2.run(this.items, this);
             RecyclerListView recyclerListView = this.listView;
             if (recyclerListView != null && recyclerListView.isComputingLayout()) {
-                this.listView.post(new Runnable() { // from class: org.telegram.ui.Components.UniversalAdapter$$ExternalSyntheticLambda1
+                this.listView.post(new Runnable() { // from class: org.telegram.ui.Components.UniversalAdapter$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         UniversalAdapter.this.lambda$update$0(z);
@@ -333,10 +333,10 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
         } else {
             switch (i) {
                 case VoIPController.ERROR_LOCALIZED /* -3 */:
-                    checkBoxCell = new FullscreenCustomFrameLayout(this, this.context);
+                    checkBoxCell = new FullscreenCustomFrameLayout(this.context);
                     break;
                 case VoIPController.ERROR_PRIVACY /* -2 */:
-                    checkBoxCell = new FrameLayout(this, this.context) { // from class: org.telegram.ui.Components.UniversalAdapter.2
+                    checkBoxCell = new FrameLayout(this.context) { // from class: org.telegram.ui.Components.UniversalAdapter.2
                         @Override // android.widget.FrameLayout, android.view.View
                         protected void onMeasure(int i3, int i4) {
                             int makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i3), 1073741824);
@@ -350,7 +350,7 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
                     };
                     break;
                 case -1:
-                    checkBoxCell = new FrameLayout(this, this.context) { // from class: org.telegram.ui.Components.UniversalAdapter.1
+                    checkBoxCell = new FrameLayout(this.context) { // from class: org.telegram.ui.Components.UniversalAdapter.1
                         @Override // android.widget.FrameLayout, android.view.View
                         protected void onMeasure(int i3, int i4) {
                             super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i3), 1073741824), i4);
@@ -750,7 +750,7 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
             case 14:
                 SlideChooseView slideChooseView = (SlideChooseView) viewHolder.itemView;
                 slideChooseView.setOptions(item.intValue, item.texts);
-                slideChooseView.setCallback(new SlideChooseView.Callback() { // from class: org.telegram.ui.Components.UniversalAdapter$$ExternalSyntheticLambda3
+                slideChooseView.setCallback(new SlideChooseView.Callback() { // from class: org.telegram.ui.Components.UniversalAdapter$$ExternalSyntheticLambda1
                     @Override // org.telegram.ui.Components.SlideChooseView.Callback
                     public final void onOptionSelected(int i8) {
                         UniversalAdapter.lambda$onBindViewHolder$1(UItem.this, i8);
@@ -931,7 +931,7 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
                 textCheckCell2.id = item.id;
                 textCheckCell2.setIcon(item.locked ? R.drawable.permission_locked : 0);
                 if (itemViewType == 40) {
-                    textCheckCell2.setCollapseArrow(item.animatedText.toString(), item.collapsed, new Runnable() { // from class: org.telegram.ui.Components.UniversalAdapter$$ExternalSyntheticLambda0
+                    textCheckCell2.setCollapseArrow(item.animatedText.toString(), item.collapsed, new Runnable() { // from class: org.telegram.ui.Components.UniversalAdapter$$ExternalSyntheticLambda3
                         @Override // java.lang.Runnable
                         public final void run() {
                             UniversalAdapter.lambda$onBindViewHolder$3(UItem.this, textCheckCell2);
@@ -1053,7 +1053,7 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
     public class FullscreenCustomFrameLayout extends FrameLayout {
         private int minusHeight;
 
-        public FullscreenCustomFrameLayout(UniversalAdapter universalAdapter, Context context) {
+        public FullscreenCustomFrameLayout(Context context) {
             super(context);
             this.minusHeight = 0;
         }

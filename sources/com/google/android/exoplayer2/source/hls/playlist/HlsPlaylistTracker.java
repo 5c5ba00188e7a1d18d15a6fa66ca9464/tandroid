@@ -53,13 +53,19 @@ public interface HlsPlaylistTracker {
 
     /* loaded from: classes.dex */
     public static final class PlaylistStuckException extends IOException {
+        public final Uri url;
+
         public PlaylistStuckException(Uri uri) {
+            this.url = uri;
         }
     }
 
     /* loaded from: classes.dex */
     public static final class PlaylistResetException extends IOException {
+        public final Uri url;
+
         public PlaylistResetException(Uri uri) {
+            this.url = uri;
         }
     }
 }

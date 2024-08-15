@@ -259,11 +259,11 @@ public class SimpleArrayMap<K, V> {
         int i4 = indexOf ^ (-1);
         int[] iArr = this.mHashes;
         if (i2 >= iArr.length) {
-            int i5 = 4;
+            int i5 = 8;
             if (i2 >= 8) {
                 i5 = (i2 >> 1) + i2;
-            } else if (i2 >= 4) {
-                i5 = 8;
+            } else if (i2 < 4) {
+                i5 = 4;
             }
             Object[] objArr2 = this.mArray;
             allocArrays(i5);

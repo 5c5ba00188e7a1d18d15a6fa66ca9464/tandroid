@@ -9,7 +9,6 @@ import kotlinx.coroutines.CancellableContinuationImpl;
 import kotlinx.coroutines.CompletedWithCancellation;
 import kotlinx.coroutines.CompletionStateKt;
 import kotlinx.coroutines.CoroutineDispatcher;
-import kotlinx.coroutines.DebugKt;
 import kotlinx.coroutines.DebugStringsKt;
 import kotlinx.coroutines.DispatchedTask;
 import kotlinx.coroutines.EventLoop;
@@ -17,15 +16,12 @@ import kotlinx.coroutines.ThreadLocalEventLoop;
 /* compiled from: DispatchedContinuation.kt */
 /* loaded from: classes.dex */
 public final class DispatchedContinuation<T> extends DispatchedTask<T> implements CoroutineStackFrame, Continuation<T> {
+    private static final /* synthetic */ AtomicReferenceFieldUpdater _reusableCancellableContinuation$FU = AtomicReferenceFieldUpdater.newUpdater(DispatchedContinuation.class, Object.class, "_reusableCancellableContinuation");
     private volatile /* synthetic */ Object _reusableCancellableContinuation;
     public Object _state;
     public final Continuation<T> continuation;
     public final Object countOrElement;
     public final CoroutineDispatcher dispatcher;
-
-    static {
-        AtomicReferenceFieldUpdater.newUpdater(DispatchedContinuation.class, Object.class, "_reusableCancellableContinuation");
-    }
 
     @Override // kotlin.coroutines.Continuation
     public CoroutineContext getContext() {
@@ -35,11 +31,6 @@ public final class DispatchedContinuation<T> extends DispatchedTask<T> implement
     @Override // kotlinx.coroutines.DispatchedTask
     public Continuation<T> getDelegate$kotlinx_coroutines_core() {
         return this;
-    }
-
-    @Override // kotlin.coroutines.jvm.internal.CoroutineStackFrame
-    public StackTraceElement getStackTraceElement() {
-        return null;
     }
 
     /* JADX WARN: Multi-variable type inference failed */
@@ -85,11 +76,6 @@ public final class DispatchedContinuation<T> extends DispatchedTask<T> implement
     @Override // kotlinx.coroutines.DispatchedTask
     public Object takeState$kotlinx_coroutines_core() {
         Object obj = this._state;
-        if (DebugKt.getASSERTIONS_ENABLED()) {
-            if (!(obj != DispatchedContinuationKt.access$getUNDEFINED$p())) {
-                throw new AssertionError();
-            }
-        }
         this._state = DispatchedContinuationKt.access$getUNDEFINED$p();
         return obj;
     }
@@ -104,7 +90,6 @@ public final class DispatchedContinuation<T> extends DispatchedTask<T> implement
             this.dispatcher.dispatch(context, this);
             return;
         }
-        DebugKt.getASSERTIONS_ENABLED();
         EventLoop eventLoop$kotlinx_coroutines_core = ThreadLocalEventLoop.INSTANCE.getEventLoop$kotlinx_coroutines_core();
         if (!eventLoop$kotlinx_coroutines_core.isUnconfinedLoopActive()) {
             eventLoop$kotlinx_coroutines_core.incrementUseCount(true);

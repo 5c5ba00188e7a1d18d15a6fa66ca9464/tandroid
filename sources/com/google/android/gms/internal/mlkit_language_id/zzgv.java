@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import java.util.Iterator;
-import java.util.Map;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 final class zzgv extends zzhb {
@@ -14,7 +13,7 @@ final class zzgv extends zzhb {
     }
 
     @Override // com.google.android.gms.internal.mlkit_language_id.zzhb, java.util.AbstractCollection, java.util.Collection, java.lang.Iterable, java.util.Set
-    public final Iterator<Map.Entry<K, V>> iterator() {
+    public final Iterator iterator() {
         return new zzgs(this.zza, null);
     }
 

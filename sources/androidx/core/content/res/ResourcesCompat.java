@@ -36,14 +36,10 @@ public final class ResourcesCompat {
     }
 
     public static Drawable getDrawableForDensity(Resources resources, int i, int i2, Resources.Theme theme) throws Resources.NotFoundException {
-        int i3 = Build.VERSION.SDK_INT;
-        if (i3 >= 21) {
+        if (Build.VERSION.SDK_INT >= 21) {
             return Api21Impl.getDrawableForDensity(resources, i, i2, theme);
         }
-        if (i3 >= 15) {
-            return Api15Impl.getDrawableForDensity(resources, i, i2);
-        }
-        return resources.getDrawable(i);
+        return Api15Impl.getDrawableForDensity(resources, i, i2);
     }
 
     public static ColorStateList getColorStateList(Resources resources, int i, Resources.Theme theme) throws Resources.NotFoundException {
@@ -170,7 +166,7 @@ public final class ResourcesCompat {
         public abstract void lambda$callbackSuccessAsync$0(Typeface typeface);
 
         public final void callbackSuccessAsync(final Typeface typeface, Handler handler) {
-            getHandler(handler).post(new Runnable() { // from class: androidx.core.content.res.ResourcesCompat$FontCallback$$ExternalSyntheticLambda1
+            getHandler(handler).post(new Runnable() { // from class: androidx.core.content.res.ResourcesCompat$FontCallback$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     ResourcesCompat.FontCallback.this.lambda$callbackSuccessAsync$0(typeface);
@@ -179,7 +175,7 @@ public final class ResourcesCompat {
         }
 
         public final void callbackFailAsync(final int i, Handler handler) {
-            getHandler(handler).post(new Runnable() { // from class: androidx.core.content.res.ResourcesCompat$FontCallback$$ExternalSyntheticLambda0
+            getHandler(handler).post(new Runnable() { // from class: androidx.core.content.res.ResourcesCompat$FontCallback$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     ResourcesCompat.FontCallback.this.lambda$callbackFailAsync$1(i);
@@ -273,22 +269,30 @@ public final class ResourcesCompat {
     /* loaded from: classes.dex */
     static class Api23Impl {
         static ColorStateList getColorStateList(Resources resources, int i, Resources.Theme theme) {
-            return resources.getColorStateList(i, theme);
+            ColorStateList colorStateList;
+            colorStateList = resources.getColorStateList(i, theme);
+            return colorStateList;
         }
 
         static int getColor(Resources resources, int i, Resources.Theme theme) {
-            return resources.getColor(i, theme);
+            int color;
+            color = resources.getColor(i, theme);
+            return color;
         }
     }
 
     /* loaded from: classes.dex */
     static class Api21Impl {
         static Drawable getDrawable(Resources resources, int i, Resources.Theme theme) {
-            return resources.getDrawable(i, theme);
+            Drawable drawable;
+            drawable = resources.getDrawable(i, theme);
+            return drawable;
         }
 
         static Drawable getDrawableForDensity(Resources resources, int i, int i2, Resources.Theme theme) {
-            return resources.getDrawableForDensity(i, i2, theme);
+            Drawable drawableForDensity;
+            drawableForDensity = resources.getDrawableForDensity(i, i2, theme);
+            return drawableForDensity;
         }
     }
 

@@ -7,9 +7,7 @@ import android.os.Parcelable;
 /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zac {
-    static {
-        zac.class.getClassLoader();
-    }
+    private static final ClassLoader zaa = zac.class.getClassLoader();
 
     private zac() {
     }

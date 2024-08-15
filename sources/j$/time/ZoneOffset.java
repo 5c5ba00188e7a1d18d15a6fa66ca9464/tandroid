@@ -2,25 +2,19 @@ package j$.time;
 
 import j$.time.temporal.p;
 import j$.time.temporal.q;
-import j$.time.temporal.t;
-import j$.time.temporal.u;
-import j$.time.temporal.w;
-import j$.time.temporal.x;
 import j$.time.zone.ZoneRules;
 import j$.util.concurrent.ConcurrentHashMap;
-import java.util.Objects;
-import java.util.concurrent.ConcurrentMap;
 /* loaded from: classes2.dex */
 public final class ZoneOffset extends ZoneId implements j$.time.temporal.k, Comparable<ZoneOffset> {
-    private static final ConcurrentMap d = new ConcurrentHashMap(16, 0.75f, 4);
-    private static final ConcurrentMap e = new ConcurrentHashMap(16, 0.75f, 4);
-    public static final ZoneOffset f = j(0);
+    private static final ConcurrentHashMap d = new ConcurrentHashMap(16, 0.75f, 4);
+    private static final ConcurrentHashMap e = new ConcurrentHashMap(16, 0.75f, 4);
+    public static final ZoneOffset f = i(0);
     private final int b;
     private final transient String c;
 
     static {
-        j(-64800);
-        j(64800);
+        i(-64800);
+        i(64800);
     }
 
     private ZoneOffset(int i) {
@@ -48,18 +42,20 @@ public final class ZoneOffset extends ZoneId implements j$.time.temporal.k, Comp
         this.c = sb;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:28:0x0099 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x00b5  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x00bd  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x008b A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x009c  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x00a4  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static ZoneOffset h(String str) {
-        int k;
+    public static ZoneOffset g(String str) {
+        int j;
         int i;
         int i2;
         char charAt;
-        Objects.requireNonNull(str, "offsetId");
+        if (str == null) {
+            throw new NullPointerException("offsetId");
+        }
         ZoneOffset zoneOffset = (ZoneOffset) e.get(str);
         if (zoneOffset != null) {
             return zoneOffset;
@@ -69,28 +65,28 @@ public final class ZoneOffset extends ZoneId implements j$.time.temporal.k, Comp
             str = str.charAt(0) + "0" + str.charAt(1);
         } else if (length != 3) {
             if (length == 5) {
-                k = k(str, 1, false);
-                i = k(str, 3, false);
+                j = j(str, 1, false);
+                i = j(str, 3, false);
             } else if (length != 6) {
                 if (length == 7) {
-                    k = k(str, 1, false);
-                    i = k(str, 3, false);
-                    i2 = k(str, 5, false);
+                    j = j(str, 1, false);
+                    i = j(str, 3, false);
+                    i2 = j(str, 5, false);
                 } else if (length != 9) {
-                    throw new c("Invalid ID for ZoneOffset, invalid format: " + str);
+                    throw new d("Invalid ID for ZoneOffset, invalid format: ".concat(str));
                 } else {
-                    k = k(str, 1, false);
-                    i = k(str, 4, true);
-                    i2 = k(str, 7, true);
+                    j = j(str, 1, false);
+                    i = j(str, 4, true);
+                    i2 = j(str, 7, true);
                 }
                 charAt = str.charAt(0);
                 if (charAt != '+' || charAt == '-') {
-                    return charAt == '-' ? i(-k, -i, -i2) : i(k, i, i2);
+                    return charAt == '-' ? h(-j, -i, -i2) : h(j, i, i2);
                 }
-                throw new c("Invalid ID for ZoneOffset, plus/minus not found when expected: " + str);
+                throw new d("Invalid ID for ZoneOffset, plus/minus not found when expected: ".concat(str));
             } else {
-                k = k(str, 1, false);
-                i = k(str, 4, true);
+                j = j(str, 1, false);
+                i = j(str, 4, true);
             }
             i2 = 0;
             charAt = str.charAt(0);
@@ -99,7 +95,7 @@ public final class ZoneOffset extends ZoneId implements j$.time.temporal.k, Comp
             if (charAt == '-') {
             }
         }
-        k = k(str, 1, false);
+        j = j(str, 1, false);
         i = 0;
         i2 = 0;
         charAt = str.charAt(0);
@@ -109,43 +105,43 @@ public final class ZoneOffset extends ZoneId implements j$.time.temporal.k, Comp
         }
     }
 
-    public static ZoneOffset i(int i, int i2, int i3) {
+    public static ZoneOffset h(int i, int i2, int i3) {
         if (i < -18 || i > 18) {
-            throw new c("Zone offset hours not in valid range: value " + i + " is not in the range -18 to 18");
+            throw new d("Zone offset hours not in valid range: value " + i + " is not in the range -18 to 18");
         }
         if (i > 0) {
             if (i2 < 0 || i3 < 0) {
-                throw new c("Zone offset minutes and seconds must be positive because hours is positive");
+                throw new d("Zone offset minutes and seconds must be positive because hours is positive");
             }
         } else if (i < 0) {
             if (i2 > 0 || i3 > 0) {
-                throw new c("Zone offset minutes and seconds must be negative because hours is negative");
+                throw new d("Zone offset minutes and seconds must be negative because hours is negative");
             }
         } else if ((i2 > 0 && i3 < 0) || (i2 < 0 && i3 > 0)) {
-            throw new c("Zone offset minutes and seconds must have the same sign");
+            throw new d("Zone offset minutes and seconds must have the same sign");
         }
         if (i2 < -59 || i2 > 59) {
-            throw new c("Zone offset minutes not in valid range: value " + i2 + " is not in the range -59 to 59");
+            throw new d("Zone offset minutes not in valid range: value " + i2 + " is not in the range -59 to 59");
         } else if (i3 < -59 || i3 > 59) {
-            throw new c("Zone offset seconds not in valid range: value " + i3 + " is not in the range -59 to 59");
+            throw new d("Zone offset seconds not in valid range: value " + i3 + " is not in the range -59 to 59");
         } else if (Math.abs(i) != 18 || (i2 | i3) == 0) {
-            return j((i2 * 60) + (i * 3600) + i3);
+            return i((i2 * 60) + (i * 3600) + i3);
         } else {
-            throw new c("Zone offset not in valid range: -18:00 to +18:00");
+            throw new d("Zone offset not in valid range: -18:00 to +18:00");
         }
     }
 
-    public static ZoneOffset j(int i) {
+    public static ZoneOffset i(int i) {
         if (i < -64800 || i > 64800) {
-            throw new c("Zone offset not in valid range: -18:00 to +18:00");
+            throw new d("Zone offset not in valid range: -18:00 to +18:00");
         }
         if (i % 900 == 0) {
             Integer valueOf = Integer.valueOf(i);
-            ConcurrentMap concurrentMap = d;
-            ZoneOffset zoneOffset = (ZoneOffset) concurrentMap.get(valueOf);
+            ConcurrentHashMap concurrentHashMap = d;
+            ZoneOffset zoneOffset = (ZoneOffset) concurrentHashMap.get(valueOf);
             if (zoneOffset == null) {
-                concurrentMap.putIfAbsent(valueOf, new ZoneOffset(i));
-                ZoneOffset zoneOffset2 = (ZoneOffset) concurrentMap.get(valueOf);
+                concurrentHashMap.putIfAbsent(valueOf, new ZoneOffset(i));
+                ZoneOffset zoneOffset2 = (ZoneOffset) concurrentHashMap.get(valueOf);
                 e.putIfAbsent(zoneOffset2.c, zoneOffset2);
                 return zoneOffset2;
             }
@@ -154,77 +150,79 @@ public final class ZoneOffset extends ZoneId implements j$.time.temporal.k, Comp
         return new ZoneOffset(i);
     }
 
-    private static int k(CharSequence charSequence, int i, boolean z) {
+    private static int j(CharSequence charSequence, int i, boolean z) {
         if (z && charSequence.charAt(i - 1) != ':') {
-            throw new c("Invalid ID for ZoneOffset, colon not found when expected: " + ((Object) charSequence));
+            throw new d("Invalid ID for ZoneOffset, colon not found when expected: " + ((Object) charSequence));
         }
         char charAt = charSequence.charAt(i);
         char charAt2 = charSequence.charAt(i + 1);
         if (charAt >= '0' && charAt <= '9' && charAt2 >= '0' && charAt2 <= '9') {
             return (charAt2 - '0') + ((charAt - '0') * 10);
         }
-        throw new c("Invalid ID for ZoneOffset, non numeric characters found: " + ((Object) charSequence));
+        throw new d("Invalid ID for ZoneOffset, non numeric characters found: " + ((Object) charSequence));
     }
 
     @Override // j$.time.temporal.k
-    public int a(j$.time.temporal.l lVar) {
-        if (lVar == j$.time.temporal.a.OFFSET_SECONDS) {
-            return this.b;
-        }
-        if (lVar instanceof j$.time.temporal.a) {
-            throw new w("Unsupported field: " + lVar);
-        }
-        return j$.time.temporal.j.c(this, lVar).a(c(lVar), lVar);
-    }
-
-    @Override // j$.time.temporal.k
-    public x b(j$.time.temporal.l lVar) {
+    public final q a(j$.time.temporal.l lVar) {
         return j$.time.temporal.j.c(this, lVar);
     }
 
     @Override // j$.time.temporal.k
-    public long c(j$.time.temporal.l lVar) {
+    public final boolean b(j$.time.temporal.l lVar) {
+        return lVar instanceof j$.time.temporal.a ? lVar == j$.time.temporal.a.OFFSET_SECONDS : lVar != null && lVar.a(this);
+    }
+
+    @Override // j$.time.temporal.k
+    public final long c(j$.time.temporal.l lVar) {
         if (lVar == j$.time.temporal.a.OFFSET_SECONDS) {
             return this.b;
         }
         if (lVar instanceof j$.time.temporal.a) {
-            throw new w("Unsupported field: " + lVar);
+            throw new p("Unsupported field: " + lVar);
         }
-        return lVar.c(this);
+        return lVar.d(this);
     }
 
     @Override // java.lang.Comparable
-    public int compareTo(ZoneOffset zoneOffset) {
+    public final int compareTo(ZoneOffset zoneOffset) {
         return zoneOffset.b - this.b;
     }
 
     @Override // j$.time.temporal.k
-    public Object d(u uVar) {
-        int i = t.a;
-        return (uVar == p.a || uVar == q.a) ? this : j$.time.temporal.j.b(this, uVar);
+    public final Object d(j$.time.temporal.n nVar) {
+        return (nVar == j$.time.temporal.j.g() || nVar == j$.time.temporal.j.i()) ? this : j$.time.temporal.j.b(this, nVar);
     }
 
     @Override // j$.time.temporal.k
-    public boolean e(j$.time.temporal.l lVar) {
-        return lVar instanceof j$.time.temporal.a ? lVar == j$.time.temporal.a.OFFSET_SECONDS : lVar != null && lVar.d(this);
+    public final int e(j$.time.temporal.a aVar) {
+        if (aVar == j$.time.temporal.a.OFFSET_SECONDS) {
+            return this.b;
+        }
+        if (aVar instanceof j$.time.temporal.a) {
+            throw new p("Unsupported field: " + aVar);
+        }
+        return j$.time.temporal.j.c(this, aVar).a(c(aVar), aVar);
     }
 
     @Override // j$.time.ZoneId
-    public boolean equals(Object obj) {
+    public final boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
-        return (obj instanceof ZoneOffset) && this.b == ((ZoneOffset) obj).b;
+        if (obj instanceof ZoneOffset) {
+            return this.b == ((ZoneOffset) obj).b;
+        }
+        return false;
     }
 
     @Override // j$.time.ZoneId
-    public String getId() {
+    public final String getId() {
         return this.c;
     }
 
     @Override // j$.time.ZoneId
-    public ZoneRules getRules() {
-        return ZoneRules.e(this);
+    public final ZoneRules getRules() {
+        return ZoneRules.d(this);
     }
 
     public int getTotalSeconds() {
@@ -232,12 +230,12 @@ public final class ZoneOffset extends ZoneId implements j$.time.temporal.k, Comp
     }
 
     @Override // j$.time.ZoneId
-    public int hashCode() {
+    public final int hashCode() {
         return this.b;
     }
 
     @Override // j$.time.ZoneId
-    public String toString() {
+    public final String toString() {
         return this.c;
     }
 }

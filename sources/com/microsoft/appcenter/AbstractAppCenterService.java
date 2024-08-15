@@ -13,9 +13,7 @@ public abstract class AbstractAppCenterService implements AppCenterService {
     protected Channel mChannel;
     private AppCenterHandler mHandler;
 
-    protected synchronized void applyEnabledState(boolean z) {
-        throw null;
-    }
+    protected abstract void applyEnabledState(boolean z);
 
     protected Channel.GroupListener getChannelListener() {
         return null;
@@ -88,7 +86,7 @@ public abstract class AbstractAppCenterService implements AppCenterService {
     public synchronized AppCenterFuture<Boolean> isInstanceEnabledAsync() {
         final DefaultAppCenterFuture defaultAppCenterFuture;
         defaultAppCenterFuture = new DefaultAppCenterFuture();
-        postAsyncGetter(new Runnable(this) { // from class: com.microsoft.appcenter.AbstractAppCenterService.1
+        postAsyncGetter(new Runnable() { // from class: com.microsoft.appcenter.AbstractAppCenterService.1
             @Override // java.lang.Runnable
             public void run() {
                 defaultAppCenterFuture.complete(Boolean.TRUE);
@@ -191,13 +189,13 @@ public abstract class AbstractAppCenterService implements AppCenterService {
 
     /* JADX INFO: Access modifiers changed from: protected */
     public synchronized <T> void postAsyncGetter(final Runnable runnable, final DefaultAppCenterFuture<T> defaultAppCenterFuture, final T t) {
-        Runnable runnable2 = new Runnable(this) { // from class: com.microsoft.appcenter.AbstractAppCenterService.5
+        Runnable runnable2 = new Runnable() { // from class: com.microsoft.appcenter.AbstractAppCenterService.5
             @Override // java.lang.Runnable
             public void run() {
                 defaultAppCenterFuture.complete(t);
             }
         };
-        if (!post(new Runnable(this) { // from class: com.microsoft.appcenter.AbstractAppCenterService.6
+        if (!post(new Runnable() { // from class: com.microsoft.appcenter.AbstractAppCenterService.6
             @Override // java.lang.Runnable
             public void run() {
                 runnable.run();

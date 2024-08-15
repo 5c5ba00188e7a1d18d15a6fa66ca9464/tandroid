@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.AdaptiveIconDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -157,15 +158,21 @@ public final class CommonNotificationBuilder {
 
     @TargetApi(26)
     public static String getOrCreateChannel(Context context, String str, Bundle bundle) {
+        Object systemService;
+        NotificationChannel notificationChannel;
         String string;
+        NotificationChannel notificationChannel2;
+        NotificationChannel notificationChannel3;
         if (Build.VERSION.SDK_INT < 26) {
             return null;
         }
         try {
             if (context.getPackageManager().getApplicationInfo(context.getPackageName(), 0).targetSdkVersion >= 26) {
-                NotificationManager notificationManager = (NotificationManager) context.getSystemService(NotificationManager.class);
+                systemService = context.getSystemService(NotificationManager.class);
+                NotificationManager notificationManager = (NotificationManager) systemService;
                 if (!TextUtils.isEmpty(str)) {
-                    if (notificationManager.getNotificationChannel(str) != null) {
+                    notificationChannel3 = notificationManager.getNotificationChannel(str);
+                    if (notificationChannel3 != null) {
                         return str;
                     }
                     StringBuilder sb = new StringBuilder(String.valueOf(str).length() + 122);
@@ -176,14 +183,16 @@ public final class CommonNotificationBuilder {
                 }
                 String string2 = bundle.getString("com.google.firebase.messaging.default_notification_channel_id");
                 if (!TextUtils.isEmpty(string2)) {
-                    if (notificationManager.getNotificationChannel(string2) != null) {
+                    notificationChannel2 = notificationManager.getNotificationChannel(string2);
+                    if (notificationChannel2 != null) {
                         return string2;
                     }
                     Log.w("FirebaseMessaging", "Notification Channel set in AndroidManifest.xml has not been created by the app. Default value will be used.");
                 } else {
                     Log.w("FirebaseMessaging", "Missing Default Notification Channel metadata in AndroidManifest. Default value will be used.");
                 }
-                if (notificationManager.getNotificationChannel("fcm_fallback_notification_channel") == null) {
+                notificationChannel = notificationManager.getNotificationChannel("fcm_fallback_notification_channel");
+                if (notificationChannel == null) {
                     int identifier = context.getResources().getIdentifier("fcm_fallback_notification_channel_label", "string", context.getPackageName());
                     if (identifier == 0) {
                         Log.e("FirebaseMessaging", "String resource \"fcm_fallback_notification_channel_label\" is not found. Using default string channel name.");
@@ -268,11 +277,13 @@ public final class CommonNotificationBuilder {
 
     @TargetApi(26)
     private static boolean isValidIcon(Resources resources, int i) {
+        Drawable drawable;
         if (Build.VERSION.SDK_INT != 26) {
             return true;
         }
         try {
-            if (resources.getDrawable(i, null) instanceof AdaptiveIconDrawable) {
+            drawable = resources.getDrawable(i, null);
+            if (drawable instanceof AdaptiveIconDrawable) {
                 StringBuilder sb = new StringBuilder(77);
                 sb.append("Adaptive icons cannot be used in notifications. Ignoring icon id: ");
                 sb.append(i);

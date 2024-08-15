@@ -75,7 +75,9 @@ public class AuthenticationCallbackProvider {
     /* loaded from: classes.dex */
     private static class Api30Impl {
         static int getAuthenticationType(BiometricPrompt.AuthenticationResult authenticationResult) {
-            return authenticationResult.getAuthenticationType();
+            int authenticationType;
+            authenticationType = authenticationResult.getAuthenticationType();
+            return authenticationType;
         }
     }
 
@@ -95,7 +97,14 @@ public class AuthenticationCallbackProvider {
 
                 @Override // android.hardware.biometrics.BiometricPrompt.AuthenticationCallback
                 public void onAuthenticationSucceeded(BiometricPrompt.AuthenticationResult authenticationResult) {
-                    BiometricPrompt.CryptoObject unwrapFromBiometricPrompt = authenticationResult != null ? CryptoObjectUtils.unwrapFromBiometricPrompt(authenticationResult.getCryptoObject()) : null;
+                    BiometricPrompt.CryptoObject cryptoObject;
+                    BiometricPrompt.CryptoObject cryptoObject2;
+                    if (authenticationResult != null) {
+                        cryptoObject2 = authenticationResult.getCryptoObject();
+                        cryptoObject = CryptoObjectUtils.unwrapFromBiometricPrompt(cryptoObject2);
+                    } else {
+                        cryptoObject = null;
+                    }
                     int i = Build.VERSION.SDK_INT;
                     int i2 = -1;
                     if (i >= 30) {
@@ -105,7 +114,7 @@ public class AuthenticationCallbackProvider {
                     } else if (i != 29) {
                         i2 = 2;
                     }
-                    Listener.this.onSuccess(new BiometricPrompt.AuthenticationResult(unwrapFromBiometricPrompt, i2));
+                    Listener.this.onSuccess(new BiometricPrompt.AuthenticationResult(cryptoObject, i2));
                 }
 
                 @Override // android.hardware.biometrics.BiometricPrompt.AuthenticationCallback

@@ -105,18 +105,21 @@ class AsynchronousMediaCodecBufferEnqueuer {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void doHandleMessage(Message message) {
+        MessageParams messageParams;
         int i = message.what;
-        MessageParams messageParams = null;
         if (i == 0) {
             messageParams = (MessageParams) message.obj;
             doQueueInputBuffer(messageParams.index, messageParams.offset, messageParams.size, messageParams.presentationTimeUs, messageParams.flags);
-        } else if (i == 1) {
+        } else if (i != 1) {
+            messageParams = null;
+            if (i == 2) {
+                this.conditionVariable.open();
+            } else {
+                AsynchronousMediaCodecBufferEnqueuer$$ExternalSyntheticBackportWithForwarding0.m(this.pendingRuntimeException, null, new IllegalStateException(String.valueOf(message.what)));
+            }
+        } else {
             messageParams = (MessageParams) message.obj;
             doQueueSecureInputBuffer(messageParams.index, messageParams.offset, messageParams.cryptoInfo, messageParams.presentationTimeUs, messageParams.flags);
-        } else if (i == 2) {
-            this.conditionVariable.open();
-        } else {
-            this.pendingRuntimeException.compareAndSet(null, new IllegalStateException(String.valueOf(message.what)));
         }
         if (messageParams != null) {
             recycleMessageParams(messageParams);
@@ -127,7 +130,7 @@ class AsynchronousMediaCodecBufferEnqueuer {
         try {
             this.codec.queueInputBuffer(i, i2, i3, j, i4);
         } catch (RuntimeException e) {
-            this.pendingRuntimeException.compareAndSet(null, e);
+            AsynchronousMediaCodecBufferEnqueuer$$ExternalSyntheticBackportWithForwarding0.m(this.pendingRuntimeException, null, e);
         }
     }
 
@@ -137,7 +140,7 @@ class AsynchronousMediaCodecBufferEnqueuer {
                 this.codec.queueSecureInputBuffer(i, i2, cryptoInfo, j, i3);
             }
         } catch (RuntimeException e) {
-            this.pendingRuntimeException.compareAndSet(null, e);
+            AsynchronousMediaCodecBufferEnqueuer$$ExternalSyntheticBackportWithForwarding0.m(this.pendingRuntimeException, null, e);
         }
     }
 

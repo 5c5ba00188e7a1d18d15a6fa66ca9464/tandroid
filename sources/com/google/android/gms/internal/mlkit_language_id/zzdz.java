@@ -1,7 +1,13 @@
 package com.google.android.gms.internal.mlkit_language_id;
+
+import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public abstract class zzdz {
+    private int zza;
+    private int zzb;
+    private boolean zzc;
+
     /* JADX INFO: Access modifiers changed from: package-private */
     public static zzdz zza(byte[] bArr, int i, int i2, boolean z) {
         zzeb zzebVar = new zzeb(bArr, i2);
@@ -18,5 +24,8 @@ public abstract class zzdz {
     public abstract int zza(int i) throws zzez;
 
     private zzdz() {
+        this.zza = 100;
+        this.zzb = ConnectionsManager.DEFAULT_DATACENTER_ID;
+        this.zzc = false;
     }
 }

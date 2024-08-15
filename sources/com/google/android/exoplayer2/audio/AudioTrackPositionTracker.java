@@ -301,7 +301,7 @@ final class AudioTrackPositionTracker {
         if (playState == 1) {
             return 0L;
         }
-        long playbackHeadPosition = 4294967295L & audioTrack.getPlaybackHeadPosition();
+        long playbackHeadPosition = audioTrack.getPlaybackHeadPosition() & 4294967295L;
         if (this.needsPassthroughWorkarounds) {
             if (playState == 2 && playbackHeadPosition == 0) {
                 this.passthroughWorkaroundPauseOffset = this.lastRawPlaybackHeadPosition;

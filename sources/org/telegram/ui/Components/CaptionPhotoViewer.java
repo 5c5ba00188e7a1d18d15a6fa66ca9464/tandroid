@@ -21,6 +21,7 @@ import org.telegram.ui.Stories.recorder.CaptionContainerView;
 import org.telegram.ui.Stories.recorder.HintView2;
 /* loaded from: classes3.dex */
 public class CaptionPhotoViewer extends CaptionContainerView {
+    private final int SHOW_ONCE;
     private final ImageView addPhotoButton;
     private boolean addPhotoVisible;
     private final Runnable applyCaption;
@@ -51,6 +52,7 @@ public class CaptionPhotoViewer extends CaptionContainerView {
     public CaptionPhotoViewer(Context context, final FrameLayout frameLayout, SizeNotifierFrameLayout sizeNotifierFrameLayout, FrameLayout frameLayout2, Theme.ResourcesProvider resourcesProvider, BlurringShader.BlurManager blurManager, Runnable runnable) {
         super(context, frameLayout, sizeNotifierFrameLayout, frameLayout2, resourcesProvider, blurManager);
         this.timer = 0;
+        this.SHOW_ONCE = ConnectionsManager.DEFAULT_DATACENTER_ID;
         this.values = new int[]{ConnectionsManager.DEFAULT_DATACENTER_ID, 3, 10, 30, 0};
         this.applyCaption = runnable;
         ImageView imageView = new ImageView(context);
@@ -77,7 +79,7 @@ public class CaptionPhotoViewer extends CaptionContainerView {
         hintView2.setJoint(1.0f, -21.0f);
         hintView2.setMultilineText(true);
         addView(hintView2, LayoutHelper.createFrame(-1, 80, 85));
-        imageView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.CaptionPhotoViewer$$ExternalSyntheticLambda0
+        imageView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.CaptionPhotoViewer$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 CaptionPhotoViewer.this.lambda$new$1(frameLayout, view);
@@ -109,7 +111,7 @@ public class CaptionPhotoViewer extends CaptionContainerView {
             } else {
                 formatPluralString = LocaleController.formatPluralString("Seconds", i, new Object[0]);
             }
-            this.timerPopup.add(0, formatPluralString, new Runnable() { // from class: org.telegram.ui.Components.CaptionPhotoViewer$$ExternalSyntheticLambda1
+            this.timerPopup.add(0, formatPluralString, new Runnable() { // from class: org.telegram.ui.Components.CaptionPhotoViewer$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     CaptionPhotoViewer.this.lambda$new$0(i);
@@ -132,7 +134,7 @@ public class CaptionPhotoViewer extends CaptionContainerView {
         int i = 0;
         if (z2) {
             this.addPhotoButton.setVisibility(0);
-            this.addPhotoButton.animate().alpha(z ? 1.0f : 0.0f).translationX(z ? 0.0f : AndroidUtilities.dp(-8.0f)).withEndAction(new Runnable() { // from class: org.telegram.ui.Components.CaptionPhotoViewer$$ExternalSyntheticLambda2
+            this.addPhotoButton.animate().alpha(z ? 1.0f : 0.0f).translationX(z ? 0.0f : AndroidUtilities.dp(-8.0f)).withEndAction(new Runnable() { // from class: org.telegram.ui.Components.CaptionPhotoViewer$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     CaptionPhotoViewer.this.lambda$setAddPhotoVisible$2(z);
@@ -187,7 +189,7 @@ public class CaptionPhotoViewer extends CaptionContainerView {
         int i = 0;
         if (z2) {
             this.timerButton.setVisibility(0);
-            this.timerButton.animate().alpha(z ? 1.0f : 0.0f).translationX(z ? 0.0f : AndroidUtilities.dp(8.0f)).withEndAction(new Runnable() { // from class: org.telegram.ui.Components.CaptionPhotoViewer$$ExternalSyntheticLambda3
+            this.timerButton.animate().alpha(z ? 1.0f : 0.0f).translationX(z ? 0.0f : AndroidUtilities.dp(8.0f)).withEndAction(new Runnable() { // from class: org.telegram.ui.Components.CaptionPhotoViewer$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     CaptionPhotoViewer.this.lambda$setTimerVisible$3(z);

@@ -230,14 +230,14 @@ public class CaptionContainerView extends FrameLayout {
         this.hintTextBitmapPaint = paint3;
         this.shiftDp = -4;
         this.currentAccount = UserConfig.selectedAccount;
-        this.textChangeRunnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.CaptionContainerView$$ExternalSyntheticLambda2
+        this.textChangeRunnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.CaptionContainerView$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 CaptionContainerView.this.lambda$new$1();
             }
         };
         this.bounce = new ButtonBounce(this, 1.0f, 3.0f);
-        this.updateShowKeyboard = new Runnable() { // from class: org.telegram.ui.Stories.recorder.CaptionContainerView$$ExternalSyntheticLambda3
+        this.updateShowKeyboard = new Runnable() { // from class: org.telegram.ui.Stories.recorder.CaptionContainerView$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 CaptionContainerView.this.lambda$new$2();
@@ -259,7 +259,7 @@ public class CaptionContainerView extends FrameLayout {
         this.replyBackgroundBlur = new BlurringShader.StoryBlurDrawer(blurManager, this, 8);
         this.replyTextBlur = new BlurringShader.StoryBlurDrawer(blurManager, this, 9);
         paint.setColor(Integer.MIN_VALUE);
-        this.keyboardNotifier = new KeyboardNotifier(frameLayout, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.CaptionContainerView$$ExternalSyntheticLambda5
+        this.keyboardNotifier = new KeyboardNotifier(frameLayout, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.CaptionContainerView$$ExternalSyntheticLambda2
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 CaptionContainerView.this.updateKeyboard(((Integer) obj).intValue());
@@ -372,7 +372,7 @@ public class CaptionContainerView extends FrameLayout {
         editTextEmoji.setFocusable(true);
         editTextEmoji.setFocusableInTouchMode(true);
         editTextEmoji.getEditText().hintLayoutYFix = true;
-        editTextEmoji.getEditText().drawHint = new Utilities.Callback2() { // from class: org.telegram.ui.Stories.recorder.CaptionContainerView$$ExternalSyntheticLambda4
+        editTextEmoji.getEditText().drawHint = new Utilities.Callback2() { // from class: org.telegram.ui.Stories.recorder.CaptionContainerView$$ExternalSyntheticLambda3
             @Override // org.telegram.messenger.Utilities.Callback2
             public final void run(Object obj, Object obj2) {
                 CaptionContainerView.this.drawHint((Canvas) obj, (Runnable) obj2);
@@ -401,7 +401,7 @@ public class CaptionContainerView extends FrameLayout {
         this.applyButton.setScaleType(ImageView.ScaleType.CENTER);
         this.applyButton.setAlpha(0.0f);
         this.applyButton.setVisibility(8);
-        this.applyButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.CaptionContainerView$$ExternalSyntheticLambda1
+        this.applyButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.CaptionContainerView$$ExternalSyntheticLambda4
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 CaptionContainerView.this.lambda$new$0(view);
@@ -774,7 +774,7 @@ public class CaptionContainerView extends FrameLayout {
             fArr[1] = z ? 1.0f : 0.0f;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
             this.keyboardAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.CaptionContainerView$$ExternalSyntheticLambda0
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.CaptionContainerView$$ExternalSyntheticLambda5
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                     CaptionContainerView.this.lambda$updateShowKeyboard$3(valueAnimator2);
@@ -1019,7 +1019,7 @@ public class CaptionContainerView extends FrameLayout {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:53:0x018a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:53:0x0186, code lost:
         if ((r0 <= 0.0f) != (r1 <= 0.0f)) goto L57;
      */
     @Override // android.view.ViewGroup, android.view.View
@@ -1079,11 +1079,13 @@ public class CaptionContainerView extends FrameLayout {
                 this.backgroundPaint.setAlpha(128);
                 canvas.drawRoundRect(this.bounds, lerp2, lerp2, this.backgroundPaint);
             } else {
-                if (paints[0] != null) {
-                    canvas.drawRoundRect(this.bounds, lerp2, lerp2, paints[0]);
+                Paint paint = paints[0];
+                if (paint != null) {
+                    canvas.drawRoundRect(this.bounds, lerp2, lerp2, paint);
                 }
-                if (paints[1] != null) {
-                    canvas.drawRoundRect(this.bounds, lerp2, lerp2, paints[1]);
+                Paint paint2 = paints[1];
+                if (paint2 != null) {
+                    canvas.drawRoundRect(this.bounds, lerp2, lerp2, paint2);
                 }
                 this.backgroundPaint.setAlpha(51);
                 canvas.drawRoundRect(this.bounds, lerp2, lerp2, this.backgroundPaint);
@@ -1116,16 +1118,16 @@ public class CaptionContainerView extends FrameLayout {
             RectF rectF4 = this.bounds;
             float max2 = Math.max(max, Math.max(distance2, MathUtils.distance(rectF4.right, rectF4.bottom, dp, dp2))) * f5;
             if (this.collapsePaint == null) {
-                Paint paint = new Paint(1);
-                this.collapsePaint = paint;
-                paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+                Paint paint3 = new Paint(1);
+                this.collapsePaint = paint3;
+                paint3.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
                 RadialGradient radialGradient = new RadialGradient(0.0f, 0.0f, 32.0f, new int[]{-1, -1, 0}, new float[]{0.0f, 0.6f, 1.0f}, Shader.TileMode.CLAMP);
                 this.collapseGradient = radialGradient;
                 this.collapsePaint.setShader(radialGradient);
                 this.collapseGradientMatrix = new Matrix();
-                Paint paint2 = new Paint(1);
-                this.collapseOutPaint = paint2;
-                paint2.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+                Paint paint4 = new Paint(1);
+                this.collapseOutPaint = paint4;
+                paint4.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
                 RadialGradient radialGradient2 = new RadialGradient(0.0f, 0.0f, 32.0f, new int[]{0, 0, -1}, new float[]{0.0f, 0.5f, 1.0f}, Shader.TileMode.CLAMP);
                 this.collapseOutGradient = radialGradient2;
                 this.collapseOutPaint.setShader(radialGradient2);

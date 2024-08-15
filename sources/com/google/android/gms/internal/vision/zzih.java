@@ -5,6 +5,8 @@ import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public final class zzih extends zzif {
+    private final byte[] zzd;
+    private final boolean zze;
     private int zzf;
     private int zzg;
     private int zzh;
@@ -14,9 +16,11 @@ public final class zzih extends zzif {
     private zzih(byte[] bArr, int i, int i2, boolean z) {
         super();
         this.zzk = ConnectionsManager.DEFAULT_DATACENTER_ID;
+        this.zzd = bArr;
         this.zzf = i2 + i;
         this.zzh = i;
         this.zzi = i;
+        this.zze = z;
     }
 
     @Override // com.google.android.gms.internal.vision.zzif

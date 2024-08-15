@@ -109,8 +109,11 @@ public final class ReflectiveTypeAdapterFactory implements TypeAdapterFactory {
         JsonAdapter jsonAdapter = (JsonAdapter) field.getAnnotation(JsonAdapter.class);
         TypeAdapter<?> typeAdapter = jsonAdapter != null ? this.jsonAdapterFactory.getTypeAdapter(this.constructorConstructor, gson, typeToken, jsonAdapter) : null;
         final boolean z5 = typeAdapter != null;
-        final TypeAdapter<?> adapter = typeAdapter == null ? gson.getAdapter(typeToken) : typeAdapter;
-        return new BoundField(this, str, field.getName(), z, z2) { // from class: com.google.gson.internal.bind.ReflectiveTypeAdapterFactory.1
+        if (typeAdapter == null) {
+            typeAdapter = gson.getAdapter(typeToken);
+        }
+        final TypeAdapter<?> typeAdapter2 = typeAdapter;
+        return new BoundField(str, field.getName(), z, z2) { // from class: com.google.gson.internal.bind.ReflectiveTypeAdapterFactory.1
             @Override // com.google.gson.internal.bind.ReflectiveTypeAdapterFactory.BoundField
             void write(JsonWriter jsonWriter, Object obj) throws IOException, IllegalAccessException {
                 Object obj2;
@@ -138,13 +141,13 @@ public final class ReflectiveTypeAdapterFactory implements TypeAdapterFactory {
                         return;
                     }
                     jsonWriter.name(this.name);
-                    (z5 ? adapter : new TypeAdapterRuntimeTypeWrapper(gson, adapter, typeToken.getType())).write(jsonWriter, obj2);
+                    (z5 ? typeAdapter2 : new TypeAdapterRuntimeTypeWrapper(gson, typeAdapter2, typeToken.getType())).write(jsonWriter, obj2);
                 }
             }
 
             @Override // com.google.gson.internal.bind.ReflectiveTypeAdapterFactory.BoundField
             void readIntoArray(JsonReader jsonReader, int i, Object[] objArr) throws IOException, JsonParseException {
-                Object read = adapter.read(jsonReader);
+                Object read = typeAdapter2.read(jsonReader);
                 if (read == null && isPrimitive) {
                     throw new JsonParseException("null is not allowed as value for record component '" + this.fieldName + "' of primitive type; at path " + jsonReader.getPath());
                 }
@@ -153,7 +156,7 @@ public final class ReflectiveTypeAdapterFactory implements TypeAdapterFactory {
 
             @Override // com.google.gson.internal.bind.ReflectiveTypeAdapterFactory.BoundField
             void readIntoField(JsonReader jsonReader, Object obj) throws IOException, IllegalAccessException {
-                Object read = adapter.read(jsonReader);
+                Object read = typeAdapter2.read(jsonReader);
                 if (read == null && isPrimitive) {
                     return;
                 }
@@ -168,9 +171,9 @@ public final class ReflectiveTypeAdapterFactory implements TypeAdapterFactory {
         };
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:48:0x00ef  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x0162 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x0154 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x00ed  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x0160 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x0152 A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

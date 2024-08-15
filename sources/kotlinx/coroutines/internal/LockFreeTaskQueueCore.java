@@ -1,10 +1,10 @@
 package kotlinx.coroutines.internal;
 
+import androidx.concurrent.futures.AbstractResolvableFuture$SafeAtomicHelper$$ExternalSyntheticBackportWithForwarding0;
 import java.util.concurrent.atomic.AtomicLongFieldUpdater;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import kotlin.jvm.internal.DefaultConstructorMarker;
-import kotlinx.coroutines.DebugKt;
 /* compiled from: LockFreeTaskQueue.kt */
 /* loaded from: classes.dex */
 public final class LockFreeTaskQueueCore<E> {
@@ -128,7 +128,7 @@ public final class LockFreeTaskQueueCore<E> {
         return true;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x004e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:17:0x004c, code lost:
         return 1;
      */
     /*
@@ -140,7 +140,6 @@ public final class LockFreeTaskQueueCore<E> {
             if ((3458764513820540928L & j) != 0) {
                 return Companion.addFailReason(j);
             }
-            Companion companion = Companion;
             int i = (int) ((1073741823 & j) >> 0);
             int i2 = (int) ((1152921503533105152L & j) >> 30);
             int i3 = this.mask;
@@ -152,7 +151,7 @@ public final class LockFreeTaskQueueCore<E> {
                 if (i4 < 1024 || ((i2 - i) & 1073741823) > (i4 >> 1)) {
                     break;
                 }
-            } else if (_state$FU.compareAndSet(this, j, companion.updateTail(j, (i2 + 1) & 1073741823))) {
+            } else if (_state$FU.compareAndSet(this, j, Companion.updateTail(j, (i2 + 1) & 1073741823))) {
                 this.array.set(i2 & i3, e);
                 LockFreeTaskQueueCore<E> lockFreeTaskQueueCore = this;
                 while ((lockFreeTaskQueueCore._state & 1152921504606846976L) != 0 && (lockFreeTaskQueueCore = lockFreeTaskQueueCore.next().fillPlaceholder(i2, e)) != null) {
@@ -168,7 +167,6 @@ public final class LockFreeTaskQueueCore<E> {
             if ((1152921504606846976L & j) != 0) {
                 return REMOVE_FROZEN;
             }
-            Companion companion = Companion;
             int i = (int) ((1073741823 & j) >> 0);
             int i2 = (int) ((1152921503533105152L & j) >> 30);
             int i3 = this.mask;
@@ -184,7 +182,7 @@ public final class LockFreeTaskQueueCore<E> {
                 return null;
             } else {
                 int i4 = (i + 1) & 1073741823;
-                if (_state$FU.compareAndSet(this, j, companion.updateHead(j, i4))) {
+                if (_state$FU.compareAndSet(this, j, Companion.updateHead(j, i4))) {
                     this.array.set(this.mask & i, null);
                     return obj;
                 } else if (this.singleConsumer) {
@@ -200,22 +198,15 @@ public final class LockFreeTaskQueueCore<E> {
 
     private final LockFreeTaskQueueCore<E> removeSlowPath(int i, int i2) {
         long j;
-        Companion companion;
         int i3;
         do {
             j = this._state;
-            companion = Companion;
             i3 = (int) ((1073741823 & j) >> 0);
-            if (DebugKt.getASSERTIONS_ENABLED()) {
-                if (!(i3 == i)) {
-                    throw new AssertionError();
-                }
-            }
             if ((1152921504606846976L & j) != 0) {
                 return next();
             }
-        } while (!_state$FU.compareAndSet(this, j, companion.updateHead(j, i2)));
-        this.array.set(this.mask & i3, null);
+        } while (!_state$FU.compareAndSet(this, j, Companion.updateHead(j, i2)));
+        this.array.set(i3 & this.mask, null);
         return null;
     }
 
@@ -238,7 +229,7 @@ public final class LockFreeTaskQueueCore<E> {
             if (lockFreeTaskQueueCore != null) {
                 return lockFreeTaskQueueCore;
             }
-            _next$FU.compareAndSet(this, null, allocateNextCopy(j));
+            AbstractResolvableFuture$SafeAtomicHelper$$ExternalSyntheticBackportWithForwarding0.m(_next$FU, this, null, allocateNextCopy(j));
         }
     }
 }

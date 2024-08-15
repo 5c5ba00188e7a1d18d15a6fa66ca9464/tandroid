@@ -12,6 +12,7 @@ import com.google.android.datatransport.runtime.scheduling.persistence.EventStor
 import com.google.android.datatransport.runtime.util.PriorityMapping;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.zip.Adler32;
 /* loaded from: classes.dex */
 public class JobInfoScheduler implements WorkScheduler {
@@ -37,9 +38,16 @@ public class JobInfoScheduler implements WorkScheduler {
     }
 
     private boolean isJobServiceOn(JobScheduler jobScheduler, int i, int i2) {
-        for (JobInfo jobInfo : jobScheduler.getAllPendingJobs()) {
-            int i3 = jobInfo.getExtras().getInt("attemptNumber");
-            if (jobInfo.getId() == i) {
+        List<JobInfo> allPendingJobs;
+        PersistableBundle extras;
+        int i3;
+        int id;
+        allPendingJobs = jobScheduler.getAllPendingJobs();
+        for (JobInfo jobInfo : allPendingJobs) {
+            extras = jobInfo.getExtras();
+            i3 = extras.getInt("attemptNumber");
+            id = jobInfo.getId();
+            if (id == i) {
                 return i3 >= i2;
             }
         }
@@ -53,6 +61,7 @@ public class JobInfoScheduler implements WorkScheduler {
 
     @Override // com.google.android.datatransport.runtime.scheduling.jobscheduling.WorkScheduler
     public void schedule(TransportContext transportContext, int i, boolean z) {
+        JobInfo build;
         ComponentName componentName = new ComponentName(this.context, JobInfoSchedulerService.class);
         JobScheduler jobScheduler = (JobScheduler) this.context.getSystemService("jobscheduler");
         int jobId = getJobId(transportContext);
@@ -71,6 +80,7 @@ public class JobInfoScheduler implements WorkScheduler {
         }
         configureJob.setExtras(persistableBundle);
         Logging.d("JobInfoScheduler", "Scheduling upload for context %s with jobId=%d in %dms(Backend next call timestamp %d). Attempt %d", transportContext, Integer.valueOf(jobId), Long.valueOf(this.config.getScheduleDelay(transportContext.getPriority(), nextCallTime, i)), Long.valueOf(nextCallTime), Integer.valueOf(i));
-        jobScheduler.schedule(configureJob.build());
+        build = configureJob.build();
+        jobScheduler.schedule(build);
     }
 }

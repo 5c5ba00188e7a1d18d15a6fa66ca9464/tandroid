@@ -5,9 +5,7 @@ import com.coremedia.iso.boxes.Container;
 import java.util.regex.Pattern;
 /* loaded from: classes.dex */
 public class Path {
-    static {
-        Pattern.compile("(....|\\.\\.)(\\[(.*)\\])?");
-    }
+    static Pattern component = Pattern.compile("(....|\\.\\.)(\\[(.*)\\])?");
 
     public static String createPath(Box box) {
         return createPath(box, "");

@@ -91,7 +91,7 @@ public class ReleaseDownloadListener implements ReleaseDownloader.Listener {
         final ProgressDialog progressDialog = this.mProgressDialog;
         if (progressDialog != null) {
             this.mProgressDialog = null;
-            HandlerUtils.runOnUiThread(new Runnable(this) { // from class: com.microsoft.appcenter.distribute.ReleaseDownloadListener.3
+            HandlerUtils.runOnUiThread(new Runnable() { // from class: com.microsoft.appcenter.distribute.ReleaseDownloadListener.3
                 @Override // java.lang.Runnable
                 public void run() {
                     progressDialog.hide();

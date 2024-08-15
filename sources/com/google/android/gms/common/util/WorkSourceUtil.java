@@ -14,26 +14,34 @@ import java.util.List;
 /* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public class WorkSourceUtil {
+    private static final int zza = Process.myUid();
     private static final Method zzb;
     private static final Method zzc;
     private static final Method zzd;
+    private static final Method zze;
     private static final Method zzf;
+    private static final Method zzg;
+    private static final Method zzh;
     private static final Method zzi;
 
-    /* JADX WARN: Can't wrap try/catch for region: R(22:1|(2:2|3)|4|(19:47|48|7|8|9|10|11|12|13|(10:39|40|16|(2:34|35)|18|(2:29|30)|20|(2:25|26)|22|23)|15|16|(0)|18|(0)|20|(0)|22|23)|6|7|8|9|10|11|12|13|(0)|15|16|(0)|18|(0)|20|(0)|22|23) */
+    /* JADX WARN: Can't wrap try/catch for region: R(24:1|(2:2|3)|4|(21:49|50|7|8|9|10|11|12|13|(12:41|42|16|(9:36|37|19|(6:31|32|22|(2:27|28)|24|25)|21|22|(0)|24|25)|18|19|(0)|21|22|(0)|24|25)|15|16|(0)|18|19|(0)|21|22|(0)|24|25)|6|7|8|9|10|11|12|13|(0)|15|16|(0)|18|19|(0)|21|22|(0)|24|25) */
     /* JADX WARN: Code restructure failed: missing block: B:14:0x003e, code lost:
-        r1 = null;
+        r0 = null;
      */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x0086 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x0070 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0056 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x00a6 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Code restructure failed: missing block: B:18:0x004e, code lost:
+        r0 = null;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x0089 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x0071 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x00ad A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0058 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     static {
         Method method;
         Method method2;
         Method method3;
-        Process.myUid();
-        Method method4 = null;
+        Method method4;
+        Method method5;
+        Method method6 = null;
         try {
             method = WorkSource.class.getMethod("add", Integer.TYPE);
         } catch (Exception unused) {
@@ -46,9 +54,10 @@ public class WorkSourceUtil {
             } catch (Exception unused2) {
             }
             zzc = method2;
-            Method method5 = WorkSource.class.getMethod("size", new Class[0]);
-            zzd = method5;
-            WorkSource.class.getMethod("get", Integer.TYPE);
+            Method method7 = WorkSource.class.getMethod("size", new Class[0]);
+            zzd = method7;
+            Method method8 = WorkSource.class.getMethod("get", Integer.TYPE);
+            zze = method8;
             if (PlatformVersion.isAtLeastJellyBeanMR2()) {
                 try {
                     method3 = WorkSource.class.getMethod("getName", Integer.TYPE);
@@ -57,53 +66,78 @@ public class WorkSourceUtil {
                 zzf = method3;
                 if (PlatformVersion.isAtLeastP()) {
                     try {
-                        WorkSource.class.getMethod("createWorkChain", new Class[0]);
+                        method4 = WorkSource.class.getMethod("createWorkChain", new Class[0]);
                     } catch (Exception e) {
                         Log.w("WorkSourceUtil", "Missing WorkChain API createWorkChain", e);
                     }
-                }
-                if (PlatformVersion.isAtLeastP()) {
-                    try {
-                        Class.forName("android.os.WorkSource$WorkChain").getMethod("addNode", Integer.TYPE, String.class);
-                    } catch (Exception e2) {
-                        Log.w("WorkSourceUtil", "Missing WorkChain class", e2);
+                    zzg = method4;
+                    if (PlatformVersion.isAtLeastP()) {
+                        try {
+                            method5 = Class.forName("android.os.WorkSource$WorkChain").getMethod("addNode", Integer.TYPE, String.class);
+                        } catch (Exception e2) {
+                            Log.w("WorkSourceUtil", "Missing WorkChain class", e2);
+                        }
+                        zzh = method5;
+                        if (PlatformVersion.isAtLeastP()) {
+                            try {
+                                method6 = WorkSource.class.getMethod("isEmpty", new Class[0]);
+                                method6.setAccessible(true);
+                            } catch (Exception unused4) {
+                            }
+                        }
+                        zzi = method6;
                     }
-                }
-                if (PlatformVersion.isAtLeastP()) {
-                    try {
-                        method4 = WorkSource.class.getMethod("isEmpty", new Class[0]);
-                        method4.setAccessible(true);
-                    } catch (Exception unused4) {
+                    method5 = null;
+                    zzh = method5;
+                    if (PlatformVersion.isAtLeastP()) {
                     }
+                    zzi = method6;
                 }
-                zzi = method4;
+                method4 = null;
+                zzg = method4;
+                if (PlatformVersion.isAtLeastP()) {
+                }
+                method5 = null;
+                zzh = method5;
+                if (PlatformVersion.isAtLeastP()) {
+                }
+                zzi = method6;
             }
             method3 = null;
             zzf = method3;
             if (PlatformVersion.isAtLeastP()) {
             }
+            method4 = null;
+            zzg = method4;
             if (PlatformVersion.isAtLeastP()) {
             }
+            method5 = null;
+            zzh = method5;
             if (PlatformVersion.isAtLeastP()) {
             }
-            zzi = method4;
+            zzi = method6;
         }
         method2 = null;
         zzc = method2;
-        Method method52 = WorkSource.class.getMethod("size", new Class[0]);
-        zzd = method52;
-        WorkSource.class.getMethod("get", Integer.TYPE);
+        Method method72 = WorkSource.class.getMethod("size", new Class[0]);
+        zzd = method72;
+        Method method82 = WorkSource.class.getMethod("get", Integer.TYPE);
+        zze = method82;
         if (PlatformVersion.isAtLeastJellyBeanMR2()) {
         }
         method3 = null;
         zzf = method3;
         if (PlatformVersion.isAtLeastP()) {
         }
+        method4 = null;
+        zzg = method4;
         if (PlatformVersion.isAtLeastP()) {
         }
+        method5 = null;
+        zzh = method5;
         if (PlatformVersion.isAtLeastP()) {
         }
-        zzi = method4;
+        zzi = method6;
     }
 
     public static void add(WorkSource workSource, int i, String str) {

@@ -25,19 +25,19 @@ class TypefaceCompatApi24Impl extends TypefaceCompatBaseImpl {
     static {
         Class<?> cls;
         Method method;
+        Constructor<?> constructor;
         Method method2;
-        Constructor<?> constructor = null;
         try {
             cls = Class.forName("android.graphics.FontFamily");
-            Constructor<?> constructor2 = cls.getConstructor(new Class[0]);
+            constructor = cls.getConstructor(new Class[0]);
             Class<?> cls2 = Integer.TYPE;
             method2 = cls.getMethod("addFontWeightStyle", ByteBuffer.class, cls2, List.class, cls2, Boolean.TYPE);
             method = Typeface.class.getMethod("createFromFamiliesWithDefault", Array.newInstance(cls, 1).getClass());
-            constructor = constructor2;
         } catch (ClassNotFoundException | NoSuchMethodException e) {
             Log.e("TypefaceCompatApi24Impl", e.getClass().getName(), e);
             cls = null;
             method = null;
+            constructor = null;
             method2 = null;
         }
         sFontFamilyCtor = constructor;

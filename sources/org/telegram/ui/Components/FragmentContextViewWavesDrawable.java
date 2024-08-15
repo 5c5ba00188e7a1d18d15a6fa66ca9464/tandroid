@@ -27,7 +27,6 @@ public class FragmentContextViewWavesDrawable {
     private float animateToAmplitude;
     WeavingState currentState;
     private long lastUpdateTime;
-    Path path;
     WeavingState pausedState;
     WeavingState previousState;
     WeavingState[] states = new WeavingState[4];
@@ -37,24 +36,25 @@ public class FragmentContextViewWavesDrawable {
     LineBlobDrawable lineBlobDrawable = new LineBlobDrawable(5);
     LineBlobDrawable lineBlobDrawable1 = new LineBlobDrawable(7);
     LineBlobDrawable lineBlobDrawable2 = new LineBlobDrawable(8);
+    RectF rect = new RectF();
+    Path path = new Path();
+    private final Paint selectedPaint = new Paint(1);
 
     public FragmentContextViewWavesDrawable() {
-        new RectF();
-        this.path = new Path();
-        new Paint(1);
         for (int i = 0; i < 4; i++) {
             this.states[i] = new WeavingState(i);
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:36:0x006a  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x00cf  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x0068  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x00cd  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void draw(float f, float f2, float f3, float f4, Canvas canvas, FragmentContextView fragmentContextView, float f5) {
-        boolean z;
         long j;
+        boolean z;
+        long j2;
         int i;
         float f6;
         int i2;
@@ -63,16 +63,17 @@ public class FragmentContextViewWavesDrawable {
         if (f2 > f4) {
             return;
         }
-        long j2 = 0;
         WeavingState weavingState = this.currentState;
         boolean z3 = (weavingState == null || this.previousState == null || ((weavingState.currentState != 1 || this.previousState.currentState != 0) && (this.previousState.currentState != 1 || this.currentState.currentState != 0))) ? false : true;
         if (z2) {
             long elapsedRealtime = SystemClock.elapsedRealtime();
-            long j3 = elapsedRealtime - this.lastUpdateTime;
+            j = elapsedRealtime - this.lastUpdateTime;
             this.lastUpdateTime = elapsedRealtime;
-            j2 = j3 > 20 ? 17L : j3;
-            if (j2 < 3) {
-                j = j2;
+            if (j > 20) {
+                j = 17;
+            }
+            if (j < 3) {
+                j2 = j;
                 z = false;
                 float f7 = 1.0f;
                 float f8 = 0.0f;
@@ -81,7 +82,7 @@ public class FragmentContextViewWavesDrawable {
                     float f10 = this.amplitude;
                     if (f9 != f10) {
                         float f11 = this.animateAmplitudeDiff;
-                        float f12 = f10 + (((float) j) * f11);
+                        float f12 = f10 + (((float) j2) * f11);
                         this.amplitude = f12;
                         if (f11 > 0.0f) {
                             if (f12 > f9) {
@@ -96,7 +97,7 @@ public class FragmentContextViewWavesDrawable {
                     float f14 = this.amplitude2;
                     if (f13 != f14) {
                         float f15 = this.animateAmplitudeDiff2;
-                        float f16 = f14 + (((float) j) * f15);
+                        float f16 = f14 + (((float) j2) * f15);
                         this.amplitude2 = f16;
                         if (f15 > 0.0f) {
                             if (f16 > f13) {
@@ -108,7 +109,7 @@ public class FragmentContextViewWavesDrawable {
                         fragmentContextView.invalidate();
                     }
                     if (this.previousState != null) {
-                        float f17 = this.progressToState + (((float) j) / 250.0f);
+                        float f17 = this.progressToState + (((float) j2) / 250.0f);
                         this.progressToState = f17;
                         if (f17 > 1.0f) {
                             this.progressToState = 1.0f;
@@ -132,7 +133,7 @@ public class FragmentContextViewWavesDrawable {
                             }
                             f6 = this.previousState != null ? this.progressToState : 1.0f;
                             if (z) {
-                                weavingState2.update((int) (f4 - f2), (int) (f3 - f), j, this.amplitude);
+                                weavingState2.update((int) (f4 - f2), (int) (f3 - f), j2, this.amplitude);
                             }
                             this.currentState.setToPaint(this.paint);
                         }
@@ -184,9 +185,11 @@ public class FragmentContextViewWavesDrawable {
                     f7 = 1.0f;
                 }
             }
+        } else {
+            j = 0;
         }
         z = z2;
-        j = j2;
+        j2 = j;
         float f72 = 1.0f;
         float f82 = 0.0f;
         if (z) {

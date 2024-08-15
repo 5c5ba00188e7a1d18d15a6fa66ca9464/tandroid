@@ -89,11 +89,17 @@ public class BottomSheetTabDialog extends Dialog {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ WindowInsets lambda$onCreate$0(View view, WindowInsets windowInsets) {
-        view.setPadding(0, 0, 0, windowInsets.getSystemWindowInsetBottom());
+        int systemWindowInsetBottom;
+        WindowInsets consumeSystemWindowInsets;
+        WindowInsets windowInsets2;
+        systemWindowInsetBottom = windowInsets.getSystemWindowInsetBottom();
+        view.setPadding(0, 0, 0, systemWindowInsetBottom);
         if (Build.VERSION.SDK_INT >= 30) {
-            return WindowInsets.CONSUMED;
+            windowInsets2 = WindowInsets.CONSUMED;
+            return windowInsets2;
         }
-        return windowInsets.consumeSystemWindowInsets();
+        consumeSystemWindowInsets = windowInsets.consumeSystemWindowInsets();
+        return consumeSystemWindowInsets;
     }
 
     public void updateNavigationBarColor() {

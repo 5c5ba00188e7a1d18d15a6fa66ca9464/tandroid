@@ -1040,13 +1040,29 @@ public final class DefaultAudioSink implements AudioSink {
     }
 
     private void setAudioTrackPlaybackParametersV23(PlaybackParameters playbackParameters) {
+        PlaybackParams allowDefaults;
+        PlaybackParams speed;
+        PlaybackParams pitch;
+        PlaybackParams audioFallbackMode;
+        PlaybackParams playbackParams;
+        float speed2;
+        PlaybackParams playbackParams2;
+        float pitch2;
         if (isAudioTrackInitialized()) {
+            allowDefaults = new PlaybackParams().allowDefaults();
+            speed = allowDefaults.setSpeed(playbackParameters.speed);
+            pitch = speed.setPitch(playbackParameters.pitch);
+            audioFallbackMode = pitch.setAudioFallbackMode(2);
             try {
-                this.audioTrack.setPlaybackParams(new PlaybackParams().allowDefaults().setSpeed(playbackParameters.speed).setPitch(playbackParameters.pitch).setAudioFallbackMode(2));
+                this.audioTrack.setPlaybackParams(audioFallbackMode);
             } catch (IllegalArgumentException e) {
                 Log.w("DefaultAudioSink", "Failed to set playback params", e);
             }
-            playbackParameters = new PlaybackParameters(this.audioTrack.getPlaybackParams().getSpeed(), this.audioTrack.getPlaybackParams().getPitch());
+            playbackParams = this.audioTrack.getPlaybackParams();
+            speed2 = playbackParams.getSpeed();
+            playbackParams2 = this.audioTrack.getPlaybackParams();
+            pitch2 = playbackParams2.getPitch();
+            playbackParameters = new PlaybackParameters(speed2, pitch2);
             this.audioTrackPositionTracker.setAudioTrackPlaybackSpeed(playbackParameters.speed);
         }
         this.audioTrackPlaybackParameters = playbackParameters;
@@ -1165,18 +1181,29 @@ public final class DefaultAudioSink implements AudioSink {
 
     @SuppressLint({"InlinedApi"})
     private int getOffloadedPlaybackSupport(AudioFormat audioFormat, android.media.AudioAttributes audioAttributes) {
+        boolean isOffloadedPlaybackSupported;
+        int playbackOffloadSupport;
         int i = Util.SDK_INT;
         if (i >= 31) {
-            return AudioManager.getPlaybackOffloadSupport(audioFormat, audioAttributes);
+            playbackOffloadSupport = AudioManager.getPlaybackOffloadSupport(audioFormat, audioAttributes);
+            return playbackOffloadSupport;
         }
-        if (AudioManager.isOffloadedPlaybackSupported(audioFormat, audioAttributes)) {
+        isOffloadedPlaybackSupported = AudioManager.isOffloadedPlaybackSupported(audioFormat, audioAttributes);
+        if (isOffloadedPlaybackSupported) {
             return (i == 30 && Util.MODEL.startsWith("Pixel")) ? 2 : 1;
         }
         return 0;
     }
 
     private static boolean isOffloadedPlayback(AudioTrack audioTrack) {
-        return Util.SDK_INT >= 29 && audioTrack.isOffloadedPlayback();
+        boolean isOffloadedPlayback;
+        if (Util.SDK_INT >= 29) {
+            isOffloadedPlayback = audioTrack.isOffloadedPlayback();
+            if (isOffloadedPlayback) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static int getFramesPerEncodedSample(int i, ByteBuffer byteBuffer) {
@@ -1221,12 +1248,17 @@ public final class DefaultAudioSink implements AudioSink {
     }
 
     private static int writeNonBlockingV21(AudioTrack audioTrack, ByteBuffer byteBuffer, int i) {
-        return audioTrack.write(byteBuffer, i, 1);
+        int write;
+        write = audioTrack.write(byteBuffer, i, 1);
+        return write;
     }
 
     private int writeNonBlockingWithAvSyncV21(AudioTrack audioTrack, ByteBuffer byteBuffer, int i, long j) {
+        int write;
+        int write2;
         if (Util.SDK_INT >= 26) {
-            return audioTrack.write(byteBuffer, i, 1, j * 1000);
+            write2 = audioTrack.write(byteBuffer, i, 1, j * 1000);
+            return write2;
         }
         if (this.avSyncHeader == null) {
             ByteBuffer allocate = ByteBuffer.allocate(16);
@@ -1242,7 +1274,7 @@ public final class DefaultAudioSink implements AudioSink {
         }
         int remaining = this.avSyncHeader.remaining();
         if (remaining > 0) {
-            int write = audioTrack.write(this.avSyncHeader, remaining, 1);
+            write = audioTrack.write(this.avSyncHeader, remaining, 1);
             if (write < 0) {
                 this.bytesUntilNextAvSync = 0;
                 return write;
@@ -1284,7 +1316,7 @@ public final class DefaultAudioSink implements AudioSink {
                 releaseExecutor = Util.newSingleThreadExecutor("ExoPlayer:AudioTrackReleaseThread");
             }
             pendingReleaseCount++;
-            releaseExecutor.execute(new Runnable() { // from class: com.google.android.exoplayer2.audio.DefaultAudioSink$$ExternalSyntheticLambda0
+            releaseExecutor.execute(new Runnable() { // from class: com.google.android.exoplayer2.audio.DefaultAudioSink$$ExternalSyntheticLambda16
                 @Override // java.lang.Runnable
                 public final void run() {
                     DefaultAudioSink.lambda$releaseAudioTrackAsync$0(audioTrack, conditionVariable);
@@ -1328,7 +1360,7 @@ public final class DefaultAudioSink implements AudioSink {
         private final Handler handler = new Handler(Looper.myLooper());
 
         public StreamEventCallbackV29() {
-            this.callback = new AudioTrack.StreamEventCallback(DefaultAudioSink.this) { // from class: com.google.android.exoplayer2.audio.DefaultAudioSink.StreamEventCallbackV29.1
+            this.callback = new AudioTrack.StreamEventCallback() { // from class: com.google.android.exoplayer2.audio.DefaultAudioSink.StreamEventCallbackV29.1
                 @Override // android.media.AudioTrack.StreamEventCallback
                 public void onDataRequest(AudioTrack audioTrack, int i) {
                     if (audioTrack.equals(DefaultAudioSink.this.audioTrack) && DefaultAudioSink.this.listener != null && DefaultAudioSink.this.playing) {
@@ -1348,7 +1380,7 @@ public final class DefaultAudioSink implements AudioSink {
         public void register(AudioTrack audioTrack) {
             Handler handler = this.handler;
             Objects.requireNonNull(handler);
-            audioTrack.registerStreamEventCallback(new DefaultAudioSink$StreamEventCallbackV29$$ExternalSyntheticLambda0(handler), this.callback);
+            audioTrack.registerStreamEventCallback(new DefaultAudioSink$StreamEventCallbackV29$$ExternalSyntheticLambda2(handler), this.callback);
         }
 
         public void unregister(AudioTrack audioTrack) {
@@ -1375,7 +1407,15 @@ public final class DefaultAudioSink implements AudioSink {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static AudioFormat getAudioFormat(int i, int i2, int i3) {
-        return new AudioFormat.Builder().setSampleRate(i).setChannelMask(i2).setEncoding(i3).build();
+        AudioFormat.Builder sampleRate;
+        AudioFormat.Builder channelMask;
+        AudioFormat.Builder encoding;
+        AudioFormat build;
+        sampleRate = new AudioFormat.Builder().setSampleRate(i);
+        channelMask = sampleRate.setChannelMask(i2);
+        encoding = channelMask.setEncoding(i3);
+        build = encoding.build();
+        return build;
     }
 
     private static int getAudioTrackMinBufferSize(int i, int i2, int i3) {
@@ -1497,7 +1537,22 @@ public final class DefaultAudioSink implements AudioSink {
         }
 
         private AudioTrack createAudioTrackV29(boolean z, AudioAttributes audioAttributes, int i) {
-            return new AudioTrack.Builder().setAudioAttributes(getAudioTrackAttributesV21(audioAttributes, z)).setAudioFormat(DefaultAudioSink.getAudioFormat(this.outputSampleRate, this.outputChannelConfig, this.outputEncoding)).setTransferMode(1).setBufferSizeInBytes(this.bufferSize).setSessionId(i).setOffloadedPlayback(this.outputMode == 1).build();
+            AudioTrack.Builder audioAttributes2;
+            AudioTrack.Builder audioFormat;
+            AudioTrack.Builder transferMode;
+            AudioTrack.Builder bufferSizeInBytes;
+            AudioTrack.Builder sessionId;
+            AudioTrack.Builder offloadedPlayback;
+            AudioTrack build;
+            AudioFormat audioFormat2 = DefaultAudioSink.getAudioFormat(this.outputSampleRate, this.outputChannelConfig, this.outputEncoding);
+            audioAttributes2 = new AudioTrack.Builder().setAudioAttributes(getAudioTrackAttributesV21(audioAttributes, z));
+            audioFormat = audioAttributes2.setAudioFormat(audioFormat2);
+            transferMode = audioFormat.setTransferMode(1);
+            bufferSizeInBytes = transferMode.setBufferSizeInBytes(this.bufferSize);
+            sessionId = bufferSizeInBytes.setSessionId(i);
+            offloadedPlayback = sessionId.setOffloadedPlayback(this.outputMode == 1);
+            build = offloadedPlayback.build();
+            return build;
         }
 
         private AudioTrack createAudioTrackV21(boolean z, AudioAttributes audioAttributes, int i) {
@@ -1520,7 +1575,15 @@ public final class DefaultAudioSink implements AudioSink {
         }
 
         private static android.media.AudioAttributes getAudioTrackTunnelingAttributesV21() {
-            return new AudioAttributes.Builder().setContentType(3).setFlags(16).setUsage(1).build();
+            AudioAttributes.Builder contentType;
+            AudioAttributes.Builder flags;
+            AudioAttributes.Builder usage;
+            android.media.AudioAttributes build;
+            contentType = new AudioAttributes.Builder().setContentType(3);
+            flags = contentType.setFlags(16);
+            usage = flags.setUsage(1);
+            build = usage.build();
+            return build;
         }
 
         public boolean outputModeIsOffload() {
@@ -1583,11 +1646,15 @@ public final class DefaultAudioSink implements AudioSink {
     /* loaded from: classes.dex */
     public static final class Api31 {
         public static void setLogSessionIdOnAudioTrack(AudioTrack audioTrack, PlayerId playerId) {
-            LogSessionId logSessionId = playerId.getLogSessionId();
-            if (logSessionId.equals(LogSessionId.LOG_SESSION_ID_NONE)) {
+            LogSessionId logSessionId;
+            boolean equals;
+            LogSessionId logSessionId2 = playerId.getLogSessionId();
+            logSessionId = LogSessionId.LOG_SESSION_ID_NONE;
+            equals = logSessionId2.equals(logSessionId);
+            if (equals) {
                 return;
             }
-            audioTrack.setLogSessionId(logSessionId);
+            audioTrack.setLogSessionId(logSessionId2);
         }
     }
 }

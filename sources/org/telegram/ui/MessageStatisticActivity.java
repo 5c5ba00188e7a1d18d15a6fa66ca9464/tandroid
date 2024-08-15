@@ -209,10 +209,8 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
             }
             int i = this.rowCount;
             int i2 = i + 1;
-            this.rowCount = i2;
             this.overviewHeaderRow = i;
             int i3 = i2 + 1;
-            this.rowCount = i3;
             this.overviewRow = i2;
             ArraySet<Integer> arraySet = this.shadowDivideCells;
             this.rowCount = i3 + 1;
@@ -220,7 +218,6 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
             if (this.interactionsViewData != null) {
                 int i4 = this.rowCount;
                 int i5 = i4 + 1;
-                this.rowCount = i5;
                 this.interactionsChartRow = i4;
                 ArraySet<Integer> arraySet2 = this.shadowDivideCells;
                 this.rowCount = i5 + 1;
@@ -229,7 +226,6 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
             if (this.reactionsByEmotionData != null) {
                 int i6 = this.rowCount;
                 int i7 = i6 + 1;
-                this.rowCount = i7;
                 this.reactionsByEmotionChartRow = i6;
                 ArraySet<Integer> arraySet3 = this.shadowDivideCells;
                 this.rowCount = i7 + 1;
@@ -242,10 +238,8 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
                 this.headerRow = i8;
                 this.startRow = i9;
                 int size = i9 + this.messages.size();
-                this.rowCount = size;
                 this.endRow = size;
                 int i10 = size + 1;
-                this.rowCount = i10;
                 this.emptyRow = size;
                 ArraySet<Integer> arraySet4 = this.shadowDivideCells;
                 this.rowCount = i10 + 1;
@@ -356,13 +350,13 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         this.listViewAdapter = listAdapter;
         recyclerListView2.setAdapter(listAdapter);
         this.listView.setVerticalScrollbarPosition(LocaleController.isRTL ? 1 : 2);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda12
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda3
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i3) {
                 MessageStatisticActivity.this.lambda$createView$0(view, i3);
             }
         });
-        this.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda13
+        this.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda4
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
             public final boolean onItemClick(View view, int i3) {
                 boolean lambda$createView$2;
@@ -504,7 +498,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         this.actionBar.setItemsColor(Theme.getColor(i, getResourceProvider()), false);
         this.actionBar.setItemsBackgroundColor(Theme.getColor(Theme.key_actionBarActionModeDefaultSelector, getResourceProvider()), false);
         this.actionBar.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite, getResourceProvider()));
-        this.avatarContainer.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda1
+        this.avatarContainer.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda5
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 MessageStatisticActivity.this.lambda$createView$3(view);
@@ -544,8 +538,8 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$2(View view, int i) {
-        int i2;
         String str;
+        int i2;
         if (i >= this.startRow && i < this.endRow) {
             try {
                 view.performHapticFeedback(0, 2);
@@ -560,11 +554,11 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), getResourceProvider());
             if (messageObject.isStory()) {
                 if (isUserDialog) {
-                    i2 = R.string.OpenProfile;
                     str = "OpenProfile";
+                    i2 = R.string.OpenProfile;
                 } else {
-                    i2 = R.string.OpenChannel2;
                     str = "OpenChannel2";
+                    i2 = R.string.OpenChannel2;
                 }
                 arrayList.add(LocaleController.getString(str, i2));
                 arrayList3.add(Integer.valueOf(isUserDialog ? R.drawable.msg_openprofile : R.drawable.msg_channel));
@@ -573,7 +567,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
                 arrayList3.add(Integer.valueOf(R.drawable.msg_msgbubble3));
             }
             arrayList2.add(0);
-            builder.setItems((CharSequence[]) arrayList.toArray(new CharSequence[arrayList2.size()]), AndroidUtilities.toIntArray(arrayList3), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda0
+            builder.setItems((CharSequence[]) arrayList.toArray(new CharSequence[arrayList2.size()]), AndroidUtilities.toIntArray(arrayList3), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda9
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i3) {
                     MessageStatisticActivity.this.lambda$createView$1(messageObject, isUserDialog, dialogId, dialogInterface, i3);
@@ -673,7 +667,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
             tL_stats$TL_getStoryPublicForwards.peer = getMessagesController().getInputPeer(-this.chatId);
             String str = this.nextOffset;
             tL_stats$TL_getStoryPublicForwards.offset = str != null ? str : "";
-            getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tL_stats$TL_getStoryPublicForwards, new RequestDelegate() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda9
+            getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tL_stats$TL_getStoryPublicForwards, new RequestDelegate() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda1
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     MessageStatisticActivity.this.lambda$loadChats$5(tLObject, tLRPC$TL_error);
@@ -694,7 +688,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         }
         String str2 = this.nextOffset;
         tL_stats$TL_getMessagePublicForwards.offset = str2 != null ? str2 : "";
-        getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tL_stats$TL_getMessagePublicForwards, new RequestDelegate() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda7
+        getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tL_stats$TL_getMessagePublicForwards, new RequestDelegate() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda2
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessageStatisticActivity.this.lambda$loadChats$7(tLObject, tLRPC$TL_error);
@@ -704,7 +698,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadChats$5(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda5
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
                 MessageStatisticActivity.this.lambda$loadChats$4(tLRPC$TL_error, tLObject);
@@ -757,7 +751,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadChats$7(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda3
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
                 MessageStatisticActivity.this.lambda$loadChats$6(tLRPC$TL_error, tLObject);
@@ -830,7 +824,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
                 tL_stats$TL_getMessageStats = tL_stats$TL_getMessageStats2;
             }
         }
-        getConnectionsManager().sendRequest(tL_stats$TL_getMessageStats, new RequestDelegate() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda8
+        getConnectionsManager().sendRequest(tL_stats$TL_getMessageStats, new RequestDelegate() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda6
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessageStatisticActivity.this.lambda$loadStat$12(tLObject, tLRPC$TL_error);
@@ -840,7 +834,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadStat$12(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda4
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 MessageStatisticActivity.this.lambda$loadStat$11(tLRPC$TL_error, tLObject);
@@ -878,7 +872,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
             tL_stats$TL_loadAsyncGraph.x = jArr[jArr.length - 1];
             tL_stats$TL_loadAsyncGraph.flags |= 1;
             final String str = this.interactionsViewData.zoomToken + "_" + tL_stats$TL_loadAsyncGraph.x;
-            ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stats$TL_loadAsyncGraph, new RequestDelegate() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda10
+            ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stats$TL_loadAsyncGraph, new RequestDelegate() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda11
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error2) {
                     MessageStatisticActivity.this.lambda$loadStat$10(str, tL_stats$TL_loadAsyncGraph, tLObject2, tLRPC$TL_error2);
@@ -899,7 +893,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
                 e.printStackTrace();
             }
         } else if (tLObject instanceof TL_stats$TL_statsGraphError) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda2
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda12
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessageStatisticActivity.this.lambda$loadStat$8(tLObject);
@@ -907,7 +901,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
             });
         }
         final ChartData chartData2 = chartData;
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda6
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda13
             @Override // java.lang.Runnable
             public final void run() {
                 MessageStatisticActivity.this.lambda$loadStat$9(tLRPC$TL_error, chartData2, str, tL_stats$TL_loadAsyncGraph);
@@ -1013,7 +1007,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
                         messageStatisticActivity.lastCancelable = zoomCancelable;
                         zoomCancelable.adapterPosition = MessageStatisticActivity.this.listView.getChildAdapterPosition(this);
                         this.chartView.legendSignatureView.showProgress(true, false);
-                        ConnectionsManager.getInstance(((BaseFragment) MessageStatisticActivity.this).currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(((BaseFragment) MessageStatisticActivity.this).currentAccount).sendRequest(tL_stats$TL_loadAsyncGraph, new RequestDelegate() { // from class: org.telegram.ui.MessageStatisticActivity$ListAdapter$1$$ExternalSyntheticLambda1
+                        ConnectionsManager.getInstance(((BaseFragment) MessageStatisticActivity.this).currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(((BaseFragment) MessageStatisticActivity.this).currentAccount).sendRequest(tL_stats$TL_loadAsyncGraph, new RequestDelegate() { // from class: org.telegram.ui.MessageStatisticActivity$ListAdapter$1$$ExternalSyntheticLambda0
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                                 MessageStatisticActivity.ListAdapter.1.this.lambda$onZoomed$1(str, zoomCancelable, tLObject, tLRPC$TL_error);
@@ -1035,7 +1029,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
                 } else if (tLObject instanceof TL_stats$TL_statsGraphError) {
                     Toast.makeText(getContext(), ((TL_stats$TL_statsGraphError) tLObject).error, 1).show();
                 }
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageStatisticActivity$ListAdapter$1$$ExternalSyntheticLambda0
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageStatisticActivity$ListAdapter$1$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessageStatisticActivity.ListAdapter.1.this.lambda$onZoomed$0(chartData, str, zoomCancelable);
@@ -1336,7 +1330,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda11
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 MessageStatisticActivity.this.lambda$getThemeDescriptions$13();

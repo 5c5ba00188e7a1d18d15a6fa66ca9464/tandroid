@@ -169,7 +169,7 @@ class DefaultSpecialEffectsController extends SpecialEffectsController {
                             }
                             final View view = fragment.mView;
                             container.startViewTransition(view);
-                            animator.addListener(new AnimatorListenerAdapter(this) { // from class: androidx.fragment.app.DefaultSpecialEffectsController.2
+                            animator.addListener(new AnimatorListenerAdapter() { // from class: androidx.fragment.app.DefaultSpecialEffectsController.2
                                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                                 public void onAnimationEnd(Animator animator2) {
                                     container.endViewTransition(view);
@@ -181,7 +181,7 @@ class DefaultSpecialEffectsController extends SpecialEffectsController {
                             });
                             animator.setTarget(view);
                             animator.start();
-                            animationInfo.getSignal().setOnCancelListener(new CancellationSignal.OnCancelListener(this) { // from class: androidx.fragment.app.DefaultSpecialEffectsController.3
+                            animationInfo.getSignal().setOnCancelListener(new CancellationSignal.OnCancelListener() { // from class: androidx.fragment.app.DefaultSpecialEffectsController.3
                                 @Override // androidx.core.os.CancellationSignal.OnCancelListener
                                 public void onCancel() {
                                     animator.end();
@@ -217,7 +217,7 @@ class DefaultSpecialEffectsController extends SpecialEffectsController {
                 } else {
                     container.startViewTransition(view2);
                     FragmentAnim.EndViewTransitionAnimation endViewTransitionAnimation = new FragmentAnim.EndViewTransitionAnimation(animation2, container, view2);
-                    endViewTransitionAnimation.setAnimationListener(new Animation.AnimationListener(this) { // from class: androidx.fragment.app.DefaultSpecialEffectsController.4
+                    endViewTransitionAnimation.setAnimationListener(new Animation.AnimationListener() { // from class: androidx.fragment.app.DefaultSpecialEffectsController.4
                         @Override // android.view.animation.Animation.AnimationListener
                         public void onAnimationRepeat(Animation animation3) {
                         }
@@ -240,7 +240,7 @@ class DefaultSpecialEffectsController extends SpecialEffectsController {
                     });
                     view2.startAnimation(endViewTransitionAnimation);
                 }
-                animationInfo2.getSignal().setOnCancelListener(new CancellationSignal.OnCancelListener(this) { // from class: androidx.fragment.app.DefaultSpecialEffectsController.5
+                animationInfo2.getSignal().setOnCancelListener(new CancellationSignal.OnCancelListener() { // from class: androidx.fragment.app.DefaultSpecialEffectsController.5
                     @Override // androidx.core.os.CancellationSignal.OnCancelListener
                     public void onCancel() {
                         view2.clearAnimation();
@@ -370,7 +370,7 @@ class DefaultSpecialEffectsController extends SpecialEffectsController {
                     FragmentTransition.callSharedElementStartEnd(operation2.getFragment(), operation.getFragment(), z2, arrayMap3, true);
                     arrayMap = arrayMap2;
                     ArrayList<View> arrayList8 = arrayList6;
-                    OneShotPreDrawListener.add(getContainer(), new Runnable(this) { // from class: androidx.fragment.app.DefaultSpecialEffectsController.6
+                    OneShotPreDrawListener.add(getContainer(), new Runnable() { // from class: androidx.fragment.app.DefaultSpecialEffectsController.6
                         @Override // java.lang.Runnable
                         public void run() {
                             FragmentTransition.callSharedElementStartEnd(operation2.getFragment(), operation.getFragment(), z, arrayMap4, false);
@@ -387,7 +387,7 @@ class DefaultSpecialEffectsController extends SpecialEffectsController {
                     arrayList3 = arrayList8;
                     arrayList3.addAll(arrayMap4.values());
                     if (!sharedElementTargetNames2.isEmpty() && (view4 = arrayMap4.get(sharedElementTargetNames2.get(0))) != null) {
-                        OneShotPreDrawListener.add(getContainer(), new Runnable(this) { // from class: androidx.fragment.app.DefaultSpecialEffectsController.7
+                        OneShotPreDrawListener.add(getContainer(), new Runnable() { // from class: androidx.fragment.app.DefaultSpecialEffectsController.7
                             @Override // java.lang.Runnable
                             public void run() {
                                 fragmentTransitionImpl2.getBoundsOnScreen(view4, rect2);
@@ -485,7 +485,7 @@ class DefaultSpecialEffectsController extends SpecialEffectsController {
                             ArrayList<View> arrayList11 = new ArrayList<>(arrayList10);
                             arrayList11.remove(operation4.getFragment().mView);
                             fragmentTransitionImpl3.scheduleHideFragmentView(cloneTransition, operation4.getFragment().mView, arrayList11);
-                            OneShotPreDrawListener.add(getContainer(), new Runnable(this) { // from class: androidx.fragment.app.DefaultSpecialEffectsController.8
+                            OneShotPreDrawListener.add(getContainer(), new Runnable() { // from class: androidx.fragment.app.DefaultSpecialEffectsController.8
                                 @Override // java.lang.Runnable
                                 public void run() {
                                     FragmentTransition.setViewVisibility(arrayList10, 4);
@@ -538,7 +538,7 @@ class DefaultSpecialEffectsController extends SpecialEffectsController {
                         }
                         transitionInfo5.completeSpecialEffect();
                     } else {
-                        fragmentTransitionImpl3.setListenerForTransitionEnd(transitionInfo5.getOperation().getFragment(), mergeTransitionsInSequence, transitionInfo5.getSignal(), new Runnable(this) { // from class: androidx.fragment.app.DefaultSpecialEffectsController.9
+                        fragmentTransitionImpl3.setListenerForTransitionEnd(transitionInfo5.getOperation().getFragment(), mergeTransitionsInSequence, transitionInfo5.getSignal(), new Runnable() { // from class: androidx.fragment.app.DefaultSpecialEffectsController.9
                             @Override // java.lang.Runnable
                             public void run() {
                                 transitionInfo5.completeSpecialEffect();

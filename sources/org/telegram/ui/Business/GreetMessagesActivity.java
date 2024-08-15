@@ -92,7 +92,7 @@ public class GreetMessagesActivity extends BaseFragment implements NotificationC
         checkDone(false);
         FrameLayout frameLayout = new FrameLayout(context);
         frameLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
-        BusinessRecipientsHelper businessRecipientsHelper = new BusinessRecipientsHelper(this, new Runnable() { // from class: org.telegram.ui.Business.GreetMessagesActivity$$ExternalSyntheticLambda2
+        BusinessRecipientsHelper businessRecipientsHelper = new BusinessRecipientsHelper(this, new Runnable() { // from class: org.telegram.ui.Business.GreetMessagesActivity$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 GreetMessagesActivity.this.lambda$createView$0();
@@ -103,12 +103,12 @@ public class GreetMessagesActivity extends BaseFragment implements NotificationC
         BusinessRecipientsHelper businessRecipientsHelper2 = this.recipientsHelper;
         TLRPC$TL_businessGreetingMessage tLRPC$TL_businessGreetingMessage = this.currentValue;
         businessRecipientsHelper2.setValue(tLRPC$TL_businessGreetingMessage == null ? null : tLRPC$TL_businessGreetingMessage.recipients);
-        UniversalRecyclerView universalRecyclerView = new UniversalRecyclerView(this, new Utilities.Callback2() { // from class: org.telegram.ui.Business.GreetMessagesActivity$$ExternalSyntheticLambda4
+        UniversalRecyclerView universalRecyclerView = new UniversalRecyclerView(this, new Utilities.Callback2() { // from class: org.telegram.ui.Business.GreetMessagesActivity$$ExternalSyntheticLambda1
             @Override // org.telegram.messenger.Utilities.Callback2
             public final void run(Object obj, Object obj2) {
                 GreetMessagesActivity.this.fillItems((ArrayList) obj, (UniversalAdapter) obj2);
             }
-        }, new Utilities.Callback5() { // from class: org.telegram.ui.Business.GreetMessagesActivity$$ExternalSyntheticLambda5
+        }, new Utilities.Callback5() { // from class: org.telegram.ui.Business.GreetMessagesActivity$$ExternalSyntheticLambda2
             @Override // org.telegram.messenger.Utilities.Callback5
             public final void run(Object obj, Object obj2, Object obj3, Object obj4, Object obj5) {
                 GreetMessagesActivity.this.onClick((UItem) obj, (View) obj2, ((Integer) obj3).intValue(), ((Float) obj4).floatValue(), ((Float) obj5).floatValue());
@@ -230,7 +230,7 @@ public class GreetMessagesActivity extends BaseFragment implements NotificationC
                 userFull.flags2 &= -5;
                 userFull.business_greeting_message = null;
             }
-            getConnectionsManager().sendRequest(tLRPC$TL_account_updateBusinessGreetingMessage, new RequestDelegate() { // from class: org.telegram.ui.Business.GreetMessagesActivity$$ExternalSyntheticLambda7
+            getConnectionsManager().sendRequest(tLRPC$TL_account_updateBusinessGreetingMessage, new RequestDelegate() { // from class: org.telegram.ui.Business.GreetMessagesActivity$$ExternalSyntheticLambda6
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     GreetMessagesActivity.this.lambda$processDone$2(tLObject, tLRPC$TL_error);
@@ -242,7 +242,7 @@ public class GreetMessagesActivity extends BaseFragment implements NotificationC
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processDone$2(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Business.GreetMessagesActivity$$ExternalSyntheticLambda3
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Business.GreetMessagesActivity$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 GreetMessagesActivity.this.lambda$processDone$1(tLRPC$TL_error, tLObject);
@@ -273,13 +273,13 @@ public class GreetMessagesActivity extends BaseFragment implements NotificationC
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
             builder.setTitle(LocaleController.getString(R.string.UnsavedChanges));
             builder.setMessage(LocaleController.getString(R.string.BusinessGreetUnsavedChanges));
-            builder.setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.GreetMessagesActivity$$ExternalSyntheticLambda0
+            builder.setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.GreetMessagesActivity$$ExternalSyntheticLambda3
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
                     GreetMessagesActivity.this.lambda$onBackPressed$3(dialogInterface, i);
                 }
             });
-            builder.setNegativeButton(LocaleController.getString("PassportDiscard", R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.GreetMessagesActivity$$ExternalSyntheticLambda1
+            builder.setNegativeButton(LocaleController.getString("PassportDiscard", R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.GreetMessagesActivity$$ExternalSyntheticLambda4
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
                     GreetMessagesActivity.this.lambda$onBackPressed$4(dialogInterface, i);
@@ -321,20 +321,19 @@ public class GreetMessagesActivity extends BaseFragment implements NotificationC
             this.recipientsHelper.fillItems(arrayList);
             arrayList.add(UItem.asShadow(LocaleController.getString(R.string.BusinessGreetRecipientsInfo)));
             arrayList.add(UItem.asHeader(LocaleController.getString(R.string.BusinessGreetPeriod)));
-            int i = -1;
-            int i2 = 0;
+            int i = 0;
             while (true) {
                 int[] iArr = this.daysOfInactivity;
-                if (i2 >= iArr.length) {
+                if (i >= iArr.length) {
+                    i = -1;
                     break;
-                } else if (iArr[i2] == this.inactivityDays) {
-                    i = i2;
+                } else if (iArr[i] == this.inactivityDays) {
                     break;
                 } else {
-                    i2++;
+                    i++;
                 }
             }
-            arrayList.add(UItem.asSlideView(this.daysOfInactivityTexts, i, new Utilities.Callback() { // from class: org.telegram.ui.Business.GreetMessagesActivity$$ExternalSyntheticLambda6
+            arrayList.add(UItem.asSlideView(this.daysOfInactivityTexts, i, new Utilities.Callback() { // from class: org.telegram.ui.Business.GreetMessagesActivity$$ExternalSyntheticLambda5
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     GreetMessagesActivity.this.chooseInactivity(((Integer) obj).intValue());

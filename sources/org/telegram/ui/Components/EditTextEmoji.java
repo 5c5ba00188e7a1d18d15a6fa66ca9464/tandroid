@@ -56,7 +56,6 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
     AdjustPanLayoutHelper adjustPanLayoutHelper;
     private boolean allowAnimatedEmoji;
     private int currentStyle;
-    private EditTextEmojiDelegate delegate;
     private boolean destroyed;
     private EditTextCaption editText;
     private ImageView emojiButton;
@@ -86,7 +85,6 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
 
     /* loaded from: classes3.dex */
     public interface EditTextEmojiDelegate {
-        void onWindowSizeChanged(int i);
     }
 
     protected boolean allowSearch() {
@@ -125,6 +123,9 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
     }
 
     protected void onWaitingForKeyboard() {
+    }
+
+    public void setDelegate(EditTextEmojiDelegate editTextEmojiDelegate) {
     }
 
     protected void updatedEmojiExpanded() {
@@ -350,7 +351,7 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
         if (Build.VERSION.SDK_INT >= 21) {
             this.emojiButton.setBackground(Theme.createSelectorDrawable(getThemedColor(Theme.key_listSelector)));
         }
-        this.emojiButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.EditTextEmoji$$ExternalSyntheticLambda2
+        this.emojiButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.EditTextEmoji$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 EditTextEmoji.this.lambda$new$0(sizeNotifierFrameLayout, resourcesProvider, view);
@@ -481,10 +482,6 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
         return this.emojiView;
     }
 
-    public void setDelegate(EditTextEmojiDelegate editTextEmojiDelegate) {
-        this.delegate = editTextEmojiDelegate;
-    }
-
     public void onPause() {
         this.isPaused = true;
         closeKeyboard();
@@ -589,7 +586,7 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
                     measuredHeight += ((ViewGroup) this.emojiView.getParent()).getHeight() - this.emojiView.getBottom();
                 }
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, measuredHeight);
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.EditTextEmoji$$ExternalSyntheticLambda1
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.EditTextEmoji$$ExternalSyntheticLambda0
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                         EditTextEmoji.this.lambda$hidePopup$1(measuredHeight, valueAnimator);
@@ -711,7 +708,7 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
             onEmojiKeyboardUpdate();
             if (!this.keyboardVisible && !z && allowSearchAnimation()) {
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(this.emojiPadding, 0.0f);
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.EditTextEmoji$$ExternalSyntheticLambda0
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.EditTextEmoji$$ExternalSyntheticLambda2
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                         EditTextEmoji.this.lambda$showPopup$2(valueAnimator);
@@ -770,14 +767,7 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
     }
 
     private void onWindowSizeChanged() {
-        int height = this.sizeNotifierLayout.getHeight();
-        if (!this.keyboardVisible) {
-            height -= this.emojiPadding;
-        }
-        EditTextEmojiDelegate editTextEmojiDelegate = this.delegate;
-        if (editTextEmojiDelegate != null) {
-            editTextEmojiDelegate.onWindowSizeChanged(height);
-        }
+        this.sizeNotifierLayout.getHeight();
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

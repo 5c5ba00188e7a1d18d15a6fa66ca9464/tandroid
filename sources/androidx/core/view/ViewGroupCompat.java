@@ -20,11 +20,15 @@ public final class ViewGroupCompat {
         }
 
         static boolean isTransitionGroup(ViewGroup viewGroup) {
-            return viewGroup.isTransitionGroup();
+            boolean isTransitionGroup;
+            isTransitionGroup = viewGroup.isTransitionGroup();
+            return isTransitionGroup;
         }
 
         static int getNestedScrollAxes(ViewGroup viewGroup) {
-            return viewGroup.getNestedScrollAxes();
+            int nestedScrollAxes;
+            nestedScrollAxes = viewGroup.getNestedScrollAxes();
+            return nestedScrollAxes;
         }
     }
 }

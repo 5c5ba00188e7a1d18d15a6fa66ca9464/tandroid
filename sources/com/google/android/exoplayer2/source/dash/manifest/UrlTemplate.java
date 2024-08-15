@@ -29,14 +29,14 @@ public final class UrlTemplate {
             int i3 = this.identifierCount;
             if (i2 < i3) {
                 sb.append(this.urlPieces[i2]);
-                int[] iArr = this.identifiers;
-                if (iArr[i2] == 1) {
+                int i4 = this.identifiers[i2];
+                if (i4 == 1) {
                     sb.append(str);
-                } else if (iArr[i2] == 2) {
+                } else if (i4 == 2) {
                     sb.append(String.format(Locale.US, this.identifierFormatTags[i2], Long.valueOf(j)));
-                } else if (iArr[i2] == 3) {
+                } else if (i4 == 3) {
                     sb.append(String.format(Locale.US, this.identifierFormatTags[i2], Integer.valueOf(i)));
-                } else if (iArr[i2] == 4) {
+                } else if (i4 == 4) {
                     sb.append(String.format(Locale.US, this.identifierFormatTags[i2], Long.valueOf(j2)));
                 }
                 i2++;

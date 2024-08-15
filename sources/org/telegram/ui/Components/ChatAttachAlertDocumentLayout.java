@@ -178,6 +178,8 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
     /* loaded from: classes3.dex */
     public static class HistoryEntry {
         File dir;
+        int scrollItem;
+        int scrollOffset;
         String title;
 
         private HistoryEntry() {
@@ -323,7 +325,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         this.emptyView = stickerEmptyView;
         addView(stickerEmptyView, LayoutHelper.createFrame(-1, -1.0f));
         this.emptyView.setVisibility(8);
-        this.emptyView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.ChatAttachAlertDocumentLayout$$ExternalSyntheticLambda1
+        this.emptyView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.ChatAttachAlertDocumentLayout$$ExternalSyntheticLambda4
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view, MotionEvent motionEvent) {
                 boolean lambda$new$0;
@@ -471,7 +473,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                 ChatAttachAlertDocumentLayout.this.scrolling = i4 != 0;
             }
         });
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.ChatAttachAlertDocumentLayout$$ExternalSyntheticLambda4
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.ChatAttachAlertDocumentLayout$$ExternalSyntheticLambda5
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i4) {
                 ChatAttachAlertDocumentLayout.this.lambda$new$1(view, i4);
@@ -487,7 +489,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         });
         FiltersView filtersView = new FiltersView(context, resourcesProvider);
         this.filtersView = filtersView;
-        filtersView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.ChatAttachAlertDocumentLayout$$ExternalSyntheticLambda5
+        filtersView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.ChatAttachAlertDocumentLayout$$ExternalSyntheticLambda7
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i4) {
                 ChatAttachAlertDocumentLayout.this.lambda$new$3(view, i4);
@@ -592,8 +594,8 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                 View childAt = this.listView.getChildAt(0);
                 RecyclerView.ViewHolder findContainingViewHolder = this.listView.findContainingViewHolder(childAt);
                 if (findContainingViewHolder != null) {
-                    findContainingViewHolder.getAdapterPosition();
-                    childAt.getTop();
+                    historyEntry2.scrollItem = findContainingViewHolder.getAdapterPosition();
+                    historyEntry2.scrollOffset = childAt.getTop();
                     historyEntry2.dir = this.currentDir;
                     historyEntry2.title = this.parentAlert.actionBar.getTitle();
                     prepareAnimation();
@@ -676,7 +678,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
             this.backgroundListView.setVisibility(0);
             this.listAnimation = ValueAnimator.ofFloat(0.0f, 1.0f);
         }
-        this.listAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ChatAttachAlertDocumentLayout$$ExternalSyntheticLambda0
+        this.listAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ChatAttachAlertDocumentLayout$$ExternalSyntheticLambda1
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                 ChatAttachAlertDocumentLayout.this.lambda$runAnimation$4(i, dp, valueAnimator2);
@@ -1616,6 +1618,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         public ArrayList<String> sections = new ArrayList<>();
         public HashMap<String, ArrayList<MessageObject>> sectionArrays = new HashMap<>();
         private ArrayList<FiltersView.MediaFilterData> currentSearchFilters = new ArrayList<>();
+        private boolean firstLoading = true;
         private AnimationNotificationsLocker notificationsLocker = new AnimationNotificationsLocker();
         private Runnable clearCurrentResultsRunnable = new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertDocumentLayout.SearchAdapter.1
             {
@@ -1659,7 +1662,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                 }
                 notifyDataSetChanged();
             } else {
-                Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertDocumentLayout$SearchAdapter$$ExternalSyntheticLambda2
+                Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertDocumentLayout$SearchAdapter$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         ChatAttachAlertDocumentLayout.SearchAdapter.this.lambda$search$1(str);
@@ -1684,14 +1687,14 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                     } else if (tLObject instanceof TLRPC$Chat) {
                         j = -((TLRPC$Chat) tLObject).id;
                     }
-                    j4 = j;
+                    j2 = j;
                 } else if (i2 == 6) {
                     FiltersView.DateData dateData = mediaFilterData.dateData;
-                    j2 = dateData.minDate;
-                    j3 = dateData.maxDate;
+                    j3 = dateData.minDate;
+                    j4 = dateData.maxDate;
                 }
             }
-            searchGlobal(j4, j2, j3, FiltersView.filters[2], str, z);
+            searchGlobal(j2, j3, j4, FiltersView.filters[2], str, z);
         }
 
         public /* synthetic */ void lambda$search$1(final String str) {
@@ -1913,6 +1916,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                 ChatAttachAlertDocumentLayout.this.emptyView.setVisibility(0);
                 notifyDataSetChanged();
                 this.requestIndex++;
+                this.firstLoading = true;
                 if (ChatAttachAlertDocumentLayout.this.listView.getPinnedHeader() != null) {
                     ChatAttachAlertDocumentLayout.this.listView.getPinnedHeader().setAlpha(0.0f);
                 }
@@ -1935,7 +1939,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
             this.requestIndex = i2;
             final AccountInstance accountInstance = AccountInstance.getInstance(UserConfig.selectedAccount);
             final boolean z4 = z2;
-            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertDocumentLayout$SearchAdapter$$ExternalSyntheticLambda1
+            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertDocumentLayout$SearchAdapter$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatAttachAlertDocumentLayout.SearchAdapter.this.lambda$searchGlobal$4(j, str, accountInstance, j2, j3, z4, format, i2);
@@ -2017,7 +2021,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
             this.lastSearchFilterQueryString = str2;
             final ArrayList arrayList5 = new ArrayList();
             FiltersView.fillTipDates(this.lastMessagesSearchString, arrayList5);
-            accountInstance.getConnectionsManager().sendRequest(tLRPC$TL_messages_searchGlobal3, new RequestDelegate() { // from class: org.telegram.ui.Components.ChatAttachAlertDocumentLayout$SearchAdapter$$ExternalSyntheticLambda5
+            accountInstance.getConnectionsManager().sendRequest(tLRPC$TL_messages_searchGlobal3, new RequestDelegate() { // from class: org.telegram.ui.Components.ChatAttachAlertDocumentLayout$SearchAdapter$$ExternalSyntheticLambda2
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     ChatAttachAlertDocumentLayout.SearchAdapter.this.lambda$searchGlobal$3(accountInstance, str, i, z, j, j2, arrayList4, arrayList5, tLObject, tLRPC$TL_error);
@@ -2036,7 +2040,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                     arrayList3.add(messageObject);
                 }
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertDocumentLayout$SearchAdapter$$ExternalSyntheticLambda0
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertDocumentLayout$SearchAdapter$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatAttachAlertDocumentLayout.SearchAdapter.this.lambda$searchGlobal$2(i, tLRPC$TL_error, tLObject, accountInstance, z, str, arrayList3, j, j2, arrayList, arrayList2);
@@ -2125,6 +2129,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                 this.localTipDates.addAll(arrayList3);
                 updateFiltersView(TextUtils.isEmpty(this.currentDataQuery), this.localTipChats, this.localTipDates, true);
             }
+            this.firstLoading = false;
             final View view = null;
             final int i5 = -1;
             for (int i6 = 0; i6 < size; i6++) {

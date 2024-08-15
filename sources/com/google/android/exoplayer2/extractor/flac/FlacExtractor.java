@@ -21,6 +21,21 @@ import java.util.Map;
 import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public final class FlacExtractor implements Extractor {
+    public static final ExtractorsFactory FACTORY = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.flac.FlacExtractor$$ExternalSyntheticLambda0
+        @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+        public final Extractor[] createExtractors() {
+            Extractor[] lambda$static$0;
+            lambda$static$0 = FlacExtractor.lambda$static$0();
+            return lambda$static$0;
+        }
+
+        @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+        public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
+            Extractor[] createExtractors;
+            createExtractors = createExtractors();
+            return createExtractors;
+        }
+    };
     private FlacBinarySearchSeeker binarySearchSeeker;
     private final ParsableByteArray buffer;
     private int currentFrameBytesWritten;
@@ -38,24 +53,6 @@ public final class FlacExtractor implements Extractor {
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
     public void release() {
-    }
-
-    static {
-        FlacExtractor$$ExternalSyntheticLambda0 flacExtractor$$ExternalSyntheticLambda0 = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.flac.FlacExtractor$$ExternalSyntheticLambda0
-            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
-            public final Extractor[] createExtractors() {
-                Extractor[] lambda$static$0;
-                lambda$static$0 = FlacExtractor.lambda$static$0();
-                return lambda$static$0;
-            }
-
-            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
-            public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
-                Extractor[] createExtractors;
-                createExtractors = createExtractors();
-                return createExtractors;
-            }
-        };
     }
 
     /* JADX INFO: Access modifiers changed from: private */

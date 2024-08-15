@@ -9,10 +9,13 @@ public final class ConfigurationCompat {
         return Build.VERSION.SDK_INT >= 24 ? LocaleListCompat.wrap(Api24Impl.getLocales(configuration)) : LocaleListCompat.create(configuration.locale);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    static class Api24Impl {
+    public static class Api24Impl {
         static LocaleList getLocales(Configuration configuration) {
-            return configuration.getLocales();
+            LocaleList locales;
+            locales = configuration.getLocales();
+            return locales;
         }
     }
 }

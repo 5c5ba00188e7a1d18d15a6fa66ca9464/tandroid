@@ -59,13 +59,14 @@ import org.telegram.ui.web.RestrictedDomainsList;
 public class Browser {
     private static WeakReference<Activity> currentCustomTabsActivity;
     private static CustomTabsClient customTabsClient;
+    private static WeakReference<CustomTabsSession> customTabsCurrentSession;
     private static String customTabsPackageToBind;
     private static CustomTabsServiceConnection customTabsServiceConnection;
     private static CustomTabsSession customTabsSession;
     private static Pattern domainPattern;
 
     private static void setCurrentSession(CustomTabsSession customTabsSession2) {
-        new WeakReference(customTabsSession2);
+        customTabsCurrentSession = new WeakReference<>(customTabsSession2);
     }
 
     private static CustomTabsSession getSession() {
@@ -282,7 +283,7 @@ public class Browser {
     /* JADX WARN: Removed duplicated region for block: B:87:0x022d A[Catch: Exception -> 0x0294, TRY_LEAVE, TryCatch #3 {Exception -> 0x0294, blocks: (B:46:0x00fe, B:48:0x011a, B:52:0x014c, B:54:0x0158, B:55:0x015e, B:59:0x0167, B:60:0x017e, B:62:0x0186, B:65:0x01b1, B:66:0x01c3, B:63:0x019b, B:68:0x01da, B:70:0x01de, B:73:0x01e4, B:75:0x01ed, B:77:0x01f7, B:79:0x01fb, B:81:0x0205, B:83:0x020f, B:85:0x021b, B:87:0x022d), top: B:135:0x00fe }] */
     /* JADX WARN: Removed duplicated region for block: B:96:0x02a0 A[Catch: Exception -> 0x0322, TryCatch #5 {Exception -> 0x0322, blocks: (B:94:0x029c, B:96:0x02a0, B:98:0x02a6, B:100:0x02b5, B:102:0x02bb, B:104:0x02c5, B:106:0x02cf, B:115:0x02ed, B:117:0x02f1, B:119:0x0302, B:121:0x030e, B:122:0x0316, B:110:0x02de), top: B:137:0x029c }] */
     /* JADX WARN: Type inference failed for: r11v1 */
-    /* JADX WARN: Type inference failed for: r11v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r11v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r11v3 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -324,7 +325,7 @@ public class Browser {
                     zArr = zArr2;
                     final boolean z8 = z5;
                     try {
-                        final int sendRequest = ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_messages_getWebPagePreview, new RequestDelegate() { // from class: org.telegram.messenger.browser.Browser$$ExternalSyntheticLambda3
+                        final int sendRequest = ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_messages_getWebPagePreview, new RequestDelegate() { // from class: org.telegram.messenger.browser.Browser$$ExternalSyntheticLambda0
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                                 Browser.lambda$openUrl$1(Browser.Progress.this, alertDialogArr, i, uri, context, z8, tLObject, tLRPC$TL_error);
@@ -334,7 +335,7 @@ public class Browser {
                             progress.init();
                             return;
                         } else {
-                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.browser.Browser$$ExternalSyntheticLambda2
+                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.browser.Browser$$ExternalSyntheticLambda1
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     Browser.lambda$openUrl$3(alertDialogArr, sendRequest);
@@ -475,7 +476,7 @@ public class Browser {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$openUrl$1(final Progress progress, final AlertDialog[] alertDialogArr, final int i, final Uri uri, final Context context, final boolean z, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.browser.Browser$$ExternalSyntheticLambda1
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.browser.Browser$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 Browser.lambda$openUrl$0(Browser.Progress.this, alertDialogArr, tLObject, i, uri, context, z);
@@ -490,6 +491,7 @@ public class Browser {
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static /* synthetic */ void lambda$openUrl$0(Progress progress, AlertDialog[] alertDialogArr, TLObject tLObject, int i, Uri uri, Context context, boolean z) {
+        boolean z2;
         if (progress != null) {
             progress.end();
         } else {
@@ -499,11 +501,11 @@ public class Browser {
             }
             alertDialogArr[0] = null;
         }
-        boolean z2 = true;
         if (tLObject instanceof TLRPC$TL_messageMediaWebPage) {
             TLRPC$TL_messageMediaWebPage tLRPC$TL_messageMediaWebPage = (TLRPC$TL_messageMediaWebPage) tLObject;
             TLRPC$WebPage tLRPC$WebPage = tLRPC$TL_messageMediaWebPage.webpage;
             if ((tLRPC$WebPage instanceof TLRPC$TL_webPage) && tLRPC$WebPage.cached_page != null) {
+                z2 = true;
                 NotificationCenter.getInstance(i).lambda$postNotificationNameOnUIThread$1(NotificationCenter.openArticle, tLRPC$TL_messageMediaWebPage.webpage, uri.toString());
                 if (z2) {
                     openUrl(context, uri, z, false);
@@ -519,11 +521,12 @@ public class Browser {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$openUrl$3(AlertDialog[] alertDialogArr, final int i) {
-        if (alertDialogArr[0] == null) {
+        AlertDialog alertDialog = alertDialogArr[0];
+        if (alertDialog == null) {
             return;
         }
         try {
-            alertDialogArr[0].setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.messenger.browser.Browser$$ExternalSyntheticLambda0
+            alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.messenger.browser.Browser$$ExternalSyntheticLambda3
                 @Override // android.content.DialogInterface.OnCancelListener
                 public final void onCancel(DialogInterface dialogInterface) {
                     Browser.lambda$openUrl$2(i, dialogInterface);

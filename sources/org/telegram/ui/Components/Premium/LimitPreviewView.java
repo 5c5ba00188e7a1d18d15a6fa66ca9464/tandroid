@@ -65,6 +65,7 @@ public class LimitPreviewView extends LinearLayout {
     private float percent;
     private float position;
     TextView premiumCount;
+    private final int premiumLimit;
     private boolean premiumLocked;
     private final TextView premiumText;
     float progress;
@@ -92,6 +93,7 @@ public class LimitPreviewView extends LinearLayout {
         this.percent = MathUtils.clamp(f, 0.1f, 0.9f);
         this.icon = i;
         this.currentValue = i2;
+        this.premiumLimit = i3;
         setOrientation(1);
         setClipChildren(false);
         setClipToPadding(false);
@@ -130,7 +132,7 @@ public class LimitPreviewView extends LinearLayout {
         textView3.setText(LocaleController.getString("LimitPremium", R.string.LimitPremium));
         textView3.setGravity(16);
         textView3.setTextColor(-1);
-        TextView textView4 = new TextView(this, context) { // from class: org.telegram.ui.Components.Premium.LimitPreviewView.1
+        TextView textView4 = new TextView(context) { // from class: org.telegram.ui.Components.Premium.LimitPreviewView.1
             @Override // android.view.View
             public void setAlpha(float f2) {
                 super.setAlpha(f2);
@@ -386,7 +388,7 @@ public class LimitPreviewView extends LinearLayout {
                 final float f9 = f5;
                 final float f10 = f4;
                 final float f11 = f3;
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.LimitPreviewView$$ExternalSyntheticLambda1
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.LimitPreviewView$$ExternalSyntheticLambda0
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                         LimitPreviewView.this.lambda$onLayout$0(z3, f8, f9, f10, f11, z2, f7, valueAnimator);
@@ -403,7 +405,7 @@ public class LimitPreviewView extends LinearLayout {
                 this.arrowAnimator.setInterpolator(new OvershootInterpolator());
                 if (z2) {
                     ValueAnimator ofFloat2 = ValueAnimator.ofFloat(0.0f, 1.0f);
-                    ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.LimitPreviewView$$ExternalSyntheticLambda0
+                    ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.LimitPreviewView$$ExternalSyntheticLambda1
                         @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                         public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                             LimitPreviewView.this.lambda$onLayout$1(valueAnimator);
@@ -450,7 +452,7 @@ public class LimitPreviewView extends LinearLayout {
                 final float f92 = f5;
                 final float f102 = f4;
                 final float f112 = f3;
-                ofFloat3.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.LimitPreviewView$$ExternalSyntheticLambda1
+                ofFloat3.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.LimitPreviewView$$ExternalSyntheticLambda0
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                         LimitPreviewView.this.lambda$onLayout$0(z32, f82, f92, f102, f112, z2, f72, valueAnimator);
@@ -490,7 +492,7 @@ public class LimitPreviewView extends LinearLayout {
             final float f922 = f5;
             final float f1022 = f4;
             final float f1122 = f3;
-            ofFloat32.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.LimitPreviewView$$ExternalSyntheticLambda1
+            ofFloat32.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.LimitPreviewView$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     LimitPreviewView.this.lambda$onLayout$0(z322, f822, f922, f1022, f1122, z2, f722, valueAnimator);
@@ -1018,7 +1020,7 @@ public class LimitPreviewView extends LinearLayout {
             ValueAnimator valueAnimator;
             float x;
 
-            private AnimatedLayout(CounterView counterView) {
+            private AnimatedLayout() {
                 this.staticLayouts = new ArrayList<>();
             }
         }

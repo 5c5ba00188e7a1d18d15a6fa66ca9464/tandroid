@@ -1,6 +1,4 @@
 package com.google.firebase.platforminfo;
-
-import java.util.Objects;
 /* loaded from: classes.dex */
 final class AutoValue_LibraryVersion extends LibraryVersion {
     private final String libraryName;
@@ -8,9 +6,13 @@ final class AutoValue_LibraryVersion extends LibraryVersion {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public AutoValue_LibraryVersion(String str, String str2) {
-        Objects.requireNonNull(str, "Null libraryName");
+        if (str == null) {
+            throw new NullPointerException("Null libraryName");
+        }
         this.libraryName = str;
-        Objects.requireNonNull(str2, "Null version");
+        if (str2 == null) {
+            throw new NullPointerException("Null version");
+        }
         this.version = str2;
     }
 

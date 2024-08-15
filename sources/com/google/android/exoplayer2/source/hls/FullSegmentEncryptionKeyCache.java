@@ -9,7 +9,7 @@ final class FullSegmentEncryptionKeyCache {
     private final LinkedHashMap<Uri, byte[]> backingMap;
 
     public FullSegmentEncryptionKeyCache(final int i) {
-        this.backingMap = new LinkedHashMap<Uri, byte[]>(this, i + 1, 1.0f, false) { // from class: com.google.android.exoplayer2.source.hls.FullSegmentEncryptionKeyCache.1
+        this.backingMap = new LinkedHashMap<Uri, byte[]>(i + 1, 1.0f, false) { // from class: com.google.android.exoplayer2.source.hls.FullSegmentEncryptionKeyCache.1
             @Override // java.util.LinkedHashMap
             protected boolean removeEldestEntry(Map.Entry<Uri, byte[]> entry) {
                 return size() > i;

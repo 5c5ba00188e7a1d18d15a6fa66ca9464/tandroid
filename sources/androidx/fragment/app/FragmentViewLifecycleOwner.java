@@ -74,19 +74,20 @@ public class FragmentViewLifecycleOwner implements HasDefaultViewModelProviderFa
 
     @Override // androidx.lifecycle.HasDefaultViewModelProviderFactory
     public ViewModelProvider.Factory getDefaultViewModelProviderFactory() {
+        Application application;
         ViewModelProvider.Factory defaultViewModelProviderFactory = this.mFragment.getDefaultViewModelProviderFactory();
         if (!defaultViewModelProviderFactory.equals(this.mFragment.mDefaultFactory)) {
             this.mDefaultFactory = defaultViewModelProviderFactory;
             return defaultViewModelProviderFactory;
         }
         if (this.mDefaultFactory == null) {
-            Application application = null;
             Context applicationContext = this.mFragment.requireContext().getApplicationContext();
             while (true) {
                 if (!(applicationContext instanceof ContextWrapper)) {
+                    application = null;
                     break;
                 } else if (applicationContext instanceof Application) {
-                    application = applicationContext;
+                    application = (Application) applicationContext;
                     break;
                 } else {
                     applicationContext = ((ContextWrapper) applicationContext).getBaseContext();

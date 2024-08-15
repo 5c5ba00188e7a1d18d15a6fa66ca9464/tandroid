@@ -57,12 +57,14 @@ public class HlsMultivariantPlaylist extends HlsPlaylist {
     /* loaded from: classes.dex */
     public static final class Rendition {
         public final Format format;
+        public final String groupId;
         public final String name;
         public final Uri url;
 
         public Rendition(Uri uri, Format format, String str, String str2) {
             this.url = uri;
             this.format = format;
+            this.groupId = str;
             this.name = str2;
         }
     }

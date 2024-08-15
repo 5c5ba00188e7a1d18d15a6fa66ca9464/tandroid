@@ -37,7 +37,7 @@ public class BooleanTypedProperty extends TypedProperty {
         if (this == obj) {
             return true;
         }
-        return obj != null && BooleanTypedProperty.class == obj.getClass() && super.equals(obj) && this.value == ((BooleanTypedProperty) obj).value;
+        return obj != null && getClass() == obj.getClass() && super.equals(obj) && this.value == ((BooleanTypedProperty) obj).value;
     }
 
     @Override // com.microsoft.appcenter.ingestion.models.properties.TypedProperty

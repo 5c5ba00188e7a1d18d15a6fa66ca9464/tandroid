@@ -3,7 +3,6 @@ package com.googlecode.mp4parser.authoring.tracks;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Objects;
 /* loaded from: classes.dex */
 public class CleanInputStream extends FilterInputStream {
     int prev;
@@ -35,7 +34,7 @@ public class CleanInputStream extends FilterInputStream {
 
     @Override // java.io.FilterInputStream, java.io.InputStream
     public int read(byte[] bArr, int i, int i2) throws IOException {
-        Objects.requireNonNull(bArr);
+        bArr.getClass();
         if (i < 0 || i2 < 0 || i2 > bArr.length - i) {
             throw new IndexOutOfBoundsException();
         }

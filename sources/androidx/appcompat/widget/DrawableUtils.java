@@ -3,21 +3,15 @@ package androidx.appcompat.widget;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.DrawableContainer;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.InsetDrawable;
-import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.ScaleDrawable;
 import android.os.Build;
-import androidx.appcompat.graphics.drawable.DrawableWrapperCompat;
-import androidx.core.graphics.drawable.WrappedDrawable;
 /* loaded from: classes.dex */
 public class DrawableUtils {
     private static final int[] CHECKED_STATE_SET = {16842912};
     private static final int[] EMPTY_STATE_SET = new int[0];
+    public static final Rect INSETS_NONE = new Rect();
 
-    static {
-        new Rect();
+    public static boolean canSafelyMutateDrawable(Drawable drawable) {
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -30,42 +24,6 @@ public class DrawableUtils {
         } else {
             forceDrawableStateChange(drawable);
         }
-    }
-
-    public static boolean canSafelyMutateDrawable(Drawable drawable) {
-        int i = Build.VERSION.SDK_INT;
-        if (i >= 17) {
-            return true;
-        }
-        if (i >= 15 || !(drawable instanceof InsetDrawable)) {
-            if (i >= 15 || !(drawable instanceof GradientDrawable)) {
-                if (i >= 17 || !(drawable instanceof LayerDrawable)) {
-                    if (drawable instanceof DrawableContainer) {
-                        Drawable.ConstantState constantState = drawable.getConstantState();
-                        if (constantState instanceof DrawableContainer.DrawableContainerState) {
-                            for (Drawable drawable2 : ((DrawableContainer.DrawableContainerState) constantState).getChildren()) {
-                                if (!canSafelyMutateDrawable(drawable2)) {
-                                    return false;
-                                }
-                            }
-                        }
-                    } else if (drawable instanceof WrappedDrawable) {
-                        return canSafelyMutateDrawable(((WrappedDrawable) drawable).getWrappedDrawable());
-                    } else {
-                        if (drawable instanceof DrawableWrapperCompat) {
-                            return canSafelyMutateDrawable(((DrawableWrapperCompat) drawable).getDrawable());
-                        }
-                        if (drawable instanceof ScaleDrawable) {
-                            return canSafelyMutateDrawable(((ScaleDrawable) drawable).getDrawable());
-                        }
-                    }
-                    return true;
-                }
-                return false;
-            }
-            return false;
-        }
-        return false;
     }
 
     private static void forceDrawableStateChange(Drawable drawable) {

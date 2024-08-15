@@ -1,21 +1,18 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
-import j$.util.s;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-final class f2 extends i2 implements s.a {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public f2(u1 u1Var) {
-        super(u1Var);
-    }
+public interface f2 extends Consumer {
+    void accept(double d);
 
-    @Override // j$.util.s
-    public /* synthetic */ boolean b(Consumer consumer) {
-        return j$.util.a.j(this, consumer);
-    }
+    void accept(int i);
 
-    @Override // j$.util.s
-    public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        j$.util.a.b(this, consumer);
-    }
+    void accept(long j);
+
+    void end();
+
+    void f(long j);
+
+    boolean h();
 }

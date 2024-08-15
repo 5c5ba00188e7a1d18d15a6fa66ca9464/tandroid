@@ -11,6 +11,7 @@ public enum QosTier {
     UNRECOGNIZED(-1);
     
     private static final SparseArray<QosTier> valueMap;
+    private final int value;
 
     static {
         QosTier qosTier = DEFAULT;
@@ -30,5 +31,6 @@ public enum QosTier {
     }
 
     QosTier(int i) {
+        this.value = i;
     }
 }

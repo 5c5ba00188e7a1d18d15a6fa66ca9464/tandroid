@@ -112,7 +112,7 @@ public class CustomPropertiesLog extends AbstractLog {
         if (this == obj) {
             return true;
         }
-        if (obj != null && CustomPropertiesLog.class == obj.getClass() && super.equals(obj)) {
+        if (obj != null && getClass() == obj.getClass() && super.equals(obj)) {
             Map<String, Object> map = this.properties;
             Map<String, Object> map2 = ((CustomPropertiesLog) obj).properties;
             return map != null ? map.equals(map2) : map2 == null;

@@ -24,8 +24,11 @@ public abstract class ClientInfo {
     public enum ClientType {
         UNKNOWN(0),
         ANDROID_FIREBASE(23);
+        
+        private final int value;
 
         ClientType(int i) {
+            this.value = i;
         }
     }
 

@@ -3,7 +3,6 @@ package com.google.android.play.integrity.internal;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
@@ -95,7 +94,7 @@ public final class ae {
     }
 
     private final RemoteException w() {
-        return Build.VERSION.SDK_INT < 15 ? new RemoteException() : new RemoteException(String.valueOf(this.d).concat(" : Binder has died."));
+        return new RemoteException(String.valueOf(this.d).concat(" : Binder has died."));
     }
 
     public final void x() {

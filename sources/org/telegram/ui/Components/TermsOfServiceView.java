@@ -92,7 +92,7 @@ public class TermsOfServiceView extends FrameLayout {
         textView3.setBackground(Theme.getRoundRectSelectorDrawable(Theme.getColor(i3)));
         textView3.setPadding(AndroidUtilities.dp(20.0f), AndroidUtilities.dp(10.0f), AndroidUtilities.dp(20.0f), AndroidUtilities.dp(10.0f));
         addView(textView3, LayoutHelper.createFrame(-2, -2.0f, 83, 16.0f, 0.0f, 16.0f, 16.0f));
-        textView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda4
+        textView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 TermsOfServiceView.this.lambda$new$4(view2);
@@ -107,7 +107,7 @@ public class TermsOfServiceView extends FrameLayout {
         textView4.setBackgroundDrawable(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4.0f), -11491093, -12346402));
         textView4.setPadding(AndroidUtilities.dp(34.0f), 0, AndroidUtilities.dp(34.0f), 0);
         addView(textView4, LayoutHelper.createFrame(-2, 42.0f, 85, 16.0f, 0.0f, 16.0f, 16.0f));
-        textView4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda3
+        textView4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 TermsOfServiceView.this.lambda$new$6(view2);
@@ -125,7 +125,7 @@ public class TermsOfServiceView extends FrameLayout {
     public /* synthetic */ void lambda$new$4(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
         builder.setTitle(LocaleController.getString("TermsOfService", R.string.TermsOfService));
-        builder.setPositiveButton(LocaleController.getString("DeclineDeactivate", R.string.DeclineDeactivate), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda2
+        builder.setPositiveButton(LocaleController.getString("DeclineDeactivate", R.string.DeclineDeactivate), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda3
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 TermsOfServiceView.this.lambda$new$3(dialogInterface, i);
@@ -141,7 +141,7 @@ public class TermsOfServiceView extends FrameLayout {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMessage(LocaleController.getString("TosDeclineDeleteAccount", R.string.TosDeclineDeleteAccount));
         builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
-        builder.setPositiveButton(LocaleController.getString("Deactivate", R.string.Deactivate), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda0
+        builder.setPositiveButton(LocaleController.getString("Deactivate", R.string.Deactivate), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda4
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface2, int i2) {
                 TermsOfServiceView.this.lambda$new$2(dialogInterface2, i2);
@@ -168,7 +168,7 @@ public class TermsOfServiceView extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(final AlertDialog alertDialog, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda5
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 TermsOfServiceView.this.lambda$new$0(alertDialog, tLObject, tLRPC$TL_error);
@@ -203,7 +203,7 @@ public class TermsOfServiceView extends FrameLayout {
         if (this.currentTos.min_age_confirm != 0) {
             AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
             builder.setTitle(LocaleController.getString("TosAgeTitle", R.string.TosAgeTitle));
-            builder.setPositiveButton(LocaleController.getString("Agree", R.string.Agree), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda1
+            builder.setPositiveButton(LocaleController.getString("Agree", R.string.Agree), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda2
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
                     TermsOfServiceView.this.lambda$new$5(dialogInterface, i);
@@ -226,7 +226,7 @@ public class TermsOfServiceView extends FrameLayout {
         this.delegate.onAcceptTerms(this.currentAccount);
         TLRPC$TL_help_acceptTermsOfService tLRPC$TL_help_acceptTermsOfService = new TLRPC$TL_help_acceptTermsOfService();
         tLRPC$TL_help_acceptTermsOfService.id = this.currentTos.id;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_help_acceptTermsOfService, new RequestDelegate() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda7
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_help_acceptTermsOfService, new RequestDelegate() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda5
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 TermsOfServiceView.lambda$accept$7(tLObject, tLRPC$TL_error);

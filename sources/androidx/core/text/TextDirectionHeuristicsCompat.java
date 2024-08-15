@@ -3,7 +3,10 @@ package androidx.core.text;
 import java.util.Locale;
 /* loaded from: classes.dex */
 public final class TextDirectionHeuristicsCompat {
+    public static final TextDirectionHeuristicCompat ANYRTL_LTR;
     public static final TextDirectionHeuristicCompat FIRSTSTRONG_LTR;
+    public static final TextDirectionHeuristicCompat FIRSTSTRONG_RTL;
+    public static final TextDirectionHeuristicCompat LOCALE;
     public static final TextDirectionHeuristicCompat LTR = new TextDirectionHeuristicInternal(null, false);
     public static final TextDirectionHeuristicCompat RTL = new TextDirectionHeuristicInternal(null, true);
 
@@ -42,9 +45,9 @@ public final class TextDirectionHeuristicsCompat {
     static {
         FirstStrong firstStrong = FirstStrong.INSTANCE;
         FIRSTSTRONG_LTR = new TextDirectionHeuristicInternal(firstStrong, false);
-        new TextDirectionHeuristicInternal(firstStrong, true);
-        new TextDirectionHeuristicInternal(AnyStrong.INSTANCE_RTL, false);
-        TextDirectionHeuristicLocale textDirectionHeuristicLocale = TextDirectionHeuristicLocale.INSTANCE;
+        FIRSTSTRONG_RTL = new TextDirectionHeuristicInternal(firstStrong, true);
+        ANYRTL_LTR = new TextDirectionHeuristicInternal(AnyStrong.INSTANCE_RTL, false);
+        LOCALE = TextDirectionHeuristicLocale.INSTANCE;
     }
 
     /* loaded from: classes.dex */

@@ -22,6 +22,7 @@ public class LinkView extends EntityView {
     private boolean hasColor;
     public LinkPreview.WebPagePreview link;
     public final LinkPreview marker;
+    public TL_stories$MediaArea mediaArea;
 
     @Override // org.telegram.ui.Components.Paint.Views.EntityView
     protected float getMaxScale() {
@@ -64,6 +65,7 @@ public class LinkView extends EntityView {
 
     public void setLink(int i, LinkPreview.WebPagePreview webPagePreview, TL_stories$MediaArea tL_stories$MediaArea) {
         this.link = webPagePreview;
+        this.mediaArea = tL_stories$MediaArea;
         this.marker.set(i, webPagePreview);
         updateSelectionView();
     }
@@ -128,7 +130,7 @@ public class LinkView extends EntityView {
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.Paint.Views.EntityView
     public TextViewSelectionView createSelectionView() {
-        return new TextViewSelectionView(this, getContext());
+        return new TextViewSelectionView(getContext());
     }
 
     /* loaded from: classes3.dex */
@@ -136,7 +138,7 @@ public class LinkView extends EntityView {
         private final Paint clearPaint;
         private Path path;
 
-        public TextViewSelectionView(LinkView linkView, Context context) {
+        public TextViewSelectionView(Context context) {
             super(context);
             Paint paint = new Paint(1);
             this.clearPaint = paint;

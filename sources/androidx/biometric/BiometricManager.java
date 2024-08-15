@@ -168,7 +168,9 @@ public class BiometricManager {
     /* loaded from: classes.dex */
     public static class Api30Impl {
         static int canAuthenticate(android.hardware.biometrics.BiometricManager biometricManager, int i) {
-            return biometricManager.canAuthenticate(i);
+            int canAuthenticate;
+            canAuthenticate = biometricManager.canAuthenticate(i);
+            return canAuthenticate;
         }
     }
 
@@ -176,11 +178,15 @@ public class BiometricManager {
     /* loaded from: classes.dex */
     public static class Api29Impl {
         static android.hardware.biometrics.BiometricManager create(Context context) {
-            return (android.hardware.biometrics.BiometricManager) context.getSystemService(android.hardware.biometrics.BiometricManager.class);
+            Object systemService;
+            systemService = context.getSystemService(android.hardware.biometrics.BiometricManager.class);
+            return (android.hardware.biometrics.BiometricManager) systemService;
         }
 
         static int canAuthenticate(android.hardware.biometrics.BiometricManager biometricManager) {
-            return biometricManager.canAuthenticate();
+            int canAuthenticate;
+            canAuthenticate = biometricManager.canAuthenticate();
+            return canAuthenticate;
         }
 
         static Method getCanAuthenticateWithCryptoMethod() {

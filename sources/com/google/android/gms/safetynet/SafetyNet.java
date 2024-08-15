@@ -10,8 +10,11 @@ import com.google.android.gms.internal.safetynet.zzag;
 public final class SafetyNet {
     @Deprecated
     public static final Api<Api.ApiOptions.NoOptions> API;
+    @Deprecated
+    public static final SafetyNetApi SafetyNetApi;
     public static final Api.ClientKey<zzaf> zza;
     public static final Api.AbstractClientBuilder<zzaf, Api.ApiOptions.NoOptions> zzb;
+    public static final zzag zzc;
 
     static {
         Api.ClientKey<zzaf> clientKey = new Api.ClientKey<>();
@@ -19,8 +22,8 @@ public final class SafetyNet {
         zzk zzkVar = new zzk();
         zzb = zzkVar;
         API = new Api<>("SafetyNet.API", zzkVar, clientKey);
-        new zzae();
-        new zzag();
+        SafetyNetApi = new zzae();
+        zzc = new zzag();
     }
 
     public static SafetyNetClient getClient(Context context) {

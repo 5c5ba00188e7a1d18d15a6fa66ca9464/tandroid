@@ -1,14 +1,9 @@
 package androidx.core.view.accessibility;
-
-import android.os.Bundle;
-import android.view.View;
 /* loaded from: classes.dex */
 public interface AccessibilityViewCommand {
 
     /* loaded from: classes.dex */
     public static abstract class CommandArguments {
-        public void setBundle(Bundle bundle) {
-        }
     }
 
     /* loaded from: classes.dex */
@@ -38,6 +33,4 @@ public interface AccessibilityViewCommand {
     /* loaded from: classes.dex */
     public static final class SetTextArguments extends CommandArguments {
     }
-
-    boolean perform(View view, CommandArguments commandArguments);
 }

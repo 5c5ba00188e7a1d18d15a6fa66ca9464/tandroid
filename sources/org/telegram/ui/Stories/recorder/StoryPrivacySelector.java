@@ -33,6 +33,7 @@ public class StoryPrivacySelector extends View {
     private final Paint backgroundPaint;
     private final RectF clickRect;
     private final int currentAccount;
+    private boolean edited;
     private Runnable longPressRunnable;
     private final RectF rect;
     private final Theme.ResourcesProvider resourcesProvider;
@@ -85,7 +86,7 @@ public class StoryPrivacySelector extends View {
                 }
                 this.rippleDrawable.setCallback(this);
                 this.tapTime = System.currentTimeMillis();
-                Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacySelector$$ExternalSyntheticLambda3
+                Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacySelector$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         StoryPrivacySelector.this.lambda$onTouchEvent$0();
@@ -139,7 +140,7 @@ public class StoryPrivacySelector extends View {
     }
 
     public void open() {
-        onPopupOpen(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacySelector$$ExternalSyntheticLambda4
+        onPopupOpen(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacySelector$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 StoryPrivacySelector.this.lambda$open$3();
@@ -152,13 +153,13 @@ public class StoryPrivacySelector extends View {
         StoryPrivacyBottomSheet storyPrivacyBottomSheet = new StoryPrivacyBottomSheet(getContext(), this.storyPeriod, this.resourcesProvider);
         storyPrivacyBottomSheet.setValue(getStoryPrivacy());
         storyPrivacyBottomSheet.isEdit(false);
-        storyPrivacyBottomSheet.whenSelectedRules(new StoryPrivacyBottomSheet.DoneCallback() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacySelector$$ExternalSyntheticLambda5
+        storyPrivacyBottomSheet.whenSelectedRules(new StoryPrivacyBottomSheet.DoneCallback() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacySelector$$ExternalSyntheticLambda4
             @Override // org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet.DoneCallback
             public final void done(StoryPrivacyBottomSheet.StoryPrivacy storyPrivacy, boolean z, boolean z2, TLRPC$InputPeer tLRPC$InputPeer, Runnable runnable) {
                 StoryPrivacySelector.this.lambda$open$1(storyPrivacy, z, z2, tLRPC$InputPeer, runnable);
             }
         }, true);
-        storyPrivacyBottomSheet.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacySelector$$ExternalSyntheticLambda0
+        storyPrivacyBottomSheet.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacySelector$$ExternalSyntheticLambda5
             @Override // android.content.DialogInterface.OnDismissListener
             public final void onDismiss(DialogInterface dialogInterface) {
                 StoryPrivacySelector.this.lambda$open$2(dialogInterface);
@@ -169,6 +170,7 @@ public class StoryPrivacySelector extends View {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$open$1(StoryPrivacyBottomSheet.StoryPrivacy storyPrivacy, boolean z, boolean z2, TLRPC$InputPeer tLRPC$InputPeer, Runnable runnable) {
+        this.edited = true;
         this.value = storyPrivacy;
         String storyPrivacy2 = storyPrivacy.toString();
         this.textDrawable.setText(storyPrivacy2);
@@ -310,7 +312,7 @@ public class StoryPrivacySelector extends View {
             }
             if (!hashSet.isEmpty()) {
                 final MessagesStorage messagesStorage = MessagesStorage.getInstance(i);
-                messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacySelector$$ExternalSyntheticLambda2
+                messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacySelector$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         StoryPrivacySelector.lambda$getSaved$5(MessagesStorage.this, hashSet, i);
@@ -327,7 +329,7 @@ public class StoryPrivacySelector extends View {
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$getSaved$5(MessagesStorage messagesStorage, HashSet hashSet, final int i) {
         final ArrayList<TLRPC$User> users = messagesStorage.getUsers(new ArrayList<>(hashSet));
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacySelector$$ExternalSyntheticLambda1
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacySelector$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 StoryPrivacySelector.lambda$getSaved$4(i, users);

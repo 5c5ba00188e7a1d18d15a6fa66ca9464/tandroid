@@ -17,7 +17,10 @@ public abstract class zzeo<MessageType extends zzeo<MessageType, BuilderType>, B
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
     protected static class zza<T extends zzeo<T, ?>> extends zzdj<T> {
+        private final T zza;
+
         public zza(T t) {
+            this.zza = t;
         }
     }
 

@@ -1,7 +1,6 @@
 package j$.time.format;
 
 import java.util.Locale;
-import java.util.Objects;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class o implements h {
@@ -11,33 +10,31 @@ public final class o implements h {
     private volatile k d;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public o(j$.time.temporal.l lVar, TextStyle textStyle, v vVar) {
-        this.a = lVar;
+    public o(j$.time.temporal.a aVar, TextStyle textStyle, v vVar) {
+        this.a = aVar;
         this.b = textStyle;
         this.c = vVar;
     }
 
     @Override // j$.time.format.h
-    public boolean a(t tVar, StringBuilder sb) {
+    public final boolean a(t tVar, StringBuilder sb) {
         String c;
-        j$.time.chrono.h hVar;
+        j$.time.chrono.e eVar;
         Long e = tVar.e(this.a);
         if (e == null) {
             return false;
         }
-        j$.time.temporal.k d = tVar.d();
-        int i = j$.time.temporal.t.a;
-        j$.time.chrono.g gVar = (j$.time.chrono.g) d.d(j$.time.temporal.n.a);
-        if (gVar != null && gVar != (hVar = j$.time.chrono.h.a)) {
+        j$.time.chrono.d dVar = (j$.time.chrono.d) tVar.d().d(j$.time.temporal.j.d());
+        if (dVar == null || dVar == (eVar = j$.time.chrono.e.a)) {
+            c = this.c.c(this.a, e.longValue(), this.b, tVar.c());
+        } else {
             v vVar = this.c;
             j$.time.temporal.l lVar = this.a;
             long longValue = e.longValue();
             TextStyle textStyle = this.b;
             Locale c2 = tVar.c();
-            Objects.requireNonNull(vVar);
-            c = (gVar == hVar || !(lVar instanceof j$.time.temporal.a)) ? vVar.c(lVar, longValue, textStyle, c2) : null;
-        } else {
-            c = this.c.c(this.a, e.longValue(), this.b, tVar.c());
+            vVar.getClass();
+            c = (dVar == eVar || !(lVar instanceof j$.time.temporal.a)) ? vVar.c(lVar, longValue, textStyle, c2) : null;
         }
         if (c != null) {
             sb.append(c);
@@ -49,21 +46,20 @@ public final class o implements h {
         return this.d.a(tVar, sb);
     }
 
-    public String toString() {
+    public final String toString() {
         StringBuilder sb;
-        Object obj;
-        if (this.b == TextStyle.FULL) {
-            sb = new StringBuilder();
-            sb.append("Text(");
-            obj = this.a;
+        TextStyle textStyle = TextStyle.FULL;
+        j$.time.temporal.l lVar = this.a;
+        TextStyle textStyle2 = this.b;
+        if (textStyle2 == textStyle) {
+            sb = new StringBuilder("Text(");
+            sb.append(lVar);
         } else {
-            sb = new StringBuilder();
-            sb.append("Text(");
-            sb.append(this.a);
+            sb = new StringBuilder("Text(");
+            sb.append(lVar);
             sb.append(",");
-            obj = this.b;
+            sb.append(textStyle2);
         }
-        sb.append(obj);
         sb.append(")");
         return sb.toString();
     }

@@ -16,16 +16,6 @@ public final class VisualSampleEntry extends AbstractSampleEntry {
     private double vertresolution;
     private int width;
 
-    public VisualSampleEntry() {
-        super("avc1");
-        this.horizresolution = 72.0d;
-        this.vertresolution = 72.0d;
-        this.frameCount = 1;
-        this.compressorname = "";
-        this.depth = 24;
-        this.predefined = new long[3];
-    }
-
     public VisualSampleEntry(String str) {
         super(str);
         this.horizresolution = 72.0d;

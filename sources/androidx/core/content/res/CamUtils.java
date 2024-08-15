@@ -48,8 +48,8 @@ final class CamUtils {
         float linearized = linearized(Color.red(i));
         float linearized2 = linearized(Color.green(i));
         float linearized3 = linearized(Color.blue(i));
-        float[][] fArr = SRGB_TO_XYZ;
-        return (linearized * fArr[1][0]) + (linearized2 * fArr[1][1]) + (linearized3 * fArr[1][2]);
+        float[] fArr = SRGB_TO_XYZ[1];
+        return (linearized * fArr[0]) + (linearized2 * fArr[1]) + (linearized3 * fArr[2]);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -58,7 +58,12 @@ final class CamUtils {
         float linearized2 = linearized(Color.green(i));
         float linearized3 = linearized(Color.blue(i));
         float[][] fArr = SRGB_TO_XYZ;
-        return new float[]{(fArr[0][0] * linearized) + (fArr[0][1] * linearized2) + (fArr[0][2] * linearized3), (fArr[1][0] * linearized) + (fArr[1][1] * linearized2) + (fArr[1][2] * linearized3), (linearized * fArr[2][0]) + (linearized2 * fArr[2][1]) + (linearized3 * fArr[2][2])};
+        float[] fArr2 = fArr[0];
+        float f = (fArr2[0] * linearized) + (fArr2[1] * linearized2) + (fArr2[2] * linearized3);
+        float[] fArr3 = fArr[1];
+        float f2 = (fArr3[0] * linearized) + (fArr3[1] * linearized2) + (fArr3[2] * linearized3);
+        float[] fArr4 = fArr[2];
+        return new float[]{f, f2, (linearized * fArr4[0]) + (linearized2 * fArr4[1]) + (linearized3 * fArr4[2])};
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

@@ -17,6 +17,7 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.RLottieDrawable;
 /* loaded from: classes3.dex */
 public class SuperRipple extends ISuperRipple {
+    public final int MAX_COUNT;
     public final float[] centerX;
     public final float[] centerY;
     public int count;
@@ -31,6 +32,7 @@ public class SuperRipple extends ISuperRipple {
 
     /* loaded from: classes3.dex */
     public static class Effect {
+        public final ValueAnimator animator;
         public final float cx;
         public final float cy;
         public final float intensity;
@@ -40,12 +42,14 @@ public class SuperRipple extends ISuperRipple {
             this.cx = f;
             this.cy = f2;
             this.intensity = f3;
+            this.animator = valueAnimator;
         }
     }
 
     public SuperRipple(View view) {
         super(view);
         this.effects = new ArrayList<>();
+        this.MAX_COUNT = 7;
         this.t = new float[7];
         this.centerX = new float[7];
         this.centerY = new float[7];
@@ -56,17 +60,24 @@ public class SuperRipple extends ISuperRipple {
         this.effect = RenderEffect.createRuntimeShaderEffect(runtimeShader, "img");
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:32:0x0091  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x0093  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x009b  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x00b2  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x00b4  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x0093  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x0095  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x009d  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x00b4  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x00b6  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void setupSizeUniforms(boolean z) {
+        WindowInsets rootWindowInsets;
         float f;
+        int radius;
         float f2;
+        float f3;
+        int radius2;
+        float f4;
+        int radius3;
+        int radius4;
         if (z || this.width != this.view.getWidth() || this.height != this.view.getHeight() || Math.abs(this.density - AndroidUtilities.density) > 0.01f) {
             RuntimeShader runtimeShader = this.shader;
             int width = this.view.getWidth();
@@ -75,10 +86,10 @@ public class SuperRipple extends ISuperRipple {
             this.height = height;
             runtimeShader.setFloatUniform("size", width, height);
             RuntimeShader runtimeShader2 = this.shader;
-            float f3 = AndroidUtilities.density;
-            this.density = f3;
-            runtimeShader2.setFloatUniform("density", f3);
-            WindowInsets rootWindowInsets = this.view.getRootWindowInsets();
+            float f5 = AndroidUtilities.density;
+            this.density = f5;
+            runtimeShader2.setFloatUniform("density", f5);
+            rootWindowInsets = this.view.getRootWindowInsets();
             RoundedCorner roundedCorner = rootWindowInsets == null ? null : rootWindowInsets.getRoundedCorner(0);
             RoundedCorner roundedCorner2 = rootWindowInsets == null ? null : rootWindowInsets.getRoundedCorner(1);
             RoundedCorner roundedCorner3 = rootWindowInsets == null ? null : rootWindowInsets.getRoundedCorner(3);
@@ -87,17 +98,32 @@ public class SuperRipple extends ISuperRipple {
             if (roundedCorner4 != null) {
                 View view = this.view;
                 if (view == view.getRootView() || AndroidUtilities.navigationBarHeight <= 0) {
-                    f = roundedCorner4.getRadius();
-                    float radius = roundedCorner2 != null ? 0.0f : roundedCorner2.getRadius();
+                    radius4 = roundedCorner4.getRadius();
+                    f = radius4;
+                    if (roundedCorner2 != null) {
+                        f2 = 0.0f;
+                    } else {
+                        radius = roundedCorner2.getRadius();
+                        f2 = radius;
+                    }
                     if (roundedCorner3 != null) {
                         View view2 = this.view;
                         if (view2 == view2.getRootView() || AndroidUtilities.navigationBarHeight <= 0) {
-                            f2 = roundedCorner3.getRadius();
-                            runtimeShader3.setFloatUniform("radius", f, radius, f2, roundedCorner == null ? 0.0f : roundedCorner.getRadius());
+                            radius3 = roundedCorner3.getRadius();
+                            f3 = radius3;
+                            if (roundedCorner == null) {
+                                f4 = 0.0f;
+                            } else {
+                                radius2 = roundedCorner.getRadius();
+                                f4 = radius2;
+                            }
+                            runtimeShader3.setFloatUniform("radius", f, f2, f3, f4);
                         }
                     }
-                    f2 = 0.0f;
-                    runtimeShader3.setFloatUniform("radius", f, radius, f2, roundedCorner == null ? 0.0f : roundedCorner.getRadius());
+                    f3 = 0.0f;
+                    if (roundedCorner == null) {
+                    }
+                    runtimeShader3.setFloatUniform("radius", f, f2, f3, f4);
                 }
             }
             f = 0.0f;
@@ -105,8 +131,10 @@ public class SuperRipple extends ISuperRipple {
             }
             if (roundedCorner3 != null) {
             }
-            f2 = 0.0f;
-            runtimeShader3.setFloatUniform("radius", f, radius, f2, roundedCorner == null ? 0.0f : roundedCorner.getRadius());
+            f3 = 0.0f;
+            if (roundedCorner == null) {
+            }
+            runtimeShader3.setFloatUniform("radius", f, f2, f3, f4);
         }
     }
 
@@ -118,7 +146,7 @@ public class SuperRipple extends ISuperRipple {
         float max = (Math.max(Math.max(MathUtils.distance(0.0f, 0.0f, f, f2), MathUtils.distance(this.view.getWidth(), 0.0f, f, f2)), Math.max(MathUtils.distance(0.0f, this.view.getHeight(), f, f2), MathUtils.distance(this.view.getWidth(), this.view.getHeight(), f, f2))) * 2.0f) / (AndroidUtilities.density * 1200.0f);
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, max);
         final Effect effect = new Effect(f, f2, f3, ofFloat);
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stars.SuperRipple$$ExternalSyntheticLambda0
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stars.SuperRipple$$ExternalSyntheticLambda3
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 SuperRipple.this.lambda$animate$0(effect, valueAnimator);

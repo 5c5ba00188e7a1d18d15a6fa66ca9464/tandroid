@@ -37,7 +37,7 @@ public class StringTypedProperty extends TypedProperty {
         if (this == obj) {
             return true;
         }
-        if (obj != null && StringTypedProperty.class == obj.getClass() && super.equals(obj)) {
+        if (obj != null && getClass() == obj.getClass() && super.equals(obj)) {
             String str = this.value;
             String str2 = ((StringTypedProperty) obj).value;
             return str != null ? str.equals(str2) : str2 == null;

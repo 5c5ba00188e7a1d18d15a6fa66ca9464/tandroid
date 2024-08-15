@@ -30,6 +30,7 @@ public final class SubripDecoder extends SimpleSubtitleDecoder {
 
     @Override // com.google.android.exoplayer2.text.SimpleSubtitleDecoder
     protected Subtitle decode(byte[] bArr, int i, boolean z) {
+        String str;
         ArrayList arrayList = new ArrayList();
         LongArray longArray = new LongArray();
         ParsableByteArray parsableByteArray = new ParsableByteArray(bArr, i);
@@ -60,14 +61,13 @@ public final class SubripDecoder extends SimpleSubtitleDecoder {
                             this.textBuilder.append(processLine(readLine3, this.tags));
                         }
                         Spanned fromHtml = Html.fromHtml(this.textBuilder.toString());
-                        String str = null;
                         while (true) {
                             if (i2 >= this.tags.size()) {
+                                str = null;
                                 break;
                             }
-                            String str2 = this.tags.get(i2);
-                            if (str2.matches("\\{\\\\an[1-9]\\}")) {
-                                str = str2;
+                            str = this.tags.get(i2);
+                            if (str.matches("\\{\\\\an[1-9]\\}")) {
                                 break;
                             }
                             i2++;

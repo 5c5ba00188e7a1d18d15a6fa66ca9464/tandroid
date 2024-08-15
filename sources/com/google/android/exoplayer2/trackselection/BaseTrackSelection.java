@@ -19,6 +19,7 @@ public abstract class BaseTrackSelection implements ExoTrackSelection {
     private int hashCode;
     protected final int length;
     protected final int[] tracks;
+    private final int type;
 
     @Override // com.google.android.exoplayer2.trackselection.ExoTrackSelection
     public void disable() {
@@ -59,6 +60,7 @@ public abstract class BaseTrackSelection implements ExoTrackSelection {
     public BaseTrackSelection(TrackGroup trackGroup, int[] iArr, int i) {
         int i2 = 0;
         Assertions.checkState(iArr.length > 0);
+        this.type = i;
         this.group = (TrackGroup) Assertions.checkNotNull(trackGroup);
         int length = iArr.length;
         this.length = length;

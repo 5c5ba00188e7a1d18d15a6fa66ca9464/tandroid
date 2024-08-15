@@ -286,7 +286,7 @@ public class SessionBottomSheet extends BottomSheet {
         tLRPC$TL_account_changeAuthorizationSettings.call_requests_disabled = tLRPC$TL_authorization.call_requests_disabled;
         tLRPC$TL_account_changeAuthorizationSettings.flags = 3;
         tLRPC$TL_account_changeAuthorizationSettings.hash = tLRPC$TL_authorization.hash;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_changeAuthorizationSettings, new RequestDelegate() { // from class: org.telegram.ui.SessionBottomSheet$$ExternalSyntheticLambda1
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_changeAuthorizationSettings, new RequestDelegate() { // from class: org.telegram.ui.SessionBottomSheet$$ExternalSyntheticLambda0
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 SessionBottomSheet.lambda$uploadSessionSettings$0(tLObject, tLRPC$TL_error);
@@ -297,7 +297,7 @@ public class SessionBottomSheet extends BottomSheet {
     /* JADX INFO: Access modifiers changed from: private */
     public void copyText(final String str) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setItems(new CharSequence[]{LocaleController.getString("Copy", R.string.Copy)}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.SessionBottomSheet$$ExternalSyntheticLambda0
+        builder.setItems(new CharSequence[]{LocaleController.getString("Copy", R.string.Copy)}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.SessionBottomSheet$$ExternalSyntheticLambda1
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 SessionBottomSheet.this.lambda$copyText$1(str, dialogInterface, i);
@@ -312,8 +312,8 @@ public class SessionBottomSheet extends BottomSheet {
         BulletinFactory.of(getContainer(), null).createCopyBulletin(LocaleController.getString("TextCopied", R.string.TextCopied)).show();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:55:0x0105  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0116  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0108  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0119  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -329,15 +329,15 @@ public class SessionBottomSheet extends BottomSheet {
         if (lowerCase2.contains("safari")) {
             i = R.raw.safari_30;
             i2 = Theme.key_avatar_backgroundPink;
-            int i3 = Theme.key_avatar_background2Pink;
         } else if (lowerCase2.contains("edge")) {
             i = R.raw.edge_30;
             i2 = Theme.key_avatar_backgroundPink;
-            int i4 = Theme.key_avatar_background2Pink;
         } else if (lowerCase2.contains("chrome")) {
             i = R.raw.chrome_30;
             i2 = Theme.key_avatar_backgroundPink;
-            int i5 = Theme.key_avatar_background2Pink;
+        } else if (lowerCase2.contains("firefox")) {
+            i = R.raw.firefox_30;
+            i2 = Theme.key_avatar_backgroundRed;
         } else if (lowerCase2.contains("opera") || lowerCase2.contains("firefox") || lowerCase2.contains("vivaldi")) {
             if (lowerCase2.contains("opera")) {
                 i = R.drawable.device_web_opera;
@@ -347,7 +347,6 @@ public class SessionBottomSheet extends BottomSheet {
                 i = R.drawable.device_web_other;
             }
             i2 = Theme.key_avatar_backgroundPink;
-            int i6 = Theme.key_avatar_background2Pink;
             z = false;
             rLottieImageView.setBackground(Theme.createCircleDrawable(AndroidUtilities.dp(42.0f), Theme.getColor(i2)));
             if (!z) {
@@ -360,31 +359,27 @@ public class SessionBottomSheet extends BottomSheet {
         } else if (lowerCase.contains("ubuntu")) {
             i = R.raw.ubuntu_30;
             i2 = Theme.key_avatar_backgroundBlue;
-            int i7 = Theme.key_avatar_background2Blue;
+        } else if (lowerCase.contains("linux")) {
+            i = R.raw.linux_30;
+            i2 = Theme.key_avatar_backgroundBlue;
         } else if (lowerCase.contains("ios")) {
             i = lowerCase2.contains("ipad") ? R.raw.ipad_30 : R.raw.iphone_30;
             i2 = Theme.key_avatar_backgroundBlue;
-            int i8 = Theme.key_avatar_background2Blue;
         } else if (lowerCase.contains("windows")) {
             i = R.raw.windows_30;
             i2 = Theme.key_avatar_backgroundCyan;
-            int i9 = Theme.key_avatar_background2Cyan;
         } else if (lowerCase.contains("macos")) {
             i = R.raw.mac_30;
             i2 = Theme.key_avatar_backgroundCyan;
-            int i10 = Theme.key_avatar_background2Cyan;
         } else if (lowerCase.contains("android")) {
             i = R.raw.android_30;
             i2 = Theme.key_avatar_backgroundGreen;
-            int i11 = Theme.key_avatar_background2Green;
         } else if (tLRPC$TL_authorization.app_name.toLowerCase().contains("desktop")) {
             i = R.raw.windows_30;
             i2 = Theme.key_avatar_backgroundCyan;
-            int i12 = Theme.key_avatar_background2Cyan;
         } else {
             i = R.raw.chrome_30;
             i2 = Theme.key_avatar_backgroundPink;
-            int i13 = Theme.key_avatar_background2Pink;
         }
         z = true;
         rLottieImageView.setBackground(Theme.createCircleDrawable(AndroidUtilities.dp(42.0f), Theme.getColor(i2)));
@@ -441,8 +436,8 @@ public class SessionBottomSheet extends BottomSheet {
 
         @Override // android.view.View
         public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
-            int i;
             String str;
+            int i;
             super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
             if (this.switchView != null) {
                 accessibilityNodeInfo.setClassName("android.widget.Switch");
@@ -454,11 +449,11 @@ public class SessionBottomSheet extends BottomSheet {
                 sb.append((Object) this.descriptionText.getText());
                 sb.append("\n");
                 if (this.switchView.isChecked()) {
-                    i = R.string.NotificationsOn;
                     str = "NotificationsOn";
+                    i = R.string.NotificationsOn;
                 } else {
-                    i = R.string.NotificationsOff;
                     str = "NotificationsOff";
+                    i = R.string.NotificationsOff;
                 }
                 sb.append(LocaleController.getString(str, i));
                 accessibilityNodeInfo.setText(sb.toString());

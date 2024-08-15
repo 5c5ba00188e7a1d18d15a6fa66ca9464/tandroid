@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.AbstractCollection;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Objects;
 /* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
 public abstract class zzam extends AbstractCollection implements Serializable {
@@ -73,7 +72,7 @@ public abstract class zzam extends AbstractCollection implements Serializable {
 
     @Override // java.util.AbstractCollection, java.util.Collection
     public final Object[] toArray(Object[] objArr) {
-        Objects.requireNonNull(objArr);
+        objArr.getClass();
         int size = size();
         int length = objArr.length;
         if (length < size) {

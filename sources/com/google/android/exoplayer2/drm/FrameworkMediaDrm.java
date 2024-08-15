@@ -80,7 +80,7 @@ public final class FrameworkMediaDrm implements ExoMediaDrm {
 
     @Override // com.google.android.exoplayer2.drm.ExoMediaDrm
     public void setOnEventListener(final ExoMediaDrm.OnEventListener onEventListener) {
-        this.mediaDrm.setOnEventListener(onEventListener == null ? null : new MediaDrm.OnEventListener() { // from class: com.google.android.exoplayer2.drm.FrameworkMediaDrm$$ExternalSyntheticLambda0
+        this.mediaDrm.setOnEventListener(onEventListener == null ? null : new MediaDrm.OnEventListener() { // from class: com.google.android.exoplayer2.drm.FrameworkMediaDrm$$ExternalSyntheticLambda2
             @Override // android.media.MediaDrm.OnEventListener
             public final void onEvent(MediaDrm mediaDrm, byte[] bArr, int i, int i2, byte[] bArr2) {
                 FrameworkMediaDrm.this.lambda$setOnEventListener$1(onEventListener, mediaDrm, bArr, i, i2, bArr2);
@@ -117,14 +117,15 @@ public final class FrameworkMediaDrm implements ExoMediaDrm {
     @Override // com.google.android.exoplayer2.drm.ExoMediaDrm
     @SuppressLint({"WrongConstant"})
     public ExoMediaDrm.KeyRequest getKeyRequest(byte[] bArr, List<DrmInitData.SchemeData> list, int i, HashMap<String, String> hashMap) throws NotProvisionedException {
+        DrmInitData.SchemeData schemeData;
         byte[] bArr2;
         String str;
-        DrmInitData.SchemeData schemeData = null;
         if (list != null) {
             schemeData = getSchemeData(this.uuid, list);
             bArr2 = adjustRequestInitData(this.uuid, (byte[]) Assertions.checkNotNull(schemeData.data));
             str = adjustRequestMimeType(this.uuid, schemeData.mimeType);
         } else {
+            schemeData = null;
             bArr2 = null;
             str = null;
         }
@@ -333,15 +334,23 @@ public final class FrameworkMediaDrm implements ExoMediaDrm {
     /* loaded from: classes.dex */
     private static class Api31 {
         public static boolean requiresSecureDecoder(MediaDrm mediaDrm, String str) {
-            return mediaDrm.requiresSecureDecoder(str);
+            boolean requiresSecureDecoder;
+            requiresSecureDecoder = mediaDrm.requiresSecureDecoder(str);
+            return requiresSecureDecoder;
         }
 
         public static void setLogSessionIdOnMediaDrmSession(MediaDrm mediaDrm, byte[] bArr, PlayerId playerId) {
-            LogSessionId logSessionId = playerId.getLogSessionId();
-            if (logSessionId.equals(LogSessionId.LOG_SESSION_ID_NONE)) {
+            LogSessionId logSessionId;
+            boolean equals;
+            MediaDrm.PlaybackComponent playbackComponent;
+            LogSessionId logSessionId2 = playerId.getLogSessionId();
+            logSessionId = LogSessionId.LOG_SESSION_ID_NONE;
+            equals = logSessionId2.equals(logSessionId);
+            if (equals) {
                 return;
             }
-            ((MediaDrm.PlaybackComponent) Assertions.checkNotNull(mediaDrm.getPlaybackComponent(bArr))).setLogSessionId(logSessionId);
+            playbackComponent = mediaDrm.getPlaybackComponent(bArr);
+            ((MediaDrm.PlaybackComponent) Assertions.checkNotNull(playbackComponent)).setLogSessionId(logSessionId2);
         }
     }
 }

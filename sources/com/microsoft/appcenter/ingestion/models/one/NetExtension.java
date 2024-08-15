@@ -31,7 +31,7 @@ public class NetExtension implements Model {
         if (this == obj) {
             return true;
         }
-        if (obj == null || NetExtension.class != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         String str = this.provider;

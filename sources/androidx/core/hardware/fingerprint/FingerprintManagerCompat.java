@@ -140,11 +140,15 @@ public class FingerprintManagerCompat {
     /* loaded from: classes.dex */
     public static class Api23Impl {
         static boolean hasEnrolledFingerprints(Object obj) {
-            return ((FingerprintManager) obj).hasEnrolledFingerprints();
+            boolean hasEnrolledFingerprints;
+            hasEnrolledFingerprints = ((FingerprintManager) obj).hasEnrolledFingerprints();
+            return hasEnrolledFingerprints;
         }
 
         static boolean isHardwareDetected(Object obj) {
-            return ((FingerprintManager) obj).isHardwareDetected();
+            boolean isHardwareDetected;
+            isHardwareDetected = ((FingerprintManager) obj).isHardwareDetected();
+            return isHardwareDetected;
         }
 
         static void authenticate(Object obj, Object obj2, android.os.CancellationSignal cancellationSignal, int i, Object obj3, Handler handler) {
@@ -152,18 +156,24 @@ public class FingerprintManagerCompat {
         }
 
         static FingerprintManager.CryptoObject getCryptoObject(Object obj) {
-            return ((FingerprintManager.AuthenticationResult) obj).getCryptoObject();
+            FingerprintManager.CryptoObject cryptoObject;
+            cryptoObject = ((FingerprintManager.AuthenticationResult) obj).getCryptoObject();
+            return cryptoObject;
         }
 
         public static FingerprintManager getFingerprintManagerOrNull(Context context) {
+            Object systemService;
+            Object systemService2;
             int i = Build.VERSION.SDK_INT;
             if (i == 23) {
-                return (FingerprintManager) context.getSystemService(FingerprintManager.class);
-            }
-            if (i <= 23 || !context.getPackageManager().hasSystemFeature("android.hardware.fingerprint")) {
+                systemService2 = context.getSystemService(FingerprintManager.class);
+                return (FingerprintManager) systemService2;
+            } else if (i <= 23 || !context.getPackageManager().hasSystemFeature("android.hardware.fingerprint")) {
                 return null;
+            } else {
+                systemService = context.getSystemService(FingerprintManager.class);
+                return (FingerprintManager) systemService;
             }
-            return (FingerprintManager) context.getSystemService(FingerprintManager.class);
         }
 
         public static FingerprintManager.CryptoObject wrapCryptoObject(CryptoObject cryptoObject) {
@@ -183,18 +193,30 @@ public class FingerprintManagerCompat {
         }
 
         public static CryptoObject unwrapCryptoObject(Object obj) {
+            Cipher cipher;
+            Signature signature;
+            Mac mac;
+            Mac mac2;
+            Signature signature2;
+            Cipher cipher2;
             FingerprintManager.CryptoObject cryptoObject = (FingerprintManager.CryptoObject) obj;
             if (cryptoObject == null) {
                 return null;
             }
-            if (cryptoObject.getCipher() != null) {
-                return new CryptoObject(cryptoObject.getCipher());
+            cipher = cryptoObject.getCipher();
+            if (cipher != null) {
+                cipher2 = cryptoObject.getCipher();
+                return new CryptoObject(cipher2);
             }
-            if (cryptoObject.getSignature() != null) {
-                return new CryptoObject(cryptoObject.getSignature());
+            signature = cryptoObject.getSignature();
+            if (signature != null) {
+                signature2 = cryptoObject.getSignature();
+                return new CryptoObject(signature2);
             }
-            if (cryptoObject.getMac() != null) {
-                return new CryptoObject(cryptoObject.getMac());
+            mac = cryptoObject.getMac();
+            if (mac != null) {
+                mac2 = cryptoObject.getMac();
+                return new CryptoObject(mac2);
             }
             return null;
         }

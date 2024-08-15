@@ -23,7 +23,7 @@ public class PaintTypefaceListView extends RecyclerListView implements Notificat
         this.mask = new Path();
         setWillNotDraw(false);
         setLayoutManager(new LinearLayoutManager(context));
-        setAdapter(new RecyclerListView.SelectionAdapter(this) { // from class: org.telegram.ui.Components.Paint.Views.PaintTypefaceListView.1
+        setAdapter(new RecyclerListView.SelectionAdapter() { // from class: org.telegram.ui.Components.Paint.Views.PaintTypefaceListView.1
             @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
             public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
                 return true;

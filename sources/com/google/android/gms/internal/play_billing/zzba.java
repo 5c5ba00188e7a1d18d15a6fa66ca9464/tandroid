@@ -3,18 +3,21 @@ package com.google.android.gms.internal.play_billing;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.charset.Charset;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Locale;
 /* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public abstract class zzba implements Iterable, Serializable {
+    private static final Comparator zza;
     public static final zzba zzb = new zzax(zzcg.zzd);
+    private static final zzaz zzd;
     private int zzc = 0;
 
     static {
-        int i = zzam.zza;
-        new zzaz(null);
-        new zzas();
+        int i = zzam.$r8$clinit;
+        zzd = new zzaz(null);
+        zza = new zzas();
     }
 
     public static zzba zzl(byte[] bArr, int i, int i2) {
@@ -29,8 +32,8 @@ public abstract class zzba implements Iterable, Serializable {
     public final int hashCode() {
         int i = this.zzc;
         if (i == 0) {
-            int zzd = zzd();
-            i = zze(zzd, 0, zzd);
+            int zzd2 = zzd();
+            i = zze(zzd2, 0, zzd2);
             if (i == 0) {
                 i = 1;
             }

@@ -2,7 +2,6 @@ package com.google.android.datatransport.runtime;
 
 import com.google.android.datatransport.runtime.EventInternal;
 import java.util.Map;
-import java.util.Objects;
 /* loaded from: classes.dex */
 final class AutoValue_EventInternal extends EventInternal {
     private final Map<String, String> autoMetadata;
@@ -89,7 +88,9 @@ final class AutoValue_EventInternal extends EventInternal {
 
         @Override // com.google.android.datatransport.runtime.EventInternal.Builder
         public EventInternal.Builder setTransportName(String str) {
-            Objects.requireNonNull(str, "Null transportName");
+            if (str == null) {
+                throw new NullPointerException("Null transportName");
+            }
             this.transportName = str;
             return this;
         }
@@ -102,7 +103,9 @@ final class AutoValue_EventInternal extends EventInternal {
 
         @Override // com.google.android.datatransport.runtime.EventInternal.Builder
         public EventInternal.Builder setEncodedPayload(EncodedPayload encodedPayload) {
-            Objects.requireNonNull(encodedPayload, "Null encodedPayload");
+            if (encodedPayload == null) {
+                throw new NullPointerException("Null encodedPayload");
+            }
             this.encodedPayload = encodedPayload;
             return this;
         }
@@ -122,7 +125,9 @@ final class AutoValue_EventInternal extends EventInternal {
         /* JADX INFO: Access modifiers changed from: protected */
         @Override // com.google.android.datatransport.runtime.EventInternal.Builder
         public EventInternal.Builder setAutoMetadata(Map<String, String> map) {
-            Objects.requireNonNull(map, "Null autoMetadata");
+            if (map == null) {
+                throw new NullPointerException("Null autoMetadata");
+            }
             this.autoMetadata = map;
             return this;
         }

@@ -70,7 +70,7 @@ public class TextureBufferImpl implements VideoFrame.TextureBuffer {
         this.transformMatrix = matrix;
         this.toI420Handler = handler;
         this.yuvConverter = yuvConverter;
-        this.refCountDelegate = new RefCountDelegate(new Runnable() { // from class: org.webrtc.TextureBufferImpl$$ExternalSyntheticLambda1
+        this.refCountDelegate = new RefCountDelegate(new Runnable() { // from class: org.webrtc.TextureBufferImpl$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 TextureBufferImpl.this.lambda$new$0(refCountMonitor);
@@ -112,7 +112,7 @@ public class TextureBufferImpl implements VideoFrame.TextureBuffer {
     @Override // org.webrtc.VideoFrame.Buffer
     public VideoFrame.I420Buffer toI420() {
         try {
-            return (VideoFrame.I420Buffer) ThreadUtils.invokeAtFrontUninterruptibly(this.toI420Handler, new Callable() { // from class: org.webrtc.TextureBufferImpl$$ExternalSyntheticLambda2
+            return (VideoFrame.I420Buffer) ThreadUtils.invokeAtFrontUninterruptibly(this.toI420Handler, new Callable() { // from class: org.webrtc.TextureBufferImpl$$ExternalSyntheticLambda0
                 @Override // java.util.concurrent.Callable
                 public final Object call() {
                     VideoFrame.I420Buffer lambda$toI420$1;
@@ -143,7 +143,7 @@ public class TextureBufferImpl implements VideoFrame.TextureBuffer {
             ByteBuffer slice2 = nativeAllocateByteBuffer.slice();
             nativeAllocateByteBuffer.position(i6);
             nativeAllocateByteBuffer.limit(i6 + i7);
-            return JavaI420Buffer.wrap(width, height, slice, i, slice2, i, nativeAllocateByteBuffer.slice(), i, new Runnable() { // from class: org.webrtc.TextureBufferImpl$$ExternalSyntheticLambda0
+            return JavaI420Buffer.wrap(width, height, slice, i, slice2, i, nativeAllocateByteBuffer.slice(), i, new Runnable() { // from class: org.webrtc.TextureBufferImpl$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     JniCommon.nativeFreeByteBuffer(nativeAllocateByteBuffer);

@@ -75,7 +75,7 @@ public class AppExtension implements Model {
         if (this == obj) {
             return true;
         }
-        if (obj == null || AppExtension.class != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         AppExtension appExtension = (AppExtension) obj;

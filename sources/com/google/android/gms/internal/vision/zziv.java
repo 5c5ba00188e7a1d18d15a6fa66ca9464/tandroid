@@ -1,4 +1,6 @@
 package com.google.android.gms.internal.vision;
+
+import java.lang.reflect.Type;
 /* JADX WARN: Enum visitor error
 jadx.core.utils.exceptions.JadxRuntimeException: Init of enum zzc uses external variables
 	at jadx.core.dex.visitors.EnumVisitor.createEnumFieldByConstructor(EnumVisitor.java:444)
@@ -40,6 +42,7 @@ public final class zziv {
     private static final zziv zzay;
     public static final zziv zzb;
     private static final zziv[] zzbe;
+    private static final Type[] zzbf;
     private static final /* synthetic */ zziv[] zzbg;
     private static final zziv zzc;
     private static final zziv zzd;
@@ -65,23 +68,31 @@ public final class zziv {
     private static final zziv zzx;
     private static final zziv zzy;
     private static final zziv zzz;
+    private final zzjm zzaz;
     private final int zzba;
+    private final zzix zzbb;
+    private final Class<?> zzbc;
+    private final boolean zzbd;
 
     public static zziv[] values() {
         return (zziv[]) zzbg.clone();
     }
 
     private zziv(String str, int i, int i2, zzix zzixVar, zzjm zzjmVar) {
+        int i3;
         this.zzba = i2;
-        int i3 = zziy.zza[zzixVar.ordinal()];
-        if (i3 == 1) {
-            zzjmVar.zza();
-        } else if (i3 == 2) {
-            zzjmVar.zza();
+        this.zzbb = zzixVar;
+        this.zzaz = zzjmVar;
+        int i4 = zziy.zza[zzixVar.ordinal()];
+        boolean z = true;
+        if (i4 == 1) {
+            this.zzbc = zzjmVar.zza();
+        } else if (i4 == 2) {
+            this.zzbc = zzjmVar.zza();
+        } else {
+            this.zzbc = null;
         }
-        if (zzixVar == zzix.zza) {
-            int i4 = zziy.zzb[zzjmVar.ordinal()];
-        }
+        this.zzbd = (zzixVar != zzix.zza || (i3 = zziy.zzb[zzjmVar.ordinal()]) == 1 || i3 == 2 || i3 == 3) ? false : false;
     }
 
     public final int zza() {
@@ -204,6 +215,7 @@ public final class zziv {
         zziv zzivVar51 = new zziv("MAP", 50, 50, zzix.zzd, zzjm.zza);
         zzay = zzivVar51;
         zzbg = new zziv[]{zzivVar, zzivVar2, zzivVar3, zzivVar4, zzivVar5, zzivVar6, zzivVar7, zzivVar8, zzivVar9, zzivVar10, zzivVar11, zzivVar12, zzivVar13, zzivVar14, zzivVar15, zzivVar16, zzivVar17, zzivVar18, zzivVar19, zzivVar20, zzivVar21, zzivVar22, zzivVar23, zzivVar24, zzivVar25, zzivVar26, zzivVar27, zzivVar28, zzivVar29, zzivVar30, zzivVar31, zzivVar32, zzivVar33, zzivVar34, zzivVar35, zzivVar36, zzivVar37, zzivVar38, zzivVar39, zzivVar40, zzivVar41, zzivVar42, zzivVar43, zzivVar44, zzivVar45, zzivVar46, zzivVar47, zzivVar48, zzivVar49, zzivVar50, zzivVar51};
+        zzbf = new Type[0];
         zziv[] values = values();
         zzbe = new zziv[values.length];
         for (zziv zzivVar52 : values) {

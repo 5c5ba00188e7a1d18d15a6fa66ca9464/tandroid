@@ -31,7 +31,7 @@ public class LocationSharingService extends Service implements NotificationCente
     public void onCreate() {
         super.onCreate();
         this.handler = new Handler();
-        Runnable runnable = new Runnable() { // from class: org.telegram.messenger.LocationSharingService$$ExternalSyntheticLambda1
+        Runnable runnable = new Runnable() { // from class: org.telegram.messenger.LocationSharingService$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 LocationSharingService.this.lambda$onCreate$1();
@@ -77,7 +77,7 @@ public class LocationSharingService extends Service implements NotificationCente
         if (i != NotificationCenter.liveLocationsChanged || (handler = this.handler) == null) {
             return;
         }
-        handler.post(new Runnable() { // from class: org.telegram.messenger.LocationSharingService$$ExternalSyntheticLambda0
+        handler.post(new Runnable() { // from class: org.telegram.messenger.LocationSharingService$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 LocationSharingService.this.lambda$didReceivedNotification$2();

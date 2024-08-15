@@ -156,7 +156,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         this.darkThemeDrawable.setCurrentFrame(Theme.getCurrentTheme().isDark() ? this.darkThemeDrawable.getFramesCount() - 1 : 0, false);
         rLottieImageView.setContentDescription(LocaleController.getString(Theme.getCurrentTheme().isDark() ? R.string.AccDescrSwitchToDayTheme : R.string.AccDescrSwitchToNightTheme));
         rLottieImageView.setAnimation(this.darkThemeDrawable);
-        frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda2
+        frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 IntroActivity.this.lambda$createView$0(rLottieImageView, view);
@@ -208,7 +208,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
                 }
             }
         });
-        TextView textView = new TextView(this, context) { // from class: org.telegram.ui.IntroActivity.4
+        TextView textView = new TextView(context) { // from class: org.telegram.ui.IntroActivity.4
             CellFlickerDrawable cellFlickerDrawable;
 
             @Override // android.widget.TextView, android.view.View
@@ -257,7 +257,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         textView2.setGravity(17);
         this.switchLanguageTextView.setTextSize(1, 16.0f);
         this.frameContainerView.addView(this.switchLanguageTextView, LayoutHelper.createFrame(-2, 30.0f, 81, 0.0f, 0.0f, 0.0f, 20.0f));
-        this.switchLanguageTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda0
+        this.switchLanguageTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 IntroActivity.this.lambda$createView$2(view);
@@ -486,7 +486,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
             this.localeInfo = localeInfo;
         }
         tLRPC$TL_langpack_getStrings.keys.add("ContinueOnThisLanguage");
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_langpack_getStrings, new RequestDelegate() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda5
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_langpack_getStrings, new RequestDelegate() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda4
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 IntroActivity.this.lambda$checkContinueText$4(str, tLObject, tLRPC$TL_error);
@@ -503,7 +503,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
             }
             final TLRPC$LangPackString tLRPC$LangPackString = (TLRPC$LangPackString) tLRPC$Vector.objects.get(0);
             if (tLRPC$LangPackString instanceof TLRPC$TL_langPackString) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda4
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda6
                     @Override // java.lang.Runnable
                     public final void run() {
                         IntroActivity.this.lambda$checkContinueText$3(tLRPC$LangPackString, str);
@@ -569,7 +569,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
             textView.setTag(IntroActivity.this.pagerHeaderTag);
             final TextView textView2 = new TextView(viewGroup.getContext());
             textView2.setTag(IntroActivity.this.pagerMessageTag);
-            FrameLayout frameLayout = new FrameLayout(this, viewGroup.getContext()) { // from class: org.telegram.ui.IntroActivity.IntroAdapter.1
+            FrameLayout frameLayout = new FrameLayout(viewGroup.getContext()) { // from class: org.telegram.ui.IntroActivity.IntroAdapter.1
                 @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
                 protected void onLayout(boolean z, int i2, int i3, int i4, int i5) {
                     int dp = (((((i5 - i3) / 4) * 3) - AndroidUtilities.dp(275.0f)) / 2) + AndroidUtilities.dp(150.0f) + AndroidUtilities.dp(16.0f);
@@ -670,7 +670,8 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
                                 if (Build.VERSION.SDK_INT < 21) {
                                     EGLThread.this.maxRefreshRate = 60.0f;
                                 } else {
-                                    for (float f2 : ((WindowManager) ApplicationLoader.applicationContext.getSystemService("window")).getDefaultDisplay().getSupportedRefreshRates()) {
+                                    supportedRefreshRates = ((WindowManager) ApplicationLoader.applicationContext.getSystemService("window")).getDefaultDisplay().getSupportedRefreshRates();
+                                    for (float f2 : supportedRefreshRates) {
                                         if (f2 > f) {
                                             f = f2;
                                         }
@@ -769,7 +770,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
                         loadTexture(R.drawable.intro_private_door, 19);
                         loadTexture(R.drawable.intro_private_screw, 20);
                         loadTexture(R.drawable.intro_tg_plane, 21);
-                        loadTexture(new GenericProvider() { // from class: org.telegram.ui.IntroActivity$EGLThread$$ExternalSyntheticLambda1
+                        loadTexture(new GenericProvider() { // from class: org.telegram.ui.IntroActivity$EGLThread$$ExternalSyntheticLambda0
                             @Override // org.telegram.messenger.GenericProvider
                             public final Object provide(Object obj) {
                                 Bitmap lambda$initGL$1;
@@ -899,7 +900,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         }
 
         public void shutdown() {
-            postRunnable(new Runnable() { // from class: org.telegram.ui.IntroActivity$EGLThread$$ExternalSyntheticLambda0
+            postRunnable(new Runnable() { // from class: org.telegram.ui.IntroActivity$EGLThread$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     IntroActivity.EGLThread.this.lambda$shutdown$2();
@@ -934,7 +935,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
-        return SimpleThemeDescription.createThemeDescriptions(new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda6
+        return SimpleThemeDescription.createThemeDescriptions(new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda3
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 IntroActivity.this.lambda$getThemeDescriptions$5();
@@ -962,7 +963,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         if (z) {
             EGLThread eGLThread = this.eglThread;
             if (eGLThread != null) {
-                eGLThread.postRunnable(new Runnable() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda3
+                eGLThread.postRunnable(new Runnable() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda5
                     @Override // java.lang.Runnable
                     public final void run() {
                         IntroActivity.this.lambda$updateColors$6();

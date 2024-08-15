@@ -16,6 +16,7 @@ import java.util.HashMap;
 /* loaded from: classes.dex */
 public class GoogleMap {
     private final IGoogleMapDelegate zza;
+    private final HashMap zzb = new HashMap();
     private UiSettings zzc;
 
     /* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
@@ -64,7 +65,6 @@ public class GoogleMap {
     }
 
     public GoogleMap(IGoogleMapDelegate iGoogleMapDelegate) {
-        new HashMap();
         this.zza = (IGoogleMapDelegate) Preconditions.checkNotNull(iGoogleMapDelegate);
     }
 

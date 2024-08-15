@@ -70,14 +70,11 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
     private int mMaxWidth;
     private CharSequence mOldQueryText;
     private final View.OnClickListener mOnClickListener;
-    private OnCloseListener mOnCloseListener;
     private final TextView.OnEditorActionListener mOnEditorActionListener;
     private final AdapterView.OnItemClickListener mOnItemClickListener;
     private final AdapterView.OnItemSelectedListener mOnItemSelectedListener;
-    private OnQueryTextListener mOnQueryChangeListener;
     View.OnFocusChangeListener mOnQueryTextFocusChangeListener;
     private View.OnClickListener mOnSearchClickListener;
-    private OnSuggestionListener mOnSuggestionListener;
     private final WeakHashMap<String, Drawable.ConstantState> mOutsideDrawablesCache;
     private CharSequence mQueryHint;
     private boolean mQueryRefinement;
@@ -109,21 +106,23 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
 
     /* loaded from: classes.dex */
     public interface OnCloseListener {
-        boolean onClose();
     }
 
     /* loaded from: classes.dex */
     public interface OnQueryTextListener {
-        boolean onQueryTextChange(String str);
-
-        boolean onQueryTextSubmit(String str);
     }
 
     /* loaded from: classes.dex */
     public interface OnSuggestionListener {
-        boolean onSuggestionClick(int i);
+    }
 
-        boolean onSuggestionSelect(int i);
+    public void setOnCloseListener(OnCloseListener onCloseListener) {
+    }
+
+    public void setOnQueryTextListener(OnQueryTextListener onQueryTextListener) {
+    }
+
+    public void setOnSuggestionListener(OnSuggestionListener onSuggestionListener) {
     }
 
     static {
@@ -397,20 +396,8 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
         this.mClearingFocus = false;
     }
 
-    public void setOnQueryTextListener(OnQueryTextListener onQueryTextListener) {
-        this.mOnQueryChangeListener = onQueryTextListener;
-    }
-
-    public void setOnCloseListener(OnCloseListener onCloseListener) {
-        this.mOnCloseListener = onCloseListener;
-    }
-
     public void setOnQueryTextFocusChangeListener(View.OnFocusChangeListener onFocusChangeListener) {
         this.mOnQueryTextFocusChangeListener = onFocusChangeListener;
-    }
-
-    public void setOnSuggestionListener(OnSuggestionListener onSuggestionListener) {
-        this.mOnSuggestionListener = onSuggestionListener;
     }
 
     public void setOnSearchClickListener(View.OnClickListener onClickListener) {
@@ -588,15 +575,15 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
     }
 
     private boolean hasVoiceSearch() {
+        Intent intent;
         SearchableInfo searchableInfo = this.mSearchable;
         if (searchableInfo == null || !searchableInfo.getVoiceSearchEnabled()) {
             return false;
         }
-        Intent intent = null;
         if (this.mSearchable.getVoiceSearchLaunchWebSearch()) {
             intent = this.mVoiceWebSearchIntent;
-        } else if (this.mSearchable.getVoiceSearchLaunchRecognizer()) {
-            intent = this.mVoiceAppSearchIntent;
+        } else {
+            intent = this.mSearchable.getVoiceSearchLaunchRecognizer() ? this.mVoiceAppSearchIntent : null;
         }
         return (intent == null || getContext().getPackageManager().resolveActivity(intent, 65536) == null) ? false : true;
     }
@@ -737,9 +724,6 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
         updateVoiceButton(!z);
         updateCloseButton();
         updateSubmitArea();
-        if (this.mOnQueryChangeListener != null && !TextUtils.equals(charSequence, this.mOldQueryText)) {
-            this.mOnQueryChangeListener.onQueryTextChange(charSequence.toString());
-        }
         this.mOldQueryText = charSequence.toString();
     }
 
@@ -748,14 +732,11 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
         if (text == null || TextUtils.getTrimmedLength(text) <= 0) {
             return;
         }
-        OnQueryTextListener onQueryTextListener = this.mOnQueryChangeListener;
-        if (onQueryTextListener == null || !onQueryTextListener.onQueryTextSubmit(text.toString())) {
-            if (this.mSearchable != null) {
-                launchQuerySearch(0, null, text.toString());
-            }
-            this.mSearchSrcTextView.setImeVisibility(false);
-            dismissSuggestions();
+        if (this.mSearchable != null) {
+            launchQuerySearch(0, null, text.toString());
         }
+        this.mSearchSrcTextView.setImeVisibility(false);
+        dismissSuggestions();
     }
 
     private void dismissSuggestions() {
@@ -765,12 +746,8 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
     void onCloseClicked() {
         if (TextUtils.isEmpty(this.mSearchSrcTextView.getText())) {
             if (this.mIconifiedByDefault) {
-                OnCloseListener onCloseListener = this.mOnCloseListener;
-                if (onCloseListener == null || !onCloseListener.onClose()) {
-                    clearFocus();
-                    updateViewsVisibility(true);
-                    return;
-                }
+                clearFocus();
+                updateViewsVisibility(true);
                 return;
             }
             return;
@@ -922,23 +899,15 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
     }
 
     boolean onItemClicked(int i, int i2, String str) {
-        OnSuggestionListener onSuggestionListener = this.mOnSuggestionListener;
-        if (onSuggestionListener == null || !onSuggestionListener.onSuggestionClick(i)) {
-            launchSuggestion(i, 0, null);
-            this.mSearchSrcTextView.setImeVisibility(false);
-            dismissSuggestions();
-            return true;
-        }
-        return false;
+        launchSuggestion(i, 0, null);
+        this.mSearchSrcTextView.setImeVisibility(false);
+        dismissSuggestions();
+        return true;
     }
 
     boolean onItemSelected(int i) {
-        OnSuggestionListener onSuggestionListener = this.mOnSuggestionListener;
-        if (onSuggestionListener == null || !onSuggestionListener.onSuggestionSelect(i)) {
-            rewriteQueryFromSuggestion(i);
-            return true;
-        }
-        return false;
+        rewriteQueryFromSuggestion(i);
+        return true;
     }
 
     private void rewriteQueryFromSuggestion(int i) {

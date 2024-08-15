@@ -160,8 +160,8 @@ public class DefaultHttpClientCallTask extends AsyncTask<Void, Void, Object> {
                 AppCenterLog.verbose("AppCenter", "HTTP response status=" + responseCode + " payload=" + replaceAll);
             }
             HashMap hashMap = new HashMap();
-            for (Map.Entry entry2 : createHttpsConnection.getHeaderFields().entrySet()) {
-                hashMap.put(entry2.getKey(), ((List) entry2.getValue()).iterator().next());
+            for (Map.Entry<String, List<String>> entry2 : createHttpsConnection.getHeaderFields().entrySet()) {
+                hashMap.put(entry2.getKey(), entry2.getValue().iterator().next());
             }
             HttpResponse httpResponse = new HttpResponse(responseCode, readResponse, hashMap);
             if (responseCode < 200 || responseCode >= 300) {

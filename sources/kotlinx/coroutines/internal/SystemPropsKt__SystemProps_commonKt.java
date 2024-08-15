@@ -1,6 +1,6 @@
 package kotlinx.coroutines.internal;
 
-import kotlin.text.StringsKt;
+import kotlin.text.StringsKt__StringNumberConversionsKt;
 import org.telegram.tgnet.ConnectionsManager;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: SystemProps.common.kt */
@@ -37,11 +37,12 @@ public final /* synthetic */ class SystemPropsKt__SystemProps_commonKt {
     }
 
     public static final long systemProp(String str, long j, long j2, long j3) {
+        Long longOrNull;
         String systemProp = SystemPropsKt.systemProp(str);
         if (systemProp == null) {
             return j;
         }
-        Long longOrNull = StringsKt.toLongOrNull(systemProp);
+        longOrNull = StringsKt__StringNumberConversionsKt.toLongOrNull(systemProp);
         if (longOrNull == null) {
             throw new IllegalStateException(("System property '" + str + "' has unrecognized value '" + systemProp + '\'').toString());
         }

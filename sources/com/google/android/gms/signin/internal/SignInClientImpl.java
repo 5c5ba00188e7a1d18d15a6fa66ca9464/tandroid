@@ -21,7 +21,7 @@ import com.google.android.gms.common.internal.zat;
 /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public class SignInClientImpl extends GmsClient<zaf> implements com.google.android.gms.signin.zae {
-    public static final /* synthetic */ int zaa = 0;
+    public static final /* synthetic */ int $r8$clinit = 0;
     private final boolean zab;
     private final ClientSettings zac;
     private final Bundle zad;

@@ -25,6 +25,11 @@ abstract class AbstractIterator<T> implements Iterator<T>, j$.util.Iterator {
         Iterator.-CC.$default$forEachRemaining(this, consumer);
     }
 
+    @Override // java.util.Iterator
+    public /* synthetic */ void forEachRemaining(java.util.function.Consumer consumer) {
+        forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
+    }
+
     /* JADX INFO: Access modifiers changed from: protected */
     public final T endOfData() {
         this.state = State.DONE;

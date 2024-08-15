@@ -4,10 +4,14 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfigInfo;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 /* loaded from: classes.dex */
 public class FirebaseRemoteConfigInfoImpl implements FirebaseRemoteConfigInfo {
+    private final FirebaseRemoteConfigSettings configSettings;
+    private final int lastFetchStatus;
     private final long lastSuccessfulFetchTimeInMillis;
 
     private FirebaseRemoteConfigInfoImpl(long j, int i, FirebaseRemoteConfigSettings firebaseRemoteConfigSettings) {
         this.lastSuccessfulFetchTimeInMillis = j;
+        this.lastFetchStatus = i;
+        this.configSettings = firebaseRemoteConfigSettings;
     }
 
     @Override // com.google.firebase.remoteconfig.FirebaseRemoteConfigInfo

@@ -94,49 +94,6 @@ final class AlignmentPatternFinder {
         return true;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x0062, code lost:
-        if (r2[1] <= r12) goto L35;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:34:0x0065, code lost:
-        if (r10 >= r1) goto L54;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x006b, code lost:
-        if (r0.get(r11, r10) != false) goto L53;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x006f, code lost:
-        if (r2[2] > r12) goto L41;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:39:0x0071, code lost:
-        r2[2] = r2[2] + 1;
-        r10 = r10 + 1;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x007b, code lost:
-        if (r2[2] <= r12) goto L45;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:42:0x007d, code lost:
-        return Float.NaN;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:44:0x008f, code lost:
-        if ((java.lang.Math.abs(((r2[0] + r2[1]) + r2[2]) - r13) * 5) < (r13 * 2)) goto L48;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:45:0x0091, code lost:
-        return Float.NaN;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:47:0x0096, code lost:
-        if (foundPatternCross(r2) == false) goto L52;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:49:0x009c, code lost:
-        return centerFromEnd(r2, r10);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:64:?, code lost:
-        return Float.NaN;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:66:?, code lost:
-        return Float.NaN;
-     */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     private float crossCheckVertical(int i, int i2, int i3, int i4) {
         BitMatrix bitMatrix = this.image;
         int height = bitMatrix.getHeight();
@@ -145,24 +102,51 @@ final class AlignmentPatternFinder {
         iArr[1] = 0;
         iArr[2] = 0;
         int i5 = i;
-        while (i5 >= 0 && bitMatrix.get(i2, i5) && iArr[1] <= i3) {
-            iArr[1] = iArr[1] + 1;
+        while (i5 >= 0 && bitMatrix.get(i2, i5)) {
+            int i6 = iArr[1];
+            if (i6 > i3) {
+                break;
+            }
+            iArr[1] = i6 + 1;
             i5--;
         }
         if (i5 < 0 || iArr[1] > i3) {
             return Float.NaN;
         }
-        while (i5 >= 0 && !bitMatrix.get(i2, i5) && iArr[0] <= i3) {
-            iArr[0] = iArr[0] + 1;
+        while (i5 >= 0 && !bitMatrix.get(i2, i5)) {
+            int i7 = iArr[0];
+            if (i7 > i3) {
+                break;
+            }
+            iArr[0] = i7 + 1;
             i5--;
         }
         if (iArr[0] > i3) {
             return Float.NaN;
         }
-        int i6 = i + 1;
-        while (i6 < height && bitMatrix.get(i2, i6) && iArr[1] <= i3) {
-            iArr[1] = iArr[1] + 1;
-            i6++;
+        int i8 = i + 1;
+        while (i8 < height && bitMatrix.get(i2, i8)) {
+            int i9 = iArr[1];
+            if (i9 > i3) {
+                break;
+            }
+            iArr[1] = i9 + 1;
+            i8++;
+        }
+        if (i8 == height || iArr[1] > i3) {
+            return Float.NaN;
+        }
+        while (i8 < height && !bitMatrix.get(i2, i8)) {
+            int i10 = iArr[2];
+            if (i10 > i3) {
+                break;
+            }
+            iArr[2] = i10 + 1;
+            i8++;
+        }
+        int i11 = iArr[2];
+        if (i11 <= i3 && Math.abs(((iArr[0] + iArr[1]) + i11) - i4) * 5 < i4 * 2 && foundPatternCross(iArr)) {
+            return centerFromEnd(iArr, i8);
         }
         return Float.NaN;
     }

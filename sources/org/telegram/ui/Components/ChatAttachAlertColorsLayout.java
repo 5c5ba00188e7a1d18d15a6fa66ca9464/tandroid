@@ -25,6 +25,7 @@ import org.telegram.ui.WallpapersListActivity;
 /* loaded from: classes3.dex */
 public class ChatAttachAlertColorsLayout extends ChatAttachAlert.AttachAlertLayout {
     Adapter adapter;
+    public int currentItemTop;
     public RecyclerListView gridView;
     private int itemSize;
     private int itemsPerRow;
@@ -40,6 +41,7 @@ public class ChatAttachAlertColorsLayout extends ChatAttachAlert.AttachAlertLayo
         super(chatAttachAlert, context, resourcesProvider);
         this.itemSize = AndroidUtilities.dp(80.0f);
         this.itemsPerRow = 3;
+        this.currentItemTop = 0;
         RecyclerListView recyclerListView = new RecyclerListView(context, resourcesProvider) { // from class: org.telegram.ui.Components.ChatAttachAlertColorsLayout.1
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
             public boolean onTouchEvent(MotionEvent motionEvent) {
@@ -147,7 +149,9 @@ public class ChatAttachAlertColorsLayout extends ChatAttachAlert.AttachAlertLayo
     public int getCurrentItemTop() {
         if (this.gridView.getChildCount() <= 0) {
             RecyclerListView recyclerListView = this.gridView;
-            recyclerListView.setTopGlowOffset(recyclerListView.getPaddingTop());
+            int paddingTop = recyclerListView.getPaddingTop();
+            this.currentItemTop = paddingTop;
+            recyclerListView.setTopGlowOffset(paddingTop);
             return ConnectionsManager.DEFAULT_DATACENTER_ID;
         }
         View childAt = this.gridView.getChildAt(0);
@@ -158,6 +162,7 @@ public class ChatAttachAlertColorsLayout extends ChatAttachAlert.AttachAlertLayo
             top = dp;
         }
         this.gridView.setTopGlowOffset(top);
+        this.currentItemTop = top;
         return top;
     }
 

@@ -138,11 +138,12 @@ public abstract class SearchActionVerificationClientService extends IntentServic
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:51:0x0113  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x0111  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private boolean maybePerformActionIfVerified(String packageName, Intent intent, SearchActionVerificationServiceConnection searchActionVerificationServiceConnection) {
+        String message;
         boolean isVerified;
         if (!packageName.equals("com.google.android.googlequicksearchbox") && !packageName.equals("com.google.android.apps.assistant")) {
             if (this.dbg) {
@@ -169,32 +170,33 @@ public abstract class SearchActionVerificationClientService extends IntentServic
             if (this.dbg) {
                 SearchActionVerificationClientUtil.logIntentWithExtras(intent2);
             }
-            String str = "VerificationService is not connected to %s, unable to check intent: %s";
             if (searchActionVerificationServiceConnection.isConnected()) {
                 try {
                     Log.i(TAG, String.format("%s Service API version: %s", packageName, Integer.valueOf(searchActionVerificationServiceConnection.getRemoteService().getVersion())));
                     Bundle bundle = new Bundle();
                     isVerified = searchActionVerificationServiceConnection.isVerified(intent2, bundle);
                     performAction(intent2, isVerified, bundle);
-                    str = "";
+                    message = "";
                 } catch (RemoteException e) {
                     String valueOf2 = String.valueOf(e.getMessage());
                     Log.e(TAG, valueOf2.length() != 0 ? "Remote exception: ".concat(valueOf2) : new String("Remote exception: "));
-                    str = e.getMessage();
+                    message = e.getMessage();
                 } catch (Exception e2) {
                     String valueOf3 = String.valueOf(e2.getMessage());
                     Log.e(TAG, valueOf3.length() != 0 ? "Exception: ".concat(valueOf3) : new String("Exception: "));
-                    str = e2.getMessage();
+                    message = e2.getMessage();
                 }
                 if (intent2.hasExtra(SEND_MESSAGE_RESULT_RECEIVER)) {
                     ResultReceiver resultReceiver = (ResultReceiver) intent2.getExtras().getParcelable(SEND_MESSAGE_RESULT_RECEIVER);
                     Bundle bundle2 = new Bundle();
-                    bundle2.putString(SEND_MESSAGE_ERROR_MESSAGE, str);
+                    bundle2.putString(SEND_MESSAGE_ERROR_MESSAGE, message);
                     resultReceiver.send(isVerified ? 0 : -1, bundle2);
                 }
                 return isVerified;
             }
-            Log.e(TAG, String.format("VerificationService is not connected to %s, unable to check intent: %s", packageName, intent));
+            Object[] objArr = {packageName, intent};
+            message = "VerificationService is not connected to %s, unable to check intent: %s";
+            Log.e(TAG, String.format("VerificationService is not connected to %s, unable to check intent: %s", objArr));
             isVerified = false;
             if (intent2.hasExtra(SEND_MESSAGE_RESULT_RECEIVER)) {
             }
@@ -279,10 +281,12 @@ public abstract class SearchActionVerificationClientService extends IntentServic
     }
 
     private void createChannel() {
+        Object systemService;
         NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, getApplicationContext().getResources().getString(R$string.google_assistant_verification_channel_name), 2);
         notificationChannel.enableVibration(false);
         notificationChannel.enableLights(false);
         notificationChannel.setShowBadge(false);
-        ((NotificationManager) getApplicationContext().getSystemService(NotificationManager.class)).createNotificationChannel(notificationChannel);
+        systemService = getApplicationContext().getSystemService(NotificationManager.class);
+        ((NotificationManager) systemService).createNotificationChannel(notificationChannel);
     }
 }

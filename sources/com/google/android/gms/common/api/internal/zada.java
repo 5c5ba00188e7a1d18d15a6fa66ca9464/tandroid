@@ -20,7 +20,12 @@ public final class zada<R extends Result> extends TransformedResult<R> implement
     private final Object zae;
     private Status zaf;
     private final WeakReference zag;
-    private final zacz zah;
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static /* bridge */ /* synthetic */ zacz zab(zada zadaVar) {
+        zadaVar.getClass();
+        return null;
+    }
 
     private final void zaj(Status status) {
         synchronized (this.zae) {

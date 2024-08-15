@@ -8,8 +8,8 @@ import java.util.RandomAccess;
 /* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
 public abstract class zzav extends zzaq implements List, RandomAccess {
+    public static final /* synthetic */ int $r8$clinit = 0;
     private static final zzbv zza = new zzat(zzbl.zza, 0);
-    public static final /* synthetic */ int zzd = 0;
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static zzav zzg(Object[] objArr, int i) {

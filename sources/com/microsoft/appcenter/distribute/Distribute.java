@@ -71,7 +71,6 @@ public class Distribute extends AbstractAppCenterService {
     private boolean mEnabledForDebuggableBuild;
     private final Map<String, LogFactory> mFactories;
     private Activity mForegroundActivity;
-    private DistributeListener mListener;
     private boolean mManualCheckForUpdateRequested;
     private PackageInfo mPackageInfo;
     private ReleaseDetails mReleaseDetails;
@@ -565,15 +564,16 @@ public class Distribute extends AbstractAppCenterService {
 
     /* JADX INFO: Access modifiers changed from: private */
     public synchronized void handleApiCallFailure(Object obj, Exception exc) {
+        String str;
         if (this.mCheckReleaseCallId == obj) {
             completeWorkflow();
             if (!HttpUtils.isRecoverableError(exc)) {
                 if (exc instanceof HttpException) {
-                    String str = null;
                     try {
                         str = ErrorDetails.parse(((HttpException) exc).getHttpResponse().getPayload()).getCode();
                     } catch (JSONException e) {
                         AppCenterLog.verbose("AppCenterDistribute", "Cannot read the error as JSON", e);
+                        str = null;
                     }
                     if ("no_releases_for_user".equals(str)) {
                         AppCenterLog.info("AppCenterDistribute", "No release available to the current user.");
@@ -750,17 +750,8 @@ public class Distribute extends AbstractAppCenterService {
 
     private synchronized void showUpdateDialog() {
         String string;
-        DistributeListener distributeListener = this.mListener;
-        if (distributeListener == null && this.mUsingDefaultUpdateDialog == null) {
+        if (this.mUsingDefaultUpdateDialog == null) {
             this.mUsingDefaultUpdateDialog = Boolean.TRUE;
-        }
-        if (distributeListener != null && this.mForegroundActivity != this.mLastActivityWithDialog.get()) {
-            AppCenterLog.debug("AppCenterDistribute", "Calling listener.onReleaseAvailable.");
-            boolean onReleaseAvailable = this.mListener.onReleaseAvailable(this.mForegroundActivity, this.mReleaseDetails);
-            if (onReleaseAvailable) {
-                this.mLastActivityWithDialog = new WeakReference<>(this.mForegroundActivity);
-            }
-            this.mUsingDefaultUpdateDialog = Boolean.valueOf(!onReleaseAvailable);
         }
         if (this.mUsingDefaultUpdateDialog.booleanValue()) {
             if (!shouldRefreshDialog(this.mUpdateDialog)) {

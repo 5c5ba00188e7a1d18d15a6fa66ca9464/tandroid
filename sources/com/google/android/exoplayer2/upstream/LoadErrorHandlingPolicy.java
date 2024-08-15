@@ -25,8 +25,12 @@ public interface LoadErrorHandlingPolicy {
     public static final class LoadErrorInfo {
         public final int errorCount;
         public final IOException exception;
+        public final LoadEventInfo loadEventInfo;
+        public final MediaLoadData mediaLoadData;
 
         public LoadErrorInfo(LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData, IOException iOException, int i) {
+            this.loadEventInfo = loadEventInfo;
+            this.mediaLoadData = mediaLoadData;
             this.exception = iOException;
             this.errorCount = i;
         }

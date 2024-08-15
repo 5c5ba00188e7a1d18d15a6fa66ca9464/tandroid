@@ -45,23 +45,23 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
         return (T) new StackLinearViewData(line);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:115:0x03d8  */
-    /* JADX WARN: Removed duplicated region for block: B:121:0x0429  */
-    /* JADX WARN: Removed duplicated region for block: B:124:0x042f  */
-    /* JADX WARN: Removed duplicated region for block: B:125:0x0431  */
-    /* JADX WARN: Removed duplicated region for block: B:128:0x0438 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:146:0x047c  */
-    /* JADX WARN: Removed duplicated region for block: B:149:0x0492  */
-    /* JADX WARN: Removed duplicated region for block: B:151:0x0496  */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x04a0  */
-    /* JADX WARN: Removed duplicated region for block: B:155:0x04ac  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x021a  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x0220  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x0231  */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x023a  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x026c  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x026f  */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x027c A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:115:0x03d6  */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x0427  */
+    /* JADX WARN: Removed duplicated region for block: B:124:0x042d  */
+    /* JADX WARN: Removed duplicated region for block: B:125:0x042f  */
+    /* JADX WARN: Removed duplicated region for block: B:128:0x0436 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:146:0x047a  */
+    /* JADX WARN: Removed duplicated region for block: B:149:0x0490  */
+    /* JADX WARN: Removed duplicated region for block: B:151:0x0494  */
+    /* JADX WARN: Removed duplicated region for block: B:152:0x049e  */
+    /* JADX WARN: Removed duplicated region for block: B:155:0x04aa  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x0218  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x021e  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x022f  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x0238  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x026a  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x026d  */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x027a A[ADDED_TO_REGION] */
     @Override // org.telegram.ui.Charts.BaseChartView
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -156,11 +156,11 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
                     LineViewData lineViewData = (LineViewData) this.lines.get(i8);
                     int i15 = i;
                     if (lineViewData.enabled || lineViewData.alpha != 0.0f) {
-                        long[] jArr2 = lineViewData.line.y;
                         f18 = f27;
                         f19 = f;
-                        if (jArr2[i12] > 0) {
-                            f29 += ((float) jArr2[i12]) * lineViewData.alpha;
+                        long j = lineViewData.line.y[i12];
+                        if (j > 0) {
+                            f29 += ((float) j) * lineViewData.alpha;
                             i13++;
                         }
                         i14 = i8;
@@ -180,10 +180,10 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
                 while (i17 < this.lines.size()) {
                     LineViewData lineViewData2 = (LineViewData) this.lines.get(i17);
                     if (lineViewData2.enabled || lineViewData2.alpha != 0.0f) {
-                        long[] jArr3 = lineViewData2.line.y;
+                        long[] jArr2 = lineViewData2.line.y;
                         f2 = f27;
                         if (i13 == 1) {
-                            if (jArr3[i12] != 0) {
+                            if (jArr2[i12] != 0) {
                                 f4 = centerY;
                                 f3 = centerX;
                                 f5 = lineViewData2.alpha;
@@ -219,7 +219,7 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
                                 float f34 = f31;
                                 if (this.transitionMode == 2 || i17 == i3) {
                                     f9 = f5;
-                                    jArr = jArr3;
+                                    jArr = jArr2;
                                     f10 = f4;
                                     i4 = min;
                                     f11 = measuredHeight;
@@ -275,14 +275,14 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
                                         f11 = f45;
                                         f13 = f46;
                                         i4 = min;
-                                        jArr = jArr3;
+                                        jArr = jArr2;
                                     } else {
                                         f10 = f4;
                                         if (f6 >= f3) {
                                             f32 = (f32 * f37) + (f3 * f30);
                                             f12 = f42;
                                             i4 = min;
-                                            jArr = jArr3;
+                                            jArr = jArr2;
                                             measuredHeight3 = (f39 * f37) + (f10 * f30);
                                             f11 = measuredHeight3;
                                         } else {
@@ -293,7 +293,7 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
                                             this.matrix.reset();
                                             Matrix matrix = this.matrix;
                                             TransitionParams transitionParams3 = this.transitionParams;
-                                            jArr = jArr3;
+                                            jArr = jArr2;
                                             float f47 = transitionParams3.progress;
                                             matrix.postRotate((f47 * f42) + (f47 * transitionParams3.angle[i17]), f3, f10);
                                             this.matrix.mapPoints(this.mapPoints);
@@ -498,7 +498,7 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
                             if (this.transitionMode == 2) {
                             }
                             f9 = f5;
-                            jArr = jArr3;
+                            jArr = jArr2;
                             f10 = f4;
                             i4 = min;
                             f11 = measuredHeight;
@@ -526,7 +526,7 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
                             if (f29 != 0.0f) {
                                 f3 = centerX;
                                 f4 = centerY;
-                                f5 = (((float) jArr3[i12]) * lineViewData2.alpha) / f29;
+                                f5 = (((float) jArr2[i12]) * lineViewData2.alpha) / f29;
                                 T t222 = this.chartData;
                                 i2 = i13;
                                 float f3222 = (((StackLinearChartData) t222).xPercentage[i12] * f23) - f24;
@@ -546,7 +546,7 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
                                 if (this.transitionMode == 2) {
                                 }
                                 f9 = f5;
-                                jArr = jArr3;
+                                jArr = jArr2;
                                 f10 = f4;
                                 i4 = min;
                                 f11 = measuredHeight;
@@ -593,7 +593,7 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
                             if (this.transitionMode == 2) {
                             }
                             f9 = f5;
-                            jArr = jArr3;
+                            jArr = jArr2;
                             f10 = f4;
                             i4 = min;
                             f11 = measuredHeight;
@@ -817,8 +817,8 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:46:0x013e  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x0149  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x013c  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x0147  */
     @Override // org.telegram.ui.Charts.BaseChartView
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -855,9 +855,9 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
             for (int i7 = 0; i7 < this.lines.size(); i7++) {
                 LineViewData lineViewData = (LineViewData) this.lines.get(i7);
                 if (lineViewData.enabled || lineViewData.alpha != 0.0f) {
-                    long[] jArr = lineViewData.line.y;
-                    if (jArr[i5] > 0) {
-                        f9 += ((float) jArr[i5]) * lineViewData.alpha;
+                    long j = lineViewData.line.y[i5];
+                    if (j > 0) {
+                        f9 += ((float) j) * lineViewData.alpha;
                         i6++;
                     }
                 }
@@ -867,9 +867,9 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
             while (i8 < this.lines.size()) {
                 LineViewData lineViewData2 = (LineViewData) this.lines.get(i8);
                 if (lineViewData2.enabled || lineViewData2.alpha != f8) {
-                    long[] jArr2 = lineViewData2.line.y;
+                    long[] jArr = lineViewData2.line.y;
                     if (i6 == 1) {
-                        if (jArr2[i5] != 0) {
+                        if (jArr[i5] != 0) {
                             f = lineViewData2.alpha;
                             float f10 = (((StackLinearChartData) this.chartData).xPercentage[i5] * f5) - f7;
                             float measuredHeight = f * ((getMeasuredHeight() - this.chartBottom) - BaseChartView.SIGNATURE_TEXT_HEIGHT);
@@ -896,7 +896,7 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
                         }
                     } else {
                         if (f9 != f8) {
-                            f = (((float) jArr2[i5]) * lineViewData2.alpha) / f9;
+                            f = (((float) jArr[i5]) * lineViewData2.alpha) / f9;
                             float f1022 = (((StackLinearChartData) this.chartData).xPercentage[i5] * f5) - f7;
                             float measuredHeight32 = f * ((getMeasuredHeight() - this.chartBottom) - BaseChartView.SIGNATURE_TEXT_HEIGHT);
                             float f1122 = i9;

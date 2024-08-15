@@ -10,7 +10,13 @@ public interface AnalyticsConnector {
     /* compiled from: com.google.firebase:firebase-measurement-connector@@19.0.0 */
     /* loaded from: classes.dex */
     public static class ConditionalUserProperty {
+        public long creationTimestamp;
         public String name;
+        public String origin;
+        public long timeToLive;
+        public String triggerEventName;
+        public long triggerTimeout;
+        public Object value;
     }
 
     void clearConditionalUserProperty(String str, String str2, Bundle bundle);

@@ -40,8 +40,6 @@ import org.telegram.messenger.LiteMode;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class FragmentedMp4Extractor implements Extractor {
-    private static final Format EMSG_FORMAT;
-    private static final byte[] PIFF_SAMPLE_ENCRYPTION_BOX_EXTENDED_TYPE;
     private final TrackOutput additionalEmsgTrackOutput;
     private ParsableByteArray atomData;
     private final ParsableByteArray atomHeader;
@@ -76,6 +74,23 @@ public class FragmentedMp4Extractor implements Extractor {
     private final Track sideloadedTrack;
     private final TimestampAdjuster timestampAdjuster;
     private final SparseArray<TrackBundle> trackBundles;
+    public static final ExtractorsFactory FACTORY = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.mp4.FragmentedMp4Extractor$$ExternalSyntheticLambda1
+        @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+        public final Extractor[] createExtractors() {
+            Extractor[] lambda$static$0;
+            lambda$static$0 = FragmentedMp4Extractor.lambda$static$0();
+            return lambda$static$0;
+        }
+
+        @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+        public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
+            Extractor[] createExtractors;
+            createExtractors = createExtractors();
+            return createExtractors;
+        }
+    };
+    private static final byte[] PIFF_SAMPLE_ENCRYPTION_BOX_EXTENDED_TYPE = {-94, 57, 79, 82, 90, -101, 79, 20, -94, 68, 108, 66, 124, 100, -115, -12};
+    private static final Format EMSG_FORMAT = new Format.Builder().setSampleMimeType("application/x-emsg").build();
 
     private static boolean shouldParseContainerAtom(int i) {
         return i == 1836019574 || i == 1953653099 || i == 1835297121 || i == 1835626086 || i == 1937007212 || i == 1836019558 || i == 1953653094 || i == 1836475768 || i == 1701082227;
@@ -92,26 +107,6 @@ public class FragmentedMp4Extractor implements Extractor {
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
     public void release() {
-    }
-
-    static {
-        FragmentedMp4Extractor$$ExternalSyntheticLambda0 fragmentedMp4Extractor$$ExternalSyntheticLambda0 = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.mp4.FragmentedMp4Extractor$$ExternalSyntheticLambda0
-            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
-            public final Extractor[] createExtractors() {
-                Extractor[] lambda$static$0;
-                lambda$static$0 = FragmentedMp4Extractor.lambda$static$0();
-                return lambda$static$0;
-            }
-
-            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
-            public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
-                Extractor[] createExtractors;
-                createExtractors = createExtractors();
-                return createExtractors;
-            }
-        };
-        PIFF_SAMPLE_ENCRYPTION_BOX_EXTENDED_TYPE = new byte[]{-94, 57, 79, 82, 90, -101, 79, 20, -94, 68, 108, 66, 124, 100, -115, -12};
-        EMSG_FORMAT = new Format.Builder().setSampleMimeType("application/x-emsg").build();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -362,7 +357,7 @@ public class FragmentedMp4Extractor implements Extractor {
                 j = parseMehd(leafAtom.data);
             }
         }
-        List<TrackSampleTable> parseTraks = AtomParsers.parseTraks(containerAtom, new GaplessInfoHolder(), j, drmInitDataFromAtoms, (this.flags & 16) != 0, false, new Function() { // from class: com.google.android.exoplayer2.extractor.mp4.FragmentedMp4Extractor$$ExternalSyntheticLambda1
+        List<TrackSampleTable> parseTraks = AtomParsers.parseTraks(containerAtom, new GaplessInfoHolder(), j, drmInitDataFromAtoms, (this.flags & 16) != 0, false, new Function() { // from class: com.google.android.exoplayer2.extractor.mp4.FragmentedMp4Extractor$$ExternalSyntheticLambda0
             @Override // com.google.common.base.Function
             public final Object apply(Object obj) {
                 return FragmentedMp4Extractor.this.modifyTrack((Track) obj);
@@ -429,8 +424,8 @@ public class FragmentedMp4Extractor implements Extractor {
         int i3 = 100;
         if ((this.flags & 4) != 0) {
             trackOutputArr[i] = this.extractorOutput.track(100, 5);
-            i++;
             i3 = 101;
+            i++;
         }
         TrackOutput[] trackOutputArr2 = (TrackOutput[]) Util.nullSafeArrayCopy(this.emsgTrackOutputs, i);
         this.emsgTrackOutputs = trackOutputArr2;
@@ -695,7 +690,7 @@ public class FragmentedMp4Extractor implements Extractor {
         return Atom.parseFullAtomVersion(parsableByteArray.readInt()) == 1 ? parsableByteArray.readUnsignedLongToLong() : parsableByteArray.readUnsignedInt();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:45:0x00b2  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x00b0  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -720,9 +715,10 @@ public class FragmentedMp4Extractor implements Extractor {
         DefaultSampleValues defaultSampleValues = (DefaultSampleValues) Util.castNonNull(trackFragment.header);
         trackFragment.trunLength[i] = parsableByteArray.readUnsignedIntToInt();
         long[] jArr = trackFragment.trunDataPosition;
-        jArr[i] = trackFragment.dataPosition;
+        long j3 = trackFragment.dataPosition;
+        jArr[i] = j3;
         if ((parseFullAtomFlags & 1) != 0) {
-            jArr[i] = jArr[i] + parsableByteArray.readInt();
+            jArr[i] = j3 + parsableByteArray.readInt();
         }
         boolean z6 = (parseFullAtomFlags & 4) != 0;
         int i9 = defaultSampleValues.flags;
@@ -747,8 +743,8 @@ public class FragmentedMp4Extractor implements Extractor {
                 boolean z11 = (track.type == 2 || (i2 & 1) == 0) ? false : true;
                 i4 = i3 + trackFragment.trunLength[i];
                 boolean z12 = z11;
-                long j3 = track.timescale;
-                long j4 = trackFragment.nextFragmentDecodeTime;
+                long j4 = track.timescale;
+                long j5 = trackFragment.nextFragmentDecodeTime;
                 i5 = i3;
                 while (i5 < i4) {
                     int checkNonNegative = checkNonNegative(z7 ? parsableByteArray.readInt() : defaultSampleValues.duration);
@@ -781,13 +777,14 @@ public class FragmentedMp4Extractor implements Extractor {
                         z5 = z9;
                         i8 = 0;
                     }
-                    jArr3[i5] = Util.scaleLargeTimestamp((i8 + j4) - j2, 1000000L, j3);
+                    long scaleLargeTimestamp = Util.scaleLargeTimestamp((i8 + j5) - j2, 1000000L, j4);
+                    jArr3[i5] = scaleLargeTimestamp;
                     if (!trackFragment.nextFragmentDecodeTimeIncludesMoov) {
-                        jArr3[i5] = jArr3[i5] + trackBundle2.moovSampleTable.durationUs;
+                        jArr3[i5] = scaleLargeTimestamp + trackBundle2.moovSampleTable.durationUs;
                     }
                     iArr[i5] = checkNonNegative2;
                     zArr[i5] = ((i7 >> 16) & 1) == 0 && (!z12 || i5 == 0);
-                    j4 += checkNonNegative;
+                    j5 += checkNonNegative;
                     i5++;
                     trackBundle2 = trackBundle;
                     z7 = z;
@@ -796,7 +793,7 @@ public class FragmentedMp4Extractor implements Extractor {
                     z8 = z4;
                     z9 = z5;
                 }
-                trackFragment.nextFragmentDecodeTime = j4;
+                trackFragment.nextFragmentDecodeTime = j5;
                 return i4;
             }
         }
@@ -809,12 +806,12 @@ public class FragmentedMp4Extractor implements Extractor {
         }
         i4 = i3 + trackFragment.trunLength[i];
         boolean z122 = z11;
-        long j32 = track.timescale;
-        long j42 = trackFragment.nextFragmentDecodeTime;
+        long j42 = track.timescale;
+        long j52 = trackFragment.nextFragmentDecodeTime;
         i5 = i3;
         while (i5 < i4) {
         }
-        trackFragment.nextFragmentDecodeTime = j42;
+        trackFragment.nextFragmentDecodeTime = j52;
         return i4;
     }
 

@@ -111,9 +111,10 @@ public interface ShuffleOrder {
                         i6++;
                     } else {
                         int i8 = i7 + 1;
-                        iArr3[i3] = iArr4[i7];
-                        if (iArr3[i3] >= i) {
-                            iArr3[i3] = iArr3[i3] + i2;
+                        int i9 = iArr4[i7];
+                        iArr3[i3] = i9;
+                        if (i9 >= i) {
+                            iArr3[i3] = i9 + i2;
                         }
                         i7 = i8;
                     }
@@ -133,8 +134,13 @@ public interface ShuffleOrder {
             while (true) {
                 int[] iArr2 = this.shuffled;
                 if (i4 < iArr2.length) {
-                    if (iArr2[i4] < i || iArr2[i4] >= i2) {
-                        iArr[i4 - i5] = iArr2[i4] >= i ? iArr2[i4] - i3 : iArr2[i4];
+                    int i6 = iArr2[i4];
+                    if (i6 < i || i6 >= i2) {
+                        int i7 = i4 - i5;
+                        if (i6 >= i) {
+                            i6 -= i3;
+                        }
+                        iArr[i7] = i6;
                     } else {
                         i5++;
                     }

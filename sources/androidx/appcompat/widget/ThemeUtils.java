@@ -15,8 +15,11 @@ public class ThemeUtils {
     private static final ThreadLocal<TypedValue> TL_TYPED_VALUE = new ThreadLocal<>();
     static final int[] DISABLED_STATE_SET = {-16842910};
     static final int[] FOCUSED_STATE_SET = {16842908};
+    static final int[] ACTIVATED_STATE_SET = {16843518};
     static final int[] PRESSED_STATE_SET = {16842919};
     static final int[] CHECKED_STATE_SET = {16842912};
+    static final int[] SELECTED_STATE_SET = {16842913};
+    static final int[] NOT_PRESSED_OR_FOCUSED_STATE_SET = {-16842919, -16842908};
     static final int[] EMPTY_STATE_SET = new int[0];
     private static final int[] TEMP_ARRAY = new int[1];
 

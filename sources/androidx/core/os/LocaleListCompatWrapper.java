@@ -5,19 +5,16 @@ import java.util.HashSet;
 import java.util.Locale;
 /* loaded from: classes.dex */
 final class LocaleListCompatWrapper implements LocaleListInterface {
-    private static final Locale[] sEmptyList = new Locale[0];
     private final Locale[] mList;
     private final String mStringRepresentation;
+    private static final Locale[] sEmptyList = new Locale[0];
+    private static final Locale LOCALE_EN_XA = new Locale("en", "XA");
+    private static final Locale LOCALE_AR_XB = new Locale("ar", "XB");
+    private static final Locale EN_LATN = LocaleListCompat.forLanguageTagCompat("en-Latn");
 
     @Override // androidx.core.os.LocaleListInterface
     public Object getLocaleList() {
         return null;
-    }
-
-    static {
-        new Locale("en", "XA");
-        new Locale("ar", "XB");
-        LocaleListCompat.forLanguageTagCompat("en-Latn");
     }
 
     @Override // androidx.core.os.LocaleListInterface

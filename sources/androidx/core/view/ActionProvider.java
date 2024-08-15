@@ -7,6 +7,8 @@ import android.view.SubMenu;
 import android.view.View;
 /* loaded from: classes.dex */
 public abstract class ActionProvider {
+    private final Context mContext;
+    private SubUiVisibilityListener mSubUiVisibilityListener;
     private VisibilityListener mVisibilityListener;
 
     /* loaded from: classes.dex */
@@ -39,14 +41,16 @@ public abstract class ActionProvider {
         return false;
     }
 
-    public void setSubUiVisibilityListener(SubUiVisibilityListener subUiVisibilityListener) {
-    }
-
     public ActionProvider(Context context) {
+        this.mContext = context;
     }
 
     public View onCreateActionView(MenuItem menuItem) {
         return onCreateActionView();
+    }
+
+    public void setSubUiVisibilityListener(SubUiVisibilityListener subUiVisibilityListener) {
+        this.mSubUiVisibilityListener = subUiVisibilityListener;
     }
 
     public void setVisibilityListener(VisibilityListener visibilityListener) {
@@ -58,5 +62,6 @@ public abstract class ActionProvider {
 
     public void reset() {
         this.mVisibilityListener = null;
+        this.mSubUiVisibilityListener = null;
     }
 }

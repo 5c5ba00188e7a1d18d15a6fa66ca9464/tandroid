@@ -20,8 +20,13 @@ public class DecoderInputBuffer extends Buffer {
 
     /* loaded from: classes.dex */
     public static final class InsufficientCapacityException extends IllegalStateException {
+        public final int currentCapacity;
+        public final int requiredCapacity;
+
         public InsufficientCapacityException(int i, int i2) {
             super("Buffer too small (" + i + " < " + i2 + ")");
+            this.currentCapacity = i;
+            this.requiredCapacity = i2;
         }
     }
 

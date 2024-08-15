@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import org.telegram.messenger.CharacterCompat;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.R;
@@ -24,7 +23,9 @@ public final class zzko<T> implements zzlc<T> {
     private final int zzf;
     private final zzkk zzg;
     private final boolean zzh;
+    private final boolean zzi;
     private final boolean zzj;
+    private final boolean zzk;
     private final int[] zzl;
     private final int zzm;
     private final int zzn;
@@ -39,9 +40,10 @@ public final class zzko<T> implements zzlc<T> {
         this.zzd = objArr;
         this.zze = i;
         this.zzf = i2;
-        boolean z3 = zzkkVar instanceof zzjb;
+        this.zzi = zzkkVar instanceof zzjb;
         this.zzj = z;
         this.zzh = zziqVar != null && zziqVar.zza(zzkkVar);
+        this.zzk = false;
         this.zzl = iArr2;
         this.zzm = i3;
         this.zzn = i4;
@@ -564,7 +566,7 @@ public final class zzko<T> implements zzlc<T> {
             return new zzko<>(iArr2, objArr2, charAt, charAt2, zzlaVar.zzc(), z2, false, iArr, charAt5, i57, zzksVar, zzjuVar, zzluVar, zziqVar, zzkhVar);
         }
         ((zzlr) zzkiVar).zza();
-        int i94 = zzkz.zzb;
+        int i94 = zzkz.zza;
         throw new NoSuchMethodError();
     }
 
@@ -1168,7 +1170,7 @@ public final class zzko<T> implements zzlc<T> {
 
     @Override // com.google.android.gms.internal.vision.zzlc
     public final void zzb(T t, T t2) {
-        Objects.requireNonNull(t2);
+        t2.getClass();
         for (int i = 0; i < this.zzc.length; i += 3) {
             int zzd = zzd(i);
             long j = 1048575 & zzd;
@@ -3877,7 +3879,8 @@ public final class zzko<T> implements zzlc<T> {
 
     private final <K, V> void zza(zzmr zzmrVar, int i, Object obj, int i2) throws IOException {
         if (obj != null) {
-            zzmrVar.zza(i, this.zzs.zzb(zzb(i2)), this.zzs.zzc(obj));
+            this.zzs.zzb(zzb(i2));
+            zzmrVar.zza(i, (zzkf) null, this.zzs.zzc(obj));
         }
     }
 
@@ -4531,6 +4534,11 @@ public final class zzko<T> implements zzlc<T> {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
+    /* JADX WARN: Removed duplicated region for block: B:145:0x03f8  */
+    /* JADX WARN: Removed duplicated region for block: B:193:0x05be  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public final int zza(T t, byte[] bArr, int i, int i2, int i3, zzhn zzhnVar) throws IOException {
         Unsafe unsafe;
         int i4;
@@ -4559,106 +4567,104 @@ public final class zzko<T> implements zzlc<T> {
         int i16;
         int i17;
         int i18;
-        int i19;
         int zzb2;
         int zze;
         T t4;
+        int i19;
         int i20;
-        int i21;
         zzko<T> zzkoVar2 = this;
         T t5 = t;
         byte[] bArr3 = bArr;
-        int i22 = i2;
-        int i23 = i3;
+        int i21 = i2;
+        int i22 = i3;
         zzhn zzhnVar3 = zzhnVar;
         Unsafe unsafe2 = zzb;
-        int i24 = i;
-        int i25 = -1;
+        int i23 = i;
+        int i24 = -1;
+        int i25 = 0;
         int i26 = 0;
         int i27 = 0;
-        int i28 = 0;
-        int i29 = 1048575;
+        int i28 = 1048575;
         while (true) {
             Object obj2 = null;
-            if (i24 < i22) {
-                int i30 = i24 + 1;
-                byte b2 = bArr3[i24];
+            if (i23 < i21) {
+                int i29 = i23 + 1;
+                byte b2 = bArr3[i23];
                 if (b2 < 0) {
-                    int zza3 = zzhl.zza(b2, bArr3, i30, zzhnVar3);
+                    int zza3 = zzhl.zza(b2, bArr3, i29, zzhnVar3);
                     b = zzhnVar3.zza;
-                    i30 = zza3;
+                    i29 = zza3;
                 } else {
                     b = b2;
                 }
-                int i31 = b >>> 3;
-                int i32 = b & 7;
-                if (i31 > i25) {
-                    zzg = zzkoVar2.zza(i31, i26 / 3);
+                int i30 = b >>> 3;
+                int i31 = b & 7;
+                if (i30 > i24) {
+                    zzg = zzkoVar2.zza(i30, i25 / 3);
                 } else {
-                    zzg = zzkoVar2.zzg(i31);
+                    zzg = zzkoVar2.zzg(i30);
                 }
-                int i33 = zzg;
-                if (i33 == -1) {
-                    i8 = i31;
-                    i9 = i30;
+                int i32 = zzg;
+                if (i32 == -1) {
+                    i8 = i30;
+                    i9 = i29;
                     i10 = b;
-                    i11 = i28;
+                    i11 = i27;
                     unsafe = unsafe2;
-                    i12 = i23;
+                    i12 = i22;
                     z = true;
                     i13 = 0;
                 } else {
                     int[] iArr = zzkoVar2.zzc;
-                    int i34 = iArr[i33 + 1];
-                    int i35 = (i34 & 267386880) >>> 20;
-                    int i36 = b;
-                    long j2 = i34 & 1048575;
-                    if (i35 <= 17) {
-                        int i37 = iArr[i33 + 2];
-                        int i38 = 1 << (i37 >>> 20);
-                        int i39 = i37 & 1048575;
-                        if (i39 != i29) {
-                            if (i29 != 1048575) {
-                                long j3 = i29;
+                    int i33 = iArr[i32 + 1];
+                    int i34 = (i33 & 267386880) >>> 20;
+                    int i35 = b;
+                    long j2 = i33 & 1048575;
+                    if (i34 <= 17) {
+                        int i36 = iArr[i32 + 2];
+                        int i37 = 1 << (i36 >>> 20);
+                        int i38 = i36 & 1048575;
+                        if (i38 != i28) {
+                            if (i28 != 1048575) {
+                                long j3 = i28;
                                 t4 = t;
                                 j = j2;
-                                unsafe2.putInt(t4, j3, i28);
+                                unsafe2.putInt(t4, j3, i27);
                             } else {
                                 t4 = t;
                                 j = j2;
                             }
-                            i28 = unsafe2.getInt(t4, i39);
+                            i27 = unsafe2.getInt(t4, i38);
                             t5 = t4;
                         } else {
                             t5 = t;
                             j = j2;
-                            i39 = i29;
+                            i38 = i28;
                         }
-                        int i40 = i28;
-                        switch (i35) {
+                        int i39 = i27;
+                        switch (i34) {
                             case 0:
-                                i16 = i31;
-                                i17 = i33;
-                                i11 = i40;
-                                i18 = i39;
-                                i19 = i36;
+                                i16 = i30;
+                                i17 = i32;
+                                i11 = i39;
+                                i18 = i38;
+                                i10 = i35;
                                 long j4 = j;
-                                if (i32 == 1) {
-                                    zzma.zza(t5, j4, zzhl.zzc(bArr3, i30));
-                                    i24 = i30 + 8;
-                                    i28 = i11 | i38;
-                                    i29 = i18;
-                                    i27 = i19;
-                                    i26 = i17;
-                                    i25 = i16;
-                                    i22 = i2;
-                                    i23 = i3;
+                                if (i31 == 1) {
+                                    zzma.zza(t5, j4, zzhl.zzc(bArr3, i29));
+                                    i23 = i29 + 8;
+                                    i27 = i11 | i37;
+                                    i28 = i18;
+                                    i26 = i10;
+                                    i25 = i17;
+                                    i24 = i16;
+                                    i21 = i2;
+                                    i22 = i3;
                                     break;
                                 } else {
-                                    i29 = i18;
+                                    i28 = i18;
                                     i12 = i3;
-                                    i9 = i30;
-                                    i10 = i19;
+                                    i9 = i29;
                                     unsafe = unsafe2;
                                     i13 = i17;
                                     i8 = i16;
@@ -4666,28 +4672,27 @@ public final class zzko<T> implements zzlc<T> {
                                     break;
                                 }
                             case 1:
-                                i16 = i31;
-                                i17 = i33;
-                                i11 = i40;
-                                i18 = i39;
-                                i19 = i36;
+                                i16 = i30;
+                                i17 = i32;
+                                i11 = i39;
+                                i18 = i38;
+                                i10 = i35;
                                 long j5 = j;
-                                if (i32 == 5) {
-                                    zzma.zza((Object) t5, j5, zzhl.zzd(bArr3, i30));
-                                    i24 = i30 + 4;
-                                    i28 = i11 | i38;
-                                    i29 = i18;
-                                    i27 = i19;
-                                    i26 = i17;
-                                    i25 = i16;
-                                    i22 = i2;
-                                    i23 = i3;
+                                if (i31 == 5) {
+                                    zzma.zza((Object) t5, j5, zzhl.zzd(bArr3, i29));
+                                    i23 = i29 + 4;
+                                    i27 = i11 | i37;
+                                    i28 = i18;
+                                    i26 = i10;
+                                    i25 = i17;
+                                    i24 = i16;
+                                    i21 = i2;
+                                    i22 = i3;
                                     break;
                                 } else {
-                                    i29 = i18;
+                                    i28 = i18;
                                     i12 = i3;
-                                    i9 = i30;
-                                    i10 = i19;
+                                    i9 = i29;
                                     unsafe = unsafe2;
                                     i13 = i17;
                                     i8 = i16;
@@ -4696,29 +4701,28 @@ public final class zzko<T> implements zzlc<T> {
                                 }
                             case 2:
                             case 3:
-                                i16 = i31;
-                                i17 = i33;
-                                i11 = i40;
-                                i18 = i39;
-                                i19 = i36;
+                                i16 = i30;
+                                i17 = i32;
+                                i11 = i39;
+                                i18 = i38;
+                                i10 = i35;
                                 long j6 = j;
-                                if (i32 == 0) {
-                                    zzb2 = zzhl.zzb(bArr3, i30, zzhnVar3);
+                                if (i31 == 0) {
+                                    zzb2 = zzhl.zzb(bArr3, i29, zzhnVar3);
                                     unsafe2.putLong(t, j6, zzhnVar3.zzb);
-                                    i28 = i11 | i38;
-                                    i29 = i18;
-                                    i24 = zzb2;
-                                    i27 = i19;
-                                    i26 = i17;
-                                    i25 = i16;
-                                    i22 = i2;
-                                    i23 = i3;
+                                    i27 = i11 | i37;
+                                    i28 = i18;
+                                    i26 = i10;
+                                    i23 = zzb2;
+                                    i25 = i17;
+                                    i24 = i16;
+                                    i21 = i2;
+                                    i22 = i3;
                                     break;
                                 } else {
-                                    i29 = i18;
+                                    i28 = i18;
                                     i12 = i3;
-                                    i9 = i30;
-                                    i10 = i19;
+                                    i9 = i29;
                                     unsafe = unsafe2;
                                     i13 = i17;
                                     i8 = i16;
@@ -4727,28 +4731,27 @@ public final class zzko<T> implements zzlc<T> {
                                 }
                             case 4:
                             case 11:
-                                i16 = i31;
-                                i17 = i33;
-                                i11 = i40;
-                                i18 = i39;
-                                i19 = i36;
+                                i16 = i30;
+                                i17 = i32;
+                                i11 = i39;
+                                i18 = i38;
+                                i10 = i35;
                                 long j7 = j;
-                                if (i32 == 0) {
-                                    i24 = zzhl.zza(bArr3, i30, zzhnVar3);
+                                if (i31 == 0) {
+                                    i23 = zzhl.zza(bArr3, i29, zzhnVar3);
                                     unsafe2.putInt(t5, j7, zzhnVar3.zza);
-                                    i28 = i11 | i38;
-                                    i29 = i18;
-                                    i27 = i19;
-                                    i26 = i17;
-                                    i25 = i16;
-                                    i22 = i2;
-                                    i23 = i3;
+                                    i27 = i11 | i37;
+                                    i28 = i18;
+                                    i26 = i10;
+                                    i25 = i17;
+                                    i24 = i16;
+                                    i21 = i2;
+                                    i22 = i3;
                                     break;
                                 } else {
-                                    i29 = i18;
+                                    i28 = i18;
                                     i12 = i3;
-                                    i9 = i30;
-                                    i10 = i19;
+                                    i9 = i29;
                                     unsafe = unsafe2;
                                     i13 = i17;
                                     i8 = i16;
@@ -4757,28 +4760,27 @@ public final class zzko<T> implements zzlc<T> {
                                 }
                             case 5:
                             case 14:
-                                i16 = i31;
-                                i17 = i33;
-                                i11 = i40;
-                                i18 = i39;
-                                i19 = i36;
+                                i16 = i30;
+                                i17 = i32;
+                                i11 = i39;
+                                i18 = i38;
+                                i10 = i35;
                                 long j8 = j;
-                                if (i32 == 1) {
-                                    unsafe2.putLong(t, j8, zzhl.zzb(bArr3, i30));
-                                    i24 = i30 + 8;
-                                    i28 = i11 | i38;
-                                    i29 = i18;
-                                    i27 = i19;
-                                    i26 = i17;
-                                    i25 = i16;
-                                    i22 = i2;
-                                    i23 = i3;
+                                if (i31 == 1) {
+                                    unsafe2.putLong(t, j8, zzhl.zzb(bArr3, i29));
+                                    i23 = i29 + 8;
+                                    i27 = i11 | i37;
+                                    i28 = i18;
+                                    i26 = i10;
+                                    i25 = i17;
+                                    i24 = i16;
+                                    i21 = i2;
+                                    i22 = i3;
                                     break;
                                 } else {
-                                    i29 = i18;
+                                    i28 = i18;
                                     i12 = i3;
-                                    i9 = i30;
-                                    i10 = i19;
+                                    i9 = i29;
                                     unsafe = unsafe2;
                                     i13 = i17;
                                     i8 = i16;
@@ -4787,28 +4789,27 @@ public final class zzko<T> implements zzlc<T> {
                                 }
                             case 6:
                             case 13:
-                                i16 = i31;
-                                i17 = i33;
-                                i11 = i40;
-                                i18 = i39;
-                                i19 = i36;
+                                i16 = i30;
+                                i17 = i32;
+                                i11 = i39;
+                                i18 = i38;
+                                i10 = i35;
                                 long j9 = j;
-                                if (i32 == 5) {
-                                    unsafe2.putInt(t5, j9, zzhl.zza(bArr3, i30));
-                                    i24 = i30 + 4;
-                                    i28 = i11 | i38;
-                                    i29 = i18;
-                                    i27 = i19;
-                                    i26 = i17;
-                                    i25 = i16;
-                                    i22 = i2;
-                                    i23 = i3;
+                                if (i31 == 5) {
+                                    unsafe2.putInt(t5, j9, zzhl.zza(bArr3, i29));
+                                    i23 = i29 + 4;
+                                    i27 = i11 | i37;
+                                    i28 = i18;
+                                    i26 = i10;
+                                    i25 = i17;
+                                    i24 = i16;
+                                    i21 = i2;
+                                    i22 = i3;
                                     break;
                                 } else {
-                                    i29 = i18;
+                                    i28 = i18;
                                     i12 = i3;
-                                    i9 = i30;
-                                    i10 = i19;
+                                    i9 = i29;
                                     unsafe = unsafe2;
                                     i13 = i17;
                                     i8 = i16;
@@ -4816,28 +4817,27 @@ public final class zzko<T> implements zzlc<T> {
                                     break;
                                 }
                             case 7:
-                                i16 = i31;
-                                i17 = i33;
-                                i11 = i40;
-                                i18 = i39;
-                                i19 = i36;
+                                i16 = i30;
+                                i17 = i32;
+                                i11 = i39;
+                                i18 = i38;
+                                i10 = i35;
                                 long j10 = j;
-                                if (i32 == 0) {
-                                    i24 = zzhl.zzb(bArr3, i30, zzhnVar3);
+                                if (i31 == 0) {
+                                    i23 = zzhl.zzb(bArr3, i29, zzhnVar3);
                                     zzma.zza(t5, j10, zzhnVar3.zzb != 0);
-                                    i28 = i11 | i38;
-                                    i29 = i18;
-                                    i27 = i19;
-                                    i26 = i17;
-                                    i25 = i16;
-                                    i22 = i2;
-                                    i23 = i3;
+                                    i27 = i11 | i37;
+                                    i28 = i18;
+                                    i26 = i10;
+                                    i25 = i17;
+                                    i24 = i16;
+                                    i21 = i2;
+                                    i22 = i3;
                                     break;
                                 } else {
-                                    i29 = i18;
+                                    i28 = i18;
                                     i12 = i3;
-                                    i9 = i30;
-                                    i10 = i19;
+                                    i9 = i29;
                                     unsafe = unsafe2;
                                     i13 = i17;
                                     i8 = i16;
@@ -4845,32 +4845,31 @@ public final class zzko<T> implements zzlc<T> {
                                     break;
                                 }
                             case 8:
-                                i16 = i31;
-                                i17 = i33;
-                                i11 = i40;
-                                i18 = i39;
-                                i19 = i36;
+                                i16 = i30;
+                                i17 = i32;
+                                i11 = i39;
+                                i18 = i38;
+                                i10 = i35;
                                 long j11 = j;
-                                if (i32 == 2) {
-                                    if ((536870912 & i34) == 0) {
-                                        i24 = zzhl.zzc(bArr3, i30, zzhnVar3);
+                                if (i31 == 2) {
+                                    if ((536870912 & i33) == 0) {
+                                        i23 = zzhl.zzc(bArr3, i29, zzhnVar3);
                                     } else {
-                                        i24 = zzhl.zzd(bArr3, i30, zzhnVar3);
+                                        i23 = zzhl.zzd(bArr3, i29, zzhnVar3);
                                     }
                                     unsafe2.putObject(t5, j11, zzhnVar3.zzc);
-                                    i28 = i11 | i38;
-                                    i29 = i18;
-                                    i27 = i19;
-                                    i26 = i17;
-                                    i25 = i16;
-                                    i22 = i2;
-                                    i23 = i3;
+                                    i27 = i11 | i37;
+                                    i28 = i18;
+                                    i26 = i10;
+                                    i25 = i17;
+                                    i24 = i16;
+                                    i21 = i2;
+                                    i22 = i3;
                                     break;
                                 } else {
-                                    i29 = i18;
+                                    i28 = i18;
                                     i12 = i3;
-                                    i9 = i30;
-                                    i10 = i19;
+                                    i9 = i29;
                                     unsafe = unsafe2;
                                     i13 = i17;
                                     i8 = i16;
@@ -4878,34 +4877,33 @@ public final class zzko<T> implements zzlc<T> {
                                     break;
                                 }
                             case 9:
-                                i16 = i31;
-                                i17 = i33;
-                                i18 = i39;
-                                i19 = i36;
+                                i16 = i30;
+                                i17 = i32;
+                                i18 = i38;
+                                i10 = i35;
                                 long j12 = j;
-                                if (i32 == 2) {
-                                    int zza4 = zzhl.zza(zzkoVar2.zza(i17), bArr3, i30, i2, zzhnVar3);
-                                    if ((i40 & i38) == 0) {
+                                if (i31 == 2) {
+                                    int zza4 = zzhl.zza(zzkoVar2.zza(i17), bArr3, i29, i2, zzhnVar3);
+                                    if ((i39 & i37) == 0) {
                                         unsafe2.putObject(t5, j12, zzhnVar3.zzc);
                                     } else {
                                         unsafe2.putObject(t5, j12, zzjf.zza(unsafe2.getObject(t5, j12), zzhnVar3.zzc));
                                     }
-                                    int i41 = i40 | i38;
-                                    i29 = i18;
-                                    i27 = i19;
-                                    i25 = i16;
-                                    i22 = i2;
-                                    i28 = i41;
-                                    i24 = zza4;
-                                    i26 = i17;
-                                    i23 = i3;
+                                    int i40 = i39 | i37;
+                                    i28 = i18;
+                                    i26 = i10;
+                                    i24 = i16;
+                                    i21 = i2;
+                                    i27 = i40;
+                                    i23 = zza4;
+                                    i25 = i17;
+                                    i22 = i3;
                                     break;
                                 } else {
-                                    i11 = i40;
-                                    i29 = i18;
+                                    i11 = i39;
+                                    i28 = i18;
                                     i12 = i3;
-                                    i9 = i30;
-                                    i10 = i19;
+                                    i9 = i29;
                                     unsafe = unsafe2;
                                     i13 = i17;
                                     i8 = i16;
@@ -4913,29 +4911,28 @@ public final class zzko<T> implements zzlc<T> {
                                     break;
                                 }
                             case 10:
-                                i16 = i31;
-                                i17 = i33;
-                                i18 = i39;
-                                i19 = i36;
+                                i16 = i30;
+                                i17 = i32;
+                                i18 = i38;
+                                i10 = i35;
                                 long j13 = j;
-                                if (i32 == 2) {
-                                    zze = zzhl.zze(bArr3, i30, zzhnVar3);
+                                if (i31 == 2) {
+                                    zze = zzhl.zze(bArr3, i29, zzhnVar3);
                                     unsafe2.putObject(t5, j13, zzhnVar3.zzc);
-                                    i28 = i40 | i38;
-                                    i29 = i18;
-                                    i24 = zze;
-                                    i27 = i19;
-                                    i26 = i17;
-                                    i25 = i16;
-                                    i22 = i2;
-                                    i23 = i3;
+                                    i27 = i39 | i37;
+                                    i28 = i18;
+                                    i23 = zze;
+                                    i26 = i10;
+                                    i25 = i17;
+                                    i24 = i16;
+                                    i21 = i2;
+                                    i22 = i3;
                                     break;
                                 } else {
-                                    i11 = i40;
-                                    i29 = i18;
+                                    i11 = i39;
+                                    i28 = i18;
                                     i12 = i3;
-                                    i9 = i30;
-                                    i10 = i19;
+                                    i9 = i29;
                                     unsafe = unsafe2;
                                     i13 = i17;
                                     i8 = i16;
@@ -4943,74 +4940,72 @@ public final class zzko<T> implements zzlc<T> {
                                     break;
                                 }
                             case 12:
-                                i16 = i31;
-                                i17 = i33;
-                                i18 = i39;
-                                i19 = i36;
+                                i16 = i30;
+                                i17 = i32;
+                                i18 = i38;
+                                i10 = i35;
                                 long j14 = j;
-                                if (i32 != 0) {
-                                    i11 = i40;
-                                    i29 = i18;
+                                if (i31 != 0) {
+                                    i11 = i39;
+                                    i28 = i18;
                                     i12 = i3;
-                                    i9 = i30;
-                                    i10 = i19;
+                                    i9 = i29;
                                     unsafe = unsafe2;
                                     i13 = i17;
                                     i8 = i16;
                                     z = true;
                                     break;
                                 } else {
-                                    zze = zzhl.zza(bArr3, i30, zzhnVar3);
-                                    int i42 = zzhnVar3.zza;
+                                    zze = zzhl.zza(bArr3, i29, zzhnVar3);
+                                    int i41 = zzhnVar3.zza;
                                     zzjg zzc = zzkoVar2.zzc(i17);
-                                    if (zzc == null || zzc.zza(i42)) {
-                                        unsafe2.putInt(t5, j14, i42);
-                                        i28 = i40 | i38;
-                                        i29 = i18;
-                                        i24 = zze;
-                                        i27 = i19;
-                                        i26 = i17;
-                                        i25 = i16;
-                                        i22 = i2;
-                                        i23 = i3;
+                                    if (zzc == null || zzc.zza(i41)) {
+                                        unsafe2.putInt(t5, j14, i41);
+                                        i27 = i39 | i37;
+                                        i28 = i18;
+                                        i23 = zze;
+                                        i26 = i10;
+                                        i25 = i17;
+                                        i24 = i16;
+                                        i21 = i2;
+                                        i22 = i3;
                                         break;
                                     } else {
-                                        zze(t).zza(i19, Long.valueOf(i42));
-                                        i24 = zze;
-                                        i28 = i40;
-                                        i27 = i19;
-                                        i26 = i17;
-                                        i25 = i16;
-                                        i29 = i18;
-                                        i22 = i2;
-                                        i23 = i3;
+                                        zze(t).zza(i10, Long.valueOf(i41));
+                                        i23 = zze;
+                                        i27 = i39;
+                                        i26 = i10;
+                                        i25 = i17;
+                                        i24 = i16;
+                                        i28 = i18;
+                                        i21 = i2;
+                                        i22 = i3;
                                     }
                                 }
                                 break;
                             case 15:
-                                i16 = i31;
-                                i17 = i33;
-                                i18 = i39;
-                                i19 = i36;
+                                i16 = i30;
+                                i17 = i32;
+                                i18 = i38;
+                                i10 = i35;
                                 long j15 = j;
-                                if (i32 == 0) {
-                                    zze = zzhl.zza(bArr3, i30, zzhnVar3);
+                                if (i31 == 0) {
+                                    zze = zzhl.zza(bArr3, i29, zzhnVar3);
                                     unsafe2.putInt(t5, j15, zzif.zze(zzhnVar3.zza));
-                                    i28 = i40 | i38;
-                                    i29 = i18;
-                                    i24 = zze;
-                                    i27 = i19;
-                                    i26 = i17;
-                                    i25 = i16;
-                                    i22 = i2;
-                                    i23 = i3;
+                                    i27 = i39 | i37;
+                                    i28 = i18;
+                                    i23 = zze;
+                                    i26 = i10;
+                                    i25 = i17;
+                                    i24 = i16;
+                                    i21 = i2;
+                                    i22 = i3;
                                     break;
                                 } else {
-                                    i11 = i40;
-                                    i29 = i18;
+                                    i11 = i39;
+                                    i28 = i18;
                                     i12 = i3;
-                                    i9 = i30;
-                                    i10 = i19;
+                                    i9 = i29;
                                     unsafe = unsafe2;
                                     i13 = i17;
                                     i8 = i16;
@@ -5018,31 +5013,30 @@ public final class zzko<T> implements zzlc<T> {
                                     break;
                                 }
                             case 16:
-                                i16 = i31;
-                                i17 = i33;
+                                i16 = i30;
+                                i17 = i32;
                                 long j16 = j;
-                                if (i32 == 0) {
-                                    zzb2 = zzhl.zzb(bArr3, i30, zzhnVar3);
-                                    i18 = i39;
-                                    i19 = i36;
+                                if (i31 == 0) {
+                                    zzb2 = zzhl.zzb(bArr3, i29, zzhnVar3);
+                                    i18 = i38;
+                                    i10 = i35;
                                     unsafe2.putLong(t, j16, zzif.zza(zzhnVar3.zzb));
-                                    i28 = i40 | i38;
-                                    i29 = i18;
-                                    i24 = zzb2;
-                                    i27 = i19;
-                                    i26 = i17;
-                                    i25 = i16;
-                                    i22 = i2;
-                                    i23 = i3;
+                                    i27 = i39 | i37;
+                                    i28 = i18;
+                                    i26 = i10;
+                                    i23 = zzb2;
+                                    i25 = i17;
+                                    i24 = i16;
+                                    i21 = i2;
+                                    i22 = i3;
                                     break;
                                 } else {
-                                    i18 = i39;
-                                    i19 = i36;
-                                    i11 = i40;
-                                    i29 = i18;
+                                    i18 = i38;
+                                    i10 = i35;
+                                    i11 = i39;
+                                    i28 = i18;
                                     i12 = i3;
-                                    i9 = i30;
-                                    i10 = i19;
+                                    i9 = i29;
                                     unsafe = unsafe2;
                                     i13 = i17;
                                     i8 = i16;
@@ -5050,34 +5044,33 @@ public final class zzko<T> implements zzlc<T> {
                                     break;
                                 }
                             case 17:
-                                if (i32 == 3) {
-                                    i16 = i31;
-                                    i17 = i33;
-                                    i24 = zzhl.zza(zzkoVar2.zza(i33), bArr, i30, i2, (i31 << 3) | 4, zzhnVar);
-                                    if ((i40 & i38) == 0) {
+                                if (i31 == 3) {
+                                    i16 = i30;
+                                    i17 = i32;
+                                    i23 = zzhl.zza(zzkoVar2.zza(i32), bArr, i29, i2, (i30 << 3) | 4, zzhnVar);
+                                    if ((i39 & i37) == 0) {
                                         unsafe2.putObject(t5, j, zzhnVar3.zzc);
                                     } else {
                                         long j17 = j;
                                         unsafe2.putObject(t5, j17, zzjf.zza(unsafe2.getObject(t5, j17), zzhnVar3.zzc));
                                     }
-                                    i28 = i40 | i38;
-                                    i27 = i36;
-                                    i29 = i39;
-                                    i26 = i17;
-                                    i25 = i16;
-                                    i22 = i2;
-                                    i23 = i3;
+                                    i27 = i39 | i37;
+                                    i28 = i38;
+                                    i26 = i35;
+                                    i25 = i17;
+                                    i24 = i16;
+                                    i21 = i2;
+                                    i22 = i3;
                                     break;
                                 } else {
-                                    i16 = i31;
-                                    i17 = i33;
-                                    i11 = i40;
-                                    i18 = i39;
-                                    i19 = i36;
-                                    i29 = i18;
+                                    i16 = i30;
+                                    i17 = i32;
+                                    i11 = i39;
+                                    i18 = i38;
+                                    i10 = i35;
+                                    i28 = i18;
                                     i12 = i3;
-                                    i9 = i30;
-                                    i10 = i19;
+                                    i9 = i29;
                                     unsafe = unsafe2;
                                     i13 = i17;
                                     i8 = i16;
@@ -5085,15 +5078,14 @@ public final class zzko<T> implements zzlc<T> {
                                     break;
                                 }
                             default:
-                                i16 = i31;
-                                i17 = i33;
-                                i11 = i40;
-                                i18 = i39;
-                                i19 = i36;
-                                i29 = i18;
+                                i16 = i30;
+                                i17 = i32;
+                                i11 = i39;
+                                i18 = i38;
+                                i10 = i35;
+                                i28 = i18;
                                 i12 = i3;
-                                i9 = i30;
-                                i10 = i19;
+                                i9 = i29;
                                 unsafe = unsafe2;
                                 i13 = i17;
                                 i8 = i16;
@@ -5101,355 +5093,375 @@ public final class zzko<T> implements zzlc<T> {
                                 break;
                         }
                     } else {
-                        i11 = i28;
-                        int i43 = i29;
+                        i11 = i27;
+                        int i42 = i28;
                         t5 = t;
-                        if (i35 != 27) {
-                            i13 = i33;
-                            if (i35 <= 49) {
-                                int i44 = i30;
-                                i21 = i36;
+                        if (i34 != 27) {
+                            i13 = i32;
+                            if (i34 <= 49) {
+                                int i43 = i29;
+                                i20 = i35;
                                 z = true;
                                 unsafe = unsafe2;
                                 i12 = i3;
-                                i8 = i31;
-                                i24 = zza((zzko<T>) t, bArr, i30, i2, i36, i31, i32, i13, i34, i35, j2, zzhnVar);
-                                if (i24 == i44) {
-                                    i9 = i24;
+                                i8 = i30;
+                                i23 = zza((zzko<T>) t, bArr, i29, i2, i35, i30, i31, i13, i33, i34, j2, zzhnVar);
+                                if (i23 == i43) {
+                                    i9 = i23;
                                 } else {
                                     t5 = t;
                                     bArr3 = bArr;
-                                    i22 = i2;
+                                    i21 = i2;
                                     zzhnVar3 = zzhnVar;
-                                    i23 = i12;
-                                    i27 = i21;
-                                    i29 = i43;
-                                    i28 = i11;
-                                    i26 = i13;
-                                    i25 = i8;
+                                    i22 = i12;
+                                    i24 = i8;
+                                    i28 = i42;
+                                    i27 = i11;
+                                    i26 = i20;
+                                    i25 = i13;
                                     unsafe2 = unsafe;
                                     zzkoVar2 = this;
                                 }
                             } else {
                                 i12 = i3;
-                                i20 = i30;
-                                i21 = i36;
+                                i19 = i29;
+                                i20 = i35;
                                 unsafe = unsafe2;
-                                i8 = i31;
+                                i8 = i30;
                                 z = true;
-                                if (i35 != 50) {
-                                    i24 = zza((zzko<T>) t, bArr, i20, i2, i21, i8, i32, i34, i35, j2, i13, zzhnVar);
-                                    if (i24 != i20) {
+                                if (i34 != 50) {
+                                    i23 = zza((zzko<T>) t, bArr, i19, i2, i20, i8, i31, i33, i34, j2, i13, zzhnVar);
+                                    if (i23 != i19) {
                                         t5 = t;
                                         bArr3 = bArr;
-                                        i22 = i2;
+                                        i21 = i2;
                                         zzhnVar3 = zzhnVar;
-                                        i27 = i21;
-                                        i23 = i12;
-                                        i29 = i43;
-                                        i28 = i11;
-                                        i26 = i13;
-                                        i25 = i8;
+                                        i26 = i20;
+                                        i22 = i12;
+                                        i24 = i8;
+                                        i28 = i42;
+                                        i27 = i11;
+                                        i25 = i13;
                                         unsafe2 = unsafe;
                                         zzkoVar2 = this;
                                     }
-                                } else if (i32 == 2) {
-                                    i24 = zza((zzko<T>) t, bArr, i20, i2, i13, j2, zzhnVar);
-                                    if (i24 != i20) {
+                                } else if (i31 == 2) {
+                                    i23 = zza((zzko<T>) t, bArr, i19, i2, i13, j2, zzhnVar);
+                                    if (i23 != i19) {
                                         t5 = t;
                                         bArr3 = bArr;
-                                        i22 = i2;
+                                        i21 = i2;
                                         zzhnVar3 = zzhnVar;
-                                        i23 = i12;
-                                        i27 = i21;
-                                        i29 = i43;
-                                        i28 = i11;
-                                        i26 = i13;
-                                        i25 = i8;
+                                        i22 = i12;
+                                        i24 = i8;
+                                        i28 = i42;
+                                        i27 = i11;
+                                        i26 = i20;
+                                        i25 = i13;
                                         unsafe2 = unsafe;
                                         zzkoVar2 = this;
                                     }
                                 } else {
-                                    i9 = i20;
+                                    i9 = i19;
                                 }
-                                i9 = i24;
+                                i9 = i23;
                             }
-                        } else if (i32 == 2) {
+                        } else if (i31 == 2) {
                             zzjl zzjlVar = (zzjl) unsafe2.getObject(t5, j2);
                             if (!zzjlVar.zza()) {
                                 int size = zzjlVar.size();
                                 zzjlVar = zzjlVar.zza(size == 0 ? 10 : size << 1);
                                 unsafe2.putObject(t5, j2, zzjlVar);
                             }
-                            i24 = zzhl.zza(zzkoVar2.zza(i33), i36, bArr, i30, i2, zzjlVar, zzhnVar);
-                            i23 = i3;
-                            i27 = i36;
-                            i25 = i31;
-                            i29 = i43;
-                            i28 = i11;
-                            i26 = i33;
-                            i22 = i2;
+                            i23 = zzhl.zza(zzkoVar2.zza(i32), i35, bArr, i29, i2, zzjlVar, zzhnVar);
+                            i22 = i3;
+                            i26 = i35;
+                            i24 = i30;
+                            i28 = i42;
+                            i27 = i11;
+                            i25 = i32;
+                            i21 = i2;
                         } else {
-                            i13 = i33;
+                            i13 = i32;
                             i12 = i3;
-                            i20 = i30;
-                            i21 = i36;
+                            i19 = i29;
+                            i20 = i35;
                             unsafe = unsafe2;
-                            i8 = i31;
+                            i8 = i30;
                             z = true;
-                            i9 = i20;
+                            i9 = i19;
                         }
-                        i10 = i21;
-                        i29 = i43;
-                    }
-                }
-                if (i10 != i12 || i12 == 0) {
-                    int i45 = i12;
-                    if (this.zzh) {
-                        zzhnVar2 = zzhnVar;
-                        if (zzhnVar2.zzd != zzio.zzb()) {
-                            int i46 = i8;
-                            zzjb.zze zza5 = zzhnVar2.zzd.zza(this.zzg, i46);
-                            if (zza5 == null) {
-                                i24 = zzhl.zza(i10, bArr, i9, i2, zze(t), zzhnVar);
+                        i28 = i42;
+                        i10 = i20;
+                        if (i10 == i12 || i12 == 0) {
+                            int i44 = i12;
+                            if (this.zzh) {
                                 t3 = t;
-                                i14 = i29;
-                                i8 = i46;
                                 bArr2 = bArr;
-                                i15 = i2;
+                                zzhnVar2 = zzhnVar;
                             } else {
-                                t3 = t;
-                                zzjb.zzc zzcVar = (zzjb.zzc) t3;
-                                zzcVar.zza();
-                                zziu<zzjb.zzf> zziuVar = zzcVar.zzc;
-                                zzjb.zzf zzfVar = zza5.zzd;
-                                boolean z2 = zzfVar.zzd;
-                                zzml zzmlVar = zzfVar.zzc;
-                                if (zzmlVar == zzml.zzn) {
-                                    zzhl.zza(bArr, i9, zzhnVar2);
-                                    throw null;
-                                }
-                                int[] iArr2 = zzhk.zza;
-                                switch (iArr2[zzmlVar.ordinal()]) {
-                                    case 1:
-                                        i14 = i29;
-                                        i8 = i46;
+                                zzhnVar2 = zzhnVar;
+                                if (zzhnVar2.zzd != zzio.zzb()) {
+                                    int i45 = i8;
+                                    zzjb.zze zza5 = zzhnVar2.zzd.zza(this.zzg, i45);
+                                    if (zza5 == null) {
+                                        i23 = zzhl.zza(i10, bArr, i9, i2, zze(t), zzhnVar);
+                                        t3 = t;
+                                        i14 = i28;
+                                        i8 = i45;
                                         bArr2 = bArr;
                                         i15 = i2;
-                                        obj2 = Double.valueOf(zzhl.zzc(bArr2, i9));
-                                        i9 += 8;
-                                        obj = obj2;
-                                        break;
-                                    case 2:
-                                        i14 = i29;
-                                        i8 = i46;
-                                        bArr2 = bArr;
-                                        i15 = i2;
-                                        obj2 = Float.valueOf(zzhl.zzd(bArr2, i9));
-                                        i9 += 4;
-                                        obj = obj2;
-                                        break;
-                                    case 3:
-                                    case 4:
-                                        i14 = i29;
-                                        i8 = i46;
-                                        bArr2 = bArr;
-                                        i15 = i2;
-                                        i9 = zzhl.zzb(bArr2, i9, zzhnVar2);
-                                        obj2 = Long.valueOf(zzhnVar2.zzb);
-                                        obj = obj2;
-                                        break;
-                                    case 5:
-                                    case 6:
-                                        i14 = i29;
-                                        i8 = i46;
-                                        bArr2 = bArr;
-                                        i15 = i2;
-                                        i9 = zzhl.zza(bArr2, i9, zzhnVar2);
-                                        obj2 = Integer.valueOf(zzhnVar2.zza);
-                                        obj = obj2;
-                                        break;
-                                    case 7:
-                                    case 8:
-                                        i14 = i29;
-                                        i8 = i46;
-                                        bArr2 = bArr;
-                                        i15 = i2;
-                                        obj2 = Long.valueOf(zzhl.zzb(bArr2, i9));
-                                        i9 += 8;
-                                        obj = obj2;
-                                        break;
-                                    case 9:
-                                    case 10:
-                                        i14 = i29;
-                                        i8 = i46;
-                                        bArr2 = bArr;
-                                        i15 = i2;
-                                        obj2 = Integer.valueOf(zzhl.zza(bArr2, i9));
-                                        i9 += 4;
-                                        obj = obj2;
-                                        break;
-                                    case 11:
-                                        i14 = i29;
-                                        i8 = i46;
-                                        bArr2 = bArr;
-                                        i15 = i2;
-                                        i9 = zzhl.zzb(bArr2, i9, zzhnVar2);
-                                        if (zzhnVar2.zzb == 0) {
-                                            z = false;
+                                    } else {
+                                        t3 = t;
+                                        zzjb.zzc zzcVar = (zzjb.zzc) t3;
+                                        zzcVar.zza();
+                                        zziu<zzjb.zzf> zziuVar = zzcVar.zzc;
+                                        zzjb.zzf zzfVar = zza5.zzd;
+                                        boolean z2 = zzfVar.zzd;
+                                        zzml zzmlVar = zzfVar.zzc;
+                                        if (zzmlVar == zzml.zzn) {
+                                            zzhl.zza(bArr, i9, zzhnVar2);
+                                            throw null;
                                         }
-                                        obj2 = Boolean.valueOf(z);
-                                        obj = obj2;
-                                        break;
-                                    case 12:
-                                        i14 = i29;
-                                        i8 = i46;
-                                        bArr2 = bArr;
-                                        i15 = i2;
-                                        i9 = zzhl.zza(bArr2, i9, zzhnVar2);
-                                        obj2 = Integer.valueOf(zzif.zze(zzhnVar2.zza));
-                                        obj = obj2;
-                                        break;
-                                    case 13:
-                                        i14 = i29;
-                                        i8 = i46;
-                                        bArr2 = bArr;
-                                        i15 = i2;
-                                        i9 = zzhl.zzb(bArr2, i9, zzhnVar2);
-                                        obj2 = Long.valueOf(zzif.zza(zzhnVar2.zzb));
-                                        obj = obj2;
-                                        break;
-                                    case 14:
-                                        throw new IllegalStateException("Shouldn't reach here.");
-                                    case 15:
-                                        i14 = i29;
-                                        i8 = i46;
-                                        bArr2 = bArr;
-                                        i15 = i2;
-                                        i9 = zzhl.zze(bArr2, i9, zzhnVar2);
-                                        obj = zzhnVar2.zzc;
-                                        break;
-                                    case 16:
-                                        i14 = i29;
-                                        i8 = i46;
-                                        bArr2 = bArr;
-                                        i15 = i2;
-                                        i9 = zzhl.zzc(bArr2, i9, zzhnVar2);
-                                        obj = zzhnVar2.zzc;
-                                        break;
-                                    case 17:
-                                        int i47 = (i46 << 3) | 4;
-                                        i14 = i29;
-                                        i15 = i2;
-                                        i8 = i46;
-                                        bArr2 = bArr;
-                                        i9 = zzhl.zza(zzky.zza().zza((Class) zza5.zzc.getClass()), bArr, i9, i2, i47, zzhnVar);
-                                        obj = zzhnVar2.zzc;
-                                        break;
-                                    case 18:
-                                        i9 = zzhl.zza(zzky.zza().zza((Class) zza5.zzc.getClass()), bArr, i9, i2, zzhnVar2);
-                                        obj = zzhnVar2.zzc;
-                                        i14 = i29;
-                                        i8 = i46;
-                                        i15 = i2;
-                                        bArr2 = bArr;
-                                        break;
-                                    default:
-                                        i14 = i29;
-                                        i8 = i46;
-                                        bArr2 = bArr;
-                                        i15 = i2;
-                                        obj = obj2;
-                                        break;
-                                }
-                                zzjb.zzf zzfVar2 = zza5.zzd;
-                                if (zzfVar2.zzd) {
-                                    zziuVar.zzb(zzfVar2, obj);
-                                } else {
-                                    int i48 = iArr2[zzfVar2.zzc.ordinal()];
-                                    if ((i48 == 17 || i48 == 18) && (zza2 = zziuVar.zza((zziu<zzjb.zzf>) zza5.zzd)) != null) {
-                                        obj = zzjf.zza(zza2, obj);
+                                        int[] iArr2 = zzhk.zza;
+                                        switch (iArr2[zzmlVar.ordinal()]) {
+                                            case 1:
+                                                i14 = i28;
+                                                i8 = i45;
+                                                bArr2 = bArr;
+                                                i15 = i2;
+                                                obj2 = Double.valueOf(zzhl.zzc(bArr2, i9));
+                                                i9 += 8;
+                                                obj = obj2;
+                                                break;
+                                            case 2:
+                                                i14 = i28;
+                                                i8 = i45;
+                                                bArr2 = bArr;
+                                                i15 = i2;
+                                                obj2 = Float.valueOf(zzhl.zzd(bArr2, i9));
+                                                i9 += 4;
+                                                obj = obj2;
+                                                break;
+                                            case 3:
+                                            case 4:
+                                                i14 = i28;
+                                                i8 = i45;
+                                                bArr2 = bArr;
+                                                i15 = i2;
+                                                i9 = zzhl.zzb(bArr2, i9, zzhnVar2);
+                                                obj2 = Long.valueOf(zzhnVar2.zzb);
+                                                obj = obj2;
+                                                break;
+                                            case 5:
+                                            case 6:
+                                                i14 = i28;
+                                                i8 = i45;
+                                                bArr2 = bArr;
+                                                i15 = i2;
+                                                i9 = zzhl.zza(bArr2, i9, zzhnVar2);
+                                                obj2 = Integer.valueOf(zzhnVar2.zza);
+                                                obj = obj2;
+                                                break;
+                                            case 7:
+                                            case 8:
+                                                i14 = i28;
+                                                i8 = i45;
+                                                bArr2 = bArr;
+                                                i15 = i2;
+                                                obj2 = Long.valueOf(zzhl.zzb(bArr2, i9));
+                                                i9 += 8;
+                                                obj = obj2;
+                                                break;
+                                            case 9:
+                                            case 10:
+                                                i14 = i28;
+                                                i8 = i45;
+                                                bArr2 = bArr;
+                                                i15 = i2;
+                                                obj2 = Integer.valueOf(zzhl.zza(bArr2, i9));
+                                                i9 += 4;
+                                                obj = obj2;
+                                                break;
+                                            case 11:
+                                                i14 = i28;
+                                                i8 = i45;
+                                                bArr2 = bArr;
+                                                i15 = i2;
+                                                i9 = zzhl.zzb(bArr2, i9, zzhnVar2);
+                                                if (zzhnVar2.zzb == 0) {
+                                                    z = false;
+                                                }
+                                                obj2 = Boolean.valueOf(z);
+                                                obj = obj2;
+                                                break;
+                                            case 12:
+                                                i14 = i28;
+                                                i8 = i45;
+                                                bArr2 = bArr;
+                                                i15 = i2;
+                                                i9 = zzhl.zza(bArr2, i9, zzhnVar2);
+                                                obj2 = Integer.valueOf(zzif.zze(zzhnVar2.zza));
+                                                obj = obj2;
+                                                break;
+                                            case 13:
+                                                i14 = i28;
+                                                i8 = i45;
+                                                bArr2 = bArr;
+                                                i15 = i2;
+                                                i9 = zzhl.zzb(bArr2, i9, zzhnVar2);
+                                                obj2 = Long.valueOf(zzif.zza(zzhnVar2.zzb));
+                                                obj = obj2;
+                                                break;
+                                            case 14:
+                                                throw new IllegalStateException("Shouldn't reach here.");
+                                            case 15:
+                                                i14 = i28;
+                                                i8 = i45;
+                                                bArr2 = bArr;
+                                                i15 = i2;
+                                                i9 = zzhl.zze(bArr2, i9, zzhnVar2);
+                                                obj = zzhnVar2.zzc;
+                                                break;
+                                            case 16:
+                                                i14 = i28;
+                                                i8 = i45;
+                                                bArr2 = bArr;
+                                                i15 = i2;
+                                                i9 = zzhl.zzc(bArr2, i9, zzhnVar2);
+                                                obj = zzhnVar2.zzc;
+                                                break;
+                                            case 17:
+                                                int i46 = (i45 << 3) | 4;
+                                                i14 = i28;
+                                                i15 = i2;
+                                                i8 = i45;
+                                                bArr2 = bArr;
+                                                i9 = zzhl.zza(zzky.zza().zza((Class) zza5.zzc.getClass()), bArr, i9, i2, i46, zzhnVar);
+                                                obj = zzhnVar2.zzc;
+                                                break;
+                                            case 18:
+                                                i9 = zzhl.zza(zzky.zza().zza((Class) zza5.zzc.getClass()), bArr, i9, i2, zzhnVar2);
+                                                obj = zzhnVar2.zzc;
+                                                i14 = i28;
+                                                i8 = i45;
+                                                i15 = i2;
+                                                bArr2 = bArr;
+                                                break;
+                                            default:
+                                                i14 = i28;
+                                                i8 = i45;
+                                                bArr2 = bArr;
+                                                i15 = i2;
+                                                obj = obj2;
+                                                break;
+                                        }
+                                        zzjb.zzf zzfVar2 = zza5.zzd;
+                                        if (zzfVar2.zzd) {
+                                            zziuVar.zzb(zzfVar2, obj);
+                                        } else {
+                                            int i47 = iArr2[zzfVar2.zzc.ordinal()];
+                                            if ((i47 == 17 || i47 == 18) && (zza2 = zziuVar.zza((zziu<zzjb.zzf>) zza5.zzd)) != null) {
+                                                obj = zzjf.zza(zza2, obj);
+                                            }
+                                            zziuVar.zza((zziu<zzjb.zzf>) zza5.zzd, obj);
+                                        }
+                                        i23 = i9;
                                     }
-                                    zziuVar.zza((zziu<zzjb.zzf>) zza5.zzd, obj);
+                                    i26 = i10;
+                                    zzkoVar2 = this;
+                                    bArr3 = bArr2;
+                                    t5 = t3;
+                                    i24 = i8;
+                                    i27 = i11;
+                                    i25 = i13;
+                                    i21 = i15;
+                                    i22 = i44;
+                                    zzhnVar3 = zzhnVar2;
+                                    unsafe2 = unsafe;
+                                    i28 = i14;
+                                } else {
+                                    t3 = t;
+                                    bArr2 = bArr;
                                 }
-                                i24 = i9;
                             }
-                            i27 = i10;
+                            i14 = i28;
+                            i15 = i2;
+                            i23 = zzhl.zza(i10, bArr, i9, i2, zze(t), zzhnVar);
+                            i26 = i10;
                             zzkoVar2 = this;
                             bArr3 = bArr2;
                             t5 = t3;
-                            i28 = i11;
-                            i26 = i13;
-                            i25 = i8;
-                            i22 = i15;
-                            i23 = i45;
+                            i24 = i8;
+                            i27 = i11;
+                            i25 = i13;
+                            i21 = i15;
+                            i22 = i44;
                             zzhnVar3 = zzhnVar2;
                             unsafe2 = unsafe;
-                            i29 = i14;
+                            i28 = i14;
                         } else {
-                            t3 = t;
-                            bArr2 = bArr;
+                            zzkoVar = this;
+                            t2 = t;
+                            i23 = i9;
+                            i6 = i28;
+                            i26 = i10;
+                            i4 = i12;
+                            i27 = i11;
+                            i7 = 1048575;
+                            i5 = i2;
                         }
-                    } else {
-                        t3 = t;
-                        bArr2 = bArr;
-                        zzhnVar2 = zzhnVar;
                     }
-                    i14 = i29;
-                    i15 = i2;
-                    i24 = zzhl.zza(i10, bArr, i9, i2, zze(t), zzhnVar);
-                    i27 = i10;
-                    zzkoVar2 = this;
-                    bArr3 = bArr2;
-                    t5 = t3;
-                    i28 = i11;
-                    i26 = i13;
-                    i25 = i8;
-                    i22 = i15;
-                    i23 = i45;
-                    zzhnVar3 = zzhnVar2;
-                    unsafe2 = unsafe;
-                    i29 = i14;
-                } else {
-                    zzkoVar = this;
-                    t2 = t;
-                    i24 = i9;
-                    i6 = i29;
-                    i27 = i10;
-                    i4 = i12;
-                    i28 = i11;
-                    i7 = 1048575;
-                    i5 = i2;
                 }
+                if (i10 == i12) {
+                }
+                int i442 = i12;
+                if (this.zzh) {
+                }
+                i14 = i28;
+                i15 = i2;
+                i23 = zzhl.zza(i10, bArr, i9, i2, zze(t), zzhnVar);
+                i26 = i10;
+                zzkoVar2 = this;
+                bArr3 = bArr2;
+                t5 = t3;
+                i24 = i8;
+                i27 = i11;
+                i25 = i13;
+                i21 = i15;
+                i22 = i442;
+                zzhnVar3 = zzhnVar2;
+                unsafe2 = unsafe;
+                i28 = i14;
             } else {
-                int i49 = i29;
+                int i48 = i28;
                 unsafe = unsafe2;
-                i4 = i23;
-                i5 = i22;
+                i4 = i22;
+                i5 = i21;
                 t2 = t5;
                 zzkoVar = zzkoVar2;
-                i6 = i49;
+                i6 = i48;
                 i7 = 1048575;
             }
         }
         if (i6 != i7) {
-            unsafe.putInt(t2, i6, i28);
+            unsafe.putInt(t2, i6, i27);
         }
         zzlx zzlxVar = null;
-        for (int i50 = zzkoVar.zzm; i50 < zzkoVar.zzn; i50++) {
-            zzlxVar = (zzlx) zzkoVar.zza((Object) t2, zzkoVar.zzl[i50], (int) zzlxVar, (zzlu<UT, int>) zzkoVar.zzq);
+        for (int i49 = zzkoVar.zzm; i49 < zzkoVar.zzn; i49++) {
+            zzlxVar = (zzlx) zzkoVar.zza((Object) t2, zzkoVar.zzl[i49], (int) zzlxVar, (zzlu<UT, int>) zzkoVar.zzq);
         }
         if (zzlxVar != null) {
             zzkoVar.zzq.zzb((Object) t2, (T) zzlxVar);
         }
         if (i4 == 0) {
-            if (i24 != i5) {
+            if (i23 != i5) {
                 throw zzjk.zzg();
             }
-        } else if (i24 > i5 || i27 != i4) {
+        } else if (i23 > i5 || i26 != i4) {
             throw zzjk.zzg();
         }
-        return i24;
+        return i23;
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:102:0x02dc, code lost:
@@ -5962,7 +5974,7 @@ public final class zzko<T> implements zzlc<T> {
     }
 
     private final <K, V, UT, UB> UB zza(int i, int i2, Map<K, V> map, zzjg zzjgVar, UB ub, zzlu<UT, UB> zzluVar) {
-        zzkf<?, ?> zzb2 = this.zzs.zzb(zzb(i));
+        this.zzs.zzb(zzb(i));
         Iterator<Map.Entry<K, V>> it = map.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry<K, V> next = it.next();
@@ -5970,9 +5982,9 @@ public final class zzko<T> implements zzlc<T> {
                 if (ub == null) {
                     ub = zzluVar.zza();
                 }
-                zzib zzc = zzht.zzc(zzkc.zza(zzb2, next.getKey(), next.getValue()));
+                zzib zzc = zzht.zzc(zzkc.zza(null, next.getKey(), next.getValue()));
                 try {
-                    zzkc.zza(zzc.zzb(), zzb2, next.getKey(), next.getValue());
+                    zzkc.zza(zzc.zzb(), null, next.getKey(), next.getValue());
                     zzluVar.zza((zzlu<UT, UB>) ub, i2, zzc.zza());
                     it.remove();
                 } catch (IOException e) {

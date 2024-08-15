@@ -253,11 +253,13 @@ public class ConfigFetchHandler {
 
     /* loaded from: classes.dex */
     public static class FetchResponse {
+        private final Date fetchTime;
         private final ConfigContainer fetchedConfigs;
         private final String lastFetchETag;
         private final int status;
 
         private FetchResponse(Date date, int i, ConfigContainer configContainer, String str) {
+            this.fetchTime = date;
             this.status = i;
             this.fetchedConfigs = configContainer;
             this.lastFetchETag = str;

@@ -86,8 +86,8 @@ public final class ColorStateListInflaterCompat {
                 } else {
                     color = obtainAttributes.getColor(i4, -65281);
                 }
-                float f2 = 1.0f;
                 int i5 = R$styleable.ColorStateListItem_android_alpha;
+                float f2 = 1.0f;
                 if (obtainAttributes.hasValue(i5)) {
                     f2 = obtainAttributes.getFloat(i5, 1.0f);
                 } else {

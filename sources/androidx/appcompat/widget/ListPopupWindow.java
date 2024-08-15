@@ -59,6 +59,7 @@ public class ListPopupWindow implements ShowableListMenu {
     private View mPromptView;
     final ResizePopupRunnable mResizePopupRunnable;
     private final PopupScrollListener mScrollListener;
+    private Runnable mShowDropDownRunnable;
     private final Rect mTempRect;
     private final PopupTouchInterceptor mTouchInterceptor;
 
@@ -372,7 +373,7 @@ public class ListPopupWindow implements ShowableListMenu {
         int i3;
         if (this.mDropDownList == null) {
             Context context = this.mContext;
-            new Runnable() { // from class: androidx.appcompat.widget.ListPopupWindow.2
+            this.mShowDropDownRunnable = new Runnable() { // from class: androidx.appcompat.widget.ListPopupWindow.2
                 @Override // java.lang.Runnable
                 public void run() {
                     View anchorView = ListPopupWindow.this.getAnchorView();
@@ -640,7 +641,9 @@ public class ListPopupWindow implements ShowableListMenu {
     /* loaded from: classes.dex */
     public static class Api24Impl {
         static int getMaxAvailableHeight(PopupWindow popupWindow, View view, int i, boolean z) {
-            return popupWindow.getMaxAvailableHeight(view, i, z);
+            int maxAvailableHeight;
+            maxAvailableHeight = popupWindow.getMaxAvailableHeight(view, i, z);
+            return maxAvailableHeight;
         }
     }
 }

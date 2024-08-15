@@ -20,7 +20,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import kotlinx.coroutines.CoroutineId$$ExternalSyntheticBackport0;
 import org.telegram.SQLite.SQLiteCursor;
 import org.telegram.SQLite.SQLiteDatabase;
 import org.telegram.SQLite.SQLitePreparedStatement;
@@ -61,7 +60,7 @@ public class FactCheckController {
     private final LongSparseArray<TLRPC$TL_factCheck> localCache = new LongSparseArray<>();
     private final LongSparseArray<HashMap<Key, Utilities.Callback<TLRPC$TL_factCheck>>> toload = new LongSparseArray<>();
     private final ArrayList<Key> loading = new ArrayList<>();
-    private final Runnable loadMissingRunnable = new Runnable() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda6
+    private final Runnable loadMissingRunnable = new Runnable() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda15
         @Override // java.lang.Runnable
         public final void run() {
             FactCheckController.this.loadMissing();
@@ -160,7 +159,7 @@ public class FactCheckController {
             this.toload.removeAt(0);
             final ArrayList<Key> arrayList = new ArrayList<>(valueAt.keySet());
             this.loading.addAll(arrayList);
-            getFromDatabase(arrayList, new Utilities.Callback() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda13
+            getFromDatabase(arrayList, new Utilities.Callback() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda2
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     FactCheckController.this.lambda$loadMissing$3(keyAt, arrayList, valueAt, (ArrayList) obj);
@@ -197,7 +196,7 @@ public class FactCheckController {
         if (tLRPC$TL_getFactCheck.msg_id.isEmpty()) {
             return;
         }
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_getFactCheck, new RequestDelegate() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda15
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_getFactCheck, new RequestDelegate() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda12
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 FactCheckController.this.lambda$loadMissing$2(tLRPC$TL_getFactCheck, arrayList3, hashMap, tLObject, tLRPC$TL_error);
@@ -207,7 +206,7 @@ public class FactCheckController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadMissing$2(final TLRPC$TL_getFactCheck tLRPC$TL_getFactCheck, final ArrayList arrayList, final HashMap hashMap, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda7
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 FactCheckController.this.lambda$loadMissing$1(tLObject, tLRPC$TL_getFactCheck, arrayList, hashMap);
@@ -260,7 +259,7 @@ public class FactCheckController {
         }
 
         public int hashCode() {
-            return CoroutineId$$ExternalSyntheticBackport0.m(this.hash);
+            return FactCheckController$Key$$ExternalSyntheticBackport0.m(this.hash);
         }
 
         public static Key of(MessageObject messageObject) {
@@ -281,7 +280,7 @@ public class FactCheckController {
             return;
         }
         final MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
-        messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda10
+        messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 FactCheckController.lambda$getFromDatabase$5(MessagesStorage.this, arrayList, callback);
@@ -328,7 +327,7 @@ public class FactCheckController {
                     sQLiteCursor.dispose();
                 }
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda12
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda16
                 @Override // java.lang.Runnable
                 public final void run() {
                     Utilities.Callback.this.run(arrayList2);
@@ -347,7 +346,7 @@ public class FactCheckController {
             return;
         }
         final MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
-        messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda11
+        messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 FactCheckController.lambda$saveToDatabase$6(MessagesStorage.this, tLRPC$TL_factCheck);
@@ -390,7 +389,7 @@ public class FactCheckController {
         }
         this.clearedExpiredInDatabase = true;
         final MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
-        messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda9
+        messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda13
             @Override // java.lang.Runnable
             public final void run() {
                 FactCheckController.lambda$clearExpiredInDatabase$7(MessagesStorage.this);
@@ -511,11 +510,12 @@ public class FactCheckController {
                     TLRPC$TL_textWithEntities tLRPC$TL_textWithEntities2 = new TLRPC$TL_textWithEntities();
                     CharSequence[] charSequenceArr = {editTextCaption.getText()};
                     tLRPC$TL_textWithEntities2.entities = MediaDataController.getInstance(FactCheckController.this.currentAccount).getEntities(charSequenceArr, true);
-                    tLRPC$TL_textWithEntities2.text = charSequenceArr[0] == null ? "" : charSequenceArr[0].toString();
+                    CharSequence charSequence = charSequenceArr[0];
+                    tLRPC$TL_textWithEntities2.text = charSequence == null ? "" : charSequence.toString();
                     FactCheckController.this.applyFactCheck(messageObject, tLRPC$TL_textWithEntities2, z4);
-                    AlertDialog[] alertDialogArr2 = alertDialogArr;
-                    if (alertDialogArr2[0] != null) {
-                        alertDialogArr2[0].dismiss();
+                    AlertDialog alertDialog = alertDialogArr[0];
+                    if (alertDialog != null) {
+                        alertDialog.dismiss();
                     }
                     if (alertDialogArr[0] == FactCheckController.currentDialog) {
                         AlertDialog unused = FactCheckController.currentDialog = null;
@@ -588,13 +588,13 @@ public class FactCheckController {
         builder2.setView(linearLayout);
         builder2.setWidth(AndroidUtilities.dp(292.0f));
         final boolean z5 = z3;
-        builder2.setPositiveButton(LocaleController.getString(R.string.Done), new DialogInterface.OnClickListener() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda0
+        builder2.setPositiveButton(LocaleController.getString(R.string.Done), new DialogInterface.OnClickListener() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda6
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i2) {
                 FactCheckController.this.lambda$openFactCheckEditor$8(editTextCaption, i, messageObject, z5, dialogInterface, i2);
             }
         });
-        builder2.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda1
+        builder2.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda7
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i2) {
                 dialogInterface.dismiss();
@@ -604,13 +604,13 @@ public class FactCheckController {
             AlertDialog create = builder2.create();
             currentDialog = create;
             alertDialogArr[0] = create;
-            create.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda2
+            create.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda8
                 @Override // android.content.DialogInterface.OnDismissListener
                 public final void onDismiss(DialogInterface dialogInterface) {
                     FactCheckController.lambda$openFactCheckEditor$10(currentFocus, dialogInterface);
                 }
             });
-            currentDialog.setOnShowListener(new DialogInterface.OnShowListener() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda5
+            currentDialog.setOnShowListener(new DialogInterface.OnShowListener() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda9
                 @Override // android.content.DialogInterface.OnShowListener
                 public final void onShow(DialogInterface dialogInterface) {
                     FactCheckController.lambda$openFactCheckEditor$11(EditTextCaption.this, dialogInterface);
@@ -619,15 +619,16 @@ public class FactCheckController {
             currentDialog.showDelayed(250L);
             r1 = 0;
         } else {
+            AlertDialog create2 = builder2.create();
             r1 = 0;
-            alertDialogArr[0] = builder2.create();
-            alertDialogArr[0].setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda3
+            alertDialogArr[0] = create2;
+            create2.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda10
                 @Override // android.content.DialogInterface.OnDismissListener
                 public final void onDismiss(DialogInterface dialogInterface) {
                     AndroidUtilities.hideKeyboard(EditTextCaption.this);
                 }
             });
-            alertDialogArr[0].setOnShowListener(new DialogInterface.OnShowListener() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda4
+            alertDialogArr[0].setOnShowListener(new DialogInterface.OnShowListener() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda11
                 @Override // android.content.DialogInterface.OnShowListener
                 public final void onShow(DialogInterface dialogInterface) {
                     FactCheckController.lambda$openFactCheckEditor$13(EditTextCaption.this, dialogInterface);
@@ -652,7 +653,8 @@ public class FactCheckController {
         TLRPC$TL_textWithEntities tLRPC$TL_textWithEntities = new TLRPC$TL_textWithEntities();
         CharSequence[] charSequenceArr = {editTextCaption.getText()};
         tLRPC$TL_textWithEntities.entities = MediaDataController.getInstance(this.currentAccount).getEntities(charSequenceArr, true);
-        tLRPC$TL_textWithEntities.text = charSequenceArr[0] == null ? "" : charSequenceArr[0].toString();
+        CharSequence charSequence = charSequenceArr[0];
+        tLRPC$TL_textWithEntities.text = charSequence == null ? "" : charSequence.toString();
         applyFactCheck(messageObject, tLRPC$TL_textWithEntities, z);
         dialogInterface.dismiss();
     }
@@ -698,7 +700,7 @@ public class FactCheckController {
         }
         final AlertDialog alertDialog = new AlertDialog(context, 3);
         alertDialog.showDelayed(320L);
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_deleteFactCheck, new RequestDelegate() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda16
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_deleteFactCheck, new RequestDelegate() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda3
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 FactCheckController.this.lambda$applyFactCheck$15(tLRPC$TL_textWithEntities, z, alertDialog, tLObject, tLRPC$TL_error);
@@ -708,7 +710,7 @@ public class FactCheckController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$applyFactCheck$15(final TLRPC$TL_textWithEntities tLRPC$TL_textWithEntities, final boolean z, final AlertDialog alertDialog, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda8
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 FactCheckController.this.lambda$applyFactCheck$14(tLObject, tLRPC$TL_textWithEntities, z, alertDialog);

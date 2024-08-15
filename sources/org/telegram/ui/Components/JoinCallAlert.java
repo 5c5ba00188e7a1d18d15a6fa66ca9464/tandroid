@@ -66,6 +66,7 @@ public class JoinCallAlert extends BottomSheet {
     private BottomSheetCell doneButton;
     private boolean ignoreLayout;
     private RecyclerListView listView;
+    private int[] location;
     private TextView messageTextView;
     private boolean schedule;
     private int scrollOffsetY;
@@ -94,8 +95,8 @@ public class JoinCallAlert extends BottomSheet {
         if (lastCachedAccount != i || (arrayList = cachedChats) == null || j > 0) {
             return;
         }
-        int i2 = 0;
         int size = arrayList.size();
+        int i2 = 0;
         while (true) {
             if (i2 >= size) {
                 break;
@@ -198,13 +199,13 @@ public class JoinCallAlert extends BottomSheet {
         final AlertDialog alertDialog = new AlertDialog(context, 3);
         TLRPC$TL_phone_getGroupCallJoinAs tLRPC$TL_phone_getGroupCallJoinAs = new TLRPC$TL_phone_getGroupCallJoinAs();
         tLRPC$TL_phone_getGroupCallJoinAs.peer = accountInstance.getMessagesController().getInputPeer(j);
-        final int sendRequest = accountInstance.getConnectionsManager().sendRequest(tLRPC$TL_phone_getGroupCallJoinAs, new RequestDelegate() { // from class: org.telegram.ui.Components.JoinCallAlert$$ExternalSyntheticLambda6
+        final int sendRequest = accountInstance.getConnectionsManager().sendRequest(tLRPC$TL_phone_getGroupCallJoinAs, new RequestDelegate() { // from class: org.telegram.ui.Components.JoinCallAlert$$ExternalSyntheticLambda2
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 JoinCallAlert.lambda$checkFewUsers$1(AlertDialog.this, j, accountInstance, booleanCallback, tLObject, tLRPC$TL_error);
             }
         });
-        alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.Components.JoinCallAlert$$ExternalSyntheticLambda1
+        alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.Components.JoinCallAlert$$ExternalSyntheticLambda3
             @Override // android.content.DialogInterface.OnCancelListener
             public final void onCancel(DialogInterface dialogInterface) {
                 JoinCallAlert.lambda$checkFewUsers$2(AccountInstance.this, sendRequest, dialogInterface);
@@ -266,13 +267,13 @@ public class JoinCallAlert extends BottomSheet {
         final AlertDialog alertDialog = new AlertDialog(context, 3);
         TLRPC$TL_phone_getGroupCallJoinAs tLRPC$TL_phone_getGroupCallJoinAs = new TLRPC$TL_phone_getGroupCallJoinAs();
         tLRPC$TL_phone_getGroupCallJoinAs.peer = accountInstance.getMessagesController().getInputPeer(j);
-        final int sendRequest = accountInstance.getConnectionsManager().sendRequest(tLRPC$TL_phone_getGroupCallJoinAs, new RequestDelegate() { // from class: org.telegram.ui.Components.JoinCallAlert$$ExternalSyntheticLambda7
+        final int sendRequest = accountInstance.getConnectionsManager().sendRequest(tLRPC$TL_phone_getGroupCallJoinAs, new RequestDelegate() { // from class: org.telegram.ui.Components.JoinCallAlert$$ExternalSyntheticLambda0
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 JoinCallAlert.lambda$open$4(AlertDialog.this, accountInstance, joinCallAlertDelegate, j, context, baseFragment, i, tLRPC$Peer, tLObject, tLRPC$TL_error);
             }
         });
-        alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.Components.JoinCallAlert$$ExternalSyntheticLambda0
+        alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.Components.JoinCallAlert$$ExternalSyntheticLambda1
             @Override // android.content.DialogInterface.OnCancelListener
             public final void onCancel(DialogInterface dialogInterface) {
                 JoinCallAlert.lambda$open$5(AccountInstance.this, sendRequest, dialogInterface);
@@ -344,6 +345,7 @@ public class JoinCallAlert extends BottomSheet {
         int color;
         FrameLayout frameLayout;
         boolean z;
+        this.location = new int[2];
         setApplyBottomPadding(false);
         this.chats = new ArrayList<>(arrayList);
         this.delegate = joinCallAlertDelegate;
@@ -524,7 +526,7 @@ public class JoinCallAlert extends BottomSheet {
                 JoinCallAlert.this.updateLayout();
             }
         });
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.JoinCallAlert$$ExternalSyntheticLambda8
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.JoinCallAlert$$ExternalSyntheticLambda6
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i5) {
                 JoinCallAlert.this.lambda$new$6(chat, view, i5);
@@ -623,7 +625,7 @@ public class JoinCallAlert extends BottomSheet {
         }
         BottomSheetCell bottomSheetCell = new BottomSheetCell(context, false);
         this.doneButton = bottomSheetCell;
-        bottomSheetCell.background.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.JoinCallAlert$$ExternalSyntheticLambda3
+        bottomSheetCell.background.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.JoinCallAlert$$ExternalSyntheticLambda7
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 JoinCallAlert.this.lambda$new$7(joinCallAlertDelegate, view);
@@ -637,7 +639,7 @@ public class JoinCallAlert extends BottomSheet {
             } else {
                 bottomSheetCell2.setText(LocaleController.getString("VoipGroupScheduleVoiceChat", R.string.VoipGroupScheduleVoiceChat), false);
             }
-            bottomSheetCell2.background.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.JoinCallAlert$$ExternalSyntheticLambda2
+            bottomSheetCell2.background.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.JoinCallAlert$$ExternalSyntheticLambda8
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     JoinCallAlert.this.lambda$new$8(view);
@@ -798,19 +800,19 @@ public class JoinCallAlert extends BottomSheet {
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void onViewAttachedToWindow(RecyclerView.ViewHolder viewHolder) {
+            long j;
             viewHolder.getAdapterPosition();
             long peerId = MessageObject.getPeerId(JoinCallAlert.this.selectedPeer);
             View view = viewHolder.itemView;
             if (view instanceof GroupCreateUserCell) {
                 GroupCreateUserCell groupCreateUserCell = (GroupCreateUserCell) view;
                 Object object = groupCreateUserCell.getObject();
-                long j = 0;
-                if (object != null) {
-                    if (object instanceof TLRPC$Chat) {
-                        j = -((TLRPC$Chat) object).id;
-                    } else {
-                        j = ((TLRPC$User) object).id;
-                    }
+                if (object == null) {
+                    j = 0;
+                } else if (object instanceof TLRPC$Chat) {
+                    j = -((TLRPC$Chat) object).id;
+                } else {
+                    j = ((TLRPC$User) object).id;
                 }
                 groupCreateUserCell.setChecked(peerId == j, false);
                 return;

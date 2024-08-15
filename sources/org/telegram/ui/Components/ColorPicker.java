@@ -372,7 +372,7 @@ public class ColorPicker extends FrameLayout {
                         ColorPicker.this.ignoreTextChange = false;
                     }
                 });
-                this.colorEditText[i2].setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Components.ColorPicker$$ExternalSyntheticLambda5
+                this.colorEditText[i2].setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Components.ColorPicker$$ExternalSyntheticLambda1
                     @Override // android.widget.TextView.OnEditorActionListener
                     public final boolean onEditorAction(TextView textView, int i3, KeyEvent keyEvent) {
                         boolean lambda$new$1;
@@ -411,7 +411,7 @@ public class ColorPicker extends FrameLayout {
         int i5 = Theme.key_windowBackgroundWhiteBlackText;
         imageView2.setColorFilter(new PorterDuffColorFilter(getThemedColor(i5), PorterDuff.Mode.MULTIPLY));
         this.addButton.setScaleType(ImageView.ScaleType.CENTER);
-        this.addButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ColorPicker$$ExternalSyntheticLambda3
+        this.addButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ColorPicker$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ColorPicker.this.lambda$new$2(view);
@@ -439,7 +439,7 @@ public class ColorPicker extends FrameLayout {
         this.clearButton.setScaleY(0.0f);
         this.clearButton.setScaleType(ImageView.ScaleType.CENTER);
         this.clearButton.setVisibility(4);
-        this.clearButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ColorPicker$$ExternalSyntheticLambda2
+        this.clearButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ColorPicker$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ColorPicker.this.lambda$new$3(view);
@@ -472,7 +472,7 @@ public class ColorPicker extends FrameLayout {
             this.menuItem.addSubItem(3, R.drawable.msg_delete, LocaleController.getString("DeleteTheme", R.string.DeleteTheme));
             this.menuItem.setMenuYOffset(-AndroidUtilities.dp(80.0f));
             this.menuItem.setSubMenuOpenSide(2);
-            this.menuItem.setDelegate(new ActionBarMenuItem.ActionBarMenuItemDelegate() { // from class: org.telegram.ui.Components.ColorPicker$$ExternalSyntheticLambda6
+            this.menuItem.setDelegate(new ActionBarMenuItem.ActionBarMenuItemDelegate() { // from class: org.telegram.ui.Components.ColorPicker$$ExternalSyntheticLambda5
                 @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemDelegate
                 public final void onItemClick(int i6) {
                     ColorPicker.this.lambda$new$5(i6);
@@ -482,7 +482,7 @@ public class ColorPicker extends FrameLayout {
             this.menuItem.setTranslationX(AndroidUtilities.dp(6.0f));
             this.menuItem.setBackgroundDrawable(Theme.createSelectorDrawable(getThemedColor(i4), 1));
             addView(this.menuItem, LayoutHelper.createFrame(30, 30.0f, 53, 0.0f, 2.0f, 10.0f, 0.0f));
-            this.menuItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ColorPicker$$ExternalSyntheticLambda1
+            this.menuItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ColorPicker$$ExternalSyntheticLambda6
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     ColorPicker.this.lambda$new$6(view);
@@ -498,8 +498,9 @@ public class ColorPicker extends FrameLayout {
         while (true) {
             RadioButton[] radioButtonArr = this.radioButton;
             if (i < radioButtonArr.length) {
-                boolean z = radioButtonArr[i] == radioButton;
-                radioButtonArr[i].setChecked(z, true);
+                RadioButton radioButton2 = radioButtonArr[i];
+                boolean z = radioButton2 == radioButton;
+                radioButton2.setChecked(z, true);
                 if (z) {
                     this.prevSelectedColor = this.selectedColor;
                     this.selectedColor = i;
@@ -542,10 +543,11 @@ public class ColorPicker extends FrameLayout {
             if (this.radioButton[2].getColor() == 0) {
                 float[] fArr = new float[3];
                 Color.colorToHSV(this.radioButton[0].getColor(), fArr);
-                if (fArr[0] > 180.0f) {
-                    fArr[0] = fArr[0] - 60.0f;
+                float f = fArr[0];
+                if (f > 180.0f) {
+                    fArr[0] = f - 60.0f;
                 } else {
-                    fArr[0] = fArr[0] + 60.0f;
+                    fArr[0] = f + 60.0f;
                 }
                 this.radioButton[2].setColor(Color.HSVToColor(255, fArr));
             }
@@ -788,8 +790,8 @@ public class ColorPicker extends FrameLayout {
         AndroidUtilities.hideKeyboard(this.colorEditText[1]);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:48:0x009f  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x00a7  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x00a0  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x00a8  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1235,15 +1237,17 @@ public class ColorPicker extends FrameLayout {
     public static int generateGradientColors(int i) {
         float[] fArr = new float[3];
         Color.colorToHSV(i, fArr);
-        if (fArr[1] > 0.5f) {
-            fArr[1] = fArr[1] - 0.15f;
+        float f = fArr[1];
+        if (f > 0.5f) {
+            fArr[1] = f - 0.15f;
         } else {
-            fArr[1] = fArr[1] + 0.15f;
+            fArr[1] = f + 0.15f;
         }
-        if (fArr[0] > 180.0f) {
-            fArr[0] = fArr[0] - 20.0f;
+        float f2 = fArr[0];
+        if (f2 > 180.0f) {
+            fArr[0] = f2 - 20.0f;
         } else {
-            fArr[0] = fArr[0] + 20.0f;
+            fArr[0] = f2 + 20.0f;
         }
         return Color.HSVToColor(255, fArr);
     }

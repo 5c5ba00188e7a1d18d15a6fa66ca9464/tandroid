@@ -9,6 +9,7 @@ public abstract class EmojiSpan extends ReplacementSpan {
     private final EmojiMetadata mMetadata;
     private final Paint.FontMetricsInt mTmpFontMetrics = new Paint.FontMetricsInt();
     private short mWidth = -1;
+    private short mHeight = -1;
     private float mRatio = 1.0f;
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -22,7 +23,7 @@ public abstract class EmojiSpan extends ReplacementSpan {
         paint.getFontMetricsInt(this.mTmpFontMetrics);
         Paint.FontMetricsInt fontMetricsInt2 = this.mTmpFontMetrics;
         this.mRatio = (Math.abs(fontMetricsInt2.descent - fontMetricsInt2.ascent) * 1.0f) / this.mMetadata.getHeight();
-        this.mMetadata.getHeight();
+        this.mHeight = (short) (this.mMetadata.getHeight() * this.mRatio);
         short width = (short) (this.mMetadata.getWidth() * this.mRatio);
         this.mWidth = width;
         if (fontMetricsInt != null) {

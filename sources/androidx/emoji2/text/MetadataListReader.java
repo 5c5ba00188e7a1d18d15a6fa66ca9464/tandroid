@@ -78,10 +78,12 @@ class MetadataListReader {
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class OffsetInfo {
+        private final long mLength;
         private final long mStartOffset;
 
         OffsetInfo(long j, long j2) {
             this.mStartOffset = j;
+            this.mLength = j2;
         }
 
         long getStartOffset() {

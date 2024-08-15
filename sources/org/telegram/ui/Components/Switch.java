@@ -37,7 +37,6 @@ public class Switch extends View {
     private float iconProgress;
     private boolean isChecked;
     private int lastIconColor;
-    private OnCheckedChangeListener onCheckedChangeListener;
     private Bitmap[] overlayBitmap;
     private Canvas[] overlayCanvas;
     private float overlayCx;
@@ -63,11 +62,13 @@ public class Switch extends View {
 
     /* loaded from: classes3.dex */
     public interface OnCheckedChangeListener {
-        void onCheckedChanged(Switch r1, boolean z);
     }
 
     protected int processColor(int i) {
         return i;
+    }
+
+    public void setOnCheckedChangeListener(OnCheckedChangeListener onCheckedChangeListener) {
     }
 
     public Switch(Context context) {
@@ -245,10 +246,6 @@ public class Switch extends View {
         this.attachedToWindow = false;
     }
 
-    public void setOnCheckedChangeListener(OnCheckedChangeListener onCheckedChangeListener) {
-        this.onCheckedChangeListener = onCheckedChangeListener;
-    }
-
     public void setChecked(boolean z, boolean z2) {
         setChecked(z, this.drawIconType, z2);
     }
@@ -261,10 +258,6 @@ public class Switch extends View {
             } else {
                 cancelCheckAnimator();
                 setProgress(z ? 1.0f : 0.0f);
-            }
-            OnCheckedChangeListener onCheckedChangeListener = this.onCheckedChangeListener;
-            if (onCheckedChangeListener != null) {
-                onCheckedChangeListener.onCheckedChanged(this, z);
             }
         }
         setDrawIconType(i, z2);

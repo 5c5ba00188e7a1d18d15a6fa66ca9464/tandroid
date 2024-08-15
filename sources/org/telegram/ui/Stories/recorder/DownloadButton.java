@@ -70,7 +70,7 @@ public class DownloadButton extends ImageView {
         setBackground(Theme.createSelectorDrawable(553648127));
         setVisibility(8);
         setAlpha(0.0f);
-        setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$$ExternalSyntheticLambda0
+        setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 DownloadButton.this.lambda$new$0(view);
@@ -105,52 +105,59 @@ public class DownloadButton extends ImageView {
     }
 
     private void onClick() {
+        int checkSelfPermission;
         int i = Build.VERSION.SDK_INT;
-        if (i >= 23 && ((i <= 28 || BuildVars.NO_SCOPED_STORAGE) && getContext().checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE") != 0)) {
-            Activity findActivity = AndroidUtilities.findActivity(getContext());
-            if (findActivity != null) {
-                findActivity.requestPermissions(new String[]{"android.permission.WRITE_EXTERNAL_STORAGE"}, R.styleable.AppCompatTheme_toolbarStyle);
-            }
-        } else if (this.downloading || this.currentEntry == null) {
-        } else {
-            if (this.savedToGalleryUri != null) {
-                if (i >= 30) {
-                    getContext().getContentResolver().delete(this.savedToGalleryUri, null);
-                    this.savedToGalleryUri = null;
-                } else if (i < 29) {
-                    try {
-                        new File(this.savedToGalleryUri.toString()).delete();
-                    } catch (Exception e) {
-                        FileLog.e(e);
-                    }
-                    this.savedToGalleryUri = null;
+        if (i >= 23 && (i <= 28 || BuildVars.NO_SCOPED_STORAGE)) {
+            checkSelfPermission = getContext().checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE");
+            if (checkSelfPermission != 0) {
+                Activity findActivity = AndroidUtilities.findActivity(getContext());
+                if (findActivity != null) {
+                    findActivity.requestPermissions(new String[]{"android.permission.WRITE_EXTERNAL_STORAGE"}, R.styleable.AppCompatTheme_toolbarStyle);
+                    return;
                 }
+                return;
             }
-            this.downloading = true;
-            PreparingVideoToast preparingVideoToast = this.toast;
-            if (preparingVideoToast != null) {
-                preparingVideoToast.hide();
-                this.toast = null;
+        }
+        if (this.downloading || this.currentEntry == null) {
+            return;
+        }
+        if (this.savedToGalleryUri != null) {
+            if (i >= 30) {
+                getContext().getContentResolver().delete(this.savedToGalleryUri, null);
+                this.savedToGalleryUri = null;
+            } else if (i < 29) {
+                try {
+                    new File(this.savedToGalleryUri.toString()).delete();
+                } catch (Exception e) {
+                    FileLog.e(e);
+                }
+                this.savedToGalleryUri = null;
             }
-            BuildingVideo buildingVideo = this.buildingVideo;
-            if (buildingVideo != null) {
-                buildingVideo.stop(true);
-                this.buildingVideo = null;
-            }
-            Utilities.Callback<Runnable> callback = this.prepare;
-            if (callback != null) {
-                this.preparing = true;
-                callback.run(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$$ExternalSyntheticLambda1
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        DownloadButton.this.onClickInternal();
-                    }
-                });
-            }
-            updateImage();
-            if (this.prepare == null) {
-                onClickInternal();
-            }
+        }
+        this.downloading = true;
+        PreparingVideoToast preparingVideoToast = this.toast;
+        if (preparingVideoToast != null) {
+            preparingVideoToast.hide();
+            this.toast = null;
+        }
+        BuildingVideo buildingVideo = this.buildingVideo;
+        if (buildingVideo != null) {
+            buildingVideo.stop(true);
+            this.buildingVideo = null;
+        }
+        Utilities.Callback<Runnable> callback = this.prepare;
+        if (callback != null) {
+            this.preparing = true;
+            callback.run(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$$ExternalSyntheticLambda2
+                @Override // java.lang.Runnable
+                public final void run() {
+                    DownloadButton.this.onClickInternal();
+                }
+            });
+        }
+        updateImage();
+        if (this.prepare == null) {
+            onClickInternal();
         }
     }
 
@@ -165,7 +172,7 @@ public class DownloadButton extends ImageView {
             this.downloadingVideo = true;
             PreparingVideoToast preparingVideoToast = new PreparingVideoToast(getContext());
             this.toast = preparingVideoToast;
-            preparingVideoToast.setOnCancelListener(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$$ExternalSyntheticLambda2
+            preparingVideoToast.setOnCancelListener(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     DownloadButton.this.lambda$onClickInternal$1();
@@ -173,17 +180,17 @@ public class DownloadButton extends ImageView {
             });
             this.container.addView(this.toast);
             final File generateVideoPath = AndroidUtilities.generateVideoPath();
-            this.buildingVideo = new BuildingVideo(this.currentAccount, this.currentEntry, generateVideoPath, new Runnable() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$$ExternalSyntheticLambda6
+            this.buildingVideo = new BuildingVideo(this.currentAccount, this.currentEntry, generateVideoPath, new Runnable() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
                     DownloadButton.this.lambda$onClickInternal$3(generateVideoPath);
                 }
-            }, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$$ExternalSyntheticLambda9
+            }, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$$ExternalSyntheticLambda5
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     DownloadButton.this.lambda$onClickInternal$4((Float) obj);
                 }
-            }, new Runnable() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$$ExternalSyntheticLambda3
+            }, new Runnable() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
                     DownloadButton.this.lambda$onClickInternal$5();
@@ -198,7 +205,7 @@ public class DownloadButton extends ImageView {
                 updateImage();
                 return;
             }
-            Utilities.themeQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$$ExternalSyntheticLambda5
+            Utilities.themeQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$$ExternalSyntheticLambda7
                 @Override // java.lang.Runnable
                 public final void run() {
                     DownloadButton.this.lambda$onClickInternal$8(generatePicturePath);
@@ -272,7 +279,7 @@ public class DownloadButton extends ImageView {
         if (!this.downloading || this.currentEntry == null) {
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$$ExternalSyntheticLambda4
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
             public final void run() {
                 DownloadButton.this.lambda$onClickInternal$7(file);
@@ -282,7 +289,7 @@ public class DownloadButton extends ImageView {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onClickInternal$7(File file) {
-        MediaController.saveFile(file.getAbsolutePath(), getContext(), 0, null, null, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$$ExternalSyntheticLambda7
+        MediaController.saveFile(file.getAbsolutePath(), getContext(), 0, null, null, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$$ExternalSyntheticLambda10
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 DownloadButton.this.lambda$onClickInternal$6((Uri) obj);
@@ -574,7 +581,7 @@ public class DownloadButton extends ImageView {
                 return;
             }
             this.deleted = true;
-            post(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$PreparingVideoToast$$ExternalSyntheticLambda1
+            post(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$PreparingVideoToast$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     DownloadButton.PreparingVideoToast.this.lambda$onDraw$0();
@@ -657,7 +664,7 @@ public class DownloadButton extends ImageView {
             if (runnable != null) {
                 AndroidUtilities.cancelRunOnUIThread(runnable);
             }
-            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$PreparingVideoToast$$ExternalSyntheticLambda0
+            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$PreparingVideoToast$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     DownloadButton.PreparingVideoToast.this.hide();

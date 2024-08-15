@@ -4,9 +4,13 @@ import java.util.EnumMap;
 import java.util.Map;
 /* loaded from: classes.dex */
 public final class Result {
+    private final BarcodeFormat format;
+    private final int numBits;
+    private final byte[] rawBytes;
     private Map<ResultMetadataType, Object> resultMetadata;
     private ResultPoint[] resultPoints;
     private final String text;
+    private final long timestamp;
 
     public Result(String str, byte[] bArr, ResultPoint[] resultPointArr, BarcodeFormat barcodeFormat) {
         this(str, bArr, resultPointArr, barcodeFormat, System.currentTimeMillis());
@@ -18,8 +22,12 @@ public final class Result {
 
     public Result(String str, byte[] bArr, int i, ResultPoint[] resultPointArr, BarcodeFormat barcodeFormat, long j) {
         this.text = str;
+        this.rawBytes = bArr;
+        this.numBits = i;
         this.resultPoints = resultPointArr;
+        this.format = barcodeFormat;
         this.resultMetadata = null;
+        this.timestamp = j;
     }
 
     public String getText() {

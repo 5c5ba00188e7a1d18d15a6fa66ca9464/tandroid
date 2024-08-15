@@ -168,7 +168,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
         premiumGradientTools.cy = 0.0f;
         updateRows();
         this.recyclerListView.setPadding(AndroidUtilities.dp(6.0f), 0, AndroidUtilities.dp(6.0f), 0);
-        this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$$ExternalSyntheticLambda7
+        this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$$ExternalSyntheticLambda5
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i2) {
                 PremiumPreviewBottomSheet.this.lambda$new$0(i, baseFragment, view, i2);
@@ -201,7 +201,6 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
         this.paddingRow = i;
         this.featuresStartRow = i2;
         int size = i2 + this.premiumFeatures.size();
-        this.rowCount = size;
         this.featuresEndRow = size;
         this.rowCount = size + 1;
         this.sectionRow = size;
@@ -235,7 +234,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
             gLIconTextureView.setDialogVisible(true);
         }
         this.starParticlesView.setPaused(true);
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$$ExternalSyntheticLambda2
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$$ExternalSyntheticLambda4
             @Override // android.content.DialogInterface.OnDismissListener
             public final void onDismiss(DialogInterface dialogInterface) {
                 PremiumPreviewBottomSheet.this.lambda$showDialog$1(dialogInterface);
@@ -259,7 +258,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
         super.onViewCreated(frameLayout);
         this.currentAccount = UserConfig.selectedAccount;
         PremiumButtonView premiumButtonView = new PremiumButtonView(getContext(), false, this.resourcesProvider);
-        premiumButtonView.setButton(PremiumPreviewFragment.getPremiumButtonText(this.currentAccount, null), new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$$ExternalSyntheticLambda3
+        premiumButtonView.setButton(PremiumPreviewFragment.getPremiumButtonText(this.currentAccount, null), new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 PremiumPreviewBottomSheet.this.lambda$onViewCreated$2(view);
@@ -306,14 +305,14 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
                 ViewPropertyAnimator alpha = this.titleView[1].animate().alpha(1.0f);
                 CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.DEFAULT;
                 alpha.setInterpolator(cubicBezierInterpolator).setDuration(200L).start();
-                this.titleView[0].animate().alpha(0.0f).setInterpolator(cubicBezierInterpolator).setDuration(200L).withEndAction(new Runnable() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$$ExternalSyntheticLambda4
+                this.titleView[0].animate().alpha(0.0f).setInterpolator(cubicBezierInterpolator).setDuration(200L).withEndAction(new Runnable() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$$ExternalSyntheticLambda6
                     @Override // java.lang.Runnable
                     public final void run() {
                         PremiumPreviewBottomSheet.this.lambda$titleLoaded$3();
                     }
                 }).start();
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$$ExternalSyntheticLambda1
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$$ExternalSyntheticLambda7
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                         PremiumPreviewBottomSheet.this.lambda$titleLoaded$4(valueAnimator);
@@ -408,7 +407,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
                         }
                     }
                 }, indexOf, spannableStringBuilder.length() + indexOf, 33);
-                this.titleView[1].setOnLinkPressListener(new LinkSpanDrawable.LinksTextView.OnLinkPress() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$$ExternalSyntheticLambda6
+                this.titleView[1].setOnLinkPressListener(new LinkSpanDrawable.LinksTextView.OnLinkPress() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$$ExternalSyntheticLambda3
                     @Override // org.telegram.ui.Components.LinkSpanDrawable.LinksTextView.OnLinkPress
                     public final void run(ClickableSpan clickableSpan) {
                         PremiumPreviewBottomSheet.this.lambda$setTitle$5(clickableSpan);
@@ -484,8 +483,8 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
             }
         }
         try {
-            LinkSpanDrawable.LinksTextView[] linksTextViewArr2 = this.titleView;
-            linksTextViewArr2[0].setText(Emoji.replaceEmoji(linksTextViewArr2[0].getText(), this.titleView[0].getPaint().getFontMetricsInt(), false));
+            LinkSpanDrawable.LinksTextView linksTextView6 = this.titleView[0];
+            linksTextView6.setText(Emoji.replaceEmoji(linksTextView6.getText(), this.titleView[0].getPaint().getFontMetricsInt(), false));
         } catch (Exception unused2) {
         }
     }
@@ -582,7 +581,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
                 PremiumPreviewBottomSheet premiumPreviewBottomSheet = PremiumPreviewBottomSheet.this;
                 View view2 = premiumPreviewBottomSheet.overrideTitleIcon;
                 if (view2 == null) {
-                    premiumPreviewBottomSheet.iconTextureView = new GLIconTextureView(this, context, 1) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.Adapter.2
+                    premiumPreviewBottomSheet.iconTextureView = new GLIconTextureView(context, 1) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.Adapter.2
                         /* JADX INFO: Access modifiers changed from: protected */
                         @Override // org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView, android.view.TextureView, android.view.View
                         public void onAttachedToWindow() {
@@ -623,7 +622,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
                     PremiumPreviewBottomSheet.this.titleView = new LinkSpanDrawable.LinksTextView[2];
                     int i3 = 0;
                     while (i3 < 2) {
-                        PremiumPreviewBottomSheet.this.titleView[i3] = new LinkSpanDrawable.LinksTextView(this, context, ((BottomSheet) PremiumPreviewBottomSheet.this).resourcesProvider) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.Adapter.3
+                        PremiumPreviewBottomSheet.this.titleView[i3] = new LinkSpanDrawable.LinksTextView(context, ((BottomSheet) PremiumPreviewBottomSheet.this).resourcesProvider) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.Adapter.3
                             @Override // org.telegram.ui.Components.LinkSpanDrawable.LinksTextView
                             protected int emojiCacheType() {
                                 return 3;
@@ -660,7 +659,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
                 }
                 linearLayout.addView(PremiumPreviewBottomSheet.this.subtitleView, LayoutHelper.createLinear(-1, -2, 0.0f, 0, 16, 9, 16, 20));
                 PremiumPreviewBottomSheet.this.setTitle(false);
-                PremiumPreviewBottomSheet.this.starParticlesView = new StarParticlesView(this, context) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.Adapter.4
+                PremiumPreviewBottomSheet.this.starParticlesView = new StarParticlesView(context) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.Adapter.4
                     /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Components.Premium.StarParticlesView, android.view.View
                     public void onMeasure(int i4, int i5) {
@@ -720,7 +719,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
             } else if (i == 2) {
                 view = new ShadowSectionCell(context, 12, PremiumPreviewBottomSheet.this.getThemedColor(Theme.key_windowBackgroundGray));
             } else if (i == 3) {
-                view = new View(this, context) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.Adapter.7
+                view = new View(context) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.Adapter.7
                     @Override // android.view.View
                     protected void onMeasure(int i4, int i5) {
                         super.onMeasure(i4, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(68.0f), 1073741824));
@@ -839,7 +838,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
         super.show();
         NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.stopAllHeavyOperations, 4);
         if (this.animateConfetti) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$$ExternalSyntheticLambda5
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     PremiumPreviewBottomSheet.this.lambda$show$6();
@@ -873,6 +872,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
     public void mainContainerDispatchDraw(Canvas canvas) {
+        Drawable drawable;
         View view = this.overrideTitleIcon;
         if (view != null) {
             view.setVisibility(this.enterTransitionInProgress ? 4 : 0);
@@ -889,12 +889,11 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
         canvas.save();
         float[] fArr = {this.startEnterFromX, this.startEnterFromY};
         this.startEnterFromView.getMatrix().mapPoints(fArr);
-        Drawable drawable = null;
         View view4 = this.startEnterFromView;
         if (view4 instanceof SimpleTextView) {
             drawable = ((SimpleTextView) view4).getRightDrawable();
-        } else if (view4 instanceof ChatMessageCell) {
-            drawable = ((ChatMessageCell) view4).currentNameStatusDrawable;
+        } else {
+            drawable = view4 instanceof ChatMessageCell ? ((ChatMessageCell) view4).currentNameStatusDrawable : null;
         }
         if (drawable == null) {
             canvas.restore();
@@ -972,7 +971,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
         if (gLIconTextureView != null) {
             gLIconTextureView.startEnterAnimation(-360, 100L);
         }
-        this.enterAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$$ExternalSyntheticLambda0
+        this.enterAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$$ExternalSyntheticLambda1
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 PremiumPreviewBottomSheet.this.lambda$onCustomOpenAnimation$7(valueAnimator);

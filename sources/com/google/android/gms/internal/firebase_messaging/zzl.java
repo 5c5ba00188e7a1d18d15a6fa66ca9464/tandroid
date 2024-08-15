@@ -2,6 +2,7 @@ package com.google.android.gms.internal.firebase_messaging;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayDeque;
 import java.util.Queue;
 import org.telegram.messenger.LiteMode;
@@ -9,9 +10,7 @@ import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public final class zzl {
-    static {
-        new zzj();
-    }
+    private static final OutputStream zza = new zzj();
 
     public static byte[] zza(InputStream inputStream) throws IOException {
         ArrayDeque arrayDeque = new ArrayDeque(20);

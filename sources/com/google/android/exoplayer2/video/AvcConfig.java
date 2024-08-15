@@ -18,6 +18,7 @@ public final class AvcConfig {
     public static AvcConfig parse(ParsableByteArray parsableByteArray) throws ParserException {
         String str;
         int i;
+        int i2;
         float f;
         try {
             parsableByteArray.skipBytes(4);
@@ -27,29 +28,29 @@ public final class AvcConfig {
             }
             ArrayList arrayList = new ArrayList();
             int readUnsignedByte2 = parsableByteArray.readUnsignedByte() & 31;
-            for (int i2 = 0; i2 < readUnsignedByte2; i2++) {
+            for (int i3 = 0; i3 < readUnsignedByte2; i3++) {
                 arrayList.add(buildNalUnitForChild(parsableByteArray));
             }
             int readUnsignedByte3 = parsableByteArray.readUnsignedByte();
-            for (int i3 = 0; i3 < readUnsignedByte3; i3++) {
+            for (int i4 = 0; i4 < readUnsignedByte3; i4++) {
                 arrayList.add(buildNalUnitForChild(parsableByteArray));
             }
-            int i4 = -1;
             if (readUnsignedByte2 > 0) {
                 NalUnitUtil.SpsData parseSpsNalUnit = NalUnitUtil.parseSpsNalUnit((byte[]) arrayList.get(0), readUnsignedByte, ((byte[]) arrayList.get(0)).length);
                 int i5 = parseSpsNalUnit.width;
                 int i6 = parseSpsNalUnit.height;
                 float f2 = parseSpsNalUnit.pixelWidthHeightRatio;
                 str = CodecSpecificDataUtil.buildAvcCodecString(parseSpsNalUnit.profileIdc, parseSpsNalUnit.constraintsFlagsAndReservedZero2Bits, parseSpsNalUnit.levelIdc);
-                i4 = i5;
-                i = i6;
+                i = i5;
+                i2 = i6;
                 f = f2;
             } else {
                 str = null;
                 i = -1;
+                i2 = -1;
                 f = 1.0f;
             }
-            return new AvcConfig(arrayList, readUnsignedByte, i4, i, f, str);
+            return new AvcConfig(arrayList, readUnsignedByte, i, i2, f, str);
         } catch (ArrayIndexOutOfBoundsException e) {
             throw ParserException.createForMalformedContainer("Error parsing AVC config", e);
         }

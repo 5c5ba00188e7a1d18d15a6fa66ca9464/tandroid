@@ -54,6 +54,7 @@ public class ButtonWithCounterView extends FrameLayout implements Loadable {
     public final View rippleView;
     private boolean showZero;
     public final AnimatedTextView.AnimatedTextDrawable subText;
+    private final int subTextAlpha;
     private float subTextT;
     private boolean subTextVisible;
     private ValueAnimator subTextVisibleAnimator;
@@ -93,6 +94,7 @@ public class ButtonWithCounterView extends FrameLayout implements Loadable {
         this.enabledT = 1.0f;
         this.enabled = true;
         this.globalAlpha = 255;
+        this.subTextAlpha = 200;
         this.filled = z;
         this.resourcesProvider = resourcesProvider;
         ScaleStateListAnimator.apply(this, 0.02f, 1.2f);
@@ -246,7 +248,7 @@ public class ButtonWithCounterView extends FrameLayout implements Loadable {
             cleanSubTextVisibleAnimator();
             ValueAnimator ofFloat = ValueAnimator.ofFloat(this.subTextT, 0.0f);
             this.subTextVisibleAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.ButtonWithCounterView$$ExternalSyntheticLambda2
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.ButtonWithCounterView$$ExternalSyntheticLambda3
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     ButtonWithCounterView.this.lambda$setSubText$1(valueAnimator);
@@ -272,7 +274,7 @@ public class ButtonWithCounterView extends FrameLayout implements Loadable {
         cleanSubTextVisibleAnimator();
         ValueAnimator ofFloat2 = ValueAnimator.ofFloat(this.subTextT, 1.0f);
         this.subTextVisibleAnimator = ofFloat2;
-        ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.ButtonWithCounterView$$ExternalSyntheticLambda3
+        ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.ButtonWithCounterView$$ExternalSyntheticLambda4
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 ButtonWithCounterView.this.lambda$setSubText$2(valueAnimator);
@@ -314,7 +316,7 @@ public class ButtonWithCounterView extends FrameLayout implements Loadable {
             fArr[1] = z ? 1.0f : 0.0f;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
             this.loadingAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.ButtonWithCounterView$$ExternalSyntheticLambda1
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.ButtonWithCounterView$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                     ButtonWithCounterView.this.lambda$setLoading$3(valueAnimator2);
@@ -356,7 +358,7 @@ public class ButtonWithCounterView extends FrameLayout implements Loadable {
         }
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.countAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.ButtonWithCounterView$$ExternalSyntheticLambda0
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.ButtonWithCounterView$$ExternalSyntheticLambda1
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                 ButtonWithCounterView.this.lambda$animateCount$4(valueAnimator2);
@@ -420,7 +422,7 @@ public class ButtonWithCounterView extends FrameLayout implements Loadable {
             fArr[1] = z ? 1.0f : 0.0f;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
             this.enabledAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.ButtonWithCounterView$$ExternalSyntheticLambda4
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.ButtonWithCounterView$$ExternalSyntheticLambda2
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                     ButtonWithCounterView.this.lambda$setEnabled$5(valueAnimator2);

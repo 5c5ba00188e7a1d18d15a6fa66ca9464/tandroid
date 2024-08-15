@@ -17,6 +17,7 @@ import androidx.core.view.ActionProvider;
 import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class ActionMenuItem implements SupportMenuItem {
+    private MenuItem.OnMenuItemClickListener mClickListener;
     private CharSequence mContentDescription;
     private Context mContext;
     private final int mGroup;
@@ -75,11 +76,6 @@ public class ActionMenuItem implements SupportMenuItem {
     @Override // androidx.core.internal.view.SupportMenuItem, android.view.MenuItem
     public boolean isActionViewExpanded() {
         return false;
-    }
-
-    @Override // android.view.MenuItem
-    public MenuItem setOnMenuItemClickListener(MenuItem.OnMenuItemClickListener onMenuItemClickListener) {
-        return this;
     }
 
     @Override // androidx.core.internal.view.SupportMenuItem, android.view.MenuItem
@@ -231,6 +227,12 @@ public class ActionMenuItem implements SupportMenuItem {
     public MenuItem setNumericShortcut(char c, int i) {
         this.mShortcutNumericChar = c;
         this.mShortcutNumericModifiers = KeyEvent.normalizeMetaState(i);
+        return this;
+    }
+
+    @Override // android.view.MenuItem
+    public MenuItem setOnMenuItemClickListener(MenuItem.OnMenuItemClickListener onMenuItemClickListener) {
+        this.mClickListener = onMenuItemClickListener;
         return this;
     }
 

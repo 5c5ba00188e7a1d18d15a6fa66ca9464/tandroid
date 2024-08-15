@@ -87,6 +87,7 @@ public class TranscribeButton {
     private Paint strokePaint;
     private boolean clickedToOpen = false;
     private boolean pressed = false;
+    private long pressId = 0;
     private final FastOutSlowInInterpolator interpolator = new FastOutSlowInInterpolator();
     private long start = SystemClock.elapsedRealtime();
     private android.graphics.Rect bounds = new android.graphics.Rect(0, 0, AndroidUtilities.dp(30.0f), AndroidUtilities.dp(30.0f));
@@ -110,7 +111,7 @@ public class TranscribeButton {
         this.outIconDrawable = rLottieDrawable;
         rLottieDrawable.setCurrentFrame(0);
         this.outIconDrawable.setCallback(chatMessageCell);
-        this.outIconDrawable.setOnFinishCallback(new Runnable() { // from class: org.telegram.ui.Components.TranscribeButton$$ExternalSyntheticLambda8
+        this.outIconDrawable.setOnFinishCallback(new Runnable() { // from class: org.telegram.ui.Components.TranscribeButton$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 TranscribeButton.this.lambda$new$0();
@@ -122,7 +123,7 @@ public class TranscribeButton {
         rLottieDrawable2.setCurrentFrame(0);
         this.inIconDrawable.setCallback(chatMessageCell);
         this.inIconDrawable.setMasterParent(chatMessageCell);
-        this.inIconDrawable.setOnFinishCallback(new Runnable() { // from class: org.telegram.ui.Components.TranscribeButton$$ExternalSyntheticLambda7
+        this.inIconDrawable.setOnFinishCallback(new Runnable() { // from class: org.telegram.ui.Components.TranscribeButton$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 TranscribeButton.this.lambda$new$1();
@@ -652,7 +653,7 @@ public class TranscribeButton {
         public LoadingPointsDrawable(TextPaint textPaint) {
             this.paint = textPaint;
             float textSize = textPaint.getTextSize() * 0.89f;
-            RLottieDrawable rLottieDrawable = new RLottieDrawable(this, R.raw.dots_loading, "dots_loading", (int) textSize, (int) (textSize * 1.25f)) { // from class: org.telegram.ui.Components.TranscribeButton.LoadingPointsDrawable.1
+            RLottieDrawable rLottieDrawable = new RLottieDrawable(R.raw.dots_loading, "dots_loading", (int) textSize, (int) (textSize * 1.25f)) { // from class: org.telegram.ui.Components.TranscribeButton.LoadingPointsDrawable.1
                 /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.RLottieDrawable
                 public boolean hasParentView() {
@@ -735,7 +736,7 @@ public class TranscribeButton {
                 openVideoTranscription(messageObject);
                 messageObject.messageOwner.voiceTranscriptionOpen = true;
                 MessagesStorage.getInstance(i).updateMessageVoiceTranscriptionOpen(peerDialogId, i2, messageObject.messageOwner);
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TranscribeButton$$ExternalSyntheticLambda1
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TranscribeButton$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
                         TranscribeButton.lambda$transcribePressed$2(i, messageObject);
@@ -753,7 +754,7 @@ public class TranscribeButton {
                 transcribeOperationsByDialogPosition = new HashMap<>();
             }
             transcribeOperationsByDialogPosition.put(Integer.valueOf(reqInfoHash(messageObject)), messageObject);
-            ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_transcribeAudio, new RequestDelegate() { // from class: org.telegram.ui.Components.TranscribeButton$$ExternalSyntheticLambda9
+            ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_transcribeAudio, new RequestDelegate() { // from class: org.telegram.ui.Components.TranscribeButton$$ExternalSyntheticLambda4
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     TranscribeButton.lambda$transcribePressed$6(i, chatMessageCellDelegate, messageObject, elapsedRealtime, peerDialogId, i2, tLObject, tLRPC$TL_error);
@@ -767,7 +768,7 @@ public class TranscribeButton {
         }
         messageObject.messageOwner.voiceTranscriptionOpen = false;
         MessagesStorage.getInstance(i).updateMessageVoiceTranscriptionOpen(peerDialogId, i2, messageObject.messageOwner);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TranscribeButton$$ExternalSyntheticLambda0
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TranscribeButton$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 TranscribeButton.lambda$transcribePressed$7(i, messageObject);
@@ -802,7 +803,7 @@ public class TranscribeButton {
             if ((tLRPC$TL_messages_transcribedAudio.flags & 2) != 0) {
                 MessagesController.getInstance(i).updateTranscribeAudioTrialCurrentNumber(tLRPC$TL_messages_transcribedAudio.trial_remains_num);
                 MessagesController.getInstance(i).updateTranscribeAudioTrialCooldownUntil(tLRPC$TL_messages_transcribedAudio.trial_remains_until_date);
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TranscribeButton$$ExternalSyntheticLambda6
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TranscribeButton$$ExternalSyntheticLambda7
                     @Override // java.lang.Runnable
                     public final void run() {
                         TranscribeButton.lambda$transcribePressed$3(ChatMessageCell.ChatMessageCellDelegate.this, tLRPC$TL_messages_transcribedAudio);
@@ -818,7 +819,7 @@ public class TranscribeButton {
         } else if (tLRPC$TL_error != null && (str = tLRPC$TL_error.text) != null && str.startsWith("FLOOD_WAIT_")) {
             MessagesController.getInstance(i).updateTranscribeAudioTrialCurrentNumber(0);
             MessagesController.getInstance(i).updateTranscribeAudioTrialCooldownUntil(ConnectionsManager.getInstance(i).getCurrentTime() + Utilities.parseInt((CharSequence) tLRPC$TL_error.text).intValue());
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TranscribeButton$$ExternalSyntheticLambda5
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TranscribeButton$$ExternalSyntheticLambda8
                 @Override // java.lang.Runnable
                 public final void run() {
                     TranscribeButton.lambda$transcribePressed$4(MessageObject.this, chatMessageCellDelegate, i);
@@ -840,7 +841,7 @@ public class TranscribeButton {
         final long j5 = j3;
         MessagesStorage.getInstance(i).updateMessageVoiceTranscription(j2, i2, str2, messageObject.messageOwner);
         if (z) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TranscribeButton$$ExternalSyntheticLambda4
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TranscribeButton$$ExternalSyntheticLambda9
                 @Override // java.lang.Runnable
                 public final void run() {
                     TranscribeButton.finishTranscription(MessageObject.this, j5, str2);
@@ -875,14 +876,11 @@ public class TranscribeButton {
     }
 
     public static boolean finishTranscription(final MessageObject messageObject, final long j, final String str) {
-        MessageObject messageObject2 = null;
         try {
             HashMap<Long, MessageObject> hashMap = transcribeOperationsById;
-            if (hashMap != null && hashMap.containsKey(Long.valueOf(j))) {
-                messageObject2 = transcribeOperationsById.remove(Long.valueOf(j));
-            }
+            MessageObject remove = (hashMap == null || !hashMap.containsKey(Long.valueOf(j))) ? null : transcribeOperationsById.remove(Long.valueOf(j));
             if (messageObject == null) {
-                messageObject = messageObject2;
+                messageObject = remove;
             }
             if (messageObject != null && messageObject.messageOwner != null) {
                 HashMap<Integer, MessageObject> hashMap2 = transcribeOperationsByDialogPosition;
@@ -891,7 +889,7 @@ public class TranscribeButton {
                 }
                 messageObject.messageOwner.voiceTranscriptionFinal = true;
                 MessagesStorage.getInstance(messageObject.currentAccount).updateMessageVoiceTranscription(messageObject.getDialogId(), messageObject.getId(), str, messageObject.messageOwner);
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TranscribeButton$$ExternalSyntheticLambda3
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TranscribeButton$$ExternalSyntheticLambda6
                     @Override // java.lang.Runnable
                     public final void run() {
                         TranscribeButton.lambda$finishTranscription$8(MessageObject.this, j, str);
@@ -924,7 +922,7 @@ public class TranscribeButton {
         tLRPC$Message.voiceTranscriptionForce = true;
         MessagesStorage.getInstance(messageObject.currentAccount).updateMessageVoiceTranscriptionOpen(messageObject.getDialogId(), messageObject.getId(), messageObject.messageOwner);
         if (z) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TranscribeButton$$ExternalSyntheticLambda2
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TranscribeButton$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     TranscribeButton.lambda$showOffTranscribe$9(MessageObject.this);

@@ -4,10 +4,8 @@ import java.util.logging.Logger;
 /* compiled from: com.google.mlkit:image-labeling-common@@18.1.0 */
 /* loaded from: classes.dex */
 final class zzh {
-    static {
-        Logger.getLogger(zzh.class.getName());
-        new zzg(null);
-    }
+    private static final Logger zza = Logger.getLogger(zzh.class.getName());
+    private static final zzg zzb = new zzg(null);
 
     private zzh() {
     }

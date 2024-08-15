@@ -7,14 +7,11 @@ import java.util.Collections;
 import java.util.List;
 /* loaded from: classes.dex */
 public final class ClientMetrics {
+    private static final ClientMetrics DEFAULT_INSTANCE = new Builder().build();
     private final String app_namespace_;
     private final GlobalMetrics global_metrics_;
     private final List<LogSourceMetrics> log_source_metrics_;
     private final TimeWindow window_;
-
-    static {
-        new Builder().build();
-    }
 
     ClientMetrics(TimeWindow timeWindow, List<LogSourceMetrics> list, GlobalMetrics globalMetrics, String str) {
         this.window_ = timeWindow;

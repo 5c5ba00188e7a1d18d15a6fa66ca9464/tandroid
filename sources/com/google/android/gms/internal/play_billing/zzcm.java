@@ -9,8 +9,16 @@ import java.util.RandomAccess;
 /* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public final class zzcm extends zzal implements RandomAccess, zzcn {
-    private static final zzcm zzb = new zzcm(false);
+    @Deprecated
+    public static final zzcn zza;
+    private static final zzcm zzb;
     private final List zzc;
+
+    static {
+        zzcm zzcmVar = new zzcm(false);
+        zzb = zzcmVar;
+        zza = zzcmVar;
+    }
 
     public zzcm() {
         this(10);

@@ -1,19 +1,22 @@
 package j$.util;
 
 import j$.util.function.Consumer;
-import java.util.Objects;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class o implements j$.util.function.l {
+public final /* synthetic */ class o implements j$.util.function.m {
     public final /* synthetic */ Consumer a;
 
-    @Override // j$.util.function.l
-    public final void accept(int i) {
-        this.a.accept(Integer.valueOf(i));
+    public /* synthetic */ o(Consumer consumer) {
+        this.a = consumer;
     }
 
-    @Override // j$.util.function.l
-    public j$.util.function.l l(j$.util.function.l lVar) {
-        Objects.requireNonNull(lVar);
-        return new j$.util.function.k(this, lVar);
+    @Override // j$.util.function.m
+    public final void accept(double d) {
+        this.a.accept(Double.valueOf(d));
+    }
+
+    @Override // j$.util.function.m
+    public final j$.util.function.m m(j$.util.function.m mVar) {
+        mVar.getClass();
+        return new j$.util.function.j(this, mVar);
     }
 }

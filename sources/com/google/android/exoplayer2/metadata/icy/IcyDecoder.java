@@ -48,12 +48,18 @@ public final class IcyDecoder extends SimpleMetadataDecoder {
             return this.utf8Decoder.decode(byteBuffer).toString();
         } catch (CharacterCodingException unused) {
             try {
-                return this.iso88591Decoder.decode(byteBuffer).toString();
-            } catch (CharacterCodingException unused2) {
-                return null;
-            } finally {
+                String charBuffer = this.iso88591Decoder.decode(byteBuffer).toString();
                 this.iso88591Decoder.reset();
                 byteBuffer.rewind();
+                return charBuffer;
+            } catch (CharacterCodingException unused2) {
+                this.iso88591Decoder.reset();
+                byteBuffer.rewind();
+                return null;
+            } catch (Throwable th) {
+                this.iso88591Decoder.reset();
+                byteBuffer.rewind();
+                throw th;
             }
         } finally {
             this.utf8Decoder.reset();

@@ -1,88 +1,70 @@
 package j$.util;
 
-import j$.util.Iterator;
 import j$.util.function.Consumer;
-import j$.util.s;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.PrimitiveIterator;
 /* loaded from: classes2.dex */
-class x implements n, j$.util.function.f, Iterator {
-    boolean a = false;
-    double b;
-    final /* synthetic */ s.a c;
+public final /* synthetic */ class x implements z, Iterator {
+    public final /* synthetic */ PrimitiveIterator.OfLong a;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public x(s.a aVar) {
-        this.c = aVar;
+    private /* synthetic */ x(PrimitiveIterator.OfLong ofLong) {
+        this.a = ofLong;
     }
 
-    @Override // j$.util.function.f
-    public void accept(double d) {
-        this.a = true;
-        this.b = d;
+    public static /* synthetic */ z a(PrimitiveIterator.OfLong ofLong) {
+        if (ofLong == null) {
+            return null;
+        }
+        return ofLong instanceof y ? ((y) ofLong).a : new x(ofLong);
     }
 
-    @Override // j$.util.p
-    /* renamed from: e */
-    public void forEachRemaining(j$.util.function.f fVar) {
-        Objects.requireNonNull(fVar);
-        while (hasNext()) {
-            fVar.accept(nextDouble());
-        }
+    @Override // j$.util.z
+    public final /* synthetic */ void b(j$.util.function.h0 h0Var) {
+        this.a.forEachRemaining(j$.util.function.g0.a(h0Var));
     }
 
-    @Override // j$.util.n, j$.util.Iterator
-    public void forEachRemaining(Consumer consumer) {
-        if (consumer instanceof j$.util.function.f) {
-            forEachRemaining((j$.util.function.f) consumer);
-            return;
+    public final /* synthetic */ boolean equals(Object obj) {
+        if (obj instanceof x) {
+            obj = ((x) obj).a;
         }
-        Objects.requireNonNull(consumer);
-        if (!K.a) {
-            while (hasNext()) {
-                consumer.accept(Double.valueOf(nextDouble()));
-            }
-            return;
-        }
-        K.a(x.class, "{0} calling PrimitiveIterator.OfDouble.forEachRemainingDouble(action::accept)");
-        throw null;
+        return this.a.equals(obj);
+    }
+
+    @Override // j$.util.z, j$.util.Iterator
+    public final /* synthetic */ void forEachRemaining(Consumer consumer) {
+        this.a.forEachRemaining(Consumer.Wrapper.convert(consumer));
+    }
+
+    @Override // j$.util.A
+    public final /* synthetic */ void forEachRemaining(Object obj) {
+        this.a.forEachRemaining((PrimitiveIterator.OfLong) obj);
     }
 
     @Override // java.util.Iterator, j$.util.Iterator
-    public boolean hasNext() {
-        if (!this.a) {
-            this.c.k(this);
-        }
-        return this.a;
+    public final /* synthetic */ boolean hasNext() {
+        return this.a.hasNext();
     }
 
-    @Override // j$.util.function.f
-    public j$.util.function.f j(j$.util.function.f fVar) {
-        Objects.requireNonNull(fVar);
-        return new j$.util.function.e(this, fVar);
+    public final /* synthetic */ int hashCode() {
+        return this.a.hashCode();
     }
 
-    @Override // java.util.Iterator, j$.util.Iterator
-    public Double next() {
-        if (K.a) {
-            K.a(x.class, "{0} calling PrimitiveIterator.OfDouble.nextLong()");
-            throw null;
-        }
-        return Double.valueOf(nextDouble());
-    }
-
-    @Override // j$.util.n
-    public double nextDouble() {
-        if (this.a || hasNext()) {
-            this.a = false;
-            return this.b;
-        }
-        throw new NoSuchElementException();
+    @Override // j$.util.z, java.util.Iterator, j$.util.Iterator
+    public final /* synthetic */ Long next() {
+        return this.a.next();
     }
 
     @Override // java.util.Iterator, j$.util.Iterator
-    public /* synthetic */ void remove() {
-        Iterator.-CC.a(this);
-        throw null;
+    public final /* synthetic */ Object next() {
+        return this.a.next();
+    }
+
+    @Override // j$.util.z
+    public final /* synthetic */ long nextLong() {
+        return this.a.nextLong();
+    }
+
+    @Override // java.util.Iterator, j$.util.Iterator
+    public final /* synthetic */ void remove() {
+        this.a.remove();
     }
 }

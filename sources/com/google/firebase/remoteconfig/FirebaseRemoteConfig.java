@@ -26,12 +26,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 /* loaded from: classes.dex */
 public class FirebaseRemoteConfig {
+    public static final byte[] DEFAULT_VALUE_FOR_BYTE_ARRAY = new byte[0];
     private final ConfigCacheClient activatedConfigsCache;
+    private final Context context;
     private final ConfigCacheClient defaultConfigsCache;
     private final Executor executor;
     private final ConfigFetchHandler fetchHandler;
     private final ConfigCacheClient fetchedConfigsCache;
     private final FirebaseABTesting firebaseAbt;
+    private final FirebaseApp firebaseApp;
     private final FirebaseInstallationsApi firebaseInstallations;
     private final ConfigMetadataClient frcMetadata;
     private final ConfigGetParameterHandler getHandler;
@@ -46,6 +49,8 @@ public class FirebaseRemoteConfig {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public FirebaseRemoteConfig(Context context, FirebaseApp firebaseApp, FirebaseInstallationsApi firebaseInstallationsApi, FirebaseABTesting firebaseABTesting, Executor executor, ConfigCacheClient configCacheClient, ConfigCacheClient configCacheClient2, ConfigCacheClient configCacheClient3, ConfigFetchHandler configFetchHandler, ConfigGetParameterHandler configGetParameterHandler, ConfigMetadataClient configMetadataClient) {
+        this.context = context;
+        this.firebaseApp = firebaseApp;
         this.firebaseInstallations = firebaseInstallationsApi;
         this.firebaseAbt = firebaseABTesting;
         this.executor = executor;
@@ -79,7 +84,7 @@ public class FirebaseRemoteConfig {
         if (task2.isSuccessful() && !isFetchedFresh(configContainer, (ConfigContainer) task2.getResult())) {
             return Tasks.forResult(Boolean.FALSE);
         }
-        return this.activatedConfigsCache.put(configContainer).continueWith(this.executor, new Continuation() { // from class: com.google.firebase.remoteconfig.FirebaseRemoteConfig$$ExternalSyntheticLambda0
+        return this.activatedConfigsCache.put(configContainer).continueWith(this.executor, new Continuation() { // from class: com.google.firebase.remoteconfig.FirebaseRemoteConfig$$ExternalSyntheticLambda2
             @Override // com.google.android.gms.tasks.Continuation
             public final Object then(Task task4) {
                 boolean processActivatePutTask;
@@ -90,7 +95,7 @@ public class FirebaseRemoteConfig {
     }
 
     public Task<Void> fetch(long j) {
-        return this.fetchHandler.fetch(j).onSuccessTask(new SuccessContinuation() { // from class: com.google.firebase.remoteconfig.FirebaseRemoteConfig$$ExternalSyntheticLambda2
+        return this.fetchHandler.fetch(j).onSuccessTask(new SuccessContinuation() { // from class: com.google.firebase.remoteconfig.FirebaseRemoteConfig$$ExternalSyntheticLambda0
             @Override // com.google.android.gms.tasks.SuccessContinuation
             public final Task then(Object obj) {
                 Task lambda$fetch$4;

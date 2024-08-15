@@ -90,7 +90,7 @@ public class BusinessLinksController {
             this.loading = true;
             if (z) {
                 final MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
-                messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Business.BusinessLinksController$$ExternalSyntheticLambda4
+                messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Business.BusinessLinksController$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         BusinessLinksController.this.lambda$load$1(messagesStorage, z2);
@@ -108,7 +108,7 @@ public class BusinessLinksController {
                 public void serializeToStream(AbstractSerializedData abstractSerializedData) {
                     abstractSerializedData.writeInt32(1869667809);
                 }
-            }, new RequestDelegate() { // from class: org.telegram.ui.Business.BusinessLinksController$$ExternalSyntheticLambda9
+            }, new RequestDelegate() { // from class: org.telegram.ui.Business.BusinessLinksController$$ExternalSyntheticLambda2
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     BusinessLinksController.this.lambda$load$3(tLObject, tLRPC$TL_error);
@@ -162,7 +162,7 @@ public class BusinessLinksController {
                 FileLog.e(e);
             }
             sQLiteCursor.dispose();
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Business.BusinessLinksController$$ExternalSyntheticLambda3
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Business.BusinessLinksController$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
                 public final void run() {
                     BusinessLinksController.this.lambda$load$0(arrayList, arrayList2, arrayList3, z);
@@ -189,7 +189,7 @@ public class BusinessLinksController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$load$3(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Business.BusinessLinksController$$ExternalSyntheticLambda5
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Business.BusinessLinksController$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 BusinessLinksController.this.lambda$load$2(tLObject);
@@ -220,7 +220,7 @@ public class BusinessLinksController {
         TLRPC$TL_inputBusinessChatLink tLRPC$TL_inputBusinessChatLink = new TLRPC$TL_inputBusinessChatLink();
         tLRPC$TL_account_createBusinessChatLink.link = tLRPC$TL_inputBusinessChatLink;
         tLRPC$TL_inputBusinessChatLink.message = "";
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_createBusinessChatLink, new RequestDelegate() { // from class: org.telegram.ui.Business.BusinessLinksController$$ExternalSyntheticLambda10
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_createBusinessChatLink, new RequestDelegate() { // from class: org.telegram.ui.Business.BusinessLinksController$$ExternalSyntheticLambda8
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 BusinessLinksController.this.lambda$createEmptyLink$5(tLObject, tLRPC$TL_error);
@@ -230,7 +230,7 @@ public class BusinessLinksController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createEmptyLink$5(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Business.BusinessLinksController$$ExternalSyntheticLambda6
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Business.BusinessLinksController$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
                 BusinessLinksController.this.lambda$createEmptyLink$4(tLObject);
@@ -255,12 +255,12 @@ public class BusinessLinksController {
             final int indexOf = this.links.indexOf(findLink);
             this.links.remove(findLink);
             NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.businessLinksUpdated, new Object[0]);
-            BulletinFactory.of(baseFragment).createUndoBulletin(LocaleController.getString(R.string.BusinessLinkDeleted), true, new Runnable() { // from class: org.telegram.ui.Business.BusinessLinksController$$ExternalSyntheticLambda1
+            BulletinFactory.of(baseFragment).createUndoBulletin(LocaleController.getString(R.string.BusinessLinkDeleted), true, new Runnable() { // from class: org.telegram.ui.Business.BusinessLinksController$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
                     BusinessLinksController.this.lambda$deleteLinkUndoable$6(indexOf, findLink);
                 }
-            }, new Runnable() { // from class: org.telegram.ui.Business.BusinessLinksController$$ExternalSyntheticLambda2
+            }, new Runnable() { // from class: org.telegram.ui.Business.BusinessLinksController$$ExternalSyntheticLambda7
                 @Override // java.lang.Runnable
                 public final void run() {
                     BusinessLinksController.this.lambda$deleteLinkUndoable$9(str, findLink);
@@ -279,7 +279,7 @@ public class BusinessLinksController {
     public /* synthetic */ void lambda$deleteLinkUndoable$9(String str, final TLRPC$TL_businessChatLink tLRPC$TL_businessChatLink) {
         TLRPC$TL_account_deleteBusinessChatLink tLRPC$TL_account_deleteBusinessChatLink = new TLRPC$TL_account_deleteBusinessChatLink();
         tLRPC$TL_account_deleteBusinessChatLink.slug = str;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_deleteBusinessChatLink, new RequestDelegate() { // from class: org.telegram.ui.Business.BusinessLinksController$$ExternalSyntheticLambda11
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_deleteBusinessChatLink, new RequestDelegate() { // from class: org.telegram.ui.Business.BusinessLinksController$$ExternalSyntheticLambda9
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 BusinessLinksController.this.lambda$deleteLinkUndoable$8(tLRPC$TL_businessChatLink, tLObject, tLRPC$TL_error);
@@ -289,7 +289,7 @@ public class BusinessLinksController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$deleteLinkUndoable$8(final TLRPC$TL_businessChatLink tLRPC$TL_businessChatLink, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Business.BusinessLinksController$$ExternalSyntheticLambda7
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Business.BusinessLinksController$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
                 BusinessLinksController.this.lambda$deleteLinkUndoable$7(tLObject, tLRPC$TL_businessChatLink);
@@ -337,7 +337,7 @@ public class BusinessLinksController {
     private void saveToCache() {
         final ArrayList arrayList = new ArrayList(this.links);
         final MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
-        messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Business.BusinessLinksController$$ExternalSyntheticLambda0
+        messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Business.BusinessLinksController$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
             public final void run() {
                 BusinessLinksController.lambda$saveToCache$10(MessagesStorage.this, arrayList);
@@ -390,7 +390,7 @@ public class BusinessLinksController {
             tLRPC$TL_inputBusinessChatLink.flags |= 2;
         }
         tLRPC$TL_account_editBusinessChatLink.link = tLRPC$TL_inputBusinessChatLink;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_editBusinessChatLink, new RequestDelegate() { // from class: org.telegram.ui.Business.BusinessLinksController$$ExternalSyntheticLambda12
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_editBusinessChatLink, new RequestDelegate() { // from class: org.telegram.ui.Business.BusinessLinksController$$ExternalSyntheticLambda0
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 BusinessLinksController.this.lambda$editLink$12(tLRPC$TL_businessChatLink, runnable, tLObject, tLRPC$TL_error);
@@ -400,7 +400,7 @@ public class BusinessLinksController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$editLink$12(final TLRPC$TL_businessChatLink tLRPC$TL_businessChatLink, final Runnable runnable, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Business.BusinessLinksController$$ExternalSyntheticLambda8
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Business.BusinessLinksController$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 BusinessLinksController.this.lambda$editLink$11(tLObject, tLRPC$TL_businessChatLink, runnable);

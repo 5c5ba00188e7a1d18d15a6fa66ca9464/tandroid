@@ -304,8 +304,8 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
 
     /* JADX WARN: Removed duplicated region for block: B:37:0x0097  */
     /* JADX WARN: Removed duplicated region for block: B:38:0x009a  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0134  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0140  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x0135  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x0141  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -475,6 +475,13 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
                     try {
                         viewHolder.itemView.performHapticFeedback(0, 2);
                     } catch (Exception unused) {
+                        parent = this.mRecyclerView.getParent();
+                        if (parent != null) {
+                        }
+                        if (!z) {
+                        }
+                        this.mCallback.onSelectedChanged(this.mSelected, this.mActionState);
+                        this.mRecyclerView.invalidate();
                     }
                 } catch (Exception unused2) {
                 }
@@ -1317,6 +1324,7 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
     /* loaded from: classes.dex */
     public static class RecoverAnimation implements Animator.AnimatorListener {
         final int mActionState;
+        final int mAnimationType;
         private float mFraction;
         boolean mIsPendingCleanup;
         final float mStartDx;
@@ -1340,6 +1348,7 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
 
         RecoverAnimation(RecyclerView.ViewHolder viewHolder, int i, int i2, float f, float f2, float f3, float f4) {
             this.mActionState = i2;
+            this.mAnimationType = i;
             this.mViewHolder = viewHolder;
             this.mStartDx = f;
             this.mStartDy = f2;

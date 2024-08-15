@@ -16,10 +16,20 @@ class CryptoAesHandler implements CryptoHandler {
 
     @Override // com.microsoft.appcenter.utils.crypto.CryptoHandler
     public void generateKey(CryptoUtils.ICryptoFactory iCryptoFactory, String str, Context context) throws Exception {
+        KeyGenParameterSpec.Builder blockModes;
+        KeyGenParameterSpec.Builder encryptionPaddings;
+        KeyGenParameterSpec.Builder keySize;
+        KeyGenParameterSpec.Builder keyValidityForOriginationEnd;
+        KeyGenParameterSpec build;
         Calendar calendar = Calendar.getInstance();
         calendar.add(1, 1);
         CryptoUtils.IKeyGenerator keyGenerator = iCryptoFactory.getKeyGenerator("AES", "AndroidKeyStore");
-        keyGenerator.init(new KeyGenParameterSpec.Builder(str, 3).setBlockModes("CBC").setEncryptionPaddings("PKCS7Padding").setKeySize(LiteMode.FLAG_CHAT_BLUR).setKeyValidityForOriginationEnd(calendar.getTime()).build());
+        blockModes = new KeyGenParameterSpec.Builder(str, 3).setBlockModes("CBC");
+        encryptionPaddings = blockModes.setEncryptionPaddings("PKCS7Padding");
+        keySize = encryptionPaddings.setKeySize(LiteMode.FLAG_CHAT_BLUR);
+        keyValidityForOriginationEnd = keySize.setKeyValidityForOriginationEnd(calendar.getTime());
+        build = keyValidityForOriginationEnd.build();
+        keyGenerator.init(build);
         keyGenerator.generateKey();
     }
 

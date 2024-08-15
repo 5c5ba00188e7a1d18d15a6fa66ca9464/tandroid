@@ -374,6 +374,7 @@ public class MediaActionDrawable extends Drawable {
         float f30;
         int i17;
         float f31;
+        Path path;
         int i18;
         int i19;
         android.graphics.Rect bounds = getBounds();
@@ -1028,11 +1029,13 @@ public class MediaActionDrawable extends Drawable {
                 canvas.scale(f23, f23);
                 float f80 = (-dp22) / 2;
                 canvas.translate(f80, f80);
-                if (pathArr7[0] != null) {
-                    canvas.drawPath(pathArr7[0], this.paint2);
+                Path path2 = pathArr7[0];
+                if (path2 != null) {
+                    canvas.drawPath(path2, this.paint2);
                 }
-                if (pathArr7[1] != null) {
-                    canvas.drawPath(pathArr7[1], this.backPaint);
+                Path path3 = pathArr7[1];
+                if (path3 != null) {
+                    canvas.drawPath(path3, this.backPaint);
                 }
                 canvas.restore();
             }
@@ -1048,20 +1051,22 @@ public class MediaActionDrawable extends Drawable {
                 canvas.scale(f81, f81);
                 float f82 = (-dp23) / 2;
                 canvas.translate(f82, f82);
-                if (pathArr8[0] != null) {
-                    canvas.drawPath(pathArr8[0], this.paint2);
+                Path path4 = pathArr8[0];
+                if (path4 != null) {
+                    canvas.drawPath(path4, this.paint2);
                 }
-                if (pathArr8.length >= 3 && pathArr8[2] != null) {
-                    canvas.drawPath(pathArr8[2], this.paint);
+                if (pathArr8.length >= 3 && (path = pathArr8[2]) != null) {
+                    canvas.drawPath(path, this.paint);
                 }
-                if (pathArr8[1] != null) {
+                Path path5 = pathArr8[1];
+                if (path5 != null) {
                     if (i44 != 255) {
                         int alpha = this.backPaint.getAlpha();
                         this.backPaint.setAlpha((int) (alpha * (i44 / 255.0f)));
                         canvas.drawPath(pathArr8[1], this.backPaint);
                         this.backPaint.setAlpha(alpha);
                     } else {
-                        canvas.drawPath(pathArr8[1], this.backPaint);
+                        canvas.drawPath(path5, this.backPaint);
                     }
                 }
                 canvas.restore();

@@ -553,11 +553,13 @@ class HlsChunkSource {
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static final class HlsMediaPlaylistSegmentIterator extends BaseMediaChunkIterator {
+        private final String playlistBaseUri;
         private final List<HlsMediaPlaylist.SegmentBase> segmentBases;
         private final long startOfPlaylistInPeriodUs;
 
         public HlsMediaPlaylistSegmentIterator(String str, long j, List<HlsMediaPlaylist.SegmentBase> list) {
             super(0L, list.size() - 1);
+            this.playlistBaseUri = str;
             this.startOfPlaylistInPeriodUs = j;
             this.segmentBases = list;
         }

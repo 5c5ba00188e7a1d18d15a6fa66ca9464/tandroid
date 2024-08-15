@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 /* loaded from: classes.dex */
 public class LinearSmoothScrollerEnd extends RecyclerView.SmoothScroller {
     private final float MILLISECONDS_PER_PX;
+    protected PointF mTargetVector;
     protected final LinearInterpolator mLinearInterpolator = new LinearInterpolator();
     protected final DecelerateInterpolator mDecelerateInterpolator = new DecelerateInterpolator(1.5f);
     protected int mInterimTargetDx = 0;
@@ -58,6 +59,7 @@ public class LinearSmoothScrollerEnd extends RecyclerView.SmoothScroller {
     protected void onStop() {
         this.mInterimTargetDy = 0;
         this.mInterimTargetDx = 0;
+        this.mTargetVector = null;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -79,6 +81,7 @@ public class LinearSmoothScrollerEnd extends RecyclerView.SmoothScroller {
             return;
         }
         normalize(computeScrollVectorForPosition);
+        this.mTargetVector = computeScrollVectorForPosition;
         this.mInterimTargetDx = (int) (computeScrollVectorForPosition.x * 10000.0f);
         this.mInterimTargetDy = (int) (computeScrollVectorForPosition.y * 10000.0f);
         action.update((int) (this.mInterimTargetDx * 1.2f), (int) (this.mInterimTargetDy * 1.2f), (int) (calculateTimeForScrolling(10000) * 1.2f), this.mLinearInterpolator);

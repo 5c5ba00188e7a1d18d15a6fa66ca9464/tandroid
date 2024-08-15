@@ -14,12 +14,16 @@ public class JoinPointImpl implements JoinPoint {
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class StaticPartImpl implements JoinPoint.StaticPart {
+        private int id;
         String kind;
         Signature signature;
+        SourceLocation sourceLocation;
 
         public StaticPartImpl(int i, String str, Signature signature, SourceLocation sourceLocation) {
             this.kind = str;
             this.signature = signature;
+            this.sourceLocation = sourceLocation;
+            this.id = i;
         }
 
         public String getKind() {

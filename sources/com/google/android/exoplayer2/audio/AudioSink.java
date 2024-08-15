@@ -156,8 +156,13 @@ public interface AudioSink {
 
     /* loaded from: classes.dex */
     public static final class UnexpectedDiscontinuityException extends Exception {
+        public final long actualPresentationTimeUs;
+        public final long expectedPresentationTimeUs;
+
         public UnexpectedDiscontinuityException(long j, long j2) {
             super("Unexpected audio track timestamp discontinuity: expected " + j2 + ", got " + j);
+            this.actualPresentationTimeUs = j;
+            this.expectedPresentationTimeUs = j2;
         }
     }
 }

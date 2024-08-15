@@ -3,79 +3,77 @@ package j$.util.stream;
 import j$.util.function.BiConsumer;
 import j$.util.function.LongFunction;
 import j$.util.function.Supplier;
-import j$.util.p;
-import j$.util.s;
 /* loaded from: classes2.dex */
-public interface LongStream extends g {
-    long C(long j, j$.util.function.o oVar);
+public interface LongStream extends BaseStream<Long, LongStream> {
+    void E(j$.util.function.h0 h0Var);
 
-    boolean K(j$.wrappers.i0 i0Var);
+    F J(j$.util.function.p0 p0Var);
 
-    V N(j$.wrappers.k0 k0Var);
+    LongStream M(j$.util.function.w0 w0Var);
 
-    boolean Q(j$.wrappers.i0 i0Var);
+    IntStream T(j$.util.function.s0 s0Var);
 
-    void W(j$.util.function.q qVar);
+    boolean a(j$.util.function.m0 m0Var);
 
-    IntStream a0(j$.wrappers.m0 m0Var);
+    F asDoubleStream();
 
-    V asDoubleStream();
-
-    j$.util.j average();
-
-    Object b0(Supplier supplier, j$.util.function.v vVar, BiConsumer biConsumer);
+    j$.util.l average();
 
     Stream boxed();
 
-    long count();
+    boolean c0(j$.util.function.m0 m0Var);
 
-    void d(j$.util.function.q qVar);
+    long count();
 
     LongStream distinct();
 
-    j$.util.l findAny();
+    j$.util.n e(j$.util.function.d0 d0Var);
 
-    j$.util.l findFirst();
+    LongStream e0(j$.util.function.m0 m0Var);
 
-    j$.util.l g(j$.util.function.o oVar);
+    j$.util.n findAny();
 
-    @Override // j$.util.stream.g
-    p.b iterator();
+    j$.util.n findFirst();
 
-    boolean k(j$.wrappers.i0 i0Var);
+    LongStream g(j$.util.function.h0 h0Var);
+
+    LongStream h(LongFunction longFunction);
+
+    @Override // j$.util.stream.BaseStream, j$.util.stream.F
+    j$.util.z iterator();
 
     LongStream limit(long j);
 
     <U> Stream<U> mapToObj(LongFunction<? extends U> longFunction);
 
-    j$.util.l max();
+    j$.util.n max();
 
-    j$.util.l min();
+    j$.util.n min();
 
-    LongStream o(j$.util.function.q qVar);
+    long n(long j, j$.util.function.d0 d0Var);
 
-    @Override // j$.util.stream.g
+    @Override // j$.util.stream.BaseStream, j$.util.stream.F
     LongStream parallel();
 
-    LongStream r(LongFunction longFunction);
-
-    @Override // j$.util.stream.g
+    @Override // j$.util.stream.BaseStream, j$.util.stream.F
     LongStream sequential();
 
     LongStream skip(long j);
 
     LongStream sorted();
 
-    @Override // j$.util.stream.g
-    s.c spliterator();
+    @Override // j$.util.stream.BaseStream, j$.util.stream.F
+    j$.util.K spliterator();
 
     long sum();
 
-    j$.util.i summaryStatistics();
-
-    LongStream t(j$.wrappers.i0 i0Var);
+    j$.util.j summaryStatistics();
 
     long[] toArray();
 
-    LongStream y(j$.util.function.s sVar);
+    void x(j$.util.function.h0 h0Var);
+
+    Object y(Supplier supplier, j$.util.function.F0 f0, BiConsumer biConsumer);
+
+    boolean z(j$.util.function.m0 m0Var);
 }

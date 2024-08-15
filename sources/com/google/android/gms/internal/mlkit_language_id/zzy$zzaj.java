@@ -11,6 +11,34 @@ public final class zzy$zzaj extends zzeo<zzy$zzaj, zzb> implements zzgb {
 
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
+    public enum zza implements zzet {
+        zza(0),
+        zzb(1);
+        
+        private static final zzes<zza> zzc = new zzba();
+        private final int zzd;
+
+        zza(int i) {
+            this.zzd = i;
+        }
+
+        public static zzev zzb() {
+            return zzaz.zza;
+        }
+
+        @Override // java.lang.Enum
+        public final String toString() {
+            return "<" + zza.class.getName() + '@' + Integer.toHexString(System.identityHashCode(this)) + " number=" + this.zzd + " name=" + name() + '>';
+        }
+
+        @Override // com.google.android.gms.internal.mlkit_language_id.zzet
+        public final int zza() {
+            return this.zzd;
+        }
+    }
+
+    /* compiled from: com.google.mlkit:language-id@@16.1.1 */
+    /* loaded from: classes.dex */
     public static final class zzb extends zzeo.zzb<zzy$zzaj, zzb> implements zzgb {
         private zzb() {
             super(zzy$zzaj.zze);
@@ -66,37 +94,6 @@ public final class zzy$zzaj extends zzeo<zzy$zzaj, zzb> implements zzgb {
                 return null;
             default:
                 throw new UnsupportedOperationException();
-        }
-    }
-
-    /* compiled from: com.google.mlkit:language-id@@16.1.1 */
-    /* loaded from: classes.dex */
-    public enum zza implements zzet {
-        zza(0),
-        zzb(1);
-        
-        private final int zzd;
-
-        zza(int i) {
-            this.zzd = i;
-        }
-
-        public static zzev zzb() {
-            return zzaz.zza;
-        }
-
-        @Override // java.lang.Enum
-        public final String toString() {
-            return "<" + zza.class.getName() + '@' + Integer.toHexString(System.identityHashCode(this)) + " number=" + this.zzd + " name=" + name() + '>';
-        }
-
-        @Override // com.google.android.gms.internal.mlkit_language_id.zzet
-        public final int zza() {
-            return this.zzd;
-        }
-
-        static {
-            new zzba();
         }
     }
 }

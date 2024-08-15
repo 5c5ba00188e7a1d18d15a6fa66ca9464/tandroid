@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 /* loaded from: classes.dex */
 public class AspectRatioFrameLayout extends FrameLayout {
-    private AspectRatioListener aspectRatioListener;
     private final AspectRatioUpdateDispatcher aspectRatioUpdateDispatcher;
     private boolean drawingReady;
     private Matrix matrix;
@@ -17,7 +16,14 @@ public class AspectRatioFrameLayout extends FrameLayout {
 
     /* loaded from: classes.dex */
     public interface AspectRatioListener {
-        void onAspectRatioUpdated(float f, float f2, boolean z);
+    }
+
+    public void setAspectRatioListener(AspectRatioListener aspectRatioListener) {
+    }
+
+    static /* synthetic */ AspectRatioListener access$100(AspectRatioFrameLayout aspectRatioFrameLayout) {
+        aspectRatioFrameLayout.getClass();
+        return null;
     }
 
     public AspectRatioFrameLayout(Context context) {
@@ -33,10 +39,6 @@ public class AspectRatioFrameLayout extends FrameLayout {
             this.rotation = i;
             requestLayout();
         }
-    }
-
-    public void setAspectRatioListener(AspectRatioListener aspectRatioListener) {
-        this.aspectRatioListener = aspectRatioListener;
     }
 
     public int getResizeMode() {
@@ -163,10 +165,7 @@ public class AspectRatioFrameLayout extends FrameLayout {
         @Override // java.lang.Runnable
         public void run() {
             this.isScheduled = false;
-            if (AspectRatioFrameLayout.this.aspectRatioListener == null) {
-                return;
-            }
-            AspectRatioFrameLayout.this.aspectRatioListener.onAspectRatioUpdated(this.targetAspectRatio, this.naturalAspectRatio, this.aspectRatioMismatch);
+            AspectRatioFrameLayout.access$100(AspectRatioFrameLayout.this);
         }
     }
 }

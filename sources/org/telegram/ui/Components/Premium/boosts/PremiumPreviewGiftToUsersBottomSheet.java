@@ -80,7 +80,7 @@ public class PremiumPreviewGiftToUsersBottomSheet extends PremiumPreviewBottomSh
         this.selectedMonths = 3;
         arrayList.addAll(list);
         arrayList2.addAll(list2);
-        Collections.sort(list2, Comparator$-CC.comparingLong(new ToLongFunction() { // from class: org.telegram.ui.Components.Premium.boosts.PremiumPreviewGiftToUsersBottomSheet$$ExternalSyntheticLambda2
+        Collections.sort(list2, Comparator$-CC.comparingLong(new ToLongFunction() { // from class: org.telegram.ui.Components.Premium.boosts.PremiumPreviewGiftToUsersBottomSheet$$ExternalSyntheticLambda0
             @Override // j$.util.function.ToLongFunction
             public final long applyAsLong(Object obj) {
                 long j;
@@ -93,7 +93,6 @@ public class PremiumPreviewGiftToUsersBottomSheet extends PremiumPreviewBottomSh
 
     @Override // org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet
     protected void updateRows() {
-        this.rowCount = 0;
         int i = 0 + 1;
         this.rowCount = i;
         this.paddingRow = 0;
@@ -104,7 +103,6 @@ public class PremiumPreviewGiftToUsersBottomSheet extends PremiumPreviewBottomSh
         this.additionEndRow = size;
         this.featuresStartRow = size;
         int size2 = size + this.premiumFeatures.size();
-        this.rowCount = size2;
         this.featuresEndRow = size2;
         this.rowCount = size2 + 1;
         this.termsRow = size2;
@@ -239,7 +237,7 @@ public class PremiumPreviewGiftToUsersBottomSheet extends PremiumPreviewBottomSh
         this.buttonContainer.setBackgroundColor(Theme.getColor(Theme.key_dialogBackground, this.resourcesProvider));
         GradientButtonWithCounterView gradientButtonWithCounterView = new GradientButtonWithCounterView(getContext(), true, this.resourcesProvider);
         this.actionBtn = gradientButtonWithCounterView;
-        gradientButtonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.PremiumPreviewGiftToUsersBottomSheet$$ExternalSyntheticLambda0
+        gradientButtonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.PremiumPreviewGiftToUsersBottomSheet$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 PremiumPreviewGiftToUsersBottomSheet.this.lambda$init$4(view);
@@ -266,12 +264,12 @@ public class PremiumPreviewGiftToUsersBottomSheet extends PremiumPreviewBottomSh
         if (isSelf()) {
             PremiumPreviewFragment.buyPremium(getBaseFragment(), "grace_period");
         } else {
-            BoostRepository.payGiftCode(new ArrayList(this.selectedUsers), getSelectedOption(), null, getBaseFragment(), new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.PremiumPreviewGiftToUsersBottomSheet$$ExternalSyntheticLambda3
+            BoostRepository.payGiftCode(new ArrayList(this.selectedUsers), getSelectedOption(), null, getBaseFragment(), new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.PremiumPreviewGiftToUsersBottomSheet$$ExternalSyntheticLambda2
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     PremiumPreviewGiftToUsersBottomSheet.this.lambda$init$2((Void) obj);
                 }
-            }, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.PremiumPreviewGiftToUsersBottomSheet$$ExternalSyntheticLambda4
+            }, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.PremiumPreviewGiftToUsersBottomSheet$$ExternalSyntheticLambda3
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     PremiumPreviewGiftToUsersBottomSheet.this.lambda$init$3((TLRPC$TL_error) obj);
@@ -284,7 +282,7 @@ public class PremiumPreviewGiftToUsersBottomSheet extends PremiumPreviewBottomSh
     public /* synthetic */ void lambda$init$2(Void r3) {
         dismiss();
         NotificationCenter.getInstance(UserConfig.selectedAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.giftsToUserSent, new Object[0]);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.PremiumPreviewGiftToUsersBottomSheet$$ExternalSyntheticLambda1
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.PremiumPreviewGiftToUsersBottomSheet$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 PremiumPreviewGiftToUsersBottomSheet.this.lambda$init$1();
@@ -311,7 +309,7 @@ public class PremiumPreviewGiftToUsersBottomSheet extends PremiumPreviewBottomSh
     protected void afterCellCreated(int i, View view) {
         if (i == 0) {
             if (Build.VERSION.SDK_INT >= 21) {
-                view.setOutlineProvider(new ViewOutlineProvider(this) { // from class: org.telegram.ui.Components.Premium.boosts.PremiumPreviewGiftToUsersBottomSheet.1
+                view.setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.Components.Premium.boosts.PremiumPreviewGiftToUsersBottomSheet.1
                     @Override // android.view.ViewOutlineProvider
                     public void getOutline(View view2, Outline outline) {
                         float dp = AndroidUtilities.dp(12.0f);
@@ -339,6 +337,7 @@ public class PremiumPreviewGiftToUsersBottomSheet extends PremiumPreviewBottomSh
         AvatarDrawable fromAvatarDrawable;
         protected final AdditionalCounterView iconView;
         private final BackupImageView imageView;
+        public TLRPC$User user;
 
         public static View createAvatarsContainer(Context context, List<TLRPC$User> list) {
             FrameLayout frameLayout = new FrameLayout(context);
@@ -395,6 +394,7 @@ public class PremiumPreviewGiftToUsersBottomSheet extends PremiumPreviewBottomSh
         }
 
         public void setUser(TLRPC$User tLRPC$User) {
+            this.user = tLRPC$User;
             this.fromAvatarDrawable.setInfo(tLRPC$User);
             this.imageView.setForUserOrChat(tLRPC$User, this.fromAvatarDrawable);
         }

@@ -62,10 +62,12 @@ public interface ExoMediaDrm {
     public static final class KeyRequest {
         private final byte[] data;
         private final String licenseServerUrl;
+        private final int requestType;
 
         public KeyRequest(byte[] bArr, String str, int i) {
             this.data = bArr;
             this.licenseServerUrl = str;
+            this.requestType = i;
         }
 
         public byte[] getData() {

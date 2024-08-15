@@ -18,6 +18,7 @@ public final class zzid$zzk extends zzeo<zzid$zzk, zzb> implements zzgb {
         zzc(2),
         zzd(3);
         
+        private static final zzes<zza> zze = new zziq();
         private final int zzf;
 
         @Override // com.google.android.gms.internal.mlkit_language_id.zzet
@@ -36,10 +37,6 @@ public final class zzid$zzk extends zzeo<zzid$zzk, zzb> implements zzgb {
 
         zza(int i) {
             this.zzf = i;
-        }
-
-        static {
-            new zziq();
         }
     }
 

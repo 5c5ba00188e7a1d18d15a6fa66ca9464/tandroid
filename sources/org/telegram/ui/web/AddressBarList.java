@@ -82,6 +82,7 @@ public class AddressBarList extends FrameLayout {
     private final Drawable currentViewBackground;
     private int grayBackgroundColor;
     public boolean hideCurrent;
+    private float[] hsv;
     private AsyncTask<String, Void, String> lastTask;
     private int listBackgroundColor;
     public UniversalRecyclerView listView;
@@ -103,15 +104,16 @@ public class AddressBarList extends FrameLayout {
         this.currentAccount = i;
         this.suggestions = new ArrayList<>();
         this.openProgress = 0.0f;
+        this.hsv = new float[3];
         setWillNotDraw(false);
         int i2 = UserConfig.selectedAccount;
-        Utilities.Callback2 callback2 = new Utilities.Callback2() { // from class: org.telegram.ui.web.AddressBarList$$ExternalSyntheticLambda9
+        Utilities.Callback2 callback2 = new Utilities.Callback2() { // from class: org.telegram.ui.web.AddressBarList$$ExternalSyntheticLambda1
             @Override // org.telegram.messenger.Utilities.Callback2
             public final void run(Object obj, Object obj2) {
                 AddressBarList.this.fillItems((ArrayList) obj, (UniversalAdapter) obj2);
             }
         };
-        Utilities.Callback5 callback5 = new Utilities.Callback5() { // from class: org.telegram.ui.web.AddressBarList$$ExternalSyntheticLambda10
+        Utilities.Callback5 callback5 = new Utilities.Callback5() { // from class: org.telegram.ui.web.AddressBarList$$ExternalSyntheticLambda2
             @Override // org.telegram.messenger.Utilities.Callback5
             public final void run(Object obj, Object obj2, Object obj3, Object obj4, Object obj5) {
                 AddressBarList.this.itemClick((UItem) obj, (View) obj2, ((Integer) obj3).intValue(), ((Float) obj4).floatValue(), ((Float) obj5).floatValue());
@@ -172,13 +174,13 @@ public class AddressBarList extends FrameLayout {
         textView2.setMaxLines(3);
         textView2.setEllipsize(TextUtils.TruncateAt.MIDDLE);
         linearLayout.addView(textView2, LayoutHelper.createLinear(-1, -2, 55, 0, 0, 0, 0));
-        this.bookmarksList = new BookmarksList(i, new Runnable() { // from class: org.telegram.ui.web.AddressBarList$$ExternalSyntheticLambda5
+        this.bookmarksList = new BookmarksList(i, new Runnable() { // from class: org.telegram.ui.web.AddressBarList$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 AddressBarList.this.lambda$new$0();
             }
         });
-        this.space = new View(this, context) { // from class: org.telegram.ui.web.AddressBarList.2
+        this.space = new View(context) { // from class: org.telegram.ui.web.AddressBarList.2
             @Override // android.view.View
             protected void onMeasure(int i3, int i4) {
                 super.onMeasure(i3, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(6.0f), 1073741824));
@@ -196,7 +198,7 @@ public class AddressBarList extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void clearRecentSearches(View view) {
-        new AlertDialog.Builder(getContext()).setTitle(LocaleController.getString(R.string.WebRecentClearTitle)).setMessage(LocaleController.getString(R.string.WebRecentClearText)).setPositiveButton(LocaleController.getString(R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.AddressBarList$$ExternalSyntheticLambda0
+        new AlertDialog.Builder(getContext()).setTitle(LocaleController.getString(R.string.WebRecentClearTitle)).setMessage(LocaleController.getString(R.string.WebRecentClearText)).setPositiveButton(LocaleController.getString(R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.AddressBarList$$ExternalSyntheticLambda10
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 AddressBarList.this.lambda$clearRecentSearches$1(dialogInterface, i);
@@ -223,7 +225,7 @@ public class AddressBarList extends FrameLayout {
         int i = 0;
         while (i < this.suggestions.size()) {
             final String str = this.suggestions.get(i);
-            arrayList.add(Address2View.Factory.as(1, str, new View.OnClickListener() { // from class: org.telegram.ui.web.AddressBarList$$ExternalSyntheticLambda4
+            arrayList.add(Address2View.Factory.as(1, str, new View.OnClickListener() { // from class: org.telegram.ui.web.AddressBarList$$ExternalSyntheticLambda6
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     AddressBarList.this.lambda$fillItems$2(str, view);
@@ -232,7 +234,7 @@ public class AddressBarList extends FrameLayout {
             i++;
         }
         if (!recentSearches.isEmpty()) {
-            arrayList.add(UItem.asGraySection(LocaleController.getString(R.string.WebSectionRecent), LocaleController.getString(R.string.WebRecentClear), new View.OnClickListener() { // from class: org.telegram.ui.web.AddressBarList$$ExternalSyntheticLambda1
+            arrayList.add(UItem.asGraySection(LocaleController.getString(R.string.WebSectionRecent), LocaleController.getString(R.string.WebRecentClear), new View.OnClickListener() { // from class: org.telegram.ui.web.AddressBarList$$ExternalSyntheticLambda7
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     AddressBarList.this.clearRecentSearches(view);
@@ -241,7 +243,7 @@ public class AddressBarList extends FrameLayout {
             int i2 = 0;
             while (i2 < recentSearches.size()) {
                 final String str2 = recentSearches.get(i2);
-                arrayList.add(Address2View.Factory.as(0, str2, new View.OnClickListener() { // from class: org.telegram.ui.web.AddressBarList$$ExternalSyntheticLambda3
+                arrayList.add(Address2View.Factory.as(0, str2, new View.OnClickListener() { // from class: org.telegram.ui.web.AddressBarList$$ExternalSyntheticLambda8
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         AddressBarList.this.lambda$fillItems$3(str2, view);
@@ -408,7 +410,7 @@ public class AddressBarList extends FrameLayout {
         this.onQueryClick = callback;
         this.onQueryInsertClick = callback2;
         this.onURLClick = callback3;
-        this.currentView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.web.AddressBarList$$ExternalSyntheticLambda2
+        this.currentView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.web.AddressBarList$$ExternalSyntheticLambda5
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 AddressBarList.this.lambda$setCurrent$4(runnable, view);
@@ -438,7 +440,7 @@ public class AddressBarList extends FrameLayout {
         }
         final boolean z = !this.suggestions.isEmpty();
         if (!TextUtils.isEmpty(str)) {
-            this.lastTask = new HttpGetTask(new Utilities.Callback() { // from class: org.telegram.ui.web.AddressBarList$$ExternalSyntheticLambda11
+            this.lastTask = new HttpGetTask(new Utilities.Callback() { // from class: org.telegram.ui.web.AddressBarList$$ExternalSyntheticLambda0
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     AddressBarList.this.lambda$setInput$6(z, (String) obj);
@@ -455,7 +457,7 @@ public class AddressBarList extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setInput$6(final boolean z, final String str) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.AddressBarList$$ExternalSyntheticLambda6
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.AddressBarList$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 AddressBarList.this.lambda$setInput$5(str, z);
@@ -959,7 +961,7 @@ public class AddressBarList extends FrameLayout {
                     queryEntry.rank = jSONObject.optDouble("rank", 0.0d);
                     arrayList2.add(queryEntry);
                 }
-                Collections.sort(arrayList2, new Comparator() { // from class: org.telegram.ui.web.AddressBarList$$ExternalSyntheticLambda8
+                Collections.sort(arrayList2, new Comparator() { // from class: org.telegram.ui.web.AddressBarList$$ExternalSyntheticLambda11
                     @Override // java.util.Comparator
                     public final int compare(Object obj, Object obj2) {
                         int lambda$getRecentSearches$7;
@@ -1000,7 +1002,7 @@ public class AddressBarList extends FrameLayout {
                     queryEntry2.rank = jSONObject.optDouble("rank", 0.0d);
                     arrayList.add(queryEntry2);
                 }
-                Collections.sort(arrayList, new Comparator() { // from class: org.telegram.ui.web.AddressBarList$$ExternalSyntheticLambda7
+                Collections.sort(arrayList, new Comparator() { // from class: org.telegram.ui.web.AddressBarList$$ExternalSyntheticLambda9
                     @Override // java.util.Comparator
                     public final int compare(Object obj, Object obj2) {
                         int lambda$pushRecentSearch$8;

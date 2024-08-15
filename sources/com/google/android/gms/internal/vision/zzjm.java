@@ -23,6 +23,7 @@ public final class zzjm {
     public static final zzjm zzi;
     public static final zzjm zzj;
     private static final /* synthetic */ zzjm[] zzn;
+    private final Class<?> zzk;
     private final Class<?> zzl;
     private final Object zzm;
 
@@ -31,6 +32,7 @@ public final class zzjm {
     }
 
     private zzjm(String str, int i, Class cls, Class cls2, Object obj) {
+        this.zzk = cls;
         this.zzl = cls2;
         this.zzm = obj;
     }

@@ -25,7 +25,7 @@ public class ChatActivityEnterViewAnimatedIconView extends RLottieImageView {
 
     public ChatActivityEnterViewAnimatedIconView(Context context) {
         super(context);
-        this.stateMap = new HashMap<TransitState, RLottieDrawable>(this) { // from class: org.telegram.ui.Components.ChatActivityEnterViewAnimatedIconView.1
+        this.stateMap = new HashMap<TransitState, RLottieDrawable>() { // from class: org.telegram.ui.Components.ChatActivityEnterViewAnimatedIconView.1
             @Override // java.util.HashMap, java.util.AbstractMap, java.util.Map
             public RLottieDrawable get(Object obj) {
                 RLottieDrawable rLottieDrawable = (RLottieDrawable) super.get(obj);
@@ -82,8 +82,9 @@ public class ChatActivityEnterViewAnimatedIconView extends RLottieImageView {
         this.animatingState = null;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
-    static /* synthetic */ class 2 {
+    public static /* synthetic */ class 2 {
         static final /* synthetic */ int[] $SwitchMap$org$telegram$ui$Components$ChatActivityEnterViewAnimatedIconView$State;
 
         static {

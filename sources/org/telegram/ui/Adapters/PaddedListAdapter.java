@@ -6,18 +6,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.telegram.ui.Components.RecyclerListView;
 /* loaded from: classes4.dex */
 public class PaddedListAdapter extends RecyclerListView.SelectionAdapter {
-    private GetPaddingRunnable getPaddingRunnable;
     private int lastPadding;
     private RecyclerView.AdapterDataObserver mDataObserver;
     public View paddingView;
     private RecyclerListView.SelectionAdapter wrappedAdapter;
+    private final int PADDING_VIEW_TYPE = -983904;
     private Integer padding = null;
     public boolean paddingViewAttached = false;
-
-    /* loaded from: classes4.dex */
-    public interface GetPaddingRunnable {
-        int run(int i);
-    }
 
     public PaddedListAdapter(RecyclerListView.SelectionAdapter selectionAdapter) {
         RecyclerView.AdapterDataObserver adapterDataObserver = new RecyclerView.AdapterDataObserver() { // from class: org.telegram.ui.Adapters.PaddedListAdapter.2
@@ -79,12 +74,6 @@ public class PaddedListAdapter extends RecyclerListView.SelectionAdapter {
             int intValue = num.intValue();
             this.lastPadding = intValue;
             return intValue;
-        }
-        GetPaddingRunnable getPaddingRunnable = this.getPaddingRunnable;
-        if (getPaddingRunnable != null) {
-            int run = getPaddingRunnable.run(i);
-            this.lastPadding = run;
-            return run;
         }
         this.lastPadding = 0;
         return 0;

@@ -8,39 +8,9 @@ import com.google.android.exoplayer2.drm.DrmSessionEventListener;
 import com.google.android.exoplayer2.drm.DrmSessionManager;
 /* loaded from: classes.dex */
 public interface DrmSessionManager {
-    public static final DrmSessionManager DRM_UNSUPPORTED = new DrmSessionManager() { // from class: com.google.android.exoplayer2.drm.DrmSessionManager.1
-        @Override // com.google.android.exoplayer2.drm.DrmSessionManager
-        public /* synthetic */ DrmSessionReference preacquireSession(DrmSessionEventListener.EventDispatcher eventDispatcher, Format format) {
-            return -CC.$default$preacquireSession(this, eventDispatcher, format);
-        }
-
-        @Override // com.google.android.exoplayer2.drm.DrmSessionManager
-        public /* synthetic */ void prepare() {
-            -CC.$default$prepare(this);
-        }
-
-        @Override // com.google.android.exoplayer2.drm.DrmSessionManager
-        public /* synthetic */ void release() {
-            -CC.$default$release(this);
-        }
-
-        @Override // com.google.android.exoplayer2.drm.DrmSessionManager
-        public void setPlayer(Looper looper, PlayerId playerId) {
-        }
-
-        @Override // com.google.android.exoplayer2.drm.DrmSessionManager
-        public DrmSession acquireSession(DrmSessionEventListener.EventDispatcher eventDispatcher, Format format) {
-            if (format.drmInitData == null) {
-                return null;
-            }
-            return new ErrorStateDrmSession(new DrmSession.DrmSessionException(new UnsupportedDrmException(1), 6001));
-        }
-
-        @Override // com.google.android.exoplayer2.drm.DrmSessionManager
-        public int getCryptoType(Format format) {
-            return format.drmInitData != null ? 1 : 0;
-        }
-    };
+    public static final DrmSessionManager DRM_UNSUPPORTED;
+    @Deprecated
+    public static final DrmSessionManager DUMMY;
 
     /* loaded from: classes.dex */
     public interface DrmSessionReference {
@@ -76,6 +46,44 @@ public interface DrmSessionManager {
 
     void setPlayer(Looper looper, PlayerId playerId);
 
+    static {
+        DrmSessionManager drmSessionManager = new DrmSessionManager() { // from class: com.google.android.exoplayer2.drm.DrmSessionManager.1
+            @Override // com.google.android.exoplayer2.drm.DrmSessionManager
+            public /* synthetic */ DrmSessionReference preacquireSession(DrmSessionEventListener.EventDispatcher eventDispatcher, Format format) {
+                return -CC.$default$preacquireSession(this, eventDispatcher, format);
+            }
+
+            @Override // com.google.android.exoplayer2.drm.DrmSessionManager
+            public /* synthetic */ void prepare() {
+                -CC.$default$prepare(this);
+            }
+
+            @Override // com.google.android.exoplayer2.drm.DrmSessionManager
+            public /* synthetic */ void release() {
+                -CC.$default$release(this);
+            }
+
+            @Override // com.google.android.exoplayer2.drm.DrmSessionManager
+            public void setPlayer(Looper looper, PlayerId playerId) {
+            }
+
+            @Override // com.google.android.exoplayer2.drm.DrmSessionManager
+            public DrmSession acquireSession(DrmSessionEventListener.EventDispatcher eventDispatcher, Format format) {
+                if (format.drmInitData == null) {
+                    return null;
+                }
+                return new ErrorStateDrmSession(new DrmSession.DrmSessionException(new UnsupportedDrmException(1), 6001));
+            }
+
+            @Override // com.google.android.exoplayer2.drm.DrmSessionManager
+            public int getCryptoType(Format format) {
+                return format.drmInitData != null ? 1 : 0;
+            }
+        };
+        DRM_UNSUPPORTED = drmSessionManager;
+        DUMMY = drmSessionManager;
+    }
+
     /* loaded from: classes.dex */
     public final /* synthetic */ class -CC {
         public static void $default$prepare(DrmSessionManager drmSessionManager) {
@@ -84,7 +92,7 @@ public interface DrmSessionManager {
         public static void $default$release(DrmSessionManager drmSessionManager) {
         }
 
-        public static DrmSessionReference $default$preacquireSession(DrmSessionManager _this, DrmSessionEventListener.EventDispatcher eventDispatcher, Format format) {
+        public static DrmSessionReference $default$preacquireSession(DrmSessionManager drmSessionManager, DrmSessionEventListener.EventDispatcher eventDispatcher, Format format) {
             return DrmSessionReference.EMPTY;
         }
     }

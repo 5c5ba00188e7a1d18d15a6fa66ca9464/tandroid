@@ -78,7 +78,7 @@ public class FilterGLThread extends DispatchQueue {
         super("PhotoFilterGLThread", false);
         this.videoTextureMatrix = new float[16];
         this.videoTexture = new int[1];
-        this.drawRunnable = new Runnable() { // from class: org.telegram.ui.Components.FilterGLThread$$ExternalSyntheticLambda2
+        this.drawRunnable = new Runnable() { // from class: org.telegram.ui.Components.FilterGLThread$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
                 FilterGLThread.this.lambda$new$5();
@@ -123,7 +123,7 @@ public class FilterGLThread extends DispatchQueue {
         super("VideoFilterGLThread", false);
         this.videoTextureMatrix = new float[16];
         this.videoTexture = new int[1];
-        this.drawRunnable = new Runnable() { // from class: org.telegram.ui.Components.FilterGLThread$$ExternalSyntheticLambda2
+        this.drawRunnable = new Runnable() { // from class: org.telegram.ui.Components.FilterGLThread$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
                 FilterGLThread.this.lambda$new$5();
@@ -147,7 +147,7 @@ public class FilterGLThread extends DispatchQueue {
     }
 
     public void updateHDRInfo(final StoryEntry.HDRInfo hDRInfo) {
-        postRunnable(new Runnable() { // from class: org.telegram.ui.Components.FilterGLThread$$ExternalSyntheticLambda8
+        postRunnable(new Runnable() { // from class: org.telegram.ui.Components.FilterGLThread$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 FilterGLThread.this.lambda$updateHDRInfo$0(hDRInfo);
@@ -168,7 +168,7 @@ public class FilterGLThread extends DispatchQueue {
     }
 
     public void setFilterGLThreadDelegate(final FilterShaders.FilterShadersDelegate filterShadersDelegate) {
-        postRunnable(new Runnable() { // from class: org.telegram.ui.Components.FilterGLThread$$ExternalSyntheticLambda7
+        postRunnable(new Runnable() { // from class: org.telegram.ui.Components.FilterGLThread$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
                 FilterGLThread.this.lambda$setFilterGLThreadDelegate$1(filterShadersDelegate);
@@ -250,7 +250,13 @@ public class FilterGLThread extends DispatchQueue {
                 }
                 finish();
                 return false;
-            } else if (iArr[0] > 0) {
+            } else if (iArr[0] <= 0) {
+                if (BuildVars.LOGS_ENABLED) {
+                    FileLog.e("eglConfig not initialized");
+                }
+                finish();
+                return false;
+            } else {
                 EGLConfig eGLConfig = eGLConfigArr[0];
                 int[] iArr2 = {12440, 2, 12344};
                 BlurringShader.BlurManager blurManager = this.blurManager;
@@ -322,7 +328,7 @@ public class FilterGLThread extends DispatchQueue {
                                 Matrix.setIdentityM(this.videoTextureMatrix, 0);
                                 SurfaceTexture surfaceTexture2 = new SurfaceTexture(this.videoTexture[0]);
                                 this.videoSurfaceTexture = surfaceTexture2;
-                                surfaceTexture2.setOnFrameAvailableListener(new SurfaceTexture.OnFrameAvailableListener() { // from class: org.telegram.ui.Components.FilterGLThread$$ExternalSyntheticLambda0
+                                surfaceTexture2.setOnFrameAvailableListener(new SurfaceTexture.OnFrameAvailableListener() { // from class: org.telegram.ui.Components.FilterGLThread$$ExternalSyntheticLambda5
                                     @Override // android.graphics.SurfaceTexture.OnFrameAvailableListener
                                     public final void onFrameAvailable(SurfaceTexture surfaceTexture3) {
                                         FilterGLThread.this.lambda$initGL$2(surfaceTexture3);
@@ -333,7 +339,7 @@ public class FilterGLThread extends DispatchQueue {
                                 GLES20.glTexParameterf(36197, 10241, 9728.0f);
                                 GLES20.glTexParameteri(36197, 10242, 33071);
                                 GLES20.glTexParameteri(36197, 10243, 33071);
-                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.FilterGLThread$$ExternalSyntheticLambda1
+                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.FilterGLThread$$ExternalSyntheticLambda6
                                     @Override // java.lang.Runnable
                                     public final void run() {
                                         FilterGLThread.this.lambda$initGL$3();
@@ -362,12 +368,6 @@ public class FilterGLThread extends DispatchQueue {
                 }
                 finish();
                 return false;
-            } else {
-                if (BuildVars.LOGS_ENABLED) {
-                    FileLog.e("eglConfig not initialized");
-                }
-                finish();
-                return false;
             }
         }
     }
@@ -383,7 +383,7 @@ public class FilterGLThread extends DispatchQueue {
     }
 
     public void setVideoSize(final int i, final int i2) {
-        postRunnable(new Runnable() { // from class: org.telegram.ui.Components.FilterGLThread$$ExternalSyntheticLambda4
+        postRunnable(new Runnable() { // from class: org.telegram.ui.Components.FilterGLThread$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
             public final void run() {
                 FilterGLThread.this.lambda$setVideoSize$4(i, i2);
@@ -596,7 +596,7 @@ public class FilterGLThread extends DispatchQueue {
         if (this.uiBlur == null) {
             return;
         }
-        postRunnable(new Runnable() { // from class: org.telegram.ui.Components.FilterGLThread$$ExternalSyntheticLambda5
+        postRunnable(new Runnable() { // from class: org.telegram.ui.Components.FilterGLThread$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 FilterGLThread.this.lambda$updateUiBlurGradient$6(i, i2);
@@ -622,7 +622,7 @@ public class FilterGLThread extends DispatchQueue {
             final CountDownLatch countDownLatch = new CountDownLatch(1);
             final Bitmap[] bitmapArr = new Bitmap[1];
             try {
-                if (postRunnable(new Runnable() { // from class: org.telegram.ui.Components.FilterGLThread$$ExternalSyntheticLambda10
+                if (postRunnable(new Runnable() { // from class: org.telegram.ui.Components.FilterGLThread$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
                         FilterGLThread.this.lambda$getTexture$7(bitmapArr, countDownLatch);
@@ -650,7 +650,7 @@ public class FilterGLThread extends DispatchQueue {
     }
 
     public void shutdown() {
-        postRunnable(new Runnable() { // from class: org.telegram.ui.Components.FilterGLThread$$ExternalSyntheticLambda3
+        postRunnable(new Runnable() { // from class: org.telegram.ui.Components.FilterGLThread$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 FilterGLThread.this.lambda$shutdown$8();
@@ -668,7 +668,7 @@ public class FilterGLThread extends DispatchQueue {
     }
 
     public void setSurfaceTextureSize(final int i, final int i2) {
-        postRunnable(new Runnable() { // from class: org.telegram.ui.Components.FilterGLThread$$ExternalSyntheticLambda6
+        postRunnable(new Runnable() { // from class: org.telegram.ui.Components.FilterGLThread$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 FilterGLThread.this.lambda$setSurfaceTextureSize$9(i, i2);
@@ -693,7 +693,7 @@ public class FilterGLThread extends DispatchQueue {
     }
 
     public void requestRender(final boolean z, final boolean z2, final boolean z3) {
-        postRunnable(new Runnable() { // from class: org.telegram.ui.Components.FilterGLThread$$ExternalSyntheticLambda9
+        postRunnable(new Runnable() { // from class: org.telegram.ui.Components.FilterGLThread$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 FilterGLThread.this.lambda$requestRender$10(z, z3, z2);

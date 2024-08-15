@@ -47,12 +47,7 @@ import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.R;
 /* loaded from: classes.dex */
 public class MatroskaExtractor implements Extractor {
-    private static final byte[] SSA_DIALOGUE_FORMAT;
-    private static final byte[] SSA_PREFIX;
-    private static final byte[] SUBRIP_PREFIX;
     private static final Map<String, Integer> TRACK_NAME_TO_ROTATION_DEGREES;
-    private static final byte[] VTT_PREFIX;
-    private static final UUID WAVE_SUBFORMAT_PCM;
     private int blockAdditionalId;
     private long blockDurationUs;
     private int blockFlags;
@@ -107,6 +102,26 @@ public class MatroskaExtractor implements Extractor {
     private final SparseArray<Track> tracks;
     private final VarintReader varintReader;
     private final ParsableByteArray vorbisNumPageSamples;
+    public static final ExtractorsFactory FACTORY = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.mkv.MatroskaExtractor$$ExternalSyntheticLambda0
+        @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+        public final Extractor[] createExtractors() {
+            Extractor[] lambda$static$0;
+            lambda$static$0 = MatroskaExtractor.lambda$static$0();
+            return lambda$static$0;
+        }
+
+        @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+        public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
+            Extractor[] createExtractors;
+            createExtractors = createExtractors();
+            return createExtractors;
+        }
+    };
+    private static final byte[] SUBRIP_PREFIX = {49, 10, 48, 48, 58, 48, 48, 58, 48, 48, 44, 48, 48, 48, 32, 45, 45, 62, 32, 48, 48, 58, 48, 48, 58, 48, 48, 44, 48, 48, 48, 10};
+    private static final byte[] SSA_DIALOGUE_FORMAT = Util.getUtf8Bytes("Format: Start, End, ReadOrder, Layer, Style, Name, MarginL, MarginR, MarginV, Effect, Text");
+    private static final byte[] SSA_PREFIX = {68, 105, 97, 108, 111, 103, 117, 101, 58, 32, 48, 58, 48, 48, 58, 48, 48, 58, 48, 48, 44, 48, 58, 48, 48, 58, 48, 48, 58, 48, 48, 44};
+    private static final byte[] VTT_PREFIX = {87, 69, 66, 86, 84, 84, 10, 10, 48, 48, 58, 48, 48, 58, 48, 48, 46, 48, 48, 48, 32, 45, 45, 62, 32, 48, 48, 58, 48, 48, 58, 48, 48, 46, 48, 48, 48, 10};
+    private static final UUID WAVE_SUBFORMAT_PCM = new UUID(72057594037932032L, -9223371306706625679L);
 
     protected int getElementType(int i) {
         switch (i) {
@@ -221,26 +236,6 @@ public class MatroskaExtractor implements Extractor {
     }
 
     static {
-        MatroskaExtractor$$ExternalSyntheticLambda0 matroskaExtractor$$ExternalSyntheticLambda0 = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.mkv.MatroskaExtractor$$ExternalSyntheticLambda0
-            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
-            public final Extractor[] createExtractors() {
-                Extractor[] lambda$static$0;
-                lambda$static$0 = MatroskaExtractor.lambda$static$0();
-                return lambda$static$0;
-            }
-
-            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
-            public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
-                Extractor[] createExtractors;
-                createExtractors = createExtractors();
-                return createExtractors;
-            }
-        };
-        SUBRIP_PREFIX = new byte[]{49, 10, 48, 48, 58, 48, 48, 58, 48, 48, 44, 48, 48, 48, 32, 45, 45, 62, 32, 48, 48, 58, 48, 48, 58, 48, 48, 44, 48, 48, 48, 10};
-        SSA_DIALOGUE_FORMAT = Util.getUtf8Bytes("Format: Start, End, ReadOrder, Layer, Style, Name, MarginL, MarginR, MarginV, Effect, Text");
-        SSA_PREFIX = new byte[]{68, 105, 97, 108, 111, 103, 117, 101, 58, 32, 48, 58, 48, 48, 58, 48, 48, 58, 48, 48, 44, 48, 58, 48, 48, 58, 48, 48, 58, 48, 48, 44};
-        VTT_PREFIX = new byte[]{87, 69, 66, 86, 84, 84, 10, 10, 48, 48, 58, 48, 48, 58, 48, 48, 46, 48, 48, 48, 32, 45, 45, 62, 32, 48, 48, 58, 48, 48, 58, 48, 48, 46, 48, 48, 48, 10};
-        WAVE_SUBFORMAT_PCM = new UUID(72057594037932032L, -9223371306706625679L);
         HashMap hashMap = new HashMap();
         hashMap.put("htc_video_rotA-000", 0);
         hashMap.put("htc_video_rotA-090", 90);
@@ -728,7 +723,7 @@ public class MatroskaExtractor implements Extractor {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:85:0x023b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:84:0x0231, code lost:
         throw com.google.android.exoplayer2.ParserException.createForMalformedContainer("EBML lacing sample size out of range.", null);
      */
     /*
@@ -736,12 +731,11 @@ public class MatroskaExtractor implements Extractor {
     */
     protected void binaryElement(int i, int i2, ExtractorInput extractorInput) throws IOException {
         long j;
-        long j2;
         int i3;
         int i4;
-        int[] iArr;
-        int i5 = 0;
-        int i6 = 1;
+        int i5;
+        int i6 = 0;
+        int i7 = 1;
         if (i != 161 && i != 163) {
             if (i == 165) {
                 if (this.blockState != 2) {
@@ -801,108 +795,104 @@ public class MatroskaExtractor implements Extractor {
         track.assertOutputInitialized();
         if (this.blockState == 1) {
             readScratch(extractorInput, 3);
-            int i7 = (this.scratch.getData()[2] & 6) >> 1;
+            int i8 = (this.scratch.getData()[2] & 6) >> 1;
             byte b = 255;
-            if (i7 == 0) {
+            if (i8 == 0) {
                 this.blockSampleCount = 1;
                 int[] ensureArrayCapacity = ensureArrayCapacity(this.blockSampleSizes, 1);
                 this.blockSampleSizes = ensureArrayCapacity;
                 ensureArrayCapacity[0] = (i2 - this.blockTrackNumberLength) - 3;
             } else {
-                int i8 = 4;
+                int i9 = 4;
                 readScratch(extractorInput, 4);
-                int i9 = (this.scratch.getData()[3] & 255) + 1;
-                this.blockSampleCount = i9;
-                int[] ensureArrayCapacity2 = ensureArrayCapacity(this.blockSampleSizes, i9);
+                int i10 = (this.scratch.getData()[3] & 255) + 1;
+                this.blockSampleCount = i10;
+                int[] ensureArrayCapacity2 = ensureArrayCapacity(this.blockSampleSizes, i10);
                 this.blockSampleSizes = ensureArrayCapacity2;
-                if (i7 == 2) {
-                    int i10 = this.blockSampleCount;
-                    Arrays.fill(ensureArrayCapacity2, 0, i10, ((i2 - this.blockTrackNumberLength) - 4) / i10);
-                } else if (i7 == 1) {
-                    int i11 = 0;
+                if (i8 == 2) {
+                    int i11 = this.blockSampleCount;
+                    Arrays.fill(ensureArrayCapacity2, 0, i11, ((i2 - this.blockTrackNumberLength) - 4) / i11);
+                } else if (i8 == 1) {
                     int i12 = 0;
+                    int i13 = 0;
                     while (true) {
                         i3 = this.blockSampleCount;
-                        if (i11 >= i3 - 1) {
+                        if (i12 >= i3 - 1) {
                             break;
                         }
-                        this.blockSampleSizes[i11] = 0;
+                        this.blockSampleSizes[i12] = 0;
                         do {
-                            i8++;
-                            readScratch(extractorInput, i8);
-                            i4 = this.scratch.getData()[i8 - 1] & 255;
-                            iArr = this.blockSampleSizes;
-                            iArr[i11] = iArr[i11] + i4;
+                            i9++;
+                            readScratch(extractorInput, i9);
+                            i4 = this.scratch.getData()[i9 - 1] & 255;
+                            int[] iArr = this.blockSampleSizes;
+                            i5 = iArr[i12] + i4;
+                            iArr[i12] = i5;
                         } while (i4 == 255);
-                        i12 += iArr[i11];
-                        i11++;
+                        i13 += i5;
+                        i12++;
                     }
-                    this.blockSampleSizes[i3 - 1] = ((i2 - this.blockTrackNumberLength) - i8) - i12;
-                } else if (i7 != 3) {
-                    throw ParserException.createForMalformedContainer("Unexpected lacing value: " + i7, null);
+                    this.blockSampleSizes[i3 - 1] = ((i2 - this.blockTrackNumberLength) - i9) - i13;
+                } else if (i8 != 3) {
+                    throw ParserException.createForMalformedContainer("Unexpected lacing value: " + i8, null);
                 } else {
-                    int i13 = 0;
                     int i14 = 0;
+                    int i15 = 0;
                     while (true) {
-                        int i15 = this.blockSampleCount;
-                        if (i13 < i15 - 1) {
-                            this.blockSampleSizes[i13] = i5;
-                            i8++;
-                            readScratch(extractorInput, i8);
-                            int i16 = i8 - 1;
-                            if (this.scratch.getData()[i16] == 0) {
+                        int i16 = this.blockSampleCount;
+                        if (i14 < i16 - 1) {
+                            this.blockSampleSizes[i14] = i6;
+                            i9++;
+                            readScratch(extractorInput, i9);
+                            int i17 = i9 - 1;
+                            if (this.scratch.getData()[i17] == 0) {
                                 throw ParserException.createForMalformedContainer("No valid varint length mask found", null);
                             }
-                            int i17 = 0;
+                            int i18 = 0;
                             while (true) {
-                                if (i17 >= 8) {
+                                if (i18 >= 8) {
                                     j = 0;
                                     break;
                                 }
-                                int i18 = i6 << (7 - i17);
-                                if ((this.scratch.getData()[i16] & i18) != 0) {
-                                    int i19 = i8 + i17;
-                                    readScratch(extractorInput, i19);
-                                    long j3 = this.scratch.getData()[i16] & b & (i18 ^ (-1));
-                                    int i20 = i16 + 1;
-                                    while (true) {
-                                        j2 = j3;
-                                        if (i20 >= i19) {
-                                            break;
-                                        }
-                                        j3 = (j2 << 8) | (this.scratch.getData()[i20] & b);
-                                        i20++;
-                                        i19 = i19;
+                                int i19 = i7 << (7 - i18);
+                                if ((this.scratch.getData()[i17] & i19) != 0) {
+                                    int i20 = i9 + i18;
+                                    readScratch(extractorInput, i20);
+                                    j = this.scratch.getData()[i17] & b & (i19 ^ (-1));
+                                    int i21 = i17 + 1;
+                                    while (i21 < i20) {
+                                        j = (j << 8) | (this.scratch.getData()[i21] & b);
+                                        i21++;
+                                        i20 = i20;
                                         b = 255;
                                     }
-                                    int i21 = i19;
-                                    if (i13 > 0) {
-                                        j2 -= (1 << ((i17 * 7) + 6)) - 1;
+                                    int i22 = i20;
+                                    if (i14 > 0) {
+                                        j -= (1 << ((i18 * 7) + 6)) - 1;
                                     }
-                                    j = j2;
-                                    i8 = i21;
+                                    i9 = i22;
                                 } else {
-                                    i17++;
-                                    i6 = 1;
+                                    i18++;
+                                    i7 = 1;
                                     b = 255;
                                 }
                             }
                             if (j < -2147483648L || j > 2147483647L) {
                                 break;
                             }
-                            int i22 = (int) j;
+                            int i23 = (int) j;
                             int[] iArr2 = this.blockSampleSizes;
-                            if (i13 != 0) {
-                                i22 += iArr2[i13 - 1];
+                            if (i14 != 0) {
+                                i23 += iArr2[i14 - 1];
                             }
-                            iArr2[i13] = i22;
-                            i14 += iArr2[i13];
-                            i13++;
-                            i5 = 0;
-                            i6 = 1;
+                            iArr2[i14] = i23;
+                            i15 += i23;
+                            i14++;
+                            i6 = 0;
+                            i7 = 1;
                             b = 255;
                         } else {
-                            this.blockSampleSizes[i15 - 1] = ((i2 - this.blockTrackNumberLength) - i8) - i14;
+                            this.blockSampleSizes[i16 - 1] = ((i2 - this.blockTrackNumberLength) - i9) - i15;
                             break;
                         }
                     }
@@ -915,9 +905,9 @@ public class MatroskaExtractor implements Extractor {
         }
         if (i == 163) {
             while (true) {
-                int i23 = this.blockSampleIndex;
-                if (i23 < this.blockSampleCount) {
-                    commitSampleToOutput(track, ((this.blockSampleIndex * track.defaultSampleDurationNs) / 1000) + this.blockTimeUs, this.blockFlags, writeSampleData(extractorInput, track, this.blockSampleSizes[i23], false), 0);
+                int i24 = this.blockSampleIndex;
+                if (i24 < this.blockSampleCount) {
+                    commitSampleToOutput(track, ((this.blockSampleIndex * track.defaultSampleDurationNs) / 1000) + this.blockTimeUs, this.blockFlags, writeSampleData(extractorInput, track, this.blockSampleSizes[i24], false), 0);
                     this.blockSampleIndex++;
                 } else {
                     this.blockState = 0;
@@ -926,12 +916,12 @@ public class MatroskaExtractor implements Extractor {
             }
         } else {
             while (true) {
-                int i24 = this.blockSampleIndex;
-                if (i24 >= this.blockSampleCount) {
+                int i25 = this.blockSampleIndex;
+                if (i25 >= this.blockSampleCount) {
                     return;
                 }
                 int[] iArr3 = this.blockSampleSizes;
-                iArr3[i24] = writeSampleData(extractorInput, track, iArr3[i24], true);
+                iArr3[i25] = writeSampleData(extractorInput, track, iArr3[i25], true);
                 this.blockSampleIndex++;
             }
         }
@@ -1319,8 +1309,8 @@ public class MatroskaExtractor implements Extractor {
             i2 = i4;
         }
         iArr[i] = (int) ((this.segmentContentPosition + this.segmentContentSize) - jArr[i]);
-        jArr2[i] = this.durationUs - jArr3[i];
-        long j = jArr2[i];
+        long j = this.durationUs - jArr3[i];
+        jArr2[i] = j;
         if (j <= 0) {
             Log.w("MatroskaExtractor", "Discarding last cue point with unexpected duration: " + j);
             iArr = Arrays.copyOf(iArr, i);
@@ -2275,10 +2265,7 @@ public class MatroskaExtractor implements Extractor {
                 } else {
                     i5 = -1;
                 }
-                float f = -1.0f;
-                if (this.displayWidth != i5 && (i7 = this.displayHeight) != i5) {
-                    f = (this.height * i6) / (this.width * i7);
-                }
+                float f = (this.displayWidth == i5 || (i7 = this.displayHeight) == i5) ? -1.0f : (this.height * i6) / (this.width * i7);
                 ColorInfo colorInfo = this.hasColorInfo ? new ColorInfo(this.colorSpace, this.colorRange, this.colorTransfer, getHdrStaticInfo()) : null;
                 if (this.name != null && MatroskaExtractor.TRACK_NAME_TO_ROTATION_DEGREES.containsKey(this.name)) {
                     i5 = ((Integer) MatroskaExtractor.TRACK_NAME_TO_ROTATION_DEGREES.get(this.name)).intValue();
@@ -2378,40 +2365,50 @@ public class MatroskaExtractor implements Extractor {
         }
 
         private static List<byte[]> parseVorbisCodecPrivate(byte[] bArr) throws ParserException {
+            int i;
+            int i2;
             try {
                 if (bArr[0] != 2) {
                     throw ParserException.createForMalformedContainer("Error parsing vorbis codec private", null);
                 }
-                int i = 1;
-                int i2 = 0;
-                while ((bArr[i] & 255) == 255) {
-                    i2 += 255;
-                    i++;
-                }
-                int i3 = i + 1;
-                int i4 = i2 + (bArr[i] & 255);
-                int i5 = 0;
-                while ((bArr[i3] & 255) == 255) {
-                    i5 += 255;
+                int i3 = 1;
+                int i4 = 0;
+                while (true) {
+                    i = bArr[i3];
+                    if ((i & 255) != 255) {
+                        break;
+                    }
+                    i4 += 255;
                     i3++;
                 }
-                int i6 = i3 + 1;
-                int i7 = i5 + (bArr[i3] & 255);
-                if (bArr[i6] != 1) {
+                int i5 = i3 + 1;
+                int i6 = i4 + (i & 255);
+                int i7 = 0;
+                while (true) {
+                    i2 = bArr[i5];
+                    if ((i2 & 255) != 255) {
+                        break;
+                    }
+                    i7 += 255;
+                    i5++;
+                }
+                int i8 = i5 + 1;
+                int i9 = i7 + (i2 & 255);
+                if (bArr[i8] != 1) {
                     throw ParserException.createForMalformedContainer("Error parsing vorbis codec private", null);
                 }
-                byte[] bArr2 = new byte[i4];
-                System.arraycopy(bArr, i6, bArr2, 0, i4);
-                int i8 = i6 + i4;
-                if (bArr[i8] != 3) {
+                byte[] bArr2 = new byte[i6];
+                System.arraycopy(bArr, i8, bArr2, 0, i6);
+                int i10 = i8 + i6;
+                if (bArr[i10] != 3) {
                     throw ParserException.createForMalformedContainer("Error parsing vorbis codec private", null);
                 }
-                int i9 = i8 + i7;
-                if (bArr[i9] != 5) {
+                int i11 = i10 + i9;
+                if (bArr[i11] != 5) {
                     throw ParserException.createForMalformedContainer("Error parsing vorbis codec private", null);
                 }
-                byte[] bArr3 = new byte[bArr.length - i9];
-                System.arraycopy(bArr, i9, bArr3, 0, bArr.length - i9);
+                byte[] bArr3 = new byte[bArr.length - i11];
+                System.arraycopy(bArr, i11, bArr3, 0, bArr.length - i11);
                 ArrayList arrayList = new ArrayList(2);
                 arrayList.add(bArr2);
                 arrayList.add(bArr3);

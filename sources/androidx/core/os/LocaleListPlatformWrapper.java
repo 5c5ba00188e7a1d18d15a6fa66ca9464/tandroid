@@ -18,33 +18,47 @@ final class LocaleListPlatformWrapper implements LocaleListInterface {
 
     @Override // androidx.core.os.LocaleListInterface
     public Locale get(int i) {
-        return this.mLocaleList.get(i);
+        Locale locale;
+        locale = this.mLocaleList.get(i);
+        return locale;
     }
 
     @Override // androidx.core.os.LocaleListInterface
     public boolean isEmpty() {
-        return this.mLocaleList.isEmpty();
+        boolean isEmpty;
+        isEmpty = this.mLocaleList.isEmpty();
+        return isEmpty;
     }
 
     @Override // androidx.core.os.LocaleListInterface
     public int size() {
-        return this.mLocaleList.size();
+        int size;
+        size = this.mLocaleList.size();
+        return size;
     }
 
     public boolean equals(Object obj) {
-        return this.mLocaleList.equals(((LocaleListInterface) obj).getLocaleList());
+        boolean equals;
+        equals = this.mLocaleList.equals(((LocaleListInterface) obj).getLocaleList());
+        return equals;
     }
 
     public int hashCode() {
-        return this.mLocaleList.hashCode();
+        int hashCode;
+        hashCode = this.mLocaleList.hashCode();
+        return hashCode;
     }
 
     public String toString() {
-        return this.mLocaleList.toString();
+        String localeList;
+        localeList = this.mLocaleList.toString();
+        return localeList;
     }
 
     @Override // androidx.core.os.LocaleListInterface
     public String toLanguageTags() {
-        return this.mLocaleList.toLanguageTags();
+        String languageTags;
+        languageTags = this.mLocaleList.toLanguageTags();
+        return languageTags;
     }
 }

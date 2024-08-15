@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.mediacodec;
 
 import android.media.MediaCodec;
+import android.media.MediaCodec$CodecException;
 import android.media.MediaFormat;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -14,7 +15,7 @@ public final class AsynchronousMediaCodecCallback extends MediaCodec.Callback {
     private MediaFormat currentFormat;
     private Handler handler;
     private IllegalStateException internalException;
-    private MediaCodec.CodecException mediaCodecException;
+    private MediaCodec$CodecException mediaCodecException;
     private long pendingFlushCount;
     private MediaFormat pendingOutputFormat;
     private boolean shutDown;
@@ -94,7 +95,7 @@ public final class AsynchronousMediaCodecCallback extends MediaCodec.Callback {
     public void flush() {
         synchronized (this.lock) {
             this.pendingFlushCount++;
-            ((Handler) Util.castNonNull(this.handler)).post(new Runnable() { // from class: com.google.android.exoplayer2.mediacodec.AsynchronousMediaCodecCallback$$ExternalSyntheticLambda0
+            ((Handler) Util.castNonNull(this.handler)).post(new Runnable() { // from class: com.google.android.exoplayer2.mediacodec.AsynchronousMediaCodecCallback$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     AsynchronousMediaCodecCallback.this.onFlushCompleted();
@@ -124,9 +125,9 @@ public final class AsynchronousMediaCodecCallback extends MediaCodec.Callback {
     }
 
     @Override // android.media.MediaCodec.Callback
-    public void onError(MediaCodec mediaCodec, MediaCodec.CodecException codecException) {
+    public void onError(MediaCodec mediaCodec, MediaCodec$CodecException mediaCodec$CodecException) {
         synchronized (this.lock) {
-            this.mediaCodecException = codecException;
+            this.mediaCodecException = mediaCodec$CodecException;
         }
     }
 
@@ -192,12 +193,12 @@ public final class AsynchronousMediaCodecCallback extends MediaCodec.Callback {
     }
 
     private void maybeThrowMediaCodecException() {
-        MediaCodec.CodecException codecException = this.mediaCodecException;
-        if (codecException == null) {
+        MediaCodec$CodecException mediaCodec$CodecException = this.mediaCodecException;
+        if (mediaCodec$CodecException == null) {
             return;
         }
         this.mediaCodecException = null;
-        throw codecException;
+        throw mediaCodec$CodecException;
     }
 
     private void setInternalException(IllegalStateException illegalStateException) {

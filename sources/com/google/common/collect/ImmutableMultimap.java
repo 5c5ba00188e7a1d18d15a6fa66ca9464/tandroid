@@ -13,6 +13,26 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
     final transient ImmutableMap<K, ? extends ImmutableCollection<V>> map;
     final transient int size;
 
+    @Override // com.google.common.collect.AbstractMultimap, com.google.common.collect.Multimap
+    public /* bridge */ /* synthetic */ boolean containsEntry(Object obj, Object obj2) {
+        return super.containsEntry(obj, obj2);
+    }
+
+    @Override // com.google.common.collect.AbstractMultimap
+    public /* bridge */ /* synthetic */ boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override // com.google.common.collect.AbstractMultimap
+    public /* bridge */ /* synthetic */ int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override // com.google.common.collect.AbstractMultimap
+    public /* bridge */ /* synthetic */ String toString() {
+        return super.toString();
+    }
+
     /* loaded from: classes.dex */
     public static class Builder<K, V> {
         final Map<K, Collection<V>> builderMap = Platform.preservesInsertionOrderOnPutsMap();
@@ -227,9 +247,8 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
             return this.multimap.valueIterator();
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
         @Override // com.google.common.collect.ImmutableCollection
-        public int copyIntoArray(Object[] objArr, int i) {
+        int copyIntoArray(Object[] objArr, int i) {
             UnmodifiableIterator<? extends ImmutableCollection<V>> it = this.multimap.map.values().iterator();
             while (it.hasNext()) {
                 i = it.next().copyIntoArray(objArr, i);

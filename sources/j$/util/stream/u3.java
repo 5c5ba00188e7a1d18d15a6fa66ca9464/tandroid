@@ -1,41 +1,52 @@
 package j$.util.stream;
+
+import j$.util.function.Consumer;
 /* loaded from: classes2.dex */
-class u3 extends h3 {
-    long b;
-    long c;
-    final /* synthetic */ v3 d;
+final class u3 extends v3 implements j$.util.K, j$.util.function.h0 {
+    long e;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public u3(v3 v3Var, m3 m3Var) {
-        super(m3Var);
-        this.d = v3Var;
-        this.b = v3Var.l;
-        long j = v3Var.m;
-        this.c = j < 0 ? Long.MAX_VALUE : j;
+    public u3(j$.util.K k, long j, long j2) {
+        super(k, j, j2);
     }
 
-    @Override // j$.util.stream.l3, j$.util.function.q
-    public void accept(long j) {
-        long j2 = this.b;
-        if (j2 != 0) {
-            this.b = j2 - 1;
-            return;
-        }
-        long j3 = this.c;
-        if (j3 > 0) {
-            this.c = j3 - 1;
-            this.a.accept(j);
-        }
+    u3(j$.util.K k, u3 u3Var) {
+        super(k, u3Var);
     }
 
-    @Override // j$.util.stream.m3
-    public void n(long j) {
-        this.a.n(B3.c(j, this.d.l, this.c));
+    @Override // j$.util.Q
+    public final /* synthetic */ boolean a(Consumer consumer) {
+        return j$.util.a.q(this, consumer);
     }
 
-    @Override // j$.util.stream.h3, j$.util.stream.m3
-    public boolean o() {
-        return this.c == 0 || this.a.o();
+    @Override // j$.util.function.h0
+    public final void accept(long j) {
+        this.e = j;
+    }
+
+    @Override // j$.util.Q
+    public final /* synthetic */ void forEachRemaining(Consumer consumer) {
+        j$.util.a.h(this, consumer);
+    }
+
+    @Override // j$.util.function.h0
+    public final j$.util.function.h0 i(j$.util.function.h0 h0Var) {
+        h0Var.getClass();
+        return new j$.util.function.e0(this, h0Var);
+    }
+
+    @Override // j$.util.stream.y3
+    protected final j$.util.Q r(j$.util.Q q) {
+        return new u3((j$.util.K) q, this);
+    }
+
+    @Override // j$.util.stream.v3
+    protected final void t(Object obj) {
+        ((j$.util.function.h0) obj).accept(this.e);
+    }
+
+    @Override // j$.util.stream.v3
+    protected final Z2 u() {
+        return new Y2();
     }
 }

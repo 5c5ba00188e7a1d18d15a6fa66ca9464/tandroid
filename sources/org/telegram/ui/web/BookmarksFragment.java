@@ -50,7 +50,7 @@ public class BookmarksFragment extends UniversalFragment {
     public AddressBarList.BookmarksList searchList;
     private NumberTextView selectedCount;
     private final Utilities.Callback<String> whenClicked;
-    public AddressBarList.BookmarksList list = new AddressBarList.BookmarksList(this.currentAccount, new Runnable() { // from class: org.telegram.ui.web.BookmarksFragment$$ExternalSyntheticLambda3
+    public AddressBarList.BookmarksList list = new AddressBarList.BookmarksList(this.currentAccount, new Runnable() { // from class: org.telegram.ui.web.BookmarksFragment$$ExternalSyntheticLambda0
         @Override // java.lang.Runnable
         public final void run() {
             BookmarksFragment.this.updateWithOffset();
@@ -126,7 +126,7 @@ public class BookmarksFragment extends UniversalFragment {
                 hashSet.add(AddressBarList.getLink(messageObject));
             }
         }
-        new AlertDialog.Builder(getContext(), getResourceProvider()).setTitle(LocaleController.formatPluralString("DeleteOptionsTitle", hashSet2.size(), new Object[0])).setMessage(LocaleController.getString(hashSet2.size() == 1 ? "AreYouSureUnsaveSingleMessage" : "AreYouSureUnsaveFewMessages")).setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.BookmarksFragment$$ExternalSyntheticLambda0
+        new AlertDialog.Builder(getContext(), getResourceProvider()).setTitle(LocaleController.formatPluralString("DeleteOptionsTitle", hashSet2.size(), new Object[0])).setMessage(LocaleController.getString(hashSet2.size() == 1 ? "AreYouSureUnsaveSingleMessage" : "AreYouSureUnsaveFewMessages")).setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.BookmarksFragment$$ExternalSyntheticLambda2
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 BookmarksFragment.this.lambda$deleteSelectedMessages$0(hashSet2, dialogInterface, i);
@@ -158,7 +158,7 @@ public class BookmarksFragment extends UniversalFragment {
         if (runnable != null) {
             runnable.run();
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.BookmarksFragment$$ExternalSyntheticLambda2
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.BookmarksFragment$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 BookmarksFragment.lambda$gotoMessage$1(clientUserId, intValue);
@@ -288,7 +288,7 @@ public class BookmarksFragment extends UniversalFragment {
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public class 2 extends ActionBarMenuItem.ActionBarMenuItemSearchListener {
-        private Runnable applySearch = new Runnable() { // from class: org.telegram.ui.web.BookmarksFragment$2$$ExternalSyntheticLambda0
+        private Runnable applySearch = new Runnable() { // from class: org.telegram.ui.web.BookmarksFragment$2$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 BookmarksFragment.2.this.lambda$$1();
@@ -331,7 +331,7 @@ public class BookmarksFragment extends UniversalFragment {
                 BookmarksFragment bookmarksFragment = BookmarksFragment.this;
                 int i = ((BaseFragment) bookmarksFragment).currentAccount;
                 final BookmarksFragment bookmarksFragment2 = BookmarksFragment.this;
-                bookmarksFragment.searchList = new AddressBarList.BookmarksList(i, obj, new Runnable() { // from class: org.telegram.ui.web.BookmarksFragment$2$$ExternalSyntheticLambda1
+                bookmarksFragment.searchList = new AddressBarList.BookmarksList(i, obj, new Runnable() { // from class: org.telegram.ui.web.BookmarksFragment$2$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         BookmarksFragment.access$400(BookmarksFragment.this);

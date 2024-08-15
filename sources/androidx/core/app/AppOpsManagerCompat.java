@@ -32,7 +32,9 @@ public final class AppOpsManagerCompat {
     /* loaded from: classes.dex */
     static class Api29Impl {
         static AppOpsManager getSystemService(Context context) {
-            return (AppOpsManager) context.getSystemService(AppOpsManager.class);
+            Object systemService;
+            systemService = context.getSystemService(AppOpsManager.class);
+            return (AppOpsManager) systemService;
         }
 
         static int checkOpNoThrow(AppOpsManager appOpsManager, String str, int i, String str2) {
@@ -43,7 +45,9 @@ public final class AppOpsManagerCompat {
         }
 
         static String getOpPackageName(Context context) {
-            return context.getOpPackageName();
+            String opPackageName;
+            opPackageName = context.getOpPackageName();
+            return opPackageName;
         }
     }
 
@@ -51,19 +55,27 @@ public final class AppOpsManagerCompat {
     /* loaded from: classes.dex */
     public static class Api23Impl {
         static String permissionToOp(String str) {
-            return AppOpsManager.permissionToOp(str);
+            String permissionToOp;
+            permissionToOp = AppOpsManager.permissionToOp(str);
+            return permissionToOp;
         }
 
         static <T> T getSystemService(Context context, Class<T> cls) {
-            return (T) context.getSystemService(cls);
+            Object systemService;
+            systemService = context.getSystemService(cls);
+            return (T) systemService;
         }
 
         static int noteProxyOp(AppOpsManager appOpsManager, String str, String str2) {
-            return appOpsManager.noteProxyOp(str, str2);
+            int noteProxyOp;
+            noteProxyOp = appOpsManager.noteProxyOp(str, str2);
+            return noteProxyOp;
         }
 
         static int noteProxyOpNoThrow(AppOpsManager appOpsManager, String str, String str2) {
-            return appOpsManager.noteProxyOpNoThrow(str, str2);
+            int noteProxyOpNoThrow;
+            noteProxyOpNoThrow = appOpsManager.noteProxyOpNoThrow(str, str2);
+            return noteProxyOpNoThrow;
         }
     }
 }

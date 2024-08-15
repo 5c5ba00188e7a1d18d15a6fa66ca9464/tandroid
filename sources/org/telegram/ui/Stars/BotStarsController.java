@@ -112,7 +112,7 @@ public class BotStarsController {
             TLRPC$TL_payments_getStarsRevenueStats tLRPC$TL_payments_getStarsRevenueStats = new TLRPC$TL_payments_getStarsRevenueStats();
             tLRPC$TL_payments_getStarsRevenueStats.dark = Theme.isCurrentThemeDark();
             tLRPC$TL_payments_getStarsRevenueStats.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(j);
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_getStarsRevenueStats, new RequestDelegate() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda4
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_getStarsRevenueStats, new RequestDelegate() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda0
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     BotStarsController.this.lambda$getRevenueStats$1(j, tLObject, tLRPC$TL_error);
@@ -124,7 +124,7 @@ public class BotStarsController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getRevenueStats$1(final long j, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda1
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 BotStarsController.this.lambda$getRevenueStats$0(tLObject, j);
@@ -155,7 +155,7 @@ public class BotStarsController {
             if (chatFull == null) {
                 return tL_stats$TL_broadcastRevenueStats;
             }
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stats$TL_getBroadcastRevenueStats, new RequestDelegate() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda3
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stats$TL_getBroadcastRevenueStats, new RequestDelegate() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda1
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     BotStarsController.this.lambda$getChannelRevenueStats$3(j, tLObject, tLRPC$TL_error);
@@ -167,7 +167,7 @@ public class BotStarsController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getChannelRevenueStats$3(final long j, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda0
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 BotStarsController.this.lambda$getChannelRevenueStats$2(tLObject, j);
@@ -217,7 +217,7 @@ public class BotStarsController {
         public final ArrayList<TLRPC$StarsTransaction>[] transactions;
         public final boolean[] transactionsExist;
 
-        private TransactionsState(BotStarsController botStarsController) {
+        private TransactionsState() {
             this.transactions = new ArrayList[]{new ArrayList<>(), new ArrayList<>(), new ArrayList<>()};
             this.transactionsExist = new boolean[3];
             this.offset = new String[3];
@@ -272,7 +272,7 @@ public class BotStarsController {
         if (str == null) {
             tLRPC$TL_payments_getStarsTransactions.offset = "";
         }
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_getStarsTransactions, new RequestDelegate() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda5
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_getStarsTransactions, new RequestDelegate() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda2
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 BotStarsController.this.lambda$loadTransactions$5(transactionsState, i, j, tLObject, tLRPC$TL_error);
@@ -282,7 +282,7 @@ public class BotStarsController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadTransactions$5(final TransactionsState transactionsState, final int i, final long j, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda2
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 BotStarsController.this.lambda$loadTransactions$4(transactionsState, i, tLObject, j);

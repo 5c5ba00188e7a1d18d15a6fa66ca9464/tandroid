@@ -8,12 +8,13 @@ import java.io.IOException;
 /* loaded from: classes.dex */
 final class zzhs implements ObjectEncoder {
     static final zzhs zza = new zzhs();
+    private static final FieldDescriptor zzb;
 
     static {
         FieldDescriptor.Builder builder = FieldDescriptor.builder("isFaceMeshEnabled");
         zzci zzciVar = new zzci();
         zzciVar.zza(1);
-        builder.withProperty(zzciVar.zzb()).build();
+        zzb = builder.withProperty(zzciVar.zzb()).build();
     }
 
     private zzhs() {

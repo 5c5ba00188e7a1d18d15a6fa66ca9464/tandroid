@@ -3,10 +3,12 @@ package com.google.android.gms.internal.mlkit_language_id;
 import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.RandomAccess;
 import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-final class zzfn extends zzdi<Long> implements zzew<Long>, zzgi {
+final class zzfn extends zzdi<Long> implements zzgi, RandomAccess {
+    private static final zzfn zza;
     private long[] zzb;
     private int zzc;
 
@@ -216,7 +218,7 @@ final class zzfn extends zzdi<Long> implements zzew<Long>, zzgi {
     }
 
     @Override // com.google.android.gms.internal.mlkit_language_id.zzew
-    public final /* synthetic */ zzew<Long> zzb(int i) {
+    public final /* synthetic */ zzew zzb(int i) {
         if (i < this.zzc) {
             throw new IllegalArgumentException();
         }
@@ -229,6 +231,8 @@ final class zzfn extends zzdi<Long> implements zzew<Long>, zzgi {
     }
 
     static {
-        new zzfn(new long[0], 0).b_();
+        zzfn zzfnVar = new zzfn(new long[0], 0);
+        zza = zzfnVar;
+        zzfnVar.b_();
     }
 }

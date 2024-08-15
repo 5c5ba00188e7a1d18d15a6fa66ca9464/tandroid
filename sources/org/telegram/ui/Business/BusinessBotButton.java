@@ -97,7 +97,7 @@ public class BusinessBotButton extends FrameLayout {
                 BusinessBotButton.this.lambda$new$0(view);
             }
         });
-        clickableAnimatedTextView.setOnWidthUpdatedListener(new Runnable() { // from class: org.telegram.ui.Business.BusinessBotButton$$ExternalSyntheticLambda2
+        clickableAnimatedTextView.setOnWidthUpdatedListener(new Runnable() { // from class: org.telegram.ui.Business.BusinessBotButton$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 BusinessBotButton.this.lambda$new$1();
@@ -111,7 +111,7 @@ public class BusinessBotButton extends FrameLayout {
         imageView.setImageResource(R.drawable.msg_mini_customize);
         imageView.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector, resourcesProvider), 7));
         imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText3, resourcesProvider), PorterDuff.Mode.MULTIPLY));
-        imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Business.BusinessBotButton$$ExternalSyntheticLambda1
+        imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Business.BusinessBotButton$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 BusinessBotButton.this.lambda$new$4(chatActivity, resourcesProvider, view);
@@ -149,14 +149,14 @@ public class BusinessBotButton extends FrameLayout {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$4(ChatActivity chatActivity, Theme.ResourcesProvider resourcesProvider, View view) {
         ItemOptions makeOptions = ItemOptions.makeOptions(chatActivity.getLayoutContainer(), resourcesProvider, this.menuView);
-        makeOptions.add(R.drawable.msg_cancel, (CharSequence) LocaleController.getString(R.string.BizBotRemove), true, new Runnable() { // from class: org.telegram.ui.Business.BusinessBotButton$$ExternalSyntheticLambda4
+        makeOptions.add(R.drawable.msg_cancel, (CharSequence) LocaleController.getString(R.string.BizBotRemove), true, new Runnable() { // from class: org.telegram.ui.Business.BusinessBotButton$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 BusinessBotButton.this.lambda$new$2();
             }
         }).makeMultiline(false);
         if (this.manageUrl != null) {
-            makeOptions.add(R.drawable.msg_settings, LocaleController.getString(R.string.BizBotManage), new Runnable() { // from class: org.telegram.ui.Business.BusinessBotButton$$ExternalSyntheticLambda3
+            makeOptions.add(R.drawable.msg_settings, LocaleController.getString(R.string.BizBotManage), new Runnable() { // from class: org.telegram.ui.Business.BusinessBotButton$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
                     BusinessBotButton.this.lambda$new$3();

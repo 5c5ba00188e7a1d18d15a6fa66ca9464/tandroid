@@ -5,7 +5,6 @@ import java.lang.reflect.Array;
 import java.util.AbstractCollection;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Objects;
 /* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
 public abstract class zzdp extends AbstractCollection implements Serializable {
@@ -83,7 +82,7 @@ public abstract class zzdp extends AbstractCollection implements Serializable {
 
     @Override // java.util.AbstractCollection, java.util.Collection
     public final Object[] toArray(Object[] objArr) {
-        Objects.requireNonNull(objArr);
+        objArr.getClass();
         int size = size();
         int length = objArr.length;
         if (length < size) {

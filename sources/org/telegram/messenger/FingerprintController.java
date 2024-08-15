@@ -51,15 +51,23 @@ public class FingerprintController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static void generateNewKey(final boolean z) {
+        KeyGenParameterSpec.Builder digests;
+        KeyGenParameterSpec.Builder encryptionPaddings;
+        KeyGenParameterSpec.Builder userAuthenticationRequired;
+        KeyGenParameterSpec build;
         KeyPairGenerator keyPairGenerator2 = getKeyPairGenerator();
         if (keyPairGenerator2 != null) {
             try {
                 Locale locale = Locale.getDefault();
                 setLocale(Locale.ENGLISH);
-                keyPairGenerator2.initialize(new KeyGenParameterSpec.Builder(KEY_ALIAS, 3).setDigests("SHA-256", "SHA-512").setEncryptionPaddings("OAEPPadding").setUserAuthenticationRequired(true).build());
+                digests = new KeyGenParameterSpec.Builder(KEY_ALIAS, 3).setDigests("SHA-256", "SHA-512");
+                encryptionPaddings = digests.setEncryptionPaddings("OAEPPadding");
+                userAuthenticationRequired = encryptionPaddings.setUserAuthenticationRequired(true);
+                build = userAuthenticationRequired.build();
+                keyPairGenerator2.initialize(build);
                 keyPairGenerator2.generateKeyPair();
                 setLocale(locale);
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.FingerprintController$$ExternalSyntheticLambda0
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.FingerprintController$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
                         FingerprintController.lambda$generateNewKey$0(z);
@@ -97,7 +105,7 @@ public class FingerprintController {
 
     public static void checkKeyReady(final boolean z) {
         if (!isKeyReady() && AndroidUtilities.isKeyguardSecure() && FingerprintManagerCompat.from(ApplicationLoader.applicationContext).isHardwareDetected() && FingerprintManagerCompat.from(ApplicationLoader.applicationContext).hasEnrolledFingerprints()) {
-            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FingerprintController$$ExternalSyntheticLambda1
+            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FingerprintController$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     FingerprintController.generateNewKey(z);

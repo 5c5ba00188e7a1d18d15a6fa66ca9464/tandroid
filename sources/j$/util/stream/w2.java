@@ -1,44 +1,52 @@
 package j$.util.stream;
 
-import java.util.concurrent.CountedCompleter;
+import java.util.Arrays;
 /* loaded from: classes2.dex */
-abstract class w2 extends CountedCompleter {
-    protected final A1 a;
-    protected final int b;
+final class w2 extends s2 {
+    private M2 c;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public w2(A1 a1, int i) {
-        this.a = a1;
-        this.b = i;
+    public w2(f2 f2Var) {
+        super(f2Var);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public w2(w2 w2Var, A1 a1, int i) {
-        super(w2Var);
-        this.a = a1;
-        this.b = i;
+    @Override // j$.util.stream.e2, j$.util.stream.f2
+    public final void accept(long j) {
+        this.c.accept(j);
     }
 
-    abstract void a();
-
-    abstract w2 b(int i, int i2);
-
-    @Override // java.util.concurrent.CountedCompleter
-    public void compute() {
-        w2 w2Var = this;
-        while (w2Var.a.p() != 0) {
-            w2Var.setPendingCount(w2Var.a.p() - 1);
-            int i = 0;
-            int i2 = 0;
-            while (i < w2Var.a.p() - 1) {
-                w2 b = w2Var.b(i, w2Var.b + i2);
-                i2 = (int) (i2 + b.a.count());
-                b.fork();
+    @Override // j$.util.stream.a2, j$.util.stream.f2
+    public final void end() {
+        long[] jArr = (long[]) this.c.b();
+        Arrays.sort(jArr);
+        f2 f2Var = this.a;
+        f2Var.f(jArr.length);
+        int i = 0;
+        if (this.b) {
+            int length = jArr.length;
+            while (i < length) {
+                long j = jArr[i];
+                if (f2Var.h()) {
+                    break;
+                }
+                f2Var.accept(j);
                 i++;
             }
-            w2Var = w2Var.b(i, w2Var.b + i2);
+        } else {
+            int length2 = jArr.length;
+            while (i < length2) {
+                f2Var.accept(jArr[i]);
+                i++;
+            }
         }
-        w2Var.a();
-        w2Var.propagateCompletion();
+        f2Var.end();
+    }
+
+    @Override // j$.util.stream.f2
+    public final void f(long j) {
+        if (j >= 2147483639) {
+            throw new IllegalArgumentException("Stream size exceeds max array size");
+        }
+        this.c = j > 0 ? new M2((int) j) : new M2();
     }
 }

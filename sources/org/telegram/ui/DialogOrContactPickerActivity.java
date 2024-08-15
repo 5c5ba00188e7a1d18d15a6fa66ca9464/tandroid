@@ -44,7 +44,7 @@ import org.telegram.ui.ContactsActivity;
 import org.telegram.ui.DialogsActivity;
 /* loaded from: classes4.dex */
 public class DialogOrContactPickerActivity extends BaseFragment {
-    private static final Interpolator interpolator = new Interpolator() { // from class: org.telegram.ui.DialogOrContactPickerActivity$$ExternalSyntheticLambda1
+    private static final Interpolator interpolator = new Interpolator() { // from class: org.telegram.ui.DialogOrContactPickerActivity$$ExternalSyntheticLambda2
         @Override // android.animation.TimeInterpolator
         public final float getInterpolation(float f) {
             float lambda$static$0;
@@ -94,7 +94,7 @@ public class DialogOrContactPickerActivity extends BaseFragment {
         bundle.putInt("dialogsType", 9);
         DialogsActivity dialogsActivity = new DialogsActivity(bundle);
         this.dialogsActivity = dialogsActivity;
-        dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.DialogOrContactPickerActivity$$ExternalSyntheticLambda3
+        dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.DialogOrContactPickerActivity$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
             public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
                 boolean lambda$new$1;
@@ -113,7 +113,7 @@ public class DialogOrContactPickerActivity extends BaseFragment {
         bundle2.putBoolean("allowSelf", false);
         ContactsActivity contactsActivity = new ContactsActivity(bundle2);
         this.contactsActivity = contactsActivity;
-        contactsActivity.setDelegate(new ContactsActivity.ContactsActivityDelegate() { // from class: org.telegram.ui.DialogOrContactPickerActivity$$ExternalSyntheticLambda2
+        contactsActivity.setDelegate(new ContactsActivity.ContactsActivityDelegate() { // from class: org.telegram.ui.DialogOrContactPickerActivity$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.ContactsActivity.ContactsActivityDelegate
             public final void didSelectContact(TLRPC$User tLRPC$User, String str, ContactsActivity contactsActivity2) {
                 DialogOrContactPickerActivity.this.lambda$new$2(tLRPC$User, str, contactsActivity2);
@@ -500,20 +500,20 @@ public class DialogOrContactPickerActivity extends BaseFragment {
                 this.viewPages[i].setVisibility(8);
             }
             this.viewPages[i].listView.setScrollingTouchSlop(1);
-            ViewPage[] viewPageArr2 = this.viewPages;
-            viewPageArr2[i].fragmentView = (FrameLayout) viewPageArr2[i].parentFragment.getFragmentView();
-            ViewPage[] viewPageArr3 = this.viewPages;
-            viewPageArr3[i].actionBar = viewPageArr3[i].parentFragment.getActionBar();
-            ViewPage[] viewPageArr4 = this.viewPages;
-            viewPageArr4[i].addView(viewPageArr4[i].fragmentView, LayoutHelper.createFrame(-1, -1.0f));
+            ViewPage viewPage = this.viewPages[i];
+            viewPage.fragmentView = (FrameLayout) viewPage.parentFragment.getFragmentView();
+            ViewPage viewPage2 = this.viewPages[i];
+            viewPage2.actionBar = viewPage2.parentFragment.getActionBar();
+            ViewPage viewPage3 = this.viewPages[i];
+            viewPage3.addView(viewPage3.fragmentView, LayoutHelper.createFrame(-1, -1.0f));
             AndroidUtilities.removeFromParent(this.viewPages[i].actionBar);
-            ViewPage[] viewPageArr5 = this.viewPages;
-            viewPageArr5[i].addView(viewPageArr5[i].actionBar, LayoutHelper.createFrame(-1, -2.0f));
+            ViewPage viewPage4 = this.viewPages[i];
+            viewPage4.addView(viewPage4.actionBar, LayoutHelper.createFrame(-1, -2.0f));
             this.viewPages[i].actionBar.setVisibility(8);
             int i2 = 0;
             while (i2 < 2) {
-                ViewPage[] viewPageArr6 = this.viewPages;
-                RecyclerListView recyclerListView = i2 == 0 ? viewPageArr6[i].listView : viewPageArr6[i].listView2;
+                ViewPage[] viewPageArr2 = this.viewPages;
+                RecyclerListView recyclerListView = i2 == 0 ? viewPageArr2[i].listView : viewPageArr2[i].listView2;
                 if (recyclerListView != null) {
                     recyclerListView.setClipToPadding(false);
                     final RecyclerView.OnScrollListener onScrollListener = recyclerListView.getOnScrollListener();
@@ -644,7 +644,7 @@ public class DialogOrContactPickerActivity extends BaseFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
         builder.setTitle(LocaleController.getString("BlockUser", R.string.BlockUser));
         builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("AreYouSureBlockContact2", R.string.AreYouSureBlockContact2, ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name))));
-        builder.setPositiveButton(LocaleController.getString("BlockContact", R.string.BlockContact), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DialogOrContactPickerActivity$$ExternalSyntheticLambda0
+        builder.setPositiveButton(LocaleController.getString("BlockContact", R.string.BlockContact), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DialogOrContactPickerActivity$$ExternalSyntheticLambda3
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 DialogOrContactPickerActivity.this.lambda$showBlockAlert$3(tLRPC$User, dialogInterface, i);

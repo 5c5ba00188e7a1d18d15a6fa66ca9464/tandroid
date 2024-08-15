@@ -11,7 +11,6 @@ import java.nio.ByteBuffer;
 public class Frame {
     private final Metadata zza;
     private ByteBuffer zzb;
-    private zza zzc;
     private Bitmap zzd;
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -77,7 +76,7 @@ public class Frame {
         @RecentlyNonNull
         public Frame build() {
             if (this.zza.zzb == null && this.zza.zzd == null) {
-                zza unused = this.zza.zzc;
+                Frame.zzc(this.zza);
                 throw new IllegalStateException("Missing image data.  Call either setBitmap or setImageData to specify the image");
             }
             return this.zza;
@@ -113,7 +112,7 @@ public class Frame {
         private int zzc;
         private long zzd;
         private int zze;
-        private int zzf;
+        private int zzf = -1;
 
         public int getWidth() {
             return this.zza;
@@ -145,5 +144,10 @@ public class Frame {
         this.zza = new Metadata();
         this.zzb = null;
         this.zzd = null;
+    }
+
+    static /* synthetic */ zza zzc(Frame frame) {
+        frame.getClass();
+        return null;
     }
 }

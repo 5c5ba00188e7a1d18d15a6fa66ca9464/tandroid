@@ -365,7 +365,8 @@ public final class JsonTreeReader extends JsonReader {
             int i2 = this.stackSize;
             if (i < i2) {
                 Object[] objArr = this.stack;
-                if (objArr[i] instanceof JsonArray) {
+                Object obj = objArr[i];
+                if (obj instanceof JsonArray) {
                     i++;
                     if (i < i2 && (objArr[i] instanceof Iterator)) {
                         int i3 = this.pathIndices[i];
@@ -376,11 +377,11 @@ public final class JsonTreeReader extends JsonReader {
                         sb.append(i3);
                         sb.append(']');
                     }
-                } else if ((objArr[i] instanceof JsonObject) && (i = i + 1) < i2 && (objArr[i] instanceof Iterator)) {
+                } else if ((obj instanceof JsonObject) && (i = i + 1) < i2 && (objArr[i] instanceof Iterator)) {
                     sb.append('.');
-                    String[] strArr = this.pathNames;
-                    if (strArr[i] != null) {
-                        sb.append(strArr[i]);
+                    String str = this.pathNames[i];
+                    if (str != null) {
+                        sb.append(str);
                     }
                 }
                 i++;

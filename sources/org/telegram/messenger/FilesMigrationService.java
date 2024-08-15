@@ -16,7 +16,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import j$.util.function.Consumer;
 import j$.util.stream.Stream;
-import j$.wrappers.$r8$wrapper$java$util$stream$Stream$-V-WRP;
 import java.io.File;
 import java.nio.file.CopyOption;
 import java.nio.file.Files;
@@ -86,7 +85,7 @@ public class FilesMigrationService extends Service {
     public void migrateOldFolder() {
         ArrayList<File> rootDirs;
         File externalStorageDirectory = Environment.getExternalStorageDirectory();
-        if (Build.VERSION.SDK_INT >= 19 && !TextUtils.isEmpty(SharedConfig.storageCacheDir) && (rootDirs = AndroidUtilities.getRootDirs()) != null) {
+        if (!TextUtils.isEmpty(SharedConfig.storageCacheDir) && (rootDirs = AndroidUtilities.getRootDirs()) != null) {
             int size = rootDirs.size();
             int i = 0;
             while (true) {
@@ -125,11 +124,14 @@ public class FilesMigrationService extends Service {
     }
 
     private void moveDirectory(File file, final File file2) {
+        Path path;
+        Stream convert;
         if (file.exists()) {
             if (file2.exists() || file2.mkdir()) {
                 try {
-                    Stream convert = $r8$wrapper$java$util$stream$Stream$-V-WRP.convert(Files.list(file.toPath()));
-                    convert.forEach(new Consumer() { // from class: org.telegram.messenger.FilesMigrationService$$ExternalSyntheticLambda1
+                    path = file.toPath();
+                    convert = Stream.VivifiedWrapper.convert(Files.list(path));
+                    convert.forEach(new Consumer() { // from class: org.telegram.messenger.FilesMigrationService$$ExternalSyntheticLambda9
                         @Override // j$.util.function.Consumer
                         public final void accept(Object obj) {
                             FilesMigrationService.this.lambda$moveDirectory$0(file2, (Path) obj);
@@ -155,17 +157,29 @@ public class FilesMigrationService extends Service {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$moveDirectory$0(File file, Path path) {
-        File file2 = new File(file, path.getFileName().toString());
-        if (Files.isDirectory(path, new LinkOption[0])) {
-            moveDirectory(path.toFile(), file2);
+        Path fileName;
+        String path2;
+        boolean isDirectory;
+        File file2;
+        Path path3;
+        File file3;
+        fileName = path.getFileName();
+        path2 = fileName.toString();
+        File file4 = new File(file, path2);
+        isDirectory = Files.isDirectory(path, new LinkOption[0]);
+        if (isDirectory) {
+            file3 = path.toFile();
+            moveDirectory(file3, file4);
             return;
         }
         try {
-            Files.move(path, file2.toPath(), new CopyOption[0]);
+            path3 = file4.toPath();
+            Files.move(path, path3, new CopyOption[0]);
         } catch (Exception e) {
             FileLog.e((Throwable) e, false);
             try {
-                path.toFile().delete();
+                file2 = path.toFile();
+                file2.delete();
             } catch (Exception e2) {
                 FileLog.e(e2);
             }
@@ -177,7 +191,7 @@ public class FilesMigrationService extends Service {
     private void updateProgress() {
         if (System.currentTimeMillis() - this.lastUpdateTime > 20 || this.movedFilesCount >= this.totalFilesCount - 1) {
             final int i = this.movedFilesCount;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.FilesMigrationService$$ExternalSyntheticLambda0
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.FilesMigrationService$$ExternalSyntheticLambda8
                 @Override // java.lang.Runnable
                 public final void run() {
                     FilesMigrationService.this.lambda$updateProgress$1(i);
@@ -192,9 +206,11 @@ public class FilesMigrationService extends Service {
     }
 
     public static void checkBottomSheet(BaseFragment baseFragment) {
+        boolean isExternalStorageLegacy;
         ArrayList<File> rootDirs;
         SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("systemConfig", 0);
-        if (!Environment.isExternalStorageLegacy() || sharedPreferences.getBoolean("migration_to_scoped_storage_finished", false) || sharedPreferences.getInt("migration_to_scoped_storage_count", 0) >= 5 || wasShown || filesMigrationBottomSheet != null || isRunning) {
+        isExternalStorageLegacy = Environment.isExternalStorageLegacy();
+        if (!isExternalStorageLegacy || sharedPreferences.getBoolean("migration_to_scoped_storage_finished", false) || sharedPreferences.getInt("migration_to_scoped_storage_count", 0) >= 5 || wasShown || filesMigrationBottomSheet != null || isRunning) {
             return;
         }
         if (Build.VERSION.SDK_INT >= 30) {
@@ -281,7 +297,7 @@ public class FilesMigrationService extends Service {
             textView3.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
             textView3.setBackground(Theme.AdaptiveRipple.filledRectByKey(Theme.key_featuredStickers_addButton, 6.0f));
             linearLayout.addView(textView3, LayoutHelper.createFrame(-1, 48.0f, 0, 16.0f, 15.0f, 16.0f, 16.0f));
-            textView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.messenger.FilesMigrationService$FilesMigrationBottomSheet$$ExternalSyntheticLambda0
+            textView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.messenger.FilesMigrationService$FilesMigrationBottomSheet$$ExternalSyntheticLambda1
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     FilesMigrationService.FilesMigrationBottomSheet.this.lambda$new$0(view);
@@ -297,14 +313,39 @@ public class FilesMigrationService extends Service {
             migrateOldFolder();
         }
 
+        /* JADX WARN: Code restructure failed: missing block: B:13:0x0031, code lost:
+            if (r11 != 0) goto L26;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:16:0x0039, code lost:
+            if (r11 == 0) goto L12;
+         */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
         public void migrateOldFolder() {
+            int checkSelfPermission;
+            int checkSelfPermission2;
+            int checkSelfPermission3;
+            int checkSelfPermission4;
+            int checkSelfPermission5;
             Activity parentActivity = this.fragment.getParentActivity();
+            checkSelfPermission = parentActivity.checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE");
             boolean z = true;
-            boolean z2 = parentActivity.checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE") == 0;
+            boolean z2 = checkSelfPermission == 0;
             int i = Build.VERSION.SDK_INT;
-            if ((i < 33 || parentActivity.checkSelfPermission("android.permission.READ_MEDIA_IMAGES") != 0 || parentActivity.checkSelfPermission("android.permission.READ_MEDIA_VIDEO") != 0 || parentActivity.checkSelfPermission("android.permission.READ_MEDIA_AUDIO") != 0) && (i >= 33 || parentActivity.checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE") != 0)) {
-                z = false;
+            if (i >= 33) {
+                checkSelfPermission3 = parentActivity.checkSelfPermission("android.permission.READ_MEDIA_IMAGES");
+                if (checkSelfPermission3 == 0) {
+                    checkSelfPermission4 = parentActivity.checkSelfPermission("android.permission.READ_MEDIA_VIDEO");
+                    if (checkSelfPermission4 == 0) {
+                        checkSelfPermission5 = parentActivity.checkSelfPermission("android.permission.READ_MEDIA_AUDIO");
+                    }
+                }
             }
+            if (i < 33) {
+                checkSelfPermission2 = parentActivity.checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE");
+            }
+            z = false;
             if (!z || !z2) {
                 ArrayList arrayList = new ArrayList();
                 if (!z) {

@@ -9,15 +9,15 @@ public final class PlatformVersion {
     }
 
     public static boolean isAtLeastJellyBean() {
-        return Build.VERSION.SDK_INT >= 16;
+        return true;
     }
 
     public static boolean isAtLeastJellyBeanMR2() {
-        return Build.VERSION.SDK_INT >= 18;
+        return true;
     }
 
     public static boolean isAtLeastKitKat() {
-        return Build.VERSION.SDK_INT >= 19;
+        return true;
     }
 
     public static boolean isAtLeastKitKatWatch() {

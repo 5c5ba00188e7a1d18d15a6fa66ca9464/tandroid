@@ -97,13 +97,13 @@ public class DownloadsInfoBottomSheet extends BottomSheet {
         NestedScrollView nestedScrollView = new NestedScrollView(context);
         nestedScrollView.addView(frameLayout);
         setCustomView(nestedScrollView);
-        textView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.DownloadsInfoBottomSheet$$ExternalSyntheticLambda2
+        textView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.DownloadsInfoBottomSheet$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 DownloadsInfoBottomSheet.this.lambda$new$1(baseFragment, view);
             }
         });
-        textView4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.DownloadsInfoBottomSheet$$ExternalSyntheticLambda1
+        textView4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.DownloadsInfoBottomSheet$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 DownloadsInfoBottomSheet.this.lambda$new$2(view);

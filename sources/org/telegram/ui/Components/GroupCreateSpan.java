@@ -71,14 +71,14 @@ public class GroupCreateSpan extends View {
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:100:0x0332  */
-    /* JADX WARN: Removed duplicated region for block: B:107:0x0388  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x02f1  */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x02f3  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x0300  */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x0303  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x030d  */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x031f  */
+    /* JADX WARN: Removed duplicated region for block: B:100:0x0333  */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x038a  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x02f2  */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x02f4  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x0301  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x0304  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x030e  */
+    /* JADX WARN: Removed duplicated region for block: B:96:0x0320  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -87,8 +87,8 @@ public class GroupCreateSpan extends View {
         String str;
         ImageLocation forUserOrChat;
         TLRPC$User tLRPC$User;
+        ImageLocation forUserOrChat2;
         TLRPC$User tLRPC$User2;
-        ImageLocation imageLocation;
         int min;
         StaticLayout staticLayout;
         char c;
@@ -264,17 +264,17 @@ public class GroupCreateSpan extends View {
                     String firstName = UserObject.getFirstName(tLRPC$User3);
                     int indexOf = firstName.indexOf(32);
                     firstName = indexOf >= 0 ? firstName.substring(0, indexOf) : firstName;
-                    ImageLocation forUserOrChat2 = ImageLocation.getForUserOrChat(tLRPC$User3, 1);
+                    forUserOrChat2 = ImageLocation.getForUserOrChat(tLRPC$User3, 1);
+                    String str3 = firstName;
                     tLRPC$User2 = tLRPC$User3;
-                    str = firstName;
-                    imageLocation = forUserOrChat2;
-                    forUserOrChat = imageLocation;
+                    str = str3;
                     tLRPC$User = tLRPC$User2;
+                    forUserOrChat = forUserOrChat2;
                 }
-                imageLocation = null;
                 tLRPC$User2 = null;
-                forUserOrChat = imageLocation;
+                forUserOrChat2 = null;
                 tLRPC$User = tLRPC$User2;
+                forUserOrChat = forUserOrChat2;
             } else if (obj instanceof TLRPC$Chat) {
                 TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) obj;
                 this.avatarDrawable.setInfo(tLRPC$Chat);
@@ -285,7 +285,7 @@ public class GroupCreateSpan extends View {
             } else if (obj instanceof TLRPC$TL_help_country) {
                 TLRPC$TL_help_country tLRPC$TL_help_country = (TLRPC$TL_help_country) obj;
                 String languageFlag = LocaleController.getLanguageFlag(tLRPC$TL_help_country.iso2);
-                String str3 = tLRPC$TL_help_country.default_name;
+                String str4 = tLRPC$TL_help_country.default_name;
                 this.avatarDrawable.setAvatarType(17);
                 this.avatarDrawable.setTextSize(AndroidUtilities.dp(24.0f));
                 this.avatarDrawable.setInfo(0L, languageFlag, null, null);
@@ -294,7 +294,7 @@ public class GroupCreateSpan extends View {
                 this.drawAvatarBackground = false;
                 avatarDrawable2.setDrawAvatarBackground(false);
                 this.uid = tLRPC$TL_help_country.default_name.hashCode();
-                str = str3;
+                str = str4;
             } else {
                 this.avatarDrawable.setInfo(0L, contact.first_name, contact.last_name);
                 this.uid = contact.contact_id;
@@ -406,6 +406,9 @@ public class GroupCreateSpan extends View {
 
     @Override // android.view.View
     protected void onDraw(Canvas canvas) {
+        int i;
+        int i2;
+        int i3;
         int color;
         boolean z = this.deleting;
         if ((z && this.progress != 1.0f) || (!z && this.progress != 0.0f)) {
@@ -432,10 +435,9 @@ public class GroupCreateSpan extends View {
         this.rect.set(0.0f, 0.0f, getMeasuredWidth(), AndroidUtilities.dp(this.small ? 28.0f : 32.0f));
         Paint paint = backPaint;
         int[] iArr = this.colors;
-        int i = iArr[6];
-        float f3 = iArr[7] - iArr[6];
-        float f4 = this.progress;
-        paint.setColor(Color.argb(i + ((int) (f3 * f4)), iArr[0] + ((int) ((iArr[1] - iArr[0]) * f4)), iArr[2] + ((int) ((iArr[3] - iArr[2]) * f4)), iArr[4] + ((int) ((iArr[5] - iArr[4]) * f4))));
+        int i4 = iArr[6];
+        float f3 = this.progress;
+        paint.setColor(Color.argb(i4 + ((int) ((iArr[7] - i4) * f3)), iArr[0] + ((int) ((iArr[1] - i) * f3)), iArr[2] + ((int) ((iArr[3] - i2) * f3)), iArr[4] + ((int) ((iArr[5] - i3) * f3))));
         canvas.drawRoundRect(this.rect, AndroidUtilities.dp(this.small ? 14.0f : 16.0f), AndroidUtilities.dp(this.small ? 14.0f : 16.0f), backPaint);
         if (this.progress != 1.0f) {
             this.imageReceiver.draw(canvas);
@@ -459,11 +461,15 @@ public class GroupCreateSpan extends View {
 
     @Override // android.view.View
     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
+        AccessibilityNodeInfo.AccessibilityAction accessibilityAction;
+        int id;
         super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
         accessibilityNodeInfo.setText(this.nameLayout.getText());
         if (!isDeleting() || Build.VERSION.SDK_INT < 21) {
             return;
         }
-        accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_CLICK.getId(), LocaleController.getString("Delete", R.string.Delete)));
+        accessibilityAction = AccessibilityNodeInfo.AccessibilityAction.ACTION_CLICK;
+        id = accessibilityAction.getId();
+        accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(id, LocaleController.getString("Delete", R.string.Delete)));
     }
 }

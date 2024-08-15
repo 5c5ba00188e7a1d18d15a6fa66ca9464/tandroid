@@ -31,7 +31,7 @@ public abstract class CustomPopupMenu {
                 return lambda$new$0;
             }
         });
-        this.popupLayout.setDispatchKeyEventListener(new ActionBarPopupWindow.OnDispatchKeyEventListener() { // from class: org.telegram.ui.Components.CustomPopupMenu$$ExternalSyntheticLambda2
+        this.popupLayout.setDispatchKeyEventListener(new ActionBarPopupWindow.OnDispatchKeyEventListener() { // from class: org.telegram.ui.Components.CustomPopupMenu$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow.OnDispatchKeyEventListener
             public final void onDispatchKeyEvent(KeyEvent keyEvent) {
                 CustomPopupMenu.this.lambda$new$1(keyEvent);
@@ -48,7 +48,7 @@ public abstract class CustomPopupMenu {
         this.popupWindow.setInputMethodMode(2);
         this.popupWindow.setSoftInputMode(0);
         this.popupWindow.getContentView().setFocusableInTouchMode(true);
-        this.popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() { // from class: org.telegram.ui.Components.CustomPopupMenu$$ExternalSyntheticLambda1
+        this.popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() { // from class: org.telegram.ui.Components.CustomPopupMenu$$ExternalSyntheticLambda2
             @Override // android.widget.PopupWindow.OnDismissListener
             public final void onDismiss() {
                 CustomPopupMenu.this.lambda$new$2();

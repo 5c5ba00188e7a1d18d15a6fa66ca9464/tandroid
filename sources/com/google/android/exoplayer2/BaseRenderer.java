@@ -38,12 +38,14 @@ public abstract class BaseRenderer implements Renderer, RendererCapabilities {
     public void handleMessage(int i, Object obj) throws ExoPlaybackException {
     }
 
-    protected abstract void onDisabled();
+    protected void onDisabled() {
+    }
 
     protected void onEnabled(boolean z, boolean z2) throws ExoPlaybackException {
     }
 
-    protected abstract void onPositionReset(long j, boolean z) throws ExoPlaybackException;
+    protected void onPositionReset(long j, boolean z) throws ExoPlaybackException {
+    }
 
     protected void onReset() {
     }

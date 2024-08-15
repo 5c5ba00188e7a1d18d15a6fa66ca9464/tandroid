@@ -3,15 +3,13 @@ package androidx.lifecycle;
 import java.util.concurrent.atomic.AtomicReference;
 /* loaded from: classes.dex */
 public abstract class Lifecycle {
+    AtomicReference<Object> mInternalScopeRef = new AtomicReference<>();
+
     public abstract void addObserver(LifecycleObserver lifecycleObserver);
 
     public abstract State getCurrentState();
 
     public abstract void removeObserver(LifecycleObserver lifecycleObserver);
-
-    public Lifecycle() {
-        new AtomicReference();
-    }
 
     /* loaded from: classes.dex */
     public enum Event {

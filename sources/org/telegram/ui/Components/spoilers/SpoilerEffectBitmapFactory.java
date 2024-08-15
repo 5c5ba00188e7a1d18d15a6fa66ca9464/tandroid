@@ -17,7 +17,6 @@ public class SpoilerEffectBitmapFactory {
     private static SpoilerEffectBitmapFactory factory;
     Bitmap backgroundBitmap;
     Bitmap bufferBitmap;
-    final DispatchQueue dispatchQueue = new DispatchQueue("SpoilerEffectBitmapFactory", true, 3);
     boolean isRunning;
     long lastUpdateTime;
     private Bitmap shaderBitmap;
@@ -25,6 +24,8 @@ public class SpoilerEffectBitmapFactory {
     Paint shaderPaint;
     ArrayList<SpoilerEffect> shaderSpoilerEffects;
     int size;
+    final DispatchQueue dispatchQueue = new DispatchQueue("SpoilerEffectBitmapFactory", true, 3);
+    Matrix localMatrix = new Matrix();
 
     public static SpoilerEffectBitmapFactory getInstance() {
         if (factory == null) {
@@ -34,7 +35,6 @@ public class SpoilerEffectBitmapFactory {
     }
 
     private SpoilerEffectBitmapFactory() {
-        new Matrix();
         int dp = AndroidUtilities.dp(SharedConfig.getDevicePerformanceClass() == 2 ? 150.0f : 100.0f);
         Point point = AndroidUtilities.displaySize;
         int min = (int) Math.min(Math.min(point.x, point.y) * 0.5f, dp);
@@ -67,7 +67,7 @@ public class SpoilerEffectBitmapFactory {
                     int i7 = i3 * i5;
                     spoilerEffect.setBounds(i6, i7 - AndroidUtilities.dp(5.0f), i6 + i3 + AndroidUtilities.dp(3.0f), i7 + i3 + AndroidUtilities.dp(5.0f));
                     spoilerEffect.drawPoints = true;
-                    spoilerEffect.particlePoints = (float[][]) Array.newInstance(float.class, SpoilerEffect.ALPHAS.length, dp * 2);
+                    spoilerEffect.particlePoints = (float[][]) Array.newInstance(Float.TYPE, SpoilerEffect.ALPHAS.length, dp * 2);
                     spoilerEffect.setMaxParticlesCount(dp);
                     spoilerEffect.setColor(-1);
                     this.shaderSpoilerEffects.add(spoilerEffect);

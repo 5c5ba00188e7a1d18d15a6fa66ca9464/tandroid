@@ -429,7 +429,7 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
             }
             this.currentAnimation = new AnimatorSet();
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$ContainerView$$ExternalSyntheticLambda2
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$ContainerView$$ExternalSyntheticLambda4
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     BottomSheet.ContainerView.this.lambda$checkDismiss$0(valueAnimator);
@@ -509,7 +509,7 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
                         float max = Math.max(this.swipeBackX, 0.0f);
                         this.swipeBackX = max;
                         ValueAnimator ofFloat = ValueAnimator.ofFloat(max, 0.0f);
-                        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$ContainerView$$ExternalSyntheticLambda3
+                        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$ContainerView$$ExternalSyntheticLambda1
                             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                                 BottomSheet.ContainerView.this.lambda$processTouchEvent$1(valueAnimator);
@@ -528,7 +528,7 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
                         ofFloat.start();
                     } else {
                         ValueAnimator ofFloat2 = ValueAnimator.ofFloat(this.swipeBackX, getMeasuredWidth());
-                        ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$ContainerView$$ExternalSyntheticLambda4
+                        ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$ContainerView$$ExternalSyntheticLambda2
                             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                                 BottomSheet.ContainerView.this.lambda$processTouchEvent$2(valueAnimator);
@@ -549,7 +549,7 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
                         ofFloat2.setDuration(320L);
                         ofFloat2.start();
                         ValueAnimator ofFloat3 = ValueAnimator.ofFloat(1.0f, 0.0f);
-                        ofFloat3.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$ContainerView$$ExternalSyntheticLambda0
+                        ofFloat3.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$ContainerView$$ExternalSyntheticLambda3
                             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                                 BottomSheet.ContainerView.this.lambda$processTouchEvent$3(valueAnimator);
@@ -668,7 +668,11 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
             int makeMeasureSpec;
             int i4;
             BottomSheet bottomSheet;
+            int systemWindowInsetBottom;
             int i5;
+            int systemWindowInsetBottom2;
+            int systemWindowInsetLeft;
+            int systemWindowInsetRight;
             int size = View.MeasureSpec.getSize(i);
             int size2 = View.MeasureSpec.getSize(i2);
             View rootView = getRootView();
@@ -700,11 +704,14 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
             bottomSheet6.keyboardVisible = i7 > AndroidUtilities.dp(20.0f);
             if (BottomSheet.this.lastInsets != null && (i5 = Build.VERSION.SDK_INT) >= 21) {
                 BottomSheet bottomSheet7 = BottomSheet.this;
-                bottomSheet7.bottomInset = bottomSheet7.lastInsets.getSystemWindowInsetBottom();
+                systemWindowInsetBottom2 = bottomSheet7.lastInsets.getSystemWindowInsetBottom();
+                bottomSheet7.bottomInset = systemWindowInsetBottom2;
                 BottomSheet bottomSheet8 = BottomSheet.this;
-                bottomSheet8.leftInset = bottomSheet8.lastInsets.getSystemWindowInsetLeft();
+                systemWindowInsetLeft = bottomSheet8.lastInsets.getSystemWindowInsetLeft();
+                bottomSheet8.leftInset = systemWindowInsetLeft;
                 BottomSheet bottomSheet9 = BottomSheet.this;
-                bottomSheet9.rightInset = bottomSheet9.lastInsets.getSystemWindowInsetRight();
+                systemWindowInsetRight = bottomSheet9.lastInsets.getSystemWindowInsetRight();
+                bottomSheet9.rightInset = systemWindowInsetRight;
                 if (i5 >= 29) {
                     BottomSheet bottomSheet10 = BottomSheet.this;
                     BottomSheet.access$1012(bottomSheet10, bottomSheet10.getAdditionalMandatoryOffsets());
@@ -723,20 +730,21 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
                     if (BottomSheet.this.lastInsets != null && (i4 = Build.VERSION.SDK_INT) >= 21) {
                         bottomSheet = BottomSheet.this;
                         if (!bottomSheet.occupyNavigationBar) {
-                            int systemWindowInsetBottom = (int) (bottomSheet.lastInsets.getSystemWindowInsetBottom() * (1.0f - BottomSheet.this.hideSystemVerticalInsetsProgress));
+                            systemWindowInsetBottom = bottomSheet.lastInsets.getSystemWindowInsetBottom();
+                            int i8 = (int) (systemWindowInsetBottom * (1.0f - BottomSheet.this.hideSystemVerticalInsetsProgress));
                             if (i4 >= 29) {
-                                systemWindowInsetBottom += BottomSheet.this.getAdditionalMandatoryOffsets();
+                                i8 += BottomSheet.this.getAdditionalMandatoryOffsets();
                             }
-                            size2 -= systemWindowInsetBottom;
+                            size2 -= i8;
                         }
                     }
-                    int i8 = size2;
+                    int i9 = size2;
                     if (BottomSheet.this.lastInsets != null && Build.VERSION.SDK_INT >= 21) {
                         size -= BottomSheet.this.getRightInset() + BottomSheet.this.getLeftInset();
                     }
-                    int i9 = size;
+                    int i10 = size;
                     BottomSheet bottomSheet13 = BottomSheet.this;
-                    bottomSheet13.isPortrait = i9 < i8;
+                    bottomSheet13.isPortrait = i10 < i9;
                     viewGroup = bottomSheet13.containerView;
                     if (viewGroup != null) {
                         if (!bottomSheet13.fullWidth) {
@@ -745,20 +753,20 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
                                 makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(((int) (Math.min(point.x, point.y) * 0.8f)) + (BottomSheet.this.backgroundPaddingLeft * 2), 1073741824);
                             } else {
                                 BottomSheet bottomSheet14 = BottomSheet.this;
-                                makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(bottomSheet14.getBottomSheetWidth(bottomSheet14.isPortrait, i9, i8) + (BottomSheet.this.backgroundPaddingLeft * 2), 1073741824);
+                                makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(bottomSheet14.getBottomSheetWidth(bottomSheet14.isPortrait, i10, i9) + (BottomSheet.this.backgroundPaddingLeft * 2), 1073741824);
                             }
-                            BottomSheet.this.containerView.measure(makeMeasureSpec, View.MeasureSpec.makeMeasureSpec(i8, Integer.MIN_VALUE));
+                            BottomSheet.this.containerView.measure(makeMeasureSpec, View.MeasureSpec.makeMeasureSpec(i9, Integer.MIN_VALUE));
                         } else {
-                            viewGroup.measure(View.MeasureSpec.makeMeasureSpec((bottomSheet13.backgroundPaddingLeft * 2) + i9, 1073741824), View.MeasureSpec.makeMeasureSpec(i8, Integer.MIN_VALUE));
+                            viewGroup.measure(View.MeasureSpec.makeMeasureSpec((bottomSheet13.backgroundPaddingLeft * 2) + i10, 1073741824), View.MeasureSpec.makeMeasureSpec(i9, Integer.MIN_VALUE));
                         }
                     }
                     childCount = getChildCount();
-                    for (int i10 = 0; i10 < childCount; i10++) {
-                        View childAt = getChildAt(i10);
+                    for (int i11 = 0; i11 < childCount; i11++) {
+                        View childAt = getChildAt(i11);
                         if (childAt.getVisibility() != 8) {
                             BottomSheet bottomSheet15 = BottomSheet.this;
-                            if (childAt != bottomSheet15.containerView && !bottomSheet15.onCustomMeasure(childAt, i9, i8)) {
-                                measureChildWithMargins(childAt, View.MeasureSpec.makeMeasureSpec(i9, 1073741824), 0, View.MeasureSpec.makeMeasureSpec(i8, 1073741824), 0);
+                            if (childAt != bottomSheet15.containerView && !bottomSheet15.onCustomMeasure(childAt, i10, i9)) {
+                                measureChildWithMargins(childAt, View.MeasureSpec.makeMeasureSpec(i10, 1073741824), 0, View.MeasureSpec.makeMeasureSpec(i9, 1073741824), 0);
                             }
                         }
                     }
@@ -771,18 +779,18 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
                 if (!bottomSheet.occupyNavigationBar) {
                 }
             }
-            int i82 = size2;
+            int i92 = size2;
             if (BottomSheet.this.lastInsets != null) {
                 size -= BottomSheet.this.getRightInset() + BottomSheet.this.getLeftInset();
             }
-            int i92 = size;
+            int i102 = size;
             BottomSheet bottomSheet132 = BottomSheet.this;
-            bottomSheet132.isPortrait = i92 < i82;
+            bottomSheet132.isPortrait = i102 < i92;
             viewGroup = bottomSheet132.containerView;
             if (viewGroup != null) {
             }
             childCount = getChildCount();
-            while (i10 < childCount) {
+            while (i11 < childCount) {
             }
         }
 
@@ -814,6 +822,7 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
             int i14;
             ViewGroup viewGroup;
             int i15;
+            int systemWindowInsetBottom;
             BottomSheet bottomSheet2;
             BottomSheet.access$1510(BottomSheet.this);
             ViewGroup viewGroup2 = BottomSheet.this.containerView;
@@ -829,7 +838,9 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
                     if (bottomSheet3.useSmoothKeyboard) {
                         measuredHeight = 0;
                     } else if (!bottomSheet3.occupyNavigationBar) {
-                        measuredHeight = (int) (measuredHeight - ((bottomSheet3.lastInsets.getSystemWindowInsetBottom() * (1.0f - BottomSheet.this.hideSystemVerticalInsetsProgress)) - (BottomSheet.this.drawNavigationBar ? 0 : bottomSheet2.getBottomInset())));
+                        float f = measuredHeight;
+                        systemWindowInsetBottom = bottomSheet3.lastInsets.getSystemWindowInsetBottom();
+                        measuredHeight = (int) (f - ((systemWindowInsetBottom * (1.0f - BottomSheet.this.hideSystemVerticalInsetsProgress)) - (BottomSheet.this.drawNavigationBar ? 0 : bottomSheet2.getBottomInset())));
                         if (i15 >= 29) {
                             measuredHeight -= BottomSheet.this.getAdditionalMandatoryOffsets();
                         }
@@ -854,7 +865,7 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
                         }
                         BottomSheet bottomSheet8 = BottomSheet.this;
                         bottomSheet8.keyboardContentAnimator = ValueAnimator.ofFloat(bottomSheet8.containerView.getTranslationY(), 0.0f);
-                        BottomSheet.this.keyboardContentAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$ContainerView$$ExternalSyntheticLambda1
+                        BottomSheet.this.keyboardContentAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$ContainerView$$ExternalSyntheticLambda0
                             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                                 BottomSheet.ContainerView.this.lambda$onLayout$4(valueAnimator);
@@ -885,7 +896,7 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
                         }
                         BottomSheet bottomSheet82 = BottomSheet.this;
                         bottomSheet82.keyboardContentAnimator = ValueAnimator.ofFloat(bottomSheet82.containerView.getTranslationY(), 0.0f);
-                        BottomSheet.this.keyboardContentAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$ContainerView$$ExternalSyntheticLambda1
+                        BottomSheet.this.keyboardContentAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$ContainerView$$ExternalSyntheticLambda0
                             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                                 BottomSheet.ContainerView.this.lambda$onLayout$4(valueAnimator);
@@ -1273,17 +1284,26 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
     /* JADX INFO: Access modifiers changed from: private */
     public int getAdditionalMandatoryOffsets() {
         WindowInsets windowInsets;
+        Insets systemGestureInsets;
+        int i;
+        int i2;
+        int i3;
         if (!this.calcMandatoryInsets || (windowInsets = this.lastInsets) == null) {
             return 0;
         }
-        Insets systemGestureInsets = windowInsets.getSystemGestureInsets();
+        systemGestureInsets = windowInsets.getSystemGestureInsets();
         if (this.keyboardVisible || !this.drawNavigationBar || systemGestureInsets == null) {
             return 0;
         }
-        if (systemGestureInsets.left == 0 && systemGestureInsets.right == 0) {
-            return 0;
+        i = systemGestureInsets.left;
+        if (i == 0) {
+            i3 = systemGestureInsets.right;
+            if (i3 == 0) {
+                return 0;
+            }
         }
-        return systemGestureInsets.bottom;
+        i2 = systemGestureInsets.bottom;
+        return i2;
     }
 
     public boolean isKeyboardVisible() {
@@ -1474,7 +1494,7 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
         this.applyTopPadding = true;
         this.applyBottomPadding = true;
         this.itemViews = new ArrayList<>();
-        this.dismissRunnable = new BottomSheet$$ExternalSyntheticLambda9(this);
+        this.dismissRunnable = new BottomSheet$$ExternalSyntheticLambda5(this);
         this.navigationBarAlpha = 0.0f;
         this.navBarColorKey = Theme.key_windowBackgroundGray;
         this.pauseAllHeavyOperations = true;
@@ -1530,7 +1550,7 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
             @Override // android.view.ViewGroup, android.view.View
             protected void onAttachedToWindow() {
                 super.onAttachedToWindow();
-                Bulletin.addDelegate(this, new Bulletin.Delegate(this) { // from class: org.telegram.ui.ActionBar.BottomSheet.2.1
+                Bulletin.addDelegate(this, new Bulletin.Delegate() { // from class: org.telegram.ui.ActionBar.BottomSheet.2.1
                     @Override // org.telegram.ui.Components.Bulletin.Delegate
                     public /* synthetic */ boolean allowLayoutChanges() {
                         return Bulletin.Delegate.-CC.$default$allowLayoutChanges(this);
@@ -1603,7 +1623,10 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ WindowInsets lambda$new$1(View view, WindowInsets windowInsets) {
-        int systemWindowInsetTop = windowInsets.getSystemWindowInsetTop();
+        int systemWindowInsetTop;
+        WindowInsets consumeSystemWindowInsets;
+        WindowInsets windowInsets2;
+        systemWindowInsetTop = windowInsets.getSystemWindowInsetTop();
         if ((systemWindowInsetTop != 0 || AndroidUtilities.isInMultiwindow) && this.statusBarHeight != systemWindowInsetTop) {
             this.statusBarHeight = systemWindowInsetTop;
         }
@@ -1611,9 +1634,11 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
         view.requestLayout();
         onInsetsChanged();
         if (Build.VERSION.SDK_INT >= 30) {
-            return WindowInsets.CONSUMED;
+            windowInsets2 = WindowInsets.CONSUMED;
+            return windowInsets2;
         }
-        return windowInsets.consumeSystemWindowInsets();
+        consumeSystemWindowInsets = windowInsets.consumeSystemWindowInsets();
+        return consumeSystemWindowInsets;
     }
 
     public void fixNavigationBar() {
@@ -1638,6 +1663,7 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
 
     private void onCreateInternal() {
         Window window;
+        int i;
         BaseFragment baseFragment = this.attachedFragment;
         Drawable drawable = null;
         if (baseFragment != null) {
@@ -1646,7 +1672,7 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
                 return;
             }
             if (((InputMethodManager) getContext().getSystemService("input_method")).hideSoftInputFromWindow(this.attachedFragment.getLayoutContainer().getWindowToken(), 2)) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ActionBar.BottomSheet$$ExternalSyntheticLambda11
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ActionBar.BottomSheet$$ExternalSyntheticLambda9
                     @Override // java.lang.Runnable
                     public final void run() {
                         BottomSheet.this.lambda$onCreateInternal$2();
@@ -1698,7 +1724,6 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
             ContainerView containerView = this.container;
             containerView.addView(frameLayout2, containerView.indexOfChild(this.containerView) + 1, LayoutHelper.createFrame(-1, -2, 80));
         }
-        int i = 48;
         if (this.title != null) {
             TextView textView = new TextView(getContext()) { // from class: org.telegram.ui.ActionBar.BottomSheet.4
                 @Override // android.widget.TextView, android.view.View
@@ -1742,8 +1767,9 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
                 this.titleView.setEllipsize(TextUtils.TruncateAt.MIDDLE);
             }
             this.titleView.setGravity(16);
+            i = 48;
             this.containerView.addView(this.titleView, LayoutHelper.createFrame(-1, this.multipleLinesTitle ? -2.0f : 48));
-            this.titleView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$$ExternalSyntheticLambda8
+            this.titleView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$$ExternalSyntheticLambda10
                 @Override // android.view.View.OnTouchListener
                 public final boolean onTouch(View view, MotionEvent motionEvent) {
                     boolean lambda$onCreateInternal$3;
@@ -1785,7 +1811,7 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
                     this.containerView.addView(bottomSheetCell, LayoutHelper.createFrame(-1, 48.0f, 51, 0.0f, i, 0.0f, 0.0f));
                     i += 48;
                     bottomSheetCell.setTag(Integer.valueOf(i2));
-                    bottomSheetCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$$ExternalSyntheticLambda7
+                    bottomSheetCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$$ExternalSyntheticLambda11
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view2) {
                             BottomSheet.this.lambda$onCreateInternal$4(view2);
@@ -2035,7 +2061,7 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
         }
         ValueAnimator ofFloat = ValueAnimator.ofFloat(this.navigationBarAlpha, 1.0f);
         this.navigationBarAnimation = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$$ExternalSyntheticLambda3
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$$ExternalSyntheticLambda0
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                 BottomSheet.this.lambda$startOpenAnimation$5(valueAnimator2);
@@ -2183,6 +2209,8 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
     }
 
     public void dismissWithButtonClick(final int i) {
+        ValueAnimator ofArgb;
+        ValueAnimator ofArgb2;
         if (this.dismissed) {
             return;
         }
@@ -2209,8 +2237,8 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
         }
         int currentTextColor = getItemViews().get(this.selectedPos.intValue()).getTextView().getCurrentTextColor();
         int currentTextColor2 = getItemViews().get(i).getTextView().getCurrentTextColor();
-        ValueAnimator ofArgb = ValueAnimator.ofArgb(currentTextColor, currentTextColor2);
-        ofArgb.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$$ExternalSyntheticLambda1
+        ofArgb = ValueAnimator.ofArgb(currentTextColor, currentTextColor2);
+        ofArgb.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$$ExternalSyntheticLambda3
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 BottomSheet.this.lambda$dismissWithButtonClick$6(valueAnimator);
@@ -2220,7 +2248,7 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
         CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.DEFAULT;
         ofArgb.setInterpolator(cubicBezierInterpolator);
         ofArgb.start();
-        ValueAnimator ofArgb2 = ValueAnimator.ofArgb(currentTextColor2, currentTextColor);
+        ofArgb2 = ValueAnimator.ofArgb(currentTextColor2, currentTextColor);
         ofArgb2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$$ExternalSyntheticLambda4
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -2346,7 +2374,7 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
             cancelSheetAnimation();
             onDismissAnimationStart();
             if (this.skipDismissAnimation) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ActionBar.BottomSheet$$ExternalSyntheticLambda10
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ActionBar.BottomSheet$$ExternalSyntheticLambda7
                     @Override // java.lang.Runnable
                     public final void run() {
                         BottomSheet.this.lambda$dismiss$8();
@@ -2360,7 +2388,7 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
                 }
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(this.navigationBarAlpha, 0.0f);
                 this.navigationBarAnimation = ofFloat;
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$$ExternalSyntheticLambda0
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$$ExternalSyntheticLambda8
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                         BottomSheet.this.lambda$dismiss$9(valueAnimator2);
@@ -2509,7 +2537,7 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
     @Override // org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
     public void setOnDismissListener(final Runnable runnable) {
         if (runnable != null) {
-            setOnHideListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$$ExternalSyntheticLambda5
+            setOnHideListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$$ExternalSyntheticLambda1
                 @Override // android.content.DialogInterface.OnDismissListener
                 public final void onDismiss(DialogInterface dialogInterface) {
                     runnable.run();
@@ -2657,19 +2685,23 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
     }
 
     public int getLeftInset() {
+        int systemWindowInsetLeft;
         WindowInsets windowInsets = this.lastInsets;
         if (windowInsets == null || Build.VERSION.SDK_INT < 21) {
             return 0;
         }
-        return (int) (windowInsets.getSystemWindowInsetLeft() * (1.0f - this.hideSystemVerticalInsetsProgress));
+        systemWindowInsetLeft = windowInsets.getSystemWindowInsetLeft();
+        return (int) (systemWindowInsetLeft * (1.0f - this.hideSystemVerticalInsetsProgress));
     }
 
     public int getRightInset() {
+        int systemWindowInsetRight;
         WindowInsets windowInsets = this.lastInsets;
         if (windowInsets == null || Build.VERSION.SDK_INT < 21) {
             return 0;
         }
-        return (int) (windowInsets.getSystemWindowInsetRight() * (1.0f - this.hideSystemVerticalInsetsProgress));
+        systemWindowInsetRight = windowInsets.getSystemWindowInsetRight();
+        return (int) (systemWindowInsetRight * (1.0f - this.hideSystemVerticalInsetsProgress));
     }
 
     public int getStatusBarHeight() {

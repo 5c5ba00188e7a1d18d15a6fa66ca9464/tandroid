@@ -16,7 +16,6 @@ import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.view.animation.Interpolator;
 import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.ChatListItemAnimator;
 import java.util.ArrayList;
@@ -73,6 +72,7 @@ public class ReactionsLayoutInBubble {
     private boolean animateMove;
     private boolean animateWidth;
     boolean attached;
+    int availableWidth;
     public float drawServiceShaderBackground;
     public int fromWidth;
     private float fromX;
@@ -110,7 +110,7 @@ public class ReactionsLayoutInBubble {
     private static TextPaint textPaint = new TextPaint(1);
     private static final ButtonsComparator comparator = new ButtonsComparator();
     private static int pointer = 1;
-    private static final Comparator<TLObject> usersComparator = new Comparator() { // from class: org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble$$ExternalSyntheticLambda1
+    private static final Comparator<TLObject> usersComparator = new Comparator() { // from class: org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble$$ExternalSyntheticLambda0
         @Override // java.util.Comparator
         public final int compare(Object obj, Object obj2) {
             int lambda$static$0;
@@ -166,7 +166,7 @@ public class ReactionsLayoutInBubble {
     /* JADX WARN: Removed duplicated region for block: B:102:0x01fc A[SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:79:0x01f9  */
     /* JADX WARN: Type inference failed for: r11v0 */
-    /* JADX WARN: Type inference failed for: r11v4, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r11v4, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r11v5 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -315,6 +315,7 @@ public class ReactionsLayoutInBubble {
         if (this.isEmpty) {
             return;
         }
+        this.availableWidth = i;
         int i3 = 0;
         int i4 = 0;
         int i5 = 0;
@@ -721,6 +722,7 @@ public class ReactionsLayoutInBubble {
         public AnimatedTextView.AnimatedTextDrawable textDrawable;
         ArrayList<TLObject> users;
         VisibleReaction visibleReaction;
+        public boolean wasDrawn;
         public int width;
         public int x;
         public int y;
@@ -837,9 +839,10 @@ public class ReactionsLayoutInBubble {
                 AnimatedTextView.AnimatedTextDrawable animatedTextDrawable2 = this.textDrawable;
                 animatedTextDrawable2.setText(Emoji.replaceEmoji(this.name, animatedTextDrawable2.getPaint().getFontMetricsInt(), false), !LocaleController.isRTL);
                 if (drawTextWithCounter()) {
-                    Integer.toString(tLRPC$ReactionCount.count);
+                    this.countText = Integer.toString(tLRPC$ReactionCount.count);
                     this.counterDrawable.setCount(this.count, false);
                 } else {
+                    this.countText = "";
                     this.counterDrawable.setCount(0, false);
                 }
             } else {
@@ -847,7 +850,7 @@ public class ReactionsLayoutInBubble {
                 if (animatedTextDrawable3 != null) {
                     animatedTextDrawable3.setText("", false);
                 }
-                Integer.toString(tLRPC$ReactionCount.count);
+                this.countText = Integer.toString(tLRPC$ReactionCount.count);
                 this.counterDrawable.setCount(this.count, false);
             }
             this.counterDrawable.setType(2);
@@ -872,10 +875,10 @@ public class ReactionsLayoutInBubble {
             return ((i == 0 || (this.isTag && !this.hasName && i == 1)) && this.counterDrawable.countChangeProgress == 1.0f) ? false : true;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:154:0x03fc  */
-        /* JADX WARN: Removed duplicated region for block: B:158:0x0418  */
-        /* JADX WARN: Removed duplicated region for block: B:159:0x0420  */
-        /* JADX WARN: Removed duplicated region for block: B:168:0x0468  */
+        /* JADX WARN: Removed duplicated region for block: B:154:0x03fe  */
+        /* JADX WARN: Removed duplicated region for block: B:158:0x041a  */
+        /* JADX WARN: Removed duplicated region for block: B:159:0x0422  */
+        /* JADX WARN: Removed duplicated region for block: B:168:0x046a  */
         /* JADX WARN: Removed duplicated region for block: B:170:? A[RETURN, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -888,6 +891,8 @@ public class ReactionsLayoutInBubble {
             int i;
             Paint paint;
             Theme.MessageDrawable currentBackgroundDrawable;
+            boolean z2 = true;
+            this.wasDrawn = true;
             AnimatedEmojiDrawable animatedEmojiDrawable = this.animatedEmojiDrawable;
             ImageReceiver imageReceiver = animatedEmojiDrawable != null ? animatedEmojiDrawable.getImageReceiver() : this.imageReceiver;
             if (this.isSmall && imageReceiver != null) {
@@ -930,7 +935,7 @@ public class ReactionsLayoutInBubble {
                 animatedTextDrawable.setTextColor(this.lastDrawnTextColor);
             }
             ReactionsLayoutInBubble.paint.setColor(this.lastDrawnBackgroundColor);
-            boolean z2 = this.isTag && drawTagDot() && Color.alpha(this.lastDrawnTagDotColor) == 0;
+            z2 = (this.isTag && drawTagDot() && Color.alpha(this.lastDrawnTagDotColor) == 0) ? false : false;
             if (f4 != 1.0f) {
                 ReactionsLayoutInBubble.textPaint.setAlpha((int) (ReactionsLayoutInBubble.textPaint.getAlpha() * f4));
                 ReactionsLayoutInBubble.paint.setAlpha((int) (ReactionsLayoutInBubble.paint.getAlpha() * f4));
@@ -1108,8 +1113,8 @@ public class ReactionsLayoutInBubble {
         /* JADX INFO: Access modifiers changed from: private */
         public void drawImage(Canvas canvas, Rect rect, float f) {
             AnimatedEmojiDrawable animatedEmojiDrawable = this.animatedEmojiDrawable;
-            ImageReceiver imageReceiver = animatedEmojiDrawable != null ? animatedEmojiDrawable.getImageReceiver() : this.imageReceiver;
-            if (rect != null) {
+            ImageReceiver imageReceiver = (animatedEmojiDrawable == null || animatedEmojiDrawable.getImageReceiver() == null) ? this.imageReceiver : this.animatedEmojiDrawable.getImageReceiver();
+            if (imageReceiver != null && rect != null) {
                 imageReceiver.setImageCoords(rect);
             }
             AnimatedEmojiDrawable animatedEmojiDrawable2 = this.animatedEmojiDrawable;
@@ -1164,7 +1169,7 @@ public class ReactionsLayoutInBubble {
                     AvatarsDrawable avatarsDrawable = new AvatarsDrawable(this.parentView, false);
                     this.avatarsDrawable = avatarsDrawable;
                     avatarsDrawable.transitionDuration = 250L;
-                    Interpolator interpolator = ChatListItemAnimator.DEFAULT_INTERPOLATOR;
+                    avatarsDrawable.transitionInterpolator = ChatListItemAnimator.DEFAULT_INTERPOLATOR;
                     avatarsDrawable.setSize(AndroidUtilities.dp(20.0f));
                     this.avatarsDrawable.width = AndroidUtilities.dp(100.0f);
                     AvatarsDrawable avatarsDrawable2 = this.avatarsDrawable;
@@ -1334,7 +1339,7 @@ public class ReactionsLayoutInBubble {
                     }
                     this.lastSelectedButton.bounce.setPressed(true);
                     final ReactionButton reactionButton = this.lastSelectedButton;
-                    Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble$$ExternalSyntheticLambda0
+                    Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble$$ExternalSyntheticLambda1
                         @Override // java.lang.Runnable
                         public final void run() {
                             ReactionsLayoutInBubble.this.lambda$checkTouchEvent$1(reactionButton);
@@ -1592,7 +1597,7 @@ public class ReactionsLayoutInBubble {
             if (this == obj) {
                 return true;
             }
-            if (obj == null || VisibleReaction.class != obj.getClass()) {
+            if (obj == null || getClass() != obj.getClass()) {
                 return false;
             }
             VisibleReaction visibleReaction = (VisibleReaction) obj;

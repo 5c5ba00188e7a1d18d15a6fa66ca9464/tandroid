@@ -409,12 +409,8 @@ public class VideoTimelinePlayView extends View {
         }
         if (i == 0) {
             this.frameHeight = AndroidUtilities.dp(38.0f);
-            float f = 1.0f;
             int i3 = this.videoWidth;
-            if (i3 != 0 && (i2 = this.videoHeight) != 0) {
-                f = i3 / i2;
-            }
-            this.framesToLoad = Math.max(1, (int) Math.ceil((getMeasuredWidth() - AndroidUtilities.dp(32.0f)) / (this.frameHeight * Utilities.clamp(f, 1.3333334f, 0.5625f))));
+            this.framesToLoad = Math.max(1, (int) Math.ceil((getMeasuredWidth() - AndroidUtilities.dp(32.0f)) / (this.frameHeight * Utilities.clamp((i3 == 0 || (i2 = this.videoHeight) == 0) ? 1.0f : i3 / i2, 1.3333334f, 0.5625f))));
             this.frameWidth = (int) Math.ceil((getMeasuredWidth() - AndroidUtilities.dp(32.0f)) / this.framesToLoad);
             this.frameTimeOffset = this.videoLength / this.framesToLoad;
         }
@@ -559,7 +555,6 @@ public class VideoTimelinePlayView extends View {
         float measuredWidth = getMeasuredWidth() - (dpf2 * 2.0f);
         float dp = AndroidUtilities.dp(10.0f) + dpf2 + ((int) ((measuredWidth - AndroidUtilities.dp(20.0f)) * this.progressLeft));
         float dp2 = AndroidUtilities.dp(10.0f) + dpf2 + ((int) ((measuredWidth - AndroidUtilities.dp(20.0f)) * this.progressRight));
-        float f3 = 6.0f;
         float dp3 = AndroidUtilities.dp(6.0f);
         float dp4 = dp3 + AndroidUtilities.dp(38.0f);
         if (this.frames.isEmpty() && this.currentTask == null) {
@@ -580,8 +575,8 @@ public class VideoTimelinePlayView extends View {
             canvas.save();
             this.clipPath.rewind();
             RectF rectF2 = AndroidUtilities.rectTmp;
-            float f4 = dpf2 + measuredWidth;
-            rectF2.set(dpf2, dp3, f4, dp4);
+            float f3 = dpf2 + measuredWidth;
+            rectF2.set(dpf2, dp3, f3, dp4);
             this.clipPath.addRoundRect(rectF2, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), Path.Direction.CW);
             canvas.clipPath(this.clipPath);
             boolean z = this.frames.size() < this.framesToLoad;
@@ -602,10 +597,10 @@ public class VideoTimelinePlayView extends View {
             if (this.hasBlur) {
                 if (customBlur()) {
                     RectF rectF3 = AndroidUtilities.rectTmp;
-                    rectF3.set(dpf2, dp3, AndroidUtilities.dp(4.0f) + f4, dp4);
+                    rectF3.set(dpf2, dp3, AndroidUtilities.dp(4.0f) + f3, dp4);
                     drawBlur(canvas, rectF3);
                 } else {
-                    f = f4;
+                    f = f3;
                     i = 0;
                     f2 = 1.0f;
                     canvas.drawRect(dp, dp3, dp2, dp4, this.dimPaint);
@@ -613,34 +608,33 @@ public class VideoTimelinePlayView extends View {
                     while (i2 < this.frames.size()) {
                         BitmapFrame bitmapFrame = this.frames.get(i2);
                         if (bitmapFrame.bitmap != null) {
-                            float f5 = (this.frameWidth * i) + dpf2;
-                            float dp5 = AndroidUtilities.dp(f3);
-                            float f6 = bitmapFrame.alpha;
-                            if (f6 != f2) {
-                                float f7 = f6 + 0.045714285f;
-                                bitmapFrame.alpha = f7;
-                                if (f7 > f2) {
+                            float f4 = (this.frameWidth * i) + dpf2;
+                            float dp5 = AndroidUtilities.dp(6.0f);
+                            float f5 = bitmapFrame.alpha;
+                            if (f5 != f2) {
+                                float f6 = f5 + 0.045714285f;
+                                bitmapFrame.alpha = f6;
+                                if (f6 > f2) {
                                     bitmapFrame.alpha = f2;
                                 } else {
                                     invalidate();
                                 }
                                 this.bitmapPaint.setAlpha((int) (CubicBezierInterpolator.EASE_OUT_QUINT.getInterpolation(bitmapFrame.alpha) * 255.0f));
-                                canvas.drawBitmap(bitmapFrame.bitmap, f5, dp5, this.bitmapPaint);
+                                canvas.drawBitmap(bitmapFrame.bitmap, f4, dp5, this.bitmapPaint);
                             } else {
-                                canvas.drawBitmap(bitmapFrame.bitmap, f5, dp5, (Paint) null);
+                                canvas.drawBitmap(bitmapFrame.bitmap, f4, dp5, (Paint) null);
                             }
                         }
                         i++;
                         i2++;
                         f2 = 1.0f;
-                        f3 = 6.0f;
                     }
                     canvas.drawRect(dpf2, dp3, dp, AndroidUtilities.dp(46.0f), this.dimPaint);
                     canvas.drawRect(dp2, dp3, f, dp4, this.dimPaint);
                     canvas.restore();
                 }
             }
-            f = f4;
+            f = f3;
             f2 = 1.0f;
             i = 0;
             i2 = 0;
@@ -660,18 +654,18 @@ public class VideoTimelinePlayView extends View {
         float dp6 = AndroidUtilities.dp(2.0f);
         float dp7 = AndroidUtilities.dp(10.0f);
         float dpf22 = dp - ((AndroidUtilities.dpf2(10.0f) - dp6) / 2.0f);
-        float f8 = dp3 + (((dp4 - dp3) - dp7) / 2.0f);
-        float f9 = dp7 + f8;
-        this.rect3.set(dpf22, f8, dpf22 - dp6, f9);
+        float f7 = dp3 + (((dp4 - dp3) - dp7) / 2.0f);
+        float f8 = dp7 + f7;
+        this.rect3.set(dpf22, f7, dpf22 - dp6, f8);
         canvas.drawRoundRect(this.rect3, AndroidUtilities.dpf2(6.0f), AndroidUtilities.dpf2(6.0f), this.handlePaint);
         float dpf23 = dp2 + ((AndroidUtilities.dpf2(10.0f) - dp6) / 2.0f);
-        this.rect3.set(dpf23, f8, dp6 + dpf23, f9);
+        this.rect3.set(dpf23, f7, dp6 + dpf23, f8);
         canvas.drawRoundRect(this.rect3, AndroidUtilities.dpf2(6.0f), AndroidUtilities.dpf2(6.0f), this.handlePaint);
-        float f10 = this.loopProgress.set(0.0f);
-        if (f10 > 0.0f) {
-            drawProgress(canvas, this.progressRight, f10);
+        float f9 = this.loopProgress.set(0.0f);
+        if (f9 > 0.0f) {
+            drawProgress(canvas, this.progressRight, f9);
         }
-        drawProgress(canvas, this.playProgress, 1.0f - f10);
+        drawProgress(canvas, this.playProgress, 1.0f - f9);
     }
 
     private void drawProgress(Canvas canvas, float f, float f2) {

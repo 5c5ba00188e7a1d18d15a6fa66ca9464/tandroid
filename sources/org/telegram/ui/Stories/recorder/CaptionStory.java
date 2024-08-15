@@ -80,6 +80,7 @@ public class CaptionStory extends CaptionContainerView {
     private boolean recordTouch;
     private boolean recording;
     public ImageView roundButton;
+    public ButtonBounce roundButtonBounce;
     private final Drawable roundDrawable;
     private final Paint roundPaint;
     private float slideProgress;
@@ -141,7 +142,7 @@ public class CaptionStory extends CaptionContainerView {
         blobDrawable2.maxRadius = AndroidUtilities.dp(55.0f);
         blobDrawable2.generateBlob();
         this.roundDrawable = getContext().getResources().getDrawable(R.drawable.input_video_pressed).mutate();
-        this.animatedAmplitude = new AnimatedFloat(new Runnable() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda5
+        this.animatedAmplitude = new AnimatedFloat(new Runnable() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 CaptionStory.this.invalidateDrawOver2();
@@ -155,7 +156,7 @@ public class CaptionStory extends CaptionContainerView {
         Paint paint3 = new Paint(1);
         this.lockHandlePaint = paint3;
         paint3.setStyle(Paint.Style.STROKE);
-        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda5
+        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 CaptionStory.this.invalidateDrawOver2();
@@ -168,20 +169,20 @@ public class CaptionStory extends CaptionContainerView {
         this.lockRect = new RectF();
         this.lockHandle = new Path();
         this.cancelT = new AnimatedFloat(this, 0L, 350L, cubicBezierInterpolator2);
-        this.cancel2T = new AnimatedFloat(new Runnable() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda5
+        this.cancel2T = new AnimatedFloat(new Runnable() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 CaptionStory.this.invalidateDrawOver2();
             }
         }, 0L, 420L, cubicBezierInterpolator2);
         this.lockT = new AnimatedFloat(this, 0L, 350L, cubicBezierInterpolator2);
-        this.lock2T = new AnimatedFloat(new Runnable() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda5
+        this.lock2T = new AnimatedFloat(new Runnable() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 CaptionStory.this.invalidateDrawOver2();
             }
         }, 0L, 350L, cubicBezierInterpolator2);
-        this.doneCancel = new Runnable() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda6
+        this.doneCancel = new Runnable() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 CaptionStory.this.lambda$new$6();
@@ -189,12 +190,12 @@ public class CaptionStory extends CaptionContainerView {
         };
         ImageView imageView = new ImageView(context);
         this.roundButton = imageView;
-        new ButtonBounce(imageView);
+        this.roundButtonBounce = new ButtonBounce(imageView);
         this.roundButton.setImageResource(R.drawable.input_video_story);
         this.roundButton.setBackground(Theme.createSelectorDrawable(1090519039, 1, AndroidUtilities.dp(18.0f)));
         this.roundButton.setScaleType(ImageView.ScaleType.CENTER);
         addView(this.roundButton, LayoutHelper.createFrame(44, 44.0f, 85, 0.0f, 0.0f, 11.0f, 10.0f));
-        this.roundButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda1
+        this.roundButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 CaptionStory.this.lambda$new$0(view);
@@ -209,7 +210,7 @@ public class CaptionStory extends CaptionContainerView {
         this.periodButton.setScaleType(ImageView.ScaleType.CENTER);
         setPeriod(86400, false);
         addView(this.periodButton, LayoutHelper.createFrame(44, 44.0f, 85, 0.0f, 0.0f, 51.0f, 10.0f));
-        this.periodButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda2
+        this.periodButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 CaptionStory.this.lambda$new$5(frameLayout, resourcesProvider, view);
@@ -229,14 +230,14 @@ public class CaptionStory extends CaptionContainerView {
         if (itemOptions != null && itemOptions.isShown()) {
             return;
         }
-        final Utilities.Callback callback = new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda8
+        final Utilities.Callback callback = new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda5
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 CaptionStory.this.lambda$new$1((Integer) obj);
             }
         };
         boolean isPremium = UserConfig.getInstance(this.currentAccount).isPremium();
-        final Utilities.Callback callback2 = isPremium ? null : new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda7
+        final Utilities.Callback callback2 = isPremium ? null : new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda6
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 CaptionStory.this.lambda$new$2((Integer) obj);
@@ -257,12 +258,12 @@ public class CaptionStory extends CaptionContainerView {
                 } else {
                     formatPluralString = LocaleController.formatPluralString("Hours", i2 / 3600, new Object[0]);
                 }
-                itemOptions2.add(0, formatPluralString, Theme.key_actionBarDefaultSubmenuItem, new Runnable() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda4
+                itemOptions2.add(0, formatPluralString, Theme.key_actionBarDefaultSubmenuItem, new Runnable() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda7
                     @Override // java.lang.Runnable
                     public final void run() {
                         CaptionStory.lambda$new$3(Utilities.Callback.this, i2);
                     }
-                }).putPremiumLock((isPremium || i2 == 86400 || i2 == Integer.MAX_VALUE) ? null : new Runnable() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda3
+                }).putPremiumLock((isPremium || i2 == 86400 || i2 == Integer.MAX_VALUE) ? null : new Runnable() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda8
                     @Override // java.lang.Runnable
                     public final void run() {
                         CaptionStory.lambda$new$4(Utilities.Callback.this, i2);
@@ -802,7 +803,7 @@ public class CaptionStory extends CaptionContainerView {
 
     public void showRemoveRoundAlert() {
         TextView textView;
-        if (this.hasRoundVideo && (textView = (TextView) new AlertDialog.Builder(getContext(), this.resourcesProvider).setTitle(LocaleController.getString(R.string.StoryRemoveRoundTitle)).setMessage(LocaleController.getString(R.string.StoryRemoveRoundMessage)).setPositiveButton(LocaleController.getString(R.string.Remove), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda0
+        if (this.hasRoundVideo && (textView = (TextView) new AlertDialog.Builder(getContext(), this.resourcesProvider).setTitle(LocaleController.getString(R.string.StoryRemoveRoundTitle)).setMessage(LocaleController.getString(R.string.StoryRemoveRoundMessage)).setPositiveButton(LocaleController.getString(R.string.Remove), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda4
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 CaptionStory.this.lambda$showRemoveRoundAlert$7(dialogInterface, i);

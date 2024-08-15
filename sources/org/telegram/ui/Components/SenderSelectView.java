@@ -164,7 +164,7 @@ public class SenderSelectView extends View {
                 this.scaleIn = z3;
                 this.scaleOut = !z3;
                 startValue.setSpring(new SpringForce(f3).setFinalPosition(f3).setStiffness(450.0f).setDampingRatio(1.0f));
-                this.menuSpring.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.SenderSelectView$$ExternalSyntheticLambda2
+                this.menuSpring.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.SenderSelectView$$ExternalSyntheticLambda0
                     @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
                     public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f4, float f5) {
                         SenderSelectView.this.lambda$setProgress$2(z3, f2, f3, dynamicAnimation, f4, f5);
@@ -182,7 +182,7 @@ public class SenderSelectView extends View {
             ValueAnimator duration = ValueAnimator.ofFloat(this.menuProgress, f).setDuration(200L);
             this.menuAnimator = duration;
             duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
-            this.menuAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.SenderSelectView$$ExternalSyntheticLambda0
+            this.menuAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.SenderSelectView$$ExternalSyntheticLambda2
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                     SenderSelectView.this.lambda$setProgress$4(valueAnimator2);

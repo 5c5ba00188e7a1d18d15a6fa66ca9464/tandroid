@@ -161,7 +161,7 @@ public class UnconfirmedAuthHintCell extends BlurredFrameLayout {
         spannableString.setSpan(coloredImageSpan, 0, spannableString.length(), 33);
         AndroidUtilities.replaceCharSequence(">", replaceSingleTag, spannableString);
         BulletinFactory.of(baseFragment).createSimpleBulletin(R.raw.contact_check, LocaleController.getString(R.string.UnconfirmedAuthConfirmed), replaceSingleTag).show();
-        MessagesController.getInstance(i).getUnconfirmedAuthController().confirm(arrayList, new Utilities.Callback() { // from class: org.telegram.ui.Cells.UnconfirmedAuthHintCell$$ExternalSyntheticLambda6
+        MessagesController.getInstance(i).getUnconfirmedAuthController().confirm(arrayList, new Utilities.Callback() { // from class: org.telegram.ui.Cells.UnconfirmedAuthHintCell$$ExternalSyntheticLambda4
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 UnconfirmedAuthHintCell.lambda$set$1((ArrayList) obj);
@@ -179,7 +179,7 @@ public class UnconfirmedAuthHintCell extends BlurredFrameLayout {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$set$4(final int i, ArrayList arrayList, View view) {
         this.noButton.setLoading(true);
-        MessagesController.getInstance(i).getUnconfirmedAuthController().deny(arrayList, new Utilities.Callback() { // from class: org.telegram.ui.Cells.UnconfirmedAuthHintCell$$ExternalSyntheticLambda5
+        MessagesController.getInstance(i).getUnconfirmedAuthController().deny(arrayList, new Utilities.Callback() { // from class: org.telegram.ui.Cells.UnconfirmedAuthHintCell$$ExternalSyntheticLambda2
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 UnconfirmedAuthHintCell.this.lambda$set$3(i, (ArrayList) obj);
@@ -345,13 +345,13 @@ public class UnconfirmedAuthHintCell extends BlurredFrameLayout {
         final BottomSheet show = new BottomSheet.Builder(getContext()).setCustomView(linearLayout).show();
         show.setCanDismissWithSwipe(false);
         show.setCanDismissWithTouchOutside(false);
-        buttonWithCounterView.setTimer(5, new Runnable() { // from class: org.telegram.ui.Cells.UnconfirmedAuthHintCell$$ExternalSyntheticLambda4
+        buttonWithCounterView.setTimer(5, new Runnable() { // from class: org.telegram.ui.Cells.UnconfirmedAuthHintCell$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 UnconfirmedAuthHintCell.lambda$showLoginPreventedSheet$5(BottomSheet.this);
             }
         });
-        buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.UnconfirmedAuthHintCell$$ExternalSyntheticLambda2
+        buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.UnconfirmedAuthHintCell$$ExternalSyntheticLambda6
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 UnconfirmedAuthHintCell.lambda$showLoginPreventedSheet$6(ButtonWithCounterView.this, show, view);

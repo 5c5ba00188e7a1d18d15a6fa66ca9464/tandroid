@@ -9,7 +9,6 @@ import kotlin.coroutines.CoroutineContext;
 import kotlin.jvm.functions.Function1;
 import kotlinx.coroutines.CompletionStateKt;
 import kotlinx.coroutines.CoroutineContextKt;
-import kotlinx.coroutines.DebugKt;
 import kotlinx.coroutines.EventLoop;
 import kotlinx.coroutines.Job;
 import kotlinx.coroutines.ThreadLocalEventLoop;
@@ -42,7 +41,6 @@ public final class DispatchedContinuationKt {
                 dispatchedContinuation.dispatcher.dispatch(dispatchedContinuation.getContext(), dispatchedContinuation);
                 return;
             }
-            DebugKt.getASSERTIONS_ENABLED();
             EventLoop eventLoop$kotlinx_coroutines_core = ThreadLocalEventLoop.INSTANCE.getEventLoop$kotlinx_coroutines_core();
             if (!eventLoop$kotlinx_coroutines_core.isUnconfinedLoopActive()) {
                 eventLoop$kotlinx_coroutines_core.incrementUseCount(true);

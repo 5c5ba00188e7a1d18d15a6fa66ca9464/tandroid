@@ -3,14 +3,12 @@ package com.google.common.base;
 import java.util.logging.Logger;
 /* loaded from: classes.dex */
 final class Platform {
+    private static final Logger logger = Logger.getLogger(Platform.class.getName());
+    private static final PatternCompiler patternCompiler = loadPatternCompiler();
+
     /* JADX INFO: Access modifiers changed from: package-private */
     public static String nullToEmpty(String str) {
         return str == null ? "" : str;
-    }
-
-    static {
-        Logger.getLogger(Platform.class.getName());
-        loadPatternCompiler();
     }
 
     private Platform() {

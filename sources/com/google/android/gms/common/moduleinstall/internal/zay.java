@@ -27,7 +27,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zay extends GoogleApi implements ModuleInstallClient {
-    public static final /* synthetic */ int zab = 0;
+    public static final /* synthetic */ int $r8$clinit = 0;
     private static final Api.ClientKey zac;
     private static final Api.AbstractClientBuilder zad;
     private static final Api zae;
@@ -101,7 +101,8 @@ public final class zay extends GoogleApi implements ModuleInstallClient {
         } else {
             createListenerHolder = ListenerHolders.createListenerHolder(listener, listenerExecutor, InstallStatusListener.class.getSimpleName());
         }
-        final zaab zaabVar = new zaab(createListenerHolder);
+        ListenerHolder listenerHolder = createListenerHolder;
+        final zaab zaabVar = new zaab(listenerHolder);
         final AtomicReference atomicReference = new AtomicReference();
         RemoteCall remoteCall = new RemoteCall() { // from class: com.google.android.gms.common.moduleinstall.internal.zai
             @Override // com.google.android.gms.common.api.internal.RemoteCall
@@ -123,7 +124,7 @@ public final class zay extends GoogleApi implements ModuleInstallClient {
             }
         };
         RegistrationMethods.Builder builder2 = RegistrationMethods.builder();
-        builder2.withHolder(createListenerHolder);
+        builder2.withHolder(listenerHolder);
         builder2.setFeatures(com.google.android.gms.internal.base.zav.zaa);
         builder2.setAutoResolveMissingFeatures(zaa);
         builder2.register(remoteCall);
@@ -134,7 +135,7 @@ public final class zay extends GoogleApi implements ModuleInstallClient {
             public final Task then(Object obj) {
                 AtomicReference atomicReference2 = atomicReference;
                 Void r2 = (Void) obj;
-                int i = zay.zab;
+                int i = zay.$r8$clinit;
                 if (atomicReference2.get() != null) {
                     return Tasks.forResult((ModuleInstallResponse) atomicReference2.get());
                 }

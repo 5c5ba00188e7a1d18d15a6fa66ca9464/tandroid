@@ -1,6 +1,4 @@
 package androidx.core.os;
-
-import android.os.Build;
 /* loaded from: classes.dex */
 public final class CancellationSignal {
     private boolean mCancelInProgress;
@@ -41,7 +39,7 @@ public final class CancellationSignal {
                     }
                 }
             }
-            if (obj != null && Build.VERSION.SDK_INT >= 16) {
+            if (obj != null) {
                 Api16Impl.cancel(obj);
             }
             synchronized (this) {
@@ -66,9 +64,6 @@ public final class CancellationSignal {
 
     public Object getCancellationSignalObject() {
         Object obj;
-        if (Build.VERSION.SDK_INT < 16) {
-            return null;
-        }
         synchronized (this) {
             if (this.mCancellationSignalObj == null) {
                 android.os.CancellationSignal createCancellationSignal = Api16Impl.createCancellationSignal();

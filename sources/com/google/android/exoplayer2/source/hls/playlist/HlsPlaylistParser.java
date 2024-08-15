@@ -187,11 +187,10 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser<HlsPlayli
         ArrayList arrayList5;
         ArrayList arrayList6;
         ArrayList arrayList7;
+        ArrayList arrayList8;
         int i2;
         int i3;
-        ArrayList arrayList8;
         ArrayList arrayList9;
-        float f;
         ArrayList arrayList10;
         Uri resolveToUri;
         HashMap hashMap;
@@ -265,22 +264,18 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser<HlsPlayli
                             } else {
                                 i4 = parseInt2;
                             }
+                            arrayList8 = arrayList13;
                             i3 = parseInt3;
                             i2 = i4;
                         } else {
                             arrayList7 = arrayList14;
+                            arrayList8 = arrayList13;
                             i2 = -1;
                             i3 = -1;
                         }
-                        arrayList8 = arrayList13;
                         String parseOptionalStringAttr3 = parseOptionalStringAttr(next, REGEX_FRAME_RATE, hashMap3);
-                        if (parseOptionalStringAttr3 != null) {
-                            arrayList9 = arrayList12;
-                            f = Float.parseFloat(parseOptionalStringAttr3);
-                        } else {
-                            arrayList9 = arrayList12;
-                            f = -1.0f;
-                        }
+                        float parseFloat = parseOptionalStringAttr3 != null ? Float.parseFloat(parseOptionalStringAttr3) : -1.0f;
+                        arrayList9 = arrayList12;
                         String parseOptionalStringAttr4 = parseOptionalStringAttr(next, REGEX_VIDEO, hashMap3);
                         arrayList10 = arrayList16;
                         String parseOptionalStringAttr5 = parseOptionalStringAttr(next, REGEX_AUDIO, hashMap3);
@@ -294,7 +289,7 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser<HlsPlayli
                         } else {
                             resolveToUri = UriUtil.resolveToUri(str5, replaceVariableReferences(lineIterator.next(), hashMap3));
                         }
-                        arrayList11.add(new HlsMultivariantPlaylist.Variant(resolveToUri, new Format.Builder().setId(arrayList11.size()).setContainerMimeType("application/x-mpegURL").setCodecs(parseOptionalStringAttr).setAverageBitrate(parseOptionalIntAttr).setPeakBitrate(parseIntAttr).setWidth(i2).setHeight(i3).setFrameRate(f).setRoleFlags(i).build(), parseOptionalStringAttr4, parseOptionalStringAttr5, parseOptionalStringAttr6, parseOptionalStringAttr7));
+                        arrayList11.add(new HlsMultivariantPlaylist.Variant(resolveToUri, new Format.Builder().setId(arrayList11.size()).setContainerMimeType("application/x-mpegURL").setCodecs(parseOptionalStringAttr).setAverageBitrate(parseOptionalIntAttr).setPeakBitrate(parseIntAttr).setWidth(i2).setHeight(i3).setFrameRate(parseFloat).setRoleFlags(i).build(), parseOptionalStringAttr4, parseOptionalStringAttr5, parseOptionalStringAttr6, parseOptionalStringAttr7));
                         hashMap = hashMap4;
                         ArrayList arrayList19 = (ArrayList) hashMap.get(resolveToUri);
                         if (arrayList19 == null) {
@@ -547,516 +542,473 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser<HlsPlayli
         return null;
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     private static HlsMediaPlaylist parseMediaPlaylist(HlsMultivariantPlaylist hlsMultivariantPlaylist, HlsMediaPlaylist hlsMediaPlaylist, LineIterator lineIterator, String str) throws IOException {
         ArrayList arrayList;
-        int i;
         ArrayList arrayList2;
         String str2;
-        String str3;
         long j;
+        int i;
         HlsMediaPlaylist.Part part;
-        ArrayList arrayList3;
-        ArrayList arrayList4;
-        ArrayList arrayList5;
+        int i2;
+        String parseOptionalStringAttr;
         long j2;
         long j3;
-        DrmInitData drmInitData;
+        Object obj;
         long j4;
-        String str4;
+        long j5;
         HlsMultivariantPlaylist hlsMultivariantPlaylist2 = hlsMultivariantPlaylist;
         HlsMediaPlaylist hlsMediaPlaylist2 = hlsMediaPlaylist;
         boolean z = hlsMultivariantPlaylist2.hasIndependentSegments;
         HashMap hashMap = new HashMap();
         HashMap hashMap2 = new HashMap();
+        ArrayList arrayList3 = new ArrayList();
+        ArrayList arrayList4 = new ArrayList();
+        ArrayList arrayList5 = new ArrayList();
         ArrayList arrayList6 = new ArrayList();
-        ArrayList arrayList7 = new ArrayList();
-        ArrayList arrayList8 = new ArrayList();
-        ArrayList arrayList9 = new ArrayList();
         HlsMediaPlaylist.ServerControl serverControl = new HlsMediaPlaylist.ServerControl(-9223372036854775807L, false, -9223372036854775807L, -9223372036854775807L, false);
         TreeMap treeMap = new TreeMap();
-        String str5 = "";
         boolean z2 = false;
+        String str3 = "";
         boolean z3 = z;
         HlsMediaPlaylist.ServerControl serverControl2 = serverControl;
-        String str6 = "";
-        long j5 = 0;
-        long j6 = 0;
-        long j7 = 0;
-        long j8 = 0;
-        long j9 = 0;
-        long j10 = 0;
-        long j11 = 0;
-        long j12 = 0;
-        int i2 = 0;
-        long j13 = -9223372036854775807L;
-        boolean z4 = false;
-        boolean z5 = false;
+        String str4 = str3;
         int i3 = 0;
-        int i4 = 1;
-        long j14 = -9223372036854775807L;
-        long j15 = -9223372036854775807L;
+        String str5 = null;
+        long j6 = -9223372036854775807L;
+        boolean z4 = false;
+        long j7 = 0;
+        boolean z5 = false;
+        int i4 = 0;
+        long j8 = 0;
+        int i5 = 1;
+        long j9 = -9223372036854775807L;
+        long j10 = -9223372036854775807L;
         boolean z6 = false;
-        DrmInitData drmInitData2 = null;
-        DrmInitData drmInitData3 = null;
+        DrmInitData drmInitData = null;
+        long j11 = 0;
+        Object obj2 = null;
+        long j12 = 0;
         boolean z7 = false;
+        long j13 = -1;
+        String str6 = null;
         String str7 = null;
-        long j16 = -1;
-        String str8 = null;
-        String str9 = null;
-        int i5 = 0;
+        int i6 = 0;
+        long j14 = 0;
+        long j15 = 0;
         boolean z8 = false;
         HlsMediaPlaylist.Segment segment = null;
-        ArrayList arrayList10 = arrayList7;
+        long j16 = 0;
+        long j17 = 0;
+        ArrayList arrayList7 = arrayList4;
         HlsMediaPlaylist.Part part2 = null;
         while (lineIterator.hasNext()) {
             String next = lineIterator.next();
             if (next.startsWith("#EXT")) {
-                arrayList9.add(next);
+                arrayList6.add(next);
             }
             if (next.startsWith("#EXT-X-PLAYLIST-TYPE")) {
                 String parseStringAttr = parseStringAttr(next, REGEX_PLAYLIST_TYPE, hashMap);
                 if ("VOD".equals(parseStringAttr)) {
-                    i2 = 1;
+                    i3 = 1;
                 } else if ("EVENT".equals(parseStringAttr)) {
-                    i2 = 2;
+                    i3 = 2;
                 }
             } else if (next.equals("#EXT-X-I-FRAMES-ONLY")) {
                 z8 = true;
+            } else if (next.startsWith("#EXT-X-START")) {
+                j6 = (long) (parseDoubleAttr(next, REGEX_TIME_OFFSET) * 1000000.0d);
+                z4 = parseOptionalBooleanAttribute(next, REGEX_PRECISE, z2);
+            } else if (next.startsWith("#EXT-X-SERVER-CONTROL")) {
+                serverControl2 = parseServerControl(next);
+            } else if (next.startsWith("#EXT-X-PART-INF")) {
+                j10 = (long) (parseDoubleAttr(next, REGEX_PART_TARGET_DURATION) * 1000000.0d);
+            } else if (next.startsWith("#EXT-X-MAP")) {
+                String parseStringAttr2 = parseStringAttr(next, REGEX_URI, hashMap);
+                String parseOptionalStringAttr2 = parseOptionalStringAttr(next, REGEX_ATTR_BYTERANGE, hashMap);
+                if (parseOptionalStringAttr2 != null) {
+                    String[] split = Util.split(parseOptionalStringAttr2, "@");
+                    j13 = Long.parseLong(split[z2 ? 1 : 0]);
+                    if (split.length > 1) {
+                        j11 = Long.parseLong(split[1]);
+                    }
+                }
+                if (j13 == -1) {
+                    j11 = 0;
+                }
+                String str8 = str6;
+                if (str5 != null && str8 == null) {
+                    throw ParserException.createForMalformedManifest("The encryption IV attribute must be present when an initialization segment is encrypted with METHOD=AES-128.", null);
+                }
+                segment = new HlsMediaPlaylist.Segment(parseStringAttr2, j11, j13, str5, str8);
+                if (j13 != -1) {
+                    j11 += j13;
+                }
+                str6 = str8;
+                j13 = -1;
             } else {
-                if (next.startsWith("#EXT-X-START")) {
-                    arrayList = arrayList6;
-                    z4 = parseOptionalBooleanAttribute(next, REGEX_PRECISE, z2);
-                    j13 = (long) (parseDoubleAttr(next, REGEX_TIME_OFFSET) * 1000000.0d);
+                String str9 = str6;
+                if (next.startsWith("#EXT-X-TARGETDURATION")) {
+                    j9 = 1000000 * parseIntAttr(next, REGEX_TARGET_DURATION);
                 } else {
-                    arrayList = arrayList6;
-                    if (next.startsWith("#EXT-X-SERVER-CONTROL")) {
-                        serverControl2 = parseServerControl(next);
-                    } else if (next.startsWith("#EXT-X-PART-INF")) {
-                        j15 = (long) (parseDoubleAttr(next, REGEX_PART_TARGET_DURATION) * 1000000.0d);
-                    } else if (next.startsWith("#EXT-X-MAP")) {
-                        String parseStringAttr2 = parseStringAttr(next, REGEX_URI, hashMap);
-                        String parseOptionalStringAttr = parseOptionalStringAttr(next, REGEX_ATTR_BYTERANGE, hashMap);
-                        if (parseOptionalStringAttr != null) {
-                            String[] split = Util.split(parseOptionalStringAttr, "@");
-                            j16 = Long.parseLong(split[z2 ? 1 : 0]);
-                            if (split.length > 1) {
-                                j7 = Long.parseLong(split[1]);
-                            }
-                        }
-                        if (j16 == -1) {
-                            j7 = 0;
-                        }
-                        String str10 = str7;
-                        String str11 = str8;
-                        if (str10 != null && str11 == null) {
-                            throw ParserException.createForMalformedManifest("The encryption IV attribute must be present when an initialization segment is encrypted with METHOD=AES-128.", null);
-                        }
-                        segment = new HlsMediaPlaylist.Segment(parseStringAttr2, j7, j16, str10, str11);
-                        if (j16 != -1) {
-                            j7 += j16;
-                        }
-                        str8 = str11;
-                        str7 = str10;
-                        arrayList6 = arrayList;
-                        j16 = -1;
+                    if (next.startsWith("#EXT-X-MEDIA-SEQUENCE")) {
+                        j15 = parseLongAttr(next, REGEX_MEDIA_SEQUENCE);
+                        str6 = str9;
+                        j8 = j15;
+                    } else if (next.startsWith("#EXT-X-VERSION")) {
+                        i5 = parseIntAttr(next, REGEX_VERSION);
                     } else {
-                        String str12 = str7;
-                        String str13 = str8;
-                        if (next.startsWith("#EXT-X-TARGETDURATION")) {
-                            j14 = 1000000 * parseIntAttr(next, REGEX_TARGET_DURATION);
-                        } else if (next.startsWith("#EXT-X-MEDIA-SEQUENCE")) {
-                            j10 = parseLongAttr(next, REGEX_MEDIA_SEQUENCE);
-                            str8 = str13;
-                            str7 = str12;
-                            j6 = j10;
-                            arrayList6 = arrayList;
-                            z2 = false;
-                        } else if (next.startsWith("#EXT-X-VERSION")) {
-                            i4 = parseIntAttr(next, REGEX_VERSION);
-                        } else {
-                            if (next.startsWith("#EXT-X-DEFINE")) {
-                                String parseOptionalStringAttr2 = parseOptionalStringAttr(next, REGEX_IMPORT, hashMap);
-                                if (parseOptionalStringAttr2 != null) {
-                                    String str14 = hlsMultivariantPlaylist2.variableDefinitions.get(parseOptionalStringAttr2);
-                                    if (str14 != null) {
-                                        hashMap.put(parseOptionalStringAttr2, str14);
-                                    }
-                                } else {
-                                    hashMap.put(parseStringAttr(next, REGEX_NAME, hashMap), parseStringAttr(next, REGEX_VALUE, hashMap));
+                        if (next.startsWith("#EXT-X-DEFINE")) {
+                            String parseOptionalStringAttr3 = parseOptionalStringAttr(next, REGEX_IMPORT, hashMap);
+                            if (parseOptionalStringAttr3 != null) {
+                                String str10 = hlsMultivariantPlaylist2.variableDefinitions.get(parseOptionalStringAttr3);
+                                if (str10 != null) {
+                                    hashMap.put(parseOptionalStringAttr3, str10);
                                 }
-                                i = i2;
-                                arrayList2 = arrayList8;
-                                str2 = str5;
-                                str3 = str9;
-                                j = j10;
-                                part = part2;
-                                arrayList3 = arrayList9;
-                                arrayList4 = arrayList;
-                            } else if (next.startsWith("#EXTINF")) {
-                                j11 = parseTimeSecondsToUs(next, REGEX_MEDIA_DURATION);
-                                str6 = parseOptionalStringAttr(next, REGEX_MEDIA_TITLE, str5, hashMap);
-                            } else if (next.startsWith("#EXT-X-SKIP")) {
+                            } else {
+                                hashMap.put(parseStringAttr(next, REGEX_NAME, hashMap), parseStringAttr(next, REGEX_VALUE, hashMap));
+                            }
+                            arrayList = arrayList7;
+                            arrayList2 = arrayList6;
+                            str2 = str7;
+                            j = j15;
+                            i = i3;
+                        } else if (next.startsWith("#EXTINF")) {
+                            j16 = parseTimeSecondsToUs(next, REGEX_MEDIA_DURATION);
+                            str4 = parseOptionalStringAttr(next, REGEX_MEDIA_TITLE, str3, hashMap);
+                        } else {
+                            String str11 = str3;
+                            if (next.startsWith("#EXT-X-SKIP")) {
                                 int parseIntAttr = parseIntAttr(next, REGEX_SKIPPED_SEGMENTS);
-                                Assertions.checkState(hlsMediaPlaylist2 != null && arrayList.isEmpty());
-                                int i6 = (int) (j6 - ((HlsMediaPlaylist) Util.castNonNull(hlsMediaPlaylist)).mediaSequence);
-                                int i7 = parseIntAttr + i6;
-                                if (i6 < 0 || i7 > hlsMediaPlaylist2.segments.size()) {
+                                Assertions.checkState(hlsMediaPlaylist2 != null && arrayList3.isEmpty());
+                                int i7 = (int) (j8 - ((HlsMediaPlaylist) Util.castNonNull(hlsMediaPlaylist)).mediaSequence);
+                                int i8 = parseIntAttr + i7;
+                                if (i7 < 0 || i8 > hlsMediaPlaylist2.segments.size()) {
                                     throw new DeltaUpdateException();
                                 }
-                                String str15 = str5;
-                                str8 = str13;
-                                long j17 = j9;
-                                while (i6 < i7) {
-                                    HlsMediaPlaylist.Segment segment2 = hlsMediaPlaylist2.segments.get(i6);
-                                    int i8 = i7;
-                                    String str16 = str15;
-                                    if (j6 != hlsMediaPlaylist2.mediaSequence) {
-                                        segment2 = segment2.copyWith(j17, (hlsMediaPlaylist2.discontinuitySequence - i3) + segment2.relativeDiscontinuitySequence);
+                                str3 = str11;
+                                String str12 = str9;
+                                long j18 = j14;
+                                while (i7 < i8) {
+                                    HlsMediaPlaylist.Segment segment2 = hlsMediaPlaylist2.segments.get(i7);
+                                    ArrayList arrayList8 = arrayList7;
+                                    ArrayList arrayList9 = arrayList6;
+                                    if (j8 != hlsMediaPlaylist2.mediaSequence) {
+                                        segment2 = segment2.copyWith(j18, (hlsMediaPlaylist2.discontinuitySequence - i4) + segment2.relativeDiscontinuitySequence);
                                     }
-                                    ArrayList arrayList11 = arrayList;
-                                    arrayList11.add(segment2);
-                                    long j18 = j17 + segment2.durationUs;
+                                    arrayList3.add(segment2);
+                                    j18 += segment2.durationUs;
                                     long j19 = segment2.byteRangeLength;
                                     if (j19 != -1) {
-                                        j7 = segment2.byteRangeOffset + j19;
+                                        i2 = i8;
+                                        j11 = segment2.byteRangeOffset + j19;
+                                    } else {
+                                        i2 = i8;
                                     }
                                     int i9 = segment2.relativeDiscontinuitySequence;
                                     HlsMediaPlaylist.Segment segment3 = segment2.initializationSegment;
-                                    DrmInitData drmInitData4 = segment2.drmInitData;
-                                    String str17 = segment2.fullSegmentEncryptionKeyUri;
-                                    String str18 = segment2.encryptionIV;
-                                    if (str18 == null || !str18.equals(Long.toHexString(j10))) {
-                                        str8 = segment2.encryptionIV;
+                                    Object obj3 = segment2.drmInitData;
+                                    String str13 = segment2.fullSegmentEncryptionKeyUri;
+                                    String str14 = segment2.encryptionIV;
+                                    if (str14 == null || !str14.equals(Long.toHexString(j15))) {
+                                        str12 = segment2.encryptionIV;
                                     }
-                                    j10++;
-                                    i6++;
-                                    segment = segment3;
-                                    str12 = str17;
-                                    arrayList = arrayList11;
-                                    i5 = i9;
-                                    i7 = i8;
-                                    j8 = j18;
-                                    str15 = str16;
+                                    j15++;
+                                    i7++;
                                     hlsMediaPlaylist2 = hlsMediaPlaylist;
-                                    drmInitData3 = drmInitData4;
-                                    j17 = j8;
+                                    obj2 = obj3;
+                                    str5 = str13;
+                                    j12 = j18;
+                                    i8 = i2;
+                                    i6 = i9;
+                                    segment = segment3;
+                                    arrayList7 = arrayList8;
+                                    arrayList6 = arrayList9;
                                 }
                                 hlsMultivariantPlaylist2 = hlsMultivariantPlaylist;
                                 hlsMediaPlaylist2 = hlsMediaPlaylist;
-                                j9 = j17;
-                                str5 = str15;
-                                str7 = str12;
-                                arrayList6 = arrayList;
-                                z2 = false;
+                                j14 = j18;
+                                str6 = str12;
                             } else {
-                                str2 = str5;
+                                ArrayList arrayList10 = arrayList7;
+                                arrayList2 = arrayList6;
+                                str3 = str11;
                                 if (next.startsWith("#EXT-X-KEY")) {
                                     String parseStringAttr3 = parseStringAttr(next, REGEX_METHOD, hashMap);
-                                    String parseOptionalStringAttr3 = parseOptionalStringAttr(next, REGEX_KEYFORMAT, "identity", hashMap);
+                                    String parseOptionalStringAttr4 = parseOptionalStringAttr(next, REGEX_KEYFORMAT, "identity", hashMap);
                                     if ("NONE".equals(parseStringAttr3)) {
                                         treeMap.clear();
-                                        str4 = null;
-                                        drmInitData3 = null;
-                                        str8 = null;
+                                        parseOptionalStringAttr = null;
+                                        str5 = null;
                                     } else {
-                                        String parseOptionalStringAttr4 = parseOptionalStringAttr(next, REGEX_IV, hashMap);
-                                        if ("identity".equals(parseOptionalStringAttr3)) {
+                                        parseOptionalStringAttr = parseOptionalStringAttr(next, REGEX_IV, hashMap);
+                                        if ("identity".equals(parseOptionalStringAttr4)) {
                                             if ("AES-128".equals(parseStringAttr3)) {
-                                                str4 = parseStringAttr(next, REGEX_URI, hashMap);
-                                                str8 = parseOptionalStringAttr4;
+                                                str5 = parseStringAttr(next, REGEX_URI, hashMap);
+                                                hlsMultivariantPlaylist2 = hlsMultivariantPlaylist;
+                                                hlsMediaPlaylist2 = hlsMediaPlaylist;
+                                                str6 = parseOptionalStringAttr;
                                             }
-                                            str8 = parseOptionalStringAttr4;
-                                            str4 = null;
                                         } else {
-                                            String str19 = str9;
-                                            str9 = str19 == null ? parseEncryptionScheme(parseStringAttr3) : str19;
-                                            DrmInitData.SchemeData parseDrmSchemeData = parseDrmSchemeData(next, parseOptionalStringAttr3, hashMap);
+                                            String str15 = str7;
+                                            str7 = str15 == null ? parseEncryptionScheme(parseStringAttr3) : str15;
+                                            DrmInitData.SchemeData parseDrmSchemeData = parseDrmSchemeData(next, parseOptionalStringAttr4, hashMap);
                                             if (parseDrmSchemeData != null) {
-                                                treeMap.put(parseOptionalStringAttr3, parseDrmSchemeData);
-                                                str8 = parseOptionalStringAttr4;
-                                                str4 = null;
-                                                drmInitData3 = null;
+                                                treeMap.put(parseOptionalStringAttr4, parseDrmSchemeData);
+                                                str5 = null;
                                             }
-                                            str8 = parseOptionalStringAttr4;
-                                            str4 = null;
                                         }
+                                        str5 = null;
+                                        hlsMultivariantPlaylist2 = hlsMultivariantPlaylist;
+                                        hlsMediaPlaylist2 = hlsMediaPlaylist;
+                                        str6 = parseOptionalStringAttr;
                                     }
-                                    hlsMediaPlaylist2 = hlsMediaPlaylist;
-                                    str7 = str4;
-                                    arrayList6 = arrayList;
-                                    str5 = str2;
-                                    z2 = false;
+                                    obj2 = str5;
                                     hlsMultivariantPlaylist2 = hlsMultivariantPlaylist;
+                                    hlsMediaPlaylist2 = hlsMediaPlaylist;
+                                    str6 = parseOptionalStringAttr;
                                 } else {
-                                    str3 = str9;
+                                    String str16 = str7;
                                     if (next.startsWith("#EXT-X-BYTERANGE")) {
                                         String[] split2 = Util.split(parseStringAttr(next, REGEX_BYTERANGE, hashMap), "@");
-                                        j16 = Long.parseLong(split2[0]);
+                                        j13 = Long.parseLong(split2[0]);
                                         if (split2.length > 1) {
-                                            j7 = Long.parseLong(split2[1]);
+                                            j11 = Long.parseLong(split2[1]);
                                         }
+                                    } else if (next.startsWith("#EXT-X-DISCONTINUITY-SEQUENCE")) {
+                                        i4 = Integer.parseInt(next.substring(next.indexOf(58) + 1));
+                                        hlsMultivariantPlaylist2 = hlsMultivariantPlaylist;
+                                        hlsMediaPlaylist2 = hlsMediaPlaylist;
+                                        str7 = str16;
+                                        str6 = str9;
+                                        arrayList7 = arrayList10;
+                                        arrayList6 = arrayList2;
+                                        z2 = false;
+                                        z5 = true;
+                                    } else if (next.equals("#EXT-X-DISCONTINUITY")) {
+                                        i6++;
                                     } else {
-                                        if (next.startsWith("#EXT-X-DISCONTINUITY-SEQUENCE")) {
-                                            i3 = Integer.parseInt(next.substring(next.indexOf(58) + 1));
+                                        if (next.startsWith("#EXT-X-PROGRAM-DATE-TIME")) {
+                                            if (j7 == 0) {
+                                                j7 = Util.msToUs(Util.parseXsDateTime(next.substring(next.indexOf(58) + 1))) - j14;
+                                            } else {
+                                                i = i3;
+                                                str2 = str16;
+                                            }
+                                        } else if (next.equals("#EXT-X-GAP")) {
                                             hlsMultivariantPlaylist2 = hlsMultivariantPlaylist;
                                             hlsMediaPlaylist2 = hlsMediaPlaylist;
-                                            str9 = str3;
-                                            str8 = str13;
-                                            str7 = str12;
-                                            str5 = str2;
-                                            z5 = true;
-                                        } else if (next.equals("#EXT-X-DISCONTINUITY")) {
-                                            i5++;
+                                            str7 = str16;
+                                            str6 = str9;
+                                            arrayList7 = arrayList10;
+                                            arrayList6 = arrayList2;
+                                            z2 = false;
+                                            z7 = true;
+                                        } else if (next.equals("#EXT-X-INDEPENDENT-SEGMENTS")) {
+                                            hlsMultivariantPlaylist2 = hlsMultivariantPlaylist;
+                                            hlsMediaPlaylist2 = hlsMediaPlaylist;
+                                            str7 = str16;
+                                            str6 = str9;
+                                            arrayList7 = arrayList10;
+                                            arrayList6 = arrayList2;
+                                            z2 = false;
+                                            z3 = true;
+                                        } else if (next.equals("#EXT-X-ENDLIST")) {
+                                            hlsMultivariantPlaylist2 = hlsMultivariantPlaylist;
+                                            hlsMediaPlaylist2 = hlsMediaPlaylist;
+                                            str7 = str16;
+                                            str6 = str9;
+                                            arrayList7 = arrayList10;
+                                            arrayList6 = arrayList2;
+                                            z2 = false;
+                                            z6 = true;
+                                        } else if (next.startsWith("#EXT-X-RENDITION-REPORT")) {
+                                            i = i3;
+                                            str2 = str16;
+                                            arrayList5.add(new HlsMediaPlaylist.RenditionReport(Uri.parse(UriUtil.resolve(str, parseStringAttr(next, REGEX_URI, hashMap))), parseOptionalLongAttr(next, REGEX_LAST_MSN, -1L), parseOptionalIntAttr(next, REGEX_LAST_PART, -1)));
                                         } else {
-                                            if (next.startsWith("#EXT-X-PROGRAM-DATE-TIME")) {
-                                                if (j5 == 0) {
-                                                    j5 = Util.msToUs(Util.parseXsDateTime(next.substring(next.indexOf(58) + 1))) - j9;
-                                                } else {
-                                                    i = i2;
-                                                    arrayList2 = arrayList8;
-                                                    arrayList3 = arrayList9;
-                                                    arrayList4 = arrayList;
-                                                    j = j10;
+                                            i = i3;
+                                            str2 = str16;
+                                            if (next.startsWith("#EXT-X-PRELOAD-HINT")) {
+                                                if (part2 == null && "PART".equals(parseStringAttr(next, REGEX_PRELOAD_HINT_TYPE, hashMap))) {
+                                                    String parseStringAttr4 = parseStringAttr(next, REGEX_URI, hashMap);
+                                                    long parseOptionalLongAttr = parseOptionalLongAttr(next, REGEX_BYTERANGE_START, -1L);
+                                                    long parseOptionalLongAttr2 = parseOptionalLongAttr(next, REGEX_BYTERANGE_LENGTH, -1L);
+                                                    long j20 = j15;
+                                                    String segmentEncryptionIV = getSegmentEncryptionIV(j20, str5, str9);
+                                                    if (obj2 == null && !treeMap.isEmpty()) {
+                                                        DrmInitData.SchemeData[] schemeDataArr = (DrmInitData.SchemeData[]) treeMap.values().toArray(new DrmInitData.SchemeData[0]);
+                                                        Object drmInitData2 = new DrmInitData(str2, schemeDataArr);
+                                                        if (drmInitData == null) {
+                                                            drmInitData = getPlaylistProtectionSchemes(str2, schemeDataArr);
+                                                        }
+                                                        obj2 = drmInitData2;
+                                                    }
+                                                    if (parseOptionalLongAttr == -1 || parseOptionalLongAttr2 != -1) {
+                                                        part2 = new HlsMediaPlaylist.Part(parseStringAttr4, segment, 0L, i6, j12, obj2, str5, segmentEncryptionIV, parseOptionalLongAttr != -1 ? parseOptionalLongAttr : 0L, parseOptionalLongAttr2, false, false, true);
+                                                    }
+                                                    hlsMultivariantPlaylist2 = hlsMultivariantPlaylist;
+                                                    hlsMediaPlaylist2 = hlsMediaPlaylist;
+                                                    j15 = j20;
+                                                    str6 = str9;
+                                                    arrayList7 = arrayList10;
+                                                    i3 = i;
+                                                    arrayList6 = arrayList2;
+                                                    str7 = str2;
                                                 }
-                                            } else if (next.equals("#EXT-X-GAP")) {
-                                                hlsMultivariantPlaylist2 = hlsMultivariantPlaylist;
-                                                hlsMediaPlaylist2 = hlsMediaPlaylist;
-                                                str9 = str3;
-                                                str8 = str13;
-                                                str7 = str12;
-                                                str5 = str2;
-                                                z7 = true;
-                                            } else if (next.equals("#EXT-X-INDEPENDENT-SEGMENTS")) {
-                                                hlsMultivariantPlaylist2 = hlsMultivariantPlaylist;
-                                                hlsMediaPlaylist2 = hlsMediaPlaylist;
-                                                str9 = str3;
-                                                str8 = str13;
-                                                str7 = str12;
-                                                str5 = str2;
-                                                z3 = true;
-                                            } else if (next.equals("#EXT-X-ENDLIST")) {
-                                                hlsMultivariantPlaylist2 = hlsMultivariantPlaylist;
-                                                hlsMediaPlaylist2 = hlsMediaPlaylist;
-                                                str9 = str3;
-                                                str8 = str13;
-                                                str7 = str12;
-                                                str5 = str2;
-                                                z6 = true;
                                             } else {
-                                                if (next.startsWith("#EXT-X-RENDITION-REPORT")) {
-                                                    i = i2;
-                                                    arrayList5 = arrayList;
-                                                    arrayList8.add(new HlsMediaPlaylist.RenditionReport(Uri.parse(UriUtil.resolve(str, parseStringAttr(next, REGEX_URI, hashMap))), parseOptionalLongAttr(next, REGEX_LAST_MSN, -1L), parseOptionalIntAttr(next, REGEX_LAST_PART, -1)));
-                                                } else {
-                                                    i = i2;
-                                                    arrayList5 = arrayList;
-                                                    if (next.startsWith("#EXT-X-PRELOAD-HINT")) {
-                                                        if (part2 == null && "PART".equals(parseStringAttr(next, REGEX_PRELOAD_HINT_TYPE, hashMap))) {
-                                                            String parseStringAttr4 = parseStringAttr(next, REGEX_URI, hashMap);
-                                                            long parseOptionalLongAttr = parseOptionalLongAttr(next, REGEX_BYTERANGE_START, -1L);
-                                                            long parseOptionalLongAttr2 = parseOptionalLongAttr(next, REGEX_BYTERANGE_LENGTH, -1L);
-                                                            long j20 = j10;
-                                                            String segmentEncryptionIV = getSegmentEncryptionIV(j20, str12, str13);
-                                                            if (drmInitData3 != null || treeMap.isEmpty()) {
-                                                                j2 = j20;
-                                                            } else {
-                                                                j2 = j20;
-                                                                DrmInitData.SchemeData[] schemeDataArr = (DrmInitData.SchemeData[]) treeMap.values().toArray(new DrmInitData.SchemeData[0]);
-                                                                DrmInitData drmInitData5 = new DrmInitData(str3, schemeDataArr);
-                                                                if (drmInitData2 == null) {
-                                                                    drmInitData2 = getPlaylistProtectionSchemes(str3, schemeDataArr);
-                                                                }
-                                                                drmInitData3 = drmInitData5;
-                                                            }
-                                                            if (parseOptionalLongAttr == -1 || parseOptionalLongAttr2 != -1) {
-                                                                part2 = new HlsMediaPlaylist.Part(parseStringAttr4, segment, 0L, i5, j8, drmInitData3, str12, segmentEncryptionIV, parseOptionalLongAttr != -1 ? parseOptionalLongAttr : 0L, parseOptionalLongAttr2, false, false, true);
-                                                            }
-                                                            hlsMultivariantPlaylist2 = hlsMultivariantPlaylist;
-                                                            hlsMediaPlaylist2 = hlsMediaPlaylist;
-                                                            str9 = str3;
-                                                            str7 = str12;
-                                                            j10 = j2;
-                                                            i2 = i;
-                                                            arrayList6 = arrayList5;
-                                                            str5 = str2;
-                                                            z2 = false;
-                                                            str8 = str13;
+                                                j = j15;
+                                                if (next.startsWith("#EXT-X-PART")) {
+                                                    String segmentEncryptionIV2 = getSegmentEncryptionIV(j, str5, str9);
+                                                    String parseStringAttr5 = parseStringAttr(next, REGEX_URI, hashMap);
+                                                    long parseDoubleAttr = (long) (parseDoubleAttr(next, REGEX_ATTR_DURATION) * 1000000.0d);
+                                                    part = part2;
+                                                    boolean parseOptionalBooleanAttribute = parseOptionalBooleanAttribute(next, REGEX_INDEPENDENT, false) | (z3 && arrayList10.isEmpty());
+                                                    boolean parseOptionalBooleanAttribute2 = parseOptionalBooleanAttribute(next, REGEX_GAP, false);
+                                                    String parseOptionalStringAttr5 = parseOptionalStringAttr(next, REGEX_ATTR_BYTERANGE, hashMap);
+                                                    if (parseOptionalStringAttr5 != null) {
+                                                        String[] split3 = Util.split(parseOptionalStringAttr5, "@");
+                                                        j5 = Long.parseLong(split3[0]);
+                                                        if (split3.length > 1) {
+                                                            j17 = Long.parseLong(split3[1]);
                                                         }
+                                                        j4 = -1;
                                                     } else {
-                                                        j = j10;
-                                                        if (next.startsWith("#EXT-X-PART")) {
-                                                            String segmentEncryptionIV2 = getSegmentEncryptionIV(j, str12, str13);
-                                                            String parseStringAttr5 = parseStringAttr(next, REGEX_URI, hashMap);
-                                                            HlsMediaPlaylist.Part part3 = part2;
-                                                            ArrayList arrayList12 = arrayList8;
-                                                            long parseDoubleAttr = (long) (parseDoubleAttr(next, REGEX_ATTR_DURATION) * 1000000.0d);
-                                                            ArrayList arrayList13 = arrayList9;
-                                                            boolean parseOptionalBooleanAttribute = parseOptionalBooleanAttribute(next, REGEX_INDEPENDENT, false) | (z3 && arrayList10.isEmpty());
-                                                            boolean parseOptionalBooleanAttribute2 = parseOptionalBooleanAttribute(next, REGEX_GAP, false);
-                                                            String parseOptionalStringAttr5 = parseOptionalStringAttr(next, REGEX_ATTR_BYTERANGE, hashMap);
-                                                            if (parseOptionalStringAttr5 != null) {
-                                                                String[] split3 = Util.split(parseOptionalStringAttr5, "@");
-                                                                j4 = Long.parseLong(split3[0]);
-                                                                if (split3.length > 1) {
-                                                                    j12 = Long.parseLong(split3[1]);
-                                                                }
-                                                            } else {
-                                                                j4 = -1;
-                                                            }
-                                                            if (j4 == -1) {
-                                                                j12 = 0;
-                                                            }
-                                                            if (drmInitData3 == null && !treeMap.isEmpty()) {
-                                                                DrmInitData.SchemeData[] schemeDataArr2 = (DrmInitData.SchemeData[]) treeMap.values().toArray(new DrmInitData.SchemeData[0]);
-                                                                DrmInitData drmInitData6 = new DrmInitData(str3, schemeDataArr2);
-                                                                if (drmInitData2 == null) {
-                                                                    drmInitData2 = getPlaylistProtectionSchemes(str3, schemeDataArr2);
-                                                                }
-                                                                drmInitData3 = drmInitData6;
-                                                            }
-                                                            arrayList10.add(new HlsMediaPlaylist.Part(parseStringAttr5, segment, parseDoubleAttr, i5, j8, drmInitData3, str12, segmentEncryptionIV2, j12, j4, parseOptionalBooleanAttribute2, parseOptionalBooleanAttribute, false));
-                                                            j8 += parseDoubleAttr;
-                                                            if (j4 != -1) {
-                                                                j12 += j4;
-                                                            }
-                                                            arrayList8 = arrayList12;
-                                                            str7 = str12;
-                                                            i2 = i;
-                                                            arrayList9 = arrayList13;
-                                                            part2 = part3;
-                                                            arrayList6 = arrayList5;
-                                                            z2 = false;
-                                                            j10 = j;
-                                                            str9 = str3;
-                                                            str8 = str13;
-                                                            str5 = str2;
-                                                            hlsMultivariantPlaylist2 = hlsMultivariantPlaylist;
-                                                            hlsMediaPlaylist2 = hlsMediaPlaylist;
+                                                        j4 = -1;
+                                                        j5 = -1;
+                                                    }
+                                                    if (j5 == j4) {
+                                                        j17 = 0;
+                                                    }
+                                                    if (obj2 == null && !treeMap.isEmpty()) {
+                                                        DrmInitData.SchemeData[] schemeDataArr2 = (DrmInitData.SchemeData[]) treeMap.values().toArray(new DrmInitData.SchemeData[0]);
+                                                        Object drmInitData3 = new DrmInitData(str2, schemeDataArr2);
+                                                        if (drmInitData == null) {
+                                                            drmInitData = getPlaylistProtectionSchemes(str2, schemeDataArr2);
+                                                        }
+                                                        obj2 = drmInitData3;
+                                                    }
+                                                    arrayList = arrayList10;
+                                                    arrayList.add(new HlsMediaPlaylist.Part(parseStringAttr5, segment, parseDoubleAttr, i6, j12, obj2, str5, segmentEncryptionIV2, j17, j5, parseOptionalBooleanAttribute2, parseOptionalBooleanAttribute, false));
+                                                    j12 += parseDoubleAttr;
+                                                    if (j5 != -1) {
+                                                        j17 += j5;
+                                                    }
+                                                } else {
+                                                    part = part2;
+                                                    arrayList = arrayList10;
+                                                    if (!next.startsWith("#")) {
+                                                        String segmentEncryptionIV3 = getSegmentEncryptionIV(j, str5, str9);
+                                                        long j21 = j + 1;
+                                                        String replaceVariableReferences = replaceVariableReferences(next, hashMap);
+                                                        HlsMediaPlaylist.Segment segment4 = (HlsMediaPlaylist.Segment) hashMap2.get(replaceVariableReferences);
+                                                        if (j13 == -1) {
+                                                            j2 = 0;
                                                         } else {
-                                                            part = part2;
-                                                            arrayList2 = arrayList8;
-                                                            arrayList3 = arrayList9;
-                                                            if (next.startsWith("#")) {
-                                                                arrayList4 = arrayList5;
-                                                            } else {
-                                                                String segmentEncryptionIV3 = getSegmentEncryptionIV(j, str12, str13);
-                                                                long j21 = j + 1;
-                                                                String replaceVariableReferences = replaceVariableReferences(next, hashMap);
-                                                                HlsMediaPlaylist.Segment segment4 = (HlsMediaPlaylist.Segment) hashMap2.get(replaceVariableReferences);
-                                                                if (j16 == -1) {
-                                                                    j3 = 0;
-                                                                } else {
-                                                                    if (z8 && segment == null && segment4 == null) {
-                                                                        segment4 = new HlsMediaPlaylist.Segment(replaceVariableReferences, 0L, j7, null, null);
-                                                                        hashMap2.put(replaceVariableReferences, segment4);
-                                                                    }
-                                                                    j3 = j7;
-                                                                }
-                                                                if (drmInitData3 != null || treeMap.isEmpty()) {
-                                                                    drmInitData = drmInitData3;
-                                                                } else {
-                                                                    DrmInitData.SchemeData[] schemeDataArr3 = (DrmInitData.SchemeData[]) treeMap.values().toArray(new DrmInitData.SchemeData[0]);
-                                                                    drmInitData = new DrmInitData(str3, schemeDataArr3);
-                                                                    if (drmInitData2 == null) {
-                                                                        drmInitData2 = getPlaylistProtectionSchemes(str3, schemeDataArr3);
-                                                                    }
-                                                                }
-                                                                arrayList5.add(new HlsMediaPlaylist.Segment(replaceVariableReferences, segment != null ? segment : segment4, str6, j11, i5, j9, drmInitData, str12, segmentEncryptionIV3, j3, j16, z7, arrayList10));
-                                                                j8 = j9 + j11;
-                                                                arrayList10 = new ArrayList();
-                                                                if (j16 != -1) {
-                                                                    j3 += j16;
-                                                                }
-                                                                j7 = j3;
-                                                                arrayList8 = arrayList2;
-                                                                drmInitData3 = drmInitData;
-                                                                str7 = str12;
-                                                                j11 = 0;
-                                                                j9 = j8;
-                                                                i2 = i;
-                                                                part2 = part;
-                                                                str6 = str2;
-                                                                z2 = false;
-                                                                z7 = false;
-                                                                j16 = -1;
-                                                                j10 = j21;
-                                                                arrayList6 = arrayList5;
-                                                                str8 = str13;
-                                                                arrayList9 = arrayList3;
-                                                                hlsMultivariantPlaylist2 = hlsMultivariantPlaylist;
-                                                                hlsMediaPlaylist2 = hlsMediaPlaylist;
-                                                                str9 = str3;
-                                                                str5 = str6;
+                                                            if (z8 && segment == null && segment4 == null) {
+                                                                segment4 = new HlsMediaPlaylist.Segment(replaceVariableReferences, 0L, j11, null, null);
+                                                                hashMap2.put(replaceVariableReferences, segment4);
+                                                            }
+                                                            j2 = j11;
+                                                        }
+                                                        if (obj2 != null || treeMap.isEmpty()) {
+                                                            j3 = j21;
+                                                            obj = obj2;
+                                                        } else {
+                                                            j3 = j21;
+                                                            DrmInitData.SchemeData[] schemeDataArr3 = (DrmInitData.SchemeData[]) treeMap.values().toArray(new DrmInitData.SchemeData[0]);
+                                                            Object drmInitData4 = new DrmInitData(str2, schemeDataArr3);
+                                                            obj = drmInitData4;
+                                                            if (drmInitData == null) {
+                                                                drmInitData = getPlaylistProtectionSchemes(str2, schemeDataArr3);
+                                                                obj = drmInitData4;
                                                             }
                                                         }
+                                                        arrayList3.add(new HlsMediaPlaylist.Segment(replaceVariableReferences, segment != null ? segment : segment4, str4, j16, i6, j14, obj, str5, segmentEncryptionIV3, j2, j13, z7, arrayList));
+                                                        j12 = j14 + j16;
+                                                        arrayList7 = new ArrayList();
+                                                        if (j13 != -1) {
+                                                            j2 += j13;
+                                                        }
+                                                        j11 = j2;
+                                                        hlsMultivariantPlaylist2 = hlsMultivariantPlaylist;
+                                                        hlsMediaPlaylist2 = hlsMediaPlaylist;
+                                                        obj2 = obj;
+                                                        str6 = str9;
+                                                        str4 = str3;
+                                                        j14 = j12;
+                                                        i3 = i;
+                                                        part2 = part;
+                                                        arrayList6 = arrayList2;
+                                                        z7 = false;
+                                                        j13 = -1;
+                                                        j16 = 0;
+                                                        str7 = str2;
+                                                        j15 = j3;
                                                     }
                                                 }
-                                                arrayList2 = arrayList8;
-                                                arrayList3 = arrayList9;
-                                                j = j10;
-                                                arrayList4 = arrayList5;
+                                                hlsMultivariantPlaylist2 = hlsMultivariantPlaylist;
+                                                hlsMediaPlaylist2 = hlsMediaPlaylist;
+                                                str6 = str9;
+                                                i3 = i;
+                                                part2 = part;
+                                                j15 = j;
+                                                str7 = str2;
+                                                arrayList7 = arrayList;
+                                                arrayList6 = arrayList2;
                                             }
-                                            part = part2;
                                         }
-                                        arrayList6 = arrayList;
-                                        z2 = false;
+                                        arrayList = arrayList10;
+                                        j = j15;
                                     }
                                     hlsMultivariantPlaylist2 = hlsMultivariantPlaylist;
                                     hlsMediaPlaylist2 = hlsMediaPlaylist;
-                                    str9 = str3;
-                                    str8 = str13;
-                                    str7 = str12;
-                                    str5 = str2;
-                                    arrayList6 = arrayList;
-                                    z2 = false;
+                                    str7 = str16;
+                                    str6 = str9;
                                 }
+                                arrayList7 = arrayList10;
+                                arrayList6 = arrayList2;
                             }
-                            arrayList8 = arrayList2;
-                            str7 = str12;
-                            i2 = i;
-                            part2 = part;
-                            z2 = false;
-                            j10 = j;
-                            arrayList6 = arrayList4;
-                            str8 = str13;
-                            arrayList9 = arrayList3;
-                            hlsMultivariantPlaylist2 = hlsMultivariantPlaylist;
-                            hlsMediaPlaylist2 = hlsMediaPlaylist;
-                            str9 = str3;
-                            str5 = str2;
                         }
-                        str8 = str13;
-                        str7 = str12;
-                        arrayList6 = arrayList;
-                        z2 = false;
+                        part = part2;
+                        hlsMultivariantPlaylist2 = hlsMultivariantPlaylist;
+                        hlsMediaPlaylist2 = hlsMediaPlaylist;
+                        str6 = str9;
+                        i3 = i;
+                        part2 = part;
+                        j15 = j;
+                        str7 = str2;
+                        arrayList7 = arrayList;
+                        arrayList6 = arrayList2;
                     }
+                    z2 = false;
                 }
-                arrayList6 = arrayList;
+                str6 = str9;
+                z2 = false;
             }
         }
-        int i10 = i2;
-        HlsMediaPlaylist.Part part4 = part2;
-        ArrayList arrayList14 = arrayList8;
-        ArrayList arrayList15 = arrayList9;
-        ArrayList arrayList16 = arrayList6;
+        int i10 = i3;
+        HlsMediaPlaylist.Part part3 = part2;
+        ArrayList arrayList11 = arrayList7;
+        ArrayList arrayList12 = arrayList6;
         HashMap hashMap3 = new HashMap();
-        for (int i11 = 0; i11 < arrayList14.size(); i11++) {
-            HlsMediaPlaylist.RenditionReport renditionReport = (HlsMediaPlaylist.RenditionReport) arrayList14.get(i11);
+        for (int i11 = 0; i11 < arrayList5.size(); i11++) {
+            HlsMediaPlaylist.RenditionReport renditionReport = (HlsMediaPlaylist.RenditionReport) arrayList5.get(i11);
             long j22 = renditionReport.lastMediaSequence;
             if (j22 == -1) {
-                j22 = (j6 + arrayList16.size()) - (arrayList10.isEmpty() ? 1L : 0L);
+                j22 = (j8 + arrayList3.size()) - (arrayList11.isEmpty() ? 1L : 0L);
             }
             int i12 = renditionReport.lastPartIndex;
-            if (i12 == -1 && j15 != -9223372036854775807L) {
-                i12 = (arrayList10.isEmpty() ? ((HlsMediaPlaylist.Segment) Iterables.getLast(arrayList16)).parts : arrayList10).size() - 1;
+            if (i12 == -1 && j10 != -9223372036854775807L) {
+                i12 = (arrayList11.isEmpty() ? ((HlsMediaPlaylist.Segment) Iterables.getLast(arrayList3)).parts : arrayList11).size() - 1;
             }
             Uri uri = renditionReport.playlistUri;
             hashMap3.put(uri, new HlsMediaPlaylist.RenditionReport(uri, j22, i12));
         }
-        if (part4 != null) {
-            arrayList10.add(part4);
+        if (part3 != null) {
+            arrayList11.add(part3);
         }
-        return new HlsMediaPlaylist(i10, str, arrayList15, j13, z4, j5, z5, i3, j6, i4, j14, j15, z3, z6, j5 != 0, drmInitData2, arrayList16, arrayList10, serverControl2, hashMap3);
+        return new HlsMediaPlaylist(i10, str, arrayList12, j6, z4, j7, z5, i4, j8, i5, j9, j10, z3, z6, j7 != 0, drmInitData, arrayList3, arrayList11, serverControl2, hashMap3);
     }
 
     private static DrmInitData getPlaylistProtectionSchemes(String str, DrmInitData.SchemeData[] schemeDataArr) {

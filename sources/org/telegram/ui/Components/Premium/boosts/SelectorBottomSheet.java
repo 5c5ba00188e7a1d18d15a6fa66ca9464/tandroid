@@ -132,7 +132,7 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
         this.statusBarT = new AnimatedFloat(viewGroup, 0L, 350L, cubicBezierInterpolator);
         SelectorHeaderCell selectorHeaderCell = new SelectorHeaderCell(getContext(), this.resourcesProvider);
         this.headerView = selectorHeaderCell;
-        selectorHeaderCell.setOnCloseClickListener(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda2
+        selectorHeaderCell.setOnCloseClickListener(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 SelectorBottomSheet.this.dismiss();
@@ -152,7 +152,7 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
         this.searchField = selectorSearchCell;
         int i = Theme.key_dialogBackground;
         selectorSearchCell.setBackgroundColor(getThemedColor(i));
-        selectorSearchCell.setOnSearchTextChange(new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda12
+        selectorSearchCell.setOnSearchTextChange(new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda4
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 SelectorBottomSheet.this.onSearch((String) obj);
@@ -178,7 +178,7 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
         selectorBtnCell.setBackgroundColor(Theme.getColor(i, this.resourcesProvider));
         ButtonWithCounterView buttonWithCounterView = new ButtonWithCounterView(getContext(), this.resourcesProvider);
         this.actionButton = buttonWithCounterView;
-        buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda1
+        buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda5
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 SelectorBottomSheet.this.lambda$new$0(view);
@@ -200,7 +200,7 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
                 }
             }
         });
-        this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda16
+        this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda6
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
             public /* synthetic */ boolean hasDoubleTap(View view, int i7) {
                 return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i7);
@@ -264,7 +264,7 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
                 showMaximumUsersToast();
                 return;
             }
-            this.searchField.updateSpans(true, this.selectedIds, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda6
+            this.searchField.updateSpans(true, this.selectedIds, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda7
                 @Override // java.lang.Runnable
                 public final void run() {
                     SelectorBottomSheet.this.lambda$new$1();
@@ -272,12 +272,12 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
             }, null);
             updateList(true, false);
             if (chat != null && !ChatObject.isPublic(chat) && this.selectedIds.contains(Long.valueOf(j))) {
-                BoostDialogs.showPrivateChannelAlert(chat, getBaseFragment().getContext(), this.resourcesProvider, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda10
+                BoostDialogs.showPrivateChannelAlert(chat, getBaseFragment().getContext(), this.resourcesProvider, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda8
                     @Override // java.lang.Runnable
                     public final void run() {
                         SelectorBottomSheet.this.lambda$new$3(j);
                     }
-                }, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda5
+                }, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda9
                     @Override // java.lang.Runnable
                     public final void run() {
                         SelectorBottomSheet.this.clearSearchAfterSelectChannel();
@@ -299,7 +299,7 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
                 showMaximumUsersToast();
                 return;
             }
-            this.searchField.updateSpans(true, this.selectedIds, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda3
+            this.searchField.updateSpans(true, this.selectedIds, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda10
                 @Override // java.lang.Runnable
                 public final void run() {
                     SelectorBottomSheet.this.lambda$new$4();
@@ -324,7 +324,7 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$3(long j) {
         this.selectedIds.remove(Long.valueOf(j));
-        this.searchField.updateSpans(true, this.selectedIds, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda4
+        this.searchField.updateSpans(true, this.selectedIds, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda15
             @Override // java.lang.Runnable
             public final void run() {
                 SelectorBottomSheet.this.lambda$new$2();
@@ -442,14 +442,14 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
     /* JADX INFO: Access modifiers changed from: private */
     public void loadData(int i, final boolean z, String str) {
         if (i == 1) {
-            BoostRepository.loadChatParticipants(this.currentChat.id, 0, str, 0, 50, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda15
+            BoostRepository.loadChatParticipants(this.currentChat.id, 0, str, 0, 50, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda12
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     SelectorBottomSheet.this.lambda$loadData$7(z, (List) obj);
                 }
             });
         } else if (i == 2) {
-            BoostRepository.searchChats(this.currentChat.id, 0, str, 50, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda13
+            BoostRepository.searchChats(this.currentChat.id, 0, str, 50, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda11
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     SelectorBottomSheet.this.lambda$loadData$6((List) obj);
@@ -457,7 +457,7 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
             });
         } else if (i != 3) {
         } else {
-            BoostRepository.loadCountries(new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda14
+            BoostRepository.loadCountries(new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda13
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     SelectorBottomSheet.this.lambda$loadData$9(z, (Pair) obj);
@@ -471,7 +471,7 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
         if (z) {
             this.countriesMap.putAll((Map) pair.first);
             this.countriesLetters.addAll((Collection) pair.second);
-            Map.-EL.forEach(this.countriesMap, new BiConsumer() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda11
+            Map.-EL.forEach(this.countriesMap, new BiConsumer() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda14
                 @Override // j$.util.function.BiConsumer
                 public final void accept(Object obj, Object obj2) {
                     SelectorBottomSheet.this.lambda$loadData$8((String) obj, (List) obj2);
@@ -498,12 +498,12 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
         if (this.selectedIds.size() == this.openedIds.size() && this.openedIds.containsAll(this.selectedIds) && this.selectedIds.containsAll(this.openedIds)) {
             return false;
         }
-        BoostDialogs.showUnsavedChanges(this.type, getContext(), this.resourcesProvider, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda8
+        BoostDialogs.showUnsavedChanges(this.type, getContext(), this.resourcesProvider, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 SelectorBottomSheet.this.lambda$hasChanges$10();
             }
-        }, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda7
+        }, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 SelectorBottomSheet.this.lambda$hasChanges$11();
@@ -584,7 +584,7 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
         this.openedIds.addAll(this.selectedIds);
         this.searchField.setText("");
         this.searchField.spansContainer.removeAllSpans(false);
-        this.searchField.updateSpans(false, this.selectedIds, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda9
+        this.searchField.updateSpans(false, this.selectedIds, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda16
             @Override // java.lang.Runnable
             public final void run() {
                 SelectorBottomSheet.this.lambda$prepare$12();
@@ -727,7 +727,7 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
 
     private void updateSectionCell(boolean z) {
         if (this.selectedIds.size() > 0 && this.type != 3) {
-            this.sectionCell.setRightText(LocaleController.getString(R.string.UsersDeselectAll), true, new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda0
+            this.sectionCell.setRightText(LocaleController.getString(R.string.UsersDeselectAll), true, new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda2
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     SelectorBottomSheet.this.lambda$updateSectionCell$13(view);

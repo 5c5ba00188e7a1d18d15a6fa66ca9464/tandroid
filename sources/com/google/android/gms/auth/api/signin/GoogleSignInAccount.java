@@ -10,6 +10,7 @@ import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.internal.ReflectedParcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
+import com.google.android.gms.common.util.Clock;
 import com.google.android.gms.common.util.DefaultClock;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,6 +26,7 @@ import org.json.JSONObject;
 /* loaded from: classes.dex */
 public class GoogleSignInAccount extends AbstractSafeParcelable implements ReflectedParcelable {
     public static final Parcelable.Creator<GoogleSignInAccount> CREATOR = new zab();
+    public static Clock zaa = DefaultClock.getInstance();
     final int zab;
     List zac;
     private String zad;
@@ -38,10 +40,6 @@ public class GoogleSignInAccount extends AbstractSafeParcelable implements Refle
     private String zal;
     private String zam;
     private Set zan = new HashSet();
-
-    static {
-        DefaultClock.getInstance();
-    }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public GoogleSignInAccount(int i, String str, String str2, String str3, String str4, Uri uri, String str5, long j, String str6, List list, String str7, String str8) {
@@ -77,9 +75,9 @@ public class GoogleSignInAccount extends AbstractSafeParcelable implements Refle
         for (int i = 0; i < length; i++) {
             hashSet.add(new Scope(jSONArray.getString(i)));
         }
-        GoogleSignInAccount zaa = zaa(jSONObject.optString("id"), jSONObject.has("tokenId") ? jSONObject.optString("tokenId") : null, jSONObject.has("email") ? jSONObject.optString("email") : null, jSONObject.has("displayName") ? jSONObject.optString("displayName") : null, jSONObject.has("givenName") ? jSONObject.optString("givenName") : null, jSONObject.has("familyName") ? jSONObject.optString("familyName") : null, parse, Long.valueOf(parseLong), jSONObject.getString("obfuscatedIdentifier"), hashSet);
-        zaa.zai = jSONObject.has("serverAuthCode") ? jSONObject.optString("serverAuthCode") : null;
-        return zaa;
+        GoogleSignInAccount zaa2 = zaa(jSONObject.optString("id"), jSONObject.has("tokenId") ? jSONObject.optString("tokenId") : null, jSONObject.has("email") ? jSONObject.optString("email") : null, jSONObject.has("displayName") ? jSONObject.optString("displayName") : null, jSONObject.has("givenName") ? jSONObject.optString("givenName") : null, jSONObject.has("familyName") ? jSONObject.optString("familyName") : null, parse, Long.valueOf(parseLong), jSONObject.getString("obfuscatedIdentifier"), hashSet);
+        zaa2.zai = jSONObject.has("serverAuthCode") ? jSONObject.optString("serverAuthCode") : null;
+        return zaa2;
     }
 
     public boolean equals(Object obj) {

@@ -39,14 +39,9 @@ public class SparseArrayCompat<E> implements Cloneable {
     }
 
     public E get(int i, E e) {
+        E e2;
         int binarySearch = ContainerHelpers.binarySearch(this.mKeys, this.mSize, i);
-        if (binarySearch >= 0) {
-            Object[] objArr = this.mValues;
-            if (objArr[binarySearch] != DELETED) {
-                return (E) objArr[binarySearch];
-            }
-        }
-        return e;
+        return (binarySearch < 0 || (e2 = (E) this.mValues[binarySearch]) == DELETED) ? e : e2;
     }
 
     private void gc() {

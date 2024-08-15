@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -87,9 +86,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
                 SetDefaultReactionCell setDefaultReactionCell;
                 if (i == 0) {
                     ThemePreviewMessagesCell themePreviewMessagesCell = new ThemePreviewMessagesCell(context, ((BaseFragment) ReactionsDoubleTapManageActivity.this).parentLayout, 2);
-                    if (Build.VERSION.SDK_INT >= 19) {
-                        themePreviewMessagesCell.setImportantForAccessibility(4);
-                    }
+                    themePreviewMessagesCell.setImportantForAccessibility(4);
                     themePreviewMessagesCell.fragment = ReactionsDoubleTapManageActivity.this;
                     setDefaultReactionCell = themePreviewMessagesCell;
                 } else if (i == 2) {
@@ -102,7 +99,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
                     setDefaultReactionCell2.update(false);
                     setDefaultReactionCell = setDefaultReactionCell2;
                 } else if (i == 4) {
-                    View view = new View(this, context) { // from class: org.telegram.ui.ReactionsDoubleTapManageActivity.2.1
+                    View view = new View(context) { // from class: org.telegram.ui.ReactionsDoubleTapManageActivity.2.1
                         @Override // android.view.View
                         protected void onMeasure(int i2, int i3) {
                             super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i2), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(16.0f), 1073741824));
@@ -148,7 +145,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
         };
         this.listAdapter = selectionAdapter;
         recyclerListView2.setAdapter(selectionAdapter);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ReactionsDoubleTapManageActivity$$ExternalSyntheticLambda1
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ReactionsDoubleTapManageActivity$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i) {
                 ReactionsDoubleTapManageActivity.this.lambda$createView$0(view, i);
@@ -239,7 +236,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x00bb A[LOOP:0: B:20:0x00b5->B:22:0x00bb, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x00bc A[LOOP:0: B:20:0x00b6->B:22:0x00bc, LOOP_END] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -326,7 +323,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
                 };
                 this.selectAnimatedEmojiDialog = selectAnimatedEmojiDialogWindow;
                 selectAnimatedEmojiDialogWindowArr[0] = selectAnimatedEmojiDialogWindow;
-                selectAnimatedEmojiDialogWindowArr[0].showAsDropDown(setDefaultReactionCell, 0, i4, 53);
+                selectAnimatedEmojiDialogWindow.showAsDropDown(setDefaultReactionCell, 0, i4, 53);
                 selectAnimatedEmojiDialogWindowArr[0].dimBehind();
             }
             swapAnimatedEmojiDrawable = swapAnimatedEmojiDrawable2;
@@ -389,14 +386,12 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
         };
         this.selectAnimatedEmojiDialog = selectAnimatedEmojiDialogWindow2;
         selectAnimatedEmojiDialogWindowArr[0] = selectAnimatedEmojiDialogWindow2;
-        selectAnimatedEmojiDialogWindowArr[0].showAsDropDown(setDefaultReactionCell, 0, i42, 53);
+        selectAnimatedEmojiDialogWindow2.showAsDropDown(setDefaultReactionCell, 0, i42, 53);
         selectAnimatedEmojiDialogWindowArr[0].dimBehind();
     }
 
     private void updateRows() {
-        this.rowCount = 0;
         int i = 0 + 1;
-        this.rowCount = i;
         this.previewRow = 0;
         this.rowCount = i + 1;
         this.infoRow = i;
@@ -425,7 +420,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
-        return SimpleThemeDescription.createThemeDescriptions(new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ReactionsDoubleTapManageActivity$$ExternalSyntheticLambda0
+        return SimpleThemeDescription.createThemeDescriptions(new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ReactionsDoubleTapManageActivity$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 ReactionsDoubleTapManageActivity.this.updateColors();

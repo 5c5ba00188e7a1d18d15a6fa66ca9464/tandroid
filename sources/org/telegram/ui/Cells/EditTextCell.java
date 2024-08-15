@@ -64,7 +64,7 @@ public class EditTextCell extends FrameLayout {
 
     public void whenHitEnter(final Runnable runnable) {
         this.editText.setImeOptions(6);
-        this.editText.setOnEditorActionListener(new TextView.OnEditorActionListener(this) { // from class: org.telegram.ui.Cells.EditTextCell.1
+        this.editText.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Cells.EditTextCell.1
             @Override // android.widget.TextView.OnEditorActionListener
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 if (i == 6) {

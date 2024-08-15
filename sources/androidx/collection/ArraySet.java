@@ -202,11 +202,11 @@ public final class ArraySet<E> implements Collection<E>, Set<E> {
         int i3 = this.mSize;
         int[] iArr = this.mHashes;
         if (i3 >= iArr.length) {
-            int i4 = 4;
+            int i4 = 8;
             if (i3 >= 8) {
                 i4 = (i3 >> 1) + i3;
-            } else if (i3 >= 4) {
-                i4 = 8;
+            } else if (i3 < 4) {
+                i4 = 4;
             }
             Object[] objArr = this.mArray;
             allocArrays(i4);

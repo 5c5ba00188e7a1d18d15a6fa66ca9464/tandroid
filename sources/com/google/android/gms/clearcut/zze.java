@@ -21,15 +21,11 @@ public final class zze extends AbstractSafeParcelable {
     private int[] zzak;
     private byte[][] zzal;
     private ExperimentTokens[] zzam;
-    public final ClearcutLogger.zzb zzan;
-    public final ClearcutLogger.zzb zzt;
     private boolean zzz;
 
     public zze(zzr zzrVar, zzha zzhaVar, ClearcutLogger.zzb zzbVar, ClearcutLogger.zzb zzbVar2, int[] iArr, String[] strArr, int[] iArr2, byte[][] bArr, ExperimentTokens[] experimentTokensArr, boolean z) {
         this.zzag = zzrVar;
         this.zzaa = zzhaVar;
-        this.zzt = zzbVar;
-        this.zzan = null;
         this.zzai = iArr;
         this.zzaj = null;
         this.zzak = iArr2;
@@ -45,8 +41,6 @@ public final class zze extends AbstractSafeParcelable {
         this.zzai = iArr;
         this.zzaj = strArr;
         this.zzaa = null;
-        this.zzt = null;
-        this.zzan = null;
         this.zzak = iArr2;
         this.zzal = bArr2;
         this.zzam = experimentTokensArr;
@@ -59,7 +53,7 @@ public final class zze extends AbstractSafeParcelable {
         }
         if (obj instanceof zze) {
             zze zzeVar = (zze) obj;
-            if (Objects.equal(this.zzag, zzeVar.zzag) && Arrays.equals(this.zzah, zzeVar.zzah) && Arrays.equals(this.zzai, zzeVar.zzai) && Arrays.equals(this.zzaj, zzeVar.zzaj) && Objects.equal(this.zzaa, zzeVar.zzaa) && Objects.equal(this.zzt, zzeVar.zzt) && Objects.equal(this.zzan, zzeVar.zzan) && Arrays.equals(this.zzak, zzeVar.zzak) && Arrays.deepEquals(this.zzal, zzeVar.zzal) && Arrays.equals(this.zzam, zzeVar.zzam) && this.zzz == zzeVar.zzz) {
+            if (Objects.equal(this.zzag, zzeVar.zzag) && Arrays.equals(this.zzah, zzeVar.zzah) && Arrays.equals(this.zzai, zzeVar.zzai) && Arrays.equals(this.zzaj, zzeVar.zzaj) && Objects.equal(this.zzaa, zzeVar.zzaa) && Objects.equal(null, null) && Objects.equal(null, null) && Arrays.equals(this.zzak, zzeVar.zzak) && Arrays.deepEquals(this.zzal, zzeVar.zzal) && Arrays.equals(this.zzam, zzeVar.zzam) && this.zzz == zzeVar.zzz) {
                 return true;
             }
         }
@@ -67,7 +61,7 @@ public final class zze extends AbstractSafeParcelable {
     }
 
     public final int hashCode() {
-        return Objects.hashCode(this.zzag, this.zzah, this.zzai, this.zzaj, this.zzaa, this.zzt, this.zzan, this.zzak, this.zzal, this.zzam, Boolean.valueOf(this.zzz));
+        return Objects.hashCode(this.zzag, this.zzah, this.zzai, this.zzaj, this.zzaa, null, null, this.zzak, this.zzal, this.zzam, Boolean.valueOf(this.zzz));
     }
 
     public final String toString() {
@@ -83,9 +77,9 @@ public final class zze extends AbstractSafeParcelable {
         sb.append(", LogEvent: ");
         sb.append(this.zzaa);
         sb.append(", ExtensionProducer: ");
-        sb.append(this.zzt);
+        sb.append((Object) null);
         sb.append(", VeProducer: ");
-        sb.append(this.zzan);
+        sb.append((Object) null);
         sb.append(", ExperimentIDs: ");
         sb.append(Arrays.toString(this.zzak));
         sb.append(", ExperimentTokens: ");

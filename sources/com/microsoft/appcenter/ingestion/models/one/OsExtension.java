@@ -42,7 +42,7 @@ public class OsExtension implements Model {
         if (this == obj) {
             return true;
         }
-        if (obj == null || OsExtension.class != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         OsExtension osExtension = (OsExtension) obj;

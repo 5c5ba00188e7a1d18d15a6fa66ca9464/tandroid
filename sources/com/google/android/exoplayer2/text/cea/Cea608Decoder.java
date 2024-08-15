@@ -102,6 +102,21 @@ public final class Cea608Decoder extends CeaDecoder {
     public void release() {
     }
 
+    @Override // com.google.android.exoplayer2.text.cea.CeaDecoder, com.google.android.exoplayer2.decoder.Decoder
+    public /* bridge */ /* synthetic */ SubtitleInputBuffer dequeueInputBuffer() throws SubtitleDecoderException {
+        return super.dequeueInputBuffer();
+    }
+
+    @Override // com.google.android.exoplayer2.text.cea.CeaDecoder
+    public /* bridge */ /* synthetic */ void queueInputBuffer(SubtitleInputBuffer subtitleInputBuffer) throws SubtitleDecoderException {
+        super.queueInputBuffer(subtitleInputBuffer);
+    }
+
+    @Override // com.google.android.exoplayer2.text.cea.CeaDecoder, com.google.android.exoplayer2.text.SubtitleDecoder
+    public /* bridge */ /* synthetic */ void setPositionUs(long j) {
+        super.setPositionUs(j);
+    }
+
     public Cea608Decoder(String str, int i, long j) {
         this.validDataChannelTimeoutUs = j > 0 ? j * 1000 : -9223372036854775807L;
         this.packetLength = "application/x-mp4-cea-608".equals(str) ? 2 : 3;
@@ -174,7 +189,7 @@ public final class Cea608Decoder extends CeaDecoder {
     }
 
     /* JADX WARN: Removed duplicated region for block: B:76:0x006d A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x0018 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x0017 A[SYNTHETIC] */
     @Override // com.google.android.exoplayer2.text.cea.CeaDecoder
     /*
         Code decompiled incorrectly, please refer to instructions dump.

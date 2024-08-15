@@ -98,6 +98,7 @@ public class Lifecycling {
     }
 
     private static int resolveObserverCallbackType(Class<?> cls) {
+        ArrayList arrayList;
         Class<?>[] interfaces;
         if (cls.getCanonicalName() == null) {
             return 1;
@@ -110,11 +111,11 @@ public class Lifecycling {
             return 1;
         } else {
             Class<? super Object> superclass = cls.getSuperclass();
-            ArrayList arrayList = null;
-            if (isLifecycleParent(superclass)) {
-                if (getObserverConstructorType(superclass) == 1) {
-                    return 1;
-                }
+            if (!isLifecycleParent(superclass)) {
+                arrayList = null;
+            } else if (getObserverConstructorType(superclass) == 1) {
+                return 1;
+            } else {
                 arrayList = new ArrayList(sClassToAdapters.get(superclass));
             }
             for (Class<?> cls2 : cls.getInterfaces()) {

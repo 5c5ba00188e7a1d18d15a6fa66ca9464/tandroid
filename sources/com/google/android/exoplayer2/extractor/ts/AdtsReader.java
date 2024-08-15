@@ -256,13 +256,14 @@ public final class AdtsReader implements ElementaryStreamReader {
                     if (i3 >= limit) {
                         return true;
                     }
-                    if (data[i3] == -1) {
+                    byte b = data[i3];
+                    if (b == -1) {
                         int i4 = i3 + 1;
                         if (i4 == limit) {
                             return true;
                         }
                         return isAdtsSyncBytes((byte) -1, data[i4]) && ((data[i4] & 8) >> 3) == readBits;
-                    } else if (data[i3] != 73) {
+                    } else if (b != 73) {
                         return false;
                     } else {
                         int i5 = i3 + 1;

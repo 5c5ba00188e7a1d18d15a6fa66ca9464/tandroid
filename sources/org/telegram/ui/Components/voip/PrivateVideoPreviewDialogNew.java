@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Camera;
@@ -274,7 +275,7 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
             this.positiveButton.setForeground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(8.0f), 0, ColorUtils.setAlphaComponent(Theme.getColor(i), 76)));
         }
         this.positiveButton.setPadding(0, AndroidUtilities.dp(12.0f), 0, AndroidUtilities.dp(12.0f));
-        this.positiveButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialogNew$$ExternalSyntheticLambda6
+        this.positiveButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialogNew$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 PrivateVideoPreviewDialogNew.this.lambda$new$0(view);
@@ -329,7 +330,7 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
             this.titles[i2].setContentDescription(string);
             this.titles[i2].setPadding(AndroidUtilities.dp(16.0f), 0, AndroidUtilities.dp(10.0f), 0);
             this.titlesLayout.addView(this.titles[i2], LayoutHelper.createLinear(-2, -1));
-            this.titles[i2].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialogNew$$ExternalSyntheticLambda7
+            this.titles[i2].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialogNew$$ExternalSyntheticLambda1
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     PrivateVideoPreviewDialogNew.this.lambda$new$1(i2, view);
@@ -340,7 +341,7 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
         VoIPService sharedInstance = VoIPService.getSharedInstance();
         if (sharedInstance != null) {
             this.textureView.renderer.setMirror(sharedInstance.isFrontFaceCamera());
-            this.textureView.renderer.init(VideoCapturerDevice.getEglBase().getEglBaseContext(), new RendererCommon.RendererEvents(this) { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialogNew.6
+            this.textureView.renderer.init(VideoCapturerDevice.getEglBase().getEglBaseContext(), new RendererCommon.RendererEvents() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialogNew.6
                 @Override // org.webrtc.RendererCommon.RendererEvents
                 public void onFirstFrameRendered() {
                 }
@@ -353,7 +354,7 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
         }
         createPages(this.viewPager);
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialogNew$$ExternalSyntheticLambda5
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialogNew$$ExternalSyntheticLambda2
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 PrivateVideoPreviewDialogNew.this.lambda$new$2(f, f2, valueAnimator);
@@ -369,7 +370,7 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
             }
         });
         ValueAnimator ofFloat2 = ValueAnimator.ofFloat(0.0f, 1.0f);
-        ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialogNew$$ExternalSyntheticLambda4
+        ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialogNew$$ExternalSyntheticLambda3
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 PrivateVideoPreviewDialogNew.this.lambda$new$3(valueAnimator);
@@ -449,14 +450,16 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
+        Intent createScreenCaptureIntent;
         if (this.isDismissed) {
             return;
         }
         if (this.realCurrentPage == 0) {
-            ((Activity) getContext()).startActivityForResult(((MediaProjectionManager) getContext().getSystemService("media_projection")).createScreenCaptureIntent(), 520);
-        } else {
-            dismiss(false, true);
+            createScreenCaptureIntent = ((MediaProjectionManager) getContext().getSystemService("media_projection")).createScreenCaptureIntent();
+            ((Activity) getContext()).startActivityForResult(createScreenCaptureIntent, 520);
+            return;
         }
+        dismiss(false, true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -487,16 +490,17 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
     }
 
     private void showStub(boolean z, boolean z2) {
+        Bitmap bitmap;
         ImageView imageView = (ImageView) this.viewPager.findViewWithTag("image_stab");
         if (!z) {
             imageView.setVisibility(8);
             return;
         }
-        Bitmap bitmap = null;
         try {
             File filesDirFixed = ApplicationLoader.getFilesDirFixed();
             bitmap = BitmapFactory.decodeFile(new File(filesDirFixed, "cthumb" + this.visibleCameraPage + ".jpg").getAbsolutePath());
         } catch (Throwable unused) {
+            bitmap = null;
         }
         if (bitmap != null && bitmap.getPixel(0, 0) != 0) {
             imageView.setImageBitmap(bitmap);
@@ -558,7 +562,7 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
                 this.strangeCurrentPage = i;
                 this.scrollAnimator = ValueAnimator.ofFloat(1.0f, 0.0f);
             }
-            this.scrollAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialogNew$$ExternalSyntheticLambda0
+            this.scrollAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialogNew$$ExternalSyntheticLambda7
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     PrivateVideoPreviewDialogNew.this.lambda$setCurrentPage$4(valueAnimator);
@@ -663,7 +667,7 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
         onDismiss(z, z2);
         if (isHasVideoOnMainScreen() && z2) {
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialogNew$$ExternalSyntheticLambda2
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialogNew$$ExternalSyntheticLambda4
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     PrivateVideoPreviewDialogNew.this.lambda$dismiss$5(valueAnimator);
@@ -697,7 +701,7 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
             });
         } else {
             ValueAnimator ofFloat2 = ValueAnimator.ofFloat(1.0f, 0.0f);
-            ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialogNew$$ExternalSyntheticLambda3
+            ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialogNew$$ExternalSyntheticLambda5
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     PrivateVideoPreviewDialogNew.this.lambda$dismiss$6(valueAnimator);
@@ -712,7 +716,7 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
                 }
             });
             ValueAnimator ofFloat3 = ValueAnimator.ofFloat(1.0f, 0.0f);
-            ofFloat3.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialogNew$$ExternalSyntheticLambda1
+            ofFloat3.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialogNew$$ExternalSyntheticLambda6
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     PrivateVideoPreviewDialogNew.this.lambda$dismiss$7(valueAnimator);

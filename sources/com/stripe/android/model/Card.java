@@ -11,10 +11,13 @@ public class Card {
     private String addressState;
     private String addressZip;
     private String brand;
+    private String country;
     private String currency;
     private String cvc;
     private Integer expMonth;
     private Integer expYear;
+    private String fingerprint;
+    private String funding;
     private String last4;
     private String name;
     private String number;
@@ -39,9 +42,9 @@ public class Card {
         this.addressCountry = StripeTextUtils.nullIfBlank(str9);
         this.brand = StripeTextUtils.asCardBrand(str10) == null ? getBrand() : str10;
         this.last4 = StripeTextUtils.nullIfBlank(str11) == null ? getLast4() : str11;
-        StripeTextUtils.nullIfBlank(str12);
-        StripeTextUtils.asFundingType(str13);
-        StripeTextUtils.nullIfBlank(str14);
+        this.fingerprint = StripeTextUtils.nullIfBlank(str12);
+        this.funding = StripeTextUtils.asFundingType(str13);
+        this.country = StripeTextUtils.nullIfBlank(str14);
         this.currency = StripeTextUtils.nullIfBlank(str15);
     }
 

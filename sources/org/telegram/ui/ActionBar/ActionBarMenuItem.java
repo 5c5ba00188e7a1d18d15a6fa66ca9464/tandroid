@@ -91,6 +91,7 @@ public class ActionBarMenuItem extends FrameLayout {
     protected ActionBarMenuItemSearchListener listener;
     private int[] location;
     private boolean longClickEnabled;
+    private boolean measurePopup;
     private final AnimationNotificationsLocker notificationsLocker;
     private View.OnClickListener onClickListener;
     protected boolean overrideMenuClick;
@@ -109,6 +110,7 @@ public class ActionBarMenuItem extends FrameLayout {
     private CharSequence searchFieldHint;
     private CharSequence searchFieldText;
     private LinearLayout searchFilterLayout;
+    private ArrayList<SearchFilterView> searchFilterViews;
     public int searchItemPaddingStart;
     public int searchRightMargin;
     private int selectedFilterIndex;
@@ -226,10 +228,11 @@ public class ActionBarMenuItem extends FrameLayout {
 
     public ActionBarMenuItem(Context context, ActionBarMenu actionBarMenu, int i, int i2, boolean z, Theme.ResourcesProvider resourcesProvider) {
         super(context);
-        new ArrayList();
+        this.searchFilterViews = new ArrayList<>();
         this.allowCloseAnimation = true;
         this.animationEnabled = true;
         this.animateClear = true;
+        this.measurePopup = true;
         this.showSubmenuByMove = true;
         this.currentSearchFilters = new ArrayList<>();
         this.selectedFilterIndex = -1;
@@ -292,7 +295,7 @@ public class ActionBarMenuItem extends FrameLayout {
         ActionBarPopupWindow actionBarPopupWindow3;
         if (motionEvent.getActionMasked() == 0) {
             if (this.longClickEnabled && hasSubMenu() && ((actionBarPopupWindow3 = this.popupWindow) == null || !actionBarPopupWindow3.isShowing())) {
-                Runnable runnable = new Runnable() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda14
+                Runnable runnable = new Runnable() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda7
                     @Override // java.lang.Runnable
                     public final void run() {
                         ActionBarMenuItem.this.lambda$onTouchEvent$0();
@@ -433,7 +436,7 @@ public class ActionBarMenuItem extends FrameLayout {
         this.location = new int[2];
         ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(getContext(), R.drawable.popup_fixed_alert2, this.resourcesProvider, 1);
         this.popupLayout = actionBarPopupWindowLayout;
-        actionBarPopupWindowLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda10
+        actionBarPopupWindowLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda0
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view, MotionEvent motionEvent) {
                 boolean lambda$createPopupLayout$1;
@@ -441,7 +444,7 @@ public class ActionBarMenuItem extends FrameLayout {
                 return lambda$createPopupLayout$1;
             }
         });
-        this.popupLayout.setDispatchKeyEventListener(new ActionBarPopupWindow.OnDispatchKeyEventListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda16
+        this.popupLayout.setDispatchKeyEventListener(new ActionBarPopupWindow.OnDispatchKeyEventListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow.OnDispatchKeyEventListener
             public final void onDispatchKeyEvent(KeyEvent keyEvent) {
                 ActionBarMenuItem.this.lambda$createPopupLayout$2(keyEvent);
@@ -501,7 +504,7 @@ public class ActionBarMenuItem extends FrameLayout {
         view.setLayoutParams(new LinearLayout.LayoutParams(i2, i3));
         this.popupLayout.addView(view);
         view.setTag(Integer.valueOf(i));
-        view.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda5
+        view.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda13
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 ActionBarMenuItem.this.lambda$addSubItem$3(view2);
@@ -556,7 +559,7 @@ public class ActionBarMenuItem extends FrameLayout {
         layoutParams.width = -1;
         layoutParams.height = AndroidUtilities.dp(48.0f);
         textView.setLayoutParams(layoutParams);
-        textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda4
+        textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda10
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ActionBarMenuItem.this.lambda$addSubItem$4(view);
@@ -636,7 +639,7 @@ public class ActionBarMenuItem extends FrameLayout {
         layoutParams.width = -1;
         layoutParams.height = AndroidUtilities.dp(48.0f);
         actionBarMenuSubItem.setLayoutParams(layoutParams);
-        actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda7
+        actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda9
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ActionBarMenuItem.this.lambda$addSubItem$5(z, view);
@@ -678,7 +681,7 @@ public class ActionBarMenuItem extends FrameLayout {
         layoutParams.width = -1;
         layoutParams.height = AndroidUtilities.dp(48.0f);
         view.setLayoutParams(layoutParams);
-        view.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda2
+        view.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda16
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 ActionBarMenuItem.this.lambda$addSubItem$6(view2);
@@ -715,13 +718,13 @@ public class ActionBarMenuItem extends FrameLayout {
         layoutParams.height = AndroidUtilities.dp(48.0f);
         actionBarMenuSubItem.setLayoutParams(layoutParams);
         final int addViewToSwipeBack = this.popupLayout.addViewToSwipeBack(view);
-        actionBarMenuSubItem.openSwipeBackLayout = new Runnable() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda15
+        actionBarMenuSubItem.openSwipeBackLayout = new Runnable() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda14
             @Override // java.lang.Runnable
             public final void run() {
                 ActionBarMenuItem.this.lambda$addSwipeBackItem$7(addViewToSwipeBack);
             }
         };
-        actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda8
+        actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda15
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 ActionBarMenuSubItem.this.openSwipeBack();
@@ -894,7 +897,7 @@ public class ActionBarMenuItem extends FrameLayout {
                 }
                 ActionBarPopupWindow actionBarPopupWindow3 = new ActionBarPopupWindow(actionBarPopupWindowLayout, -2, -2);
                 this.popupWindow = actionBarPopupWindow3;
-                if (this.animationEnabled && Build.VERSION.SDK_INT >= 19) {
+                if (this.animationEnabled) {
                     actionBarPopupWindow3.setAnimationStyle(0);
                 } else {
                     actionBarPopupWindow3.setAnimationStyle(R.style.PopupAnimation);
@@ -911,7 +914,7 @@ public class ActionBarMenuItem extends FrameLayout {
                 this.popupWindow.setInputMethodMode(2);
                 this.popupWindow.setSoftInputMode(0);
                 actionBarPopupWindowLayout.setFocusableInTouchMode(true);
-                actionBarPopupWindowLayout.setOnKeyListener(new View.OnKeyListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda9
+                actionBarPopupWindowLayout.setOnKeyListener(new View.OnKeyListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda2
                     @Override // android.view.View.OnKeyListener
                     public final boolean onKey(View view3, int i, KeyEvent keyEvent) {
                         boolean lambda$toggleSubMenu$9;
@@ -919,7 +922,7 @@ public class ActionBarMenuItem extends FrameLayout {
                         return lambda$toggleSubMenu$9;
                     }
                 });
-                this.popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda11
+                this.popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda3
                     @Override // android.widget.PopupWindow.OnDismissListener
                     public final void onDismiss() {
                         ActionBarMenuItem.this.lambda$toggleSubMenu$10();
@@ -929,6 +932,7 @@ public class ActionBarMenuItem extends FrameLayout {
                 if (frameLayout != null && frameLayout.getLayoutParams() != null && this.popupLayout.getSwipeBack() != null && (childAt = this.popupLayout.getSwipeBack().getChildAt(0)) != null && childAt.getMeasuredWidth() > 0) {
                     frameLayout.getLayoutParams().width = childAt.getMeasuredWidth() + AndroidUtilities.dp(16.0f);
                 }
+                this.measurePopup = false;
                 this.processedPopupClick = false;
                 this.popupWindow.setFocusable(true);
                 updateOrShowPopup(true, actionBarPopupWindowLayout.getMeasuredWidth() == 0);
@@ -975,7 +979,7 @@ public class ActionBarMenuItem extends FrameLayout {
     public void setOnMenuDismiss(final Utilities.Callback<Boolean> callback) {
         ActionBarPopupWindow actionBarPopupWindow = this.popupWindow;
         if (actionBarPopupWindow != null) {
-            actionBarPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda12
+            actionBarPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda8
                 @Override // android.widget.PopupWindow.OnDismissListener
                 public final void onDismiss() {
                     ActionBarMenuItem.this.lambda$setOnMenuDismiss$11(callback);
@@ -1152,14 +1156,14 @@ public class ActionBarMenuItem extends FrameLayout {
     /* JADX INFO: Access modifiers changed from: private */
     public void onFiltersChanged() {
         final SearchFilterView searchFilterView;
-        FrameLayout frameLayout;
         boolean z = !this.currentSearchFilters.isEmpty();
         ArrayList arrayList = new ArrayList(this.currentSearchFilters);
-        if (Build.VERSION.SDK_INT >= 19 && (frameLayout = this.searchContainer) != null && frameLayout.getTag() != null) {
+        FrameLayout frameLayout = this.searchContainer;
+        if (frameLayout != null && frameLayout.getTag() != null) {
             TransitionSet transitionSet = new TransitionSet();
             ChangeBounds changeBounds = new ChangeBounds();
             changeBounds.setDuration(150L);
-            transitionSet.addTransition(new Visibility(this) { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem.4
+            transitionSet.addTransition(new Visibility() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem.4
                 @Override // android.transition.Visibility
                 public Animator onAppear(ViewGroup viewGroup, View view, TransitionValues transitionValues, TransitionValues transitionValues2) {
                     if (view instanceof SearchFilterView) {
@@ -1228,7 +1232,7 @@ public class ActionBarMenuItem extends FrameLayout {
                 searchFilterView = new SearchFilterView(getContext(), this.resourcesProvider);
             }
             searchFilterView.setData(mediaFilterData);
-            searchFilterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda6
+            searchFilterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda4
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     ActionBarMenuItem.this.lambda$onFiltersChanged$12(searchFilterView, view);
@@ -1503,7 +1507,7 @@ public class ActionBarMenuItem extends FrameLayout {
             this.wrappedSearchFrameLayout = null;
             if (this.wrapSearchInScrollView) {
                 this.wrappedSearchFrameLayout = new FrameLayout(getContext());
-                HorizontalScrollView horizontalScrollView = new HorizontalScrollView(this, getContext()) { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem.8
+                HorizontalScrollView horizontalScrollView = new HorizontalScrollView(getContext()) { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem.8
                     boolean isDragging;
 
                     @Override // android.widget.HorizontalScrollView, android.view.ViewGroup
@@ -1606,7 +1610,7 @@ public class ActionBarMenuItem extends FrameLayout {
             this.searchField.setPadding(0, 0, 0, 0);
             this.searchField.setInputType(this.searchField.getInputType() | 524288);
             if (Build.VERSION.SDK_INT < 23) {
-                this.searchField.setCustomSelectionActionModeCallback(new ActionMode.Callback(this) { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem.10
+                this.searchField.setCustomSelectionActionModeCallback(new ActionMode.Callback() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem.10
                     @Override // android.view.ActionMode.Callback
                     public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
                         return false;
@@ -1627,7 +1631,7 @@ public class ActionBarMenuItem extends FrameLayout {
                     }
                 });
             }
-            this.searchField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda13
+            this.searchField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda5
                 @Override // android.widget.TextView.OnEditorActionListener
                 public final boolean onEditorAction(TextView textView3, int i2, KeyEvent keyEvent) {
                     boolean lambda$checkCreateSearchField$13;
@@ -1730,7 +1734,7 @@ public class ActionBarMenuItem extends FrameLayout {
             this.clearButton.setRotation(45.0f);
             this.clearButton.setScaleX(0.0f);
             this.clearButton.setScaleY(0.0f);
-            this.clearButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda3
+            this.clearButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda6
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     ActionBarMenuItem.this.lambda$checkCreateSearchField$14(view);
@@ -1816,7 +1820,7 @@ public class ActionBarMenuItem extends FrameLayout {
                         AnimatorSet duration = new AnimatorSet().setDuration(180L);
                         duration.setInterpolator(new DecelerateInterpolator());
                         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-                        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda1
+                        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda11
                             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                                 ActionBarMenuItem.this.lambda$checkClearButton$15(valueAnimator);
@@ -1852,7 +1856,7 @@ public class ActionBarMenuItem extends FrameLayout {
                     AnimatorSet duration2 = new AnimatorSet().setDuration(180L);
                     duration2.setInterpolator(new DecelerateInterpolator());
                     ValueAnimator ofFloat2 = ValueAnimator.ofFloat(1.0f, 0.0f);
-                    ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda0
+                    ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$$ExternalSyntheticLambda12
                         @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                         public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                             ActionBarMenuItem.this.lambda$checkClearButton$16(valueAnimator);
@@ -2083,6 +2087,7 @@ public class ActionBarMenuItem extends FrameLayout {
             return;
         }
         findViewWithTag.setVisibility(8);
+        this.measurePopup = true;
     }
 
     public boolean hasSubItem(int i) {
@@ -2136,6 +2141,7 @@ public class ActionBarMenuItem extends FrameLayout {
         findViewWithTag.setAlpha(0.0f);
         findViewWithTag.animate().alpha(1.0f).setInterpolator(CubicBezierInterpolator.DEFAULT).setDuration(150L).start();
         findViewWithTag.setVisibility(0);
+        this.measurePopup = true;
     }
 
     public void setSubItemShown(int i, boolean z) {
@@ -2598,13 +2604,13 @@ public class ActionBarMenuItem extends FrameLayout {
                     layoutParams2.height = AndroidUtilities.dp(48.0f);
                     actionBarMenuSubItem2.setLayoutParams(layoutParams2);
                     final int addViewToSwipeBack = actionBarMenuItem.popupLayout.addViewToSwipeBack(this.viewToSwipeBack);
-                    actionBarMenuSubItem2.openSwipeBackLayout = new Runnable() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$Item$$ExternalSyntheticLambda2
+                    actionBarMenuSubItem2.openSwipeBackLayout = new Runnable() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$Item$$ExternalSyntheticLambda1
                         @Override // java.lang.Runnable
                         public final void run() {
                             ActionBarMenuItem.Item.lambda$add$1(ActionBarMenuItem.this, addViewToSwipeBack);
                         }
                     };
-                    actionBarMenuSubItem2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$Item$$ExternalSyntheticLambda1
+                    actionBarMenuSubItem2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuItem$Item$$ExternalSyntheticLambda2
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
                             ActionBarMenuSubItem.this.openSwipeBack();

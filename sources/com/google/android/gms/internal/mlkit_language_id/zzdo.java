@@ -10,6 +10,11 @@ abstract class zzdo implements zzds, Iterator {
         Iterator.-CC.$default$forEachRemaining(this, consumer);
     }
 
+    @Override // java.util.Iterator
+    public /* synthetic */ void forEachRemaining(java.util.function.Consumer<? super Byte> consumer) {
+        forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
+    }
+
     @Override // java.util.Iterator, j$.util.Iterator
     public final void remove() {
         throw new UnsupportedOperationException();

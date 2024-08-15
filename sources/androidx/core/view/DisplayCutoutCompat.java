@@ -52,11 +52,13 @@ public final class DisplayCutoutCompat {
     }
 
     public int hashCode() {
+        int hashCode;
         DisplayCutout displayCutout = this.mDisplayCutout;
         if (displayCutout == null) {
             return 0;
         }
-        return displayCutout.hashCode();
+        hashCode = displayCutout.hashCode();
+        return hashCode;
     }
 
     public String toString() {
@@ -78,23 +80,33 @@ public final class DisplayCutoutCompat {
         }
 
         static int getSafeInsetTop(DisplayCutout displayCutout) {
-            return displayCutout.getSafeInsetTop();
+            int safeInsetTop;
+            safeInsetTop = displayCutout.getSafeInsetTop();
+            return safeInsetTop;
         }
 
         static int getSafeInsetBottom(DisplayCutout displayCutout) {
-            return displayCutout.getSafeInsetBottom();
+            int safeInsetBottom;
+            safeInsetBottom = displayCutout.getSafeInsetBottom();
+            return safeInsetBottom;
         }
 
         static int getSafeInsetLeft(DisplayCutout displayCutout) {
-            return displayCutout.getSafeInsetLeft();
+            int safeInsetLeft;
+            safeInsetLeft = displayCutout.getSafeInsetLeft();
+            return safeInsetLeft;
         }
 
         static int getSafeInsetRight(DisplayCutout displayCutout) {
-            return displayCutout.getSafeInsetRight();
+            int safeInsetRight;
+            safeInsetRight = displayCutout.getSafeInsetRight();
+            return safeInsetRight;
         }
 
         static List<Rect> getBoundingRects(DisplayCutout displayCutout) {
-            return displayCutout.getBoundingRects();
+            List<Rect> boundingRects;
+            boundingRects = displayCutout.getBoundingRects();
+            return boundingRects;
         }
     }
 }

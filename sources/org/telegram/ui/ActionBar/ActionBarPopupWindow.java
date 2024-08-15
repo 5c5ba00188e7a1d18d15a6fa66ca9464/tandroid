@@ -13,7 +13,6 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.util.Property;
 import android.view.KeyEvent;
 import android.view.View;
@@ -43,11 +42,12 @@ import org.telegram.ui.Components.PopupSwipeBackLayout;
 /* loaded from: classes4.dex */
 public class ActionBarPopupWindow extends PopupWindow {
     private static final ViewTreeObserver.OnScrollChangedListener NOP;
-    private static final boolean allowAnimation;
-    private static DecelerateInterpolator decelerateInterpolator;
+    private static final boolean allowAnimation = true;
+    private static DecelerateInterpolator decelerateInterpolator = new DecelerateInterpolator();
     private static Method layoutInScreenMethod;
     private static final Field superListenerField;
     private boolean animationEnabled;
+    private int currentAccount;
     private int dismissAnimationDuration;
     private boolean isClosingAnimated;
     private ViewTreeObserver.OnScrollChangedListener mSuperScrollListener;
@@ -73,8 +73,6 @@ public class ActionBarPopupWindow extends PopupWindow {
     }
 
     static {
-        allowAnimation = Build.VERSION.SDK_INT >= 18;
-        decelerateInterpolator = new DecelerateInterpolator();
         Field field = null;
         try {
             field = PopupWindow.class.getDeclaredField("mOnScrollChangedListener");
@@ -82,7 +80,7 @@ public class ActionBarPopupWindow extends PopupWindow {
         } catch (NoSuchFieldException unused) {
         }
         superListenerField = field;
-        NOP = new ViewTreeObserver.OnScrollChangedListener() { // from class: org.telegram.ui.ActionBar.ActionBarPopupWindow$$ExternalSyntheticLambda2
+        NOP = new ViewTreeObserver.OnScrollChangedListener() { // from class: org.telegram.ui.ActionBar.ActionBarPopupWindow$$ExternalSyntheticLambda0
             @Override // android.view.ViewTreeObserver.OnScrollChangedListener
             public final void onScrollChanged() {
                 ActionBarPopupWindow.lambda$static$0();
@@ -761,7 +759,7 @@ public class ActionBarPopupWindow extends PopupWindow {
     public ActionBarPopupWindow() {
         this.animationEnabled = allowAnimation;
         this.dismissAnimationDuration = ImageReceiver.DEFAULT_CROSSFADE_DURATION;
-        int i = UserConfig.selectedAccount;
+        this.currentAccount = UserConfig.selectedAccount;
         this.outEmptyTime = -1L;
         this.notificationsLocker = new AnimationNotificationsLocker();
         init();
@@ -771,7 +769,7 @@ public class ActionBarPopupWindow extends PopupWindow {
         super(context);
         this.animationEnabled = allowAnimation;
         this.dismissAnimationDuration = ImageReceiver.DEFAULT_CROSSFADE_DURATION;
-        int i = UserConfig.selectedAccount;
+        this.currentAccount = UserConfig.selectedAccount;
         this.outEmptyTime = -1L;
         this.notificationsLocker = new AnimationNotificationsLocker();
         init();
@@ -781,7 +779,7 @@ public class ActionBarPopupWindow extends PopupWindow {
         super(view, i, i2);
         this.animationEnabled = allowAnimation;
         this.dismissAnimationDuration = ImageReceiver.DEFAULT_CROSSFADE_DURATION;
-        int i3 = UserConfig.selectedAccount;
+        this.currentAccount = UserConfig.selectedAccount;
         this.outEmptyTime = -1L;
         this.notificationsLocker = new AnimationNotificationsLocker();
         init();
@@ -936,7 +934,7 @@ public class ActionBarPopupWindow extends PopupWindow {
         }
         AnimatorSet animatorSet = new AnimatorSet();
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.ActionBarPopupWindow$$ExternalSyntheticLambda0
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.ActionBarPopupWindow$$ExternalSyntheticLambda2
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 ActionBarPopupWindow.lambda$startAnimation$2(ActionBarPopupWindow.ActionBarPopupWindowLayout.this, valueAnimator);
@@ -982,11 +980,11 @@ public class ActionBarPopupWindow extends PopupWindow {
         ActionBarPopupWindowLayout actionBarPopupWindowLayout;
         if (this.animationEnabled && this.windowAnimatorSet == null) {
             ViewGroup viewGroup = (ViewGroup) getContentView();
-            ActionBarPopupWindowLayout actionBarPopupWindowLayout2 = null;
             if (viewGroup instanceof ActionBarPopupWindowLayout) {
                 actionBarPopupWindowLayout = (ActionBarPopupWindowLayout) viewGroup;
                 actionBarPopupWindowLayout.startAnimationPending = true;
             } else {
+                ActionBarPopupWindowLayout actionBarPopupWindowLayout2 = null;
                 for (int i = 0; i < viewGroup.getChildCount(); i++) {
                     if (viewGroup.getChildAt(i) instanceof ActionBarPopupWindowLayout) {
                         actionBarPopupWindowLayout2 = (ActionBarPopupWindowLayout) viewGroup.getChildAt(i);

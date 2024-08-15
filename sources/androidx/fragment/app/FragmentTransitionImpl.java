@@ -106,7 +106,7 @@ public abstract class FragmentTransitionImpl {
                 }
             }
         }
-        OneShotPreDrawListener.add(view, new Runnable(this) { // from class: androidx.fragment.app.FragmentTransitionImpl.1
+        OneShotPreDrawListener.add(view, new Runnable() { // from class: androidx.fragment.app.FragmentTransitionImpl.1
             @Override // java.lang.Runnable
             public void run() {
                 for (int i3 = 0; i3 < size; i3++) {
@@ -155,7 +155,7 @@ public abstract class FragmentTransitionImpl {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public void setNameOverridesOrdered(View view, final ArrayList<View> arrayList, final Map<String, String> map) {
-        OneShotPreDrawListener.add(view, new Runnable(this) { // from class: androidx.fragment.app.FragmentTransitionImpl.2
+        OneShotPreDrawListener.add(view, new Runnable() { // from class: androidx.fragment.app.FragmentTransitionImpl.2
             @Override // java.lang.Runnable
             public void run() {
                 int size = arrayList.size();
@@ -176,7 +176,7 @@ public abstract class FragmentTransitionImpl {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public void scheduleNameReset(ViewGroup viewGroup, final ArrayList<View> arrayList, final Map<String, String> map) {
-        OneShotPreDrawListener.add(viewGroup, new Runnable(this) { // from class: androidx.fragment.app.FragmentTransitionImpl.3
+        OneShotPreDrawListener.add(viewGroup, new Runnable() { // from class: androidx.fragment.app.FragmentTransitionImpl.3
             @Override // java.lang.Runnable
             public void run() {
                 int size = arrayList.size();

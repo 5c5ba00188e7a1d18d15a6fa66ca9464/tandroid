@@ -55,7 +55,7 @@ public class Thread implements Model {
         if (this == obj) {
             return true;
         }
-        if (obj == null || Thread.class != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         Thread thread = (Thread) obj;

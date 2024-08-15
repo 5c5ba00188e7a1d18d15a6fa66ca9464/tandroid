@@ -1,63 +1,52 @@
 package j$.util.stream;
+
+import java.util.Arrays;
 /* loaded from: classes2.dex */
-class v2 extends w2 {
-    public final /* synthetic */ int c;
-    private final Object d;
+final class v2 extends r2 {
+    private K2 c;
 
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public v2(z1 z1Var, Object obj, int i) {
-        super(z1Var, i);
-        this.c = 0;
-        this.d = obj;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public v2(f2 f2Var) {
+        super(f2Var);
     }
 
-    @Override // j$.util.stream.w2
-    void a() {
-        switch (this.c) {
-            case 0:
-                ((z1) this.a).d(this.d, this.b);
-                return;
-            default:
-                this.a.i((Object[]) this.d, this.b);
-                return;
+    @Override // j$.util.stream.d2, j$.util.stream.f2
+    public final void accept(int i) {
+        this.c.accept(i);
+    }
+
+    @Override // j$.util.stream.Z1, j$.util.stream.f2
+    public final void end() {
+        int[] iArr = (int[]) this.c.b();
+        Arrays.sort(iArr);
+        f2 f2Var = this.a;
+        f2Var.f(iArr.length);
+        int i = 0;
+        if (this.b) {
+            int length = iArr.length;
+            while (i < length) {
+                int i2 = iArr[i];
+                if (f2Var.h()) {
+                    break;
+                }
+                f2Var.accept(i2);
+                i++;
+            }
+        } else {
+            int length2 = iArr.length;
+            while (i < length2) {
+                f2Var.accept(iArr[i]);
+                i++;
+            }
         }
+        f2Var.end();
     }
 
-    @Override // j$.util.stream.w2
-    w2 b(int i, int i2) {
-        switch (this.c) {
-            case 0:
-                return new v2(this, ((z1) this.a).b(i), i2);
-            default:
-                return new v2(this, this.a.b(i), i2);
+    @Override // j$.util.stream.f2
+    public final void f(long j) {
+        if (j >= 2147483639) {
+            throw new IllegalArgumentException("Stream size exceeds max array size");
         }
-    }
-
-    /* JADX WARN: 'this' call moved to the top of the method (can break code semantics) */
-    public /* synthetic */ v2(z1 z1Var, Object obj, int i, B1 b1) {
-        this(z1Var, obj, i);
-        this.c = 0;
-    }
-
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public v2(A1 a1, Object[] objArr, int i, B1 b1) {
-        super(a1, i);
-        this.c = 1;
-        this.c = 1;
-        this.d = objArr;
-    }
-
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public v2(v2 v2Var, z1 z1Var, int i) {
-        super(v2Var, z1Var, i);
-        this.c = 0;
-        this.d = v2Var.d;
-    }
-
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public v2(v2 v2Var, A1 a1, int i) {
-        super(v2Var, a1, i);
-        this.c = 1;
-        this.d = (Object[]) v2Var.d;
+        this.c = j > 0 ? new K2((int) j) : new K2();
     }
 }

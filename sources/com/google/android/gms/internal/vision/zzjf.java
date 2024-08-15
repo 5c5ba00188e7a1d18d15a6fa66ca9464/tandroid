@@ -2,12 +2,14 @@ package com.google.android.gms.internal.vision;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
-import java.util.Objects;
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public final class zzjf {
-    static final Charset zza = Charset.forName("UTF-8");
     public static final byte[] zzb;
+    private static final ByteBuffer zzd;
+    private static final zzif zze;
+    static final Charset zza = Charset.forName("UTF-8");
+    private static final Charset zzc = Charset.forName("ISO-8859-1");
 
     public static int zza(long j) {
         return (int) (j ^ (j >>> 32));
@@ -19,14 +21,16 @@ public final class zzjf {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static <T> T zza(T t) {
-        Objects.requireNonNull(t);
+        t.getClass();
         return t;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static <T> T zza(T t, String str) {
-        Objects.requireNonNull(t, str);
-        return t;
+        if (t != null) {
+            return t;
+        }
+        throw new NullPointerException(str);
     }
 
     public static boolean zza(byte[] bArr) {
@@ -69,10 +73,9 @@ public final class zzjf {
     }
 
     static {
-        Charset.forName("ISO-8859-1");
         byte[] bArr = new byte[0];
         zzb = bArr;
-        ByteBuffer.wrap(bArr);
-        zzif.zza(bArr, 0, bArr.length, false);
+        zzd = ByteBuffer.wrap(bArr);
+        zze = zzif.zza(bArr, 0, bArr.length, false);
     }
 }

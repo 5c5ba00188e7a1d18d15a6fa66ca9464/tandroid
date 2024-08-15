@@ -209,6 +209,7 @@ public class FilterTabsView extends FrameLayout {
     /* loaded from: classes3.dex */
     public class TabView extends View {
         public boolean animateChange;
+        public boolean animateCounterChange;
         private float animateFromCountWidth;
         private float animateFromCounterWidth;
         int animateFromTabCount;
@@ -233,6 +234,7 @@ public class FilterTabsView extends FrameLayout {
         private float lastTabWidth;
         float lastTextX;
         String lastTitle;
+        StaticLayout lastTitleLayout;
         private int lastTitleWidth;
         private float lastWidth;
         private float locIconXOffset;
@@ -272,6 +274,7 @@ public class FilterTabsView extends FrameLayout {
             super.onDetachedFromWindow();
             this.animateChange = false;
             this.animateTabCounter = false;
+            this.animateCounterChange = false;
             this.animateTextChange = false;
             this.animateTextX = false;
             this.animateTabWidth = false;
@@ -299,10 +302,10 @@ public class FilterTabsView extends FrameLayout {
         /* JADX WARN: Removed duplicated region for block: B:211:0x0651  */
         /* JADX WARN: Removed duplicated region for block: B:214:0x0692  */
         /* JADX WARN: Removed duplicated region for block: B:216:0x06c4  */
-        /* JADX WARN: Removed duplicated region for block: B:248:0x0827  */
-        /* JADX WARN: Removed duplicated region for block: B:251:0x0843  */
-        /* JADX WARN: Removed duplicated region for block: B:254:0x08a1  */
-        /* JADX WARN: Removed duplicated region for block: B:255:0x08d4  */
+        /* JADX WARN: Removed duplicated region for block: B:248:0x082b  */
+        /* JADX WARN: Removed duplicated region for block: B:251:0x0847  */
+        /* JADX WARN: Removed duplicated region for block: B:254:0x08a5  */
+        /* JADX WARN: Removed duplicated region for block: B:255:0x08d8  */
         @Override // android.view.View
         @SuppressLint({"DrawAllocation"})
         /*
@@ -648,6 +651,7 @@ public class FilterTabsView extends FrameLayout {
             this.lastTextX = f5;
             Tab tab = this.currentTab;
             this.lastTabCount = tab.counter;
+            this.lastTitleLayout = this.textLayout;
             this.lastTitle = this.currentText;
             this.lastTitleWidth = tab.titleWidth;
             this.lastCountWidth = i12;
@@ -839,6 +843,7 @@ public class FilterTabsView extends FrameLayout {
         public void clearTransitionParams() {
             this.animateChange = false;
             this.animateTabCounter = false;
+            this.animateCounterChange = false;
             this.animateTextChange = false;
             this.animateTextX = false;
             this.animateTabWidth = false;
@@ -1160,7 +1165,7 @@ public class FilterTabsView extends FrameLayout {
                             FilterTabsView.4.lambda$animateMoveImpl$1(FilterTabsView.TabView.this, valueAnimator2);
                         }
                     });
-                    ofFloat.addListener(new AnimatorListenerAdapter(this) { // from class: org.telegram.ui.Components.FilterTabsView.4.1
+                    ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FilterTabsView.4.1
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                         public void onAnimationEnd(Animator animator) {
                             tabView.clearTransitionParams();
@@ -1554,7 +1559,6 @@ public class FilterTabsView extends FrameLayout {
 
     @Override // android.widget.FrameLayout, android.view.View
     protected void onMeasure(int i, int i2) {
-        String str;
         if (!this.tabs.isEmpty()) {
             int size = (View.MeasureSpec.getSize(i) - AndroidUtilities.dp(7.0f)) - AndroidUtilities.dp(7.0f);
             Tab findDefaultTab = findDefaultTab();
@@ -1562,13 +1566,7 @@ public class FilterTabsView extends FrameLayout {
                 int i3 = R.string.FilterAllChats;
                 findDefaultTab.setTitle(LocaleController.getString(i3));
                 int width = findDefaultTab.getWidth(false);
-                if (this.allTabsWidth > size) {
-                    i3 = R.string.FilterAllChatsShort;
-                    str = "FilterAllChatsShort";
-                } else {
-                    str = "FilterAllChats";
-                }
-                findDefaultTab.setTitle(LocaleController.getString(str, i3));
+                findDefaultTab.setTitle(this.allTabsWidth > size ? LocaleController.getString("FilterAllChatsShort", R.string.FilterAllChatsShort) : LocaleController.getString("FilterAllChats", i3));
                 int width2 = (this.allTabsWidth - width) + findDefaultTab.getWidth(false);
                 int i4 = this.additionalTabWidth;
                 int size2 = width2 < size ? (size - width2) / this.tabs.size() : 0;
@@ -1695,8 +1693,8 @@ public class FilterTabsView extends FrameLayout {
         this.orderChanged = false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0078  */
-    /* JADX WARN: Removed duplicated region for block: B:31:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0078  */
+    /* JADX WARN: Removed duplicated region for block: B:30:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

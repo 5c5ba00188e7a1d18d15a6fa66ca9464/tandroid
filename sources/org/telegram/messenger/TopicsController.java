@@ -116,7 +116,7 @@ public class TopicsController extends BaseController {
         }
         this.topicsIsLoading.put(j, 1);
         if (z) {
-            getMessagesStorage().loadTopics(-j, new Consumer() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda21
+            getMessagesStorage().loadTopics(-j, new Consumer() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda24
                 @Override // j$.util.function.Consumer
                 public final void accept(Object obj) {
                     TopicsController.this.lambda$loadTopics$1(j, z, i, (ArrayList) obj);
@@ -143,7 +143,7 @@ public class TopicsController extends BaseController {
                 FileLog.d("offset_date=" + loadOffset.lastMessageDate + " offset_id=" + loadOffset.lastMessageId + " offset_topic=" + loadOffset.lastTopicId);
             }
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_channels_getForumTopics, new RequestDelegate() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda23
+        getConnectionsManager().sendRequest(tLRPC$TL_channels_getForumTopics, new RequestDelegate() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda25
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 TopicsController.this.lambda$loadTopics$4(j, i, tLObject, tLRPC$TL_error);
@@ -153,7 +153,7 @@ public class TopicsController extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadTopics$1(final long j, final boolean z, final int i, final ArrayList arrayList) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda8
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda15
             @Override // java.lang.Runnable
             public final void run() {
                 TopicsController.this.lambda$loadTopics$0(j, arrayList, z, i);
@@ -184,7 +184,7 @@ public class TopicsController extends BaseController {
             for (int i2 = 0; i2 < tLRPC$TL_messages_forumTopics.messages.size(); i2++) {
                 sparseArray.put(tLRPC$TL_messages_forumTopics.messages.get(i2).id, tLRPC$TL_messages_forumTopics.messages.get(i2));
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda15
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     TopicsController.this.lambda$loadTopics$2(tLObject, j, tLRPC$TL_messages_forumTopics, sparseArray, i);
@@ -192,7 +192,7 @@ public class TopicsController extends BaseController {
             });
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda3
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 TopicsController.this.lambda$loadTopics$3(j);
@@ -233,7 +233,7 @@ public class TopicsController extends BaseController {
      */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r4v3 */
-    /* JADX WARN: Type inference failed for: r4v4, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r4v4, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r4v5 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -368,7 +368,7 @@ public class TopicsController extends BaseController {
         }
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.topicsDidLoaded, Long.valueOf(j), Boolean.TRUE);
         if ((i == 0 || (i == 0 && !z)) && z && this.topicsByChatId.get(j).isEmpty()) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda2
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda22
                 @Override // java.lang.Runnable
                 public final void run() {
                     TopicsController.this.lambda$processTopics$5(j);
@@ -394,7 +394,7 @@ public class TopicsController extends BaseController {
         ArrayList<TLRPC$TL_forumTopic> arrayList = this.topicsByChatId.get(j);
         if (arrayList != null) {
             if (this.openedTopicsBuChatId.get(j, 0) > 0) {
-                Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda19
+                Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda18
                     @Override // java.util.Comparator
                     public final int compare(Object obj, Object obj2) {
                         int lambda$sortTopics$6;
@@ -434,7 +434,7 @@ public class TopicsController extends BaseController {
             return;
         }
         final long j2 = -j;
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda6
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda13
             @Override // java.lang.Runnable
             public final void run() {
                 TopicsController.this.lambda$updateTopicsWithDeletedMessages$9(j, arrayList, j2);
@@ -444,7 +444,7 @@ public class TopicsController extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateTopicsWithDeletedMessages$9(final long j, final ArrayList arrayList, final long j2) {
-        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda5
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda20
             @Override // java.lang.Runnable
             public final void run() {
                 TopicsController.this.lambda$updateTopicsWithDeletedMessages$8(j, arrayList, j2);
@@ -513,7 +513,7 @@ public class TopicsController extends BaseController {
         }
         getMessagesStorage().loadGroupedMessagesForTopics(j, arrayList2);
         if (arrayList2 == null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda11
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda8
                 @Override // java.lang.Runnable
                 public final void run() {
                     TopicsController.this.lambda$updateTopicsWithDeletedMessages$7(arrayList2, j2);
@@ -562,7 +562,7 @@ public class TopicsController extends BaseController {
             tLRPC$TL_channels_getForumTopicsByID.topics.add(Integer.valueOf(arrayList.get(i).id));
         }
         tLRPC$TL_channels_getForumTopicsByID.channel = getMessagesController().getInputChannel(j);
-        getConnectionsManager().sendRequest(tLRPC$TL_channels_getForumTopicsByID, new RequestDelegate() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda24
+        getConnectionsManager().sendRequest(tLRPC$TL_channels_getForumTopicsByID, new RequestDelegate() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda10
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 TopicsController.this.lambda$reloadTopics$12(j, runnable, tLObject, tLRPC$TL_error);
@@ -572,7 +572,7 @@ public class TopicsController extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$reloadTopics$12(final long j, final Runnable runnable, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda14
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
                 TopicsController.this.lambda$reloadTopics$11(tLObject, j, runnable);
@@ -588,7 +588,7 @@ public class TopicsController extends BaseController {
             for (int i = 0; i < tLRPC$TL_messages_forumTopics.messages.size(); i++) {
                 sparseArray.put(tLRPC$TL_messages_forumTopics.messages.get(i).id, tLRPC$TL_messages_forumTopics.messages.get(i));
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda16
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda26
                 @Override // java.lang.Runnable
                 public final void run() {
                     TopicsController.this.lambda$reloadTopics$10(tLObject, j, tLRPC$TL_messages_forumTopics, sparseArray, runnable);
@@ -813,7 +813,7 @@ public class TopicsController extends BaseController {
             z2 = z3;
         }
         if (z && z2) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda1
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda19
                 @Override // java.lang.Runnable
                 public final void run() {
                     TopicsController.this.lambda$applyPinnedOrder$13();
@@ -851,7 +851,7 @@ public class TopicsController extends BaseController {
         TLRPC$TL_channels_toggleViewForumAsMessages tLRPC$TL_channels_toggleViewForumAsMessages = new TLRPC$TL_channels_toggleViewForumAsMessages();
         tLRPC$TL_channels_toggleViewForumAsMessages.channel_id = getMessagesController().getInputChannel(j);
         tLRPC$TL_channels_toggleViewForumAsMessages.enabled = z;
-        getConnectionsManager().sendRequest(tLRPC$TL_channels_toggleViewForumAsMessages, new RequestDelegate() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda22
+        getConnectionsManager().sendRequest(tLRPC$TL_channels_toggleViewForumAsMessages, new RequestDelegate() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda11
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 TopicsController.this.lambda$toggleViewForumAsMessages$14(tLObject, tLRPC$TL_error);
@@ -878,7 +878,7 @@ public class TopicsController extends BaseController {
             arrayList.add(0, Integer.valueOf(i));
         }
         applyPinnedOrder(j, arrayList);
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_updatePinnedForumTopic, new RequestDelegate() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda26
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_updatePinnedForumTopic, new RequestDelegate() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda21
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 TopicsController.this.lambda$pinTopic$16(baseFragment, j, currentPinnedOrder, tLObject, tLRPC$TL_error);
@@ -896,7 +896,7 @@ public class TopicsController extends BaseController {
             } else if (baseFragment == null) {
             } else {
                 applyPinnedOrder(j, arrayList);
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda18
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda9
                     @Override // java.lang.Runnable
                     public final void run() {
                         TopicsController.this.lambda$pinTopic$15(baseFragment);
@@ -992,7 +992,7 @@ public class TopicsController extends BaseController {
     }
 
     public void processUpdate(final List<TopicUpdate> list) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda13
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda16
             @Override // java.lang.Runnable
             public final void run() {
                 TopicsController.this.lambda$processUpdate$18(list);
@@ -1067,7 +1067,7 @@ public class TopicsController extends BaseController {
     }
 
     public void onTopicsDeletedServerSide(final ArrayList<MessagesStorage.TopicKey> arrayList) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda10
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda23
             @Override // java.lang.Runnable
             public final void run() {
                 TopicsController.this.lambda$onTopicsDeletedServerSide$19(arrayList);
@@ -1113,7 +1113,7 @@ public class TopicsController extends BaseController {
     }
 
     public void reloadTopics(final long j, final boolean z) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda9
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda17
             @Override // java.lang.Runnable
             public final void run() {
                 TopicsController.this.lambda$reloadTopics$20(j, z);
@@ -1137,7 +1137,7 @@ public class TopicsController extends BaseController {
     }
 
     public void databaseCleared() {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda0
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 TopicsController.this.lambda$databaseCleared$21();
@@ -1169,7 +1169,7 @@ public class TopicsController extends BaseController {
     }
 
     public void updateReadOutbox(final HashMap<MessagesStorage.TopicKey, Integer> hashMap) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda12
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 TopicsController.this.lambda$updateReadOutbox$22(hashMap);
@@ -1248,7 +1248,7 @@ public class TopicsController extends BaseController {
     }
 
     public void loadTopic(final long j, final long j2, final Runnable runnable) {
-        getMessagesStorage().loadTopics(-j, new Consumer() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda20
+        getMessagesStorage().loadTopics(-j, new Consumer() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda3
             @Override // j$.util.function.Consumer
             public final void accept(Object obj) {
                 TopicsController.this.lambda$loadTopic$24(j, j2, runnable, (ArrayList) obj);
@@ -1263,7 +1263,7 @@ public class TopicsController extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadTopic$24(final long j, final long j2, final Runnable runnable, final ArrayList arrayList) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda7
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda14
             @Override // java.lang.Runnable
             public final void run() {
                 TopicsController.this.lambda$loadTopic$23(j, arrayList, j2, runnable);
@@ -1322,7 +1322,7 @@ public class TopicsController extends BaseController {
         tLRPC$TL_messages_getReplies.peer = getMessagesController().getInputPeer(j);
         tLRPC$TL_messages_getReplies.msg_id = (int) j2;
         tLRPC$TL_messages_getReplies.limit = 1;
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_getReplies, new RequestDelegate() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda25
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_getReplies, new RequestDelegate() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda7
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 TopicsController.this.lambda$getTopicRepliesCount$26(findTopic, j, tLObject, tLRPC$TL_error);
@@ -1332,7 +1332,7 @@ public class TopicsController extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getTopicRepliesCount$26(final TLRPC$TL_forumTopic tLRPC$TL_forumTopic, final long j, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda17
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 TopicsController.this.lambda$getTopicRepliesCount$25(tLObject, tLRPC$TL_forumTopic, j);

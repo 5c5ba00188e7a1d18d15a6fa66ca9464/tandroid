@@ -61,7 +61,7 @@ public class SavedMessagesController {
     private ArrayList<SavedDialog> cachedDialogs = new ArrayList<>();
     private ArrayList<SavedDialog> loadedDialogs = new ArrayList<>();
     public ArrayList<SavedDialog> allDialogs = new ArrayList<>();
-    private final Runnable saveCacheRunnable = new Runnable() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda4
+    private final Runnable saveCacheRunnable = new Runnable() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda16
         @Override // java.lang.Runnable
         public final void run() {
             SavedMessagesController.this.saveCache();
@@ -121,7 +121,7 @@ public class SavedMessagesController {
                 }
             }
         }
-        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda13
+        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda17
             @Override // java.util.Comparator
             public final int compare(Object obj, Object obj2) {
                 int lambda$updateAllDialogs$0;
@@ -198,8 +198,8 @@ public class SavedMessagesController {
         String translitSafe = AndroidUtilities.translitSafe(str.toLowerCase());
         for (int i = 0; i < this.allDialogs.size(); i++) {
             SavedDialog savedDialog = this.allDialogs.get(i);
-            String str3 = null;
             long j = savedDialog.dialogId;
+            String str3 = null;
             if (j == UserObject.ANONYMOUS) {
                 str2 = LocaleController.getString(R.string.AnonymousForward);
             } else if (j == UserConfig.getInstance(this.currentAccount).getClientUserId()) {
@@ -264,7 +264,7 @@ public class SavedMessagesController {
             return;
         }
         if (!this.loadedCache) {
-            loadCache(new Runnable() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda1
+            loadCache(new Runnable() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda7
                 @Override // java.lang.Runnable
                 public final void run() {
                     SavedMessagesController.this.lambda$loadDialogs$1();
@@ -301,7 +301,7 @@ public class SavedMessagesController {
                 tLRPC$TL_messages_getSavedDialogs.hash = calcHash3;
                 tLRPC$TL_messages_getSavedDialogs.hash = MediaDataController.calcHash(calcHash3, savedDialog2.getDate());
             }
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getSavedDialogs, new RequestDelegate() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda17
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getSavedDialogs, new RequestDelegate() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda8
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     SavedMessagesController.this.lambda$loadDialogs$3(arrayList2, tLObject, tLRPC$TL_error);
@@ -610,7 +610,7 @@ public class SavedMessagesController {
             z2 = z;
         }
         if (z2) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda0
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     SavedMessagesController.this.update();
@@ -620,6 +620,7 @@ public class SavedMessagesController {
     }
 
     public void updateDeleted(LongSparseArray<ArrayList<Integer>> longSparseArray) {
+        SavedDialog savedDialog;
         ArrayList<SavedDialog> arrayList = new ArrayList<>();
         boolean z = false;
         for (int i = 0; i < longSparseArray.size(); i++) {
@@ -629,10 +630,10 @@ public class SavedMessagesController {
             for (int i3 = 0; i3 < valueAt.size(); i3++) {
                 i2 = Math.max(i2, valueAt.get(i3).intValue());
             }
-            SavedDialog savedDialog = null;
             int i4 = 0;
             while (true) {
                 if (i4 >= this.allDialogs.size()) {
+                    savedDialog = null;
                     break;
                 } else if (this.allDialogs.get(i4).dialogId == keyAt) {
                     savedDialog = this.allDialogs.get(i4);
@@ -668,26 +669,26 @@ public class SavedMessagesController {
     }
 
     private void invalidate() {
+        SavedDialog savedDialog;
         if (this.dialogsLoaded && this.loadedDialogs.isEmpty()) {
             return;
         }
         for (int i = 0; i < this.loadedDialogs.size(); i++) {
-            SavedDialog savedDialog = this.loadedDialogs.get(i);
-            SavedDialog savedDialog2 = null;
+            SavedDialog savedDialog2 = this.loadedDialogs.get(i);
             int i2 = 0;
             while (true) {
                 if (i2 >= this.cachedDialogs.size()) {
+                    savedDialog = null;
                     break;
                 }
-                SavedDialog savedDialog3 = this.cachedDialogs.get(i2);
-                if (savedDialog3.dialogId == savedDialog.dialogId) {
-                    savedDialog2 = savedDialog3;
+                savedDialog = this.cachedDialogs.get(i2);
+                if (savedDialog.dialogId == savedDialog2.dialogId) {
                     break;
                 }
                 i2++;
             }
-            if (savedDialog2 == null && !savedDialog.pinned) {
-                this.cachedDialogs.add(savedDialog);
+            if (savedDialog == null && !savedDialog2.pinned) {
+                this.cachedDialogs.add(savedDialog2);
             }
         }
         this.loadedDialogs.clear();
@@ -906,7 +907,7 @@ public class SavedMessagesController {
             }
             i2++;
         }
-        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda15
+        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda9
             @Override // java.util.Comparator
             public final int compare(Object obj, Object obj2) {
                 int lambda$updatePinnedOrder$4;
@@ -914,7 +915,7 @@ public class SavedMessagesController {
                 return lambda$updatePinnedOrder$4;
             }
         });
-        Collections.sort(arrayList4, new Comparator() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda14
+        Collections.sort(arrayList4, new Comparator() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda10
             @Override // java.util.Comparator
             public final int compare(Object obj, Object obj2) {
                 int lambda$updatePinnedOrder$5;
@@ -943,7 +944,7 @@ public class SavedMessagesController {
         this.loadingCache = true;
         final long clientUserId = UserConfig.getInstance(this.currentAccount).getClientUserId();
         final MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
-        messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda8
+        messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 SavedMessagesController.this.lambda$loadCache$7(messagesStorage, clientUserId, runnable);
@@ -962,7 +963,7 @@ public class SavedMessagesController {
         r18.dispose();
      */
     /* JADX WARN: Code restructure failed: missing block: B:83:0x0186, code lost:
-        org.telegram.messenger.AndroidUtilities.runOnUIThread(new org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda6(r31, r5, r6, r8, r7, r35));
+        org.telegram.messenger.AndroidUtilities.runOnUIThread(new org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda2(r31, r5, r6, r8, r7, r35));
      */
     /* JADX WARN: Code restructure failed: missing block: B:84:0x0196, code lost:
         return;
@@ -1147,7 +1148,7 @@ public class SavedMessagesController {
     private void updateDialogsLastMessage(final ArrayList<SavedDialog> arrayList) {
         final long clientUserId = UserConfig.getInstance(this.currentAccount).getClientUserId();
         final MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
-        messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda10
+        messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 SavedMessagesController.this.lambda$updateDialogsLastMessage$9(messagesStorage, arrayList, clientUserId);
@@ -1162,7 +1163,7 @@ public class SavedMessagesController {
     /* JADX WARN: Code restructure failed: missing block: B:43:0x00db, code lost:
         r4 = r1;
         r5 = r6;
-        org.telegram.messenger.AndroidUtilities.runOnUIThread(new org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda5(r19, r4, r5, r9, r7, r8));
+        org.telegram.messenger.AndroidUtilities.runOnUIThread(new org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda13(r19, r4, r5, r9, r7, r8));
      */
     /* JADX WARN: Code restructure failed: missing block: B:44:0x00e9, code lost:
         return;
@@ -1297,7 +1298,7 @@ public class SavedMessagesController {
         this.saving = true;
         final ArrayList arrayList = new ArrayList(this.allDialogs);
         final MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
-        messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda9
+        messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda15
             @Override // java.lang.Runnable
             public final void run() {
                 SavedMessagesController.this.lambda$saveCache$11(messagesStorage, arrayList);
@@ -1341,7 +1342,7 @@ public class SavedMessagesController {
                 FileLog.e(e);
             }
             sQLitePreparedStatement.dispose();
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda3
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     SavedMessagesController.this.lambda$saveCache$10();
@@ -1366,7 +1367,7 @@ public class SavedMessagesController {
         }
         this.saving = true;
         final MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
-        messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda7
+        messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 SavedMessagesController.this.lambda$deleteCache$13(messagesStorage);
@@ -1381,7 +1382,7 @@ public class SavedMessagesController {
         } catch (Exception e) {
             FileLog.e(e);
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda2
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda14
             @Override // java.lang.Runnable
             public final void run() {
                 SavedMessagesController.this.lambda$deleteCache$12();
@@ -1506,7 +1507,7 @@ public class SavedMessagesController {
         tLRPC$TL_messages_getSavedHistory.offset_id = ConnectionsManager.DEFAULT_DATACENTER_ID;
         tLRPC$TL_messages_getSavedHistory.offset_date = ConnectionsManager.DEFAULT_DATACENTER_ID;
         tLRPC$TL_messages_getSavedHistory.add_offset = -1;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getSavedHistory, new RequestDelegate() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda16
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getSavedHistory, new RequestDelegate() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda6
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 SavedMessagesController.this.lambda$hasSavedMessages$15(j, tLObject, tLRPC$TL_error);

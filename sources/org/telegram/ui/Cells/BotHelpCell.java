@@ -62,6 +62,7 @@ public class BotHelpCell extends View {
     private StaticLayout textLayout;
     private int textX;
     private int textY;
+    public boolean wasDraw;
     private int width;
 
     /* loaded from: classes4.dex */
@@ -213,6 +214,7 @@ public class BotHelpCell extends View {
         return staticLayout.getText();
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:100:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:66:0x0120  */
     /* JADX WARN: Removed duplicated region for block: B:88:0x0178  */
     @Override // android.view.View
@@ -324,6 +326,7 @@ public class BotHelpCell extends View {
         if (this.selectorDrawable != null) {
         }
         if (z) {
+            return true;
         }
     }
 
@@ -385,6 +388,7 @@ public class BotHelpCell extends View {
             staticLayout.draw(canvas);
         }
         canvas.restore();
+        this.wasDraw = true;
     }
 
     @Override // android.view.View
@@ -397,6 +401,7 @@ public class BotHelpCell extends View {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         this.imageReceiver.onDetachedFromWindow();
+        this.wasDraw = false;
     }
 
     @Override // android.view.View

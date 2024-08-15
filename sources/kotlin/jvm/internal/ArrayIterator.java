@@ -15,6 +15,11 @@ final class ArrayIterator<T> implements Iterator<T>, j$.util.Iterator {
         Iterator.-CC.$default$forEachRemaining(this, consumer);
     }
 
+    @Override // java.util.Iterator
+    public /* synthetic */ void forEachRemaining(java.util.function.Consumer consumer) {
+        forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
+    }
+
     @Override // java.util.Iterator, j$.util.Iterator
     public void remove() {
         throw new UnsupportedOperationException("Operation is not supported for read-only collection");

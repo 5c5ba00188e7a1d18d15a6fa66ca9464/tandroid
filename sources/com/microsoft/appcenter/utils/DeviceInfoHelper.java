@@ -10,7 +10,6 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Display;
-import android.view.WindowManager;
 import com.microsoft.appcenter.ingestion.models.Device;
 import com.microsoft.appcenter.ingestion.models.WrapperSdk;
 import java.util.Locale;
@@ -79,20 +78,14 @@ public class DeviceInfoHelper {
 
     @SuppressLint({"SwitchIntDef"})
     private static String getScreenSize(Context context) {
-        Display defaultDisplay;
         int i;
         int i2;
         Point point = new Point();
-        if (Build.VERSION.SDK_INT >= 17) {
-            defaultDisplay = ((DisplayManager) context.getSystemService("display")).getDisplay(0);
-            DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-            point.x = displayMetrics.widthPixels;
-            point.y = displayMetrics.heightPixels;
-        } else {
-            defaultDisplay = ((WindowManager) context.getSystemService("window")).getDefaultDisplay();
-            defaultDisplay.getSize(point);
-        }
-        int rotation = defaultDisplay.getRotation();
+        Display display = ((DisplayManager) context.getSystemService("display")).getDisplay(0);
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        point.x = displayMetrics.widthPixels;
+        point.y = displayMetrics.heightPixels;
+        int rotation = display.getRotation();
         if (rotation == 1 || rotation == 3) {
             int i3 = point.x;
             int i4 = point.y;

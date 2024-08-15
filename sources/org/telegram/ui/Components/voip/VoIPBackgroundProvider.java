@@ -22,6 +22,7 @@ public class VoIPBackgroundProvider {
     private final BitmapShaderTools lightShaderTools;
     private BitmapShaderTools revealDarkShaderTools;
     private BitmapShaderTools revealShaderTools;
+    public final float scale;
     private int totalHeight;
     private int totalWidth;
     private final List<View> views;
@@ -41,6 +42,7 @@ public class VoIPBackgroundProvider {
         Paint paint3 = new Paint(1);
         this.darkPaint = paint3;
         this.views = new ArrayList();
+        this.scale = 1.12f;
         bitmapShaderTools2.setBounds(0.0f, 0.0f, 80.0f, 80.0f);
         bitmapShaderTools.setBounds(0.0f, 0.0f, 80.0f, 80.0f);
         paint.setColor(-1);
@@ -69,7 +71,7 @@ public class VoIPBackgroundProvider {
     public void setHasVideo(boolean z) {
         if (this.hasVideo && !z) {
             ValueAnimator ofFloat = ValueAnimator.ofFloat(1.0f, 0.0f);
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPBackgroundProvider$$ExternalSyntheticLambda1
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPBackgroundProvider$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     VoIPBackgroundProvider.this.lambda$setHasVideo$0(valueAnimator);
@@ -89,7 +91,7 @@ public class VoIPBackgroundProvider {
             });
             ofFloat.start();
             ValueAnimator ofFloat2 = ValueAnimator.ofFloat(0.0f, 1.0f);
-            ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPBackgroundProvider$$ExternalSyntheticLambda0
+            ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPBackgroundProvider$$ExternalSyntheticLambda1
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     VoIPBackgroundProvider.this.lambda$setHasVideo$1(valueAnimator);

@@ -1,56 +1,41 @@
 package j$.util.stream;
-
-import java.util.Deque;
 /* loaded from: classes2.dex */
-abstract class i2 extends k2 implements j$.util.t {
+final class i2 extends Z1 {
+    long b;
+    long c;
+    final /* synthetic */ j2 d;
+
     /* JADX INFO: Access modifiers changed from: package-private */
-    public i2(z1 z1Var) {
-        super(z1Var);
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public i2(j2 j2Var, f2 f2Var) {
+        super(f2Var);
+        this.d = j2Var;
+        this.b = j2Var.l;
+        long j = j2Var.m;
+        this.c = j < 0 ? Long.MAX_VALUE : j;
     }
 
-    @Override // j$.util.t
-    /* renamed from: forEachRemaining */
-    public void e(Object obj) {
-        if (this.a == null) {
+    @Override // j$.util.stream.d2, j$.util.stream.f2
+    public final void accept(int i) {
+        long j = this.b;
+        if (j != 0) {
+            this.b = j - 1;
             return;
         }
-        if (this.d != null) {
-            do {
-            } while (k(obj));
-            return;
-        }
-        j$.util.s sVar = this.c;
-        if (sVar != null) {
-            ((j$.util.t) sVar).forEachRemaining(obj);
-            return;
-        }
-        Deque f = f();
-        while (true) {
-            z1 z1Var = (z1) a(f);
-            if (z1Var == null) {
-                this.a = null;
-                return;
-            }
-            z1Var.g(obj);
+        long j2 = this.c;
+        if (j2 > 0) {
+            this.c = j2 - 1;
+            this.a.accept(i);
         }
     }
 
-    @Override // j$.util.t
-    /* renamed from: tryAdvance */
-    public boolean k(Object obj) {
-        z1 z1Var;
-        if (h()) {
-            boolean tryAdvance = ((j$.util.t) this.d).tryAdvance(obj);
-            if (!tryAdvance) {
-                if (this.c == null && (z1Var = (z1) a(this.e)) != null) {
-                    j$.util.t spliterator = z1Var.spliterator();
-                    this.d = spliterator;
-                    return spliterator.tryAdvance(obj);
-                }
-                this.a = null;
-            }
-            return tryAdvance;
-        }
-        return false;
+    @Override // j$.util.stream.f2
+    public final void f(long j) {
+        this.a.f(u0.E0(j, this.d.l, this.c));
+    }
+
+    @Override // j$.util.stream.Z1, j$.util.stream.f2
+    public final boolean h() {
+        return this.c == 0 || this.a.h();
     }
 }

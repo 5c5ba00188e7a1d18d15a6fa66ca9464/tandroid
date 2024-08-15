@@ -11,12 +11,14 @@ public final class Ac4Util {
 
     /* loaded from: classes.dex */
     public static final class SyncFrameInfo {
+        public final int bitstreamVersion;
         public final int channelCount;
         public final int frameSize;
         public final int sampleCount;
         public final int sampleRate;
 
         private SyncFrameInfo(int i, int i2, int i3, int i4, int i5) {
+            this.bitstreamVersion = i;
             this.channelCount = i2;
             this.sampleRate = i3;
             this.frameSize = i4;
@@ -29,14 +31,14 @@ public final class Ac4Util {
         return new Format.Builder().setId(str).setSampleMimeType("audio/ac4").setChannelCount(2).setSampleRate(((parsableByteArray.readUnsignedByte() & 32) >> 5) == 1 ? 48000 : 44100).setDrmInitData(drmInitData).setLanguage(str2).build();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x0086, code lost:
-        if (r10 != 11) goto L39;
+    /* JADX WARN: Code restructure failed: missing block: B:38:0x0084, code lost:
+        if (r11 != 11) goto L39;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x008b, code lost:
-        if (r10 != 11) goto L39;
+    /* JADX WARN: Code restructure failed: missing block: B:41:0x0089, code lost:
+        if (r11 != 11) goto L39;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:44:0x0090, code lost:
-        if (r10 != 8) goto L39;
+    /* JADX WARN: Code restructure failed: missing block: B:44:0x008e, code lost:
+        if (r11 != 8) goto L39;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

@@ -12,12 +12,12 @@ import com.google.android.gms.internal.location.zzce;
 public class LocationServices {
     @Deprecated
     public static final Api<Api.ApiOptions.NoOptions> API = zzbp.zzb;
-
-    static {
-        new zzau();
-        new zzbv();
-        new zzcc();
-    }
+    @Deprecated
+    public static final FusedLocationProviderApi FusedLocationApi = new zzau();
+    @Deprecated
+    public static final GeofencingApi GeofencingApi = new zzbv();
+    @Deprecated
+    public static final SettingsApi SettingsApi = new zzcc();
 
     public static FusedLocationProviderClient getFusedLocationProviderClient(Context context) {
         return new zzbp(context);

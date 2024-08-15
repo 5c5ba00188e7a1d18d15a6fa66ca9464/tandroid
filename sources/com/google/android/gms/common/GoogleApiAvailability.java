@@ -37,9 +37,10 @@ import com.google.errorprone.annotations.RestrictedInheritance;
 @RestrictedInheritance(allowedOnPath = ".*java.*/com/google/android/gms.*", allowlistAnnotations = {zad.class, zae.class}, explanation = "Sub classing of GMS Core's APIs are restricted to GMS Core client libs and testing fakes.", link = "go/gmscore-restrictedinheritance")
 /* loaded from: classes.dex */
 public class GoogleApiAvailability extends GoogleApiAvailabilityLight {
+    private String zac;
     private static final Object zaa = new Object();
     private static final GoogleApiAvailability zab = new GoogleApiAvailability();
-    private String zac;
+    public static final int GOOGLE_PLAY_SERVICES_VERSION_CODE = GoogleApiAvailabilityLight.GOOGLE_PLAY_SERVICES_VERSION_CODE;
 
     public static GoogleApiAvailability getInstance() {
         return zab;
@@ -142,6 +143,8 @@ public class GoogleApiAvailability extends GoogleApiAvailabilityLight {
     final void zae(Context context, int i, String str, PendingIntent pendingIntent) {
         int i2;
         String str2;
+        NotificationChannel notificationChannel;
+        CharSequence name;
         Log.w("GoogleApiAvailability", String.format("GMS core API Availability. ConnectionResult=%s, tag=%s", Integer.valueOf(i), null), new IllegalArgumentException());
         if (i == 18) {
             zaf(context);
@@ -173,13 +176,16 @@ public class GoogleApiAvailability extends GoogleApiAvailabilityLight {
                 }
                 if (str2 == null) {
                     str2 = "com.google.android.gms.availability";
-                    NotificationChannel notificationChannel = notificationManager.getNotificationChannel("com.google.android.gms.availability");
+                    notificationChannel = notificationManager.getNotificationChannel("com.google.android.gms.availability");
                     String zab2 = com.google.android.gms.common.internal.zac.zab(context);
                     if (notificationChannel == null) {
                         notificationManager.createNotificationChannel(new NotificationChannel("com.google.android.gms.availability", zab2, 4));
-                    } else if (!zab2.contentEquals(notificationChannel.getName())) {
-                        notificationChannel.setName(zab2);
-                        notificationManager.createNotificationChannel(notificationChannel);
+                    } else {
+                        name = notificationChannel.getName();
+                        if (!zab2.contentEquals(name)) {
+                            notificationChannel.setName(zab2);
+                            notificationManager.createNotificationChannel(notificationChannel);
+                        }
                     }
                 }
                 style.setChannelId(str2);

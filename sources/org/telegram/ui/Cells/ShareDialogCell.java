@@ -102,7 +102,7 @@ public class ShareDialogCell extends FrameLayout implements NotificationCenter.N
         } else {
             addView(backupImageView, LayoutHelper.createFrame(56, 56.0f, 49, 0.0f, 7.0f, 0.0f, 0.0f));
         }
-        TextView textView = new TextView(this, context) { // from class: org.telegram.ui.Cells.ShareDialogCell.2
+        TextView textView = new TextView(context) { // from class: org.telegram.ui.Cells.ShareDialogCell.2
             @Override // android.widget.TextView
             public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
                 super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), AndroidUtilities.dp(10.0f), false), bufferType);
@@ -130,7 +130,7 @@ public class ShareDialogCell extends FrameLayout implements NotificationCenter.N
         checkBox2.setColor(Theme.key_dialogRoundCheckBox, i == 1 ? Theme.key_voipgroup_inviteMembersBackground : Theme.key_dialogBackground, Theme.key_dialogRoundCheckBoxCheck);
         checkBox2.setDrawUnchecked(false);
         checkBox2.setDrawBackgroundAsArc(4);
-        checkBox2.setProgressDelegate(new CheckBoxBase.ProgressDelegate() { // from class: org.telegram.ui.Cells.ShareDialogCell$$ExternalSyntheticLambda2
+        checkBox2.setProgressDelegate(new CheckBoxBase.ProgressDelegate() { // from class: org.telegram.ui.Cells.ShareDialogCell$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.Components.CheckBoxBase.ProgressDelegate
             public final void setProgress(float f) {
                 ShareDialogCell.this.lambda$new$0(f);
@@ -275,7 +275,7 @@ public class ShareDialogCell extends FrameLayout implements NotificationCenter.N
                 public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f, float f2) {
                     ShareDialogCell.this.lambda$setTopic$1(dynamicAnimation, f, f2);
                 }
-            }).addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Cells.ShareDialogCell$$ExternalSyntheticLambda0
+            }).addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Cells.ShareDialogCell$$ExternalSyntheticLambda2
                 @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
                 public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z4, float f, float f2) {
                     ShareDialogCell.this.lambda$setTopic$2(dynamicAnimation, z4, f, f2);

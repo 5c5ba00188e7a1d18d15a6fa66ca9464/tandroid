@@ -102,6 +102,7 @@ public final class SystemHandlerWrapper implements HandlerWrapper {
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class SystemMessage implements HandlerWrapper.Message {
+        private SystemHandlerWrapper handler;
         private Message message;
 
         private SystemMessage() {
@@ -109,6 +110,7 @@ public final class SystemHandlerWrapper implements HandlerWrapper {
 
         public SystemMessage setMessage(Message message, SystemHandlerWrapper systemHandlerWrapper) {
             this.message = message;
+            this.handler = systemHandlerWrapper;
             return this;
         }
 
@@ -126,6 +128,7 @@ public final class SystemHandlerWrapper implements HandlerWrapper {
 
         private void recycle() {
             this.message = null;
+            this.handler = null;
             SystemHandlerWrapper.recycleMessage(this);
         }
     }

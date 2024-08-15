@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import org.telegram.messenger.R;
 import sun.misc.Unsafe;
 /* loaded from: classes.dex */
@@ -18,6 +17,7 @@ final class zzds<T> implements zzef<T> {
     private final int zzmm;
     private final zzdo zzmn;
     private final boolean zzmo;
+    private final boolean zzmp;
     private final boolean zzmq;
     private final boolean zzmr;
     private final int[] zzms;
@@ -35,7 +35,7 @@ final class zzds<T> implements zzef<T> {
         this.zzmk = i;
         this.zzml = i2;
         this.zzmm = i3;
-        boolean z3 = zzdoVar instanceof zzcg;
+        this.zzmp = zzdoVar instanceof zzcg;
         this.zzmq = z;
         this.zzmo = zzbuVar != null && zzbuVar.zze(zzdoVar);
         this.zzmr = false;
@@ -1660,7 +1660,7 @@ final class zzds<T> implements zzef<T> {
     }
 
     private final <K, V, UT, UB> UB zza(int i, int i2, Map<K, V> map, zzck<?> zzckVar, UB ub, zzex<UT, UB> zzexVar) {
-        zzdh<?, ?> zzl = this.zzmz.zzl(zzae(i));
+        this.zzmz.zzl(zzae(i));
         Iterator<Map.Entry<K, V>> it = map.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry<K, V> next = it.next();
@@ -1668,9 +1668,9 @@ final class zzds<T> implements zzef<T> {
                 if (ub == null) {
                     ub = zzexVar.zzdz();
                 }
-                zzbg zzk = zzbb.zzk(zzdg.zza(zzl, next.getKey(), next.getValue()));
+                zzbg zzk = zzbb.zzk(zzdg.zza(null, next.getKey(), next.getValue()));
                 try {
-                    zzdg.zza(zzk.zzae(), zzl, next.getKey(), next.getValue());
+                    zzdg.zza(zzk.zzae(), null, next.getKey(), next.getValue());
                     zzexVar.zza((zzex<UT, UB>) ub, i2, zzk.zzad());
                     it.remove();
                 } catch (IOException e) {
@@ -1695,7 +1695,8 @@ final class zzds<T> implements zzef<T> {
 
     private final <K, V> void zza(zzfr zzfrVar, int i, Object obj, int i2) throws IOException {
         if (obj != null) {
-            zzfrVar.zza(i, this.zzmz.zzl(zzae(i2)), this.zzmz.zzh(obj));
+            this.zzmz.zzl(zzae(i2));
+            zzfrVar.zza(i, (zzdh) null, this.zzmz.zzh(obj));
         }
     }
 
@@ -1855,7 +1856,7 @@ final class zzds<T> implements zzef<T> {
     }
 
     /* JADX WARN: Removed duplicated region for block: B:10:0x002d  */
-    /* JADX WARN: Removed duplicated region for block: B:172:0x0494  */
+    /* JADX WARN: Removed duplicated region for block: B:178:0x045e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1865,390 +1866,391 @@ final class zzds<T> implements zzef<T> {
         int length;
         int i;
         int i2;
+        boolean z;
         int i3;
+        boolean z2;
+        int i4;
+        boolean z3;
+        int i5;
+        boolean z4;
+        int i6;
+        boolean z5;
+        int i7;
+        int i8;
+        List list;
+        boolean z6;
         if (this.zzmo) {
             zzby<?> zza = this.zzmy.zza(t);
             if (!zza.isEmpty()) {
                 it = zza.iterator();
                 entry = it.next();
-                int i4 = -1;
                 length = this.zzmi.length;
                 Unsafe unsafe = zzmh;
-                i = 0;
-                int i5 = 0;
-                while (i < length) {
+                int i9 = -1;
+                int i10 = 0;
+                for (i = 0; i < length; i += 4) {
                     int zzag = zzag(i);
                     int[] iArr = this.zzmi;
-                    int i6 = iArr[i];
-                    int i7 = (267386880 & zzag) >>> 20;
-                    if (this.zzmq || i7 > 17) {
-                        i2 = i;
-                        i3 = 0;
+                    int i11 = iArr[i];
+                    int i12 = (267386880 & zzag) >>> 20;
+                    if (this.zzmq || i12 > 17) {
+                        i2 = 0;
                     } else {
-                        int i8 = iArr[i + 2];
-                        int i9 = i8 & 1048575;
-                        i2 = i;
-                        if (i9 != i4) {
-                            i5 = unsafe.getInt(t, i9);
-                            i4 = i9;
+                        int i13 = iArr[i + 2];
+                        int i14 = i13 & 1048575;
+                        if (i14 != i9) {
+                            i10 = unsafe.getInt(t, i14);
+                            i9 = i14;
                         }
-                        i3 = 1 << (i8 >>> 20);
+                        i2 = 1 << (i13 >>> 20);
                     }
-                    while (entry != null && this.zzmy.zza(entry) <= i6) {
+                    while (entry != null && this.zzmy.zza(entry) <= i11) {
                         this.zzmy.zza(zzfrVar, entry);
                         entry = it.hasNext() ? it.next() : null;
                     }
                     long j = zzag & 1048575;
-                    int i10 = i2;
-                    switch (i7) {
+                    switch (i12) {
                         case 0:
-                            if ((i3 & i5) != 0) {
-                                zzfrVar.zza(i6, zzfd.zzn(t, j));
+                            if ((i2 & i10) != 0) {
+                                zzfrVar.zza(i11, zzfd.zzn(t, j));
                                 continue;
                             }
-                            i = i10 + 4;
                         case 1:
-                            if ((i3 & i5) != 0) {
-                                zzfrVar.zza(i6, zzfd.zzm(t, j));
+                            if ((i2 & i10) != 0) {
+                                zzfrVar.zza(i11, zzfd.zzm(t, j));
                             } else {
                                 continue;
                             }
-                            i = i10 + 4;
                         case 2:
-                            if ((i3 & i5) != 0) {
-                                zzfrVar.zzi(i6, unsafe.getLong(t, j));
+                            if ((i2 & i10) != 0) {
+                                zzfrVar.zzi(i11, unsafe.getLong(t, j));
                             } else {
                                 continue;
                             }
-                            i = i10 + 4;
                         case 3:
-                            if ((i3 & i5) != 0) {
-                                zzfrVar.zza(i6, unsafe.getLong(t, j));
+                            if ((i2 & i10) != 0) {
+                                zzfrVar.zza(i11, unsafe.getLong(t, j));
                             } else {
                                 continue;
                             }
-                            i = i10 + 4;
                         case 4:
-                            if ((i3 & i5) != 0) {
-                                zzfrVar.zzc(i6, unsafe.getInt(t, j));
+                            if ((i2 & i10) != 0) {
+                                zzfrVar.zzc(i11, unsafe.getInt(t, j));
                             } else {
                                 continue;
                             }
-                            i = i10 + 4;
                         case 5:
-                            if ((i3 & i5) != 0) {
-                                zzfrVar.zzc(i6, unsafe.getLong(t, j));
+                            if ((i2 & i10) != 0) {
+                                zzfrVar.zzc(i11, unsafe.getLong(t, j));
                             } else {
                                 continue;
                             }
-                            i = i10 + 4;
                         case 6:
-                            if ((i3 & i5) != 0) {
-                                zzfrVar.zzf(i6, unsafe.getInt(t, j));
+                            if ((i2 & i10) != 0) {
+                                zzfrVar.zzf(i11, unsafe.getInt(t, j));
                             } else {
                                 continue;
                             }
-                            i = i10 + 4;
                         case 7:
-                            if ((i3 & i5) != 0) {
-                                zzfrVar.zzb(i6, zzfd.zzl(t, j));
+                            if ((i2 & i10) != 0) {
+                                zzfrVar.zzb(i11, zzfd.zzl(t, j));
                             } else {
                                 continue;
                             }
-                            i = i10 + 4;
                         case 8:
-                            if ((i3 & i5) != 0) {
-                                zza(i6, unsafe.getObject(t, j), zzfrVar);
+                            if ((i2 & i10) != 0) {
+                                zza(i11, unsafe.getObject(t, j), zzfrVar);
                             } else {
                                 continue;
                             }
-                            i = i10 + 4;
                         case 9:
-                            if ((i3 & i5) != 0) {
-                                zzfrVar.zza(i6, unsafe.getObject(t, j), zzad(i10));
+                            if ((i2 & i10) != 0) {
+                                zzfrVar.zza(i11, unsafe.getObject(t, j), zzad(i));
                             } else {
                                 continue;
                             }
-                            i = i10 + 4;
                         case 10:
-                            if ((i3 & i5) != 0) {
-                                zzfrVar.zza(i6, (zzbb) unsafe.getObject(t, j));
+                            if ((i2 & i10) != 0) {
+                                zzfrVar.zza(i11, (zzbb) unsafe.getObject(t, j));
                             } else {
                                 continue;
                             }
-                            i = i10 + 4;
                         case 11:
-                            if ((i3 & i5) != 0) {
-                                zzfrVar.zzd(i6, unsafe.getInt(t, j));
+                            if ((i2 & i10) != 0) {
+                                zzfrVar.zzd(i11, unsafe.getInt(t, j));
                             } else {
                                 continue;
                             }
-                            i = i10 + 4;
                         case 12:
-                            if ((i3 & i5) != 0) {
-                                zzfrVar.zzn(i6, unsafe.getInt(t, j));
+                            if ((i2 & i10) != 0) {
+                                zzfrVar.zzn(i11, unsafe.getInt(t, j));
                             } else {
                                 continue;
                             }
-                            i = i10 + 4;
                         case 13:
-                            if ((i3 & i5) != 0) {
-                                zzfrVar.zzm(i6, unsafe.getInt(t, j));
+                            if ((i2 & i10) != 0) {
+                                zzfrVar.zzm(i11, unsafe.getInt(t, j));
                             } else {
                                 continue;
                             }
-                            i = i10 + 4;
                         case 14:
-                            if ((i3 & i5) != 0) {
-                                zzfrVar.zzj(i6, unsafe.getLong(t, j));
+                            if ((i2 & i10) != 0) {
+                                zzfrVar.zzj(i11, unsafe.getLong(t, j));
                             } else {
                                 continue;
                             }
-                            i = i10 + 4;
                         case 15:
-                            if ((i3 & i5) != 0) {
-                                zzfrVar.zze(i6, unsafe.getInt(t, j));
+                            if ((i2 & i10) != 0) {
+                                zzfrVar.zze(i11, unsafe.getInt(t, j));
                             } else {
                                 continue;
                             }
-                            i = i10 + 4;
                         case 16:
-                            if ((i3 & i5) != 0) {
-                                zzfrVar.zzb(i6, unsafe.getLong(t, j));
+                            if ((i2 & i10) != 0) {
+                                zzfrVar.zzb(i11, unsafe.getLong(t, j));
                             } else {
                                 continue;
                             }
-                            i = i10 + 4;
                         case 17:
-                            if ((i3 & i5) != 0) {
-                                zzfrVar.zzb(i6, unsafe.getObject(t, j), zzad(i10));
+                            if ((i2 & i10) != 0) {
+                                zzfrVar.zzb(i11, unsafe.getObject(t, j), zzad(i));
                             } else {
                                 continue;
                             }
-                            i = i10 + 4;
                         case 18:
-                            zzeh.zza(this.zzmi[i10], (List<Double>) unsafe.getObject(t, j), zzfrVar, false);
+                            zzeh.zza(this.zzmi[i], (List<Double>) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
-                            i = i10 + 4;
                         case 19:
-                            zzeh.zzb(this.zzmi[i10], (List<Float>) unsafe.getObject(t, j), zzfrVar, false);
+                            zzeh.zzb(this.zzmi[i], (List<Float>) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
-                            i = i10 + 4;
                         case 20:
-                            zzeh.zzc(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
+                            zzeh.zzc(this.zzmi[i], (List) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
-                            i = i10 + 4;
                         case 21:
-                            zzeh.zzd(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
+                            zzeh.zzd(this.zzmi[i], (List) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
-                            i = i10 + 4;
                         case 22:
-                            zzeh.zzh(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
+                            zzeh.zzh(this.zzmi[i], (List) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
-                            i = i10 + 4;
                         case 23:
-                            zzeh.zzf(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
+                            zzeh.zzf(this.zzmi[i], (List) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
-                            i = i10 + 4;
                         case 24:
-                            zzeh.zzk(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
+                            zzeh.zzk(this.zzmi[i], (List) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
-                            i = i10 + 4;
                         case 25:
-                            zzeh.zzn(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
+                            zzeh.zzn(this.zzmi[i], (List) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
-                            i = i10 + 4;
                         case 26:
-                            zzeh.zza(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar);
+                            zzeh.zza(this.zzmi[i], (List) unsafe.getObject(t, j), zzfrVar);
                             break;
                         case 27:
-                            zzeh.zza(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, zzad(i10));
+                            zzeh.zza(this.zzmi[i], (List) unsafe.getObject(t, j), zzfrVar, zzad(i));
                             break;
                         case 28:
-                            zzeh.zzb(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar);
+                            zzeh.zzb(this.zzmi[i], (List) unsafe.getObject(t, j), zzfrVar);
                             break;
                         case 29:
-                            zzeh.zzi(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
-                            continue;
-                            i = i10 + 4;
+                            z = false;
+                            i3 = this.zzmi[i];
+                            zzeh.zzi(i3, (List) unsafe.getObject(t, j), zzfrVar, z);
+                            break;
                         case 30:
-                            zzeh.zzm(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
-                            continue;
-                            i = i10 + 4;
+                            z2 = false;
+                            i4 = this.zzmi[i];
+                            zzeh.zzm(i4, (List) unsafe.getObject(t, j), zzfrVar, z2);
+                            break;
                         case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
-                            zzeh.zzl(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
-                            continue;
-                            i = i10 + 4;
+                            z3 = false;
+                            i5 = this.zzmi[i];
+                            zzeh.zzl(i5, (List) unsafe.getObject(t, j), zzfrVar, z3);
+                            break;
                         case 32:
-                            zzeh.zzg(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
-                            continue;
-                            i = i10 + 4;
+                            z4 = false;
+                            i6 = this.zzmi[i];
+                            zzeh.zzg(i6, (List) unsafe.getObject(t, j), zzfrVar, z4);
+                            break;
                         case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
-                            zzeh.zzj(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
-                            continue;
-                            i = i10 + 4;
+                            z5 = false;
+                            i7 = this.zzmi[i];
+                            zzeh.zzj(i7, (List) unsafe.getObject(t, j), zzfrVar, z5);
+                            break;
                         case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
-                            zzeh.zze(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
-                            continue;
-                            i = i10 + 4;
+                            i8 = this.zzmi[i];
+                            list = (List) unsafe.getObject(t, j);
+                            z6 = false;
+                            zzeh.zze(i8, list, zzfrVar, z6);
+                            break;
                         case R.styleable.AppCompatTheme_alertDialogButtonGroupStyle /* 35 */:
-                            zzeh.zza(this.zzmi[i10], (List<Double>) unsafe.getObject(t, j), zzfrVar, true);
+                            zzeh.zza(this.zzmi[i], (List<Double>) unsafe.getObject(t, j), zzfrVar, true);
                             break;
                         case R.styleable.AppCompatTheme_alertDialogCenterButtons /* 36 */:
-                            zzeh.zzb(this.zzmi[i10], (List<Float>) unsafe.getObject(t, j), zzfrVar, true);
+                            zzeh.zzb(this.zzmi[i], (List<Float>) unsafe.getObject(t, j), zzfrVar, true);
                             break;
                         case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
-                            zzeh.zzc(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, true);
+                            zzeh.zzc(this.zzmi[i], (List) unsafe.getObject(t, j), zzfrVar, true);
                             break;
                         case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
-                            zzeh.zzd(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, true);
+                            zzeh.zzd(this.zzmi[i], (List) unsafe.getObject(t, j), zzfrVar, true);
                             break;
                         case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
-                            zzeh.zzh(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, true);
+                            zzeh.zzh(this.zzmi[i], (List) unsafe.getObject(t, j), zzfrVar, true);
                             break;
                         case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
-                            zzeh.zzf(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, true);
+                            zzeh.zzf(this.zzmi[i], (List) unsafe.getObject(t, j), zzfrVar, true);
                             break;
                         case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
-                            zzeh.zzk(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, true);
+                            zzeh.zzk(this.zzmi[i], (List) unsafe.getObject(t, j), zzfrVar, true);
                             break;
                         case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
-                            zzeh.zzn(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, true);
+                            zzeh.zzn(this.zzmi[i], (List) unsafe.getObject(t, j), zzfrVar, true);
                             break;
                         case R.styleable.AppCompatTheme_buttonBarNeutralButtonStyle /* 43 */:
-                            zzeh.zzi(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, true);
+                            z = true;
+                            i3 = this.zzmi[i];
+                            zzeh.zzi(i3, (List) unsafe.getObject(t, j), zzfrVar, z);
                             break;
                         case R.styleable.AppCompatTheme_buttonBarPositiveButtonStyle /* 44 */:
-                            zzeh.zzm(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, true);
+                            z2 = true;
+                            i4 = this.zzmi[i];
+                            zzeh.zzm(i4, (List) unsafe.getObject(t, j), zzfrVar, z2);
                             break;
                         case R.styleable.AppCompatTheme_buttonBarStyle /* 45 */:
-                            zzeh.zzl(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, true);
+                            z3 = true;
+                            i5 = this.zzmi[i];
+                            zzeh.zzl(i5, (List) unsafe.getObject(t, j), zzfrVar, z3);
                             break;
                         case R.styleable.AppCompatTheme_buttonStyle /* 46 */:
-                            zzeh.zzg(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, true);
+                            z4 = true;
+                            i6 = this.zzmi[i];
+                            zzeh.zzg(i6, (List) unsafe.getObject(t, j), zzfrVar, z4);
                             break;
                         case R.styleable.AppCompatTheme_buttonStyleSmall /* 47 */:
-                            zzeh.zzj(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, true);
+                            z5 = true;
+                            i7 = this.zzmi[i];
+                            zzeh.zzj(i7, (List) unsafe.getObject(t, j), zzfrVar, z5);
                             break;
                         case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
-                            zzeh.zze(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, true);
+                            i8 = this.zzmi[i];
+                            list = (List) unsafe.getObject(t, j);
+                            z6 = true;
+                            zzeh.zze(i8, list, zzfrVar, z6);
                             break;
                         case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
-                            zzeh.zzb(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, zzad(i10));
+                            zzeh.zzb(this.zzmi[i], (List) unsafe.getObject(t, j), zzfrVar, zzad(i));
                             break;
                         case R.styleable.AppCompatTheme_colorAccent /* 50 */:
-                            zza(zzfrVar, i6, unsafe.getObject(t, j), i10);
+                            zza(zzfrVar, i11, unsafe.getObject(t, j), i);
                             break;
                         case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
-                            if (zza((zzds<T>) t, i6, i10)) {
-                                zzfrVar.zza(i6, zze(t, j));
+                            if (zza((zzds<T>) t, i11, i)) {
+                                zzfrVar.zza(i11, zze(t, j));
                                 break;
                             }
                             break;
                         case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
-                            if (zza((zzds<T>) t, i6, i10)) {
-                                zzfrVar.zza(i6, zzf(t, j));
+                            if (zza((zzds<T>) t, i11, i)) {
+                                zzfrVar.zza(i11, zzf(t, j));
                                 break;
                             }
                             break;
                         case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
-                            if (zza((zzds<T>) t, i6, i10)) {
-                                zzfrVar.zzi(i6, zzh(t, j));
+                            if (zza((zzds<T>) t, i11, i)) {
+                                zzfrVar.zzi(i11, zzh(t, j));
                                 break;
                             }
                             break;
                         case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
-                            if (zza((zzds<T>) t, i6, i10)) {
-                                zzfrVar.zza(i6, zzh(t, j));
+                            if (zza((zzds<T>) t, i11, i)) {
+                                zzfrVar.zza(i11, zzh(t, j));
                                 break;
                             }
                             break;
                         case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
-                            if (zza((zzds<T>) t, i6, i10)) {
-                                zzfrVar.zzc(i6, zzg(t, j));
+                            if (zza((zzds<T>) t, i11, i)) {
+                                zzfrVar.zzc(i11, zzg(t, j));
                                 break;
                             }
                             break;
                         case R.styleable.AppCompatTheme_colorError /* 56 */:
-                            if (zza((zzds<T>) t, i6, i10)) {
-                                zzfrVar.zzc(i6, zzh(t, j));
+                            if (zza((zzds<T>) t, i11, i)) {
+                                zzfrVar.zzc(i11, zzh(t, j));
                                 break;
                             }
                             break;
                         case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
-                            if (zza((zzds<T>) t, i6, i10)) {
-                                zzfrVar.zzf(i6, zzg(t, j));
+                            if (zza((zzds<T>) t, i11, i)) {
+                                zzfrVar.zzf(i11, zzg(t, j));
                                 break;
                             }
                             break;
                         case R.styleable.AppCompatTheme_colorPrimaryDark /* 58 */:
-                            if (zza((zzds<T>) t, i6, i10)) {
-                                zzfrVar.zzb(i6, zzi(t, j));
+                            if (zza((zzds<T>) t, i11, i)) {
+                                zzfrVar.zzb(i11, zzi(t, j));
                                 break;
                             }
                             break;
                         case R.styleable.AppCompatTheme_colorSwitchThumbNormal /* 59 */:
-                            if (zza((zzds<T>) t, i6, i10)) {
-                                zza(i6, unsafe.getObject(t, j), zzfrVar);
+                            if (zza((zzds<T>) t, i11, i)) {
+                                zza(i11, unsafe.getObject(t, j), zzfrVar);
                                 break;
                             }
                             break;
                         case R.styleable.AppCompatTheme_controlBackground /* 60 */:
-                            if (zza((zzds<T>) t, i6, i10)) {
-                                zzfrVar.zza(i6, unsafe.getObject(t, j), zzad(i10));
+                            if (zza((zzds<T>) t, i11, i)) {
+                                zzfrVar.zza(i11, unsafe.getObject(t, j), zzad(i));
                                 break;
                             }
                             break;
                         case R.styleable.AppCompatTheme_dialogCornerRadius /* 61 */:
-                            if (zza((zzds<T>) t, i6, i10)) {
-                                zzfrVar.zza(i6, (zzbb) unsafe.getObject(t, j));
+                            if (zza((zzds<T>) t, i11, i)) {
+                                zzfrVar.zza(i11, (zzbb) unsafe.getObject(t, j));
                                 break;
                             }
                             break;
                         case R.styleable.AppCompatTheme_dialogPreferredPadding /* 62 */:
-                            if (zza((zzds<T>) t, i6, i10)) {
-                                zzfrVar.zzd(i6, zzg(t, j));
+                            if (zza((zzds<T>) t, i11, i)) {
+                                zzfrVar.zzd(i11, zzg(t, j));
                                 break;
                             }
                             break;
                         case R.styleable.AppCompatTheme_dialogTheme /* 63 */:
-                            if (zza((zzds<T>) t, i6, i10)) {
-                                zzfrVar.zzn(i6, zzg(t, j));
+                            if (zza((zzds<T>) t, i11, i)) {
+                                zzfrVar.zzn(i11, zzg(t, j));
                                 break;
                             }
                             break;
                         case 64:
-                            if (zza((zzds<T>) t, i6, i10)) {
-                                zzfrVar.zzm(i6, zzg(t, j));
+                            if (zza((zzds<T>) t, i11, i)) {
+                                zzfrVar.zzm(i11, zzg(t, j));
                                 break;
                             }
                             break;
                         case 65:
-                            if (zza((zzds<T>) t, i6, i10)) {
-                                zzfrVar.zzj(i6, zzh(t, j));
+                            if (zza((zzds<T>) t, i11, i)) {
+                                zzfrVar.zzj(i11, zzh(t, j));
                                 break;
                             }
                             break;
                         case R.styleable.AppCompatTheme_dropDownListViewStyle /* 66 */:
-                            if (zza((zzds<T>) t, i6, i10)) {
-                                zzfrVar.zze(i6, zzg(t, j));
+                            if (zza((zzds<T>) t, i11, i)) {
+                                zzfrVar.zze(i11, zzg(t, j));
                                 break;
                             }
                             break;
                         case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
-                            if (zza((zzds<T>) t, i6, i10)) {
-                                zzfrVar.zzb(i6, zzh(t, j));
+                            if (zza((zzds<T>) t, i11, i)) {
+                                zzfrVar.zzb(i11, zzh(t, j));
                                 break;
                             }
                             break;
                         case R.styleable.AppCompatTheme_editTextBackground /* 68 */:
-                            if (zza((zzds<T>) t, i6, i10)) {
-                                zzfrVar.zzb(i6, unsafe.getObject(t, j), zzad(i10));
+                            if (zza((zzds<T>) t, i11, i)) {
+                                zzfrVar.zzb(i11, unsafe.getObject(t, j), zzad(i));
                                 break;
                             }
                             break;
                     }
-                    i = i10 + 4;
                 }
                 while (entry != null) {
                     this.zzmy.zza(zzfrVar, entry);
@@ -2259,11 +2261,10 @@ final class zzds<T> implements zzef<T> {
         }
         it = null;
         entry = null;
-        int i42 = -1;
         length = this.zzmi.length;
         Unsafe unsafe2 = zzmh;
-        i = 0;
-        int i52 = 0;
+        int i92 = -1;
+        int i102 = 0;
         while (i < length) {
         }
         while (entry != null) {
@@ -3986,7 +3987,7 @@ final class zzds<T> implements zzef<T> {
 
     @Override // com.google.android.gms.internal.clearcut.zzef
     public final void zzc(T t, T t2) {
-        Objects.requireNonNull(t2);
+        t2.getClass();
         for (int i = 0; i < this.zzmi.length; i += 4) {
             int zzag = zzag(i);
             long j = 1048575 & zzag;
@@ -5325,68 +5326,71 @@ final class zzds<T> implements zzef<T> {
         int i2;
         boolean z;
         int[] iArr = this.zzms;
-        if (iArr != null && iArr.length != 0) {
-            int i3 = -1;
-            int length = iArr.length;
-            int i4 = 0;
-            for (int i5 = 0; i5 < length; i5 = i + 1) {
-                int i6 = iArr[i5];
-                int zzai = zzai(i6);
-                int zzag = zzag(zzai);
-                if (this.zzmq) {
-                    i = i5;
-                    i2 = 0;
+        int i3 = 1;
+        if (iArr == null || iArr.length == 0) {
+            return true;
+        }
+        int length = iArr.length;
+        int i4 = -1;
+        int i5 = 0;
+        int i6 = 0;
+        while (i5 < length) {
+            int i7 = iArr[i5];
+            int zzai = zzai(i7);
+            int zzag = zzag(zzai);
+            if (this.zzmq) {
+                i = length;
+                i2 = 0;
+            } else {
+                int i8 = this.zzmi[zzai + 2];
+                int i9 = i8 & 1048575;
+                i2 = i3 << (i8 >>> 20);
+                if (i9 != i4) {
+                    i = length;
+                    i6 = zzmh.getInt(t, i9);
+                    i4 = i9;
                 } else {
-                    int i7 = this.zzmi[zzai + 2];
-                    int i8 = i7 & 1048575;
-                    i2 = 1 << (i7 >>> 20);
-                    if (i8 != i3) {
-                        i = i5;
-                        i4 = zzmh.getInt(t, i8);
-                        i3 = i8;
-                    } else {
-                        i = i5;
-                    }
-                }
-                if (((268435456 & zzag) != 0) && !zza((zzds<T>) t, zzai, i4, i2)) {
-                    return false;
-                }
-                int i9 = (267386880 & zzag) >>> 20;
-                if (i9 != 9 && i9 != 17) {
-                    if (i9 != 27) {
-                        if (i9 == 60 || i9 == 68) {
-                            if (zza((zzds<T>) t, i6, zzai) && !zza(t, zzag, zzad(zzai))) {
-                                return false;
-                            }
-                        } else if (i9 != 49) {
-                            if (i9 == 50 && !this.zzmz.zzh(zzfd.zzo(t, zzag & 1048575)).isEmpty()) {
-                                this.zzmz.zzl(zzae(zzai));
-                                throw null;
-                            }
-                        }
-                    }
-                    List list = (List) zzfd.zzo(t, zzag & 1048575);
-                    if (!list.isEmpty()) {
-                        zzef zzad = zzad(zzai);
-                        for (int i10 = 0; i10 < list.size(); i10++) {
-                            if (!zzad.zzo(list.get(i10))) {
-                                z = false;
-                                break;
-                            }
-                        }
-                    }
-                    z = true;
-                    if (!z) {
-                        return false;
-                    }
-                } else if (zza((zzds<T>) t, zzai, i4, i2) && !zza(t, zzag, zzad(zzai))) {
-                    return false;
+                    i = length;
                 }
             }
-            if (this.zzmo && !this.zzmy.zza(t).isInitialized()) {
+            if (((268435456 & zzag) != 0) && !zza((zzds<T>) t, zzai, i6, i2)) {
                 return false;
             }
+            int i10 = (267386880 & zzag) >>> 20;
+            if (i10 != 9 && i10 != 17) {
+                if (i10 != 27) {
+                    if (i10 == 60 || i10 == 68) {
+                        if (zza((zzds<T>) t, i7, zzai) && !zza(t, zzag, zzad(zzai))) {
+                            return false;
+                        }
+                    } else if (i10 != 49) {
+                        if (i10 == 50 && !this.zzmz.zzh(zzfd.zzo(t, zzag & 1048575)).isEmpty()) {
+                            this.zzmz.zzl(zzae(zzai));
+                            throw null;
+                        }
+                    }
+                }
+                List list = (List) zzfd.zzo(t, zzag & 1048575);
+                if (!list.isEmpty()) {
+                    zzef zzad = zzad(zzai);
+                    for (int i11 = 0; i11 < list.size(); i11++) {
+                        if (!zzad.zzo(list.get(i11))) {
+                            z = false;
+                            break;
+                        }
+                    }
+                }
+                z = true;
+                if (!z) {
+                    return false;
+                }
+            } else if (zza((zzds<T>) t, zzai, i6, i2) && !zza(t, zzag, zzad(zzai))) {
+                return false;
+            }
+            i5++;
+            length = i;
+            i3 = 1;
         }
-        return true;
+        return !this.zzmo || this.zzmy.zza(t).isInitialized();
     }
 }

@@ -66,7 +66,6 @@ public class PremiumPreviewGiftLinkBottomSheet extends PremiumPreviewBottomSheet
     protected void updateRows() {
         int i = this.rowCount;
         int i2 = i + 1;
-        this.rowCount = i2;
         this.paddingRow = i;
         this.additionStartRow = i2;
         int i3 = i2 + 1;
@@ -74,7 +73,6 @@ public class PremiumPreviewGiftLinkBottomSheet extends PremiumPreviewBottomSheet
         this.additionEndRow = i3;
         this.featuresStartRow = i3;
         int size = i3 + this.premiumFeatures.size();
-        this.rowCount = size;
         this.featuresEndRow = size;
         this.rowCount = size + 1;
         this.sectionRow = size;
@@ -95,7 +93,7 @@ public class PremiumPreviewGiftLinkBottomSheet extends PremiumPreviewBottomSheet
         bundle.putBoolean("onlySelect", true);
         bundle.putInt("dialogsType", 3);
         DialogsActivity dialogsActivity = new DialogsActivity(bundle);
-        dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.Components.Premium.boosts.PremiumPreviewGiftLinkBottomSheet$$ExternalSyntheticLambda5
+        dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.Components.Premium.boosts.PremiumPreviewGiftLinkBottomSheet$$ExternalSyntheticLambda2
             @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
             public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
                 boolean lambda$share$0;
@@ -134,7 +132,7 @@ public class PremiumPreviewGiftLinkBottomSheet extends PremiumPreviewBottomSheet
     }
 
     private void init() {
-        Bulletin.addDelegate((FrameLayout) this.containerView, new Bulletin.Delegate(this) { // from class: org.telegram.ui.Components.Premium.boosts.PremiumPreviewGiftLinkBottomSheet.1
+        Bulletin.addDelegate((FrameLayout) this.containerView, new Bulletin.Delegate() { // from class: org.telegram.ui.Components.Premium.boosts.PremiumPreviewGiftLinkBottomSheet.1
             @Override // org.telegram.ui.Components.Bulletin.Delegate
             public /* synthetic */ boolean allowLayoutChanges() {
                 return Bulletin.Delegate.-CC.$default$allowLayoutChanges(this);
@@ -168,6 +166,10 @@ public class PremiumPreviewGiftLinkBottomSheet extends PremiumPreviewBottomSheet
             @Override // org.telegram.ui.Components.Bulletin.Delegate
             public /* synthetic */ void onShow(Bulletin bulletin) {
                 Bulletin.Delegate.-CC.$default$onShow(this, bulletin);
+            }
+
+            {
+                PremiumPreviewGiftLinkBottomSheet.this = this;
             }
 
             @Override // org.telegram.ui.Components.Bulletin.Delegate
@@ -214,7 +216,7 @@ public class PremiumPreviewGiftLinkBottomSheet extends PremiumPreviewBottomSheet
     public /* synthetic */ void lambda$init$2(Void r3) {
         this.actionBtn.updateLoading(false);
         dismiss();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.PremiumPreviewGiftLinkBottomSheet$$ExternalSyntheticLambda2
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.PremiumPreviewGiftLinkBottomSheet$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 PremiumPreviewGiftLinkBottomSheet.this.lambda$init$1();

@@ -894,7 +894,7 @@ public final class TypeAdapters {
         public EnumTypeAdapter(final Class<T> cls) {
             Field[] fieldArr;
             try {
-                for (Field field : (Field[]) AccessController.doPrivileged(new PrivilegedAction<Field[]>(this) { // from class: com.google.gson.internal.bind.TypeAdapters.EnumTypeAdapter.1
+                for (Field field : (Field[]) AccessController.doPrivileged(new PrivilegedAction<Field[]>() { // from class: com.google.gson.internal.bind.TypeAdapters.EnumTypeAdapter.1
                     @Override // java.security.PrivilegedAction
                     public Field[] run() {
                         Field[] declaredFields = cls.getDeclaredFields();

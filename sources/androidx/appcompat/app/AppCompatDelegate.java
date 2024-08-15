@@ -224,7 +224,9 @@ public abstract class AppCompatDelegate {
     public static class Api24Impl {
         /* JADX INFO: Access modifiers changed from: package-private */
         public static LocaleList localeListForLanguageTags(String str) {
-            return LocaleList.forLanguageTags(str);
+            LocaleList forLanguageTags;
+            forLanguageTags = LocaleList.forLanguageTags(str);
+            return forLanguageTags;
         }
     }
 

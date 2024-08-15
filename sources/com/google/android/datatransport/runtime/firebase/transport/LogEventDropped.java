@@ -4,12 +4,9 @@ import com.google.firebase.encoders.proto.ProtoEnum;
 import com.google.firebase.encoders.proto.Protobuf;
 /* loaded from: classes.dex */
 public final class LogEventDropped {
+    private static final LogEventDropped DEFAULT_INSTANCE = new Builder().build();
     private final long events_dropped_count_;
     private final Reason reason_;
-
-    static {
-        new Builder().build();
-    }
 
     LogEventDropped(long j, Reason reason) {
         this.events_dropped_count_ = j;

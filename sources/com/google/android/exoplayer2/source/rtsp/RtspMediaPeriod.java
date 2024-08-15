@@ -230,8 +230,8 @@ public final class RtspMediaPeriod implements MediaPeriod {
         if (j != -9223372036854775807L) {
             return j;
         }
-        long j2 = Long.MAX_VALUE;
         boolean z = true;
+        long j2 = Long.MAX_VALUE;
         for (int i = 0; i < this.rtspLoaderWrappers.size(); i++) {
             RtspLoaderWrapper rtspLoaderWrapper = this.rtspLoaderWrappers.get(i);
             if (!rtspLoaderWrapper.canceled) {
@@ -374,7 +374,7 @@ public final class RtspMediaPeriod implements MediaPeriod {
         public void endTracks() {
             Handler handler = RtspMediaPeriod.this.handler;
             final RtspMediaPeriod rtspMediaPeriod = RtspMediaPeriod.this;
-            handler.post(new Runnable() { // from class: com.google.android.exoplayer2.source.rtsp.RtspMediaPeriod$InternalListener$$ExternalSyntheticLambda0
+            handler.post(new Runnable() { // from class: com.google.android.exoplayer2.source.rtsp.RtspMediaPeriod$InternalListener$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     RtspMediaPeriod.access$2200(RtspMediaPeriod.this);
@@ -419,7 +419,7 @@ public final class RtspMediaPeriod implements MediaPeriod {
         public void onUpstreamFormatChanged(Format format) {
             Handler handler = RtspMediaPeriod.this.handler;
             final RtspMediaPeriod rtspMediaPeriod = RtspMediaPeriod.this;
-            handler.post(new Runnable() { // from class: com.google.android.exoplayer2.source.rtsp.RtspMediaPeriod$InternalListener$$ExternalSyntheticLambda1
+            handler.post(new Runnable() { // from class: com.google.android.exoplayer2.source.rtsp.RtspMediaPeriod$InternalListener$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     RtspMediaPeriod.access$2200(RtspMediaPeriod.this);

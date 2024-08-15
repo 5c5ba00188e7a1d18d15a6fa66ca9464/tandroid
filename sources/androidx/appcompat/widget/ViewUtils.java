@@ -13,19 +13,16 @@ public class ViewUtils {
     private static Method sComputeFitSystemWindowsMethod;
 
     static {
-        int i = Build.VERSION.SDK_INT;
-        SDK_LEVEL_SUPPORTS_AUTOSIZE = i >= 27;
-        if (i >= 18) {
-            try {
-                Method declaredMethod = View.class.getDeclaredMethod("computeFitSystemWindows", Rect.class, Rect.class);
-                sComputeFitSystemWindowsMethod = declaredMethod;
-                if (declaredMethod.isAccessible()) {
-                    return;
-                }
-                sComputeFitSystemWindowsMethod.setAccessible(true);
-            } catch (NoSuchMethodException unused) {
-                Log.d("ViewUtils", "Could not find method computeFitSystemWindows. Oh well.");
+        SDK_LEVEL_SUPPORTS_AUTOSIZE = Build.VERSION.SDK_INT >= 27;
+        try {
+            Method declaredMethod = View.class.getDeclaredMethod("computeFitSystemWindows", Rect.class, Rect.class);
+            sComputeFitSystemWindowsMethod = declaredMethod;
+            if (declaredMethod.isAccessible()) {
+                return;
             }
+            sComputeFitSystemWindowsMethod.setAccessible(true);
+        } catch (NoSuchMethodException unused) {
+            Log.d("ViewUtils", "Could not find method computeFitSystemWindows. Oh well.");
         }
     }
 
@@ -45,20 +42,18 @@ public class ViewUtils {
     }
 
     public static void makeOptionalFitsSystemWindows(View view) {
-        if (Build.VERSION.SDK_INT >= 16) {
-            try {
-                Method method = view.getClass().getMethod("makeOptionalFitsSystemWindows", new Class[0]);
-                if (!method.isAccessible()) {
-                    method.setAccessible(true);
-                }
-                method.invoke(view, new Object[0]);
-            } catch (IllegalAccessException e) {
-                Log.d("ViewUtils", "Could not invoke makeOptionalFitsSystemWindows", e);
-            } catch (NoSuchMethodException unused) {
-                Log.d("ViewUtils", "Could not find method makeOptionalFitsSystemWindows. Oh well...");
-            } catch (InvocationTargetException e2) {
-                Log.d("ViewUtils", "Could not invoke makeOptionalFitsSystemWindows", e2);
+        try {
+            Method method = view.getClass().getMethod("makeOptionalFitsSystemWindows", new Class[0]);
+            if (!method.isAccessible()) {
+                method.setAccessible(true);
             }
+            method.invoke(view, new Object[0]);
+        } catch (IllegalAccessException e) {
+            Log.d("ViewUtils", "Could not invoke makeOptionalFitsSystemWindows", e);
+        } catch (NoSuchMethodException unused) {
+            Log.d("ViewUtils", "Could not find method makeOptionalFitsSystemWindows. Oh well...");
+        } catch (InvocationTargetException e2) {
+            Log.d("ViewUtils", "Could not invoke makeOptionalFitsSystemWindows", e2);
         }
     }
 }

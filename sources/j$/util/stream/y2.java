@@ -1,33 +1,26 @@
 package j$.util.stream;
+
+import java.util.Arrays;
 /* loaded from: classes2.dex */
-abstract class y2 {
+final class y2 extends b0 {
     /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract void i0(m3 m3Var, j$.util.s sVar);
+    public y2(c cVar) {
+        super(cVar, T2.q | T2.o);
+    }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract void j0(m3 m3Var, j$.util.s sVar);
+    @Override // j$.util.stream.c
+    public final D0 i1(j$.util.Q q, j$.util.function.N n, c cVar) {
+        if (T2.SORTED.d(cVar.K0())) {
+            return cVar.Z0(q, false, n);
+        }
+        int[] iArr = (int[]) ((A0) cVar.Z0(q, true, n)).b();
+        Arrays.sort(iArr);
+        return new Z0(iArr);
+    }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract A1 k0(j$.util.s sVar, boolean z, j$.util.function.m mVar);
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract long l0(j$.util.s sVar);
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract e4 m0();
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract int n0();
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract s1 o0(long j, j$.util.function.m mVar);
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract m3 p0(m3 m3Var, j$.util.s sVar);
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract m3 q0(m3 m3Var);
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract j$.util.s r0(j$.util.s sVar);
+    @Override // j$.util.stream.c
+    public final f2 l1(int i, f2 f2Var) {
+        f2Var.getClass();
+        return T2.SORTED.d(i) ? f2Var : T2.SIZED.d(i) ? new D2(f2Var) : new v2(f2Var);
+    }
 }

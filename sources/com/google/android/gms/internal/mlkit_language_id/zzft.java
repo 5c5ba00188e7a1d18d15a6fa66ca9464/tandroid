@@ -8,6 +8,7 @@ import java.util.Set;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public final class zzft<K, V> extends LinkedHashMap<K, V> {
+    private static final zzft zzb;
     private boolean zza;
 
     private zzft() {
@@ -140,6 +141,8 @@ public final class zzft<K, V> extends LinkedHashMap<K, V> {
     }
 
     static {
-        new zzft().zza = false;
+        zzft zzftVar = new zzft();
+        zzb = zzftVar;
+        zzftVar.zza = false;
     }
 }

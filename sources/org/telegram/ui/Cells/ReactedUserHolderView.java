@@ -134,7 +134,7 @@ public class ReactedUserHolderView extends FrameLayout {
         if (i == STYLE_STORY) {
             setClipChildren(false);
         }
-        SimpleTextView simpleTextView = new SimpleTextView(this, context) { // from class: org.telegram.ui.Cells.ReactedUserHolderView.3
+        SimpleTextView simpleTextView = new SimpleTextView(context) { // from class: org.telegram.ui.Cells.ReactedUserHolderView.3
             @Override // org.telegram.ui.ActionBar.SimpleTextView
             public boolean setText(CharSequence charSequence) {
                 return super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), AndroidUtilities.dp(14.0f), false));
@@ -181,11 +181,11 @@ public class ReactedUserHolderView extends FrameLayout {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:114:0x02fa  */
-    /* JADX WARN: Removed duplicated region for block: B:117:0x0311  */
-    /* JADX WARN: Removed duplicated region for block: B:118:0x0314  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x01ce  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x01f0  */
+    /* JADX WARN: Removed duplicated region for block: B:114:0x0300  */
+    /* JADX WARN: Removed duplicated region for block: B:117:0x0317  */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x031a  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x01d4  */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x01f6  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

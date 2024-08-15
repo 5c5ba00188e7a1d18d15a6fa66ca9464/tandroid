@@ -1,128 +1,76 @@
 package j$.util.stream;
+
+import j$.util.function.Consumer;
+import java.util.Arrays;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-class G0 extends g3 {
-    public final /* synthetic */ int b = 0;
-    final /* synthetic */ Object c;
+public class G0 implements D0 {
+    final Object[] a;
+    int b;
 
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public G0(L l, m3 m3Var) {
-        super(m3Var);
-        this.c = l;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public G0(long j, j$.util.function.N n) {
+        if (j >= 2147483639) {
+            throw new IllegalArgumentException("Stream size exceeds max array size");
+        }
+        this.a = (Object[]) n.apply((int) j);
+        this.b = 0;
     }
 
-    @Override // j$.util.stream.k3, j$.util.stream.m3
-    public void accept(int i) {
-        switch (this.b) {
-            case 0:
-                this.a.accept(i);
-                return;
-            case 1:
-                ((j$.util.function.l) ((N) this.c).m).accept(i);
-                this.a.accept(i);
-                return;
-            case 2:
-                this.a.accept(i);
-                return;
-            case 3:
-                this.a.accept(((j$.wrappers.a0) ((N) this.c).m).a(i));
-                return;
-            case 4:
-                this.a.accept((m3) ((j$.util.function.m) ((M) this.c).m).apply(i));
-                return;
-            case 5:
-                this.a.accept(((j$.util.function.n) ((O) this.c).m).applyAsLong(i));
-                return;
-            case 6:
-                this.a.accept(((j$.wrappers.W) ((L) this.c).m).a(i));
-                return;
-            case 7:
-                IntStream intStream = (IntStream) ((j$.util.function.m) ((N) this.c).m).apply(i);
-                if (intStream != null) {
-                    try {
-                        intStream.sequential().R(new C0(this));
-                    } catch (Throwable th) {
-                        try {
-                            intStream.close();
-                        } catch (Throwable th2) {
-                            th.addSuppressed(th2);
-                        }
-                        throw th;
-                    }
-                }
-                if (intStream != null) {
-                    intStream.close();
-                    return;
-                }
-                return;
-            default:
-                if (((j$.wrappers.U) ((N) this.c).m).b(i)) {
-                    this.a.accept(i);
-                    return;
-                }
-                return;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public G0(Object[] objArr) {
+        this.a = objArr;
+        this.b = objArr.length;
+    }
+
+    @Override // j$.util.stream.D0
+    public final D0 a(int i) {
+        throw new IndexOutOfBoundsException();
+    }
+
+    @Override // j$.util.stream.D0
+    public final long count() {
+        return this.b;
+    }
+
+    @Override // j$.util.stream.D0
+    public final void e(Object[] objArr, int i) {
+        System.arraycopy(this.a, 0, objArr, i, this.b);
+    }
+
+    @Override // j$.util.stream.D0
+    public final void forEach(Consumer consumer) {
+        for (int i = 0; i < this.b; i++) {
+            consumer.accept(this.a[i]);
         }
     }
 
-    @Override // j$.util.stream.m3
-    public void n(long j) {
-        switch (this.b) {
-            case 7:
-                this.a.n(-1L);
-                return;
-            case 8:
-                this.a.n(-1L);
-                return;
-            default:
-                this.a.n(j);
-                return;
+    @Override // j$.util.stream.D0
+    public final /* synthetic */ int j() {
+        return 0;
+    }
+
+    @Override // j$.util.stream.D0
+    public final Object[] o(j$.util.function.N n) {
+        Object[] objArr = this.a;
+        if (objArr.length == this.b) {
+            return objArr;
         }
+        throw new IllegalStateException();
     }
 
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public G0(M m, m3 m3Var) {
-        super(m3Var);
-        this.c = m;
+    @Override // j$.util.stream.D0
+    public final /* synthetic */ D0 q(long j, long j2, j$.util.function.N n) {
+        return u0.B0(this, j, j2, n);
     }
 
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public G0(N n, m3 m3Var) {
-        super(m3Var);
-        this.c = n;
+    @Override // j$.util.stream.D0
+    public final j$.util.Q spliterator() {
+        return j$.util.f0.m(this.a, 0, this.b);
     }
 
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public G0(N n, m3 m3Var, j$.lang.a aVar) {
-        super(m3Var);
-        this.c = n;
-    }
-
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public G0(N n, m3 m3Var, j$.lang.b bVar) {
-        super(m3Var);
-        this.c = n;
-    }
-
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public G0(N n, m3 m3Var, j$.lang.c cVar) {
-        super(m3Var);
-        this.c = n;
-    }
-
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public G0(O o, m3 m3Var) {
-        super(m3Var);
-        this.c = o;
-    }
-
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public G0(P p, m3 m3Var) {
-        super(m3Var);
-        this.c = p;
-    }
-
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public G0(H0 h0, m3 m3Var) {
-        super(m3Var);
-        this.c = h0;
+    public String toString() {
+        Object[] objArr = this.a;
+        return String.format("ArrayNode[%d][%s]", Integer.valueOf(objArr.length - this.b), Arrays.toString(objArr));
     }
 }

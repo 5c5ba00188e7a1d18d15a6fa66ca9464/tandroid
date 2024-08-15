@@ -4,7 +4,6 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import com.microsoft.appcenter.distribute.PermissionUtils;
 import com.microsoft.appcenter.distribute.R$string;
@@ -194,11 +193,7 @@ public class HttpConnectionReleaseDownloader extends AbstractReleaseDownloader {
     }
 
     static String[] requiredPermissions() {
-        ArrayList arrayList = new ArrayList();
-        if (Build.VERSION.SDK_INT < 19) {
-            arrayList.add("android.permission.WRITE_EXTERNAL_STORAGE");
-        }
-        return (String[]) arrayList.toArray(new String[0]);
+        return (String[]) new ArrayList().toArray(new String[0]);
     }
 
     private static int getNotificationId() {

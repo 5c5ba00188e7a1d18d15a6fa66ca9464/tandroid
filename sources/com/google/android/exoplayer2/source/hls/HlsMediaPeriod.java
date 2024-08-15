@@ -61,6 +61,7 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsPlaylistTracker.Pla
     private final TimestampAdjusterProvider timestampAdjusterProvider = new TimestampAdjusterProvider();
     private HlsSampleStreamWrapper[] sampleStreamWrappers = new HlsSampleStreamWrapper[0];
     private HlsSampleStreamWrapper[] enabledSampleStreamWrappers = new HlsSampleStreamWrapper[0];
+    private int[][] manifestUrlIndicesPerWrapper = new int[0];
 
     @Override // com.google.android.exoplayer2.source.MediaPeriod
     public long readDiscontinuity() {
@@ -124,10 +125,12 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsPlaylistTracker.Pla
         int[] iArr = new int[exoTrackSelectionArr.length];
         int[] iArr2 = new int[exoTrackSelectionArr.length];
         for (int i = 0; i < exoTrackSelectionArr.length; i++) {
-            iArr[i] = sampleStreamArr2[i] == null ? -1 : this.streamWrapperIndices.get(sampleStreamArr2[i]).intValue();
+            SampleStream sampleStream = sampleStreamArr2[i];
+            iArr[i] = sampleStream == null ? -1 : this.streamWrapperIndices.get(sampleStream).intValue();
             iArr2[i] = -1;
-            if (exoTrackSelectionArr[i] != null) {
-                TrackGroup trackGroup = exoTrackSelectionArr[i].getTrackGroup();
+            ExoTrackSelection exoTrackSelection = exoTrackSelectionArr[i];
+            if (exoTrackSelection != null) {
+                TrackGroup trackGroup = exoTrackSelection.getTrackGroup();
                 int i2 = 0;
                 while (true) {
                     HlsSampleStreamWrapper[] hlsSampleStreamWrapperArr = this.sampleStreamWrappers;
@@ -153,12 +156,12 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsPlaylistTracker.Pla
         boolean z = false;
         while (i4 < this.sampleStreamWrappers.length) {
             for (int i5 = 0; i5 < exoTrackSelectionArr.length; i5++) {
-                ExoTrackSelection exoTrackSelection = null;
+                ExoTrackSelection exoTrackSelection2 = null;
                 sampleStreamArr4[i5] = iArr[i5] == i4 ? sampleStreamArr2[i5] : null;
                 if (iArr2[i5] == i4) {
-                    exoTrackSelection = exoTrackSelectionArr[i5];
+                    exoTrackSelection2 = exoTrackSelectionArr[i5];
                 }
-                exoTrackSelectionArr2[i5] = exoTrackSelection;
+                exoTrackSelectionArr2[i5] = exoTrackSelection2;
             }
             HlsSampleStreamWrapper hlsSampleStreamWrapper = this.sampleStreamWrappers[i4];
             int i6 = i3;
@@ -173,14 +176,14 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsPlaylistTracker.Pla
                 if (i9 >= exoTrackSelectionArr.length) {
                     break;
                 }
-                SampleStream sampleStream = sampleStreamArr4[i9];
+                SampleStream sampleStream2 = sampleStreamArr4[i9];
                 if (iArr2[i9] == i8) {
-                    Assertions.checkNotNull(sampleStream);
-                    sampleStreamArr3[i9] = sampleStream;
-                    this.streamWrapperIndices.put(sampleStream, Integer.valueOf(i8));
+                    Assertions.checkNotNull(sampleStream2);
+                    sampleStreamArr3[i9] = sampleStream2;
+                    this.streamWrapperIndices.put(sampleStream2, Integer.valueOf(i8));
                     z2 = true;
                 } else if (iArr[i9] == i8) {
-                    Assertions.checkState(sampleStream == null);
+                    Assertions.checkState(sampleStream2 == null);
                 }
                 i9++;
             }
@@ -203,10 +206,10 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsPlaylistTracker.Pla
                 i3 = i6;
             }
             i4 = i8 + 1;
+            sampleStreamArr2 = sampleStreamArr;
             hlsSampleStreamWrapperArr2 = hlsSampleStreamWrapperArr3;
             length = i7;
             exoTrackSelectionArr2 = exoTrackSelectionArr3;
-            sampleStreamArr2 = sampleStreamArr;
         }
         System.arraycopy(sampleStreamArr3, 0, sampleStreamArr2, 0, length);
         HlsSampleStreamWrapper[] hlsSampleStreamWrapperArr5 = (HlsSampleStreamWrapper[]) Util.nullSafeArrayCopy(hlsSampleStreamWrapperArr2, i3);
@@ -337,7 +340,7 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsPlaylistTracker.Pla
             arrayList2 = arrayList3;
         }
         this.sampleStreamWrappers = (HlsSampleStreamWrapper[]) arrayList.toArray(new HlsSampleStreamWrapper[0]);
-        int[][] iArr = (int[][]) arrayList2.toArray(new int[0]);
+        this.manifestUrlIndicesPerWrapper = (int[][]) arrayList2.toArray(new int[0]);
         this.pendingPrepareCount = this.sampleStreamWrappers.length;
         for (int i3 = 0; i3 < this.audioVideoSampleStreamWrapperCount; i3++) {
             this.sampleStreamWrappers[i3].setIsTimestampMaster(true);
@@ -515,49 +518,39 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsPlaylistTracker.Pla
     }
 
     private static Format deriveAudioFormat(Format format, Format format2, boolean z) {
-        String str;
+        String codecsOfType;
         Metadata metadata;
         int i;
+        String str;
+        String str2;
         int i2;
         int i3;
-        String str2;
-        String str3;
         if (format2 != null) {
-            str2 = format2.codecs;
+            codecsOfType = format2.codecs;
             metadata = format2.metadata;
-            int i4 = format2.channelCount;
-            i2 = format2.selectionFlags;
-            int i5 = format2.roleFlags;
-            String str4 = format2.language;
-            str3 = format2.label;
-            i3 = i4;
-            i = i5;
-            str = str4;
+            i2 = format2.channelCount;
+            i = format2.selectionFlags;
+            i3 = format2.roleFlags;
+            str = format2.language;
+            str2 = format2.label;
         } else {
-            String codecsOfType = Util.getCodecsOfType(format.codecs, 1);
-            Metadata metadata2 = format.metadata;
+            codecsOfType = Util.getCodecsOfType(format.codecs, 1);
+            metadata = format.metadata;
             if (z) {
-                int i6 = format.channelCount;
-                int i7 = format.selectionFlags;
-                int i8 = format.roleFlags;
+                i2 = format.channelCount;
+                i = format.selectionFlags;
+                i3 = format.roleFlags;
                 str = format.language;
-                str2 = codecsOfType;
-                str3 = format.label;
-                i3 = i6;
-                i2 = i7;
-                metadata = metadata2;
-                i = i8;
+                str2 = format.label;
             } else {
-                str = null;
-                metadata = metadata2;
                 i = 0;
-                i2 = 0;
-                i3 = -1;
-                str2 = codecsOfType;
-                str3 = null;
+                str = null;
+                str2 = null;
+                i2 = -1;
+                i3 = 0;
             }
         }
-        return new Format.Builder().setId(format.id).setLabel(str3).setContainerMimeType(format.containerMimeType).setSampleMimeType(MimeTypes.getMediaMimeType(str2)).setCodecs(str2).setMetadata(metadata).setAverageBitrate(z ? format.averageBitrate : -1).setPeakBitrate(z ? format.peakBitrate : -1).setChannelCount(i3).setSelectionFlags(i2).setRoleFlags(i).setLanguage(str).build();
+        return new Format.Builder().setId(format.id).setLabel(str2).setContainerMimeType(format.containerMimeType).setSampleMimeType(MimeTypes.getMediaMimeType(codecsOfType)).setCodecs(codecsOfType).setMetadata(metadata).setAverageBitrate(z ? format.averageBitrate : -1).setPeakBitrate(z ? format.peakBitrate : -1).setChannelCount(i2).setSelectionFlags(i).setRoleFlags(i3).setLanguage(str).build();
     }
 
     /* loaded from: classes.dex */

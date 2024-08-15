@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import org.json.JSONStringer;
 /* loaded from: classes.dex */
 public class ErrorAttachmentLog extends AbstractLog {
+    static final Charset CHARSET = Charset.forName("UTF-8");
     private String contentType;
     private byte[] data;
     private UUID errorId;
@@ -20,10 +21,6 @@ public class ErrorAttachmentLog extends AbstractLog {
     @Override // com.microsoft.appcenter.ingestion.models.Log
     public String getType() {
         return "errorAttachment";
-    }
-
-    static {
-        Charset.forName("UTF-8");
     }
 
     public static ErrorAttachmentLog attachmentWithBinary(byte[] bArr, String str, String str2) {
@@ -107,7 +104,7 @@ public class ErrorAttachmentLog extends AbstractLog {
         if (this == obj) {
             return true;
         }
-        if (obj != null && ErrorAttachmentLog.class == obj.getClass() && super.equals(obj)) {
+        if (obj != null && getClass() == obj.getClass() && super.equals(obj)) {
             ErrorAttachmentLog errorAttachmentLog = (ErrorAttachmentLog) obj;
             UUID uuid = this.id;
             if (uuid == null ? errorAttachmentLog.id == null : uuid.equals(errorAttachmentLog.id)) {

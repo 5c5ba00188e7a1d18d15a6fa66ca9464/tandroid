@@ -170,10 +170,10 @@ public final class Maps {
             if (!z) {
                 newStringBuilderForCollection.append(", ");
             }
-            z = false;
             newStringBuilderForCollection.append(entry.getKey());
             newStringBuilderForCollection.append('=');
             newStringBuilderForCollection.append(entry.getValue());
+            z = false;
         }
         newStringBuilderForCollection.append('}');
         return newStringBuilderForCollection.toString();

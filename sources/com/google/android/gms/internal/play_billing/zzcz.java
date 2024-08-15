@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 /* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
@@ -108,8 +107,8 @@ public final class zzcz extends LinkedHashMap {
     public final Object put(Object obj, Object obj2) {
         zzg();
         byte[] bArr = zzcg.zzd;
-        Objects.requireNonNull(obj);
-        Objects.requireNonNull(obj2);
+        obj.getClass();
+        obj2.getClass();
         return super.put(obj, obj2);
     }
 
@@ -118,8 +117,8 @@ public final class zzcz extends LinkedHashMap {
         zzg();
         for (Object obj : map.keySet()) {
             byte[] bArr = zzcg.zzd;
-            Objects.requireNonNull(obj);
-            Objects.requireNonNull(map.get(obj));
+            obj.getClass();
+            map.get(obj).getClass();
         }
         super.putAll(map);
     }

@@ -49,12 +49,12 @@ public abstract class zzt<T> {
 
     /* JADX INFO: Access modifiers changed from: protected */
     public final T zzd() {
+        DynamiteModule dynamiteModule;
         synchronized (this.zzb) {
             T t = this.zzh;
             if (t != null) {
                 return t;
             }
-            DynamiteModule dynamiteModule = null;
             try {
                 dynamiteModule = DynamiteModule.load(this.zza, DynamiteModule.PREFER_HIGHEST_OR_REMOTE_VERSION, this.zzd);
             } catch (DynamiteModule.LoadingException unused) {
@@ -74,6 +74,7 @@ public abstract class zzt<T> {
                         this.zza.sendBroadcast(intent);
                         this.zzf = true;
                     }
+                    dynamiteModule = null;
                 }
             }
             if (dynamiteModule != null) {

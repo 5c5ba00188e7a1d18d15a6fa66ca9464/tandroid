@@ -1,32 +1,16 @@
 package j$.util.stream;
 /* loaded from: classes2.dex */
-final class r2 extends s2 {
-    private final Object[] h;
+abstract class r2 extends Z1 {
+    protected boolean b;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public r2(j$.util.s sVar, y2 y2Var, Object[] objArr) {
-        super(sVar, y2Var, objArr.length);
-        this.h = objArr;
+    public r2(f2 f2Var) {
+        super(f2Var);
     }
 
-    r2(r2 r2Var, j$.util.s sVar, long j, long j2) {
-        super(r2Var, sVar, j, j2, r2Var.h.length);
-        this.h = r2Var.h;
-    }
-
-    @Override // j$.util.function.Consumer
-    public void accept(Object obj) {
-        int i = this.f;
-        if (i >= this.g) {
-            throw new IndexOutOfBoundsException(Integer.toString(this.f));
-        }
-        Object[] objArr = this.h;
-        this.f = i + 1;
-        objArr[i] = obj;
-    }
-
-    @Override // j$.util.stream.s2
-    s2 b(j$.util.s sVar, long j, long j2) {
-        return new r2(this, sVar, j, j2);
+    @Override // j$.util.stream.Z1, j$.util.stream.f2
+    public final boolean h() {
+        this.b = true;
+        return false;
     }
 }

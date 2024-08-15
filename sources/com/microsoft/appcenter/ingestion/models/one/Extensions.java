@@ -190,7 +190,7 @@ public class Extensions implements Model {
         if (this == obj) {
             return true;
         }
-        if (obj == null || Extensions.class != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         Extensions extensions = (Extensions) obj;

@@ -2,9 +2,10 @@ package kotlinx.coroutines;
 
 import kotlin.coroutines.CoroutineContext;
 import kotlin.jvm.functions.Function2;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: CoroutineContext.kt */
 /* loaded from: classes.dex */
-final class UndispatchedMarker implements CoroutineContext.Element, CoroutineContext.Key<UndispatchedMarker> {
+public final class UndispatchedMarker implements CoroutineContext.Element, CoroutineContext.Key<UndispatchedMarker> {
     public static final UndispatchedMarker INSTANCE = new UndispatchedMarker();
 
     @Override // kotlin.coroutines.CoroutineContext.Element

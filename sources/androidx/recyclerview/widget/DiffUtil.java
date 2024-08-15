@@ -99,11 +99,11 @@ public class DiffUtil {
     /* JADX WARN: Code restructure failed: missing block: B:17:0x0042, code lost:
         if (r24[r13 - 1] < r24[r13 + r5]) goto L42;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:45:0x00b8, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:45:0x00b5, code lost:
         if (r25[r12 - 1] < r25[r12 + 1]) goto L77;
      */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x00e1 A[LOOP:4: B:52:0x00cd->B:56:0x00e1, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x00ec A[EDGE_INSN: B:89:0x00ec->B:58:0x00ec ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x00de A[LOOP:4: B:52:0x00ca->B:56:0x00de, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x00e9 A[EDGE_INSN: B:89:0x00e9->B:58:0x00e9 ?: BREAK  , SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -145,12 +145,12 @@ public class DiffUtil {
                     }
                     int i23 = i5 + i21;
                     iArr[i23] = i10;
-                    if (!z3 && i21 >= (i15 - i19) + 1 && i21 <= (i15 + i19) - 1 && iArr[i23] >= iArr2[i23]) {
+                    if (!z3 && i21 >= (i15 - i19) + 1 && i21 <= (i15 + i19) - 1 && i10 >= iArr2[i23]) {
                         Snake snake = new Snake();
                         int i24 = iArr2[i23];
                         snake.x = i24;
                         snake.y = i24 - i21;
-                        snake.size = iArr[i23] - iArr2[i23];
+                        snake.size = iArr[i23] - i24;
                         snake.removal = z2;
                         snake.reverse = false;
                         return snake;
@@ -195,12 +195,12 @@ public class DiffUtil {
                     i9 = i12;
                     int i28 = i5 + i26;
                     iArr2[i28] = i7;
-                    if (z3 && i26 >= i20 && i26 <= i19 && iArr[i28] >= iArr2[i28]) {
+                    if (z3 && i26 >= i20 && i26 <= i19 && iArr[i28] >= i7) {
                         Snake snake2 = new Snake();
                         int i29 = iArr2[i28];
                         snake2.x = i29;
                         snake2.y = i29 - i26;
-                        snake2.size = iArr[i28] - iArr2[i28];
+                        snake2.size = iArr[i28] - i29;
                         snake2.removal = z;
                         snake2.reverse = true;
                         return snake2;
@@ -456,24 +456,24 @@ public class DiffUtil {
                 return;
             }
             for (int i4 = i2 - 1; i4 >= 0; i4--) {
-                int[] iArr = this.mNewItemStatuses;
                 int i5 = i3 + i4;
-                int i6 = iArr[i5] & 31;
-                if (i6 == 0) {
+                int i6 = this.mNewItemStatuses[i5];
+                int i7 = i6 & 31;
+                if (i7 == 0) {
                     listUpdateCallback.onInserted(i, 1);
                     for (PostponedUpdate postponedUpdate : list) {
                         postponedUpdate.currentPos++;
                     }
-                } else if (i6 == 4 || i6 == 8) {
-                    int i7 = iArr[i5] >> 5;
-                    listUpdateCallback.onMoved(removePostponedUpdate(list, i7, true).currentPos, i);
-                    if (i6 == 4) {
-                        listUpdateCallback.onChanged(i, 1, this.mCallback.getChangePayload(i7, i5));
+                } else if (i7 == 4 || i7 == 8) {
+                    int i8 = i6 >> 5;
+                    listUpdateCallback.onMoved(removePostponedUpdate(list, i8, true).currentPos, i);
+                    if (i7 == 4) {
+                        listUpdateCallback.onChanged(i, 1, this.mCallback.getChangePayload(i8, i5));
                     }
-                } else if (i6 == 16) {
+                } else if (i7 == 16) {
                     list.add(new PostponedUpdate(i5, i, false));
                 } else {
-                    throw new IllegalStateException("unknown flag for pos " + i5 + " " + Long.toBinaryString(i6));
+                    throw new IllegalStateException("unknown flag for pos " + i5 + " " + Long.toBinaryString(i7));
                 }
             }
         }
@@ -484,25 +484,25 @@ public class DiffUtil {
                 return;
             }
             for (int i4 = i2 - 1; i4 >= 0; i4--) {
-                int[] iArr = this.mOldItemStatuses;
                 int i5 = i3 + i4;
-                int i6 = iArr[i5] & 31;
-                if (i6 == 0) {
+                int i6 = this.mOldItemStatuses[i5];
+                int i7 = i6 & 31;
+                if (i7 == 0) {
                     listUpdateCallback.onRemoved(i + i4, 1);
                     for (PostponedUpdate postponedUpdate : list) {
                         postponedUpdate.currentPos--;
                     }
-                } else if (i6 == 4 || i6 == 8) {
-                    int i7 = iArr[i5] >> 5;
-                    PostponedUpdate removePostponedUpdate = removePostponedUpdate(list, i7, false);
+                } else if (i7 == 4 || i7 == 8) {
+                    int i8 = i6 >> 5;
+                    PostponedUpdate removePostponedUpdate = removePostponedUpdate(list, i8, false);
                     listUpdateCallback.onMoved(i + i4, removePostponedUpdate.currentPos - 1);
-                    if (i6 == 4) {
-                        listUpdateCallback.onChanged(removePostponedUpdate.currentPos - 1, 1, this.mCallback.getChangePayload(i5, i7));
+                    if (i7 == 4) {
+                        listUpdateCallback.onChanged(removePostponedUpdate.currentPos - 1, 1, this.mCallback.getChangePayload(i5, i8));
                     }
-                } else if (i6 == 16) {
+                } else if (i7 == 16) {
                     list.add(new PostponedUpdate(i5, i + i4, true));
                 } else {
-                    throw new IllegalStateException("unknown flag for pos " + i5 + " " + Long.toBinaryString(i6));
+                    throw new IllegalStateException("unknown flag for pos " + i5 + " " + Long.toBinaryString(i7));
                 }
             }
         }

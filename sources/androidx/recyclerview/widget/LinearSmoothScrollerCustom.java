@@ -16,6 +16,7 @@ public class LinearSmoothScrollerCustom extends RecyclerView.SmoothScroller {
     protected int mInterimTargetDx;
     protected int mInterimTargetDy;
     protected final LinearInterpolator mLinearInterpolator;
+    protected PointF mTargetVector;
     private int offset;
     private int scrollPosition;
 
@@ -49,7 +50,6 @@ public class LinearSmoothScrollerCustom extends RecyclerView.SmoothScroller {
         this.mDecelerateInterpolator = new DecelerateInterpolator(1.5f);
         this.mInterimTargetDx = 0;
         this.mInterimTargetDy = 0;
-        this.durationMultiplier = 1.0f;
         this.durationMultiplier = f;
         this.MILLISECONDS_PER_PX = (25.0f / context.getResources().getDisplayMetrics().densityDpi) * f;
         this.scrollPosition = i;
@@ -88,6 +88,7 @@ public class LinearSmoothScrollerCustom extends RecyclerView.SmoothScroller {
     protected void onStop() {
         this.mInterimTargetDy = 0;
         this.mInterimTargetDx = 0;
+        this.mTargetVector = null;
     }
 
     protected int calculateTimeForDeceleration(int i) {
@@ -108,6 +109,7 @@ public class LinearSmoothScrollerCustom extends RecyclerView.SmoothScroller {
             return;
         }
         normalize(computeScrollVectorForPosition);
+        this.mTargetVector = computeScrollVectorForPosition;
         this.mInterimTargetDx = (int) (computeScrollVectorForPosition.x * 10000.0f);
         this.mInterimTargetDy = (int) (computeScrollVectorForPosition.y * 10000.0f);
         action.update((int) (this.mInterimTargetDx * 1.2f), (int) (this.mInterimTargetDy * 1.2f), (int) (calculateTimeForScrolling(10000) * 1.2f), this.mLinearInterpolator);

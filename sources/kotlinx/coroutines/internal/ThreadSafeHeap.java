@@ -3,7 +3,6 @@ package kotlinx.coroutines.internal;
 import java.lang.Comparable;
 import java.util.Arrays;
 import kotlin.jvm.internal.Intrinsics;
-import kotlinx.coroutines.DebugKt;
 import kotlinx.coroutines.internal.ThreadSafeHeapNode;
 /* compiled from: ThreadSafeHeap.kt */
 /* loaded from: classes.dex */
@@ -22,17 +21,11 @@ public class ThreadSafeHeap<T extends ThreadSafeHeapNode & Comparable<? super T>
     public final boolean remove(T t) {
         boolean z;
         synchronized (this) {
-            z = true;
             if (t.getHeap() == null) {
                 z = false;
             } else {
-                int index = t.getIndex();
-                if (DebugKt.getASSERTIONS_ENABLED()) {
-                    if (!(index >= 0)) {
-                        throw new AssertionError();
-                    }
-                }
-                removeAtImpl(index);
+                removeAtImpl(t.getIndex());
+                z = true;
             }
         }
         return z;
@@ -67,11 +60,6 @@ public class ThreadSafeHeap<T extends ThreadSafeHeapNode & Comparable<? super T>
     }
 
     public final T removeAtImpl(int i) {
-        if (DebugKt.getASSERTIONS_ENABLED()) {
-            if (!(getSize() > 0)) {
-                throw new AssertionError();
-            }
-        }
         T[] tArr = this.a;
         Intrinsics.checkNotNull(tArr);
         setSize(getSize() - 1);
@@ -92,11 +80,6 @@ public class ThreadSafeHeap<T extends ThreadSafeHeapNode & Comparable<? super T>
         }
         T t3 = tArr[getSize()];
         Intrinsics.checkNotNull(t3);
-        if (DebugKt.getASSERTIONS_ENABLED()) {
-            if (!(t3.getHeap() == this)) {
-                throw new AssertionError();
-            }
-        }
         t3.setHeap(null);
         t3.setIndex(-1);
         tArr[getSize()] = null;
@@ -104,11 +87,6 @@ public class ThreadSafeHeap<T extends ThreadSafeHeapNode & Comparable<? super T>
     }
 
     public final void addImpl(T t) {
-        if (DebugKt.getASSERTIONS_ENABLED()) {
-            if (!(t.getHeap() == null)) {
-                throw new AssertionError();
-            }
-        }
         t.setHeap(this);
         T[] realloc = realloc();
         int size = getSize();

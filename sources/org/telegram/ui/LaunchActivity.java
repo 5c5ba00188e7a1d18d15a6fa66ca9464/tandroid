@@ -44,6 +44,7 @@ import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
+import android.view.WindowInsets;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -62,7 +63,6 @@ import com.google.common.primitives.Longs;
 import com.google.firebase.appindexing.FirebaseUserActions;
 import com.google.firebase.appindexing.builders.AssistActionBuilder;
 import j$.util.function.Consumer;
-import j$.wrappers.$r8$wrapper$java$util$function$Consumer$-WRP;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -399,9 +399,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     private boolean wasMutedByAdminRaisedHand;
     private Utilities.Callback<Boolean> webviewShareAPIDoneListener;
     public static final Pattern PREFIX_T_ME_PATTERN = Pattern.compile("^(?:http(?:s|)://|)([A-z0-9-]+?)\\.t\\.me");
-    private static ArrayList<BaseFragment> mainFragmentsStack = new ArrayList<>();
-    private static ArrayList<BaseFragment> layerFragmentsStack = new ArrayList<>();
-    private static ArrayList<BaseFragment> rightFragmentsStack = new ArrayList<>();
+    private static final ArrayList<BaseFragment> mainFragmentsStack = new ArrayList<>();
+    private static final ArrayList<BaseFragment> layerFragmentsStack = new ArrayList<>();
+    private static final ArrayList<BaseFragment> rightFragmentsStack = new ArrayList<>();
     public ArrayList<INavigationLayout> sheetFragmentsStack = new ArrayList<>();
     private List<PasscodeView> overlayPasscodeViews = new ArrayList();
     public final ArrayList<Dialog> visibleDialogs = new ArrayList<>();
@@ -409,7 +409,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     private List<Runnable> onUserLeaveHintListeners = new ArrayList();
     private SparseIntArray requestedPermissions = new SparseIntArray();
     private int requsetPermissionsPointer = 5934;
-    private Consumer<Boolean> blurListener = new Consumer<Boolean>(this) { // from class: org.telegram.ui.LaunchActivity.1
+    private Consumer<Boolean> blurListener = new Consumer<Boolean>() { // from class: org.telegram.ui.LaunchActivity.1
         @Override // j$.util.function.Consumer
         public /* synthetic */ Consumer<Boolean> andThen(Consumer<? super Boolean> consumer) {
             return Consumer.-CC.$default$andThen(this, consumer);
@@ -448,6 +448,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     @Override // androidx.fragment.app.FragmentActivity, androidx.activity.ComponentActivity, androidx.core.app.ComponentActivity, android.app.Activity
     protected void onCreate(Bundle bundle) {
         boolean z;
+        boolean isBackgroundRestricted;
         ActionBarLayout actionBarLayout;
         Intent intent;
         Uri data;
@@ -485,7 +486,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             }
         }
         getWindow().setBackgroundDrawableResource(R.drawable.transparent);
-        FlagSecureReason flagSecureReason = new FlagSecureReason(getWindow(), new FlagSecureReason.FlagSecureCondition() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda109
+        FlagSecureReason flagSecureReason = new FlagSecureReason(getWindow(), new FlagSecureReason.FlagSecureCondition() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda3
             @Override // org.telegram.messenger.FlagSecureReason.FlagSecureCondition
             public final boolean run() {
                 boolean lambda$onCreate$0;
@@ -549,7 +550,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         this.bottomSheetTabsOverlay = bottomSheetTabsOverlay;
         frameLayout2.addView(bottomSheetTabsOverlay);
         FrameLayout frameLayout3 = this.frameLayout;
-        FireworksOverlay fireworksOverlay = new FireworksOverlay(this, this) { // from class: org.telegram.ui.LaunchActivity.5
+        FireworksOverlay fireworksOverlay = new FireworksOverlay(this) { // from class: org.telegram.ui.LaunchActivity.5
             {
                 setVisibility(8);
             }
@@ -603,7 +604,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         DrawerLayoutAdapter drawerLayoutAdapter = new DrawerLayoutAdapter(this, this.itemAnimator, this.drawerLayoutContainer);
         this.drawerLayoutAdapter = drawerLayoutAdapter;
         recyclerListView3.setAdapter(drawerLayoutAdapter);
-        this.drawerLayoutAdapter.setOnPremiumDrawableClick(new View.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda17
+        this.drawerLayoutAdapter.setOnPremiumDrawableClick(new View.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda4
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 LaunchActivity.this.lambda$onCreate$1(view2);
@@ -616,7 +617,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         layoutParams.width = AndroidUtilities.isTablet() ? AndroidUtilities.dp(320.0f) : Math.min(AndroidUtilities.dp(320.0f), Math.min(realScreenSize.x, realScreenSize.y) - AndroidUtilities.dp(56.0f));
         layoutParams.height = -1;
         this.sideMenuContainer.setLayoutParams(layoutParams);
-        this.sideMenu.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda154
+        this.sideMenu.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda5
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
             public /* synthetic */ boolean hasDoubleTap(View view2, int i4) {
                 return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view2, i4);
@@ -681,7 +682,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     view2.setTranslationY(0.0f);
                     if (Build.VERSION.SDK_INT >= 21) {
                         ObjectAnimator ofFloat = ObjectAnimator.ofFloat(view2, "elevation", 0.0f);
-                        ofFloat.addListener(new AnimatorListenerAdapter(this) { // from class: org.telegram.ui.LaunchActivity.7.1
+                        ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.LaunchActivity.7.1
                             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                             public void onAnimationEnd(Animator animator) {
                                 view2.setBackground(null);
@@ -709,7 +710,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             }
         });
         itemTouchHelper.attachToRecyclerView(this.sideMenu);
-        this.sideMenu.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda155
+        this.sideMenu.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda6
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
             public final boolean onItemClick(View view2, int i4) {
                 boolean lambda$onCreate$7;
@@ -721,7 +722,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         this.drawerLayoutContainer.setParentActionBarLayout(this.actionBarLayout);
         this.actionBarLayout.setDrawerLayoutContainer(this.drawerLayoutContainer);
         this.actionBarLayout.setFragmentStack(mainFragmentsStack);
-        this.actionBarLayout.setFragmentStackChangedListener(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda53
+        this.actionBarLayout.setFragmentStackChangedListener(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$onCreate$8();
@@ -751,7 +752,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.requestPermissions);
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.billingConfirmPurchaseError);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.currentUserPremiumStatusChanged);
-        LiteMode.addOnPowerSaverAppliedListener(new LaunchActivity$$ExternalSyntheticLambda115(this));
+        LiteMode.addOnPowerSaverAppliedListener(new LaunchActivity$$ExternalSyntheticLambda8(this));
         if (this.actionBarLayout.getFragmentStack().isEmpty() && ((actionBarLayout = this.layersActionBarLayout) == null || actionBarLayout.getFragmentStack().isEmpty())) {
             if (!UserConfig.getInstance(this.currentAccount).isClientActivated()) {
                 this.actionBarLayout.addFragmentToStack(getClientNotActivatedFragment());
@@ -881,7 +882,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 AndroidUtilities.incorrectDisplaySizeFix = true;
                 final View rootView = getWindow().getDecorView().getRootView();
                 ViewTreeObserver viewTreeObserver = rootView.getViewTreeObserver();
-                ViewTreeObserver.OnGlobalLayoutListener onGlobalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda21
+                ViewTreeObserver.OnGlobalLayoutListener onGlobalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda9
                     @Override // android.view.ViewTreeObserver.OnGlobalLayoutListener
                     public final void onGlobalLayout() {
                         LaunchActivity.lambda$onCreate$9(rootView);
@@ -899,20 +900,23 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         if (i5 >= 23) {
             FingerprintController.checkKeyReady();
         }
-        if (i5 >= 28 && ((ActivityManager) getSystemService("activity")).isBackgroundRestricted() && System.currentTimeMillis() - SharedConfig.BackgroundActivityPrefs.getLastCheckedBackgroundActivity() >= 86400000 && SharedConfig.BackgroundActivityPrefs.getDismissedCount() < 3) {
-            AlertsCreator.createBackgroundActivityDialog(this).show();
-            SharedConfig.BackgroundActivityPrefs.setLastCheckedBackgroundActivity(System.currentTimeMillis());
+        if (i5 >= 28) {
+            isBackgroundRestricted = ((ActivityManager) getSystemService("activity")).isBackgroundRestricted();
+            if (isBackgroundRestricted && System.currentTimeMillis() - SharedConfig.BackgroundActivityPrefs.getLastCheckedBackgroundActivity() >= 86400000 && SharedConfig.BackgroundActivityPrefs.getDismissedCount() < 3) {
+                AlertsCreator.createBackgroundActivityDialog(this).show();
+                SharedConfig.BackgroundActivityPrefs.setLastCheckedBackgroundActivity(System.currentTimeMillis());
+            }
         }
         if (i5 >= 31) {
             getWindow().getDecorView().addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() { // from class: org.telegram.ui.LaunchActivity.9
                 @Override // android.view.View.OnAttachStateChangeListener
                 public void onViewAttachedToWindow(View view2) {
-                    LaunchActivity.this.getWindowManager().addCrossWindowBlurEnabledListener($r8$wrapper$java$util$function$Consumer$-WRP.convert(LaunchActivity.this.blurListener));
+                    LaunchActivity.this.getWindowManager().addCrossWindowBlurEnabledListener(Consumer.Wrapper.convert(LaunchActivity.this.blurListener));
                 }
 
                 @Override // android.view.View.OnAttachStateChangeListener
                 public void onViewDetachedFromWindow(View view2) {
-                    LaunchActivity.this.getWindowManager().removeCrossWindowBlurEnabledListener($r8$wrapper$java$util$function$Consumer$-WRP.convert(LaunchActivity.this.blurListener));
+                    LaunchActivity.this.getWindowManager().removeCrossWindowBlurEnabledListener(Consumer.Wrapper.convert(LaunchActivity.this.blurListener));
                 }
             });
         }
@@ -1046,7 +1050,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             final TLRPC$TL_attachMenuBot attachMenuBot = this.drawerLayoutAdapter.getAttachMenuBot(i);
             if (attachMenuBot != null) {
                 if (attachMenuBot.inactive || attachMenuBot.side_menu_disclaimer_needed) {
-                    WebAppDisclaimerAlert.show(this, new com.google.android.exoplayer2.util.Consumer() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda28
+                    WebAppDisclaimerAlert.show(this, new com.google.android.exoplayer2.util.Consumer() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda53
                         @Override // com.google.android.exoplayer2.util.Consumer
                         public final void accept(Object obj) {
                             LaunchActivity.this.lambda$onCreate$5(attachMenuBot, (Boolean) obj);
@@ -1108,7 +1112,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 }
                 if (i4 >= 28) {
                     z = ((LocationManager) ApplicationLoader.applicationContext.getSystemService("location")).isLocationEnabled();
-                } else if (i4 >= 19) {
+                } else {
                     try {
                         if (Settings.Secure.getInt(ApplicationLoader.applicationContext.getContentResolver(), "location_mode", 0) == 0) {
                             z = false;
@@ -1155,7 +1159,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         tLRPC$TL_messages_toggleBotInAttachMenu.bot = MessagesController.getInstance(this.currentAccount).getInputUser(tLRPC$TL_attachMenuBot.bot_id);
         tLRPC$TL_messages_toggleBotInAttachMenu.enabled = true;
         tLRPC$TL_messages_toggleBotInAttachMenu.write_allowed = true;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_toggleBotInAttachMenu, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda141
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_toggleBotInAttachMenu, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda88
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 LaunchActivity.this.lambda$onCreate$4(tLRPC$TL_attachMenuBot, tLObject, tLRPC$TL_error);
@@ -1165,7 +1169,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onCreate$4(final TLRPC$TL_attachMenuBot tLRPC$TL_attachMenuBot, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda92
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda137
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$onCreate$3(tLRPC$TL_attachMenuBot);
@@ -1315,10 +1319,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             getWindow().setSoftInputMode(16);
             RelativeLayout relativeLayout = new RelativeLayout(this) { // from class: org.telegram.ui.LaunchActivity.10
                 private boolean inLayout;
-
-                {
-                    new Path();
-                }
+                private Path path = new Path();
 
                 @Override // android.widget.RelativeLayout, android.view.View, android.view.ViewParent
                 public void requestLayout() {
@@ -1389,7 +1390,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             } else {
                 this.drawerLayoutContainer.addView(relativeLayout, LayoutHelper.createFrame(-1, -1.0f));
             }
-            SizeNotifierFrameLayout sizeNotifierFrameLayout = new SizeNotifierFrameLayout(this, this) { // from class: org.telegram.ui.LaunchActivity.11
+            SizeNotifierFrameLayout sizeNotifierFrameLayout = new SizeNotifierFrameLayout(this) { // from class: org.telegram.ui.LaunchActivity.11
                 @Override // org.telegram.ui.Components.SizeNotifierFrameLayout
                 protected boolean isActionBarVisible() {
                     return false;
@@ -1415,10 +1416,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             this.launchLayout.addView(this.shadowTabletSide);
             FrameLayout frameLayout2 = new FrameLayout(this);
             this.shadowTablet = frameLayout2;
-            frameLayout2.setVisibility(layerFragmentsStack.isEmpty() ? 8 : 0);
+            ArrayList<BaseFragment> arrayList = layerFragmentsStack;
+            frameLayout2.setVisibility(arrayList.isEmpty() ? 8 : 0);
             this.shadowTablet.setBackgroundColor(2130706432);
             this.launchLayout.addView(this.shadowTablet);
-            this.shadowTablet.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda20
+            this.shadowTablet.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda83
                 @Override // android.view.View.OnTouchListener
                 public final boolean onTouch(View view2, MotionEvent motionEvent) {
                     boolean lambda$setupActionBarLayout$10;
@@ -1426,7 +1428,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     return lambda$setupActionBarLayout$10;
                 }
             });
-            this.shadowTablet.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda19
+            this.shadowTablet.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda84
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
                     LaunchActivity.lambda$setupActionBarLayout$11(view2);
@@ -1437,12 +1439,12 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             actionBarLayout2.setRemoveActionBarExtraHeight(true);
             this.layersActionBarLayout.setBackgroundView(this.shadowTablet);
             this.layersActionBarLayout.setUseAlphaAnimations(true);
-            this.layersActionBarLayout.setFragmentStack(layerFragmentsStack);
+            this.layersActionBarLayout.setFragmentStack(arrayList);
             this.layersActionBarLayout.setDelegate(this);
             this.layersActionBarLayout.setDrawerLayoutContainer(this.drawerLayoutContainer);
             ViewGroup view2 = this.layersActionBarLayout.getView();
             view2.setBackgroundResource(R.drawable.popup_fixed_alert3);
-            view2.setVisibility(layerFragmentsStack.isEmpty() ? 8 : 0);
+            view2.setVisibility(arrayList.isEmpty() ? 8 : 0);
             this.launchLayout.addView(view2);
         } else {
             ViewGroup viewGroup2 = (ViewGroup) this.actionBarLayout.getView().getParent();
@@ -1503,6 +1505,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         View view;
         int i2;
         AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable;
+        WindowInsets rootWindowInsets;
+        WindowInsets rootWindowInsets2;
+        int stableInsetLeft;
         if (this.selectAnimatedEmojiDialog != null || SharedConfig.appLocked || (lastFragment = this.actionBarLayout.getLastFragment()) == null) {
             return;
         }
@@ -1523,8 +1528,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             drawerProfileCell.getEmojiStatusLocation(rect);
             int dp = (-(childAt.getHeight() - rect.centerY())) - AndroidUtilities.dp(16.0f);
             i = rect.centerX();
-            if (Build.VERSION.SDK_INT >= 23 && getWindow() != null && getWindow().getDecorView() != null && getWindow().getDecorView().getRootWindowInsets() != null) {
-                i -= getWindow().getDecorView().getRootWindowInsets().getStableInsetLeft();
+            if (Build.VERSION.SDK_INT >= 23 && getWindow() != null && getWindow().getDecorView() != null) {
+                rootWindowInsets = getWindow().getDecorView().getRootWindowInsets();
+                if (rootWindowInsets != null) {
+                    rootWindowInsets2 = getWindow().getDecorView().getRootWindowInsets();
+                    stableInsetLeft = rootWindowInsets2.getStableInsetLeft();
+                    i -= stableInsetLeft;
+                }
             }
             i2 = dp;
             swapAnimatedEmojiDrawable = emojiStatusDrawable;
@@ -1613,7 +1623,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         };
         this.selectAnimatedEmojiDialog = selectAnimatedEmojiDialogWindow;
         selectAnimatedEmojiDialogWindowArr[0] = selectAnimatedEmojiDialogWindow;
-        selectAnimatedEmojiDialogWindowArr[0].showAsDropDown(this.sideMenu.getChildAt(0), 0, i2, 48);
+        selectAnimatedEmojiDialogWindow.showAsDropDown(this.sideMenu.getChildAt(0), 0, i2, 48);
         selectAnimatedEmojiDialogWindowArr[0].dimBehind();
     }
 
@@ -1648,17 +1658,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     public void checkSystemBarColors(boolean z, boolean z2, boolean z3, boolean z4) {
-        BaseFragment baseFragment;
         boolean z5;
-        ArrayList<BaseFragment> arrayList;
-        if (mainFragmentsStack.isEmpty()) {
-            baseFragment = null;
-        } else {
-            ArrayList<BaseFragment> arrayList2 = mainFragmentsStack;
-            baseFragment = arrayList2.get(arrayList2.size() - 1);
-        }
+        ArrayList<BaseFragment> arrayList = mainFragmentsStack;
+        BaseFragment baseFragment = !arrayList.isEmpty() ? arrayList.get(arrayList.size() - 1) : null;
         if (baseFragment != null && (baseFragment.isRemovingFromStack() || baseFragment.isInPreviewMode())) {
-            baseFragment = mainFragmentsStack.size() > 1 ? mainFragmentsStack.get(arrayList.size() - 2) : null;
+            baseFragment = arrayList.size() > 1 ? arrayList.get(arrayList.size() - 2) : null;
         }
         boolean z6 = baseFragment != null && baseFragment.hasForceLightStatusBar();
         int i = Build.VERSION.SDK_INT;
@@ -1674,10 +1678,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                 z5 = lastSheet.isAttachedLightStatusBar();
                             }
                         } else {
-                            ArrayList<BaseFragment.AttachedSheet> arrayList3 = baseFragment.sheetsStack;
-                            if (arrayList3 != null && !arrayList3.isEmpty()) {
-                                ArrayList<BaseFragment.AttachedSheet> arrayList4 = baseFragment.sheetsStack;
-                                BaseFragment.AttachedSheet attachedSheet = arrayList4.get(arrayList4.size() - 1);
+                            ArrayList<BaseFragment.AttachedSheet> arrayList2 = baseFragment.sheetsStack;
+                            if (arrayList2 != null && !arrayList2.isEmpty()) {
+                                ArrayList<BaseFragment.AttachedSheet> arrayList3 = baseFragment.sheetsStack;
+                                BaseFragment.AttachedSheet attachedSheet = arrayList3.get(arrayList3.size() - 1);
                                 if (attachedSheet.isShown()) {
                                     z5 = attachedSheet.isAttachedLightStatusBar();
                                 }
@@ -1722,7 +1726,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     public void switchToAccount(int i, boolean z) {
-        switchToAccount(i, z, new GenericProvider() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda110
+        switchToAccount(i, z, new GenericProvider() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda45
             @Override // org.telegram.messenger.GenericProvider
             public final Object provide(Object obj) {
                 DialogsActivity lambda$switchToAccount$12;
@@ -2030,7 +2034,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             MediaController.getInstance().cleanupPlayer(true, true);
         }
         this.passcodeDialog.show();
-        this.passcodeDialog.passcodeView.onShow(this.overlayPasscodeViews.isEmpty() && z, z2, i, i2, new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda65
+        this.passcodeDialog.passcodeView.onShow(this.overlayPasscodeViews.isEmpty() && z, z2, i, i2, new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda76
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$showPasscodeActivity$13(runnable);
@@ -2043,7 +2047,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         }
         SharedConfig.isWaitingForPasscodeEnter = true;
         this.drawerLayoutContainer.setAllowOpenDrawer(false, false);
-        PasscodeView.PasscodeViewDelegate passcodeViewDelegate = new PasscodeView.PasscodeViewDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda153
+        PasscodeView.PasscodeViewDelegate passcodeViewDelegate = new PasscodeView.PasscodeViewDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda77
             @Override // org.telegram.ui.Components.PasscodeView.PasscodeViewDelegate
             public final void didAcceptedPassword(PasscodeView passcodeView) {
                 LaunchActivity.this.lambda$showPasscodeActivity$14(passcodeView);
@@ -2124,72 +2128,71 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:1239:0x28be, code lost:
-        if (r1.checkCanOpenChat(r0, r2.get(r2.size() - (r3 == true ? 1 : 0))) != false) goto L134;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:1256:0x2942, code lost:
-        if (r1.checkCanOpenChat(r0, r2.get(r2.size() - (r3 == true ? 1 : 0))) != false) goto L152;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:181:0x035a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:181:0x0358, code lost:
         if (r101.sendingText == null) goto L341;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:462:0x0ad6, code lost:
-        if (r4.longValue() == 0) goto L799;
+    /* JADX WARN: Code restructure failed: missing block: B:465:0x0ace, code lost:
+        if (r4.longValue() == 0) goto L800;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:69:0x016c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:69:0x016a, code lost:
         if (r4.equals(r0) != false) goto L50;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:961:0x1e43, code lost:
-        if (r4.longValue() == 0) goto L1301;
+    /* JADX WARN: Code restructure failed: missing block: B:747:0x1235, code lost:
+        if (r4 < 2147483647L) goto L1041;
      */
-    /* JADX WARN: Multi-variable search skipped. Vars limit reached: 5417 (expected less than 5000) */
+    /* JADX WARN: Code restructure failed: missing block: B:975:0x1e4e, code lost:
+        if (r4.longValue() == 0) goto L1308;
+     */
+    /* JADX WARN: Multi-variable search skipped. Vars limit reached: 5441 (expected less than 5000) */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:1041:0x22be  */
-    /* JADX WARN: Removed duplicated region for block: B:1110:0x23db  */
-    /* JADX WARN: Removed duplicated region for block: B:1111:0x23df A[Catch: all -> 0x23ee, TRY_LEAVE, TryCatch #6 {all -> 0x23ee, blocks: (B:1108:0x23c9, B:1111:0x23df), top: B:1512:0x23c9 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1150:0x24ec  */
-    /* JADX WARN: Removed duplicated region for block: B:1151:0x24fe  */
-    /* JADX WARN: Removed duplicated region for block: B:1211:0x2826  */
-    /* JADX WARN: Removed duplicated region for block: B:1224:0x2853  */
-    /* JADX WARN: Removed duplicated region for block: B:1225:0x286b  */
-    /* JADX WARN: Removed duplicated region for block: B:1362:0x2b5a  */
-    /* JADX WARN: Removed duplicated region for block: B:1363:0x2b6b  */
-    /* JADX WARN: Removed duplicated region for block: B:1366:0x2b79  */
-    /* JADX WARN: Removed duplicated region for block: B:1367:0x2b89  */
-    /* JADX WARN: Removed duplicated region for block: B:1448:0x2e37 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:1451:0x2e3f  */
-    /* JADX WARN: Removed duplicated region for block: B:1462:0x2e8e  */
-    /* JADX WARN: Removed duplicated region for block: B:1472:0x2ed2  */
-    /* JADX WARN: Removed duplicated region for block: B:1476:0x2ee9  */
-    /* JADX WARN: Removed duplicated region for block: B:1478:0x2ef0  */
-    /* JADX WARN: Removed duplicated region for block: B:1508:0x19f9 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1528:0x2408 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:185:0x0361  */
-    /* JADX WARN: Removed duplicated region for block: B:214:0x0422  */
-    /* JADX WARN: Removed duplicated region for block: B:281:0x054f  */
-    /* JADX WARN: Removed duplicated region for block: B:373:0x0795  */
-    /* JADX WARN: Removed duplicated region for block: B:532:0x0d07  */
-    /* JADX WARN: Removed duplicated region for block: B:533:0x0d0e  */
-    /* JADX WARN: Removed duplicated region for block: B:536:0x0d96  */
-    /* JADX WARN: Removed duplicated region for block: B:537:0x0da5  */
-    /* JADX WARN: Removed duplicated region for block: B:540:0x0db4  */
-    /* JADX WARN: Removed duplicated region for block: B:542:0x0db7  */
-    /* JADX WARN: Removed duplicated region for block: B:546:0x0dcc A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:554:0x0e00  */
-    /* JADX WARN: Removed duplicated region for block: B:555:0x0e2b  */
-    /* JADX WARN: Removed duplicated region for block: B:914:0x1cf0  */
-    /* JADX WARN: Removed duplicated region for block: B:954:0x1dd1 A[Catch: Exception -> 0x1de1, TRY_LEAVE, TryCatch #13 {Exception -> 0x1de1, blocks: (B:952:0x1dc5, B:954:0x1dd1), top: B:1524:0x1dc5 }] */
-    /* JADX WARN: Removed duplicated region for block: B:956:0x1dde  */
+    /* JADX WARN: Removed duplicated region for block: B:1055:0x22c9  */
+    /* JADX WARN: Removed duplicated region for block: B:1068:0x230e  */
+    /* JADX WARN: Removed duplicated region for block: B:1073:0x2327 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:1124:0x23e3  */
+    /* JADX WARN: Removed duplicated region for block: B:1125:0x23e7 A[Catch: all -> 0x23f6, TRY_LEAVE, TryCatch #8 {all -> 0x23f6, blocks: (B:1122:0x23d1, B:1125:0x23e7), top: B:1521:0x23d1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1164:0x24f4  */
+    /* JADX WARN: Removed duplicated region for block: B:1165:0x2506  */
+    /* JADX WARN: Removed duplicated region for block: B:1225:0x282e  */
+    /* JADX WARN: Removed duplicated region for block: B:1238:0x285b  */
+    /* JADX WARN: Removed duplicated region for block: B:1239:0x2873  */
+    /* JADX WARN: Removed duplicated region for block: B:1376:0x2b5e  */
+    /* JADX WARN: Removed duplicated region for block: B:1377:0x2b6f  */
+    /* JADX WARN: Removed duplicated region for block: B:1380:0x2b7d  */
+    /* JADX WARN: Removed duplicated region for block: B:1381:0x2b8d  */
+    /* JADX WARN: Removed duplicated region for block: B:1462:0x2e3b A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:1465:0x2e43  */
+    /* JADX WARN: Removed duplicated region for block: B:1476:0x2e92  */
+    /* JADX WARN: Removed duplicated region for block: B:1486:0x2ed6  */
+    /* JADX WARN: Removed duplicated region for block: B:1490:0x2eed  */
+    /* JADX WARN: Removed duplicated region for block: B:1492:0x2ef4  */
+    /* JADX WARN: Removed duplicated region for block: B:1513:0x19fb A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1549:0x2410 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:185:0x035f  */
+    /* JADX WARN: Removed duplicated region for block: B:214:0x0420  */
+    /* JADX WARN: Removed duplicated region for block: B:281:0x054d  */
+    /* JADX WARN: Removed duplicated region for block: B:374:0x0796  */
+    /* JADX WARN: Removed duplicated region for block: B:536:0x0d03  */
+    /* JADX WARN: Removed duplicated region for block: B:537:0x0d0a  */
+    /* JADX WARN: Removed duplicated region for block: B:540:0x0d92  */
+    /* JADX WARN: Removed duplicated region for block: B:541:0x0da1  */
+    /* JADX WARN: Removed duplicated region for block: B:544:0x0db0  */
+    /* JADX WARN: Removed duplicated region for block: B:546:0x0db3  */
+    /* JADX WARN: Removed duplicated region for block: B:550:0x0dc8 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:558:0x0dfc  */
+    /* JADX WARN: Removed duplicated region for block: B:559:0x0e28  */
+    /* JADX WARN: Removed duplicated region for block: B:927:0x1cf9  */
+    /* JADX WARN: Removed duplicated region for block: B:967:0x1dda A[Catch: Exception -> 0x1de7, TRY_LEAVE, TryCatch #9 {Exception -> 0x1de7, blocks: (B:965:0x1dce, B:967:0x1dda), top: B:1523:0x1dce }] */
+    /* JADX WARN: Removed duplicated region for block: B:970:0x1de9  */
     /* JADX WARN: Type inference failed for: r0v102, types: [org.telegram.ui.ActionBar.DrawerLayoutContainer] */
     /* JADX WARN: Type inference failed for: r0v123, types: [org.telegram.ui.ActionBar.DrawerLayoutContainer] */
     /* JADX WARN: Type inference failed for: r0v21, types: [org.telegram.ui.ActionBar.DrawerLayoutContainer] */
-    /* JADX WARN: Type inference failed for: r0v24, types: [org.telegram.ui.ActionBar.INavigationLayout, org.telegram.ui.ActionBar.ActionBarLayout] */
-    /* JADX WARN: Type inference failed for: r0v26, types: [org.telegram.ui.ActionBar.INavigationLayout, org.telegram.ui.ActionBar.ActionBarLayout] */
-    /* JADX WARN: Type inference failed for: r0v27, types: [org.telegram.ui.ActionBar.INavigationLayout, org.telegram.ui.ActionBar.ActionBarLayout] */
+    /* JADX WARN: Type inference failed for: r0v24, types: [org.telegram.ui.ActionBar.ActionBarLayout] */
+    /* JADX WARN: Type inference failed for: r0v26, types: [org.telegram.ui.ActionBar.ActionBarLayout] */
+    /* JADX WARN: Type inference failed for: r0v27, types: [org.telegram.ui.ActionBar.ActionBarLayout] */
     /* JADX WARN: Type inference failed for: r0v35, types: [org.telegram.ui.ActionBar.DrawerLayoutContainer] */
-    /* JADX WARN: Type inference failed for: r0v353, types: [java.lang.Integer] */
-    /* JADX WARN: Type inference failed for: r0v385, types: [java.lang.Integer] */
-    /* JADX WARN: Type inference failed for: r0v641, types: [java.lang.Integer] */
+    /* JADX WARN: Type inference failed for: r0v352, types: [java.lang.Integer] */
+    /* JADX WARN: Type inference failed for: r0v384, types: [java.lang.Integer] */
+    /* JADX WARN: Type inference failed for: r0v643, types: [java.lang.Integer] */
     /* JADX WARN: Type inference failed for: r0v81, types: [org.telegram.ui.ActionBar.DrawerLayoutContainer] */
     /* JADX WARN: Type inference failed for: r0v88, types: [org.telegram.ui.ActionBar.DrawerLayoutContainer] */
     /* JADX WARN: Type inference failed for: r0v95, types: [org.telegram.ui.ActionBar.DrawerLayoutContainer] */
@@ -2205,50 +2208,50 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Type inference failed for: r12v67 */
     /* JADX WARN: Type inference failed for: r12v68 */
     /* JADX WARN: Type inference failed for: r12v9, types: [boolean, int] */
-    /* JADX WARN: Type inference failed for: r1v66, types: [android.os.Bundle] */
+    /* JADX WARN: Type inference failed for: r1v65, types: [android.os.Bundle] */
     /* JADX WARN: Type inference failed for: r2v27, types: [org.telegram.ui.ActionBar.INavigationLayout$NavigationParams] */
     /* JADX WARN: Type inference failed for: r2v31, types: [org.telegram.ui.ActionBar.INavigationLayout$NavigationParams] */
     /* JADX WARN: Type inference failed for: r2v40, types: [org.telegram.ui.ActionBar.INavigationLayout$NavigationParams] */
     /* JADX WARN: Type inference failed for: r2v49, types: [org.telegram.ui.ActionBar.INavigationLayout$NavigationParams] */
-    /* JADX WARN: Type inference failed for: r2v50, types: [org.telegram.ui.ActionBar.INavigationLayout$NavigationParams] */
-    /* JADX WARN: Type inference failed for: r2v58, types: [org.telegram.ui.ActionBar.INavigationLayout$NavigationParams] */
+    /* JADX WARN: Type inference failed for: r2v51, types: [org.telegram.ui.ActionBar.INavigationLayout$NavigationParams] */
+    /* JADX WARN: Type inference failed for: r2v59, types: [org.telegram.ui.ActionBar.INavigationLayout$NavigationParams] */
     /* JADX WARN: Type inference failed for: r33v11 */
     /* JADX WARN: Type inference failed for: r36v11 */
     /* JADX WARN: Type inference failed for: r36v7 */
     /* JADX WARN: Type inference failed for: r37v10 */
+    /* JADX WARN: Type inference failed for: r3v120, types: [org.telegram.tgnet.TLRPC$TL_wallPaper, org.telegram.tgnet.TLRPC$WallPaper] */
+    /* JADX WARN: Type inference failed for: r3v169, types: [java.util.HashMap] */
     /* JADX WARN: Type inference failed for: r3v2 */
-    /* JADX WARN: Type inference failed for: r3v204, types: [java.util.HashMap] */
     /* JADX WARN: Type inference failed for: r3v22 */
     /* JADX WARN: Type inference failed for: r3v25 */
     /* JADX WARN: Type inference failed for: r3v26 */
     /* JADX WARN: Type inference failed for: r3v3, types: [boolean] */
-    /* JADX WARN: Type inference failed for: r3v60, types: [java.lang.Long] */
-    /* JADX WARN: Type inference failed for: r3v61 */
-    /* JADX WARN: Type inference failed for: r3v62 */
-    /* JADX WARN: Type inference failed for: r3v70, types: [java.lang.Long] */
-    /* JADX WARN: Type inference failed for: r3v71 */
-    /* JADX WARN: Type inference failed for: r3v72 */
-    /* JADX WARN: Type inference failed for: r3v73, types: [java.util.HashMap] */
-    /* JADX WARN: Type inference failed for: r4v150, types: [org.telegram.tgnet.TLRPC$TL_wallPaper, org.telegram.tgnet.TLRPC$WallPaper] */
-    /* JADX WARN: Type inference failed for: r4v362, types: [org.telegram.tgnet.TLRPC$TL_wallPaper, org.telegram.tgnet.TLRPC$WallPaper] */
+    /* JADX WARN: Type inference failed for: r3v74, types: [java.lang.Long] */
+    /* JADX WARN: Type inference failed for: r3v75 */
+    /* JADX WARN: Type inference failed for: r3v76 */
+    /* JADX WARN: Type inference failed for: r3v84, types: [java.lang.Long] */
+    /* JADX WARN: Type inference failed for: r3v85 */
+    /* JADX WARN: Type inference failed for: r3v86 */
+    /* JADX WARN: Type inference failed for: r3v87, types: [java.util.HashMap] */
+    /* JADX WARN: Type inference failed for: r4v337, types: [org.telegram.tgnet.TLRPC$TL_wallPaper, org.telegram.tgnet.TLRPC$WallPaper] */
     /* JADX WARN: Type inference failed for: r52v37 */
     /* JADX WARN: Type inference failed for: r52v39 */
     /* JADX WARN: Type inference failed for: r52v40 */
-    /* JADX WARN: Type inference failed for: r52v47 */
+    /* JADX WARN: Type inference failed for: r52v41 */
     /* JADX WARN: Type inference failed for: r53v33 */
     /* JADX WARN: Type inference failed for: r53v35 */
     /* JADX WARN: Type inference failed for: r53v36 */
-    /* JADX WARN: Type inference failed for: r53v40 */
+    /* JADX WARN: Type inference failed for: r53v37 */
     /* JADX WARN: Type inference failed for: r53v41 */
-    /* JADX WARN: Type inference failed for: r53v43 */
+    /* JADX WARN: Type inference failed for: r53v42 */
     /* JADX WARN: Type inference failed for: r54v24 */
-    /* JADX WARN: Type inference failed for: r54v32 */
-    /* JADX WARN: Type inference failed for: r9v145 */
-    /* JADX WARN: Type inference failed for: r9v149 */
-    /* JADX WARN: Type inference failed for: r9v150 */
-    /* JADX WARN: Type inference failed for: r9v152 */
-    /* JADX WARN: Type inference failed for: r9v153 */
-    /* JADX WARN: Type inference failed for: r9v154 */
+    /* JADX WARN: Type inference failed for: r54v26 */
+    /* JADX WARN: Type inference failed for: r9v166 */
+    /* JADX WARN: Type inference failed for: r9v170 */
+    /* JADX WARN: Type inference failed for: r9v171 */
+    /* JADX WARN: Type inference failed for: r9v173 */
+    /* JADX WARN: Type inference failed for: r9v174 */
+    /* JADX WARN: Type inference failed for: r9v175 */
     @SuppressLint({"Range"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -2475,9 +2478,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         boolean z53;
         boolean z54;
         long j14;
+        String str56;
         boolean z55;
         boolean z56;
-        String str56;
         int i18;
         String str57;
         String str58;
@@ -2508,19 +2511,17 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         Integer num19;
         int i20;
         String str77;
-        String str78;
         Long parseLong;
         int i21;
-        String str79;
+        String str78;
         int i22;
+        String str79;
         String str80;
-        String str81;
         Integer num20;
-        String str82;
+        String str81;
         int i23;
         Long parseLong2;
-        String str83;
-        boolean z60;
+        String str82;
         Integer num21;
         ?? parseInt2;
         String substring;
@@ -2528,8 +2529,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         Integer num22;
         Long l40;
         Long l41;
+        boolean z60;
         long j15;
-        String str84;
+        String str83;
         boolean z61;
         String[] split2;
         String substring2;
@@ -2537,7 +2539,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         boolean z62;
         Pattern compile2;
         CharSequence charSequenceExtra;
-        String str85;
+        String str84;
         if (GiftInfoBottomSheet.handleIntent(intent, progress) || UserSelectorBottomSheet.handleIntent(intent, progress) || AndroidUtilities.handleProxyIntent(this, intent)) {
             return true;
         }
@@ -2549,15 +2551,16 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             dismissAllWeb();
         }
         Utilities.Callback<Boolean> callback = this.webviewShareAPIDoneListener;
-        String str86 = null;
+        String str85 = null;
         if (callback != null) {
             callback.run(Boolean.TRUE);
             this.webviewShareAPIDoneListener = null;
         }
         int flags = intent.getFlags();
         String action = intent.getAction();
-        int[] iArr4 = {intent.getIntExtra("currentAccount", UserConfig.selectedAccount)};
-        switchToAccount(iArr4[0], true);
+        int intExtra = intent.getIntExtra("currentAccount", UserConfig.selectedAccount);
+        int[] iArr4 = {intExtra};
+        switchToAccount(intExtra, true);
         boolean z63 = action != null && action.equals("voip");
         if (z3 || !(AndroidUtilities.needShowPasscode(true) || SharedConfig.isWaitingForPasscodeEnter)) {
             iArr = iArr4;
@@ -2606,7 +2609,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     if (string2.equals(shortcutInfoCompat.getId())) {
                                         Bundle extras = shortcutInfoCompat.getIntent().getExtras();
                                         j16 = extras.getLong("dialogId", 0L);
-                                        str85 = extras.getString("hash", null);
+                                        str84 = extras.getString("hash", null);
                                         break;
                                     }
                                 }
@@ -2614,12 +2617,12 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         } catch (Throwable th2) {
                             FileLog.e(th2);
                         }
-                        str85 = null;
+                        str84 = null;
                     } else {
-                        str85 = intent.getExtras().getString("hash", null);
+                        str84 = intent.getExtras().getString("hash", null);
                     }
-                    String str87 = SharedConfig.directShareHash;
-                    if (str87 != null) {
+                    String str86 = SharedConfig.directShareHash;
+                    if (str86 != null) {
                     }
                 }
                 j16 = 0;
@@ -2719,9 +2722,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     }
                                     Set<String> set = MessagesController.getInstance(iArr[0]).exportUri;
                                     String fixFileName = FileLoader.fixFileName(MediaController.getFileName(uri3));
-                                    for (String str88 : set) {
+                                    for (String str87 : set) {
                                         try {
-                                            compile2 = Pattern.compile(str88);
+                                            compile2 = Pattern.compile(str87);
                                         } catch (Exception e2) {
                                             FileLog.e(e2);
                                         }
@@ -2905,19 +2908,19 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     Uri uri9 = (Uri) obj;
                                     String path2 = AndroidUtilities.getPath(uri9);
                                     String obj2 = obj.toString();
-                                    String str89 = obj2 == null ? path2 : obj2;
+                                    String str88 = obj2 == null ? path2 : obj2;
                                     if (BuildVars.LOGS_ENABLED) {
-                                        FileLog.d("export path = " + str89);
+                                        FileLog.d("export path = " + str88);
                                     }
-                                    if (str89 != null && this.exportingChatUri == null) {
+                                    if (str88 != null && this.exportingChatUri == null) {
                                         String fixFileName2 = FileLoader.fixFileName(MediaController.getFileName(uri9));
-                                        for (String str90 : set2) {
+                                        for (String str89 : set2) {
                                             try {
-                                                compile = Pattern.compile(str90);
+                                                compile = Pattern.compile(str89);
                                             } catch (Exception e4) {
                                                 FileLog.e(e4);
                                             }
-                                            if (compile.matcher(str89).find() || compile.matcher(fixFileName2).find()) {
+                                            if (compile.matcher(str88).find() || compile.matcher(fixFileName2).find()) {
                                                 this.exportingChatUri = uri9;
                                                 z37 = true;
                                                 break;
@@ -2925,7 +2928,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         }
                                         z37 = false;
                                         if (!z37) {
-                                            if (str89.startsWith("content://com.kakao.talk") && str89.endsWith("KakaoTalkChats.txt")) {
+                                            if (str88.startsWith("content://com.kakao.talk") && str88.endsWith("KakaoTalkChats.txt")) {
                                                 this.exportingChatUri = uri9;
                                             }
                                         }
@@ -2939,7 +2942,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             this.documentsOriginalPathsArray = new ArrayList<>();
                                         }
                                         this.documentsPathsArray.add(path2);
-                                        this.documentsOriginalPathsArray.add(str89);
+                                        this.documentsOriginalPathsArray.add(str88);
                                     } else {
                                         if (this.documentsUrisArray == null) {
                                             this.documentsUrisArray = new ArrayList<>();
@@ -3154,14 +3157,14 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                 final String uri10 = data.toString();
                                 if (uri10.startsWith("tg:premium_offer") || uri10.startsWith("tg://premium_offer")) {
                                     j8 = 0;
-                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda74
+                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda22
                                         @Override // java.lang.Runnable
                                         public final void run() {
                                             LaunchActivity.this.lambda$handleIntent$15(uri10);
                                         }
                                     });
-                                    str86 = null;
-                                    str13 = str86;
+                                    str85 = null;
+                                    str13 = str85;
                                     str14 = str13;
                                     str15 = str14;
                                     str16 = str15;
@@ -3174,12 +3177,12 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     str23 = str22;
                                     str24 = str23;
                                     str25 = str24;
-                                    String str91 = str25;
-                                    str26 = str91;
+                                    String str90 = str25;
+                                    str26 = str90;
                                     str27 = str26;
-                                    String str92 = str27;
-                                    String str93 = str92;
-                                    str28 = str93;
+                                    String str91 = str27;
+                                    String str92 = str91;
+                                    str28 = str92;
                                     str29 = str28;
                                     str30 = str29;
                                     str31 = str30;
@@ -3214,9 +3217,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     z19 = false;
                                     z43 = false;
                                     i14 = -1;
-                                    str47 = str91;
-                                    str46 = str92;
-                                    str45 = str93;
+                                    str47 = str90;
+                                    str46 = str91;
+                                    str45 = str92;
                                     i15 = 0;
                                     z44 = false;
                                     l2 = str47;
@@ -3227,7 +3230,6 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     str50 = l2;
                                     str49 = num;
                                     str48 = l;
-                                    break;
                                 } else if (uri10.startsWith("tg:resolve") || uri10.startsWith("tg://resolve")) {
                                     Uri parse = Uri.parse(uri10.replace("tg:resolve", "tg://telegram.org").replace("tg://resolve", "tg://telegram.org"));
                                     String queryParameter3 = parse.getQueryParameter("domain");
@@ -3307,11 +3309,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         z44 = false;
                                         str44 = null;
                                         z45 = false;
-                                        break;
                                     } else {
                                         String queryParameter7 = parse.getQueryParameter("start");
                                         String queryParameter8 = parse.getQueryParameter("startgroup");
-                                        String str94 = queryParameter3;
+                                        String str93 = queryParameter3;
                                         String queryParameter9 = parse.getQueryParameter("startchannel");
                                         String queryParameter10 = parse.getQueryParameter("admin");
                                         String queryParameter11 = parse.getQueryParameter("game");
@@ -3344,7 +3345,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         j9 = 0;
                                         j7 = 0;
                                         if (parseInt4.intValue() == 0) {
-                                            str14 = str94;
+                                            str14 = str93;
                                             str19 = queryParameter10;
                                             str37 = queryParameter12;
                                             str42 = queryParameter4;
@@ -3354,8 +3355,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             str40 = queryParameter16;
                                             str38 = queryParameter13;
                                             str13 = null;
-                                            str15 = null;
                                             str16 = null;
+                                            str17 = null;
                                             str20 = null;
                                             str23 = null;
                                             z41 = false;
@@ -3392,7 +3393,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             str21 = queryParameter7;
                                             str27 = queryParameter11;
                                         } else {
-                                            str14 = str94;
+                                            str14 = str93;
                                             str19 = queryParameter10;
                                             str37 = queryParameter12;
                                             str42 = queryParameter4;
@@ -3401,8 +3402,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             str41 = queryParameter15;
                                             str40 = queryParameter16;
                                             str38 = queryParameter13;
-                                            str15 = null;
                                             str16 = null;
+                                            str17 = null;
                                             str20 = null;
                                             str23 = null;
                                             z41 = false;
@@ -3440,12 +3441,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             str27 = queryParameter11;
                                             str13 = null;
                                         }
-                                        str17 = null;
+                                        str15 = null;
                                         str18 = null;
                                         str22 = queryParameter8;
                                         str50 = str51;
                                         str49 = num23;
-                                        break;
                                     }
                                 } else {
                                     if (uri10.startsWith("tg:invoice") || uri10.startsWith("tg://invoice")) {
@@ -3642,115 +3642,270 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             if (queryParameter18 == null) {
                                                 tLRPC$TL_wallPaper.slug = parse3.getQueryParameter("color");
                                             }
-                                            String str95 = tLRPC$TL_wallPaper.slug;
-                                            if (str95 != null && str95.length() == 6) {
-                                                tLRPC$TL_wallPaper.settings.background_color = Integer.parseInt(tLRPC$TL_wallPaper.slug, 16) | (-16777216);
-                                                tLRPC$TL_wallPaper.slug = null;
-                                                z49 = true;
+                                            String str94 = tLRPC$TL_wallPaper.slug;
+                                            if (str94 != null && str94.length() == 6) {
+                                                try {
+                                                    tLRPC$TL_wallPaper.settings.background_color = Integer.parseInt(tLRPC$TL_wallPaper.slug, 16) | (-16777216);
+                                                    tLRPC$TL_wallPaper.slug = null;
+                                                    z49 = true;
+                                                } catch (Exception unused) {
+                                                }
                                             } else {
-                                                String str96 = tLRPC$TL_wallPaper.slug;
-                                                if (str96 != null && str96.length() >= 13 && AndroidUtilities.isValidWallChar(tLRPC$TL_wallPaper.slug.charAt(6))) {
-                                                    tLRPC$TL_wallPaper.settings.background_color = Integer.parseInt(tLRPC$TL_wallPaper.slug.substring(0, 6), 16) | (-16777216);
+                                                String str95 = tLRPC$TL_wallPaper.slug;
+                                                if (str95 != null && str95.length() >= 13 && AndroidUtilities.isValidWallChar(tLRPC$TL_wallPaper.slug.charAt(6))) {
                                                     try {
-                                                        tLRPC$TL_wallPaper.settings.second_background_color = Integer.parseInt(tLRPC$TL_wallPaper.slug.substring(7, 13), 16) | (-16777216);
-                                                        if (tLRPC$TL_wallPaper.slug.length() >= 20 && AndroidUtilities.isValidWallChar(tLRPC$TL_wallPaper.slug.charAt(13))) {
-                                                            tLRPC$TL_wallPaper.settings.third_background_color = Integer.parseInt(tLRPC$TL_wallPaper.slug.substring(14, 20), 16) | (-16777216);
-                                                        }
-                                                        if (tLRPC$TL_wallPaper.slug.length() == 27 && AndroidUtilities.isValidWallChar(tLRPC$TL_wallPaper.slug.charAt(20))) {
-                                                            tLRPC$TL_wallPaper.settings.fourth_background_color = Integer.parseInt(tLRPC$TL_wallPaper.slug.substring(21), 16) | (-16777216);
-                                                        }
+                                                        tLRPC$TL_wallPaper.settings.background_color = Integer.parseInt(tLRPC$TL_wallPaper.slug.substring(0, 6), 16) | (-16777216);
                                                         try {
-                                                            String queryParameter19 = parse3.getQueryParameter("rotation");
-                                                            if (!TextUtils.isEmpty(queryParameter19)) {
-                                                                tLRPC$TL_wallPaper.settings.rotation = Utilities.parseInt((CharSequence) queryParameter19).intValue();
+                                                            tLRPC$TL_wallPaper.settings.second_background_color = Integer.parseInt(tLRPC$TL_wallPaper.slug.substring(7, 13), 16) | (-16777216);
+                                                            if (tLRPC$TL_wallPaper.slug.length() >= 20 && AndroidUtilities.isValidWallChar(tLRPC$TL_wallPaper.slug.charAt(13))) {
+                                                                tLRPC$TL_wallPaper.settings.third_background_color = Integer.parseInt(tLRPC$TL_wallPaper.slug.substring(14, 20), 16) | (-16777216);
                                                             }
-                                                        } catch (Exception unused) {
+                                                            if (tLRPC$TL_wallPaper.slug.length() == 27 && AndroidUtilities.isValidWallChar(tLRPC$TL_wallPaper.slug.charAt(20))) {
+                                                                tLRPC$TL_wallPaper.settings.fourth_background_color = Integer.parseInt(tLRPC$TL_wallPaper.slug.substring(21), 16) | (-16777216);
+                                                            }
+                                                            try {
+                                                                String queryParameter19 = parse3.getQueryParameter("rotation");
+                                                                if (!TextUtils.isEmpty(queryParameter19)) {
+                                                                    tLRPC$TL_wallPaper.settings.rotation = Utilities.parseInt((CharSequence) queryParameter19).intValue();
+                                                                }
+                                                            } catch (Exception unused2) {
+                                                            }
+                                                            tLRPC$TL_wallPaper.slug = null;
+                                                            z49 = true;
+                                                        } catch (Exception unused3) {
+                                                            z49 = false;
+                                                            if (!z49) {
+                                                            }
+                                                            str32 = tLRPC$TL_wallPaper;
+                                                            str13 = null;
+                                                            str14 = null;
+                                                            str15 = null;
+                                                            str16 = null;
+                                                            str17 = null;
+                                                            str18 = null;
+                                                            str19 = null;
+                                                            j8 = 0;
+                                                            str20 = null;
+                                                            str21 = null;
+                                                            str22 = null;
+                                                            str23 = null;
+                                                            str24 = null;
+                                                            str25 = null;
+                                                            z41 = false;
+                                                            l32 = null;
+                                                            str26 = null;
+                                                            str27 = null;
+                                                            num16 = null;
+                                                            l31 = null;
+                                                            str28 = null;
+                                                            str29 = null;
+                                                            str30 = null;
+                                                            str31 = null;
+                                                            str33 = null;
+                                                            l3 = l32;
+                                                            num2 = num16;
+                                                            l4 = l31;
+                                                            str34 = null;
+                                                            l24 = l3;
+                                                            num12 = num2;
+                                                            l23 = l4;
+                                                            str35 = null;
+                                                            l22 = l24;
+                                                            num11 = num12;
+                                                            l21 = l23;
+                                                            str9 = null;
+                                                            str10 = null;
+                                                            str11 = null;
+                                                            i12 = 0;
+                                                            i13 = 0;
+                                                            l20 = l22;
+                                                            num10 = num11;
+                                                            l19 = l21;
+                                                            z15 = false;
+                                                            l18 = l20;
+                                                            num9 = num10;
+                                                            l17 = l19;
+                                                            z42 = false;
+                                                            z40 = false;
+                                                            z16 = false;
+                                                            z17 = false;
+                                                            l16 = l18;
+                                                            num8 = num9;
+                                                            l15 = l17;
+                                                            z18 = false;
+                                                            z19 = false;
+                                                            l14 = l16;
+                                                            num7 = num8;
+                                                            l13 = l15;
+                                                            str12 = null;
+                                                            l12 = l14;
+                                                            num6 = num7;
+                                                            l11 = l13;
+                                                            j9 = 0;
+                                                            l10 = l12;
+                                                            num5 = num6;
+                                                            l9 = l11;
+                                                            j7 = 0;
+                                                            l8 = l10;
+                                                            num4 = num5;
+                                                            l7 = l9;
+                                                            str36 = null;
+                                                            l6 = l8;
+                                                            num3 = num4;
+                                                            l5 = l7;
+                                                            str37 = null;
+                                                            z43 = false;
+                                                            str38 = null;
+                                                            i14 = -1;
+                                                            str39 = null;
+                                                            str40 = null;
+                                                            str41 = null;
+                                                            str42 = null;
+                                                            str43 = null;
+                                                            i15 = 0;
+                                                            z44 = false;
+                                                            str44 = null;
+                                                            l2 = l6;
+                                                            num = num3;
+                                                            l = l5;
+                                                            z45 = false;
+                                                            z46 = false;
+                                                            str50 = l2;
+                                                            str49 = num;
+                                                            str48 = l;
+                                                            if (intent.hasExtra("actions.fulfillment.extra.ACTION_TOKEN")) {
+                                                            }
+                                                            if (str34 != null) {
+                                                            }
+                                                            if (str16 == null) {
+                                                            }
+                                                            str2 = " ";
+                                                            iArr3 = iArr;
+                                                            launchActivity = this;
+                                                            final AlertDialog alertDialog = new AlertDialog(launchActivity, 3);
+                                                            z47 = false;
+                                                            alertDialog.setCanCancel(false);
+                                                            alertDialog.show();
+                                                            tLRPC$TL_account_sendConfirmPhoneCode = new TLRPC$TL_account_sendConfirmPhoneCode();
+                                                            tLRPC$TL_account_sendConfirmPhoneCode.hash = str13;
+                                                            TLRPC$TL_codeSettings tLRPC$TL_codeSettings = new TLRPC$TL_codeSettings();
+                                                            tLRPC$TL_account_sendConfirmPhoneCode.settings = tLRPC$TL_codeSettings;
+                                                            tLRPC$TL_codeSettings.allow_flashcall = false;
+                                                            boolean hasServices = PushListenerController.GooglePushListenerServiceProvider.INSTANCE.hasServices();
+                                                            tLRPC$TL_codeSettings.allow_firebase = hasServices;
+                                                            tLRPC$TL_codeSettings.allow_app_hash = hasServices;
+                                                            SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0);
+                                                            if (tLRPC$TL_account_sendConfirmPhoneCode.settings.allow_app_hash) {
+                                                            }
+                                                            final Bundle bundle = new Bundle();
+                                                            bundle.putString("phone", str16);
+                                                            final String str96 = str16;
+                                                            ConnectionsManager.getInstance(launchActivity.currentAccount).sendRequest(tLRPC$TL_account_sendConfirmPhoneCode, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda24
+                                                                @Override // org.telegram.tgnet.RequestDelegate
+                                                                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                                                                    LaunchActivity.this.lambda$handleIntent$18(alertDialog, str96, bundle, tLRPC$TL_account_sendConfirmPhoneCode, tLObject, tLRPC$TL_error);
+                                                                }
+                                                            }, 2);
+                                                            i11 = i13;
+                                                            z39 = z42;
+                                                            j6 = j9;
+                                                            z38 = z47;
+                                                            j2 = j6;
+                                                            z14 = z39;
+                                                            i6 = i11;
+                                                            str4 = str9;
+                                                            str5 = str10;
+                                                            str6 = str11;
+                                                            i5 = i12;
+                                                            z23 = z40;
+                                                            str3 = str12;
+                                                            j = j7;
+                                                            iArr2 = iArr3;
+                                                            i2 = -1;
+                                                            i3 = 0;
+                                                            i4 = -1;
+                                                            i = -1;
+                                                            jArr = null;
+                                                            z7 = false;
+                                                            z11 = false;
+                                                            z10 = false;
+                                                            z9 = false;
+                                                            z8 = false;
+                                                            z13 = false;
+                                                            j3 = 0;
+                                                            j4 = 0;
+                                                            j5 = 0;
+                                                            intent8 = intent;
+                                                            i7 = z38;
+                                                            if (UserConfig.getInstance(launchActivity.currentAccount).isClientActivated()) {
+                                                            }
+                                                            z24 = false;
+                                                            z25 = true;
+                                                            z26 = z;
+                                                            z27 = false;
+                                                            r11 = z24;
+                                                            r12 = z25;
+                                                            if (!z27) {
+                                                            }
+                                                            if (z63) {
+                                                            }
+                                                            if (!z8) {
+                                                            }
+                                                            intent8.setAction(r11);
+                                                            return z27;
                                                         }
-                                                        tLRPC$TL_wallPaper.slug = null;
-                                                        z49 = true;
-                                                    } catch (Exception unused2) {
+                                                    } catch (Exception unused4) {
                                                     }
                                                 }
                                                 z49 = false;
-                                                if (!z49) {
-                                                    String queryParameter20 = parse3.getQueryParameter("mode");
-                                                    if (queryParameter20 != null && (split = queryParameter20.toLowerCase().split(" ")) != null && split.length > 0) {
-                                                        for (int i28 = 0; i28 < split.length; i28++) {
-                                                            if ("blur".equals(split[i28])) {
-                                                                tLRPC$TL_wallPaper.settings.blur = true;
-                                                            } else if ("motion".equals(split[i28])) {
-                                                                tLRPC$TL_wallPaper.settings.motion = true;
-                                                            }
+                                            }
+                                            if (!z49) {
+                                                String queryParameter20 = parse3.getQueryParameter("mode");
+                                                if (queryParameter20 != null && (split = queryParameter20.toLowerCase().split(" ")) != null && split.length > 0) {
+                                                    for (int i28 = 0; i28 < split.length; i28++) {
+                                                        if ("blur".equals(split[i28])) {
+                                                            tLRPC$TL_wallPaper.settings.blur = true;
+                                                        } else if ("motion".equals(split[i28])) {
+                                                            tLRPC$TL_wallPaper.settings.motion = true;
                                                         }
                                                     }
-                                                    tLRPC$TL_wallPaper.settings.intensity = Utilities.parseInt((CharSequence) parse3.getQueryParameter("intensity")).intValue();
-                                                    try {
-                                                        queryParameter2 = parse3.getQueryParameter("bg_color");
-                                                    } catch (Exception unused3) {
-                                                    }
-                                                    try {
-                                                        if (!TextUtils.isEmpty(queryParameter2)) {
+                                                }
+                                                tLRPC$TL_wallPaper.settings.intensity = Utilities.parseInt((CharSequence) parse3.getQueryParameter("intensity")).intValue();
+                                                try {
+                                                    queryParameter2 = parse3.getQueryParameter("bg_color");
+                                                } catch (Exception unused5) {
+                                                }
+                                                try {
+                                                    if (!TextUtils.isEmpty(queryParameter2)) {
+                                                        try {
+                                                            tLRPC$TL_wallPaper.settings.background_color = Integer.parseInt(queryParameter2.substring(0, 6), 16) | (-16777216);
+                                                        } catch (Exception unused6) {
+                                                        }
+                                                        if (queryParameter2.length() >= 13) {
                                                             try {
-                                                                tLRPC$TL_wallPaper.settings.background_color = Integer.parseInt(queryParameter2.substring(0, 6), 16) | (-16777216);
-                                                            } catch (Exception unused4) {
-                                                            }
-                                                            if (queryParameter2.length() >= 13) {
-                                                                try {
-                                                                    tLRPC$TL_wallPaper.settings.second_background_color = Integer.parseInt(queryParameter2.substring(8, 13), 16) | (-16777216);
-                                                                    if (queryParameter2.length() >= 20 && AndroidUtilities.isValidWallChar(queryParameter2.charAt(13))) {
-                                                                        tLRPC$TL_wallPaper.settings.third_background_color = Integer.parseInt(queryParameter2.substring(14, 20), 16) | (-16777216);
-                                                                    }
-                                                                    if (queryParameter2.length() == 27 && AndroidUtilities.isValidWallChar(queryParameter2.charAt(20))) {
-                                                                        tLRPC$TL_wallPaper.settings.fourth_background_color = Integer.parseInt(queryParameter2.substring(21), 16) | (-16777216);
-                                                                    }
-                                                                } catch (Exception unused5) {
+                                                                tLRPC$TL_wallPaper.settings.second_background_color = Integer.parseInt(queryParameter2.substring(8, 13), 16) | (-16777216);
+                                                                if (queryParameter2.length() >= 20 && AndroidUtilities.isValidWallChar(queryParameter2.charAt(13))) {
+                                                                    tLRPC$TL_wallPaper.settings.third_background_color = Integer.parseInt(queryParameter2.substring(14, 20), 16) | (-16777216);
                                                                 }
-                                                                queryParameter = parse3.getQueryParameter("rotation");
-                                                                if (!TextUtils.isEmpty(queryParameter)) {
-                                                                    tLRPC$TL_wallPaper.settings.rotation = Utilities.parseInt((CharSequence) queryParameter).intValue();
+                                                                if (queryParameter2.length() == 27 && AndroidUtilities.isValidWallChar(queryParameter2.charAt(20))) {
+                                                                    tLRPC$TL_wallPaper.settings.fourth_background_color = Integer.parseInt(queryParameter2.substring(21), 16) | (-16777216);
                                                                 }
+                                                            } catch (Exception unused7) {
                                                             }
                                                             queryParameter = parse3.getQueryParameter("rotation");
                                                             if (!TextUtils.isEmpty(queryParameter)) {
+                                                                tLRPC$TL_wallPaper.settings.rotation = Utilities.parseInt((CharSequence) queryParameter).intValue();
                                                             }
                                                         }
                                                         queryParameter = parse3.getQueryParameter("rotation");
                                                         if (!TextUtils.isEmpty(queryParameter)) {
                                                         }
-                                                    } catch (Exception unused6) {
                                                     }
+                                                    queryParameter = parse3.getQueryParameter("rotation");
+                                                    if (!TextUtils.isEmpty(queryParameter)) {
+                                                    }
+                                                } catch (Exception unused8) {
                                                 }
-                                                str32 = tLRPC$TL_wallPaper;
-                                                str13 = null;
-                                                str14 = null;
-                                                str15 = null;
-                                                str16 = null;
-                                                str17 = null;
-                                                str18 = null;
-                                                str19 = null;
-                                                j8 = 0;
-                                                str20 = null;
-                                                str21 = null;
-                                                str22 = null;
-                                                str23 = null;
-                                                str24 = null;
-                                                str25 = null;
-                                                z41 = false;
-                                                l32 = null;
-                                                str26 = null;
-                                                str27 = null;
-                                                num16 = null;
-                                                l31 = null;
-                                                str28 = null;
-                                                str29 = null;
-                                                str30 = null;
-                                                str31 = null;
-                                                str33 = null;
-                                                l3 = l32;
-                                                num2 = num16;
-                                                l4 = l31;
-                                            }
-                                            if (!z49) {
                                             }
                                             str32 = tLRPC$TL_wallPaper;
                                             str13 = null;
@@ -3868,7 +4023,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         String queryParameter23 = parse6.getQueryParameter("token");
                                                         int intValue2 = Utilities.parseInt((CharSequence) parse6.getQueryParameter("code")).intValue();
                                                         str34 = intValue2 != 0 ? "" + intValue2 : null;
-                                                        str30 = queryParameter23;
+                                                        str31 = queryParameter23;
                                                         str13 = null;
                                                         str14 = null;
                                                         str15 = null;
@@ -3891,7 +4046,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         l23 = null;
                                                         str28 = null;
                                                         str29 = null;
-                                                        str31 = null;
+                                                        str30 = null;
                                                         str32 = null;
                                                         str33 = null;
                                                         str35 = null;
@@ -3969,7 +4124,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                             if (queryParameter26 != null) {
                                                                 try {
                                                                     parseInt = Integer.parseInt(queryParameter26);
-                                                                } catch (NumberFormatException unused7) {
+                                                                } catch (NumberFormatException unused9) {
                                                                 }
                                                                 i12 = parseInt;
                                                                 j9 = j11;
@@ -4294,10 +4449,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         num18 = num14;
                                                         l35 = l27;
                                                         str30 = null;
-                                                        str31 = null;
                                                         l34 = l36;
                                                         num17 = num18;
                                                         l33 = l35;
+                                                        str31 = null;
                                                         str32 = null;
                                                         l32 = l34;
                                                         num16 = num17;
@@ -4307,7 +4462,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         num2 = num16;
                                                         l4 = l31;
                                                     } else if (uri10.startsWith("tg:setlanguage") || uri10.startsWith("tg://setlanguage")) {
-                                                        str31 = Uri.parse(uri10.replace("tg:setlanguage", "tg://telegram.org").replace("tg://setlanguage", "tg://telegram.org")).getQueryParameter("lang");
+                                                        str30 = Uri.parse(uri10.replace("tg:setlanguage", "tg://telegram.org").replace("tg://setlanguage", "tg://telegram.org")).getQueryParameter("lang");
                                                         str13 = null;
                                                         str14 = null;
                                                         str15 = null;
@@ -4330,7 +4485,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         l33 = null;
                                                         str28 = null;
                                                         str29 = null;
-                                                        str30 = null;
+                                                        str31 = null;
                                                         str32 = null;
                                                         l32 = l34;
                                                         num16 = num17;
@@ -4979,7 +5134,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                                     final Intent intent9 = new Intent(intent);
                                                                     intent9.removeExtra("actions.fulfillment.extra.ACTION_TOKEN");
                                                                     intent9.putExtra("extra_force_call", true);
-                                                                    ContactsLoadingObserver.observe(new ContactsLoadingObserver.Callback() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda108
+                                                                    ContactsLoadingObserver.observe(new ContactsLoadingObserver.Callback() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda23
                                                                         @Override // org.telegram.messenger.ContactsLoadingObserver.Callback
                                                                         public final void onResult(boolean z68) {
                                                                             LaunchActivity.this.lambda$handleIntent$16(intent9, z68);
@@ -5306,11 +5461,14 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         } else if (uri10.startsWith("tg:stars_topup") || uri10.startsWith("tg://stars_topup")) {
                                                             Uri parse10 = Uri.parse(uri10.replace("tg:stars_topup", "tg://telegram.org").replace("tg://stars_topup", "tg://telegram.org"));
                                                             try {
-                                                                j14 = Long.parseLong(parse10.getQueryParameter("balance"));
+                                                                j14 = (int) Long.parseLong(parse10.getQueryParameter("balance"));
+                                                                if (j14 >= 0) {
+                                                                    break;
+                                                                }
                                                             } catch (Exception e5) {
                                                                 FileLog.e(e5);
-                                                                j14 = 0;
                                                             }
+                                                            j14 = 0;
                                                             StarsController.getInstance(iArr[0]).showStarsTopup(this, j14, parse10.getQueryParameter("purpose"));
                                                         } else {
                                                             String replace = uri10.replace("tg://", "").replace("tg:", "");
@@ -5341,10 +5499,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                             l35 = null;
                                                             str28 = null;
                                                             str30 = null;
-                                                            str31 = null;
                                                             l34 = l36;
                                                             num17 = num18;
                                                             l33 = l35;
+                                                            str31 = null;
                                                             str32 = null;
                                                             l32 = l34;
                                                             num16 = num17;
@@ -5354,7 +5512,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                             num2 = num16;
                                                             l4 = l31;
                                                         }
-                                                        str86 = null;
+                                                        str85 = null;
                                                         break;
                                                     } else {
                                                         str13 = null;
@@ -5467,10 +5625,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         num18 = num14;
                                         l35 = l27;
                                         str30 = null;
-                                        str31 = null;
                                         l34 = l36;
                                         num17 = num18;
                                         l33 = l35;
+                                        str31 = null;
                                         str32 = null;
                                         l32 = l34;
                                         num16 = num17;
@@ -5595,7 +5753,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         if (!TextUtils.isEmpty(queryParameter33)) {
                                                             tLRPC$TL_wallPaper2.settings.rotation = Utilities.parseInt((CharSequence) queryParameter33).intValue();
                                                         }
-                                                    } catch (Exception unused8) {
+                                                    } catch (Exception unused10) {
                                                     }
                                                     tLRPC$TL_wallPaper2.slug = null;
                                                 }
@@ -5633,20 +5791,700 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         } else {
                                                             tLRPC$TL_wallPaper2.settings.background_color = -1;
                                                         }
-                                                    } catch (Exception unused9) {
+                                                    } catch (Exception unused11) {
                                                     }
                                                     try {
                                                         String queryParameter37 = data.getQueryParameter("rotation");
                                                         if (!TextUtils.isEmpty(queryParameter37)) {
                                                             tLRPC$TL_wallPaper2.settings.rotation = Utilities.parseInt((CharSequence) queryParameter37).intValue();
                                                         }
-                                                    } catch (Exception unused10) {
+                                                    } catch (Exception unused12) {
                                                     }
                                                 }
                                                 str70 = tLRPC$TL_wallPaper2;
+                                                str56 = null;
                                                 z55 = false;
                                                 z56 = false;
+                                                i18 = -1;
+                                                str57 = null;
+                                                str18 = null;
+                                                str67 = null;
+                                                str66 = null;
+                                                str21 = null;
+                                                str22 = null;
+                                                str24 = null;
+                                                str65 = null;
+                                                str64 = null;
+                                                str63 = null;
+                                                i19 = 0;
+                                                z59 = false;
+                                                str27 = null;
+                                                str62 = null;
+                                                str61 = null;
+                                                str60 = null;
+                                                z58 = false;
+                                                str30 = null;
+                                                z57 = false;
+                                                str59 = null;
+                                                str58 = null;
+                                                str34 = null;
+                                                str35 = null;
+                                                str69 = null;
+                                                str68 = null;
+                                                str71 = null;
+                                                num19 = null;
+                                                l38 = null;
+                                                l37 = null;
+                                                str76 = null;
+                                                str75 = null;
+                                                str74 = null;
+                                                str73 = null;
+                                                str72 = null;
+                                                z44 = z56;
+                                                i14 = i18;
+                                                str23 = str57;
+                                                str17 = str67;
+                                                str43 = str66;
+                                                str19 = str65;
+                                                str15 = str64;
+                                                str16 = str63;
+                                                i15 = i19;
+                                                z43 = z59;
+                                                str37 = str62;
+                                                str38 = str60;
+                                                z45 = z58;
+                                                z46 = z57;
+                                                str42 = str59;
+                                                str36 = str58;
+                                                str20 = str69;
+                                                str44 = str68;
+                                                str32 = str70;
+                                                str33 = str71;
+                                                str49 = num19;
+                                                str50 = l38;
+                                                str25 = str76;
+                                                str26 = str75;
+                                                str39 = str74;
+                                                str40 = str73;
+                                                str41 = str72;
+                                                j8 = 0;
+                                                str28 = null;
+                                                str29 = null;
+                                                str31 = null;
+                                                str9 = null;
+                                                str10 = null;
+                                                str11 = null;
+                                                i12 = 0;
+                                                i13 = 0;
+                                                z15 = false;
+                                                z40 = false;
+                                                z16 = false;
+                                                z17 = false;
+                                                z18 = false;
+                                                z19 = false;
+                                                str12 = null;
+                                                j9 = 0;
+                                                j7 = 0;
+                                                z41 = z55;
+                                                str14 = str56;
+                                                str13 = str61;
+                                                str48 = l37;
+                                                z42 = false;
+                                                break;
+                                            }
+                                            z61 = true;
+                                            if (!z61) {
+                                            }
+                                            str70 = tLRPC$TL_wallPaper2;
+                                            str56 = null;
+                                            z55 = false;
+                                            z56 = false;
+                                            i18 = -1;
+                                            str57 = null;
+                                            str18 = null;
+                                            str67 = null;
+                                            str66 = null;
+                                            str21 = null;
+                                            str22 = null;
+                                            str24 = null;
+                                            str65 = null;
+                                            str64 = null;
+                                            str63 = null;
+                                            i19 = 0;
+                                            z59 = false;
+                                            str27 = null;
+                                            str62 = null;
+                                            str61 = null;
+                                            str60 = null;
+                                            z58 = false;
+                                            str30 = null;
+                                            z57 = false;
+                                            str59 = null;
+                                            str58 = null;
+                                            str34 = null;
+                                            str35 = null;
+                                            str69 = null;
+                                            str68 = null;
+                                            str71 = null;
+                                            num19 = null;
+                                            l38 = null;
+                                            l37 = null;
+                                            str76 = null;
+                                            str75 = null;
+                                            str74 = null;
+                                            str73 = null;
+                                            str72 = null;
+                                            z44 = z56;
+                                            i14 = i18;
+                                            str23 = str57;
+                                            str17 = str67;
+                                            str43 = str66;
+                                            str19 = str65;
+                                            str15 = str64;
+                                            str16 = str63;
+                                            i15 = i19;
+                                            z43 = z59;
+                                            str37 = str62;
+                                            str38 = str60;
+                                            z45 = z58;
+                                            z46 = z57;
+                                            str42 = str59;
+                                            str36 = str58;
+                                            str20 = str69;
+                                            str44 = str68;
+                                            str32 = str70;
+                                            str33 = str71;
+                                            str49 = num19;
+                                            str50 = l38;
+                                            str25 = str76;
+                                            str26 = str75;
+                                            str39 = str74;
+                                            str40 = str73;
+                                            str41 = str72;
+                                            j8 = 0;
+                                            str28 = null;
+                                            str29 = null;
+                                            str31 = null;
+                                            str9 = null;
+                                            str10 = null;
+                                            str11 = null;
+                                            i12 = 0;
+                                            i13 = 0;
+                                            z15 = false;
+                                            z40 = false;
+                                            z16 = false;
+                                            z17 = false;
+                                            z18 = false;
+                                            z19 = false;
+                                            str12 = null;
+                                            j9 = 0;
+                                            j7 = 0;
+                                            z41 = z55;
+                                            str14 = str56;
+                                            str13 = str61;
+                                            str48 = l37;
+                                            z42 = false;
+                                        } else if (substring3.startsWith("login/")) {
+                                            int intValue3 = Utilities.parseInt((CharSequence) substring3.replace("login/", "")).intValue();
+                                            str34 = intValue3 != 0 ? "" + intValue3 : null;
+                                            str56 = null;
+                                            z55 = false;
+                                            z56 = false;
+                                            i18 = -1;
+                                            str57 = null;
+                                            str18 = null;
+                                            str67 = null;
+                                            str66 = null;
+                                            str21 = null;
+                                            str22 = null;
+                                            str24 = null;
+                                            str65 = null;
+                                            str64 = null;
+                                            str63 = null;
+                                            i19 = 0;
+                                            z59 = false;
+                                            str27 = null;
+                                            str62 = null;
+                                            str61 = null;
+                                            str60 = null;
+                                            z58 = false;
+                                            str30 = null;
+                                            z57 = false;
+                                            str59 = null;
+                                            str58 = null;
+                                            str35 = null;
+                                            str69 = null;
+                                            str68 = null;
+                                            str70 = null;
+                                            str71 = null;
+                                            num19 = null;
+                                            l38 = null;
+                                            l37 = null;
+                                            str76 = null;
+                                            str75 = null;
+                                            str74 = null;
+                                            str73 = null;
+                                            str72 = null;
+                                            z44 = z56;
+                                            i14 = i18;
+                                            str23 = str57;
+                                            str17 = str67;
+                                            str43 = str66;
+                                            str19 = str65;
+                                            str15 = str64;
+                                            str16 = str63;
+                                            i15 = i19;
+                                            z43 = z59;
+                                            str37 = str62;
+                                            str38 = str60;
+                                            z45 = z58;
+                                            z46 = z57;
+                                            str42 = str59;
+                                            str36 = str58;
+                                            str20 = str69;
+                                            str44 = str68;
+                                            str32 = str70;
+                                            str33 = str71;
+                                            str49 = num19;
+                                            str50 = l38;
+                                            str25 = str76;
+                                            str26 = str75;
+                                            str39 = str74;
+                                            str40 = str73;
+                                            str41 = str72;
+                                            j8 = 0;
+                                            str28 = null;
+                                            str29 = null;
+                                            str31 = null;
+                                            str9 = null;
+                                            str10 = null;
+                                            str11 = null;
+                                            i12 = 0;
+                                            i13 = 0;
+                                            z15 = false;
+                                            z40 = false;
+                                            z16 = false;
+                                            z17 = false;
+                                            z18 = false;
+                                            z19 = false;
+                                            str12 = null;
+                                            j9 = 0;
+                                            j7 = 0;
+                                            z41 = z55;
+                                            str14 = str56;
+                                            str13 = str61;
+                                            str48 = l37;
+                                            z42 = false;
+                                        } else {
+                                            if (substring3.startsWith("joinchat/")) {
+                                                str57 = substring3.replace("joinchat/", "");
                                                 str56 = null;
+                                                z55 = false;
+                                                z56 = false;
+                                                i18 = -1;
+                                                str18 = null;
+                                            } else if (substring3.startsWith("+")) {
+                                                String replace3 = substring3.replace("+", "");
+                                                if (AndroidUtilities.isNumeric(replace3)) {
+                                                    str83 = null;
+                                                } else {
+                                                    str83 = replace3;
+                                                    replace3 = null;
+                                                }
+                                                str76 = data.getQueryParameter("text");
+                                                str56 = replace3;
+                                                str57 = str83;
+                                                z55 = false;
+                                                z56 = false;
+                                                i18 = -1;
+                                                str18 = null;
+                                                str67 = null;
+                                                str66 = null;
+                                                str21 = null;
+                                                str22 = null;
+                                                str24 = null;
+                                                str65 = null;
+                                                str64 = null;
+                                                str63 = null;
+                                                i19 = 0;
+                                                z59 = false;
+                                                str27 = null;
+                                                str62 = null;
+                                                str61 = null;
+                                                str60 = null;
+                                                z58 = false;
+                                                str30 = null;
+                                                z57 = false;
+                                                str59 = null;
+                                                str58 = null;
+                                                str34 = null;
+                                                str35 = null;
+                                                str69 = null;
+                                                str68 = null;
+                                                str70 = null;
+                                                str71 = null;
+                                                num19 = null;
+                                                l38 = null;
+                                                l37 = null;
+                                                str75 = null;
+                                                str74 = null;
+                                                str73 = null;
+                                                str72 = null;
+                                                z44 = z56;
+                                                i14 = i18;
+                                                str23 = str57;
+                                                str17 = str67;
+                                                str43 = str66;
+                                                str19 = str65;
+                                                str15 = str64;
+                                                str16 = str63;
+                                                i15 = i19;
+                                                z43 = z59;
+                                                str37 = str62;
+                                                str38 = str60;
+                                                z45 = z58;
+                                                z46 = z57;
+                                                str42 = str59;
+                                                str36 = str58;
+                                                str20 = str69;
+                                                str44 = str68;
+                                                str32 = str70;
+                                                str33 = str71;
+                                                str49 = num19;
+                                                str50 = l38;
+                                                str25 = str76;
+                                                str26 = str75;
+                                                str39 = str74;
+                                                str40 = str73;
+                                                str41 = str72;
+                                                j8 = 0;
+                                                str28 = null;
+                                                str29 = null;
+                                                str31 = null;
+                                                str9 = null;
+                                                str10 = null;
+                                                str11 = null;
+                                                i12 = 0;
+                                                i13 = 0;
+                                                z15 = false;
+                                                z40 = false;
+                                                z16 = false;
+                                                z17 = false;
+                                                z18 = false;
+                                                z19 = false;
+                                                str12 = null;
+                                                j9 = 0;
+                                                j7 = 0;
+                                                z41 = z55;
+                                                str14 = str56;
+                                                str13 = str61;
+                                                str48 = l37;
+                                                z42 = false;
+                                            } else if (substring3.startsWith("addstickers/")) {
+                                                str18 = substring3.replace("addstickers/", "");
+                                                str56 = null;
+                                                z55 = false;
+                                                z56 = false;
+                                                i18 = -1;
+                                                str57 = null;
+                                            } else if (substring3.startsWith("addemoji/")) {
+                                                str67 = substring3.replace("addemoji/", "");
+                                                str56 = null;
+                                                z55 = false;
+                                                z56 = false;
+                                                i18 = -1;
+                                                str57 = null;
+                                                str18 = null;
+                                                str66 = null;
+                                                str21 = null;
+                                                str22 = null;
+                                                str24 = null;
+                                                str65 = null;
+                                                str64 = null;
+                                                str63 = null;
+                                                i19 = 0;
+                                                z59 = false;
+                                                str27 = null;
+                                                str62 = null;
+                                                str61 = null;
+                                                str60 = null;
+                                                z58 = false;
+                                                str30 = null;
+                                                z57 = false;
+                                                str59 = null;
+                                                str58 = null;
+                                                str34 = null;
+                                                str35 = null;
+                                                str69 = null;
+                                                str68 = null;
+                                                str70 = null;
+                                                str71 = null;
+                                                num19 = null;
+                                                l38 = null;
+                                                l37 = null;
+                                                str76 = null;
+                                                str75 = null;
+                                                str74 = null;
+                                                str73 = null;
+                                                str72 = null;
+                                                z44 = z56;
+                                                i14 = i18;
+                                                str23 = str57;
+                                                str17 = str67;
+                                                str43 = str66;
+                                                str19 = str65;
+                                                str15 = str64;
+                                                str16 = str63;
+                                                i15 = i19;
+                                                z43 = z59;
+                                                str37 = str62;
+                                                str38 = str60;
+                                                z45 = z58;
+                                                z46 = z57;
+                                                str42 = str59;
+                                                str36 = str58;
+                                                str20 = str69;
+                                                str44 = str68;
+                                                str32 = str70;
+                                                str33 = str71;
+                                                str49 = num19;
+                                                str50 = l38;
+                                                str25 = str76;
+                                                str26 = str75;
+                                                str39 = str74;
+                                                str40 = str73;
+                                                str41 = str72;
+                                                j8 = 0;
+                                                str28 = null;
+                                                str29 = null;
+                                                str31 = null;
+                                                str9 = null;
+                                                str10 = null;
+                                                str11 = null;
+                                                i12 = 0;
+                                                i13 = 0;
+                                                z15 = false;
+                                                z40 = false;
+                                                z16 = false;
+                                                z17 = false;
+                                                z18 = false;
+                                                z19 = false;
+                                                str12 = null;
+                                                j9 = 0;
+                                                j7 = 0;
+                                                z41 = z55;
+                                                str14 = str56;
+                                                str13 = str61;
+                                                str48 = l37;
+                                                z42 = false;
+                                            } else if (substring3.startsWith("msg/") || substring3.startsWith("share/")) {
+                                                String queryParameter38 = data.getQueryParameter("url");
+                                                str8 = queryParameter38 != null ? queryParameter38 : "";
+                                                if (data.getQueryParameter("text") != null) {
+                                                    if (str8.length() > 0) {
+                                                        str8 = str8 + "\n";
+                                                        z55 = true;
+                                                    } else {
+                                                        z55 = false;
+                                                    }
+                                                    str8 = str8 + data.getQueryParameter("text");
+                                                } else {
+                                                    z55 = false;
+                                                }
+                                                if (str8.length() > 16384) {
+                                                    i20 = 0;
+                                                    str77 = str8.substring(0, LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
+                                                } else {
+                                                    i20 = 0;
+                                                    str77 = str8;
+                                                }
+                                                while (str77.endsWith("\n")) {
+                                                    str77 = str77.substring(i20, str77.length() - 1);
+                                                }
+                                                str64 = str77;
+                                                str56 = null;
+                                                z56 = false;
+                                                i18 = -1;
+                                                str57 = null;
+                                                str18 = null;
+                                                str67 = null;
+                                                str66 = null;
+                                                str21 = null;
+                                                str22 = null;
+                                                str24 = null;
+                                                str65 = null;
+                                                str63 = null;
+                                                i19 = 0;
+                                                z59 = false;
+                                                str27 = null;
+                                                str62 = null;
+                                                str61 = null;
+                                                str60 = null;
+                                                z58 = false;
+                                                str30 = null;
+                                                z57 = false;
+                                                str59 = null;
+                                                str58 = null;
+                                                str34 = null;
+                                                str35 = null;
+                                                str69 = null;
+                                                str68 = null;
+                                                str70 = null;
+                                                str71 = null;
+                                                num19 = null;
+                                                l38 = null;
+                                                l37 = null;
+                                                str76 = null;
+                                                str75 = null;
+                                                str74 = null;
+                                                str73 = null;
+                                                str72 = null;
+                                                z44 = z56;
+                                                i14 = i18;
+                                                str23 = str57;
+                                                str17 = str67;
+                                                str43 = str66;
+                                                str19 = str65;
+                                                str15 = str64;
+                                                str16 = str63;
+                                                i15 = i19;
+                                                z43 = z59;
+                                                str37 = str62;
+                                                str38 = str60;
+                                                z45 = z58;
+                                                z46 = z57;
+                                                str42 = str59;
+                                                str36 = str58;
+                                                str20 = str69;
+                                                str44 = str68;
+                                                str32 = str70;
+                                                str33 = str71;
+                                                str49 = num19;
+                                                str50 = l38;
+                                                str25 = str76;
+                                                str26 = str75;
+                                                str39 = str74;
+                                                str40 = str73;
+                                                str41 = str72;
+                                                j8 = 0;
+                                                str28 = null;
+                                                str29 = null;
+                                                str31 = null;
+                                                str9 = null;
+                                                str10 = null;
+                                                str11 = null;
+                                                i12 = 0;
+                                                i13 = 0;
+                                                z15 = false;
+                                                z40 = false;
+                                                z16 = false;
+                                                z17 = false;
+                                                z18 = false;
+                                                z19 = false;
+                                                str12 = null;
+                                                j9 = 0;
+                                                j7 = 0;
+                                                z41 = z55;
+                                                str14 = str56;
+                                                str13 = str61;
+                                                str48 = l37;
+                                                z42 = false;
+                                            } else if (substring3.startsWith("confirmphone")) {
+                                                String queryParameter39 = data.getQueryParameter("phone");
+                                                str61 = data.getQueryParameter("hash");
+                                                str63 = queryParameter39;
+                                                str56 = null;
+                                                z55 = false;
+                                                z56 = false;
+                                                i18 = -1;
+                                                str57 = null;
+                                                str18 = null;
+                                                str67 = null;
+                                                str66 = null;
+                                                str21 = null;
+                                                str22 = null;
+                                                str24 = null;
+                                                str65 = null;
+                                                str64 = null;
+                                                i19 = 0;
+                                                z59 = false;
+                                                str27 = null;
+                                                str62 = null;
+                                                str60 = null;
+                                                z58 = false;
+                                                str30 = null;
+                                                z57 = false;
+                                                str59 = null;
+                                                str58 = null;
+                                                str34 = null;
+                                                str35 = null;
+                                                str69 = null;
+                                                str68 = null;
+                                                str70 = null;
+                                                str71 = null;
+                                                num19 = null;
+                                                l38 = null;
+                                                l37 = null;
+                                                str76 = null;
+                                                str75 = null;
+                                                str74 = null;
+                                                str73 = null;
+                                                str72 = null;
+                                                z44 = z56;
+                                                i14 = i18;
+                                                str23 = str57;
+                                                str17 = str67;
+                                                str43 = str66;
+                                                str19 = str65;
+                                                str15 = str64;
+                                                str16 = str63;
+                                                i15 = i19;
+                                                z43 = z59;
+                                                str37 = str62;
+                                                str38 = str60;
+                                                z45 = z58;
+                                                z46 = z57;
+                                                str42 = str59;
+                                                str36 = str58;
+                                                str20 = str69;
+                                                str44 = str68;
+                                                str32 = str70;
+                                                str33 = str71;
+                                                str49 = num19;
+                                                str50 = l38;
+                                                str25 = str76;
+                                                str26 = str75;
+                                                str39 = str74;
+                                                str40 = str73;
+                                                str41 = str72;
+                                                j8 = 0;
+                                                str28 = null;
+                                                str29 = null;
+                                                str31 = null;
+                                                str9 = null;
+                                                str10 = null;
+                                                str11 = null;
+                                                i12 = 0;
+                                                i13 = 0;
+                                                z15 = false;
+                                                z40 = false;
+                                                z16 = false;
+                                                z17 = false;
+                                                z18 = false;
+                                                z19 = false;
+                                                str12 = null;
+                                                j9 = 0;
+                                                j7 = 0;
+                                                z41 = z55;
+                                                str14 = str56;
+                                                str13 = str61;
+                                                str48 = l37;
+                                                z42 = false;
+                                            } else if (substring3.startsWith("setlanguage/")) {
+                                                str30 = substring3.substring(12);
+                                                str56 = null;
+                                                z55 = false;
+                                                z56 = false;
                                                 i18 = -1;
                                                 str57 = null;
                                                 str18 = null;
@@ -5666,13 +6504,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str60 = null;
                                                 z58 = false;
                                                 z57 = false;
-                                                str31 = null;
                                                 str59 = null;
                                                 str58 = null;
                                                 str34 = null;
                                                 str35 = null;
                                                 str69 = null;
                                                 str68 = null;
+                                                str70 = null;
                                                 str71 = null;
                                                 num19 = null;
                                                 l38 = null;
@@ -5682,21 +6520,21 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str74 = null;
                                                 str73 = null;
                                                 str72 = null;
-                                                z44 = z55;
+                                                z44 = z56;
                                                 i14 = i18;
                                                 str23 = str57;
                                                 str17 = str67;
-                                                str42 = str66;
+                                                str43 = str66;
                                                 str19 = str65;
+                                                str15 = str64;
                                                 str16 = str63;
                                                 i15 = i19;
                                                 z43 = z59;
                                                 str37 = str62;
-                                                str13 = str61;
                                                 str38 = str60;
                                                 z45 = z58;
                                                 z46 = z57;
-                                                str43 = str59;
+                                                str42 = str59;
                                                 str36 = str58;
                                                 str20 = str69;
                                                 str44 = str68;
@@ -5704,7 +6542,6 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str33 = str71;
                                                 str49 = num19;
                                                 str50 = l38;
-                                                str48 = l37;
                                                 str25 = str76;
                                                 str26 = str75;
                                                 str39 = str74;
@@ -5713,14 +6550,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 j8 = 0;
                                                 str28 = null;
                                                 str29 = null;
-                                                str30 = null;
+                                                str31 = null;
                                                 str9 = null;
                                                 str10 = null;
                                                 str11 = null;
                                                 i12 = 0;
                                                 i13 = 0;
                                                 z15 = false;
-                                                z42 = false;
                                                 z40 = false;
                                                 z16 = false;
                                                 z17 = false;
@@ -5729,538 +6565,114 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str12 = null;
                                                 j9 = 0;
                                                 j7 = 0;
-                                                String str98 = str64;
-                                                z41 = z56;
+                                                z41 = z55;
                                                 str14 = str56;
-                                                str15 = str98;
-                                                break;
-                                            }
-                                            z61 = true;
-                                            if (!z61) {
-                                            }
-                                            str70 = tLRPC$TL_wallPaper2;
-                                            z55 = false;
-                                            z56 = false;
-                                            str56 = null;
-                                            i18 = -1;
-                                            str57 = null;
-                                            str18 = null;
-                                            str67 = null;
-                                            str66 = null;
-                                            str21 = null;
-                                            str22 = null;
-                                            str24 = null;
-                                            str65 = null;
-                                            str64 = null;
-                                            str63 = null;
-                                            i19 = 0;
-                                            z59 = false;
-                                            str27 = null;
-                                            str62 = null;
-                                            str61 = null;
-                                            str60 = null;
-                                            z58 = false;
-                                            z57 = false;
-                                            str31 = null;
-                                            str59 = null;
-                                            str58 = null;
-                                            str34 = null;
-                                            str35 = null;
-                                            str69 = null;
-                                            str68 = null;
-                                            str71 = null;
-                                            num19 = null;
-                                            l38 = null;
-                                            l37 = null;
-                                            str76 = null;
-                                            str75 = null;
-                                            str74 = null;
-                                            str73 = null;
-                                            str72 = null;
-                                            z44 = z55;
-                                            i14 = i18;
-                                            str23 = str57;
-                                            str17 = str67;
-                                            str42 = str66;
-                                            str19 = str65;
-                                            str16 = str63;
-                                            i15 = i19;
-                                            z43 = z59;
-                                            str37 = str62;
-                                            str13 = str61;
-                                            str38 = str60;
-                                            z45 = z58;
-                                            z46 = z57;
-                                            str43 = str59;
-                                            str36 = str58;
-                                            str20 = str69;
-                                            str44 = str68;
-                                            str32 = str70;
-                                            str33 = str71;
-                                            str49 = num19;
-                                            str50 = l38;
-                                            str48 = l37;
-                                            str25 = str76;
-                                            str26 = str75;
-                                            str39 = str74;
-                                            str40 = str73;
-                                            str41 = str72;
-                                            j8 = 0;
-                                            str28 = null;
-                                            str29 = null;
-                                            str30 = null;
-                                            str9 = null;
-                                            str10 = null;
-                                            str11 = null;
-                                            i12 = 0;
-                                            i13 = 0;
-                                            z15 = false;
-                                            z42 = false;
-                                            z40 = false;
-                                            z16 = false;
-                                            z17 = false;
-                                            z18 = false;
-                                            z19 = false;
-                                            str12 = null;
-                                            j9 = 0;
-                                            j7 = 0;
-                                            String str982 = str64;
-                                            z41 = z56;
-                                            str14 = str56;
-                                            str15 = str982;
-                                        } else if (substring3.startsWith("login/")) {
-                                            int intValue3 = Utilities.parseInt((CharSequence) substring3.replace("login/", "")).intValue();
-                                            str34 = intValue3 != 0 ? "" + intValue3 : null;
-                                            z55 = false;
-                                            z56 = false;
-                                            str56 = null;
-                                            i18 = -1;
-                                            str57 = null;
-                                            str18 = null;
-                                            str67 = null;
-                                            str66 = null;
-                                            str21 = null;
-                                            str22 = null;
-                                            str24 = null;
-                                            str65 = null;
-                                            str64 = null;
-                                            str63 = null;
-                                            i19 = 0;
-                                            z59 = false;
-                                            str27 = null;
-                                            str62 = null;
-                                            str61 = null;
-                                            str60 = null;
-                                            z58 = false;
-                                            z57 = false;
-                                            str31 = null;
-                                            str59 = null;
-                                            str58 = null;
-                                            str35 = null;
-                                            str69 = null;
-                                            str68 = null;
-                                            str70 = null;
-                                            str71 = null;
-                                            num19 = null;
-                                            l38 = null;
-                                            l37 = null;
-                                            str76 = null;
-                                            str75 = null;
-                                            str74 = null;
-                                            str73 = null;
-                                            str72 = null;
-                                            z44 = z55;
-                                            i14 = i18;
-                                            str23 = str57;
-                                            str17 = str67;
-                                            str42 = str66;
-                                            str19 = str65;
-                                            str16 = str63;
-                                            i15 = i19;
-                                            z43 = z59;
-                                            str37 = str62;
-                                            str13 = str61;
-                                            str38 = str60;
-                                            z45 = z58;
-                                            z46 = z57;
-                                            str43 = str59;
-                                            str36 = str58;
-                                            str20 = str69;
-                                            str44 = str68;
-                                            str32 = str70;
-                                            str33 = str71;
-                                            str49 = num19;
-                                            str50 = l38;
-                                            str48 = l37;
-                                            str25 = str76;
-                                            str26 = str75;
-                                            str39 = str74;
-                                            str40 = str73;
-                                            str41 = str72;
-                                            j8 = 0;
-                                            str28 = null;
-                                            str29 = null;
-                                            str30 = null;
-                                            str9 = null;
-                                            str10 = null;
-                                            str11 = null;
-                                            i12 = 0;
-                                            i13 = 0;
-                                            z15 = false;
-                                            z42 = false;
-                                            z40 = false;
-                                            z16 = false;
-                                            z17 = false;
-                                            z18 = false;
-                                            z19 = false;
-                                            str12 = null;
-                                            j9 = 0;
-                                            j7 = 0;
-                                            String str9822 = str64;
-                                            z41 = z56;
-                                            str14 = str56;
-                                            str15 = str9822;
-                                        } else {
-                                            if (substring3.startsWith("joinchat/")) {
-                                                str57 = substring3.replace("joinchat/", "");
+                                                str13 = str61;
+                                                str48 = l37;
+                                                z42 = false;
+                                            } else if (substring3.startsWith("addtheme/")) {
+                                                str58 = substring3.substring(9);
+                                                str56 = null;
                                                 z55 = false;
                                                 z56 = false;
-                                                str56 = null;
                                                 i18 = -1;
+                                                str57 = null;
                                                 str18 = null;
-                                            } else {
-                                                if (substring3.startsWith("+")) {
-                                                    String replace3 = substring3.replace("+", "");
-                                                    if (AndroidUtilities.isNumeric(replace3)) {
-                                                        str84 = null;
-                                                    } else {
-                                                        str84 = replace3;
-                                                        replace3 = null;
-                                                    }
-                                                    str76 = data.getQueryParameter("text");
-                                                    str57 = str84;
-                                                    z55 = false;
-                                                    i18 = -1;
-                                                    str18 = null;
-                                                    str67 = null;
-                                                    str66 = null;
-                                                    str21 = null;
-                                                    str22 = null;
-                                                    str24 = null;
-                                                    str65 = null;
-                                                    str64 = null;
-                                                    str63 = null;
-                                                    i19 = 0;
-                                                    z59 = false;
-                                                    str27 = null;
-                                                    str62 = null;
-                                                    str61 = null;
-                                                    str60 = null;
-                                                    z58 = false;
-                                                    z57 = false;
-                                                    str31 = null;
-                                                    str59 = null;
-                                                    str58 = null;
-                                                    str34 = null;
-                                                    str35 = null;
-                                                    str69 = null;
-                                                    str68 = null;
-                                                    str70 = null;
-                                                    str71 = null;
-                                                    num19 = null;
-                                                    l38 = null;
-                                                    l37 = null;
-                                                    str75 = null;
-                                                    str74 = null;
-                                                    str73 = null;
-                                                    str72 = null;
-                                                    str56 = replace3;
-                                                    z56 = false;
-                                                } else if (substring3.startsWith("addstickers/")) {
-                                                    str18 = substring3.replace("addstickers/", "");
-                                                    z55 = false;
-                                                    z56 = false;
+                                                str67 = null;
+                                                str66 = null;
+                                                str21 = null;
+                                                str22 = null;
+                                                str24 = null;
+                                                str65 = null;
+                                                str64 = null;
+                                                str63 = null;
+                                                i19 = 0;
+                                                z59 = false;
+                                                str27 = null;
+                                                str62 = null;
+                                                str61 = null;
+                                                str60 = null;
+                                                z58 = false;
+                                                str30 = null;
+                                                z57 = false;
+                                                str59 = null;
+                                                str34 = null;
+                                                str35 = null;
+                                                str69 = null;
+                                                str68 = null;
+                                                str70 = null;
+                                                str71 = null;
+                                                num19 = null;
+                                                l38 = null;
+                                                l37 = null;
+                                                str76 = null;
+                                                str75 = null;
+                                                str74 = null;
+                                                str73 = null;
+                                                str72 = null;
+                                                z44 = z56;
+                                                i14 = i18;
+                                                str23 = str57;
+                                                str17 = str67;
+                                                str43 = str66;
+                                                str19 = str65;
+                                                str15 = str64;
+                                                str16 = str63;
+                                                i15 = i19;
+                                                z43 = z59;
+                                                str37 = str62;
+                                                str38 = str60;
+                                                z45 = z58;
+                                                z46 = z57;
+                                                str42 = str59;
+                                                str36 = str58;
+                                                str20 = str69;
+                                                str44 = str68;
+                                                str32 = str70;
+                                                str33 = str71;
+                                                str49 = num19;
+                                                str50 = l38;
+                                                str25 = str76;
+                                                str26 = str75;
+                                                str39 = str74;
+                                                str40 = str73;
+                                                str41 = str72;
+                                                j8 = 0;
+                                                str28 = null;
+                                                str29 = null;
+                                                str31 = null;
+                                                str9 = null;
+                                                str10 = null;
+                                                str11 = null;
+                                                i12 = 0;
+                                                i13 = 0;
+                                                z15 = false;
+                                                z40 = false;
+                                                z16 = false;
+                                                z17 = false;
+                                                z18 = false;
+                                                z19 = false;
+                                                str12 = null;
+                                                j9 = 0;
+                                                j7 = 0;
+                                                z41 = z55;
+                                                str14 = str56;
+                                                str13 = str61;
+                                                str48 = l37;
+                                                z42 = false;
+                                            } else if (substring3.equalsIgnoreCase("boost") || substring3.startsWith("boost/")) {
+                                                String queryParameter40 = data.getQueryParameter("c");
+                                                List<String> pathSegments = data.getPathSegments();
+                                                if (pathSegments.size() >= 2) {
+                                                    str56 = pathSegments.get(1);
+                                                } else if (TextUtils.isEmpty(queryParameter40)) {
                                                     str56 = null;
-                                                    i18 = -1;
-                                                    str57 = null;
-                                                } else if (substring3.startsWith("addemoji/")) {
-                                                    str67 = substring3.replace("addemoji/", "");
-                                                    z55 = false;
-                                                    z56 = false;
+                                                } else {
+                                                    parseLong = Utilities.parseLong(queryParameter40);
                                                     str56 = null;
-                                                    i18 = -1;
-                                                    str57 = null;
-                                                    str18 = null;
-                                                    str66 = null;
-                                                    str21 = null;
-                                                    str22 = null;
-                                                    str24 = null;
-                                                    str65 = null;
-                                                    str64 = null;
-                                                    str63 = null;
-                                                    i19 = 0;
-                                                    z59 = false;
-                                                    str27 = null;
-                                                    str62 = null;
-                                                    str61 = null;
-                                                    str60 = null;
-                                                    z58 = false;
-                                                    z57 = false;
-                                                    str31 = null;
-                                                    str59 = null;
-                                                    str58 = null;
-                                                    str34 = null;
-                                                    str35 = null;
-                                                    str69 = null;
-                                                    str68 = null;
-                                                    str70 = null;
-                                                    str71 = null;
-                                                    num19 = null;
-                                                    l38 = null;
-                                                    l37 = null;
-                                                    str76 = null;
-                                                    str75 = null;
-                                                    str74 = null;
-                                                    str73 = null;
-                                                    str72 = null;
-                                                } else if (substring3.startsWith("msg/") || substring3.startsWith("share/")) {
-                                                    String queryParameter38 = data.getQueryParameter("url");
-                                                    str8 = queryParameter38 != null ? queryParameter38 : "";
-                                                    if (data.getQueryParameter("text") != null) {
-                                                        if (str8.length() > 0) {
-                                                            str8 = str8 + "\n";
-                                                            z56 = true;
-                                                        } else {
-                                                            z56 = false;
-                                                        }
-                                                        str8 = str8 + data.getQueryParameter("text");
-                                                    } else {
-                                                        z56 = false;
-                                                    }
-                                                    if (str8.length() > 16384) {
-                                                        i20 = 0;
-                                                        str77 = str8.substring(0, LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
-                                                    } else {
-                                                        i20 = 0;
-                                                        str77 = str8;
-                                                    }
-                                                    while (str77.endsWith("\n")) {
-                                                        str77 = str77.substring(i20, str77.length() - 1);
-                                                    }
-                                                    str64 = str77;
-                                                    z55 = false;
-                                                    str56 = null;
-                                                    i18 = -1;
-                                                    str57 = null;
-                                                    str18 = null;
-                                                    str67 = null;
-                                                    str66 = null;
-                                                    str21 = null;
-                                                    str22 = null;
-                                                    str24 = null;
-                                                    str65 = null;
-                                                    str63 = null;
-                                                    i19 = 0;
-                                                    z59 = false;
-                                                    str27 = null;
-                                                    str62 = null;
-                                                    str61 = null;
-                                                    str60 = null;
-                                                    z58 = false;
-                                                    z57 = false;
-                                                    str31 = null;
-                                                    str59 = null;
-                                                    str58 = null;
-                                                    str34 = null;
-                                                    str35 = null;
-                                                    str69 = null;
-                                                    str68 = null;
-                                                    str70 = null;
-                                                    str71 = null;
-                                                    num19 = null;
-                                                    l38 = null;
-                                                    l37 = null;
-                                                    str76 = null;
-                                                    str75 = null;
-                                                    str74 = null;
-                                                    str73 = null;
-                                                    str72 = null;
-                                                } else if (substring3.startsWith("confirmphone")) {
-                                                    String queryParameter39 = data.getQueryParameter("phone");
-                                                    str61 = data.getQueryParameter("hash");
-                                                    str63 = queryParameter39;
-                                                    z55 = false;
-                                                    z56 = false;
-                                                    str56 = null;
-                                                    i18 = -1;
-                                                    str57 = null;
-                                                    str18 = null;
-                                                    str67 = null;
-                                                    str66 = null;
-                                                    str21 = null;
-                                                    str22 = null;
-                                                    str24 = null;
-                                                    str65 = null;
-                                                    str64 = null;
-                                                    i19 = 0;
-                                                    z59 = false;
-                                                    str27 = null;
-                                                    str62 = null;
-                                                    str60 = null;
-                                                    z58 = false;
-                                                    z57 = false;
-                                                    str31 = null;
-                                                    str59 = null;
-                                                    str58 = null;
-                                                    str34 = null;
-                                                    str35 = null;
-                                                    str69 = null;
-                                                    str68 = null;
-                                                    str70 = null;
-                                                    str71 = null;
-                                                    num19 = null;
-                                                    l38 = null;
-                                                    l37 = null;
-                                                    str76 = null;
-                                                    str75 = null;
-                                                    str74 = null;
-                                                    str73 = null;
-                                                    str72 = null;
-                                                } else if (substring3.startsWith("setlanguage/")) {
-                                                    str31 = substring3.substring(12);
-                                                    z55 = false;
-                                                    z56 = false;
-                                                    str56 = null;
-                                                    i18 = -1;
-                                                    str57 = null;
-                                                    str18 = null;
-                                                    str67 = null;
-                                                    str66 = null;
-                                                    str21 = null;
-                                                    str22 = null;
-                                                    str24 = null;
-                                                    str65 = null;
-                                                    str64 = null;
-                                                    str63 = null;
-                                                    i19 = 0;
-                                                    z59 = false;
-                                                    str27 = null;
-                                                    str62 = null;
-                                                    str61 = null;
-                                                    str60 = null;
-                                                    z58 = false;
-                                                    z57 = false;
-                                                    str59 = null;
-                                                    str58 = null;
-                                                    str34 = null;
-                                                    str35 = null;
-                                                    str69 = null;
-                                                    str68 = null;
-                                                    str70 = null;
-                                                    str71 = null;
-                                                    num19 = null;
-                                                    l38 = null;
-                                                    l37 = null;
-                                                    str76 = null;
-                                                    str75 = null;
-                                                    str74 = null;
-                                                    str73 = null;
-                                                    str72 = null;
-                                                } else if (substring3.startsWith("addtheme/")) {
-                                                    str58 = substring3.substring(9);
-                                                    z55 = false;
-                                                    z56 = false;
-                                                    str56 = null;
-                                                    i18 = -1;
-                                                    str57 = null;
-                                                    str18 = null;
-                                                    str67 = null;
-                                                    str66 = null;
-                                                    str21 = null;
-                                                    str22 = null;
-                                                    str24 = null;
-                                                    str65 = null;
-                                                    str64 = null;
-                                                    str63 = null;
-                                                    i19 = 0;
-                                                    z59 = false;
-                                                    str27 = null;
-                                                    str62 = null;
-                                                    str61 = null;
-                                                    str60 = null;
-                                                    z58 = false;
-                                                    z57 = false;
-                                                    str31 = null;
-                                                    str59 = null;
-                                                    str34 = null;
-                                                    str35 = null;
-                                                    str69 = null;
-                                                    str68 = null;
-                                                    str70 = null;
-                                                    str71 = null;
-                                                    num19 = null;
-                                                    l38 = null;
-                                                    l37 = null;
-                                                    str76 = null;
-                                                    str75 = null;
-                                                    str74 = null;
-                                                    str73 = null;
-                                                    str72 = null;
-                                                } else if (substring3.equalsIgnoreCase("boost") || substring3.startsWith("boost/")) {
-                                                    String queryParameter40 = data.getQueryParameter("c");
-                                                    List<String> pathSegments = data.getPathSegments();
-                                                    if (pathSegments.size() >= 2) {
-                                                        str78 = pathSegments.get(1);
-                                                    } else if (TextUtils.isEmpty(queryParameter40)) {
-                                                        str78 = null;
-                                                    } else {
-                                                        parseLong = Utilities.parseLong(queryParameter40);
-                                                        str78 = null;
-                                                        str56 = str78;
-                                                        l38 = parseLong;
-                                                        z55 = true;
-                                                        z56 = false;
-                                                        i18 = -1;
-                                                        str57 = null;
-                                                        str18 = null;
-                                                        str67 = null;
-                                                        str66 = null;
-                                                        str21 = null;
-                                                        str22 = null;
-                                                        str24 = null;
-                                                        str65 = null;
-                                                        str64 = null;
-                                                        str63 = null;
-                                                        i19 = 0;
-                                                        z59 = false;
-                                                        str27 = null;
-                                                        str62 = null;
-                                                        str61 = null;
-                                                        str60 = null;
-                                                        z58 = false;
-                                                        z57 = false;
-                                                        str31 = null;
-                                                        str59 = null;
-                                                        str58 = null;
-                                                        str34 = null;
-                                                        str35 = null;
-                                                        str69 = null;
-                                                        str68 = null;
-                                                        str70 = null;
-                                                        str71 = null;
-                                                        num19 = null;
-                                                        l37 = null;
-                                                        str76 = null;
-                                                        str75 = null;
-                                                        str74 = null;
-                                                        str73 = null;
-                                                        str72 = null;
-                                                    }
-                                                    parseLong = null;
-                                                    str56 = str78;
                                                     l38 = parseLong;
-                                                    z55 = true;
-                                                    z56 = false;
+                                                    z55 = false;
+                                                    z56 = true;
                                                     i18 = -1;
                                                     str57 = null;
                                                     str18 = null;
@@ -6279,8 +6691,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str61 = null;
                                                     str60 = null;
                                                     z58 = false;
+                                                    str30 = null;
                                                     z57 = false;
-                                                    str31 = null;
                                                     str59 = null;
                                                     str58 = null;
                                                     str34 = null;
@@ -6296,470 +6708,239 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str74 = null;
                                                     str73 = null;
                                                     str72 = null;
-                                                } else if (substring3.startsWith("c/")) {
-                                                    List<String> pathSegments2 = data.getPathSegments();
-                                                    if (pathSegments2.size() >= 3) {
-                                                        l39 = Utilities.parseLong(pathSegments2.get(1));
-                                                        num22 = Utilities.parseInt((CharSequence) pathSegments2.get(2));
-                                                        if (num22.intValue() != 0) {
-                                                            j15 = 0;
-                                                            break;
-                                                        } else {
-                                                            j15 = 0;
-                                                        }
-                                                        l39 = null;
-                                                        num22 = null;
-                                                        l40 = Utilities.parseLong(data.getQueryParameter("thread"));
+                                                    z44 = z56;
+                                                    i14 = i18;
+                                                    str23 = str57;
+                                                    str17 = str67;
+                                                    str43 = str66;
+                                                    str19 = str65;
+                                                    str15 = str64;
+                                                    str16 = str63;
+                                                    i15 = i19;
+                                                    z43 = z59;
+                                                    str37 = str62;
+                                                    str38 = str60;
+                                                    z45 = z58;
+                                                    z46 = z57;
+                                                    str42 = str59;
+                                                    str36 = str58;
+                                                    str20 = str69;
+                                                    str44 = str68;
+                                                    str32 = str70;
+                                                    str33 = str71;
+                                                    str49 = num19;
+                                                    str50 = l38;
+                                                    str25 = str76;
+                                                    str26 = str75;
+                                                    str39 = str74;
+                                                    str40 = str73;
+                                                    str41 = str72;
+                                                    j8 = 0;
+                                                    str28 = null;
+                                                    str29 = null;
+                                                    str31 = null;
+                                                    str9 = null;
+                                                    str10 = null;
+                                                    str11 = null;
+                                                    i12 = 0;
+                                                    i13 = 0;
+                                                    z15 = false;
+                                                    z40 = false;
+                                                    z16 = false;
+                                                    z17 = false;
+                                                    z18 = false;
+                                                    z19 = false;
+                                                    str12 = null;
+                                                    j9 = 0;
+                                                    j7 = 0;
+                                                    z41 = z55;
+                                                    str14 = str56;
+                                                    str13 = str61;
+                                                    str48 = l37;
+                                                    z42 = false;
+                                                }
+                                                parseLong = null;
+                                                l38 = parseLong;
+                                                z55 = false;
+                                                z56 = true;
+                                                i18 = -1;
+                                                str57 = null;
+                                                str18 = null;
+                                                str67 = null;
+                                                str66 = null;
+                                                str21 = null;
+                                                str22 = null;
+                                                str24 = null;
+                                                str65 = null;
+                                                str64 = null;
+                                                str63 = null;
+                                                i19 = 0;
+                                                z59 = false;
+                                                str27 = null;
+                                                str62 = null;
+                                                str61 = null;
+                                                str60 = null;
+                                                z58 = false;
+                                                str30 = null;
+                                                z57 = false;
+                                                str59 = null;
+                                                str58 = null;
+                                                str34 = null;
+                                                str35 = null;
+                                                str69 = null;
+                                                str68 = null;
+                                                str70 = null;
+                                                str71 = null;
+                                                num19 = null;
+                                                l37 = null;
+                                                str76 = null;
+                                                str75 = null;
+                                                str74 = null;
+                                                str73 = null;
+                                                str72 = null;
+                                                z44 = z56;
+                                                i14 = i18;
+                                                str23 = str57;
+                                                str17 = str67;
+                                                str43 = str66;
+                                                str19 = str65;
+                                                str15 = str64;
+                                                str16 = str63;
+                                                i15 = i19;
+                                                z43 = z59;
+                                                str37 = str62;
+                                                str38 = str60;
+                                                z45 = z58;
+                                                z46 = z57;
+                                                str42 = str59;
+                                                str36 = str58;
+                                                str20 = str69;
+                                                str44 = str68;
+                                                str32 = str70;
+                                                str33 = str71;
+                                                str49 = num19;
+                                                str50 = l38;
+                                                str25 = str76;
+                                                str26 = str75;
+                                                str39 = str74;
+                                                str40 = str73;
+                                                str41 = str72;
+                                                j8 = 0;
+                                                str28 = null;
+                                                str29 = null;
+                                                str31 = null;
+                                                str9 = null;
+                                                str10 = null;
+                                                str11 = null;
+                                                i12 = 0;
+                                                i13 = 0;
+                                                z15 = false;
+                                                z40 = false;
+                                                z16 = false;
+                                                z17 = false;
+                                                z18 = false;
+                                                z19 = false;
+                                                str12 = null;
+                                                j9 = 0;
+                                                j7 = 0;
+                                                z41 = z55;
+                                                str14 = str56;
+                                                str13 = str61;
+                                                str48 = l37;
+                                                z42 = false;
+                                            } else if (substring3.startsWith("c/")) {
+                                                List<String> pathSegments2 = data.getPathSegments();
+                                                if (pathSegments2.size() >= 3) {
+                                                    l39 = Utilities.parseLong(pathSegments2.get(1));
+                                                    num22 = Utilities.parseInt((CharSequence) pathSegments2.get(2));
+                                                    if (num22.intValue() != 0) {
+                                                        j15 = 0;
+                                                        break;
+                                                    } else {
+                                                        j15 = 0;
+                                                    }
+                                                    l39 = null;
+                                                    num22 = null;
+                                                    l40 = Utilities.parseLong(data.getQueryParameter("thread"));
+                                                    if (l40.longValue() == j15) {
+                                                        l40 = null;
+                                                    }
+                                                    if (l40 == null) {
+                                                        l40 = Utilities.parseLong(data.getQueryParameter("topic"));
                                                         if (l40.longValue() == j15) {
                                                             l40 = null;
                                                         }
-                                                        if (l40 == null) {
-                                                            l40 = Utilities.parseLong(data.getQueryParameter("topic"));
-                                                            if (l40.longValue() == j15) {
-                                                                l40 = null;
-                                                            }
-                                                        }
-                                                        if (l40 == null && num22 != null && pathSegments2.size() >= 4) {
-                                                            l40 = Long.valueOf(num22.intValue());
-                                                            num22 = Utilities.parseInt((CharSequence) pathSegments2.get(3));
-                                                        }
-                                                    } else {
-                                                        l39 = null;
-                                                        num22 = null;
-                                                        l40 = null;
                                                     }
-                                                    if (data.getQuery() == null || pathSegments2.size() != 2) {
-                                                        l41 = l39;
-                                                        z55 = false;
-                                                    } else {
-                                                        z55 = data.getQuery().equals("boost");
-                                                        l41 = Utilities.parseLong(pathSegments2.get(1));
+                                                    if (l40 == null && num22 != null && pathSegments2.size() >= 4) {
+                                                        l40 = Long.valueOf(num22.intValue());
+                                                        num22 = Utilities.parseInt((CharSequence) pathSegments2.get(3));
                                                     }
-                                                    l38 = l41;
-                                                    num19 = num22;
-                                                    l37 = l40;
-                                                    z56 = false;
-                                                    str56 = null;
-                                                    i18 = -1;
-                                                    str57 = null;
-                                                    str18 = null;
-                                                    str67 = null;
-                                                    str66 = null;
-                                                    str21 = null;
-                                                    str22 = null;
-                                                    str24 = null;
-                                                    str65 = null;
-                                                    str64 = null;
-                                                    str63 = null;
-                                                    i19 = 0;
-                                                    z59 = false;
-                                                    str27 = null;
-                                                    str62 = null;
-                                                    str61 = null;
-                                                    str60 = null;
-                                                    z58 = false;
-                                                    z57 = false;
-                                                    str31 = null;
-                                                    str59 = null;
-                                                    str58 = null;
-                                                    str34 = null;
-                                                    str35 = null;
-                                                    str69 = null;
-                                                    str68 = null;
-                                                    str70 = null;
-                                                    str71 = null;
-                                                    str76 = null;
-                                                    str75 = null;
-                                                    str74 = null;
-                                                    str73 = null;
-                                                    str72 = null;
-                                                } else if (substring3.startsWith("contact/")) {
-                                                    str35 = substring3.substring(8);
-                                                    z55 = false;
-                                                    z56 = false;
-                                                    str56 = null;
-                                                    i18 = -1;
-                                                    str57 = null;
-                                                    str18 = null;
-                                                    str67 = null;
-                                                    str66 = null;
-                                                    str21 = null;
-                                                    str22 = null;
-                                                    str24 = null;
-                                                    str65 = null;
-                                                    str64 = null;
-                                                    str63 = null;
-                                                    i19 = 0;
-                                                    z59 = false;
-                                                    str27 = null;
-                                                    str62 = null;
-                                                    str61 = null;
-                                                    str60 = null;
-                                                    z58 = false;
-                                                    z57 = false;
-                                                    str31 = null;
-                                                    str59 = null;
-                                                    str58 = null;
-                                                    str34 = null;
-                                                    str69 = null;
-                                                    str68 = null;
-                                                    str70 = null;
-                                                    str71 = null;
-                                                    num19 = null;
-                                                    l38 = null;
-                                                    l37 = null;
-                                                    str76 = null;
-                                                    str75 = null;
-                                                    str74 = null;
-                                                    str73 = null;
-                                                    str72 = null;
                                                 } else {
-                                                    if (substring3.startsWith("folder/")) {
-                                                        substring = substring3.substring(7);
-                                                    } else if (substring3.startsWith("addlist/")) {
-                                                        substring = substring3.substring(8);
-                                                    } else if (substring3.startsWith("m/")) {
-                                                        str68 = substring3.substring(2);
-                                                        z55 = false;
-                                                        z56 = false;
-                                                        str56 = null;
-                                                        i18 = -1;
-                                                        str57 = null;
-                                                        str18 = null;
-                                                        str67 = null;
-                                                        str66 = null;
-                                                        str21 = null;
-                                                        str22 = null;
-                                                        str24 = null;
-                                                        str65 = null;
-                                                        str64 = null;
-                                                        str63 = null;
-                                                        i19 = 0;
-                                                        z59 = false;
-                                                        str27 = null;
-                                                        str62 = null;
-                                                        str61 = null;
-                                                        str60 = null;
-                                                        z58 = false;
-                                                        z57 = false;
-                                                        str31 = null;
-                                                        str59 = null;
-                                                        str58 = null;
-                                                        str34 = null;
-                                                        str35 = null;
-                                                        str69 = null;
-                                                        str70 = null;
-                                                        str71 = null;
-                                                        num19 = null;
-                                                        l38 = null;
-                                                        l37 = null;
-                                                        str76 = null;
-                                                        str75 = null;
-                                                        str74 = null;
-                                                        str73 = null;
-                                                        str72 = null;
-                                                    } else if (substring3.length() >= 1) {
-                                                        ArrayList arrayList3 = new ArrayList(data.getPathSegments());
-                                                        if (arrayList3.size() > 0) {
-                                                            i21 = 0;
-                                                            if (((String) arrayList3.get(0)).equals("s")) {
-                                                                arrayList3.remove(0);
-                                                            }
-                                                        } else {
-                                                            i21 = 0;
-                                                        }
-                                                        if (arrayList3.size() > 0) {
-                                                            str79 = (String) arrayList3.get(i21);
-                                                            if (arrayList3.size() >= 3 && "s".equals(arrayList3.get(1))) {
-                                                                try {
-                                                                    i22 = Integer.parseInt((String) arrayList3.get(2));
-                                                                } catch (Exception unused11) {
-                                                                }
-                                                                num20 = null;
-                                                                str81 = null;
-                                                                str80 = null;
-                                                                if (num20 != null) {
-                                                                }
-                                                                str21 = data.getQueryParameter("start");
-                                                                str22 = data.getQueryParameter("startgroup");
-                                                                str24 = data.getQueryParameter("startchannel");
-                                                                str65 = data.getQueryParameter("admin");
-                                                                String queryParameter41 = data.getQueryParameter("game");
-                                                                String queryParameter42 = data.getQueryParameter("voicechat");
-                                                                i19 = i22;
-                                                                boolean booleanQueryParameter3 = data.getBooleanQueryParameter("videochat", false);
-                                                                String queryParameter43 = data.getQueryParameter("livestream");
-                                                                z59 = booleanQueryParameter3;
-                                                                String queryParameter44 = data.getQueryParameter("startattach");
-                                                                String queryParameter45 = data.getQueryParameter("choose");
-                                                                String queryParameter46 = data.getQueryParameter("attach");
-                                                                str60 = queryParameter43;
-                                                                z58 = TextUtils.equals(data.getQueryParameter("mode"), "compact");
-                                                                boolean booleanQueryParameter4 = data.getBooleanQueryParameter("profile", false);
-                                                                parseLong2 = Utilities.parseLong(data.getQueryParameter("thread"));
-                                                                String queryParameter47 = data.getQueryParameter("text");
-                                                                if (data.getQuery() != null) {
-                                                                }
-                                                                if (parseLong2.longValue() == 0) {
-                                                                }
-                                                                if (parseLong2 == null) {
-                                                                }
-                                                                if (parseLong2 == null) {
-                                                                }
-                                                                str59 = str80;
-                                                                num21 = num20;
-                                                                parseInt2 = Utilities.parseInt((CharSequence) data.getQueryParameter("comment"));
-                                                                if (parseInt2.intValue() != 0) {
-                                                                }
-                                                                str56 = str82;
-                                                                str66 = str81;
-                                                                str27 = queryParameter41;
-                                                                str62 = queryParameter42;
-                                                                str64 = null;
-                                                                str63 = null;
-                                                            } else {
-                                                                if (arrayList3.size() > 1) {
-                                                                    String str99 = (String) arrayList3.get(1);
-                                                                    String queryParameter48 = data.getQueryParameter("startapp");
-                                                                    try {
-                                                                        num20 = Utilities.parseInt((CharSequence) arrayList3.get(1));
-                                                                        if (num20.intValue() == 0) {
-                                                                            num20 = null;
-                                                                        }
-                                                                        str80 = queryParameter48;
-                                                                    } catch (NumberFormatException unused12) {
-                                                                        str80 = queryParameter48;
-                                                                        num20 = null;
-                                                                    }
-                                                                    str81 = str99;
-                                                                    i22 = 0;
-                                                                } else if (arrayList3.size() == 1) {
-                                                                    str80 = data.getQueryParameter("startapp");
-                                                                    i22 = 0;
-                                                                    num20 = null;
-                                                                    str81 = null;
-                                                                }
-                                                                if (num20 != null) {
-                                                                    i23 = getTimestampFromLink(data);
-                                                                    str82 = str79;
-                                                                } else {
-                                                                    str82 = str79;
-                                                                    i23 = -1;
-                                                                }
-                                                                str21 = data.getQueryParameter("start");
-                                                                str22 = data.getQueryParameter("startgroup");
-                                                                str24 = data.getQueryParameter("startchannel");
-                                                                str65 = data.getQueryParameter("admin");
-                                                                String queryParameter412 = data.getQueryParameter("game");
-                                                                String queryParameter422 = data.getQueryParameter("voicechat");
-                                                                i19 = i22;
-                                                                boolean booleanQueryParameter32 = data.getBooleanQueryParameter("videochat", false);
-                                                                String queryParameter432 = data.getQueryParameter("livestream");
-                                                                z59 = booleanQueryParameter32;
-                                                                String queryParameter442 = data.getQueryParameter("startattach");
-                                                                String queryParameter452 = data.getQueryParameter("choose");
-                                                                String queryParameter462 = data.getQueryParameter("attach");
-                                                                str60 = queryParameter432;
-                                                                z58 = TextUtils.equals(data.getQueryParameter("mode"), "compact");
-                                                                boolean booleanQueryParameter42 = data.getBooleanQueryParameter("profile", false);
-                                                                parseLong2 = Utilities.parseLong(data.getQueryParameter("thread"));
-                                                                String queryParameter472 = data.getQueryParameter("text");
-                                                                if (data.getQuery() != null) {
-                                                                    z57 = booleanQueryParameter42;
-                                                                    str83 = queryParameter472;
-                                                                    z60 = data.getQuery().equals("boost");
-                                                                } else {
-                                                                    z57 = booleanQueryParameter42;
-                                                                    str83 = queryParameter472;
-                                                                    z60 = false;
-                                                                }
-                                                                if (parseLong2.longValue() == 0) {
-                                                                    parseLong2 = null;
-                                                                }
-                                                                if (parseLong2 == null) {
-                                                                    parseLong2 = Utilities.parseLong(data.getQueryParameter("topic"));
-                                                                    if (parseLong2.longValue() == 0) {
-                                                                        parseLong2 = null;
-                                                                    }
-                                                                }
-                                                                if (parseLong2 == null || num20 == null) {
-                                                                    str59 = str80;
-                                                                } else {
-                                                                    str59 = str80;
-                                                                    if (arrayList3.size() >= 3) {
-                                                                        parseLong2 = Long.valueOf(num20.intValue());
-                                                                        num21 = Utilities.parseInt((CharSequence) arrayList3.get(2));
-                                                                        parseInt2 = Utilities.parseInt((CharSequence) data.getQueryParameter("comment"));
-                                                                        if (parseInt2.intValue() != 0) {
-                                                                            num19 = num21;
-                                                                            l37 = parseLong2;
-                                                                            z55 = z60;
-                                                                            i18 = i23;
-                                                                            str74 = queryParameter442;
-                                                                            str72 = queryParameter452;
-                                                                            str73 = queryParameter462;
-                                                                            str76 = str83;
-                                                                            z56 = false;
-                                                                            str57 = null;
-                                                                            str18 = null;
-                                                                            str67 = null;
-                                                                            str61 = null;
-                                                                            str31 = null;
-                                                                            str58 = null;
-                                                                            str34 = null;
-                                                                            str35 = null;
-                                                                            str69 = null;
-                                                                            str68 = null;
-                                                                            str70 = null;
-                                                                            str71 = null;
-                                                                            l38 = null;
-                                                                            str75 = null;
-                                                                        } else {
-                                                                            str75 = parseInt2;
-                                                                            num19 = num21;
-                                                                            l37 = parseLong2;
-                                                                            z55 = z60;
-                                                                            i18 = i23;
-                                                                            str74 = queryParameter442;
-                                                                            str72 = queryParameter452;
-                                                                            str73 = queryParameter462;
-                                                                            str76 = str83;
-                                                                            z56 = false;
-                                                                            str57 = null;
-                                                                            str18 = null;
-                                                                            str67 = null;
-                                                                            str61 = null;
-                                                                            str31 = null;
-                                                                            str58 = null;
-                                                                            str34 = null;
-                                                                            str35 = null;
-                                                                            str69 = null;
-                                                                            str68 = null;
-                                                                            str70 = null;
-                                                                            str71 = null;
-                                                                            l38 = null;
-                                                                        }
-                                                                        str56 = str82;
-                                                                        str66 = str81;
-                                                                        str27 = queryParameter412;
-                                                                        str62 = queryParameter422;
-                                                                        str64 = null;
-                                                                        str63 = null;
-                                                                    }
-                                                                }
-                                                                num21 = num20;
-                                                                parseInt2 = Utilities.parseInt((CharSequence) data.getQueryParameter("comment"));
-                                                                if (parseInt2.intValue() != 0) {
-                                                                }
-                                                                str56 = str82;
-                                                                str66 = str81;
-                                                                str27 = queryParameter412;
-                                                                str62 = queryParameter422;
-                                                                str64 = null;
-                                                                str63 = null;
-                                                            }
-                                                        } else {
-                                                            str79 = null;
-                                                        }
-                                                        i22 = 0;
-                                                        num20 = null;
-                                                        str81 = null;
-                                                        str80 = null;
-                                                        if (num20 != null) {
-                                                        }
-                                                        str21 = data.getQueryParameter("start");
-                                                        str22 = data.getQueryParameter("startgroup");
-                                                        str24 = data.getQueryParameter("startchannel");
-                                                        str65 = data.getQueryParameter("admin");
-                                                        String queryParameter4122 = data.getQueryParameter("game");
-                                                        String queryParameter4222 = data.getQueryParameter("voicechat");
-                                                        i19 = i22;
-                                                        boolean booleanQueryParameter322 = data.getBooleanQueryParameter("videochat", false);
-                                                        String queryParameter4322 = data.getQueryParameter("livestream");
-                                                        z59 = booleanQueryParameter322;
-                                                        String queryParameter4422 = data.getQueryParameter("startattach");
-                                                        String queryParameter4522 = data.getQueryParameter("choose");
-                                                        String queryParameter4622 = data.getQueryParameter("attach");
-                                                        str60 = queryParameter4322;
-                                                        z58 = TextUtils.equals(data.getQueryParameter("mode"), "compact");
-                                                        boolean booleanQueryParameter422 = data.getBooleanQueryParameter("profile", false);
-                                                        parseLong2 = Utilities.parseLong(data.getQueryParameter("thread"));
-                                                        String queryParameter4722 = data.getQueryParameter("text");
-                                                        if (data.getQuery() != null) {
-                                                        }
-                                                        if (parseLong2.longValue() == 0) {
-                                                        }
-                                                        if (parseLong2 == null) {
-                                                        }
-                                                        if (parseLong2 == null) {
-                                                        }
-                                                        str59 = str80;
-                                                        num21 = num20;
-                                                        parseInt2 = Utilities.parseInt((CharSequence) data.getQueryParameter("comment"));
-                                                        if (parseInt2.intValue() != 0) {
-                                                        }
-                                                        str56 = str82;
-                                                        str66 = str81;
-                                                        str27 = queryParameter4122;
-                                                        str62 = queryParameter4222;
-                                                        str64 = null;
-                                                        str63 = null;
-                                                    }
-                                                    str69 = substring;
-                                                    z55 = false;
-                                                    z56 = false;
-                                                    str56 = null;
-                                                    i18 = -1;
-                                                    str57 = null;
-                                                    str18 = null;
-                                                    str67 = null;
-                                                    str66 = null;
-                                                    str21 = null;
-                                                    str22 = null;
-                                                    str24 = null;
-                                                    str65 = null;
-                                                    str64 = null;
-                                                    str63 = null;
-                                                    i19 = 0;
-                                                    z59 = false;
-                                                    str27 = null;
-                                                    str62 = null;
-                                                    str61 = null;
-                                                    str60 = null;
-                                                    z58 = false;
-                                                    z57 = false;
-                                                    str31 = null;
-                                                    str59 = null;
-                                                    str58 = null;
-                                                    str34 = null;
-                                                    str35 = null;
-                                                    str68 = null;
-                                                    str70 = null;
-                                                    str71 = null;
-                                                    num19 = null;
-                                                    l38 = null;
-                                                    l37 = null;
-                                                    str76 = null;
-                                                    str75 = null;
-                                                    str74 = null;
-                                                    str73 = null;
-                                                    str72 = null;
+                                                    l39 = null;
+                                                    num22 = null;
+                                                    l40 = null;
                                                 }
-                                                z44 = z55;
+                                                if (data.getQuery() == null || pathSegments2.size() != 2) {
+                                                    l41 = l39;
+                                                    z60 = false;
+                                                } else {
+                                                    z60 = data.getQuery().equals("boost");
+                                                    l41 = Utilities.parseLong(pathSegments2.get(1));
+                                                }
+                                                z56 = z60;
+                                                l38 = l41;
+                                                num19 = num22;
+                                                l37 = l40;
+                                                str56 = null;
+                                                z55 = false;
+                                                i18 = -1;
+                                                str57 = null;
+                                                str18 = null;
+                                                str67 = null;
+                                                str66 = null;
+                                                str21 = null;
+                                                str22 = null;
+                                                str24 = null;
+                                                str65 = null;
+                                                str64 = null;
+                                                str63 = null;
+                                                i19 = 0;
+                                                z59 = false;
+                                                str27 = null;
+                                                str62 = null;
+                                                str61 = null;
+                                                str60 = null;
+                                                z58 = false;
+                                                str30 = null;
+                                                z57 = false;
+                                                str59 = null;
+                                                str58 = null;
+                                                str34 = null;
+                                                str35 = null;
+                                                str69 = null;
+                                                str68 = null;
+                                                str70 = null;
+                                                str71 = null;
+                                                str76 = null;
+                                                str75 = null;
+                                                str74 = null;
+                                                str73 = null;
+                                                str72 = null;
+                                                z44 = z56;
                                                 i14 = i18;
                                                 str23 = str57;
                                                 str17 = str67;
-                                                str42 = str66;
+                                                str43 = str66;
                                                 str19 = str65;
+                                                str15 = str64;
                                                 str16 = str63;
                                                 i15 = i19;
                                                 z43 = z59;
                                                 str37 = str62;
-                                                str13 = str61;
                                                 str38 = str60;
                                                 z45 = z58;
                                                 z46 = z57;
-                                                str43 = str59;
+                                                str42 = str59;
                                                 str36 = str58;
                                                 str20 = str69;
                                                 str44 = str68;
@@ -6767,7 +6948,6 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str33 = str71;
                                                 str49 = num19;
                                                 str50 = l38;
-                                                str48 = l37;
                                                 str25 = str76;
                                                 str26 = str75;
                                                 str39 = str74;
@@ -6776,14 +6956,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 j8 = 0;
                                                 str28 = null;
                                                 str29 = null;
-                                                str30 = null;
+                                                str31 = null;
                                                 str9 = null;
                                                 str10 = null;
                                                 str11 = null;
                                                 i12 = 0;
                                                 i13 = 0;
                                                 z15 = false;
-                                                z42 = false;
                                                 z40 = false;
                                                 z16 = false;
                                                 z17 = false;
@@ -6792,10 +6971,728 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str12 = null;
                                                 j9 = 0;
                                                 j7 = 0;
-                                                String str98222 = str64;
-                                                z41 = z56;
+                                                z41 = z55;
                                                 str14 = str56;
-                                                str15 = str98222;
+                                                str13 = str61;
+                                                str48 = l37;
+                                                z42 = false;
+                                            } else if (substring3.startsWith("contact/")) {
+                                                str35 = substring3.substring(8);
+                                                str56 = null;
+                                                z55 = false;
+                                                z56 = false;
+                                                i18 = -1;
+                                                str57 = null;
+                                                str18 = null;
+                                                str67 = null;
+                                                str66 = null;
+                                                str21 = null;
+                                                str22 = null;
+                                                str24 = null;
+                                                str65 = null;
+                                                str64 = null;
+                                                str63 = null;
+                                                i19 = 0;
+                                                z59 = false;
+                                                str27 = null;
+                                                str62 = null;
+                                                str61 = null;
+                                                str60 = null;
+                                                z58 = false;
+                                                str30 = null;
+                                                z57 = false;
+                                                str59 = null;
+                                                str58 = null;
+                                                str34 = null;
+                                                str69 = null;
+                                                str68 = null;
+                                                str70 = null;
+                                                str71 = null;
+                                                num19 = null;
+                                                l38 = null;
+                                                l37 = null;
+                                                str76 = null;
+                                                str75 = null;
+                                                str74 = null;
+                                                str73 = null;
+                                                str72 = null;
+                                                z44 = z56;
+                                                i14 = i18;
+                                                str23 = str57;
+                                                str17 = str67;
+                                                str43 = str66;
+                                                str19 = str65;
+                                                str15 = str64;
+                                                str16 = str63;
+                                                i15 = i19;
+                                                z43 = z59;
+                                                str37 = str62;
+                                                str38 = str60;
+                                                z45 = z58;
+                                                z46 = z57;
+                                                str42 = str59;
+                                                str36 = str58;
+                                                str20 = str69;
+                                                str44 = str68;
+                                                str32 = str70;
+                                                str33 = str71;
+                                                str49 = num19;
+                                                str50 = l38;
+                                                str25 = str76;
+                                                str26 = str75;
+                                                str39 = str74;
+                                                str40 = str73;
+                                                str41 = str72;
+                                                j8 = 0;
+                                                str28 = null;
+                                                str29 = null;
+                                                str31 = null;
+                                                str9 = null;
+                                                str10 = null;
+                                                str11 = null;
+                                                i12 = 0;
+                                                i13 = 0;
+                                                z15 = false;
+                                                z40 = false;
+                                                z16 = false;
+                                                z17 = false;
+                                                z18 = false;
+                                                z19 = false;
+                                                str12 = null;
+                                                j9 = 0;
+                                                j7 = 0;
+                                                z41 = z55;
+                                                str14 = str56;
+                                                str13 = str61;
+                                                str48 = l37;
+                                                z42 = false;
+                                            } else {
+                                                if (substring3.startsWith("folder/")) {
+                                                    substring = substring3.substring(7);
+                                                } else if (substring3.startsWith("addlist/")) {
+                                                    substring = substring3.substring(8);
+                                                } else if (substring3.startsWith("m/")) {
+                                                    str68 = substring3.substring(2);
+                                                    str56 = null;
+                                                    z55 = false;
+                                                    z56 = false;
+                                                    i18 = -1;
+                                                    str57 = null;
+                                                    str18 = null;
+                                                    str67 = null;
+                                                    str66 = null;
+                                                    str21 = null;
+                                                    str22 = null;
+                                                    str24 = null;
+                                                    str65 = null;
+                                                    str64 = null;
+                                                    str63 = null;
+                                                    i19 = 0;
+                                                    z59 = false;
+                                                    str27 = null;
+                                                    str62 = null;
+                                                    str61 = null;
+                                                    str60 = null;
+                                                    z58 = false;
+                                                    str30 = null;
+                                                    z57 = false;
+                                                    str59 = null;
+                                                    str58 = null;
+                                                    str34 = null;
+                                                    str35 = null;
+                                                    str69 = null;
+                                                    str70 = null;
+                                                    str71 = null;
+                                                    num19 = null;
+                                                    l38 = null;
+                                                    l37 = null;
+                                                    str76 = null;
+                                                    str75 = null;
+                                                    str74 = null;
+                                                    str73 = null;
+                                                    str72 = null;
+                                                    z44 = z56;
+                                                    i14 = i18;
+                                                    str23 = str57;
+                                                    str17 = str67;
+                                                    str43 = str66;
+                                                    str19 = str65;
+                                                    str15 = str64;
+                                                    str16 = str63;
+                                                    i15 = i19;
+                                                    z43 = z59;
+                                                    str37 = str62;
+                                                    str38 = str60;
+                                                    z45 = z58;
+                                                    z46 = z57;
+                                                    str42 = str59;
+                                                    str36 = str58;
+                                                    str20 = str69;
+                                                    str44 = str68;
+                                                    str32 = str70;
+                                                    str33 = str71;
+                                                    str49 = num19;
+                                                    str50 = l38;
+                                                    str25 = str76;
+                                                    str26 = str75;
+                                                    str39 = str74;
+                                                    str40 = str73;
+                                                    str41 = str72;
+                                                    j8 = 0;
+                                                    str28 = null;
+                                                    str29 = null;
+                                                    str31 = null;
+                                                    str9 = null;
+                                                    str10 = null;
+                                                    str11 = null;
+                                                    i12 = 0;
+                                                    i13 = 0;
+                                                    z15 = false;
+                                                    z40 = false;
+                                                    z16 = false;
+                                                    z17 = false;
+                                                    z18 = false;
+                                                    z19 = false;
+                                                    str12 = null;
+                                                    j9 = 0;
+                                                    j7 = 0;
+                                                    z41 = z55;
+                                                    str14 = str56;
+                                                    str13 = str61;
+                                                    str48 = l37;
+                                                    z42 = false;
+                                                } else if (substring3.length() >= 1) {
+                                                    ArrayList arrayList3 = new ArrayList(data.getPathSegments());
+                                                    if (arrayList3.size() > 0) {
+                                                        i21 = 0;
+                                                        if (((String) arrayList3.get(0)).equals("s")) {
+                                                            arrayList3.remove(0);
+                                                        }
+                                                    } else {
+                                                        i21 = 0;
+                                                    }
+                                                    if (arrayList3.size() > 0) {
+                                                        str78 = (String) arrayList3.get(i21);
+                                                        if (arrayList3.size() >= 3 && "s".equals(arrayList3.get(1))) {
+                                                            try {
+                                                                i22 = Integer.parseInt((String) arrayList3.get(2));
+                                                            } catch (Exception unused13) {
+                                                            }
+                                                            num20 = null;
+                                                            str80 = null;
+                                                            str79 = null;
+                                                            if (num20 != null) {
+                                                            }
+                                                            str21 = data.getQueryParameter("start");
+                                                            str22 = data.getQueryParameter("startgroup");
+                                                            str24 = data.getQueryParameter("startchannel");
+                                                            str65 = data.getQueryParameter("admin");
+                                                            String queryParameter41 = data.getQueryParameter("game");
+                                                            String queryParameter42 = data.getQueryParameter("voicechat");
+                                                            i19 = i22;
+                                                            boolean booleanQueryParameter3 = data.getBooleanQueryParameter("videochat", false);
+                                                            String queryParameter43 = data.getQueryParameter("livestream");
+                                                            z59 = booleanQueryParameter3;
+                                                            String queryParameter44 = data.getQueryParameter("startattach");
+                                                            String queryParameter45 = data.getQueryParameter("choose");
+                                                            String queryParameter46 = data.getQueryParameter("attach");
+                                                            str60 = queryParameter43;
+                                                            z58 = TextUtils.equals(data.getQueryParameter("mode"), "compact");
+                                                            boolean booleanQueryParameter4 = data.getBooleanQueryParameter("profile", false);
+                                                            parseLong2 = Utilities.parseLong(data.getQueryParameter("thread"));
+                                                            String queryParameter47 = data.getQueryParameter("text");
+                                                            if (data.getQuery() != null) {
+                                                            }
+                                                            if (parseLong2.longValue() == 0) {
+                                                            }
+                                                            if (parseLong2 == null) {
+                                                            }
+                                                            if (parseLong2 == null) {
+                                                            }
+                                                            str59 = str80;
+                                                            num21 = num20;
+                                                            parseInt2 = Utilities.parseInt((CharSequence) data.getQueryParameter("comment"));
+                                                            if (parseInt2.intValue() != 0) {
+                                                            }
+                                                            str66 = str79;
+                                                            str27 = queryParameter41;
+                                                            str62 = queryParameter42;
+                                                            str64 = null;
+                                                            str63 = null;
+                                                            z44 = z56;
+                                                            i14 = i18;
+                                                            str23 = str57;
+                                                            str17 = str67;
+                                                            str43 = str66;
+                                                            str19 = str65;
+                                                            str15 = str64;
+                                                            str16 = str63;
+                                                            i15 = i19;
+                                                            z43 = z59;
+                                                            str37 = str62;
+                                                            str38 = str60;
+                                                            z45 = z58;
+                                                            z46 = z57;
+                                                            str42 = str59;
+                                                            str36 = str58;
+                                                            str20 = str69;
+                                                            str44 = str68;
+                                                            str32 = str70;
+                                                            str33 = str71;
+                                                            str49 = num19;
+                                                            str50 = l38;
+                                                            str25 = str76;
+                                                            str26 = str75;
+                                                            str39 = str74;
+                                                            str40 = str73;
+                                                            str41 = str72;
+                                                            j8 = 0;
+                                                            str28 = null;
+                                                            str29 = null;
+                                                            str31 = null;
+                                                            str9 = null;
+                                                            str10 = null;
+                                                            str11 = null;
+                                                            i12 = 0;
+                                                            i13 = 0;
+                                                            z15 = false;
+                                                            z40 = false;
+                                                            z16 = false;
+                                                            z17 = false;
+                                                            z18 = false;
+                                                            z19 = false;
+                                                            str12 = null;
+                                                            j9 = 0;
+                                                            j7 = 0;
+                                                            z41 = z55;
+                                                            str14 = str56;
+                                                            str13 = str61;
+                                                            str48 = l37;
+                                                            z42 = false;
+                                                        } else {
+                                                            if (arrayList3.size() > 1) {
+                                                                String str98 = (String) arrayList3.get(1);
+                                                                String queryParameter48 = data.getQueryParameter("startapp");
+                                                                try {
+                                                                    num20 = Utilities.parseInt((CharSequence) arrayList3.get(1));
+                                                                    if (num20.intValue() == 0) {
+                                                                        num20 = null;
+                                                                    }
+                                                                    str79 = queryParameter48;
+                                                                } catch (NumberFormatException unused14) {
+                                                                    str79 = queryParameter48;
+                                                                    num20 = null;
+                                                                }
+                                                                str80 = str98;
+                                                                i22 = 0;
+                                                            } else if (arrayList3.size() == 1) {
+                                                                str79 = data.getQueryParameter("startapp");
+                                                                i22 = 0;
+                                                                num20 = null;
+                                                                str80 = null;
+                                                            }
+                                                            if (num20 != null) {
+                                                                i23 = getTimestampFromLink(data);
+                                                                str81 = str78;
+                                                            } else {
+                                                                str81 = str78;
+                                                                i23 = -1;
+                                                            }
+                                                            str21 = data.getQueryParameter("start");
+                                                            str22 = data.getQueryParameter("startgroup");
+                                                            str24 = data.getQueryParameter("startchannel");
+                                                            str65 = data.getQueryParameter("admin");
+                                                            String queryParameter412 = data.getQueryParameter("game");
+                                                            String queryParameter422 = data.getQueryParameter("voicechat");
+                                                            i19 = i22;
+                                                            boolean booleanQueryParameter32 = data.getBooleanQueryParameter("videochat", false);
+                                                            String queryParameter432 = data.getQueryParameter("livestream");
+                                                            z59 = booleanQueryParameter32;
+                                                            String queryParameter442 = data.getQueryParameter("startattach");
+                                                            String queryParameter452 = data.getQueryParameter("choose");
+                                                            String queryParameter462 = data.getQueryParameter("attach");
+                                                            str60 = queryParameter432;
+                                                            z58 = TextUtils.equals(data.getQueryParameter("mode"), "compact");
+                                                            boolean booleanQueryParameter42 = data.getBooleanQueryParameter("profile", false);
+                                                            parseLong2 = Utilities.parseLong(data.getQueryParameter("thread"));
+                                                            String queryParameter472 = data.getQueryParameter("text");
+                                                            if (data.getQuery() != null) {
+                                                                str82 = queryParameter472;
+                                                                z57 = booleanQueryParameter42;
+                                                                z56 = data.getQuery().equals("boost");
+                                                            } else {
+                                                                str82 = queryParameter472;
+                                                                z57 = booleanQueryParameter42;
+                                                                z56 = false;
+                                                            }
+                                                            if (parseLong2.longValue() == 0) {
+                                                                parseLong2 = null;
+                                                            }
+                                                            if (parseLong2 == null) {
+                                                                parseLong2 = Utilities.parseLong(data.getQueryParameter("topic"));
+                                                                if (parseLong2.longValue() == 0) {
+                                                                    parseLong2 = null;
+                                                                }
+                                                            }
+                                                            if (parseLong2 == null || num20 == null) {
+                                                                str59 = str80;
+                                                            } else {
+                                                                str59 = str80;
+                                                                if (arrayList3.size() >= 3) {
+                                                                    parseLong2 = Long.valueOf(num20.intValue());
+                                                                    num21 = Utilities.parseInt((CharSequence) arrayList3.get(2));
+                                                                    parseInt2 = Utilities.parseInt((CharSequence) data.getQueryParameter("comment"));
+                                                                    if (parseInt2.intValue() != 0) {
+                                                                        str56 = str81;
+                                                                        num19 = num21;
+                                                                        l37 = parseLong2;
+                                                                        i18 = i23;
+                                                                        str74 = queryParameter442;
+                                                                        str72 = queryParameter452;
+                                                                        str73 = queryParameter462;
+                                                                        str76 = str82;
+                                                                        z55 = false;
+                                                                        str57 = null;
+                                                                        str18 = null;
+                                                                        str67 = null;
+                                                                        str61 = null;
+                                                                        str30 = null;
+                                                                        str58 = null;
+                                                                        str34 = null;
+                                                                        str35 = null;
+                                                                        str69 = null;
+                                                                        str68 = null;
+                                                                        str70 = null;
+                                                                        str71 = null;
+                                                                        l38 = null;
+                                                                        str75 = null;
+                                                                    } else {
+                                                                        str75 = parseInt2;
+                                                                        num19 = num21;
+                                                                        l37 = parseLong2;
+                                                                        i18 = i23;
+                                                                        str74 = queryParameter442;
+                                                                        str72 = queryParameter452;
+                                                                        str73 = queryParameter462;
+                                                                        str76 = str82;
+                                                                        z55 = false;
+                                                                        str57 = null;
+                                                                        str18 = null;
+                                                                        str67 = null;
+                                                                        str61 = null;
+                                                                        str30 = null;
+                                                                        str58 = null;
+                                                                        str34 = null;
+                                                                        str35 = null;
+                                                                        str69 = null;
+                                                                        str68 = null;
+                                                                        str70 = null;
+                                                                        str71 = null;
+                                                                        l38 = null;
+                                                                        str56 = str81;
+                                                                    }
+                                                                    str66 = str79;
+                                                                    str27 = queryParameter412;
+                                                                    str62 = queryParameter422;
+                                                                    str64 = null;
+                                                                    str63 = null;
+                                                                    z44 = z56;
+                                                                    i14 = i18;
+                                                                    str23 = str57;
+                                                                    str17 = str67;
+                                                                    str43 = str66;
+                                                                    str19 = str65;
+                                                                    str15 = str64;
+                                                                    str16 = str63;
+                                                                    i15 = i19;
+                                                                    z43 = z59;
+                                                                    str37 = str62;
+                                                                    str38 = str60;
+                                                                    z45 = z58;
+                                                                    z46 = z57;
+                                                                    str42 = str59;
+                                                                    str36 = str58;
+                                                                    str20 = str69;
+                                                                    str44 = str68;
+                                                                    str32 = str70;
+                                                                    str33 = str71;
+                                                                    str49 = num19;
+                                                                    str50 = l38;
+                                                                    str25 = str76;
+                                                                    str26 = str75;
+                                                                    str39 = str74;
+                                                                    str40 = str73;
+                                                                    str41 = str72;
+                                                                    j8 = 0;
+                                                                    str28 = null;
+                                                                    str29 = null;
+                                                                    str31 = null;
+                                                                    str9 = null;
+                                                                    str10 = null;
+                                                                    str11 = null;
+                                                                    i12 = 0;
+                                                                    i13 = 0;
+                                                                    z15 = false;
+                                                                    z40 = false;
+                                                                    z16 = false;
+                                                                    z17 = false;
+                                                                    z18 = false;
+                                                                    z19 = false;
+                                                                    str12 = null;
+                                                                    j9 = 0;
+                                                                    j7 = 0;
+                                                                    z41 = z55;
+                                                                    str14 = str56;
+                                                                    str13 = str61;
+                                                                    str48 = l37;
+                                                                    z42 = false;
+                                                                }
+                                                            }
+                                                            num21 = num20;
+                                                            parseInt2 = Utilities.parseInt((CharSequence) data.getQueryParameter("comment"));
+                                                            if (parseInt2.intValue() != 0) {
+                                                            }
+                                                            str66 = str79;
+                                                            str27 = queryParameter412;
+                                                            str62 = queryParameter422;
+                                                            str64 = null;
+                                                            str63 = null;
+                                                            z44 = z56;
+                                                            i14 = i18;
+                                                            str23 = str57;
+                                                            str17 = str67;
+                                                            str43 = str66;
+                                                            str19 = str65;
+                                                            str15 = str64;
+                                                            str16 = str63;
+                                                            i15 = i19;
+                                                            z43 = z59;
+                                                            str37 = str62;
+                                                            str38 = str60;
+                                                            z45 = z58;
+                                                            z46 = z57;
+                                                            str42 = str59;
+                                                            str36 = str58;
+                                                            str20 = str69;
+                                                            str44 = str68;
+                                                            str32 = str70;
+                                                            str33 = str71;
+                                                            str49 = num19;
+                                                            str50 = l38;
+                                                            str25 = str76;
+                                                            str26 = str75;
+                                                            str39 = str74;
+                                                            str40 = str73;
+                                                            str41 = str72;
+                                                            j8 = 0;
+                                                            str28 = null;
+                                                            str29 = null;
+                                                            str31 = null;
+                                                            str9 = null;
+                                                            str10 = null;
+                                                            str11 = null;
+                                                            i12 = 0;
+                                                            i13 = 0;
+                                                            z15 = false;
+                                                            z40 = false;
+                                                            z16 = false;
+                                                            z17 = false;
+                                                            z18 = false;
+                                                            z19 = false;
+                                                            str12 = null;
+                                                            j9 = 0;
+                                                            j7 = 0;
+                                                            z41 = z55;
+                                                            str14 = str56;
+                                                            str13 = str61;
+                                                            str48 = l37;
+                                                            z42 = false;
+                                                        }
+                                                    } else {
+                                                        str78 = null;
+                                                    }
+                                                    i22 = 0;
+                                                    num20 = null;
+                                                    str80 = null;
+                                                    str79 = null;
+                                                    if (num20 != null) {
+                                                    }
+                                                    str21 = data.getQueryParameter("start");
+                                                    str22 = data.getQueryParameter("startgroup");
+                                                    str24 = data.getQueryParameter("startchannel");
+                                                    str65 = data.getQueryParameter("admin");
+                                                    String queryParameter4122 = data.getQueryParameter("game");
+                                                    String queryParameter4222 = data.getQueryParameter("voicechat");
+                                                    i19 = i22;
+                                                    boolean booleanQueryParameter322 = data.getBooleanQueryParameter("videochat", false);
+                                                    String queryParameter4322 = data.getQueryParameter("livestream");
+                                                    z59 = booleanQueryParameter322;
+                                                    String queryParameter4422 = data.getQueryParameter("startattach");
+                                                    String queryParameter4522 = data.getQueryParameter("choose");
+                                                    String queryParameter4622 = data.getQueryParameter("attach");
+                                                    str60 = queryParameter4322;
+                                                    z58 = TextUtils.equals(data.getQueryParameter("mode"), "compact");
+                                                    boolean booleanQueryParameter422 = data.getBooleanQueryParameter("profile", false);
+                                                    parseLong2 = Utilities.parseLong(data.getQueryParameter("thread"));
+                                                    String queryParameter4722 = data.getQueryParameter("text");
+                                                    if (data.getQuery() != null) {
+                                                    }
+                                                    if (parseLong2.longValue() == 0) {
+                                                    }
+                                                    if (parseLong2 == null) {
+                                                    }
+                                                    if (parseLong2 == null) {
+                                                    }
+                                                    str59 = str80;
+                                                    num21 = num20;
+                                                    parseInt2 = Utilities.parseInt((CharSequence) data.getQueryParameter("comment"));
+                                                    if (parseInt2.intValue() != 0) {
+                                                    }
+                                                    str66 = str79;
+                                                    str27 = queryParameter4122;
+                                                    str62 = queryParameter4222;
+                                                    str64 = null;
+                                                    str63 = null;
+                                                    z44 = z56;
+                                                    i14 = i18;
+                                                    str23 = str57;
+                                                    str17 = str67;
+                                                    str43 = str66;
+                                                    str19 = str65;
+                                                    str15 = str64;
+                                                    str16 = str63;
+                                                    i15 = i19;
+                                                    z43 = z59;
+                                                    str37 = str62;
+                                                    str38 = str60;
+                                                    z45 = z58;
+                                                    z46 = z57;
+                                                    str42 = str59;
+                                                    str36 = str58;
+                                                    str20 = str69;
+                                                    str44 = str68;
+                                                    str32 = str70;
+                                                    str33 = str71;
+                                                    str49 = num19;
+                                                    str50 = l38;
+                                                    str25 = str76;
+                                                    str26 = str75;
+                                                    str39 = str74;
+                                                    str40 = str73;
+                                                    str41 = str72;
+                                                    j8 = 0;
+                                                    str28 = null;
+                                                    str29 = null;
+                                                    str31 = null;
+                                                    str9 = null;
+                                                    str10 = null;
+                                                    str11 = null;
+                                                    i12 = 0;
+                                                    i13 = 0;
+                                                    z15 = false;
+                                                    z40 = false;
+                                                    z16 = false;
+                                                    z17 = false;
+                                                    z18 = false;
+                                                    z19 = false;
+                                                    str12 = null;
+                                                    j9 = 0;
+                                                    j7 = 0;
+                                                    z41 = z55;
+                                                    str14 = str56;
+                                                    str13 = str61;
+                                                    str48 = l37;
+                                                    z42 = false;
+                                                }
+                                                str69 = substring;
+                                                str56 = null;
+                                                z55 = false;
+                                                z56 = false;
+                                                i18 = -1;
+                                                str57 = null;
+                                                str18 = null;
+                                                str67 = null;
+                                                str66 = null;
+                                                str21 = null;
+                                                str22 = null;
+                                                str24 = null;
+                                                str65 = null;
+                                                str64 = null;
+                                                str63 = null;
+                                                i19 = 0;
+                                                z59 = false;
+                                                str27 = null;
+                                                str62 = null;
+                                                str61 = null;
+                                                str60 = null;
+                                                z58 = false;
+                                                str30 = null;
+                                                z57 = false;
+                                                str59 = null;
+                                                str58 = null;
+                                                str34 = null;
+                                                str35 = null;
+                                                str68 = null;
+                                                str70 = null;
+                                                str71 = null;
+                                                num19 = null;
+                                                l38 = null;
+                                                l37 = null;
+                                                str76 = null;
+                                                str75 = null;
+                                                str74 = null;
+                                                str73 = null;
+                                                str72 = null;
+                                                z44 = z56;
+                                                i14 = i18;
+                                                str23 = str57;
+                                                str17 = str67;
+                                                str43 = str66;
+                                                str19 = str65;
+                                                str15 = str64;
+                                                str16 = str63;
+                                                i15 = i19;
+                                                z43 = z59;
+                                                str37 = str62;
+                                                str38 = str60;
+                                                z45 = z58;
+                                                z46 = z57;
+                                                str42 = str59;
+                                                str36 = str58;
+                                                str20 = str69;
+                                                str44 = str68;
+                                                str32 = str70;
+                                                str33 = str71;
+                                                str49 = num19;
+                                                str50 = l38;
+                                                str25 = str76;
+                                                str26 = str75;
+                                                str39 = str74;
+                                                str40 = str73;
+                                                str41 = str72;
+                                                j8 = 0;
+                                                str28 = null;
+                                                str29 = null;
+                                                str31 = null;
+                                                str9 = null;
+                                                str10 = null;
+                                                str11 = null;
+                                                i12 = 0;
+                                                i13 = 0;
+                                                z15 = false;
+                                                z40 = false;
+                                                z16 = false;
+                                                z17 = false;
+                                                z18 = false;
+                                                z19 = false;
+                                                str12 = null;
+                                                j9 = 0;
+                                                j7 = 0;
+                                                z41 = z55;
+                                                str14 = str56;
+                                                str13 = str61;
+                                                str48 = l37;
+                                                z42 = false;
                                             }
                                             str67 = null;
                                             str66 = null;
@@ -6812,8 +7709,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             str61 = null;
                                             str60 = null;
                                             z58 = false;
+                                            str30 = null;
                                             z57 = false;
-                                            str31 = null;
                                             str59 = null;
                                             str58 = null;
                                             str34 = null;
@@ -6830,21 +7727,21 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             str74 = null;
                                             str73 = null;
                                             str72 = null;
-                                            z44 = z55;
+                                            z44 = z56;
                                             i14 = i18;
                                             str23 = str57;
                                             str17 = str67;
-                                            str42 = str66;
+                                            str43 = str66;
                                             str19 = str65;
+                                            str15 = str64;
                                             str16 = str63;
                                             i15 = i19;
                                             z43 = z59;
                                             str37 = str62;
-                                            str13 = str61;
                                             str38 = str60;
                                             z45 = z58;
                                             z46 = z57;
-                                            str43 = str59;
+                                            str42 = str59;
                                             str36 = str58;
                                             str20 = str69;
                                             str44 = str68;
@@ -6852,7 +7749,6 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             str33 = str71;
                                             str49 = num19;
                                             str50 = l38;
-                                            str48 = l37;
                                             str25 = str76;
                                             str26 = str75;
                                             str39 = str74;
@@ -6861,14 +7757,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             j8 = 0;
                                             str28 = null;
                                             str29 = null;
-                                            str30 = null;
+                                            str31 = null;
                                             str9 = null;
                                             str10 = null;
                                             str11 = null;
                                             i12 = 0;
                                             i13 = 0;
                                             z15 = false;
-                                            z42 = false;
                                             z40 = false;
                                             z16 = false;
                                             z17 = false;
@@ -6877,15 +7772,16 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             str12 = null;
                                             j9 = 0;
                                             j7 = 0;
-                                            String str982222 = str64;
-                                            z41 = z56;
+                                            z41 = z55;
                                             str14 = str56;
-                                            str15 = str982222;
+                                            str13 = str61;
+                                            str48 = l37;
+                                            z42 = false;
                                         }
                                         str71 = substring2;
+                                        str56 = null;
                                         z55 = false;
                                         z56 = false;
-                                        str56 = null;
                                         i18 = -1;
                                         str57 = null;
                                         str18 = null;
@@ -6904,8 +7800,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         str61 = null;
                                         str60 = null;
                                         z58 = false;
+                                        str30 = null;
                                         z57 = false;
-                                        str31 = null;
                                         str59 = null;
                                         str58 = null;
                                         str34 = null;
@@ -6921,21 +7817,21 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         str74 = null;
                                         str73 = null;
                                         str72 = null;
-                                        z44 = z55;
+                                        z44 = z56;
                                         i14 = i18;
                                         str23 = str57;
                                         str17 = str67;
-                                        str42 = str66;
+                                        str43 = str66;
                                         str19 = str65;
+                                        str15 = str64;
                                         str16 = str63;
                                         i15 = i19;
                                         z43 = z59;
                                         str37 = str62;
-                                        str13 = str61;
                                         str38 = str60;
                                         z45 = z58;
                                         z46 = z57;
-                                        str43 = str59;
+                                        str42 = str59;
                                         str36 = str58;
                                         str20 = str69;
                                         str44 = str68;
@@ -6943,7 +7839,6 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         str33 = str71;
                                         str49 = num19;
                                         str50 = l38;
-                                        str48 = l37;
                                         str25 = str76;
                                         str26 = str75;
                                         str39 = str74;
@@ -6952,14 +7847,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         j8 = 0;
                                         str28 = null;
                                         str29 = null;
-                                        str30 = null;
+                                        str31 = null;
                                         str9 = null;
                                         str10 = null;
                                         str11 = null;
                                         i12 = 0;
                                         i13 = 0;
                                         z15 = false;
-                                        z42 = false;
                                         z40 = false;
                                         z16 = false;
                                         z17 = false;
@@ -6968,14 +7862,15 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         str12 = null;
                                         j9 = 0;
                                         j7 = 0;
-                                        String str9822222 = str64;
-                                        z41 = z56;
+                                        z41 = z55;
                                         str14 = str56;
-                                        str15 = str9822222;
+                                        str13 = str61;
+                                        str48 = l37;
+                                        z42 = false;
                                     }
+                                    str56 = null;
                                     z55 = false;
                                     z56 = false;
-                                    str56 = null;
                                     i18 = -1;
                                     str57 = null;
                                     str18 = null;
@@ -6994,8 +7889,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     str61 = null;
                                     str60 = null;
                                     z58 = false;
+                                    str30 = null;
                                     z57 = false;
-                                    str31 = null;
                                     str59 = null;
                                     str58 = null;
                                     str34 = null;
@@ -7012,21 +7907,21 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     str74 = null;
                                     str73 = null;
                                     str72 = null;
-                                    z44 = z55;
+                                    z44 = z56;
                                     i14 = i18;
                                     str23 = str57;
                                     str17 = str67;
-                                    str42 = str66;
+                                    str43 = str66;
                                     str19 = str65;
+                                    str15 = str64;
                                     str16 = str63;
                                     i15 = i19;
                                     z43 = z59;
                                     str37 = str62;
-                                    str13 = str61;
                                     str38 = str60;
                                     z45 = z58;
                                     z46 = z57;
-                                    str43 = str59;
+                                    str42 = str59;
                                     str36 = str58;
                                     str20 = str69;
                                     str44 = str68;
@@ -7034,7 +7929,6 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     str33 = str71;
                                     str49 = num19;
                                     str50 = l38;
-                                    str48 = l37;
                                     str25 = str76;
                                     str26 = str75;
                                     str39 = str74;
@@ -7043,14 +7937,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     j8 = 0;
                                     str28 = null;
                                     str29 = null;
-                                    str30 = null;
+                                    str31 = null;
                                     str9 = null;
                                     str10 = null;
                                     str11 = null;
                                     i12 = 0;
                                     i13 = 0;
                                     z15 = false;
-                                    z42 = false;
                                     z40 = false;
                                     z16 = false;
                                     z17 = false;
@@ -7059,12 +7952,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     str12 = null;
                                     j9 = 0;
                                     j7 = 0;
-                                    String str98222222 = str64;
-                                    z41 = z56;
+                                    z41 = z55;
                                     str14 = str56;
-                                    str15 = str98222222;
+                                    str13 = str61;
+                                    str48 = l37;
+                                    z42 = false;
                                 }
-                                str86 = null;
+                                str85 = null;
                                 break;
                         }
                         if (intent.hasExtra("actions.fulfillment.extra.ACTION_TOKEN")) {
@@ -7080,37 +7974,37 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             str2 = " ";
                             iArr3 = iArr;
                             launchActivity = this;
-                            final AlertDialog alertDialog = new AlertDialog(launchActivity, 3);
+                            final AlertDialog alertDialog2 = new AlertDialog(launchActivity, 3);
                             z47 = false;
-                            alertDialog.setCanCancel(false);
-                            alertDialog.show();
+                            alertDialog2.setCanCancel(false);
+                            alertDialog2.show();
                             tLRPC$TL_account_sendConfirmPhoneCode = new TLRPC$TL_account_sendConfirmPhoneCode();
                             tLRPC$TL_account_sendConfirmPhoneCode.hash = str13;
-                            TLRPC$TL_codeSettings tLRPC$TL_codeSettings = new TLRPC$TL_codeSettings();
-                            tLRPC$TL_account_sendConfirmPhoneCode.settings = tLRPC$TL_codeSettings;
-                            tLRPC$TL_codeSettings.allow_flashcall = false;
-                            boolean hasServices = PushListenerController.GooglePushListenerServiceProvider.INSTANCE.hasServices();
-                            tLRPC$TL_codeSettings.allow_firebase = hasServices;
-                            tLRPC$TL_codeSettings.allow_app_hash = hasServices;
-                            SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0);
-                            if (!tLRPC$TL_account_sendConfirmPhoneCode.settings.allow_app_hash) {
-                                sharedPreferences.edit().putString("sms_hash", BuildVars.getSmsHash()).apply();
+                            TLRPC$TL_codeSettings tLRPC$TL_codeSettings2 = new TLRPC$TL_codeSettings();
+                            tLRPC$TL_account_sendConfirmPhoneCode.settings = tLRPC$TL_codeSettings2;
+                            tLRPC$TL_codeSettings2.allow_flashcall = false;
+                            boolean hasServices2 = PushListenerController.GooglePushListenerServiceProvider.INSTANCE.hasServices();
+                            tLRPC$TL_codeSettings2.allow_firebase = hasServices2;
+                            tLRPC$TL_codeSettings2.allow_app_hash = hasServices2;
+                            SharedPreferences sharedPreferences2 = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0);
+                            if (tLRPC$TL_account_sendConfirmPhoneCode.settings.allow_app_hash) {
+                                sharedPreferences2.edit().putString("sms_hash", BuildVars.getSmsHash()).apply();
                             } else {
-                                sharedPreferences.edit().remove("sms_hash").apply();
+                                sharedPreferences2.edit().remove("sms_hash").apply();
                             }
-                            final Bundle bundle = new Bundle();
-                            bundle.putString("phone", str16);
-                            final String str100 = str16;
-                            ConnectionsManager.getInstance(launchActivity.currentAccount).sendRequest(tLRPC$TL_account_sendConfirmPhoneCode, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda144
+                            final Bundle bundle2 = new Bundle();
+                            bundle2.putString("phone", str16);
+                            final String str962 = str16;
+                            ConnectionsManager.getInstance(launchActivity.currentAccount).sendRequest(tLRPC$TL_account_sendConfirmPhoneCode, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda24
                                 @Override // org.telegram.tgnet.RequestDelegate
                                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                                    LaunchActivity.this.lambda$handleIntent$18(alertDialog, str100, bundle, tLRPC$TL_account_sendConfirmPhoneCode, tLObject, tLRPC$TL_error);
+                                    LaunchActivity.this.lambda$handleIntent$18(alertDialog2, str962, bundle2, tLRPC$TL_account_sendConfirmPhoneCode, tLObject, tLRPC$TL_error);
                                 }
                             }, 2);
-                        } else if (str14 != null || str23 != null || str18 != null || str17 != null || str35 != null || str20 != null || str15 != null || str27 != null || str37 != null || z43 || str28 != null || str29 != null || str31 != null || str34 != null || str32 != null || str33 != null || str50 != null || str36 != null || str30 != null || str44 != null) {
+                        } else if (str14 != null || str23 != null || str18 != null || str17 != null || str35 != null || str20 != null || str15 != null || str27 != null || str37 != null || z43 || str28 != null || str29 != null || str30 != null || str34 != null || str32 != null || str33 != null || str50 != null || str36 != null || str31 != null || str44 != null) {
                             str2 = " ";
                             iArr3 = iArr;
-                            runLinkRequest(iArr[0], str14, str23, str18, str17, str21, str22, str24, str19, (str15 == null || !str15.startsWith("@")) ? str15 : " " + str15, str35, str20, str25, z41, str49, str50, str48, str26, str27, str28, str31, str29, str34, str30, str32, str33, str36, str37, z43, str38, 0, i14, str39, str40, str41, str42, str43, progress, booleanExtra, i15, z44, str44, z45, z5, z46);
+                            runLinkRequest(iArr[0], str14, str23, str18, str17, str21, str22, str24, str19, (str15 == null || !str15.startsWith("@")) ? str15 : " " + str15, str35, str20, str25, z41, str49, str50, str48, str26, str27, str28, str30, str29, str34, str31, str32, str33, str36, str37, z43, str38, 0, i14, str39, str40, str41, str42, str43, progress, booleanExtra, i15, z44, str44, z45, z5, z46);
                             z47 = false;
                             launchActivity = this;
                         } else {
@@ -7149,7 +8043,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     }
                                                 } else {
                                                     iArr[0] = i16;
-                                                    switchToAccount(iArr[0], true);
+                                                    switchToAccount(i16, true);
                                                     NotificationCenter.getInstance(iArr[0]).lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeChats, new Object[0]);
                                                     string = query.getString(query.getColumnIndex("mimetype"));
                                                     if (TextUtils.equals(string, "vnd.android.cursor.item/vnd.org.telegram.messenger.android.call")) {
@@ -7271,7 +8165,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         z38 = z47;
                     }
                     j8 = 0;
-                    str13 = str86;
+                    str13 = str85;
                     str14 = str13;
                     str15 = str14;
                     str16 = str15;
@@ -7284,12 +8178,12 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     str23 = str22;
                     str24 = str23;
                     str25 = str24;
-                    String str912 = str25;
-                    str26 = str912;
+                    String str902 = str25;
+                    str26 = str902;
                     str27 = str26;
-                    String str922 = str27;
-                    String str932 = str922;
-                    str28 = str932;
+                    String str912 = str27;
+                    String str922 = str912;
+                    str28 = str922;
                     str29 = str28;
                     str30 = str29;
                     str31 = str30;
@@ -7324,9 +8218,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     z19 = false;
                     z43 = false;
                     i14 = -1;
-                    str47 = str912;
-                    str46 = str922;
-                    str45 = str932;
+                    str47 = str902;
+                    str46 = str912;
+                    str45 = str922;
                     i15 = 0;
                     z44 = false;
                     l2 = str47;
@@ -7346,28 +8240,28 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     str2 = " ";
                     iArr3 = iArr;
                     launchActivity = this;
-                    final AlertDialog alertDialog2 = new AlertDialog(launchActivity, 3);
+                    final AlertDialog alertDialog22 = new AlertDialog(launchActivity, 3);
                     z47 = false;
-                    alertDialog2.setCanCancel(false);
-                    alertDialog2.show();
+                    alertDialog22.setCanCancel(false);
+                    alertDialog22.show();
                     tLRPC$TL_account_sendConfirmPhoneCode = new TLRPC$TL_account_sendConfirmPhoneCode();
                     tLRPC$TL_account_sendConfirmPhoneCode.hash = str13;
-                    TLRPC$TL_codeSettings tLRPC$TL_codeSettings2 = new TLRPC$TL_codeSettings();
-                    tLRPC$TL_account_sendConfirmPhoneCode.settings = tLRPC$TL_codeSettings2;
-                    tLRPC$TL_codeSettings2.allow_flashcall = false;
-                    boolean hasServices2 = PushListenerController.GooglePushListenerServiceProvider.INSTANCE.hasServices();
-                    tLRPC$TL_codeSettings2.allow_firebase = hasServices2;
-                    tLRPC$TL_codeSettings2.allow_app_hash = hasServices2;
-                    SharedPreferences sharedPreferences2 = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0);
-                    if (!tLRPC$TL_account_sendConfirmPhoneCode.settings.allow_app_hash) {
+                    TLRPC$TL_codeSettings tLRPC$TL_codeSettings22 = new TLRPC$TL_codeSettings();
+                    tLRPC$TL_account_sendConfirmPhoneCode.settings = tLRPC$TL_codeSettings22;
+                    tLRPC$TL_codeSettings22.allow_flashcall = false;
+                    boolean hasServices22 = PushListenerController.GooglePushListenerServiceProvider.INSTANCE.hasServices();
+                    tLRPC$TL_codeSettings22.allow_firebase = hasServices22;
+                    tLRPC$TL_codeSettings22.allow_app_hash = hasServices22;
+                    SharedPreferences sharedPreferences22 = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0);
+                    if (tLRPC$TL_account_sendConfirmPhoneCode.settings.allow_app_hash) {
                     }
-                    final Bundle bundle2 = new Bundle();
-                    bundle2.putString("phone", str16);
-                    final String str1002 = str16;
-                    ConnectionsManager.getInstance(launchActivity.currentAccount).sendRequest(tLRPC$TL_account_sendConfirmPhoneCode, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda144
+                    final Bundle bundle22 = new Bundle();
+                    bundle22.putString("phone", str16);
+                    final String str9622 = str16;
+                    ConnectionsManager.getInstance(launchActivity.currentAccount).sendRequest(tLRPC$TL_account_sendConfirmPhoneCode, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda24
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                            LaunchActivity.this.lambda$handleIntent$18(alertDialog2, str1002, bundle2, tLRPC$TL_account_sendConfirmPhoneCode, tLObject, tLRPC$TL_error);
+                            LaunchActivity.this.lambda$handleIntent$18(alertDialog22, str9622, bundle22, tLRPC$TL_account_sendConfirmPhoneCode, tLObject, tLRPC$TL_error);
                         }
                     }, 2);
                     i11 = i13;
@@ -7505,32 +8399,32 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     j = intent10.getLongExtra("chatId", 0L);
                     long[] longArrayExtra = intent10.getLongArrayExtra("storyDialogIds");
                     i = -1;
-                    int intExtra = intent10.getIntExtra("storyId", -1);
+                    int intExtra2 = intent10.getIntExtra("storyId", -1);
                     j2 = intent10.getLongExtra("userId", 0L);
-                    int intExtra2 = intent10.getIntExtra("encId", 0);
-                    int intExtra3 = intent10.getIntExtra("appWidgetId", 0);
+                    int intExtra3 = intent10.getIntExtra("encId", 0);
+                    int intExtra4 = intent10.getIntExtra("appWidgetId", 0);
                     long longExtra = intent10.getLongExtra("topicId", 0L);
-                    if (intExtra3 != 0) {
+                    if (intExtra4 != 0) {
                         i2 = intent10.getIntExtra("appWidgetType", 0);
                         j = 0;
                         j2 = 0;
                         longExtra = 0;
-                        i4 = intExtra3;
+                        i4 = intExtra4;
                         iArr2 = iArr5;
                         jArr2 = null;
-                        intExtra2 = 0;
+                        intExtra3 = 0;
                         i9 = 0;
                         z9 = false;
                         i10 = 6;
                     } else {
-                        int intExtra4 = intent10.getIntExtra("message_id", 0);
-                        if (intExtra != -1) {
+                        int intExtra5 = intent10.getIntExtra("message_id", 0);
+                        if (intExtra2 != -1) {
                             iArr2 = iArr5;
                             NotificationCenter.getInstance(iArr2[0]).lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeChats, new Object[0]);
                             j = 0;
                             j2 = 0;
                             longExtra = 0;
-                            i = intExtra;
+                            i = intExtra2;
                         } else {
                             iArr2 = iArr5;
                             if (longArrayExtra != null) {
@@ -7538,9 +8432,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                 j = 0;
                                 j2 = 0;
                                 longExtra = 0;
-                                i9 = intExtra4;
+                                i9 = intExtra5;
                                 i4 = -1;
-                                intExtra2 = 0;
+                                intExtra3 = 0;
                                 z9 = true;
                                 i10 = 0;
                                 jArr2 = longArrayExtra;
@@ -7552,12 +8446,12 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                 NotificationCenter.getInstance(iArr2[0]).lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeChats, new Object[0]);
                                 j = 0;
                                 longExtra = 0;
-                            } else if (intExtra2 != 0) {
+                            } else if (intExtra3 != 0) {
                                 NotificationCenter.getInstance(iArr2[0]).lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeChats, new Object[0]);
                                 j = 0;
                                 j2 = 0;
                                 longExtra = 0;
-                                i9 = intExtra4;
+                                i9 = intExtra5;
                                 i2 = -1;
                                 i4 = -1;
                                 jArr2 = null;
@@ -7567,26 +8461,26 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                 j = 0;
                                 j2 = 0;
                                 longExtra = 0;
-                                i9 = intExtra4;
+                                i9 = intExtra5;
                                 i2 = -1;
                                 i4 = -1;
                                 jArr2 = null;
-                                intExtra2 = 0;
+                                intExtra3 = 0;
                                 z9 = true;
                                 i10 = 0;
                             }
                         }
-                        i9 = intExtra4;
+                        i9 = intExtra5;
                         i2 = -1;
                         i4 = -1;
                         jArr2 = null;
-                        intExtra2 = 0;
+                        intExtra3 = 0;
                         z9 = false;
                         i10 = 0;
                     }
                     j4 = 0;
                     j5 = 0;
-                    i3 = intExtra2;
+                    i3 = intExtra3;
                     j3 = longExtra;
                     i5 = i9;
                     i6 = i10;
@@ -7844,11 +8738,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                 if (i31 != 0) {
                                     bundle3.putInt("message_id", i31);
                                 }
-                                if (!mainFragmentsStack.isEmpty()) {
-                                    MessagesController messagesController = MessagesController.getInstance(iArr2[i7]);
-                                    ArrayList<BaseFragment> arrayList4 = mainFragmentsStack;
-                                }
-                                if (getActionBarLayout().presentFragment(new INavigationLayout.NavigationParams(new ChatActivity(bundle3)).setNoAnimation(r3))) {
+                                ArrayList<BaseFragment> arrayList4 = mainFragmentsStack;
+                                if ((arrayList4.isEmpty() || MessagesController.getInstance(iArr2[i7]).checkCanOpenChat(bundle3, arrayList4.get(arrayList4.size() - (r3 == true ? 1 : 0)))) && getActionBarLayout().presentFragment(new INavigationLayout.NavigationParams(new ChatActivity(bundle3)).setNoAnimation(r3))) {
                                     dismissAllWeb();
                                     launchActivity.drawerLayoutContainer.closeDrawer();
                                     z34 = true;
@@ -7871,36 +8762,35 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                 if (i32 != 0) {
                                     bundle4.putInt("message_id", i32);
                                 }
-                                if (!mainFragmentsStack.isEmpty()) {
-                                    MessagesController messagesController2 = MessagesController.getInstance(iArr2[i7]);
-                                    ArrayList<BaseFragment> arrayList5 = mainFragmentsStack;
-                                }
-                                final ChatActivity chatActivity = new ChatActivity(bundle4);
-                                final long j20 = j3;
-                                if (j20 > 0) {
-                                    TLRPC$TL_forumTopic findTopic = MessagesController.getInstance(launchActivity.currentAccount).getTopicsController().findTopic(j, j20);
-                                    FileLog.d("LaunchActivity openForum " + j + str2 + j20 + " TL_forumTopic " + findTopic);
-                                    if (findTopic != null) {
-                                        ForumUtilities.applyTopic(chatActivity, MessagesStorage.TopicKey.of(-j, j20));
-                                    } else {
-                                        final long j21 = j;
-                                        MessagesController.getInstance(launchActivity.currentAccount).getTopicsController().loadTopic(j, j20, new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda61
-                                            @Override // java.lang.Runnable
-                                            public final void run() {
-                                                LaunchActivity.this.lambda$handleIntent$19(j21, j20, chatActivity);
-                                            }
-                                        });
-                                        return r3;
+                                ArrayList<BaseFragment> arrayList5 = mainFragmentsStack;
+                                if (arrayList5.isEmpty() || MessagesController.getInstance(iArr2[i7]).checkCanOpenChat(bundle4, arrayList5.get(arrayList5.size() - (r3 == true ? 1 : 0)))) {
+                                    final ChatActivity chatActivity = new ChatActivity(bundle4);
+                                    final long j20 = j3;
+                                    if (j20 > 0) {
+                                        TLRPC$TL_forumTopic findTopic = MessagesController.getInstance(launchActivity.currentAccount).getTopicsController().findTopic(j, j20);
+                                        FileLog.d("LaunchActivity openForum " + j + str2 + j20 + " TL_forumTopic " + findTopic);
+                                        if (findTopic != null) {
+                                            ForumUtilities.applyTopic(chatActivity, MessagesStorage.TopicKey.of(-j, j20));
+                                        } else {
+                                            final long j21 = j;
+                                            MessagesController.getInstance(launchActivity.currentAccount).getTopicsController().loadTopic(j, j20, new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda25
+                                                @Override // java.lang.Runnable
+                                                public final void run() {
+                                                    LaunchActivity.this.lambda$handleIntent$19(j21, j20, chatActivity);
+                                                }
+                                            });
+                                            return r3;
+                                        }
                                     }
-                                }
-                                if (getActionBarLayout().presentFragment(new INavigationLayout.NavigationParams(chatActivity).setNoAnimation(r3))) {
-                                    dismissAllWeb();
-                                    launchActivity.drawerLayoutContainer.closeDrawer();
-                                    z34 = true;
+                                    if (getActionBarLayout().presentFragment(new INavigationLayout.NavigationParams(chatActivity).setNoAnimation(r3))) {
+                                        dismissAllWeb();
+                                        launchActivity.drawerLayoutContainer.closeDrawer();
+                                        z34 = true;
+                                    }
                                 }
                                 z34 = false;
                             } else {
-                                String str101 = str2;
+                                String str99 = str2;
                                 if (i3 == 0) {
                                     if (z9) {
                                         if (!AndroidUtilities.isTablet()) {
@@ -7987,7 +8877,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         r11 = 0;
                                         if (z11) {
                                             if (!launchActivity.actionBarLayout.getFragmentStack().isEmpty()) {
-                                                launchActivity.actionBarLayout.getFragmentStack().get(i7).showDialog(new SharingLocationsAlert(launchActivity, new SharingLocationsAlert.SharingLocationsAlertDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda156
+                                                launchActivity.actionBarLayout.getFragmentStack().get(i7).showDialog(new SharingLocationsAlert(launchActivity, new SharingLocationsAlert.SharingLocationsAlertDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda26
                                                     @Override // org.telegram.ui.Components.SharingLocationsAlert.SharingLocationsAlertDelegate
                                                     public final void didSelectLocation(LocationController.SharingLocationInfo sharingLocationInfo) {
                                                         LaunchActivity.this.lambda$handleIntent$21(iArr2, sharingLocationInfo);
@@ -8017,7 +8907,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 intent8.setAction(r11);
                                                 return z27;
                                             } else if (launchActivity.importingStickers != null) {
-                                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda47
+                                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda27
                                                     @Override // java.lang.Runnable
                                                     public final void run() {
                                                         LaunchActivity.this.lambda$handleIntent$22();
@@ -8070,7 +8960,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                                 if (i33 == i8) {
                                                                     getActionBarLayout().presentFragment(new INavigationLayout.NavigationParams(openSettings).setNoAnimation(r3));
                                                                 } else {
-                                                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda102
+                                                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda28
                                                                         @Override // java.lang.Runnable
                                                                         public final void run() {
                                                                             LaunchActivity.this.lambda$handleIntent$23(openSettings, z30);
@@ -8122,19 +9012,19 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                                 launchActivity.drawerLayoutContainer.setAllowOpenDrawer(r3, i7);
                                                             }
                                                         } else {
-                                                            String str102 = str4;
-                                                            if (str102 != null) {
+                                                            String str100 = str4;
+                                                            if (str100 != null) {
                                                                 ?? bundle7 = new Bundle();
                                                                 bundle7.putBoolean("destroyAfterSelect", r3);
                                                                 bundle7.putBoolean("returnAsResult", r3);
                                                                 bundle7.putBoolean("onlyUsers", r3);
                                                                 bundle7.putBoolean("allowSelf", i7);
                                                                 ContactsActivity contactsActivity = new ContactsActivity(bundle7);
-                                                                contactsActivity.setInitialSearchString(str102);
-                                                                contactsActivity.setDelegate(new ContactsActivity.ContactsActivityDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda157
+                                                                contactsActivity.setInitialSearchString(str100);
+                                                                contactsActivity.setDelegate(new ContactsActivity.ContactsActivityDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda29
                                                                     @Override // org.telegram.ui.ContactsActivity.ContactsActivityDelegate
-                                                                    public final void didSelectContact(TLRPC$User tLRPC$User, String str103, ContactsActivity contactsActivity2) {
-                                                                        LaunchActivity.this.lambda$handleIntent$24(z69, iArr2, tLRPC$User, str103, contactsActivity2);
+                                                                    public final void didSelectContact(TLRPC$User tLRPC$User, String str101, ContactsActivity contactsActivity2) {
+                                                                        LaunchActivity.this.lambda$handleIntent$24(z69, iArr2, tLRPC$User, str101, contactsActivity2);
                                                                     }
                                                                 });
                                                                 getActionBarLayout().presentFragment(new INavigationLayout.NavigationParams(contactsActivity).setRemoveLast(launchActivity.actionBarLayout.getLastFragment() instanceof ContactsActivity));
@@ -8147,10 +9037,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                                 }
                                                             } else if (z19) {
                                                                 final ActionIntroActivity actionIntroActivity = new ActionIntroActivity(5);
-                                                                actionIntroActivity.setQrLoginDelegate(new ActionIntroActivity.ActionIntroQRLoginDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda150
+                                                                actionIntroActivity.setQrLoginDelegate(new ActionIntroActivity.ActionIntroQRLoginDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda30
                                                                     @Override // org.telegram.ui.ActionIntroActivity.ActionIntroQRLoginDelegate
-                                                                    public final void didFindQRCode(String str103) {
-                                                                        LaunchActivity.this.lambda$handleIntent$28(actionIntroActivity, str103);
+                                                                    public final void didFindQRCode(String str101) {
+                                                                        LaunchActivity.this.lambda$handleIntent$28(actionIntroActivity, str101);
                                                                     }
                                                                 });
                                                                 getActionBarLayout().presentFragment(new INavigationLayout.NavigationParams(actionIntroActivity).setNoAnimation(r3));
@@ -8163,14 +9053,14 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                                 }
                                                             } else if (z17) {
                                                                 NewContactBottomSheet newContactBottomSheet = new NewContactBottomSheet(launchActivity.actionBarLayout.getLastFragment(), launchActivity);
-                                                                String str103 = str5;
-                                                                if (str103 != null) {
-                                                                    String[] split3 = str103.split(str101, 2);
+                                                                String str101 = str5;
+                                                                if (str101 != null) {
+                                                                    String[] split3 = str101.split(str99, 2);
                                                                     newContactBottomSheet.setInitialName(split3[i7], split3.length > r3 ? split3[r3 == true ? 1 : 0] : null);
                                                                 }
-                                                                String str104 = str6;
-                                                                if (str104 != null) {
-                                                                    newContactBottomSheet.setInitialPhoneNumber(PhoneFormat.stripExceptNumbers(str104, r3), i7);
+                                                                String str102 = str6;
+                                                                if (str102 != null) {
+                                                                    newContactBottomSheet.setInitialPhoneNumber(PhoneFormat.stripExceptNumbers(str102, r3), i7);
                                                                 }
                                                                 newContactBottomSheet.show();
                                                                 if (AndroidUtilities.isTablet()) {
@@ -8181,8 +9071,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                                     launchActivity.drawerLayoutContainer.setAllowOpenDrawer(r3, i7);
                                                                 }
                                                             } else {
-                                                                final String str105 = str5;
-                                                                String str106 = str6;
+                                                                final String str103 = str5;
+                                                                String str104 = str6;
                                                                 if (z8) {
                                                                     z25 = true;
                                                                     z25 = true;
@@ -8201,15 +9091,15 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                                         if (lastFragment4 == null || lastFragment4.getParentActivity() == null) {
                                                                             z29 = false;
                                                                         } else {
-                                                                            final String phoneNumber = NewContactBottomSheet.getPhoneNumber(launchActivity, UserConfig.getInstance(launchActivity.currentAccount).getCurrentUser(), str106, i7);
+                                                                            final String phoneNumber = NewContactBottomSheet.getPhoneNumber(launchActivity, UserConfig.getInstance(launchActivity.currentAccount).getCurrentUser(), str104, i7);
                                                                             AlertDialog.Builder title = new AlertDialog.Builder(lastFragment4.getParentActivity()).setTitle(LocaleController.getString("NewContactAlertTitle", R.string.NewContactAlertTitle));
                                                                             int i34 = R.string.NewContactAlertMessage;
                                                                             Object[] objArr = new Object[1];
                                                                             objArr[i7] = PhoneFormat.getInstance().format(phoneNumber);
-                                                                            lastFragment4.showDialog(title.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("NewContactAlertMessage", i34, objArr))).setPositiveButton(LocaleController.getString("NewContactAlertButton", R.string.NewContactAlertButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda12
+                                                                            lastFragment4.showDialog(title.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("NewContactAlertMessage", i34, objArr))).setPositiveButton(LocaleController.getString("NewContactAlertButton", R.string.NewContactAlertButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda31
                                                                                 @Override // android.content.DialogInterface.OnClickListener
                                                                                 public final void onClick(DialogInterface dialogInterface, int i35) {
-                                                                                    LaunchActivity.this.lambda$handleIntent$29(lastFragment4, phoneNumber, str105, dialogInterface, i35);
+                                                                                    LaunchActivity.this.lambda$handleIntent$29(lastFragment4, phoneNumber, str103, dialogInterface, i35);
                                                                                 }
                                                                             }).setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null).create());
                                                                             z29 = true;
@@ -8421,7 +9311,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$handleIntent$18(final AlertDialog alertDialog, final String str, final Bundle bundle, final TLRPC$TL_account_sendConfirmPhoneCode tLRPC$TL_account_sendConfirmPhoneCode, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda99
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda40
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$handleIntent$17(alertDialog, tLRPC$TL_error, str, bundle, tLObject, tLRPC$TL_account_sendConfirmPhoneCode);
@@ -8451,15 +9341,16 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$handleIntent$21(final int[] iArr, LocationController.SharingLocationInfo sharingLocationInfo) {
-        iArr[0] = sharingLocationInfo.messageObject.currentAccount;
-        switchToAccount(iArr[0], true);
+        int i = sharingLocationInfo.messageObject.currentAccount;
+        iArr[0] = i;
+        switchToAccount(i, true);
         LocationActivity locationActivity = new LocationActivity(2);
         locationActivity.setMessageObject(sharingLocationInfo.messageObject);
         final long dialogId = sharingLocationInfo.messageObject.getDialogId();
-        locationActivity.setDelegate(new LocationActivity.LocationActivityDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda163
+        locationActivity.setDelegate(new LocationActivity.LocationActivityDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda116
             @Override // org.telegram.ui.LocationActivity.LocationActivityDelegate
-            public final void didSelectLocation(TLRPC$MessageMedia tLRPC$MessageMedia, int i, boolean z, int i2) {
-                LaunchActivity.lambda$handleIntent$20(iArr, dialogId, tLRPC$MessageMedia, i, z, i2);
+            public final void didSelectLocation(TLRPC$MessageMedia tLRPC$MessageMedia, int i2, boolean z, int i3) {
+                LaunchActivity.lambda$handleIntent$20(iArr, dialogId, tLRPC$MessageMedia, i2, z, i3);
             }
         });
         lambda$runLinkRequest$91(locationActivity);
@@ -8497,7 +9388,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         byte[] decode = Base64.decode(str.substring(17), 8);
         TLRPC$TL_auth_acceptLoginToken tLRPC$TL_auth_acceptLoginToken = new TLRPC$TL_auth_acceptLoginToken();
         tLRPC$TL_auth_acceptLoginToken.token = decode;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_auth_acceptLoginToken, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda120
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_auth_acceptLoginToken, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda143
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 LaunchActivity.lambda$handleIntent$27(AlertDialog.this, actionIntroActivity, tLObject, tLRPC$TL_error);
@@ -8507,7 +9398,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$handleIntent$27(final AlertDialog alertDialog, final ActionIntroActivity actionIntroActivity, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda44
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda151
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.lambda$handleIntent$26(AlertDialog.this, tLObject, actionIntroActivity, tLRPC$TL_error);
@@ -8524,7 +9415,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         if (tLObject instanceof TLRPC$TL_authorization) {
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda45
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda165
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.lambda$handleIntent$25(ActionIntroActivity.this, tLRPC$TL_error);
@@ -8644,7 +9535,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         final TLRPC$TL_messages_getDiscussionMessage tLRPC$TL_messages_getDiscussionMessage = new TLRPC$TL_messages_getDiscussionMessage();
         tLRPC$TL_messages_getDiscussionMessage.peer = MessagesController.getInputPeer(tLRPC$Chat);
         tLRPC$TL_messages_getDiscussionMessage.msg_id = num2 != null ? num.intValue() : (int) l.longValue();
-        return ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_getDiscussionMessage, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda129
+        return ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_getDiscussionMessage, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda103
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 LaunchActivity.this.lambda$runCommentRequest$31(i, tLRPC$Chat, l, num2, num, runnable2, str, i2, i3, tLRPC$TL_messages_getDiscussionMessage, runnable, tLObject, tLRPC$TL_error);
@@ -8654,7 +9545,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$runCommentRequest$31(final int i, final TLRPC$Chat tLRPC$Chat, final Long l, final Integer num, final Integer num2, final Runnable runnable, final String str, final int i2, final int i3, final TLRPC$TL_messages_getDiscussionMessage tLRPC$TL_messages_getDiscussionMessage, final Runnable runnable2, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda85
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda136
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$runCommentRequest$30(tLObject, i, tLRPC$Chat, l, num, num2, runnable, str, i2, i3, tLRPC$TL_messages_getDiscussionMessage, runnable2);
@@ -8663,8 +9554,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x0123 A[Catch: Exception -> 0x011f, TRY_LEAVE, TryCatch #0 {Exception -> 0x011f, blocks: (B:40:0x011b, B:44:0x0123), top: B:48:0x011b }] */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x011b A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x0121 A[Catch: Exception -> 0x011d, TRY_LEAVE, TryCatch #0 {Exception -> 0x011d, blocks: (B:40:0x0119, B:44:0x0121), top: B:48:0x0119 }] */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x0119 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:50:0x00ec A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:53:? A[RETURN, SYNTHETIC] */
     /*
@@ -8708,8 +9599,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     z = true;
                     if (!z) {
                         try {
-                            if (!mainFragmentsStack.isEmpty()) {
-                                ArrayList<BaseFragment> arrayList2 = mainFragmentsStack;
+                            ArrayList<BaseFragment> arrayList2 = mainFragmentsStack;
+                            if (!arrayList2.isEmpty()) {
                                 BulletinFactory.of(arrayList2.get(arrayList2.size() - 1)).createErrorBulletin(LocaleController.getString("ChannelPostDeleted", R.string.ChannelPostDeleted)).show();
                             }
                         } catch (Exception e) {
@@ -8740,19 +9631,18 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:39:0x011e  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x011c  */
     /* JADX WARN: Removed duplicated region for block: B:41:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void openTopicRequest(final int i, final int i2, final TLRPC$Chat tLRPC$Chat, final int i3, TLRPC$TL_forumTopic tLRPC$TL_forumTopic, final Runnable runnable, final String str, final int i4, final ArrayList<MessageObject> arrayList, final int i5) {
-        BaseFragment baseFragment;
         TLRPC$TL_forumTopic findTopic = tLRPC$TL_forumTopic == null ? MessagesController.getInstance(i).getTopicsController().findTopic(tLRPC$Chat.id, i2) : tLRPC$TL_forumTopic;
         if (findTopic == null) {
             TLRPC$TL_channels_getForumTopicsByID tLRPC$TL_channels_getForumTopicsByID = new TLRPC$TL_channels_getForumTopicsByID();
             tLRPC$TL_channels_getForumTopicsByID.channel = MessagesController.getInstance(this.currentAccount).getInputChannel(tLRPC$Chat.id);
             tLRPC$TL_channels_getForumTopicsByID.topics.add(Integer.valueOf(i2));
-            ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_channels_getForumTopicsByID, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda128
+            ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_channels_getForumTopicsByID, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda139
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     LaunchActivity.this.lambda$openTopicRequest$33(i, tLRPC$Chat, i2, i3, runnable, str, i4, arrayList, i5, tLObject, tLRPC$TL_error);
@@ -8760,12 +9650,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             });
             return;
         }
-        if (mainFragmentsStack.isEmpty()) {
-            baseFragment = null;
-        } else {
-            ArrayList<BaseFragment> arrayList2 = mainFragmentsStack;
-            baseFragment = arrayList2.get(arrayList2.size() - 1);
-        }
+        ArrayList<BaseFragment> arrayList2 = mainFragmentsStack;
+        BaseFragment baseFragment = !arrayList2.isEmpty() ? arrayList2.get(arrayList2.size() - 1) : null;
         if (baseFragment instanceof ChatActivity) {
             ChatActivity chatActivity = (ChatActivity) baseFragment;
             if (chatActivity.getDialogId() == (-tLRPC$Chat.id) && chatActivity.isTopic && chatActivity.getTopicId() == findTopic.id) {
@@ -8808,7 +9694,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$openTopicRequest$33(final int i, final TLRPC$Chat tLRPC$Chat, final int i2, final int i3, final Runnable runnable, final String str, final int i4, final ArrayList arrayList, final int i5, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda95
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda156
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$openTopicRequest$32(tLRPC$TL_error, tLObject, i, tLRPC$Chat, i2, i3, runnable, str, i4, arrayList, i5);
@@ -8970,13 +9856,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         }
         TLRPC$TL_messages_checkHistoryImport tLRPC$TL_messages_checkHistoryImport = new TLRPC$TL_messages_checkHistoryImport();
         tLRPC$TL_messages_checkHistoryImport.import_head = readImport;
-        iArr[0] = ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_checkHistoryImport, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda132
+        iArr[0] = ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_checkHistoryImport, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda36
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 LaunchActivity.this.lambda$runImportRequest$35(uri, i, alertDialog, tLObject, tLRPC$TL_error);
             }
         });
-        alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda3
+        alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda37
             @Override // android.content.DialogInterface.OnCancelListener
             public final void onCancel(DialogInterface dialogInterface) {
                 LaunchActivity.lambda$runImportRequest$36(i, iArr, r3, dialogInterface);
@@ -8990,7 +9876,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$runImportRequest$35(final Uri uri, final int i, final AlertDialog alertDialog, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda87
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda107
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$runImportRequest$34(tLObject, uri, i, alertDialog);
@@ -9093,13 +9979,12 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     public void openMessage(final long j, final int i, final String str, final Browser.Progress progress, int i2, final int i3) {
-        BaseFragment baseFragment;
         TLRPC$Chat chat;
         if (j < 0 && (chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-j))) != null && ChatObject.isForum(chat)) {
             if (progress != null) {
                 progress.init();
             }
-            openForumFromLink(j, Integer.valueOf(i), str, new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda37
+            openForumFromLink(j, Integer.valueOf(i), str, new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda126
                 @Override // java.lang.Runnable
                 public final void run() {
                     LaunchActivity.lambda$openMessage$37(Browser.Progress.this);
@@ -9117,7 +10002,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             long j2 = -j;
             TLRPC$Chat chat2 = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(j2));
             if (chat2 != null && chat2.forum) {
-                openForumFromLink(j, Integer.valueOf(i), str, new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda36
+                openForumFromLink(j, Integer.valueOf(i), str, new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda127
                     @Override // java.lang.Runnable
                     public final void run() {
                         LaunchActivity.lambda$openMessage$38(Browser.Progress.this);
@@ -9128,18 +10013,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             bundle.putLong("chat_id", j2);
         }
         bundle.putInt("message_id", i);
-        if (mainFragmentsStack.isEmpty()) {
-            baseFragment = null;
-        } else {
-            ArrayList<BaseFragment> arrayList = mainFragmentsStack;
-            baseFragment = arrayList.get(arrayList.size() - 1);
-        }
-        final BaseFragment baseFragment2 = baseFragment;
-        if (baseFragment2 == null || MessagesController.getInstance(this.currentAccount).checkCanOpenChat(bundle, baseFragment2)) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda62
+        ArrayList<BaseFragment> arrayList = mainFragmentsStack;
+        final BaseFragment baseFragment = !arrayList.isEmpty() ? arrayList.get(arrayList.size() - 1) : null;
+        if (baseFragment == null || MessagesController.getInstance(this.currentAccount).checkCanOpenChat(bundle, baseFragment)) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda128
                 @Override // java.lang.Runnable
                 public final void run() {
-                    LaunchActivity.this.lambda$openMessage$42(bundle, i, str, i3, j, progress, baseFragment2);
+                    LaunchActivity.this.lambda$openMessage$42(bundle, i, str, i3, j, progress, baseFragment);
                 }
             });
         }
@@ -9174,14 +10054,14 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         TLRPC$TL_inputChannel tLRPC$TL_inputChannel = new TLRPC$TL_inputChannel();
         tLRPC$TL_inputChannel.channel_id = -j;
         tLRPC$TL_channels_getChannels.id.add(tLRPC$TL_inputChannel);
-        final int sendRequest = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_getChannels, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda140
+        final int sendRequest = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_getChannels, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda144
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 LaunchActivity.this.lambda$openMessage$40(progress, j, i, baseFragment, bundle, chatActivity, str, i2, tLObject, tLRPC$TL_error);
             }
         });
         if (progress != null) {
-            progress.onCancel(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda57
+            progress.onCancel(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda145
                 @Override // java.lang.Runnable
                 public final void run() {
                     LaunchActivity.this.lambda$openMessage$41(sendRequest);
@@ -9192,7 +10072,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$openMessage$40(final Browser.Progress progress, final long j, final int i, final BaseFragment baseFragment, final Bundle bundle, final ChatActivity chatActivity, final String str, final int i2, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda80
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda158
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$openMessage$39(progress, tLObject, j, i, baseFragment, bundle, chatActivity, str, i2);
@@ -9201,14 +10081,20 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x0057  */
+    /* JADX WARN: Removed duplicated region for block: B:21:? A[RETURN, SYNTHETIC] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public /* synthetic */ void lambda$openMessage$39(Browser.Progress progress, TLObject tLObject, long j, int i, BaseFragment baseFragment, Bundle bundle, ChatActivity chatActivity, String str, int i2) {
+        boolean z;
         if (progress != null) {
             progress.end();
         }
-        boolean z = true;
         if (tLObject instanceof TLRPC$TL_messages_chats) {
             TLRPC$TL_messages_chats tLRPC$TL_messages_chats = (TLRPC$TL_messages_chats) tLObject;
             if (!tLRPC$TL_messages_chats.chats.isEmpty()) {
+                z = false;
                 MessagesController.getInstance(this.currentAccount).putChats(tLRPC$TL_messages_chats.chats, false);
                 TLRPC$Chat tLRPC$Chat = tLRPC$TL_messages_chats.chats.get(0);
                 if (tLRPC$Chat != null && tLRPC$Chat.forum) {
@@ -9219,11 +10105,15 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     chatActivity.setHighlightQuote(i, str, i2);
                     getActionBarLayout().presentFragment(chatActivity2);
                 }
-                z = false;
+                if (z) {
+                    return;
+                }
+                showAlertDialog(AlertsCreator.createNoAccessAlert(this, LocaleController.getString(R.string.DialogNotAvailable), LocaleController.getString(R.string.LinkNotFound), null));
+                return;
             }
         }
+        z = true;
         if (z) {
-            showAlertDialog(AlertsCreator.createNoAccessAlert(this, LocaleController.getString(R.string.DialogNotAvailable), LocaleController.getString(R.string.LinkNotFound), null));
         }
     }
 
@@ -9232,8 +10122,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         ConnectionsManager.getInstance(this.currentAccount).cancelRequest(i, true);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:100:0x0470  */
-    /* JADX WARN: Removed duplicated region for block: B:141:0x05dc  */
+    /* JADX WARN: Removed duplicated region for block: B:100:0x0468  */
+    /* JADX WARN: Removed duplicated region for block: B:141:0x05d2  */
     /* JADX WARN: Removed duplicated region for block: B:157:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -9245,13 +10135,12 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         Runnable runnable;
         final AlertDialog alertDialog;
         final Browser.Progress progress2;
-        BaseFragment baseFragment;
         final Runnable runnable2;
         WallpapersListActivity.ColorWallpaper colorWallpaper;
         EmojiPacksAlert emojiPacksAlert;
         StickersAlert stickersAlert;
         if (i2 == 0 && UserConfig.getActivatedAccountsCount() >= 2 && hashMap != null) {
-            AlertsCreator.createAccountSelectDialog(this, new AlertsCreator.AccountSelectDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda151
+            AlertsCreator.createAccountSelectDialog(this, new AlertsCreator.AccountSelectDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda54
                 @Override // org.telegram.ui.Components.AlertsCreator.AccountSelectDelegate
                 public final void didSelectAccount(int i6) {
                     LaunchActivity.this.lambda$runLinkRequest$45(i, str, str2, str3, str4, str5, str6, str7, str8, str9, str10, str11, str12, z, num, l, l2, num2, str13, hashMap, str14, str15, str16, str17, tLRPC$TL_wallPaper, str18, str19, str20, z2, str21, i3, str22, str23, str24, str25, str26, progress, z3, i4, z4, str27, z5, z6, z7, i6);
@@ -9279,7 +10168,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             showAlertDialog(builder2);
         } else {
             final AlertDialog alertDialog2 = new AlertDialog(this, 3);
-            final Runnable runnable3 = new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda39
+            final Runnable runnable3 = new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda65
                 @Override // java.lang.Runnable
                 public final void run() {
                     LaunchActivity.lambda$runLinkRequest$46(Browser.Progress.this, alertDialog2);
@@ -9289,7 +10178,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             if (str10 != null) {
                 TLRPC$TL_contacts_importContactToken tLRPC$TL_contacts_importContactToken = new TLRPC$TL_contacts_importContactToken();
                 tLRPC$TL_contacts_importContactToken.token = str10;
-                iArr2[0] = ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_contacts_importContactToken, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda124
+                iArr2[0] = ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_contacts_importContactToken, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda68
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         LaunchActivity.this.lambda$runLinkRequest$48(i, str10, runnable3, tLObject, tLRPC$TL_error);
@@ -9298,7 +10187,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             } else if (str11 != null) {
                 TL_chatlists$TL_chatlists_checkChatlistInvite tL_chatlists$TL_chatlists_checkChatlistInvite = new TL_chatlists$TL_chatlists_checkChatlistInvite();
                 tL_chatlists$TL_chatlists_checkChatlistInvite.slug = str11;
-                iArr2[0] = ConnectionsManager.getInstance(i).sendRequest(tL_chatlists$TL_chatlists_checkChatlistInvite, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda118
+                iArr2[0] = ConnectionsManager.getInstance(i).sendRequest(tL_chatlists$TL_chatlists_checkChatlistInvite, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda69
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         LaunchActivity.lambda$runLinkRequest$50(i, str11, runnable3, tLObject, tLRPC$TL_error);
@@ -9309,7 +10198,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 final TLRPC$TL_inputInvoiceSlug tLRPC$TL_inputInvoiceSlug = new TLRPC$TL_inputInvoiceSlug();
                 tLRPC$TL_inputInvoiceSlug.slug = str18;
                 tLRPC$TL_payments_getPaymentForm.invoice = tLRPC$TL_inputInvoiceSlug;
-                iArr2[0] = ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_payments_getPaymentForm, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda142
+                iArr2[0] = ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_payments_getPaymentForm, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda70
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         LaunchActivity.this.lambda$runLinkRequest$55(tLRPC$TL_inputInvoiceSlug, runnable3, i, str18, tLObject, tLRPC$TL_error);
@@ -9320,7 +10209,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     if (progress != null) {
                         progress.init();
                     }
-                    MessagesController.getInstance(i).getUserNameResolver().resolve(str, new com.google.android.exoplayer2.util.Consumer() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda24
+                    MessagesController.getInstance(i).getUserNameResolver().resolve(str, new com.google.android.exoplayer2.util.Consumer() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda71
                         @Override // com.google.android.exoplayer2.util.Consumer
                         public final void accept(Object obj) {
                             LaunchActivity.this.lambda$runLinkRequest$73(i4, runnable3, str13, str20, z2, str21, str25, i, str, str2, str3, str4, str5, str6, str7, str8, str9, str10, str11, str12, z, num, l, l2, num2, hashMap, str14, str15, str16, str17, tLRPC$TL_wallPaper, str18, str19, i2, i3, str22, str23, str24, progress, z3, z4, str27, z5, z6, z7, str26, iArr2, (Long) obj);
@@ -9337,7 +10226,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         tLRPC$TL_messages_checkChatInvite.hash = str2;
                         iArr = iArr2;
                         c = 0;
-                        iArr[0] = ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_checkChatInvite, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda130
+                        iArr[0] = ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_checkChatInvite, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda72
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                                 LaunchActivity.this.lambda$runLinkRequest$79(i, alertDialog2, runnable3, str2, tLObject, tLRPC$TL_error);
@@ -9350,7 +10239,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             TLRPC$TL_messages_importChatInvite tLRPC$TL_messages_importChatInvite = new TLRPC$TL_messages_importChatInvite();
                             tLRPC$TL_messages_importChatInvite.hash = str2;
                             i5 = i;
-                            ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_importChatInvite, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda123
+                            ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_importChatInvite, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda73
                                 @Override // org.telegram.tgnet.RequestDelegate
                                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                                     LaunchActivity.this.lambda$runLinkRequest$81(i5, runnable3, tLObject, tLRPC$TL_error);
@@ -9369,25 +10258,26 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     iArr = iArr2;
                     c = 0;
                     if (str28 != null) {
-                        if (mainFragmentsStack.isEmpty()) {
+                        ArrayList<BaseFragment> arrayList = mainFragmentsStack;
+                        if (arrayList.isEmpty()) {
                             return;
                         }
                         TLRPC$TL_inputStickerSetShortName tLRPC$TL_inputStickerSetShortName = new TLRPC$TL_inputStickerSetShortName();
                         tLRPC$TL_inputStickerSetShortName.short_name = str28;
-                        ArrayList<BaseFragment> arrayList = mainFragmentsStack;
-                        BaseFragment baseFragment2 = arrayList.get(arrayList.size() - 1);
-                        if (baseFragment2 instanceof ChatActivity) {
-                            ChatActivity chatActivity = (ChatActivity) baseFragment2;
-                            stickersAlert = new StickersAlert(this, baseFragment2, tLRPC$TL_inputStickerSetShortName, null, chatActivity.getChatActivityEnterViewForStickers(), chatActivity.getResourceProvider());
+                        BaseFragment baseFragment = arrayList.get(arrayList.size() - 1);
+                        if (baseFragment instanceof ChatActivity) {
+                            ChatActivity chatActivity = (ChatActivity) baseFragment;
+                            stickersAlert = new StickersAlert(this, baseFragment, tLRPC$TL_inputStickerSetShortName, null, chatActivity.getChatActivityEnterViewForStickers(), chatActivity.getResourceProvider());
                             stickersAlert.setCalcMandatoryInsets(chatActivity.isKeyboardVisible());
                         } else {
-                            stickersAlert = new StickersAlert(this, baseFragment2, tLRPC$TL_inputStickerSetShortName, (TLRPC$TL_messages_stickerSet) null, (StickersAlert.StickersAlertDelegate) null);
+                            stickersAlert = new StickersAlert(this, baseFragment, tLRPC$TL_inputStickerSetShortName, (TLRPC$TL_messages_stickerSet) null, (StickersAlert.StickersAlertDelegate) null);
                         }
                         stickersAlert.probablyEmojis = str4 != null;
-                        baseFragment2.showDialog(stickersAlert);
+                        baseFragment.showDialog(stickersAlert);
                         return;
                     } else if (str4 != null) {
-                        if (mainFragmentsStack.isEmpty()) {
+                        ArrayList<BaseFragment> arrayList2 = mainFragmentsStack;
+                        if (arrayList2.isEmpty()) {
                             return;
                         }
                         TLRPC$TL_inputStickerSetShortName tLRPC$TL_inputStickerSetShortName2 = new TLRPC$TL_inputStickerSetShortName();
@@ -9395,18 +10285,17 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             str28 = str4;
                         }
                         tLRPC$TL_inputStickerSetShortName2.short_name = str28;
-                        ArrayList arrayList2 = new ArrayList(1);
-                        arrayList2.add(tLRPC$TL_inputStickerSetShortName2);
-                        ArrayList<BaseFragment> arrayList3 = mainFragmentsStack;
-                        BaseFragment baseFragment3 = arrayList3.get(arrayList3.size() - 1);
-                        if (baseFragment3 instanceof ChatActivity) {
-                            ChatActivity chatActivity2 = (ChatActivity) baseFragment3;
-                            emojiPacksAlert = new EmojiPacksAlert(baseFragment3, this, chatActivity2.getResourceProvider(), arrayList2);
+                        ArrayList arrayList3 = new ArrayList(1);
+                        arrayList3.add(tLRPC$TL_inputStickerSetShortName2);
+                        BaseFragment baseFragment2 = arrayList2.get(arrayList2.size() - 1);
+                        if (baseFragment2 instanceof ChatActivity) {
+                            ChatActivity chatActivity2 = (ChatActivity) baseFragment2;
+                            emojiPacksAlert = new EmojiPacksAlert(baseFragment2, this, chatActivity2.getResourceProvider(), arrayList3);
                             emojiPacksAlert.setCalcMandatoryInsets(chatActivity2.isKeyboardVisible());
                         } else {
-                            emojiPacksAlert = new EmojiPacksAlert(baseFragment3, this, null, arrayList2);
+                            emojiPacksAlert = new EmojiPacksAlert(baseFragment2, this, null, arrayList3);
                         }
-                        baseFragment3.showDialog(emojiPacksAlert);
+                        baseFragment2.showDialog(emojiPacksAlert);
                         return;
                     } else {
                         runnable = null;
@@ -9415,7 +10304,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             bundle.putBoolean("onlySelect", true);
                             bundle.putInt("dialogsType", 3);
                             DialogsActivity dialogsActivity = new DialogsActivity(bundle);
-                            dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda161
+                            dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda74
                                 @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
                                 public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList4, CharSequence charSequence, boolean z8, TopicsFragment topicsFragment) {
                                     boolean lambda$runLinkRequest$82;
@@ -9436,7 +10325,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             tLRPC$TL_account_getAuthorizationForm.bot_id = longValue;
                             tLRPC$TL_account_getAuthorizationForm.scope = hashMap.get("scope");
                             tLRPC$TL_account_getAuthorizationForm.public_key = hashMap.get("public_key");
-                            iArr[0] = ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_account_getAuthorizationForm, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda147
+                            iArr[0] = ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_account_getAuthorizationForm, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda75
                                 @Override // org.telegram.tgnet.RequestDelegate
                                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                                     LaunchActivity.this.lambda$runLinkRequest$86(iArr, i, runnable3, tLRPC$TL_account_getAuthorizationForm, str29, str30, str31, tLObject, tLRPC$TL_error);
@@ -9445,7 +10334,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         } else if (str15 != null) {
                             TLRPC$TL_help_getDeepLinkInfo tLRPC$TL_help_getDeepLinkInfo = new TLRPC$TL_help_getDeepLinkInfo();
                             tLRPC$TL_help_getDeepLinkInfo.path = str15;
-                            iArr[0] = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_help_getDeepLinkInfo, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda135
+                            iArr[0] = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_help_getDeepLinkInfo, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda55
                                 @Override // org.telegram.tgnet.RequestDelegate
                                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                                     LaunchActivity.this.lambda$runLinkRequest$88(runnable3, tLObject, tLRPC$TL_error);
@@ -9455,7 +10344,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             TLRPC$TL_langpack_getLanguage tLRPC$TL_langpack_getLanguage = new TLRPC$TL_langpack_getLanguage();
                             tLRPC$TL_langpack_getLanguage.lang_code = str14;
                             tLRPC$TL_langpack_getLanguage.lang_pack = "android";
-                            iArr[0] = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_langpack_getLanguage, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda134
+                            iArr[0] = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_langpack_getLanguage, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda56
                                 @Override // org.telegram.tgnet.RequestDelegate
                                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                                     LaunchActivity.this.lambda$runLinkRequest$90(runnable3, tLObject, tLRPC$TL_error);
@@ -9472,7 +10361,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         colorWallpaper = new WallpapersListActivity.ColorWallpaper("c", tLRPC$WallPaperSettings.background_color, tLRPC$WallPaperSettings.second_background_color, AndroidUtilities.getWallpaperRotation(tLRPC$WallPaperSettings.rotation, false));
                                     }
                                     final ThemePreviewActivity themePreviewActivity = new ThemePreviewActivity(colorWallpaper, null, true, false);
-                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda105
+                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda57
                                         @Override // java.lang.Runnable
                                         public final void run() {
                                             LaunchActivity.this.lambda$runLinkRequest$91(themePreviewActivity);
@@ -9486,7 +10375,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     TLRPC$TL_inputWallPaperSlug tLRPC$TL_inputWallPaperSlug = new TLRPC$TL_inputWallPaperSlug();
                                     tLRPC$TL_inputWallPaperSlug.slug = tLRPC$TL_wallPaper.slug;
                                     tLRPC$TL_account_getWallPaper.wallpaper = tLRPC$TL_inputWallPaperSlug;
-                                    iArr[0] = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_getWallPaper, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda137
+                                    iArr[0] = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_getWallPaper, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda58
                                         @Override // org.telegram.tgnet.RequestDelegate
                                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                                             LaunchActivity.this.lambda$runLinkRequest$93(runnable3, tLRPC$TL_wallPaper, tLObject, tLRPC$TL_error);
@@ -9499,7 +10388,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             }
                         } else if (str19 != null) {
                             progress2 = progress;
-                            runnable2 = new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda79
+                            runnable2 = new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda59
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     LaunchActivity.this.lambda$runLinkRequest$94(progress2);
@@ -9511,21 +10400,21 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             tLRPC$TL_inputThemeSlug.slug = str19;
                             tLRPC$TL_account_getTheme.theme = tLRPC$TL_inputThemeSlug;
                             alertDialog = alertDialog2;
-                            iArr[0] = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_getTheme, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda143
+                            iArr[0] = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_getTheme, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda60
                                 @Override // org.telegram.tgnet.RequestDelegate
                                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                                     LaunchActivity.this.lambda$runLinkRequest$96(alertDialog, runnable3, tLObject, tLRPC$TL_error);
                                 }
                             });
                             if (iArr[c] != 0) {
-                                alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda2
+                                alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda66
                                     @Override // android.content.DialogInterface.OnCancelListener
                                     public final void onCancel(DialogInterface dialogInterface) {
                                         LaunchActivity.lambda$runLinkRequest$105(i5, iArr, runnable2, dialogInterface);
                                     }
                                 });
                                 if (progress2 != null) {
-                                    progress2.onCancel(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda31
+                                    progress2.onCancel(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda67
                                         @Override // java.lang.Runnable
                                         public final void run() {
                                             LaunchActivity.lambda$runLinkRequest$106(i5, iArr, runnable2);
@@ -9551,7 +10440,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                 if (str27 != null) {
                                     TLRPC$TL_account_resolveBusinessChatLink tLRPC$TL_account_resolveBusinessChatLink = new TLRPC$TL_account_resolveBusinessChatLink();
                                     tLRPC$TL_account_resolveBusinessChatLink.slug = str27;
-                                    ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_resolveBusinessChatLink, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda121
+                                    ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_resolveBusinessChatLink, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda64
                                         @Override // org.telegram.tgnet.RequestDelegate
                                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                                             LaunchActivity.this.lambda$runLinkRequest$104(tLObject, tLRPC$TL_error);
@@ -9567,7 +10456,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     TLRPC$TL_inputChannel tLRPC$TL_inputChannel = new TLRPC$TL_inputChannel();
                                     tLRPC$TL_inputChannel.channel_id = l.longValue();
                                     tLRPC$TL_channels_getChannels.id.add(tLRPC$TL_inputChannel);
-                                    iArr[0] = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_getChannels, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda146
+                                    iArr[0] = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_getChannels, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda61
                                         @Override // org.telegram.tgnet.RequestDelegate
                                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                                             LaunchActivity.this.lambda$runLinkRequest$98(iArr, i, runnable3, num, num2, l2, tLObject, tLRPC$TL_error);
@@ -9584,21 +10473,17 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                 if (chat2 != null && ChatObject.isBoostSupported(chat2) && z4) {
                                     processBoostDialog(Long.valueOf(-l.longValue()), runnable3, progress2);
                                 } else if (chat2 != null && chat2.forum) {
-                                    openForumFromLink(-l.longValue(), num, new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda34
+                                    openForumFromLink(-l.longValue(), num, new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda62
                                         @Override // java.lang.Runnable
                                         public final void run() {
                                             LaunchActivity.lambda$runLinkRequest$99(runnable3);
                                         }
                                     });
                                 } else {
-                                    if (mainFragmentsStack.isEmpty()) {
-                                        baseFragment = null;
-                                    } else {
-                                        ArrayList<BaseFragment> arrayList4 = mainFragmentsStack;
-                                        baseFragment = arrayList4.get(arrayList4.size() - 1);
-                                    }
-                                    if (baseFragment == null || MessagesController.getInstance(i).checkCanOpenChat(bundle2, baseFragment)) {
-                                        final BaseFragment baseFragment4 = baseFragment;
+                                    ArrayList<BaseFragment> arrayList4 = mainFragmentsStack;
+                                    BaseFragment baseFragment3 = !arrayList4.isEmpty() ? arrayList4.get(arrayList4.size() - 1) : null;
+                                    if (baseFragment3 == null || MessagesController.getInstance(i).checkCanOpenChat(bundle2, baseFragment3)) {
+                                        final BaseFragment baseFragment4 = baseFragment3;
                                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda63
                                             @Override // java.lang.Runnable
                                             public final void run() {
@@ -9656,7 +10541,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$runLinkRequest$48(final int i, final String str, final Runnable runnable, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda84
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda115
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$runLinkRequest$47(tLObject, i, str, tLRPC$TL_error, runnable);
@@ -9691,7 +10576,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$runLinkRequest$50(final int i, final String str, final Runnable runnable, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda42
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda101
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.lambda$runLinkRequest$49(TLObject.this, i, str, runnable);
@@ -9700,53 +10585,37 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0067  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x006b  */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public static /* synthetic */ void lambda$runLinkRequest$49(TLObject tLObject, int i, String str, Runnable runnable) {
         ArrayList<BaseFragment> arrayList;
-        ArrayList<TLRPC$User> arrayList2;
-        ArrayList<TLRPC$Chat> arrayList3;
-        ArrayList<TLRPC$User> arrayList4;
+        ArrayList<TLRPC$Chat> arrayList2;
+        ArrayList<TLRPC$User> arrayList3;
         BaseFragment baseFragment = mainFragmentsStack.get(arrayList.size() - 1);
         if (tLObject instanceof TL_chatlists$chatlist_ChatlistInvite) {
             TL_chatlists$chatlist_ChatlistInvite tL_chatlists$chatlist_ChatlistInvite = (TL_chatlists$chatlist_ChatlistInvite) tLObject;
             boolean z = tL_chatlists$chatlist_ChatlistInvite instanceof TL_chatlists$TL_chatlists_chatlistInvite;
-            ArrayList<TLRPC$Chat> arrayList5 = null;
             if (z) {
                 TL_chatlists$TL_chatlists_chatlistInvite tL_chatlists$TL_chatlists_chatlistInvite = (TL_chatlists$TL_chatlists_chatlistInvite) tL_chatlists$chatlist_ChatlistInvite;
-                arrayList3 = tL_chatlists$TL_chatlists_chatlistInvite.chats;
-                arrayList4 = tL_chatlists$TL_chatlists_chatlistInvite.users;
+                arrayList2 = tL_chatlists$TL_chatlists_chatlistInvite.chats;
+                arrayList3 = tL_chatlists$TL_chatlists_chatlistInvite.users;
             } else if (tL_chatlists$chatlist_ChatlistInvite instanceof TL_chatlists$TL_chatlists_chatlistInviteAlready) {
                 TL_chatlists$TL_chatlists_chatlistInviteAlready tL_chatlists$TL_chatlists_chatlistInviteAlready = (TL_chatlists$TL_chatlists_chatlistInviteAlready) tL_chatlists$chatlist_ChatlistInvite;
-                arrayList3 = tL_chatlists$TL_chatlists_chatlistInviteAlready.chats;
-                arrayList4 = tL_chatlists$TL_chatlists_chatlistInviteAlready.users;
+                arrayList2 = tL_chatlists$TL_chatlists_chatlistInviteAlready.chats;
+                arrayList3 = tL_chatlists$TL_chatlists_chatlistInviteAlready.users;
             } else {
                 arrayList2 = null;
-                MessagesController.getInstance(i).putChats(arrayList5, false);
-                MessagesController.getInstance(i).putUsers(arrayList2, false);
-                if (z || !((TL_chatlists$TL_chatlists_chatlistInvite) tL_chatlists$chatlist_ChatlistInvite).peers.isEmpty()) {
-                    FolderBottomSheet folderBottomSheet = new FolderBottomSheet(baseFragment, str, tL_chatlists$chatlist_ChatlistInvite);
-                    if (baseFragment == null) {
-                        baseFragment.showDialog(folderBottomSheet);
-                    } else {
-                        folderBottomSheet.show();
-                    }
+                arrayList3 = null;
+            }
+            MessagesController.getInstance(i).putChats(arrayList2, false);
+            MessagesController.getInstance(i).putUsers(arrayList3, false);
+            if (!z || !((TL_chatlists$TL_chatlists_chatlistInvite) tL_chatlists$chatlist_ChatlistInvite).peers.isEmpty()) {
+                FolderBottomSheet folderBottomSheet = new FolderBottomSheet(baseFragment, str, tL_chatlists$chatlist_ChatlistInvite);
+                if (baseFragment != null) {
+                    baseFragment.showDialog(folderBottomSheet);
                 } else {
-                    BulletinFactory.of(baseFragment).createErrorBulletin(LocaleController.getString(R.string.NoFolderFound)).show();
+                    folderBottomSheet.show();
                 }
-            }
-            ArrayList<TLRPC$Chat> arrayList6 = arrayList3;
-            arrayList2 = arrayList4;
-            arrayList5 = arrayList6;
-            MessagesController.getInstance(i).putChats(arrayList5, false);
-            MessagesController.getInstance(i).putUsers(arrayList2, false);
-            if (z) {
-            }
-            FolderBottomSheet folderBottomSheet2 = new FolderBottomSheet(baseFragment, str, tL_chatlists$chatlist_ChatlistInvite);
-            if (baseFragment == null) {
+            } else {
+                BulletinFactory.of(baseFragment).createErrorBulletin(LocaleController.getString(R.string.NoFolderFound)).show();
             }
         } else {
             BulletinFactory.of(baseFragment).createErrorBulletin(LocaleController.getString(R.string.NoFolderFound)).show();
@@ -9760,7 +10629,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$runLinkRequest$55(final TLRPC$TL_inputInvoiceSlug tLRPC$TL_inputInvoiceSlug, final Runnable runnable, final int i, final String str, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda97
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda86
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$runLinkRequest$54(tLRPC$TL_error, tLObject, tLRPC$TL_inputInvoiceSlug, runnable, i, str);
@@ -9778,12 +10647,12 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             if (tLObject instanceof TLRPC$TL_payments_paymentFormStars) {
                 final Runnable runnable2 = this.navigateToPremiumGiftCallback;
                 this.navigateToPremiumGiftCallback = null;
-                StarsController.getInstance(this.currentAccount).openPaymentForm(null, tLRPC$TL_inputInvoiceSlug, (TLRPC$TL_payments_paymentFormStars) tLObject, new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda32
+                StarsController.getInstance(this.currentAccount).openPaymentForm(null, tLRPC$TL_inputInvoiceSlug, (TLRPC$TL_payments_paymentFormStars) tLObject, new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda119
                     @Override // java.lang.Runnable
                     public final void run() {
                         LaunchActivity.lambda$runLinkRequest$51(runnable);
                     }
-                }, new Utilities.Callback() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda114
+                }, new Utilities.Callback() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda120
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
                         LaunchActivity.lambda$runLinkRequest$52(runnable2, (String) obj);
@@ -9802,7 +10671,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 final Runnable runnable3 = this.navigateToPremiumGiftCallback;
                 if (runnable3 != null) {
                     this.navigateToPremiumGiftCallback = null;
-                    paymentFormActivity.setPaymentFormCallback(new PaymentFormActivity.PaymentFormCallback() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda164
+                    paymentFormActivity.setPaymentFormCallback(new PaymentFormActivity.PaymentFormCallback() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda121
                         @Override // org.telegram.ui.PaymentFormActivity.PaymentFormCallback
                         public final void onInvoiceStatusChanged(PaymentFormActivity.InvoiceStatus invoiceStatus) {
                             LaunchActivity.lambda$runLinkRequest$53(runnable3, invoiceStatus);
@@ -9844,10 +10713,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:72:0x0289, code lost:
-        if (r99[0] != 0) goto L6;
+    /* JADX WARN: Code restructure failed: missing block: B:72:0x0285, code lost:
+        if (r0 != 0) goto L6;
      */
-    /* JADX WARN: Removed duplicated region for block: B:257:0x0659 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:260:0x0651 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:267:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -9856,14 +10725,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         boolean z8;
         long longValue;
         boolean z9;
-        BaseFragment baseFragment;
         boolean z10;
         final TLRPC$User user;
         if (isFinishing()) {
             return;
         }
         if (i != 0 && l3 != null) {
-            MessagesController.getInstance(this.currentAccount).getStoriesController().resolveStoryLink(l3.longValue(), i, new com.google.android.exoplayer2.util.Consumer() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda25
+            MessagesController.getInstance(this.currentAccount).getStoriesController().resolveStoryLink(l3.longValue(), i, new com.google.android.exoplayer2.util.Consumer() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda108
                 @Override // com.google.android.exoplayer2.util.Consumer
                 public final void accept(Object obj) {
                     LaunchActivity.this.lambda$runLinkRequest$56(runnable, l3, (TL_stories$StoryItem) obj);
@@ -9875,7 +10743,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     if (user.bot_attach_menu && !MediaDataController.getInstance(i2).botInAttachMenu(user.id)) {
                         TLRPC$TL_messages_getAttachMenuBot tLRPC$TL_messages_getAttachMenuBot = new TLRPC$TL_messages_getAttachMenuBot();
                         tLRPC$TL_messages_getAttachMenuBot.bot = MessagesController.getInstance(i2).getInputUser(l3.longValue());
-                        ConnectionsManager.getInstance(i2).sendRequest(tLRPC$TL_messages_getAttachMenuBot, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda125
+                        ConnectionsManager.getInstance(i2).sendRequest(tLRPC$TL_messages_getAttachMenuBot, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda109
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                                 LaunchActivity.this.lambda$runLinkRequest$65(i2, str5, str6, str7, str8, str9, str10, str11, str12, str13, str14, str15, str16, z2, num, l, l2, num2, str, hashMap, str17, str18, str19, str20, tLRPC$TL_wallPaper, str21, str22, str2, z, str3, i3, i4, str23, str24, str25, progress, z3, i, z4, str26, z5, z6, z7, l3, str4, str27, user, runnable, tLObject, tLRPC$TL_error);
@@ -9909,7 +10777,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         BulletinFactory.of(arrayList2.get(arrayList2.size() - 1)).createErrorBulletin(LocaleController.getString(R.string.BotSetAttachLinkNotBot)).show();
                     }
                 } else if (num != null && ((num2 != null || l2 != null) && l3.longValue() < 0)) {
-                    iArr[0] = runCommentRequest(i2, runnable, num, num2, l2, MessagesController.getInstance(i2).getChat(Long.valueOf(-l3.longValue())));
+                    int runCommentRequest = runCommentRequest(i2, runnable, num, num2, l2, MessagesController.getInstance(i2).getChat(Long.valueOf(-l3.longValue())));
+                    iArr[0] = runCommentRequest;
                 } else if (str != null) {
                     Bundle bundle = new Bundle();
                     bundle.putBoolean("onlySelect", true);
@@ -9919,7 +10788,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     bundle.putString("selectAlertStringGroup", LocaleController.getString("SendGameToGroupText", R.string.SendGameToGroupText));
                     DialogsActivity dialogsActivity = new DialogsActivity(bundle);
                     final TLRPC$User user4 = MessagesController.getInstance(i2).getUser(l3);
-                    dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda159
+                    dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda110
                         @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
                         public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList3, CharSequence charSequence, boolean z11, TopicsFragment topicsFragment) {
                             boolean lambda$runLinkRequest$66;
@@ -9955,10 +10824,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     final TLRPC$User user5 = MessagesController.getInstance(i2).getUser(l3);
                     if (user5 == null || (user5.bot && user5.bot_nochats)) {
                         try {
-                            if (mainFragmentsStack.isEmpty()) {
+                            ArrayList<BaseFragment> arrayList3 = mainFragmentsStack;
+                            if (arrayList3.isEmpty()) {
                                 return;
                             }
-                            ArrayList<BaseFragment> arrayList3 = mainFragmentsStack;
                             BulletinFactory.of(arrayList3.get(arrayList3.size() - 1)).createErrorBulletin(LocaleController.getString("BotCantJoinGroups", R.string.BotCantJoinGroups)).show();
                             return;
                         } catch (Exception e) {
@@ -9976,7 +10845,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     String str29 = TextUtils.isEmpty(str10) ? TextUtils.isEmpty(str11) ? null : str11 : str10;
                     final DialogsActivity dialogsActivity2 = new DialogsActivity(bundle2);
                     final String str30 = str29;
-                    dialogsActivity2.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda158
+                    dialogsActivity2.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda111
                         @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
                         public final boolean didSelectDialogs(DialogsActivity dialogsActivity3, ArrayList arrayList4, CharSequence charSequence, boolean z11, TopicsFragment topicsFragment) {
                             boolean lambda$runLinkRequest$71;
@@ -10032,12 +10901,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     if (str23 != null) {
                         bundle3.putString("attach_bot_start_command", str23);
                     }
-                    if (mainFragmentsStack.isEmpty() || str2 != null) {
-                        baseFragment = null;
-                    } else {
-                        ArrayList<BaseFragment> arrayList4 = mainFragmentsStack;
-                        baseFragment = arrayList4.get(arrayList4.size() - 1);
-                    }
+                    ArrayList<BaseFragment> arrayList4 = mainFragmentsStack;
+                    BaseFragment baseFragment = (arrayList4.isEmpty() || str2 != null) ? null : arrayList4.get(arrayList4.size() - 1);
                     if (baseFragment == null || MessagesController.getInstance(i2).checkCanOpenChat(bundle3, baseFragment)) {
                         boolean z11 = (baseFragment instanceof ChatActivity) && ((ChatActivity) baseFragment).getDialogId() == longValue;
                         if (z9 && z11) {
@@ -10066,7 +10931,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             } else if (chat != null && chat.forum) {
                                 Long valueOf = (l2 != null || num == null) ? l2 : Long.valueOf(num.intValue());
                                 if (valueOf != null && valueOf.longValue() != 0) {
-                                    openForumFromLink(longValue, num, new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda33
+                                    openForumFromLink(longValue, num, new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda112
                                         @Override // java.lang.Runnable
                                         public final void run() {
                                             LaunchActivity.lambda$runLinkRequest$72(runnable);
@@ -10150,7 +11015,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$runLinkRequest$65(final int i, final String str, final String str2, final String str3, final String str4, final String str5, final String str6, final String str7, final String str8, final String str9, final String str10, final String str11, final String str12, final boolean z, final Integer num, final Long l, final Long l2, final Integer num2, final String str13, final HashMap hashMap, final String str14, final String str15, final String str16, final String str17, final TLRPC$TL_wallPaper tLRPC$TL_wallPaper, final String str18, final String str19, final String str20, final boolean z2, final String str21, final int i2, final int i3, final String str22, final String str23, final String str24, final Browser.Progress progress, final boolean z3, final int i4, final boolean z4, final String str25, final boolean z5, final boolean z6, final boolean z7, final Long l3, final String str26, final String str27, final TLRPC$User tLRPC$User, final Runnable runnable, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda94
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda131
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$runLinkRequest$64(tLRPC$TL_error, i, str, str2, str3, str4, str5, str6, str7, str8, str9, str10, str11, str12, z, num, l, l2, num2, str13, hashMap, str14, str15, str16, str17, tLRPC$TL_wallPaper, str18, str19, str20, z2, str21, i2, i3, str22, str23, str24, progress, z3, i4, z4, str25, z5, z6, z7, tLObject, l3, str26, str27, tLRPC$User, runnable);
@@ -10166,9 +11031,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$runLinkRequest$64(TLRPC$TL_error tLRPC$TL_error, final int i, final String str, final String str2, final String str3, final String str4, final String str5, final String str6, final String str7, final String str8, final String str9, final String str10, final String str11, final String str12, final boolean z, final Integer num, final Long l, final Long l2, final Integer num2, final String str13, final HashMap hashMap, final String str14, final String str15, final String str16, final String str17, final TLRPC$TL_wallPaper tLRPC$TL_wallPaper, final String str18, final String str19, final String str20, final boolean z2, final String str21, final int i2, final int i3, final String str22, final String str23, final String str24, final Browser.Progress progress, final boolean z3, final int i4, final boolean z4, final String str25, final boolean z5, final boolean z6, final boolean z7, TLObject tLObject, final Long l3, final String str26, final String str27, final TLRPC$User tLRPC$User, final Runnable runnable) {
         LaunchActivity launchActivity;
-        ChatActivity$ChatMessageCellDelegate$$ExternalSyntheticLambda8 chatActivity$ChatMessageCellDelegate$$ExternalSyntheticLambda8;
+        ChatActivity$ChatMessageCellDelegate$$ExternalSyntheticLambda14 chatActivity$ChatMessageCellDelegate$$ExternalSyntheticLambda14;
         if (tLRPC$TL_error != null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda59
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda147
                 @Override // java.lang.Runnable
                 public final void run() {
                     LaunchActivity.this.lambda$runLinkRequest$57(i, str, str2, str3, str4, str5, str6, str7, str8, str9, str10, str11, str12, z, num, l, l2, num2, str13, hashMap, str14, str15, str16, str17, tLRPC$TL_wallPaper, str18, str19, str20, z2, str21, i2, i3, str22, str23, str24, progress, z3, i4, z4, str25, z5, z6, z7);
@@ -10178,23 +11043,23 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             final TLRPC$TL_attachMenuBot tLRPC$TL_attachMenuBot = ((TLRPC$TL_attachMenuBotsBot) tLObject).bot;
             final boolean z8 = tLRPC$TL_attachMenuBot != null && (tLRPC$TL_attachMenuBot.show_in_side_menu || tLRPC$TL_attachMenuBot.show_in_attach_menu);
             if ((tLRPC$TL_attachMenuBot.inactive || tLRPC$TL_attachMenuBot.side_menu_disclaimer_needed) && z8) {
-                com.google.android.exoplayer2.util.Consumer consumer = new com.google.android.exoplayer2.util.Consumer() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda29
+                com.google.android.exoplayer2.util.Consumer consumer = new com.google.android.exoplayer2.util.Consumer() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda148
                     @Override // com.google.android.exoplayer2.util.Consumer
                     public final void accept(Object obj) {
                         LaunchActivity.this.lambda$runLinkRequest$60(tLRPC$TL_attachMenuBot, i, l3, str, str2, str3, str4, str5, str6, str7, str8, str9, str10, str11, str12, z, num, l, l2, num2, str13, hashMap, str14, str15, str16, str17, tLRPC$TL_wallPaper, str18, str19, str20, z2, str21, i2, i3, str22, str23, str24, str26, str27, progress, z3, i4, z4, str25, tLRPC$User, runnable, z8, z5, z6, z7, (Boolean) obj);
                     }
                 };
                 if (progress != null) {
-                    chatActivity$ChatMessageCellDelegate$$ExternalSyntheticLambda8 = new ChatActivity$ChatMessageCellDelegate$$ExternalSyntheticLambda8(progress);
+                    chatActivity$ChatMessageCellDelegate$$ExternalSyntheticLambda14 = new ChatActivity$ChatMessageCellDelegate$$ExternalSyntheticLambda14(progress);
                     launchActivity = this;
                 } else {
                     launchActivity = this;
-                    chatActivity$ChatMessageCellDelegate$$ExternalSyntheticLambda8 = null;
+                    chatActivity$ChatMessageCellDelegate$$ExternalSyntheticLambda14 = null;
                 }
-                WebAppDisclaimerAlert.show(launchActivity, consumer, null, chatActivity$ChatMessageCellDelegate$$ExternalSyntheticLambda8);
+                WebAppDisclaimerAlert.show(launchActivity, consumer, null, chatActivity$ChatMessageCellDelegate$$ExternalSyntheticLambda14);
             } else if (tLRPC$TL_attachMenuBot.request_write_access || z3) {
                 final AtomicBoolean atomicBoolean = new AtomicBoolean(true);
-                AlertsCreator.createBotLaunchAlert(getLastFragment(), atomicBoolean, tLRPC$User, new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda93
+                AlertsCreator.createBotLaunchAlert(getLastFragment(), atomicBoolean, tLRPC$User, new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda149
                     @Override // java.lang.Runnable
                     public final void run() {
                         LaunchActivity.this.lambda$runLinkRequest$63(tLRPC$TL_attachMenuBot, atomicBoolean, i, l3, str, str2, str3, str4, str5, str6, str7, str8, str9, str10, str11, str12, z, num, l, l2, num2, str13, hashMap, str14, str15, str16, str17, tLRPC$TL_wallPaper, str18, str19, str20, z2, str21, i2, i3, str22, str23, str24, str26, str27, progress, z3, i4, z4, str25, tLRPC$User, runnable, z5, z6, z7);
@@ -10214,7 +11079,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         tLRPC$TL_messages_toggleBotInAttachMenu.bot = MessagesController.getInstance(i).getInputUser(l.longValue());
         tLRPC$TL_messages_toggleBotInAttachMenu.enabled = true;
         tLRPC$TL_messages_toggleBotInAttachMenu.write_allowed = true;
-        ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_toggleBotInAttachMenu, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda116
+        ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_toggleBotInAttachMenu, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda157
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 LaunchActivity.lambda$runLinkRequest$59(i, tLObject, tLRPC$TL_error);
@@ -10225,7 +11090,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$runLinkRequest$59(final int i, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda40
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda162
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.lambda$runLinkRequest$58(TLObject.this, i);
@@ -10247,7 +11112,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         TLRPC$TL_messages_toggleBotInAttachMenu tLRPC$TL_messages_toggleBotInAttachMenu = new TLRPC$TL_messages_toggleBotInAttachMenu();
         tLRPC$TL_messages_toggleBotInAttachMenu.bot = MessagesController.getInstance(i).getInputUser(l.longValue());
         tLRPC$TL_messages_toggleBotInAttachMenu.write_allowed = atomicBoolean.get();
-        ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_toggleBotInAttachMenu, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda117
+        ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_toggleBotInAttachMenu, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda152
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 LaunchActivity.lambda$runLinkRequest$62(i, tLObject, tLRPC$TL_error);
@@ -10258,7 +11123,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$runLinkRequest$62(final int i, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda41
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda164
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.lambda$runLinkRequest$61(TLObject.this, i);
@@ -10304,7 +11169,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         final long j = ((MessagesStorage.TopicKey) arrayList.get(0)).dialogId;
         final TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-j));
         if (chat != null && (chat.creator || ((tLRPC$TL_chatAdminRights = chat.admin_rights) != null && tLRPC$TL_chatAdminRights.add_admins))) {
-            MessagesController.getInstance(i).checkIsInChat(false, chat, tLRPC$User, new MessagesController.IsInChatCheckedCallback() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda111
+            MessagesController.getInstance(i).checkIsInChat(false, chat, tLRPC$User, new MessagesController.IsInChatCheckedCallback() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda132
                 @Override // org.telegram.messenger.MessagesController.IsInChatCheckedCallback
                 public final void run(boolean z2, TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights2, String str3) {
                     LaunchActivity.this.lambda$runLinkRequest$69(str, str2, i, chat, dialogsActivity, tLRPC$User, j, z2, tLRPC$TL_chatAdminRights2, str3);
@@ -10316,7 +11181,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             builder.setTitle(LocaleController.getString("AddBot", i2));
             builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("AddMembersAlertNamesText", R.string.AddMembersAlertNamesText, UserObject.getUserName(tLRPC$User), chat == null ? "" : chat.title)));
             builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-            builder.setPositiveButton(LocaleController.getString("AddBot", i2), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda10
+            builder.setPositiveButton(LocaleController.getString("AddBot", i2), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda133
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i3) {
                     LaunchActivity.this.lambda$runLinkRequest$70(j, i, tLRPC$User, str2, dialogInterface, i3);
@@ -10329,7 +11194,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$runLinkRequest$69(final String str, final String str2, final int i, final TLRPC$Chat tLRPC$Chat, final DialogsActivity dialogsActivity, final TLRPC$User tLRPC$User, final long j, final boolean z, final TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights, final String str3) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda75
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda146
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$runLinkRequest$68(str, tLRPC$TL_chatAdminRights, z, str2, i, tLRPC$Chat, dialogsActivity, tLRPC$User, j, str3);
@@ -10505,7 +11370,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             tLRPC$TL_chatAdminRights3 = tLRPC$TL_chatAdminRights;
         }
         if (z && tLRPC$TL_chatAdminRights2 == null && !TextUtils.isEmpty(str2)) {
-            MessagesController.getInstance(this.currentAccount).addUserToChat(tLRPC$Chat.id, tLRPC$User, 0, str2, dialogsActivity, true, new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda60
+            MessagesController.getInstance(this.currentAccount).addUserToChat(tLRPC$Chat.id, tLRPC$User, 0, str2, dialogsActivity, true, new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda159
                 @Override // java.lang.Runnable
                 public final void run() {
                     LaunchActivity.this.lambda$runLinkRequest$67(i, tLRPC$Chat, dialogsActivity);
@@ -10514,7 +11379,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             return;
         }
         ChatRightsEditActivity chatRightsEditActivity = new ChatRightsEditActivity(tLRPC$User.id, -j, tLRPC$TL_chatAdminRights3, null, null, str3, 2, true, !z, str2);
-        chatRightsEditActivity.setDelegate(new ChatRightsEditActivity.ChatRightsEditActivityDelegate(this) { // from class: org.telegram.ui.LaunchActivity.17
+        chatRightsEditActivity.setDelegate(new ChatRightsEditActivity.ChatRightsEditActivityDelegate() { // from class: org.telegram.ui.LaunchActivity.17
             @Override // org.telegram.ui.ChatRightsEditActivity.ChatRightsEditActivityDelegate
             public void didChangeOwner(TLRPC$User tLRPC$User2) {
             }
@@ -10653,7 +11518,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         }
                         return;
                     }
-                    accountInstance.getMessagesController().getGroupCall(j2, true, new Runnable() { // from class: org.telegram.ui.LaunchActivity$18$$ExternalSyntheticLambda2
+                    accountInstance.getMessagesController().getGroupCall(j2, true, new Runnable() { // from class: org.telegram.ui.LaunchActivity$18$$ExternalSyntheticLambda1
                         @Override // java.lang.Runnable
                         public final void run() {
                             LaunchActivity.18.this.lambda$onMessagesLoaded$1(accountInstance, j, baseFragment);
@@ -10665,7 +11530,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onMessagesLoaded$1(final AccountInstance accountInstance, final long j, final BaseFragment baseFragment) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$18$$ExternalSyntheticLambda1
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$18$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     LaunchActivity.18.this.lambda$onMessagesLoaded$0(accountInstance, j, baseFragment);
@@ -10696,7 +11561,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$runLinkRequest$79(final int i, final AlertDialog alertDialog, final Runnable runnable, final String str, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda96
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda114
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$runLinkRequest$78(tLRPC$TL_error, tLObject, i, alertDialog, runnable, str);
@@ -10707,9 +11572,6 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Code restructure failed: missing block: B:19:0x0030, code lost:
         if (r10.chat.has_geo != false) goto L19;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x0077, code lost:
-        if (r15.checkCanOpenChat(r7, r0.get(r0.size() - 1)) != false) goto L33;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -10738,61 +11600,60 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 MessagesStorage.getInstance(i).putUsersAndChats(null, arrayList, false, true);
                 final Bundle bundle = new Bundle();
                 bundle.putLong("chat_id", tLRPC$ChatInvite.chat.id);
-                if (!mainFragmentsStack.isEmpty()) {
-                    MessagesController messagesController = MessagesController.getInstance(i);
-                    ArrayList<BaseFragment> arrayList2 = mainFragmentsStack;
-                }
-                final boolean[] zArr = new boolean[1];
-                alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda4
-                    @Override // android.content.DialogInterface.OnCancelListener
-                    public final void onCancel(DialogInterface dialogInterface) {
-                        LaunchActivity.lambda$runLinkRequest$74(zArr, dialogInterface);
-                    }
-                });
-                if (tLRPC$ChatInvite.chat.forum) {
-                    Bundle bundle2 = new Bundle();
-                    bundle2.putLong("chat_id", tLRPC$ChatInvite.chat.id);
-                    lambda$runLinkRequest$91(TopicsFragment.getTopicsOrChat(this, bundle2));
-                } else {
-                    MessagesController.getInstance(i).ensureMessagesLoaded(-tLRPC$ChatInvite.chat.id, 0, new MessagesController.MessagesLoadedCallback() { // from class: org.telegram.ui.LaunchActivity.19
-                        @Override // org.telegram.messenger.MessagesController.MessagesLoadedCallback
-                        public void onMessagesLoaded(boolean z2) {
-                            try {
-                                runnable.run();
-                            } catch (Exception e) {
-                                FileLog.e(e);
-                            }
-                            if (zArr[0]) {
-                                return;
-                            }
-                            ChatActivity chatActivity = new ChatActivity(bundle);
-                            TLRPC$ChatInvite tLRPC$ChatInvite2 = tLRPC$ChatInvite;
-                            if (tLRPC$ChatInvite2 instanceof TLRPC$TL_chatInvitePeek) {
-                                chatActivity.setChatInvite(tLRPC$ChatInvite2);
-                            }
-                            LaunchActivity.this.getActionBarLayout().presentFragment(chatActivity);
-                        }
-
-                        @Override // org.telegram.messenger.MessagesController.MessagesLoadedCallback
-                        public void onError() {
-                            if (!LaunchActivity.this.isFinishing()) {
-                                AlertsCreator.showSimpleAlert((BaseFragment) LaunchActivity.mainFragmentsStack.get(LaunchActivity.mainFragmentsStack.size() - 1), LocaleController.getString("JoinToGroupErrorNotExist", R.string.JoinToGroupErrorNotExist));
-                            }
-                            try {
-                                runnable.run();
-                            } catch (Exception e) {
-                                FileLog.e(e);
-                            }
+                ArrayList<BaseFragment> arrayList2 = mainFragmentsStack;
+                if (arrayList2.isEmpty() || MessagesController.getInstance(i).checkCanOpenChat(bundle, arrayList2.get(arrayList2.size() - 1))) {
+                    final boolean[] zArr = new boolean[1];
+                    alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda134
+                        @Override // android.content.DialogInterface.OnCancelListener
+                        public final void onCancel(DialogInterface dialogInterface) {
+                            LaunchActivity.lambda$runLinkRequest$74(zArr, dialogInterface);
                         }
                     });
-                    z = false;
+                    if (tLRPC$ChatInvite.chat.forum) {
+                        Bundle bundle2 = new Bundle();
+                        bundle2.putLong("chat_id", tLRPC$ChatInvite.chat.id);
+                        lambda$runLinkRequest$91(TopicsFragment.getTopicsOrChat(this, bundle2));
+                    } else {
+                        MessagesController.getInstance(i).ensureMessagesLoaded(-tLRPC$ChatInvite.chat.id, 0, new MessagesController.MessagesLoadedCallback() { // from class: org.telegram.ui.LaunchActivity.19
+                            @Override // org.telegram.messenger.MessagesController.MessagesLoadedCallback
+                            public void onMessagesLoaded(boolean z2) {
+                                try {
+                                    runnable.run();
+                                } catch (Exception e) {
+                                    FileLog.e(e);
+                                }
+                                if (zArr[0]) {
+                                    return;
+                                }
+                                ChatActivity chatActivity = new ChatActivity(bundle);
+                                TLRPC$ChatInvite tLRPC$ChatInvite2 = tLRPC$ChatInvite;
+                                if (tLRPC$ChatInvite2 instanceof TLRPC$TL_chatInvitePeek) {
+                                    chatActivity.setChatInvite(tLRPC$ChatInvite2);
+                                }
+                                LaunchActivity.this.getActionBarLayout().presentFragment(chatActivity);
+                            }
+
+                            @Override // org.telegram.messenger.MessagesController.MessagesLoadedCallback
+                            public void onError() {
+                                if (!LaunchActivity.this.isFinishing()) {
+                                    AlertsCreator.showSimpleAlert((BaseFragment) LaunchActivity.mainFragmentsStack.get(LaunchActivity.mainFragmentsStack.size() - 1), LocaleController.getString("JoinToGroupErrorNotExist", R.string.JoinToGroupErrorNotExist));
+                                }
+                                try {
+                                    runnable.run();
+                                } catch (Exception e) {
+                                    FileLog.e(e);
+                                }
+                            }
+                        });
+                        z = false;
+                    }
                 }
             }
             TLRPC$TL_starsSubscriptionPricing tLRPC$TL_starsSubscriptionPricing = tLRPC$ChatInvite.subscription_pricing;
             if (tLRPC$TL_starsSubscriptionPricing != null && !tLRPC$ChatInvite.can_refulfill_subscription) {
                 final long j = tLRPC$TL_starsSubscriptionPricing.amount;
                 MessagesController.getInstance(i).putChat(tLRPC$ChatInvite.chat, false);
-                StarsController.getInstance(this.currentAccount).subscribeTo(str, tLRPC$ChatInvite, new Utilities.Callback2() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda113
+                StarsController.getInstance(this.currentAccount).subscribeTo(str, tLRPC$ChatInvite, new Utilities.Callback2() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda135
                     @Override // org.telegram.messenger.Utilities.Callback2
                     public final void run(Object obj, Object obj2) {
                         LaunchActivity.this.lambda$runLinkRequest$77(j, (String) obj, (Long) obj2);
@@ -10836,7 +11697,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         if (!"paid".equals(str) || l.longValue() == 0) {
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda64
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda140
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$runLinkRequest$76(l, j);
@@ -10854,18 +11715,18 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         safeLastFragment.presentFragment(of);
         final TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-l.longValue()));
         if (chat != null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda101
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda153
                 @Override // java.lang.Runnable
                 public final void run() {
-                    LaunchActivity.this.lambda$runLinkRequest$75(of, j, chat);
+                    LaunchActivity.lambda$runLinkRequest$75(BaseFragment.this, j, chat);
                 }
             }, 250L);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$runLinkRequest$75(BaseFragment baseFragment, long j, TLRPC$Chat tLRPC$Chat) {
-        BulletinFactory.of(baseFragment).createSimpleBulletin(R.raw.stars_send, getString(R.string.StarsSubscriptionCompleted), AndroidUtilities.replaceTags(LocaleController.formatPluralString("StarsSubscriptionCompletedText", (int) j, tLRPC$Chat.title))).show(true);
+    public static /* synthetic */ void lambda$runLinkRequest$75(BaseFragment baseFragment, long j, TLRPC$Chat tLRPC$Chat) {
+        BulletinFactory.of(baseFragment).createSimpleBulletin(R.raw.stars_send, LocaleController.getString(R.string.StarsSubscriptionCompleted), AndroidUtilities.replaceTags(LocaleController.formatPluralString("StarsSubscriptionCompletedText", (int) j, tLRPC$Chat.title))).show(true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -10873,7 +11734,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         if (tLRPC$TL_error == null) {
             MessagesController.getInstance(i).processUpdates((TLRPC$Updates) tLObject, false);
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda73
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda92
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$runLinkRequest$80(runnable, tLRPC$TL_error, tLObject, i);
@@ -10904,16 +11765,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 MessagesController.getInstance(i).putChats(tLRPC$Updates.chats, false);
                 Bundle bundle = new Bundle();
                 bundle.putLong("chat_id", tLRPC$Chat.id);
-                if (!mainFragmentsStack.isEmpty()) {
-                    MessagesController messagesController = MessagesController.getInstance(i);
-                    ArrayList<BaseFragment> arrayList = mainFragmentsStack;
-                    if (!messagesController.checkCanOpenChat(bundle, arrayList.get(arrayList.size() - 1))) {
-                        return;
-                    }
+                ArrayList<BaseFragment> arrayList = mainFragmentsStack;
+                if (arrayList.isEmpty() || MessagesController.getInstance(i).checkCanOpenChat(bundle, arrayList.get(arrayList.size() - 1))) {
+                    ChatActivity chatActivity = new ChatActivity(bundle);
+                    NotificationCenter.getInstance(i).lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeChats, new Object[0]);
+                    getActionBarLayout().presentFragment(chatActivity, false, true, true, false);
+                    return;
                 }
-                ChatActivity chatActivity = new ChatActivity(bundle);
-                NotificationCenter.getInstance(i).lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeChats, new Object[0]);
-                getActionBarLayout().presentFragment(chatActivity, false, true, true, false);
                 return;
             }
             return;
@@ -10956,7 +11814,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     public /* synthetic */ void lambda$runLinkRequest$86(int[] iArr, final int i, final Runnable runnable, final TLRPC$TL_account_getAuthorizationForm tLRPC$TL_account_getAuthorizationForm, final String str, final String str2, final String str3, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         final TLRPC$TL_account_authorizationForm tLRPC$TL_account_authorizationForm = (TLRPC$TL_account_authorizationForm) tLObject;
         if (tLRPC$TL_account_authorizationForm != null) {
-            iArr[0] = ConnectionsManager.getInstance(i).sendRequest(new TLRPC$TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda136
+            iArr[0] = ConnectionsManager.getInstance(i).sendRequest(new TLRPC$TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda93
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error2) {
                     LaunchActivity.this.lambda$runLinkRequest$84(runnable, i, tLRPC$TL_account_authorizationForm, tLRPC$TL_account_getAuthorizationForm, str, str2, str3, tLObject2, tLRPC$TL_error2);
@@ -10964,7 +11822,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             });
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda72
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda94
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$runLinkRequest$85(runnable, tLRPC$TL_error);
@@ -10974,7 +11832,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$runLinkRequest$84(final Runnable runnable, final int i, final TLRPC$TL_account_authorizationForm tLRPC$TL_account_authorizationForm, final TLRPC$TL_account_getAuthorizationForm tLRPC$TL_account_getAuthorizationForm, final String str, final String str2, final String str3, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda68
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda118
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$runLinkRequest$83(runnable, tLObject, i, tLRPC$TL_account_authorizationForm, tLRPC$TL_account_getAuthorizationForm, str, str2, str3);
@@ -11011,7 +11869,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$runLinkRequest$88(final Runnable runnable, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda67
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda102
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$runLinkRequest$87(runnable, tLObject);
@@ -11034,7 +11892,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$runLinkRequest$90(final Runnable runnable, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda69
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda87
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$runLinkRequest$89(runnable, tLObject, tLRPC$TL_error);
@@ -11062,7 +11920,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$runLinkRequest$93(final Runnable runnable, final TLRPC$TL_wallPaper tLRPC$TL_wallPaper, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda70
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda117
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$runLinkRequest$92(runnable, tLObject, tLRPC$TL_wallPaper, tLRPC$TL_error);
@@ -11117,7 +11975,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$runLinkRequest$96(final AlertDialog alertDialog, final Runnable runnable, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda89
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda104
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$runLinkRequest$95(tLObject, alertDialog, runnable, tLRPC$TL_error);
@@ -11191,7 +12049,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$runLinkRequest$98(final int[] iArr, final int i, final Runnable runnable, final Integer num, final Integer num2, final Long l, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda91
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda113
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$runLinkRequest$97(tLObject, iArr, i, runnable, num, num2, l);
@@ -11206,10 +12064,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public /* synthetic */ void lambda$runLinkRequest$97(TLObject tLObject, int[] iArr, int i, Runnable runnable, Integer num, Integer num2, Long l) {
-        boolean z = false;
+        boolean z;
         if (tLObject instanceof TLRPC$TL_messages_chats) {
             TLRPC$TL_messages_chats tLRPC$TL_messages_chats = (TLRPC$TL_messages_chats) tLObject;
             if (!tLRPC$TL_messages_chats.chats.isEmpty()) {
+                z = false;
                 MessagesController.getInstance(this.currentAccount).putChats(tLRPC$TL_messages_chats.chats, false);
                 iArr[0] = runCommentRequest(i, runnable, num, num2, l, tLRPC$TL_messages_chats.chats.get(0));
                 if (z) {
@@ -11247,7 +12106,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         TLRPC$TL_inputChannel tLRPC$TL_inputChannel = new TLRPC$TL_inputChannel();
         tLRPC$TL_inputChannel.channel_id = l.longValue();
         tLRPC$TL_channels_getChannels.id.add(tLRPC$TL_inputChannel);
-        iArr[0] = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_getChannels, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda138
+        iArr[0] = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_getChannels, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda95
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 LaunchActivity.this.lambda$runLinkRequest$101(runnable, z, l, progress, l2, num, baseFragment, i, bundle, tLObject, tLRPC$TL_error);
@@ -11257,7 +12116,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$runLinkRequest$101(final Runnable runnable, final boolean z, final Long l, final Browser.Progress progress, final Long l2, final Integer num, final BaseFragment baseFragment, final int i, final Bundle bundle, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda71
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda129
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$runLinkRequest$100(runnable, tLObject, z, l, progress, l2, num, baseFragment, i, bundle);
@@ -11266,16 +12125,22 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0077  */
+    /* JADX WARN: Removed duplicated region for block: B:32:? A[RETURN, SYNTHETIC] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public /* synthetic */ void lambda$runLinkRequest$100(Runnable runnable, TLObject tLObject, boolean z, Long l, Browser.Progress progress, Long l2, Integer num, BaseFragment baseFragment, int i, Bundle bundle) {
+        boolean z2;
         try {
             runnable.run();
         } catch (Exception e) {
             FileLog.e(e);
         }
-        boolean z2 = true;
         if (tLObject instanceof TLRPC$TL_messages_chats) {
             TLRPC$TL_messages_chats tLRPC$TL_messages_chats = (TLRPC$TL_messages_chats) tLObject;
             if (!tLRPC$TL_messages_chats.chats.isEmpty()) {
+                z2 = false;
                 MessagesController.getInstance(this.currentAccount).putChats(tLRPC$TL_messages_chats.chats, false);
                 TLRPC$Chat tLRPC$Chat = tLRPC$TL_messages_chats.chats.get(0);
                 if (tLRPC$Chat != null && z && ChatObject.isBoostSupported(tLRPC$Chat)) {
@@ -11290,17 +12155,21 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 if (baseFragment == null || MessagesController.getInstance(i).checkCanOpenChat(bundle, baseFragment)) {
                     getActionBarLayout().presentFragment(new ChatActivity(bundle));
                 }
-                z2 = false;
+                if (z2) {
+                    return;
+                }
+                showAlertDialog(AlertsCreator.createNoAccessAlert(this, LocaleController.getString(R.string.DialogNotAvailable), LocaleController.getString(R.string.LinkNotFound), null));
+                return;
             }
         }
+        z2 = true;
         if (z2) {
-            showAlertDialog(AlertsCreator.createNoAccessAlert(this, LocaleController.getString(R.string.DialogNotAvailable), LocaleController.getString(R.string.LinkNotFound), null));
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$runLinkRequest$104(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda81
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda90
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$runLinkRequest$103(tLObject);
@@ -11352,7 +12221,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         tLRPC$TL_inputBotAppShortName.bot_id = MessagesController.getInstance(i).getInputUser(tLRPC$User);
         tLRPC$TL_inputBotAppShortName.short_name = str25;
         tLRPC$TL_messages_getBotApp.app = tLRPC$TL_inputBotAppShortName;
-        ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_getBotApp, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda139
+        ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_getBotApp, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda125
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 LaunchActivity.this.lambda$processWebAppBot$111(progress, i, str, str2, str3, str4, str5, str6, str7, str8, str9, str10, str11, str12, z, num, l, l2, num2, str13, hashMap, str14, str15, str16, str17, tLRPC$TL_wallPaper, str18, str19, str20, z2, str21, i2, i3, str22, str23, str24, z3, i4, z4, str27, z7, z8, z9, runnable, tLRPC$User, str26, z6, z5, tLObject, tLRPC$TL_error);
@@ -11366,7 +12235,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             progress.end();
         }
         if (tLRPC$TL_error != null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda58
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda141
                 @Override // java.lang.Runnable
                 public final void run() {
                     LaunchActivity.this.lambda$processWebAppBot$107(i, str, str2, str3, str4, str5, str6, str7, str8, str9, str10, str11, str12, z, num, l, l2, num2, str13, hashMap, str14, str15, str16, str17, tLRPC$TL_wallPaper, str18, str19, str20, z2, str21, i2, i3, str22, str23, str24, progress, z3, i4, z4, str25, z5, z6, z7);
@@ -11375,7 +12244,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             return;
         }
         final TLRPC$TL_messages_botApp tLRPC$TL_messages_botApp = (TLRPC$TL_messages_botApp) tLObject;
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda66
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda142
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$processWebAppBot$110(runnable, i, tLRPC$User, tLRPC$TL_messages_botApp, str26, z5, z6, z3, z8, z9, progress);
@@ -11390,20 +12259,14 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processWebAppBot$110(Runnable runnable, final int i, final TLRPC$User tLRPC$User, final TLRPC$TL_messages_botApp tLRPC$TL_messages_botApp, final String str, final boolean z, final boolean z2, final boolean z3, boolean z4, boolean z5, Browser.Progress progress) {
-        BaseFragment baseFragment;
         LaunchActivity launchActivity;
-        ChatActivity$ChatMessageCellDelegate$$ExternalSyntheticLambda8 chatActivity$ChatMessageCellDelegate$$ExternalSyntheticLambda8;
-        ArrayList<BaseFragment> arrayList;
+        ChatActivity$ChatMessageCellDelegate$$ExternalSyntheticLambda14 chatActivity$ChatMessageCellDelegate$$ExternalSyntheticLambda14;
         runnable.run();
         final AtomicBoolean atomicBoolean = new AtomicBoolean();
-        ArrayList<BaseFragment> arrayList2 = mainFragmentsStack;
-        if (arrayList2 == null || arrayList2.isEmpty()) {
-            baseFragment = null;
-        } else {
-            baseFragment = mainFragmentsStack.get(arrayList.size() - 1);
-        }
+        ArrayList<BaseFragment> arrayList = mainFragmentsStack;
+        BaseFragment baseFragment = (arrayList == null || arrayList.isEmpty()) ? null : arrayList.get(arrayList.size() - 1);
         final BaseFragment baseFragment2 = baseFragment;
-        final Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda100
+        final Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda154
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$processWebAppBot$108(baseFragment2, i, tLRPC$User, tLRPC$TL_messages_botApp, atomicBoolean, str, z, z2, z3);
@@ -11412,7 +12275,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         if (z4) {
             runnable2.run();
         } else if (tLRPC$TL_messages_botApp.inactive && z5) {
-            com.google.android.exoplayer2.util.Consumer consumer = new com.google.android.exoplayer2.util.Consumer() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda22
+            com.google.android.exoplayer2.util.Consumer consumer = new com.google.android.exoplayer2.util.Consumer() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda155
                 @Override // com.google.android.exoplayer2.util.Consumer
                 public final void accept(Object obj) {
                     Boolean bool = (Boolean) obj;
@@ -11420,13 +12283,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 }
             };
             if (progress != null) {
-                chatActivity$ChatMessageCellDelegate$$ExternalSyntheticLambda8 = new ChatActivity$ChatMessageCellDelegate$$ExternalSyntheticLambda8(progress);
+                chatActivity$ChatMessageCellDelegate$$ExternalSyntheticLambda14 = new ChatActivity$ChatMessageCellDelegate$$ExternalSyntheticLambda14(progress);
                 launchActivity = this;
             } else {
                 launchActivity = this;
-                chatActivity$ChatMessageCellDelegate$$ExternalSyntheticLambda8 = null;
+                chatActivity$ChatMessageCellDelegate$$ExternalSyntheticLambda14 = null;
             }
-            WebAppDisclaimerAlert.show(launchActivity, consumer, null, chatActivity$ChatMessageCellDelegate$$ExternalSyntheticLambda8);
+            WebAppDisclaimerAlert.show(launchActivity, consumer, null, chatActivity$ChatMessageCellDelegate$$ExternalSyntheticLambda14);
         } else if (tLRPC$TL_messages_botApp.request_write_access || z3) {
             AlertsCreator.createBotLaunchAlert(baseFragment, atomicBoolean, tLRPC$User, runnable2);
         } else {
@@ -11485,7 +12348,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         final AtomicBoolean atomicBoolean = new AtomicBoolean(MediaDataController.getInstance(this.currentAccount).isMenuBotsUpdatedLocal());
         if (!atomicBoolean.get()) {
             final CountDownLatch countDownLatch = new CountDownLatch(1);
-            MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda78
+            MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda44
                 @Override // java.lang.Runnable
                 public final void run() {
                     LaunchActivity.this.lambda$processAttachedMenuBotFromShortcut$112(atomicBoolean, countDownLatch);
@@ -11531,7 +12394,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         if (progress != null) {
             progress.init();
         }
-        boostsController.getBoostsStats(l.longValue(), new com.google.android.exoplayer2.util.Consumer() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda27
+        boostsController.getBoostsStats(l.longValue(), new com.google.android.exoplayer2.util.Consumer() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda46
             @Override // com.google.android.exoplayer2.util.Consumer
             public final void accept(Object obj) {
                 LaunchActivity.this.lambda$processBoostDialog$114(progress, runnable, boostsController, l, chatMessageCell, (TL_stories$TL_premium_boostsStatus) obj);
@@ -11542,7 +12405,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processBoostDialog$114(final Browser.Progress progress, final Runnable runnable, ChannelBoostsController channelBoostsController, final Long l, final ChatMessageCell chatMessageCell, final TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus) {
         if (tL_stories$TL_premium_boostsStatus != null) {
-            channelBoostsController.userCanBoostChannel(l.longValue(), tL_stories$TL_premium_boostsStatus, new com.google.android.exoplayer2.util.Consumer() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda26
+            channelBoostsController.userCanBoostChannel(l.longValue(), tL_stories$TL_premium_boostsStatus, new com.google.android.exoplayer2.util.Consumer() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda97
                 @Override // com.google.android.exoplayer2.util.Consumer
                 public final void accept(Object obj) {
                     LaunchActivity.this.lambda$processBoostDialog$113(progress, l, tL_stories$TL_premium_boostsStatus, chatMessageCell, runnable, (ChannelBoostsController.CanApplyBoost) obj);
@@ -11609,7 +12472,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     private void processAttachMenuBot(final int i, final long j, final String str, final TLRPC$User tLRPC$User, final String str2, final String str3) {
         TLRPC$TL_messages_getAttachMenuBot tLRPC$TL_messages_getAttachMenuBot = new TLRPC$TL_messages_getAttachMenuBot();
         tLRPC$TL_messages_getAttachMenuBot.bot = MessagesController.getInstance(i).getInputUser(j);
-        ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_getAttachMenuBot, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda126
+        ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_getAttachMenuBot, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda138
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 LaunchActivity.this.lambda$processAttachMenuBot$121(i, str3, str, tLRPC$User, str2, j, tLObject, tLRPC$TL_error);
@@ -11619,7 +12482,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processAttachMenuBot$121(final int i, final String str, final String str2, final TLRPC$User tLRPC$User, final String str3, final long j, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda83
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda150
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$processAttachMenuBot$120(tLObject, i, str, str2, tLRPC$User, str3, j);
@@ -11642,9 +12505,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             }
             ArrayList<BaseFragment> arrayList = mainFragmentsStack;
             BaseFragment baseFragment = arrayList.get(arrayList.size() - 1);
-            if (AndroidUtilities.isTablet() && !(baseFragment instanceof ChatActivity) && !rightFragmentsStack.isEmpty()) {
+            if (AndroidUtilities.isTablet() && !(baseFragment instanceof ChatActivity)) {
                 ArrayList<BaseFragment> arrayList2 = rightFragmentsStack;
-                baseFragment = arrayList2.get(arrayList2.size() - 1);
+                if (!arrayList2.isEmpty()) {
+                    baseFragment = arrayList2.get(arrayList2.size() - 1);
+                }
             }
             final BaseFragment baseFragment2 = baseFragment;
             ArrayList arrayList3 = new ArrayList();
@@ -11684,7 +12549,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 attachBotIntroTopView.setBackgroundColor(Theme.getColor(Theme.key_dialogTopBackground));
                 attachBotIntroTopView.setAttachBot(tLRPC$TL_attachMenuBot);
                 final DialogsActivity dialogsActivity3 = dialogsActivity;
-                com.google.android.exoplayer2.util.Consumer consumer = new com.google.android.exoplayer2.util.Consumer() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda23
+                com.google.android.exoplayer2.util.Consumer consumer = new com.google.android.exoplayer2.util.Consumer() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda161
                     @Override // com.google.android.exoplayer2.util.Consumer
                     public final void accept(Object obj) {
                         LaunchActivity.this.lambda$processAttachMenuBot$119(i, j, dialogsActivity3, baseFragment2, tLRPC$User, str3, (Boolean) obj);
@@ -11754,7 +12619,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         tLRPC$TL_messages_toggleBotInAttachMenu.bot = MessagesController.getInstance(i).getInputUser(j);
         tLRPC$TL_messages_toggleBotInAttachMenu.enabled = true;
         tLRPC$TL_messages_toggleBotInAttachMenu.write_allowed = true;
-        ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_toggleBotInAttachMenu, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda131
+        ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_toggleBotInAttachMenu, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda163
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 LaunchActivity.this.lambda$processAttachMenuBot$118(i, dialogsActivity, baseFragment, tLRPC$User, str, tLObject, tLRPC$TL_error);
@@ -11764,7 +12629,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processAttachMenuBot$118(final int i, final DialogsActivity dialogsActivity, final BaseFragment baseFragment, final TLRPC$User tLRPC$User, final String str, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda86
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda166
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$processAttachMenuBot$117(tLObject, i, dialogsActivity, baseFragment, tLRPC$User, str);
@@ -11775,7 +12640,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processAttachMenuBot$117(TLObject tLObject, int i, final DialogsActivity dialogsActivity, final BaseFragment baseFragment, final TLRPC$User tLRPC$User, final String str) {
         if (tLObject instanceof TLRPC$TL_boolTrue) {
-            MediaDataController.getInstance(i).loadAttachMenuBots(false, true, new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda104
+            MediaDataController.getInstance(i).loadAttachMenuBots(false, true, new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda167
                 @Override // java.lang.Runnable
                 public final void run() {
                     LaunchActivity.this.lambda$processAttachMenuBot$116(dialogsActivity, baseFragment, tLRPC$User, str);
@@ -11820,7 +12685,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         TLRPC$TL_channels_getMessages tLRPC$TL_channels_getMessages = new TLRPC$TL_channels_getMessages();
         tLRPC$TL_channels_getMessages.channel = MessagesController.getInstance(this.currentAccount).getInputChannel(-j);
         tLRPC$TL_channels_getMessages.id.add(num);
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_getMessages, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda133
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_getMessages, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda89
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 LaunchActivity.this.lambda$openForumFromLink$123(num, j, runnable, str, i, i2, tLObject, tLRPC$TL_error);
@@ -11830,7 +12695,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$openForumFromLink$123(final Integer num, final long j, final Runnable runnable, final String str, final int i, final int i2, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda88
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda130
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$openForumFromLink$122(tLObject, num, j, runnable, str, i, i2);
@@ -11879,7 +12744,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         ArrayList arrayList = new ArrayList(contactsController.contacts);
         ArrayList arrayList2 = new ArrayList();
         String str4 = null;
-        int i = 0;
+        char c = 0;
         if (str2 != null) {
             String stripExceptNumbers = PhoneFormat.stripExceptNumbers(str2);
             TLRPC$TL_contact tLRPC$TL_contact = contactsController.contactsByPhone.get(stripExceptNumbers);
@@ -11897,35 +12762,37 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         if (!TextUtils.isEmpty(lowerCase)) {
                             String translitString = LocaleController.getInstance().getTranslitString(lowerCase);
                             translitString = (lowerCase.equals(translitString) || translitString.length() == 0) ? null : null;
-                            int i2 = 2;
-                            char c = 1;
+                            int i = 2;
+                            char c2 = 1;
                             String[] strArr = {lowerCase, translitString};
                             int size = arrayList.size();
-                            int i3 = 0;
-                            while (i3 < size) {
-                                TLRPC$TL_contact tLRPC$TL_contact2 = (TLRPC$TL_contact) arrayList.get(i3);
+                            int i2 = 0;
+                            while (i2 < size) {
+                                TLRPC$TL_contact tLRPC$TL_contact2 = (TLRPC$TL_contact) arrayList.get(i2);
                                 if (tLRPC$TL_contact2 != null && (user = messagesController.getUser(Long.valueOf(tLRPC$TL_contact2.user_id))) != null && (!user.self || z)) {
                                     String[] strArr2 = new String[3];
-                                    strArr2[i] = ContactsController.formatName(user.first_name, user.last_name).toLowerCase();
-                                    strArr2[c] = LocaleController.getInstance().getTranslitString(strArr2[i]);
-                                    if (strArr2[i].equals(strArr2[c])) {
-                                        strArr2[c] = str4;
+                                    strArr2[c] = ContactsController.formatName(user.first_name, user.last_name).toLowerCase();
+                                    String translitString2 = LocaleController.getInstance().getTranslitString(strArr2[c]);
+                                    strArr2[c2] = translitString2;
+                                    if (strArr2[c].equals(translitString2)) {
+                                        strArr2[c2] = str4;
                                     }
                                     if (UserObject.isReplyUser(user)) {
-                                        strArr2[i2] = LocaleController.getString("RepliesTitle", R.string.RepliesTitle).toLowerCase();
+                                        strArr2[i] = LocaleController.getString("RepliesTitle", R.string.RepliesTitle).toLowerCase();
                                     } else if (user.self) {
-                                        strArr2[i2] = LocaleController.getString("SavedMessages", R.string.SavedMessages).toLowerCase();
+                                        strArr2[i] = LocaleController.getString("SavedMessages", R.string.SavedMessages).toLowerCase();
                                     }
-                                    int i4 = 0;
+                                    int i3 = 0;
                                     boolean z2 = false;
                                     while (true) {
-                                        if (i4 >= i2) {
+                                        if (i3 >= i) {
                                             break;
                                         }
-                                        String str5 = strArr[i4];
+                                        String str5 = strArr[i3];
                                         if (str5 != null) {
-                                            for (int i5 = 3; i < i5; i5 = 3) {
-                                                String str6 = strArr2[i];
+                                            int i4 = 0;
+                                            for (int i5 = 3; i4 < i5; i5 = 3) {
+                                                String str6 = strArr2[i4];
                                                 if (str6 != null) {
                                                     if (!str6.startsWith(str5)) {
                                                         if (str6.contains(" " + str5)) {
@@ -11934,7 +12801,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     z2 = true;
                                                     break;
                                                 }
-                                                i++;
+                                                i4++;
                                             }
                                             String publicUsername = UserObject.getPublicUsername(user);
                                             if (!z2 && publicUsername != null && publicUsername.startsWith(str5)) {
@@ -11945,16 +12812,15 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 break;
                                             }
                                         }
-                                        i4++;
-                                        i = 0;
-                                        i2 = 2;
+                                        i3++;
+                                        i = 2;
                                     }
                                 }
-                                i3++;
-                                c = 1;
+                                i2++;
+                                c2 = 1;
                                 str4 = null;
-                                i = 0;
-                                i2 = 2;
+                                c = 0;
+                                i = 2;
                             }
                         }
                     }
@@ -11984,7 +12850,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         tLRPC$TL_help_getAppUpdate.source = "";
                     }
                     final int i = this.currentAccount;
-                    final int sendRequest = ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_help_getAppUpdate, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda127
+                    final int sendRequest = ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_help_getAppUpdate, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda47
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                             LaunchActivity.this.lambda$checkAppUpdate$127(i, progress, tLObject, tLRPC$TL_error);
@@ -11992,7 +12858,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     });
                     if (progress != null) {
                         progress.init();
-                        progress.onCancel(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda55
+                        progress.onCancel(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda48
                             @Override // java.lang.Runnable
                             public final void run() {
                                 LaunchActivity.this.lambda$checkAppUpdate$128(sendRequest);
@@ -12017,14 +12883,14 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 }
             });
         } else if (tLObject instanceof TLRPC$TL_help_noAppUpdate) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda35
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda99
                 @Override // java.lang.Runnable
                 public final void run() {
                     LaunchActivity.lambda$checkAppUpdate$125(Browser.Progress.this);
                 }
             });
         } else if (tLRPC$TL_error != null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda38
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda100
                 @Override // java.lang.Runnable
                 public final void run() {
                     LaunchActivity.lambda$checkAppUpdate$126(Browser.Progress.this, tLRPC$TL_error);
@@ -12089,7 +12955,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         try {
             final AlertDialog show = builder.show();
             show.setCanceledOnTouchOutside(true);
-            show.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda15
+            show.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda38
                 @Override // android.content.DialogInterface.OnDismissListener
                 public final void onDismiss(DialogInterface dialogInterface) {
                     LaunchActivity.this.lambda$showAlertDialog$129(show, dialogInterface);
@@ -12136,17 +13002,17 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     public void showBulletin(Function<BulletinFactory, Bulletin> function) {
         BaseFragment baseFragment;
-        if (!layerFragmentsStack.isEmpty()) {
-            ArrayList<BaseFragment> arrayList = layerFragmentsStack;
+        ArrayList<BaseFragment> arrayList = layerFragmentsStack;
+        if (!arrayList.isEmpty()) {
             baseFragment = arrayList.get(arrayList.size() - 1);
-        } else if (!rightFragmentsStack.isEmpty()) {
-            ArrayList<BaseFragment> arrayList2 = rightFragmentsStack;
-            baseFragment = arrayList2.get(arrayList2.size() - 1);
-        } else if (mainFragmentsStack.isEmpty()) {
-            baseFragment = null;
         } else {
-            ArrayList<BaseFragment> arrayList3 = mainFragmentsStack;
-            baseFragment = arrayList3.get(arrayList3.size() - 1);
+            ArrayList<BaseFragment> arrayList2 = rightFragmentsStack;
+            if (!arrayList2.isEmpty()) {
+                baseFragment = arrayList2.get(arrayList2.size() - 1);
+            } else {
+                ArrayList<BaseFragment> arrayList3 = mainFragmentsStack;
+                baseFragment = !arrayList3.isEmpty() ? arrayList3.get(arrayList3.size() - 1) : null;
+            }
         }
         if (BulletinFactory.canShowBulletin(baseFragment)) {
             function.apply(BulletinFactory.of(baseFragment)).show();
@@ -12172,19 +13038,19 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         handleIntent(intent, true, false, false, progress, true, false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:104:0x01e9  */
-    /* JADX WARN: Removed duplicated region for block: B:146:0x0266  */
-    /* JADX WARN: Removed duplicated region for block: B:176:0x031a  */
-    /* JADX WARN: Removed duplicated region for block: B:177:0x031f  */
-    /* JADX WARN: Removed duplicated region for block: B:180:0x0324  */
-    /* JADX WARN: Removed duplicated region for block: B:181:0x0329  */
-    /* JADX WARN: Removed duplicated region for block: B:184:0x032d  */
-    /* JADX WARN: Removed duplicated region for block: B:188:0x0363  */
-    /* JADX WARN: Removed duplicated region for block: B:199:0x0400  */
-    /* JADX WARN: Removed duplicated region for block: B:202:0x0413  */
-    /* JADX WARN: Removed duplicated region for block: B:207:0x0422 A[LOOP:2: B:205:0x041a->B:207:0x0422, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:210:0x044c A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:228:0x0463 A[ADDED_TO_REGION, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:104:0x01e5  */
+    /* JADX WARN: Removed duplicated region for block: B:146:0x0262  */
+    /* JADX WARN: Removed duplicated region for block: B:176:0x0316  */
+    /* JADX WARN: Removed duplicated region for block: B:177:0x031b  */
+    /* JADX WARN: Removed duplicated region for block: B:180:0x0320  */
+    /* JADX WARN: Removed duplicated region for block: B:181:0x0325  */
+    /* JADX WARN: Removed duplicated region for block: B:184:0x0329  */
+    /* JADX WARN: Removed duplicated region for block: B:188:0x035f  */
+    /* JADX WARN: Removed duplicated region for block: B:199:0x03fc  */
+    /* JADX WARN: Removed duplicated region for block: B:202:0x040f  */
+    /* JADX WARN: Removed duplicated region for block: B:207:0x041e A[LOOP:2: B:205:0x0416->B:207:0x041e, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:210:0x0448 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:228:0x045f A[ADDED_TO_REGION, SYNTHETIC] */
     @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -12220,7 +13086,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             ArrayList arrayList5 = this.documentsUrisArray != null ? new ArrayList(this.documentsUrisArray) : null;
             final AlertDialog alertDialog = new AlertDialog(this, 3);
             final ArrayList arrayList6 = arrayList5;
-            SendMessagesHelper.getInstance(currentAccount).prepareImportHistory(arrayList.get(0).dialogId, this.exportingChatUri, this.documentsUrisArray, new MessagesStorage.LongCallback() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda112
+            SendMessagesHelper.getInstance(currentAccount).prepareImportHistory(arrayList.get(0).dialogId, this.exportingChatUri, this.documentsUrisArray, new MessagesStorage.LongCallback() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda41
                 @Override // org.telegram.messenger.MessagesStorage.LongCallback
                 public final void run(long j3) {
                     LaunchActivity.this.lambda$didSelectDialogs$130(currentAccount, dialogsActivity, z, arrayList6, uri, alertDialog, j3);
@@ -12287,215 +13153,218 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 topicsFragment.removeSelfFromStack();
             }
             ArrayList<TLRPC$User> arrayList11 = this.contactsToSend;
-            if (arrayList11 != null && arrayList11.size() == 1 && !mainFragmentsStack.isEmpty()) {
+            if (arrayList11 != null && arrayList11.size() == 1) {
                 ArrayList<BaseFragment> arrayList12 = mainFragmentsStack;
-                PhonebookShareAlert phonebookShareAlert = new PhonebookShareAlert(arrayList12.get(arrayList12.size() - 1), null, null, this.contactsToSendUri, null, null, null);
-                final ChatActivity chatActivity5 = chatActivity;
-                phonebookShareAlert.setDelegate(new ChatAttachAlertContactsLayout.PhonebookShareAlertDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda152
-                    @Override // org.telegram.ui.Components.ChatAttachAlertContactsLayout.PhonebookShareAlertDelegate
-                    public final void didSelectContact(TLRPC$User tLRPC$User, boolean z11, int i4, long j4, boolean z12) {
-                        LaunchActivity.this.lambda$didSelectDialogs$131(chatActivity5, arrayList, charSequence, currentAccount, z10, tLRPC$User, z11, i4, j4, z12);
-                    }
+                if (!arrayList12.isEmpty()) {
+                    PhonebookShareAlert phonebookShareAlert = new PhonebookShareAlert(arrayList12.get(arrayList12.size() - 1), null, null, this.contactsToSendUri, null, null, null);
+                    final ChatActivity chatActivity5 = chatActivity;
+                    phonebookShareAlert.setDelegate(new ChatAttachAlertContactsLayout.PhonebookShareAlertDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda42
+                        @Override // org.telegram.ui.Components.ChatAttachAlertContactsLayout.PhonebookShareAlertDelegate
+                        public final void didSelectContact(TLRPC$User tLRPC$User, boolean z11, int i4, long j4, boolean z12) {
+                            LaunchActivity.this.lambda$didSelectDialogs$131(chatActivity5, arrayList, charSequence, currentAccount, z10, tLRPC$User, z11, i4, j4, z12);
+                        }
 
-                    @Override // org.telegram.ui.Components.ChatAttachAlertContactsLayout.PhonebookShareAlertDelegate
-                    public /* synthetic */ void didSelectContacts(ArrayList arrayList13, String str5, boolean z11, int i4, long j4, boolean z12) {
-                        ChatAttachAlertContactsLayout.PhonebookShareAlertDelegate.-CC.$default$didSelectContacts(this, arrayList13, str5, z11, i4, j4, z12);
-                    }
-                });
-                ArrayList<BaseFragment> arrayList13 = mainFragmentsStack;
-                arrayList13.get(arrayList13.size() - 1).showDialog(phonebookShareAlert);
-                chatActivity2 = chatActivity;
-                z2 = true;
-            } else {
-                int i4 = 0;
-                z2 = false;
-                String str5 = null;
-                while (i4 < arrayList.size()) {
-                    long j4 = arrayList.get(i4).dialogId;
-                    long j5 = arrayList.get(i4).topicId;
-                    AccountInstance accountInstance = AccountInstance.getInstance(UserConfig.selectedAccount);
-                    if (j5 != 0) {
-                        i = i4;
-                        TLRPC$TL_forumTopic findTopic = accountInstance.getMessagesController().getTopicsController().findTopic(-j4, j5);
-                        if (findTopic != null && findTopic.topicStartMessage != null) {
-                            z3 = z2;
-                            messageObject = new MessageObject(accountInstance.getCurrentAccount(), findTopic.topicStartMessage, false, false);
-                            messageObject.isTopicMainMessage = z9;
-                            if (chatActivity == null) {
-                                j = j5;
-                                j2 = j4;
-                                chatActivity3 = chatActivity;
-                                getActionBarLayout().presentFragment(chatActivity, dialogsActivity != null, dialogsActivity == null || this.videoPath != null || ((arrayList4 = this.photoPathsArray) != null && arrayList4.size() > 0), true, false);
-                                boolean z11 = dialogsActivity != null;
-                                String str6 = this.videoPath;
-                                if (str6 != null && j == 0) {
-                                    chatActivity3.openVideoEditor(str6, this.sendingText);
-                                    this.sendingText = null;
-                                    z7 = false;
-                                    z8 = true;
-                                } else {
-                                    ArrayList<SendMessagesHelper.SendingMediaInfo> arrayList14 = this.photoPathsArray;
-                                    if (arrayList14 == null || arrayList14.size() <= 0 || j != 0) {
-                                        z7 = false;
-                                    } else {
-                                        z7 = chatActivity3.openPhotosEditor(this.photoPathsArray, (charSequence == null || charSequence.length() == 0) ? this.sendingText : charSequence);
-                                        if (z7) {
-                                            this.sendingText = null;
-                                        }
-                                    }
-                                    z8 = false;
-                                }
-                                str = str5;
-                                z5 = z8;
-                                z6 = z11;
-                                z4 = z7;
-                            } else {
-                                j = j5;
-                                j2 = j4;
-                                chatActivity3 = chatActivity;
-                                if (this.videoPath != null) {
-                                    String str7 = this.sendingText;
-                                    if (str7 != null && str7.length() <= 1024) {
-                                        str5 = this.sendingText;
-                                        this.sendingText = null;
-                                    }
-                                    ArrayList arrayList15 = new ArrayList();
-                                    arrayList15.add(this.videoPath);
-                                    SendMessagesHelper.prepareSendingDocuments(accountInstance, arrayList15, arrayList15, null, str5, null, j2, messageObject, messageObject, null, null, null, z10, 0, null, null, 0, 0L, false);
-                                }
-                                str = str5;
-                                z4 = false;
-                                z5 = false;
-                                z6 = z3;
-                            }
-                            if (this.photoPathsArray != null && !z4) {
-                                str4 = this.sendingText;
-                                if (str4 != null && str4.length() <= 1024 && this.photoPathsArray.size() == z9) {
-                                    this.photoPathsArray.get(0).caption = this.sendingText;
-                                    this.sendingText = null;
-                                }
-                                SendMessagesHelper.prepareSendingMedia(accountInstance, this.photoPathsArray, j2, messageObject, messageObject, null, null, false, false, null, z10, 0, 0, false, null, null, 0, 0L, false);
-                            }
-                            if (this.documentsPathsArray == null || this.documentsUrisArray != null) {
-                                str2 = this.sendingText;
-                                if (str2 != null && str2.length() <= 1024) {
-                                    ArrayList<String> arrayList16 = this.documentsPathsArray;
-                                    size = arrayList16 == null ? arrayList16.size() : 0;
-                                    arrayList2 = this.documentsUrisArray;
-                                    if (size + (arrayList2 == null ? arrayList2.size() : 0) == z9) {
-                                        String str8 = this.sendingText;
-                                        this.sendingText = null;
-                                        str = str8;
-                                    }
-                                }
-                                SendMessagesHelper.prepareSendingDocuments(accountInstance, this.documentsPathsArray, this.documentsOriginalPathsArray, this.documentsUrisArray, str, this.documentsMimeType, j2, messageObject, messageObject, null, null, null, z10, 0, null, null, 0, 0L, false);
-                            }
-                            if (this.voicePath != null) {
-                                File file = new File(this.voicePath);
-                                if (file.exists()) {
-                                    TLRPC$TL_document tLRPC$TL_document = new TLRPC$TL_document();
-                                    tLRPC$TL_document.file_reference = new byte[0];
-                                    tLRPC$TL_document.dc_id = Integer.MIN_VALUE;
-                                    tLRPC$TL_document.id = SharedConfig.getLastLocalId();
-                                    tLRPC$TL_document.user_id = accountInstance.getUserConfig().getClientUserId();
-                                    tLRPC$TL_document.mime_type = "audio/ogg";
-                                    tLRPC$TL_document.date = accountInstance.getConnectionsManager().getCurrentTime();
-                                    tLRPC$TL_document.size = (int) file.length();
-                                    TLRPC$TL_documentAttributeAudio tLRPC$TL_documentAttributeAudio = new TLRPC$TL_documentAttributeAudio();
-                                    tLRPC$TL_documentAttributeAudio.voice = z9;
-                                    byte[] waveform = MediaController.getWaveform(file.getAbsolutePath());
-                                    tLRPC$TL_documentAttributeAudio.waveform = waveform;
-                                    if (waveform != null) {
-                                        tLRPC$TL_documentAttributeAudio.flags |= 4;
-                                    }
-                                    tLRPC$TL_document.attributes.add(tLRPC$TL_documentAttributeAudio);
-                                    accountInstance.getSendMessagesHelper().sendMessage(SendMessagesHelper.SendMessageParams.of(tLRPC$TL_document, null, file.getAbsolutePath(), j2, messageObject, messageObject, this.sendingText, null, null, null, z10, 0, 0, null, null, false));
-                                    if (this.sendingText != null) {
-                                        this.sendingText = null;
-                                    }
-                                    str3 = this.sendingText;
-                                    if (str3 != null) {
-                                        SendMessagesHelper.prepareSendingText(accountInstance, str3, j2, j, z10, 0, 0L);
-                                    }
-                                    arrayList3 = this.contactsToSend;
-                                    if (arrayList3 != null && !arrayList3.isEmpty()) {
-                                        for (i2 = 0; i2 < this.contactsToSend.size(); i2++) {
-                                            SendMessagesHelper.getInstance(currentAccount).sendMessage(SendMessagesHelper.SendMessageParams.of(this.contactsToSend.get(i2), j2, messageObject, messageObject, (TLRPC$ReplyMarkup) null, (HashMap<String, String>) null, z10, 0));
-                                        }
-                                    }
-                                    if (TextUtils.isEmpty(charSequence) && !z5 && !z4) {
-                                        SendMessagesHelper.prepareSendingText(accountInstance, charSequence.toString(), j2, j, z10, 0, 0L);
-                                    }
-                                    i4 = i + 1;
-                                    z2 = z6;
-                                    chatActivity = chatActivity3;
-                                    str5 = str;
-                                    z9 = true;
-                                }
-                            }
-                            str3 = this.sendingText;
-                            if (str3 != null) {
-                            }
-                            arrayList3 = this.contactsToSend;
-                            if (arrayList3 != null) {
-                                while (i2 < this.contactsToSend.size()) {
-                                }
-                            }
-                            if (TextUtils.isEmpty(charSequence)) {
-                                SendMessagesHelper.prepareSendingText(accountInstance, charSequence.toString(), j2, j, z10, 0, 0L);
-                            }
-                            i4 = i + 1;
-                            z2 = z6;
-                            chatActivity = chatActivity3;
-                            str5 = str;
-                            z9 = true;
+                        @Override // org.telegram.ui.Components.ChatAttachAlertContactsLayout.PhonebookShareAlertDelegate
+                        public /* synthetic */ void didSelectContacts(ArrayList arrayList13, String str5, boolean z11, int i4, long j4, boolean z12) {
+                            ChatAttachAlertContactsLayout.PhonebookShareAlertDelegate.-CC.$default$didSelectContacts(this, arrayList13, str5, z11, i4, j4, z12);
                         }
-                    } else {
-                        i = i4;
+                    });
+                    arrayList12.get(arrayList12.size() - 1).showDialog(phonebookShareAlert);
+                    chatActivity2 = chatActivity;
+                    z2 = true;
+                    if (dialogsActivity != null && chatActivity2 == null && !z2) {
+                        dialogsActivity.finishFragment();
                     }
-                    z3 = z2;
-                    messageObject = null;
-                    if (chatActivity == null) {
-                    }
-                    if (this.photoPathsArray != null) {
-                        str4 = this.sendingText;
-                        if (str4 != null) {
-                            this.photoPathsArray.get(0).caption = this.sendingText;
-                            this.sendingText = null;
-                        }
-                        SendMessagesHelper.prepareSendingMedia(accountInstance, this.photoPathsArray, j2, messageObject, messageObject, null, null, false, false, null, z10, 0, 0, false, null, null, 0, 0L, false);
-                    }
-                    if (this.documentsPathsArray == null) {
-                    }
-                    str2 = this.sendingText;
-                    if (str2 != null) {
-                        ArrayList<String> arrayList162 = this.documentsPathsArray;
-                        if (arrayList162 == null) {
-                        }
-                        arrayList2 = this.documentsUrisArray;
-                        if (size + (arrayList2 == null ? arrayList2.size() : 0) == z9) {
-                        }
-                    }
-                    SendMessagesHelper.prepareSendingDocuments(accountInstance, this.documentsPathsArray, this.documentsOriginalPathsArray, this.documentsUrisArray, str, this.documentsMimeType, j2, messageObject, messageObject, null, null, null, z10, 0, null, null, 0, 0L, false);
-                    if (this.voicePath != null) {
-                    }
-                    str3 = this.sendingText;
-                    if (str3 != null) {
-                    }
-                    arrayList3 = this.contactsToSend;
-                    if (arrayList3 != null) {
-                    }
-                    if (TextUtils.isEmpty(charSequence)) {
-                    }
-                    i4 = i + 1;
-                    z2 = z6;
-                    chatActivity = chatActivity3;
-                    str5 = str;
-                    z9 = true;
                 }
-                chatActivity2 = chatActivity;
             }
-            if (dialogsActivity != null && chatActivity2 == null && !z2) {
+            int i4 = 0;
+            z2 = false;
+            String str5 = null;
+            while (i4 < arrayList.size()) {
+                long j4 = arrayList.get(i4).dialogId;
+                long j5 = arrayList.get(i4).topicId;
+                AccountInstance accountInstance = AccountInstance.getInstance(UserConfig.selectedAccount);
+                if (j5 != 0) {
+                    i = i4;
+                    TLRPC$TL_forumTopic findTopic = accountInstance.getMessagesController().getTopicsController().findTopic(-j4, j5);
+                    if (findTopic != null && findTopic.topicStartMessage != null) {
+                        z3 = z2;
+                        messageObject = new MessageObject(accountInstance.getCurrentAccount(), findTopic.topicStartMessage, false, false);
+                        messageObject.isTopicMainMessage = z9;
+                        if (chatActivity == null) {
+                            j = j5;
+                            j2 = j4;
+                            chatActivity3 = chatActivity;
+                            getActionBarLayout().presentFragment(chatActivity, dialogsActivity != null, dialogsActivity == null || this.videoPath != null || ((arrayList4 = this.photoPathsArray) != null && arrayList4.size() > 0), true, false);
+                            boolean z11 = dialogsActivity != null;
+                            String str6 = this.videoPath;
+                            if (str6 != null && j == 0) {
+                                chatActivity3.openVideoEditor(str6, this.sendingText);
+                                this.sendingText = null;
+                                z7 = false;
+                                z8 = true;
+                            } else {
+                                ArrayList<SendMessagesHelper.SendingMediaInfo> arrayList13 = this.photoPathsArray;
+                                if (arrayList13 == null || arrayList13.size() <= 0 || j != 0) {
+                                    z7 = false;
+                                } else {
+                                    z7 = chatActivity3.openPhotosEditor(this.photoPathsArray, (charSequence == null || charSequence.length() == 0) ? this.sendingText : charSequence);
+                                    if (z7) {
+                                        this.sendingText = null;
+                                    }
+                                }
+                                z8 = false;
+                            }
+                            str = str5;
+                            z5 = z8;
+                            z6 = z11;
+                            z4 = z7;
+                        } else {
+                            j = j5;
+                            j2 = j4;
+                            chatActivity3 = chatActivity;
+                            if (this.videoPath != null) {
+                                String str7 = this.sendingText;
+                                if (str7 != null && str7.length() <= 1024) {
+                                    str5 = this.sendingText;
+                                    this.sendingText = null;
+                                }
+                                ArrayList arrayList14 = new ArrayList();
+                                arrayList14.add(this.videoPath);
+                                SendMessagesHelper.prepareSendingDocuments(accountInstance, arrayList14, arrayList14, null, str5, null, j2, messageObject, messageObject, null, null, null, z10, 0, null, null, 0, 0L, false);
+                            }
+                            str = str5;
+                            z4 = false;
+                            z5 = false;
+                            z6 = z3;
+                        }
+                        if (this.photoPathsArray != null && !z4) {
+                            str4 = this.sendingText;
+                            if (str4 != null && str4.length() <= 1024 && this.photoPathsArray.size() == z9) {
+                                this.photoPathsArray.get(0).caption = this.sendingText;
+                                this.sendingText = null;
+                            }
+                            SendMessagesHelper.prepareSendingMedia(accountInstance, this.photoPathsArray, j2, messageObject, messageObject, null, null, false, false, null, z10, 0, 0, false, null, null, 0, 0L, false);
+                        }
+                        if (this.documentsPathsArray == null || this.documentsUrisArray != null) {
+                            str2 = this.sendingText;
+                            if (str2 != null && str2.length() <= 1024) {
+                                ArrayList<String> arrayList15 = this.documentsPathsArray;
+                                size = arrayList15 == null ? arrayList15.size() : 0;
+                                arrayList2 = this.documentsUrisArray;
+                                if (size + (arrayList2 == null ? arrayList2.size() : 0) == z9) {
+                                    String str8 = this.sendingText;
+                                    this.sendingText = null;
+                                    str = str8;
+                                }
+                            }
+                            SendMessagesHelper.prepareSendingDocuments(accountInstance, this.documentsPathsArray, this.documentsOriginalPathsArray, this.documentsUrisArray, str, this.documentsMimeType, j2, messageObject, messageObject, null, null, null, z10, 0, null, null, 0, 0L, false);
+                        }
+                        if (this.voicePath != null) {
+                            File file = new File(this.voicePath);
+                            if (file.exists()) {
+                                TLRPC$TL_document tLRPC$TL_document = new TLRPC$TL_document();
+                                tLRPC$TL_document.file_reference = new byte[0];
+                                tLRPC$TL_document.dc_id = Integer.MIN_VALUE;
+                                tLRPC$TL_document.id = SharedConfig.getLastLocalId();
+                                tLRPC$TL_document.user_id = accountInstance.getUserConfig().getClientUserId();
+                                tLRPC$TL_document.mime_type = "audio/ogg";
+                                tLRPC$TL_document.date = accountInstance.getConnectionsManager().getCurrentTime();
+                                tLRPC$TL_document.size = (int) file.length();
+                                TLRPC$TL_documentAttributeAudio tLRPC$TL_documentAttributeAudio = new TLRPC$TL_documentAttributeAudio();
+                                tLRPC$TL_documentAttributeAudio.voice = z9;
+                                byte[] waveform = MediaController.getWaveform(file.getAbsolutePath());
+                                tLRPC$TL_documentAttributeAudio.waveform = waveform;
+                                if (waveform != null) {
+                                    tLRPC$TL_documentAttributeAudio.flags |= 4;
+                                }
+                                tLRPC$TL_document.attributes.add(tLRPC$TL_documentAttributeAudio);
+                                accountInstance.getSendMessagesHelper().sendMessage(SendMessagesHelper.SendMessageParams.of(tLRPC$TL_document, null, file.getAbsolutePath(), j2, messageObject, messageObject, this.sendingText, null, null, null, z10, 0, 0, null, null, false));
+                                if (this.sendingText != null) {
+                                    this.sendingText = null;
+                                }
+                                str3 = this.sendingText;
+                                if (str3 != null) {
+                                    SendMessagesHelper.prepareSendingText(accountInstance, str3, j2, j, z10, 0, 0L);
+                                }
+                                arrayList3 = this.contactsToSend;
+                                if (arrayList3 != null && !arrayList3.isEmpty()) {
+                                    for (i2 = 0; i2 < this.contactsToSend.size(); i2++) {
+                                        SendMessagesHelper.getInstance(currentAccount).sendMessage(SendMessagesHelper.SendMessageParams.of(this.contactsToSend.get(i2), j2, messageObject, messageObject, (TLRPC$ReplyMarkup) null, (HashMap<String, String>) null, z10, 0));
+                                    }
+                                }
+                                if (TextUtils.isEmpty(charSequence) && !z5 && !z4) {
+                                    SendMessagesHelper.prepareSendingText(accountInstance, charSequence.toString(), j2, j, z10, 0, 0L);
+                                }
+                                i4 = i + 1;
+                                z2 = z6;
+                                chatActivity = chatActivity3;
+                                str5 = str;
+                                z9 = true;
+                            }
+                        }
+                        str3 = this.sendingText;
+                        if (str3 != null) {
+                        }
+                        arrayList3 = this.contactsToSend;
+                        if (arrayList3 != null) {
+                            while (i2 < this.contactsToSend.size()) {
+                            }
+                        }
+                        if (TextUtils.isEmpty(charSequence)) {
+                            SendMessagesHelper.prepareSendingText(accountInstance, charSequence.toString(), j2, j, z10, 0, 0L);
+                        }
+                        i4 = i + 1;
+                        z2 = z6;
+                        chatActivity = chatActivity3;
+                        str5 = str;
+                        z9 = true;
+                    }
+                } else {
+                    i = i4;
+                }
+                z3 = z2;
+                messageObject = null;
+                if (chatActivity == null) {
+                }
+                if (this.photoPathsArray != null) {
+                    str4 = this.sendingText;
+                    if (str4 != null) {
+                        this.photoPathsArray.get(0).caption = this.sendingText;
+                        this.sendingText = null;
+                    }
+                    SendMessagesHelper.prepareSendingMedia(accountInstance, this.photoPathsArray, j2, messageObject, messageObject, null, null, false, false, null, z10, 0, 0, false, null, null, 0, 0L, false);
+                }
+                if (this.documentsPathsArray == null) {
+                }
+                str2 = this.sendingText;
+                if (str2 != null) {
+                    ArrayList<String> arrayList152 = this.documentsPathsArray;
+                    if (arrayList152 == null) {
+                    }
+                    arrayList2 = this.documentsUrisArray;
+                    if (size + (arrayList2 == null ? arrayList2.size() : 0) == z9) {
+                    }
+                }
+                SendMessagesHelper.prepareSendingDocuments(accountInstance, this.documentsPathsArray, this.documentsOriginalPathsArray, this.documentsUrisArray, str, this.documentsMimeType, j2, messageObject, messageObject, null, null, null, z10, 0, null, null, 0, 0L, false);
+                if (this.voicePath != null) {
+                }
+                str3 = this.sendingText;
+                if (str3 != null) {
+                }
+                arrayList3 = this.contactsToSend;
+                if (arrayList3 != null) {
+                }
+                if (TextUtils.isEmpty(charSequence)) {
+                }
+                i4 = i + 1;
+                z2 = z6;
+                chatActivity = chatActivity3;
+                str5 = str;
+                z9 = true;
+            }
+            chatActivity2 = chatActivity;
+            if (dialogsActivity != null) {
                 dialogsActivity.finishFragment();
             }
         }
@@ -12619,7 +13488,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.appUpdateAvailable);
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.requestPermissions);
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.billingConfirmPurchaseError);
-        LiteMode.removeOnPowerSaverAppliedListener(new LaunchActivity$$ExternalSyntheticLambda115(this));
+        LiteMode.removeOnPowerSaverAppliedListener(new LaunchActivity$$ExternalSyntheticLambda8(this));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -12629,7 +13498,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             return;
         }
         int batteryLevel = LiteMode.getBatteryLevel();
-        BulletinFactory.of(lastFragment).createSimpleBulletin(new BatteryDrawable(batteryLevel / 100.0f, -1, lastFragment.getThemedColor(Theme.key_dialogSwipeRemove), 1.3f), LocaleController.getString("LowPowerEnabledTitle", R.string.LowPowerEnabledTitle), LocaleController.formatString("LowPowerEnabledSubtitle", R.string.LowPowerEnabledSubtitle, String.format("%d%%", Integer.valueOf(batteryLevel))), LocaleController.getString("Disable", R.string.Disable), new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda50
+        BulletinFactory.of(lastFragment).createSimpleBulletin(new BatteryDrawable(batteryLevel / 100.0f, -1, lastFragment.getThemedColor(Theme.key_dialogSwipeRemove), 1.3f), LocaleController.getString("LowPowerEnabledTitle", R.string.LowPowerEnabledTitle), LocaleController.formatString("LowPowerEnabledSubtitle", R.string.LowPowerEnabledSubtitle, String.format("%d%%", Integer.valueOf(batteryLevel))), LocaleController.getString("Disable", R.string.Disable), new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda51
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$onPowerSaver$132();
@@ -12671,6 +13540,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     @Override // androidx.fragment.app.FragmentActivity, androidx.activity.ComponentActivity, android.app.Activity
     protected void onActivityResult(int i, int i2, Intent intent) {
         VoIPService sharedInstance;
+        boolean canDrawOverlays;
         if (SharedConfig.passcodeHash.length() != 0 && SharedConfig.lastPauseTime != 0) {
             SharedConfig.lastPauseTime = 0;
             if (BuildVars.LOGS_ENABLED) {
@@ -12680,14 +13550,14 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         }
         if (i == 105) {
             if (Build.VERSION.SDK_INT >= 23) {
-                boolean canDrawOverlays = Settings.canDrawOverlays(this);
+                canDrawOverlays = Settings.canDrawOverlays(this);
                 ApplicationLoader.canDrawOverlays = canDrawOverlays;
                 if (canDrawOverlays) {
                     GroupCallActivity groupCallActivity = GroupCallActivity.groupCallInstance;
                     if (groupCallActivity != null) {
                         groupCallActivity.dismissInternal();
                     }
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda49
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda33
                         @Override // java.lang.Runnable
                         public final void run() {
                             LaunchActivity.this.lambda$onActivityResult$133();
@@ -12787,7 +13657,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.stopAllHeavyOperations, Integer.valueOf((int) LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM));
         ApplicationLoader.mainInterfacePaused = true;
         final int i = this.currentAccount;
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda30
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda21
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.lambda$onPause$134(i);
@@ -12933,6 +13803,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     @Override // androidx.fragment.app.FragmentActivity, android.app.Activity
     protected void onResume() {
+        boolean canDrawOverlays;
         MessageObject playingMessageObject;
         super.onResume();
         isResumed = true;
@@ -12953,7 +13824,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         ApplicationLoader.mainInterfacePaused = false;
         MessagesController.getInstance(this.currentAccount).sortDialogs(null);
         showLanguageAlert(false);
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda107
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda32
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.lambda$onResume$135();
@@ -13012,7 +13883,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         }
         checkAppUpdate(false, null);
         if (Build.VERSION.SDK_INT >= 23) {
-            ApplicationLoader.canDrawOverlays = Settings.canDrawOverlays(this);
+            canDrawOverlays = Settings.canDrawOverlays(this);
+            ApplicationLoader.canDrawOverlays = canDrawOverlays;
         }
         if (VoIPFragment.getInstance() != null) {
             VoIPFragment.onResume();
@@ -13046,19 +13918,23 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         if (wasTablet.booleanValue() != AndroidUtilities.isTablet()) {
             long j2 = 0;
             if (wasTablet.booleanValue()) {
-                mainFragmentsStack.addAll(rightFragmentsStack);
-                mainFragmentsStack.addAll(layerFragmentsStack);
-                rightFragmentsStack.clear();
-                layerFragmentsStack.clear();
+                ArrayList<BaseFragment> arrayList = mainFragmentsStack;
+                ArrayList<BaseFragment> arrayList2 = rightFragmentsStack;
+                arrayList.addAll(arrayList2);
+                ArrayList<BaseFragment> arrayList3 = layerFragmentsStack;
+                arrayList.addAll(arrayList3);
+                arrayList2.clear();
+                arrayList3.clear();
                 j = 0;
             } else {
-                ArrayList<BaseFragment> arrayList = new ArrayList(mainFragmentsStack);
-                mainFragmentsStack.clear();
+                ArrayList<BaseFragment> arrayList4 = mainFragmentsStack;
+                ArrayList<BaseFragment> arrayList5 = new ArrayList(arrayList4);
+                arrayList4.clear();
                 rightFragmentsStack.clear();
                 layerFragmentsStack.clear();
                 long j3 = 0;
                 j = 0;
-                for (BaseFragment baseFragment : arrayList) {
+                for (BaseFragment baseFragment : arrayList5) {
                     if (baseFragment instanceof DialogsActivity) {
                         DialogsActivity dialogsActivity = (DialogsActivity) baseFragment;
                         if (dialogsActivity.isMainDialogList() && !dialogsActivity.isArchive()) {
@@ -13135,42 +14011,35 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         super.onMultiWindowModeChanged(z);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:117:0x031d, code lost:
-        if (((org.telegram.ui.ProfileActivity) r1.get(r1.size() - 1)).isSettings() == false) goto L132;
-     */
-    /* JADX WARN: Removed duplicated region for block: B:116:0x030c  */
-    /* JADX WARN: Removed duplicated region for block: B:244:0x06ad  */
-    /* JADX WARN: Removed duplicated region for block: B:245:0x06b3  */
-    /* JADX WARN: Removed duplicated region for block: B:248:0x06b8 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:249:0x06b9  */
+    /* JADX WARN: Removed duplicated region for block: B:244:0x0690  */
+    /* JADX WARN: Removed duplicated region for block: B:245:0x0696  */
+    /* JADX WARN: Removed duplicated region for block: B:248:0x069b A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:249:0x069c  */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void didReceivedNotification(int i, final int i2, Object... objArr) {
         DrawerLayoutAdapter drawerLayoutAdapter;
-        BaseFragment baseFragment;
-        int i3;
         String str;
-        int i4;
+        int i3;
         String str2;
+        int i4;
         GroupCallActivity groupCallActivity;
-        BaseFragment baseFragment2;
         boolean z;
         ActionBarLayout actionBarLayout;
-        boolean z2;
+        Animator createCircularReveal;
         View childAt;
-        BaseFragment baseFragment3;
         if (i == NotificationCenter.appDidLogout) {
             switchToAvailableAccountOrLogout();
             return;
         }
+        boolean z2 = false;
         boolean z3 = false;
+        r5 = false;
+        r5 = false;
         boolean z4 = false;
-        r5 = false;
-        r5 = false;
-        boolean z5 = false;
-        z3 = false;
+        z2 = false;
         if (i == NotificationCenter.openBoostForUsersDialog) {
             processBoostDialog(Long.valueOf(((Long) objArr[0]).longValue()), null, null, objArr.length > 1 ? (ChatMessageCell) objArr[1] : null);
         } else if (i == NotificationCenter.closeOtherAppActivities) {
@@ -13199,24 +14068,20 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         showTosActivity(i2, (TLRPC$TL_help_termsOfService) objArr[1]);
                         return;
                     }
-                    if (mainFragmentsStack.isEmpty()) {
-                        baseFragment3 = null;
-                    } else {
-                        ArrayList<BaseFragment> arrayList = mainFragmentsStack;
-                        baseFragment3 = arrayList.get(arrayList.size() - 1);
-                    }
+                    ArrayList<BaseFragment> arrayList = mainFragmentsStack;
+                    BaseFragment baseFragment = !arrayList.isEmpty() ? arrayList.get(arrayList.size() - 1) : null;
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
-                    if (baseFragment3 != null) {
+                    if (baseFragment != null) {
                         Map<String, Integer> hashMap = new HashMap<>();
                         int i5 = Theme.key_dialogTopBackground;
-                        hashMap.put("info1.**", Integer.valueOf(baseFragment3.getThemedColor(i5)));
-                        hashMap.put("info2.**", Integer.valueOf(baseFragment3.getThemedColor(i5)));
-                        builder.setTopAnimation(R.raw.not_available, 52, false, baseFragment3.getThemedColor(i5), hashMap);
+                        hashMap.put("info1.**", Integer.valueOf(baseFragment.getThemedColor(i5)));
+                        hashMap.put("info2.**", Integer.valueOf(baseFragment.getThemedColor(i5)));
+                        builder.setTopAnimation(R.raw.not_available, 52, false, baseFragment.getThemedColor(i5), hashMap);
                         builder.setTopAnimationIsNew(true);
                     }
                     if (num.intValue() != 2 && num.intValue() != 3) {
-                        builder.setNegativeButton(LocaleController.getString("MoreInfo", R.string.MoreInfo), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda5
+                        builder.setNegativeButton(LocaleController.getString("MoreInfo", R.string.MoreInfo), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda10
                             @Override // android.content.DialogInterface.OnClickListener
                             public final void onClick(DialogInterface dialogInterface, int i6) {
                                 LaunchActivity.lambda$didReceivedNotification$136(i2, dialogInterface, i6);
@@ -13259,7 +14124,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         builder.setMessage(valueOf);
                         if (str3.startsWith("AUTH_KEY_DROP_")) {
                             builder.setPositiveButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                            builder.setNegativeButton(LocaleController.getString("LogOut", R.string.LogOut), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda9
+                            builder.setNegativeButton(LocaleController.getString("LogOut", R.string.LogOut), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda12
                                 @Override // android.content.DialogInterface.OnClickListener
                                 public final void onClick(DialogInterface dialogInterface, int i7) {
                                     LaunchActivity.this.lambda$didReceivedNotification$137(dialogInterface, i7);
@@ -13278,11 +14143,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         this.proxyErrorDialog = showAlertDialog(builder);
                         return;
                     }
-                    if (mainFragmentsStack.isEmpty()) {
+                    if (arrayList.isEmpty()) {
                         return;
                     }
-                    ArrayList<BaseFragment> arrayList2 = mainFragmentsStack;
-                    arrayList2.get(arrayList2.size() - 1).showDialog(builder.create());
+                    arrayList.get(arrayList.size() - 1).showDialog(builder.create());
                 }
             }
         } else if (i == NotificationCenter.wasUnableToFindCurrentLocation) {
@@ -13290,18 +14154,18 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
             builder2.setTitle(LocaleController.getString("AppName", R.string.AppName));
             builder2.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
-            builder2.setNegativeButton(LocaleController.getString("ShareYouLocationUnableManually", R.string.ShareYouLocationUnableManually), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda11
+            builder2.setNegativeButton(LocaleController.getString("ShareYouLocationUnableManually", R.string.ShareYouLocationUnableManually), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda13
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i7) {
                     LaunchActivity.this.lambda$didReceivedNotification$139(hashMap2, i2, dialogInterface, i7);
                 }
             });
             builder2.setMessage(LocaleController.getString("ShareYouLocationUnable", R.string.ShareYouLocationUnable));
-            if (mainFragmentsStack.isEmpty()) {
+            ArrayList<BaseFragment> arrayList2 = mainFragmentsStack;
+            if (arrayList2.isEmpty()) {
                 return;
             }
-            ArrayList<BaseFragment> arrayList3 = mainFragmentsStack;
-            arrayList3.get(arrayList3.size() - 1).showDialog(builder2.create());
+            arrayList2.get(arrayList2.size() - 1).showDialog(builder2.create());
         } else if (i == NotificationCenter.didSetNewWallpapper) {
             RecyclerListView recyclerListView = this.sideMenu;
             if (recyclerListView != null && (childAt = recyclerListView.getChildAt(0)) != null) {
@@ -13314,32 +14178,22 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         } else if (i == NotificationCenter.didSetPasscode) {
             this.flagSecureReason.invalidate();
         } else if (i == NotificationCenter.reloadInterface) {
-            if (mainFragmentsStack.size() > 1) {
-                ArrayList<BaseFragment> arrayList4 = mainFragmentsStack;
-                if (arrayList4.get(arrayList4.size() - 1) instanceof ProfileActivity) {
-                    z2 = true;
-                    if (z2) {
-                        ArrayList<BaseFragment> arrayList5 = mainFragmentsStack;
-                    }
-                    z4 = z2;
-                    rebuildAllFragments(z4);
-                }
+            ArrayList<BaseFragment> arrayList3 = mainFragmentsStack;
+            boolean z5 = arrayList3.size() > 1 && (arrayList3.get(arrayList3.size() - 1) instanceof ProfileActivity);
+            if (!z5 || ((ProfileActivity) arrayList3.get(arrayList3.size() - 1)).isSettings()) {
+                z3 = z5;
             }
-            z2 = false;
-            if (z2) {
-            }
-            z4 = z2;
-            rebuildAllFragments(z4);
+            rebuildAllFragments(z3);
         } else if (i == NotificationCenter.suggestedLangpack) {
             showLanguageAlert(false);
         } else if (i == NotificationCenter.openArticle) {
-            if (mainFragmentsStack.isEmpty()) {
+            ArrayList<BaseFragment> arrayList4 = mainFragmentsStack;
+            if (arrayList4.isEmpty()) {
                 return;
             }
             LaunchActivity launchActivity = instance;
             if (launchActivity == null || launchActivity.getBottomSheetTabs() == null || instance.getBottomSheetTabs().tryReopenTab((TLRPC$TL_webPage) objArr[0]) == null) {
-                ArrayList<BaseFragment> arrayList6 = mainFragmentsStack;
-                arrayList6.get(arrayList6.size() - 1).createArticleViewer(false).open((TLRPC$TL_webPage) objArr[0], (String) objArr[1]);
+                arrayList4.get(arrayList4.size() - 1).createArticleViewer(false).open((TLRPC$TL_webPage) objArr[0], (String) objArr[1]);
             }
         } else if (i == NotificationCenter.hasNewContactsToImport) {
             ActionBarLayout actionBarLayout2 = this.actionBarLayout;
@@ -13354,19 +14208,19 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             builder3.setTopAnimation(R.raw.permission_request_contacts, 72, false, Theme.getColor(Theme.key_dialogTopBackground));
             builder3.setTitle(LocaleController.getString("UpdateContactsTitle", R.string.UpdateContactsTitle));
             builder3.setMessage(LocaleController.getString("UpdateContactsMessage", R.string.UpdateContactsMessage));
-            builder3.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda7
+            builder3.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda14
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i7) {
                     LaunchActivity.lambda$didReceivedNotification$140(i2, hashMap3, booleanValue, booleanValue2, dialogInterface, i7);
                 }
             });
-            builder3.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda8
+            builder3.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda15
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i7) {
                     LaunchActivity.lambda$didReceivedNotification$141(i2, hashMap3, booleanValue, booleanValue2, dialogInterface, i7);
                 }
             });
-            builder3.setOnBackButtonListener(new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda6
+            builder3.setOnBackButtonListener(new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda16
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i7) {
                     LaunchActivity.lambda$didReceivedNotification$142(i2, hashMap3, booleanValue, booleanValue2, dialogInterface, i7);
@@ -13400,9 +14254,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             boolean booleanValue3 = objArr.length > 1 ? ((Boolean) objArr[1]).booleanValue() : true;
             boolean z6 = objArr.length > 2 && ((Boolean) objArr[2]).booleanValue();
             if (booleanValue3 && !this.isNavigationBarColorFrozen && !this.actionBarLayout.isTransitionAnimationInProgress()) {
-                z5 = true;
+                z4 = true;
             }
-            checkSystemBarColors(z6, true, z5, true);
+            checkSystemBarColors(z6, true, z4, true);
         } else if (i == NotificationCenter.needSetDayNightTheme) {
             if (Build.VERSION.SDK_INT >= 21 && objArr[2] != null) {
                 if (this.themeSwitchImageView.getVisibility() == 0) {
@@ -13455,15 +14309,28 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     this.themeSwitchImageView.setImageBitmap(snapshotView);
                     this.themeSwitchImageView.setVisibility(0);
                     this.themeSwitchSunDrawable = rLottieImageView.getAnimatedDrawable();
-                    float max = Math.max((float) Math.max(Math.sqrt(((measuredWidth - iArr[0]) * (measuredWidth - iArr[0])) + ((measuredHeight - iArr[1]) * (measuredHeight - iArr[1]))), Math.sqrt((iArr[0] * iArr[0]) + ((measuredHeight - iArr[1]) * (measuredHeight - iArr[1])))), (float) Math.max(Math.sqrt(((measuredWidth - iArr[0]) * (measuredWidth - iArr[0])) + (iArr[1] * iArr[1])), Math.sqrt((iArr[0] * iArr[0]) + (iArr[1] * iArr[1]))));
-                    View view3 = booleanValue4 ? this.drawerLayoutContainer : this.themeSwitchImageView;
                     int i8 = iArr[0];
-                    int i9 = iArr[1];
-                    float f = booleanValue4 ? 0.0f : max;
+                    int i9 = (measuredWidth - i8) * (measuredWidth - i8);
+                    int i10 = iArr[1];
+                    double sqrt = Math.sqrt(i9 + ((measuredHeight - i10) * (measuredHeight - i10)));
+                    int i11 = iArr[0];
+                    int i12 = iArr[1];
+                    float max = (float) Math.max(sqrt, Math.sqrt((i11 * i11) + ((measuredHeight - i12) * (measuredHeight - i12))));
+                    int i13 = iArr[0];
+                    int i14 = (measuredWidth - i13) * (measuredWidth - i13);
+                    int i15 = iArr[1];
+                    double sqrt2 = Math.sqrt(i14 + (i15 * i15));
+                    int i16 = iArr[0];
+                    int i17 = iArr[1];
+                    float max2 = Math.max(max, (float) Math.max(sqrt2, Math.sqrt((i16 * i16) + (i17 * i17))));
+                    View view3 = booleanValue4 ? this.drawerLayoutContainer : this.themeSwitchImageView;
+                    int i18 = iArr[0];
+                    int i19 = iArr[1];
+                    float f = booleanValue4 ? 0.0f : max2;
                     if (!booleanValue4) {
-                        max = 0.0f;
+                        max2 = 0.0f;
                     }
-                    Animator createCircularReveal = ViewAnimationUtils.createCircularReveal(view3, i8, i9, f, max);
+                    createCircularReveal = ViewAnimationUtils.createCircularReveal(view3, i18, i19, f, max2);
                     createCircularReveal.setDuration(400L);
                     createCircularReveal.setInterpolator(Easings.easeInOutQuad);
                     createCircularReveal.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.LaunchActivity.21
@@ -13484,7 +14351,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     });
                     if (this.rippleAbove != null) {
                         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-                        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda0
+                        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda17
                             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                                 LaunchActivity.this.lambda$didReceivedNotification$143(valueAnimator);
@@ -13493,7 +14360,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         ofFloat.setDuration(createCircularReveal.getDuration());
                         ofFloat.start();
                     }
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda54
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda18
                         @Override // java.lang.Runnable
                         public final void run() {
                             LaunchActivity.this.lambda$didReceivedNotification$144();
@@ -13549,8 +14416,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             if (recyclerListView4 != null) {
                 Integer num2 = (Integer) objArr[0];
                 int childCount = recyclerListView4.getChildCount();
-                for (int i10 = 0; i10 < childCount; i10++) {
-                    View childAt3 = this.sideMenu.getChildAt(i10);
+                for (int i20 = 0; i20 < childCount; i20++) {
+                    View childAt3 = this.sideMenu.getChildAt(i20);
                     if ((childAt3 instanceof DrawerUserCell) && ((DrawerUserCell) childAt3).getAccountNumber() == num2.intValue()) {
                         childAt3.invalidate();
                         return;
@@ -13571,7 +14438,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             if (str6 != null) {
                 if (str6.equals(str5)) {
                     this.loadingThemeFileName = null;
-                    File file = new File(ApplicationLoader.getFilesDirFixed(), "remote" + this.loadingTheme.id + ".attheme");
+                    File filesDirFixed = ApplicationLoader.getFilesDirFixed();
+                    File file = new File(filesDirFixed, "remote" + this.loadingTheme.id + ".attheme");
                     TLRPC$TL_theme tLRPC$TL_theme = this.loadingTheme;
                     final Theme.ThemeInfo fillThemeValues = Theme.fillThemeValues(file, tLRPC$TL_theme.title, tLRPC$TL_theme);
                     if (fillThemeValues != null) {
@@ -13580,7 +14448,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             TLRPC$TL_inputWallPaperSlug tLRPC$TL_inputWallPaperSlug = new TLRPC$TL_inputWallPaperSlug();
                             tLRPC$TL_inputWallPaperSlug.slug = fillThemeValues.slug;
                             tLRPC$TL_account_getWallPaper.wallpaper = tLRPC$TL_inputWallPaperSlug;
-                            ConnectionsManager.getInstance(fillThemeValues.account).sendRequest(tLRPC$TL_account_getWallPaper, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda145
+                            ConnectionsManager.getInstance(fillThemeValues.account).sendRequest(tLRPC$TL_account_getWallPaper, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda19
                                 @Override // org.telegram.tgnet.RequestDelegate
                                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                                     LaunchActivity.this.lambda$didReceivedNotification$146(fillThemeValues, tLObject, tLRPC$TL_error);
@@ -13611,7 +14479,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 return;
             }
             final Theme.ThemeInfo themeInfo3 = this.loadingThemeInfo;
-            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda103
+            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda11
                 @Override // java.lang.Runnable
                 public final void run() {
                     LaunchActivity.this.lambda$didReceivedNotification$148(themeInfo3, file2);
@@ -13636,59 +14504,52 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             }
         } else if (i == NotificationCenter.needCheckSystemBarColors) {
             if (objArr.length > 0 && ((Boolean) objArr[0]).booleanValue()) {
-                z3 = true;
+                z2 = true;
             }
-            checkSystemBarColors(z3);
+            checkSystemBarColors(z2);
         } else if (i == NotificationCenter.historyImportProgressChanged) {
-            if (objArr.length <= 1 || mainFragmentsStack.isEmpty()) {
-                return;
+            if (objArr.length > 1) {
+                ArrayList<BaseFragment> arrayList5 = mainFragmentsStack;
+                if (arrayList5.isEmpty()) {
+                    return;
+                }
+                AlertsCreator.processError(this.currentAccount, (TLRPC$TL_error) objArr[2], arrayList5.get(arrayList5.size() - 1), (TLObject) objArr[1], new Object[0]);
             }
-            ArrayList<BaseFragment> arrayList7 = mainFragmentsStack;
-            AlertsCreator.processError(this.currentAccount, (TLRPC$TL_error) objArr[2], arrayList7.get(arrayList7.size() - 1), (TLObject) objArr[1], new Object[0]);
         } else if (i == NotificationCenter.billingConfirmPurchaseError) {
-            ArrayList<BaseFragment> arrayList8 = mainFragmentsStack;
-            AlertsCreator.processError(this.currentAccount, (TLRPC$TL_error) objArr[1], arrayList8.get(arrayList8.size() - 1), (TLObject) objArr[0], new Object[0]);
+            ArrayList<BaseFragment> arrayList6 = mainFragmentsStack;
+            AlertsCreator.processError(this.currentAccount, (TLRPC$TL_error) objArr[1], arrayList6.get(arrayList6.size() - 1), (TLObject) objArr[0], new Object[0]);
         } else if (i == NotificationCenter.stickersImportComplete) {
             MediaDataController mediaDataController = MediaDataController.getInstance(i2);
             TLObject tLObject = (TLObject) objArr[0];
-            if (mainFragmentsStack.isEmpty()) {
-                baseFragment2 = null;
-            } else {
-                ArrayList<BaseFragment> arrayList9 = mainFragmentsStack;
-                baseFragment2 = arrayList9.get(arrayList9.size() - 1);
-            }
-            mediaDataController.toggleStickerSet(this, tLObject, 2, baseFragment2, false, true);
+            ArrayList<BaseFragment> arrayList7 = mainFragmentsStack;
+            mediaDataController.toggleStickerSet(this, tLObject, 2, !arrayList7.isEmpty() ? arrayList7.get(arrayList7.size() - 1) : null, false, true);
         } else if (i == NotificationCenter.newSuggestionsAvailable) {
             this.sideMenu.invalidateViews();
         } else if (i == NotificationCenter.showBulletin) {
-            if (mainFragmentsStack.isEmpty()) {
+            ArrayList<BaseFragment> arrayList8 = mainFragmentsStack;
+            if (arrayList8.isEmpty()) {
                 return;
             }
             int intValue3 = ((Integer) objArr[0]).intValue();
             BottomSheet.ContainerView container = (!GroupCallActivity.groupCallUiVisible || (groupCallActivity = GroupCallActivity.groupCallInstance) == null) ? null : groupCallActivity.getContainer();
-            if (container == null) {
-                ArrayList<BaseFragment> arrayList10 = mainFragmentsStack;
-                baseFragment = arrayList10.get(arrayList10.size() - 1);
-            } else {
-                baseFragment = null;
-            }
-            int i11 = 1500;
+            BaseFragment baseFragment2 = container == null ? arrayList8.get(arrayList8.size() - 1) : null;
+            int i21 = 1500;
             switch (intValue3) {
                 case 0:
                     TLRPC$Document tLRPC$Document = (TLRPC$Document) objArr[1];
                     int intValue4 = ((Integer) objArr[2]).intValue();
                     StickerSetBulletinLayout stickerSetBulletinLayout = new StickerSetBulletinLayout(this, null, intValue4, tLRPC$Document, null);
-                    i11 = (intValue4 == 6 || intValue4 == 7) ? 3500 : 3500;
-                    if (baseFragment != null) {
-                        Bulletin.make(baseFragment, stickerSetBulletinLayout, i11).show();
+                    i21 = (intValue4 == 6 || intValue4 == 7) ? 3500 : 3500;
+                    if (baseFragment2 != null) {
+                        Bulletin.make(baseFragment2, stickerSetBulletinLayout, i21).show();
                         return;
                     } else {
-                        Bulletin.make(container, stickerSetBulletinLayout, i11).show();
+                        Bulletin.make(container, stickerSetBulletinLayout, i21).show();
                         return;
                     }
                 case 1:
-                    if (baseFragment != null) {
-                        BulletinFactory.of(baseFragment).createErrorBulletin((String) objArr[1]).show();
+                    if (baseFragment2 != null) {
+                        BulletinFactory.of(baseFragment2).createErrorBulletin((String) objArr[1]).show();
                         return;
                     } else {
                         BulletinFactory.of(container, null).createErrorBulletin((String) objArr[1]).show();
@@ -13696,27 +14557,27 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     }
                 case 2:
                     if (((Long) objArr[1]).longValue() > 0) {
-                        i3 = R.string.YourBioChanged;
                         str = "YourBioChanged";
+                        i3 = R.string.YourBioChanged;
                     } else {
-                        i3 = R.string.ChannelDescriptionChanged;
                         str = "ChannelDescriptionChanged";
+                        i3 = R.string.ChannelDescriptionChanged;
                     }
-                    (container != null ? BulletinFactory.of(container, null) : BulletinFactory.of(baseFragment)).createErrorBulletin(LocaleController.getString(str, i3)).show();
+                    (container != null ? BulletinFactory.of(container, null) : BulletinFactory.of(baseFragment2)).createErrorBulletin(LocaleController.getString(str, i3)).show();
                     return;
                 case 3:
                     if (((Long) objArr[1]).longValue() > 0) {
-                        i4 = R.string.YourNameChanged;
                         str2 = "YourNameChanged";
+                        i4 = R.string.YourNameChanged;
                     } else {
-                        i4 = R.string.ChannelTitleChanged;
                         str2 = "ChannelTitleChanged";
+                        i4 = R.string.ChannelTitleChanged;
                     }
-                    (container != null ? BulletinFactory.of(container, null) : BulletinFactory.of(baseFragment)).createErrorBulletin(LocaleController.getString(str2, i4)).show();
+                    (container != null ? BulletinFactory.of(container, null) : BulletinFactory.of(baseFragment2)).createErrorBulletin(LocaleController.getString(str2, i4)).show();
                     return;
                 case 4:
-                    if (baseFragment != null) {
-                        BulletinFactory.of(baseFragment).createErrorBulletinSubtitle((String) objArr[1], (String) objArr[2], baseFragment.getResourceProvider()).show();
+                    if (baseFragment2 != null) {
+                        BulletinFactory.of(baseFragment2).createErrorBulletinSubtitle((String) objArr[1], (String) objArr[2], baseFragment2.getResourceProvider()).show();
                         return;
                     } else {
                         BulletinFactory.of(container, null).createErrorBulletinSubtitle((String) objArr[1], (String) objArr[2], null).show();
@@ -13724,16 +14585,16 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     }
                 case 5:
                     AppIconBulletinLayout appIconBulletinLayout = new AppIconBulletinLayout(this, (LauncherIconController.LauncherIcon) objArr[1], null);
-                    if (baseFragment != null) {
-                        Bulletin.make(baseFragment, appIconBulletinLayout, 1500).show();
+                    if (baseFragment2 != null) {
+                        Bulletin.make(baseFragment2, appIconBulletinLayout, 1500).show();
                         return;
                     } else {
                         Bulletin.make(container, appIconBulletinLayout, 1500).show();
                         return;
                     }
                 case 6:
-                    if (baseFragment != null) {
-                        BulletinFactory.of(baseFragment).createSuccessBulletin((String) objArr[1]).show();
+                    if (baseFragment2 != null) {
+                        BulletinFactory.of(baseFragment2).createSuccessBulletin((String) objArr[1]).show();
                         return;
                     } else {
                         BulletinFactory.of(container, null).createSuccessBulletin((String) objArr[1]).show();
@@ -13746,13 +14607,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             checkWasMutedByAdmin(false);
         } else if (i != NotificationCenter.fileLoadProgressChanged && i != NotificationCenter.appUpdateAvailable) {
             if (i == NotificationCenter.currentUserShowLimitReachedDialog) {
-                if (mainFragmentsStack.isEmpty()) {
+                ArrayList<BaseFragment> arrayList9 = mainFragmentsStack;
+                if (arrayList9.isEmpty()) {
                     return;
                 }
-                ArrayList<BaseFragment> arrayList11 = mainFragmentsStack;
-                BaseFragment baseFragment4 = arrayList11.get(arrayList11.size() - 1);
-                if (baseFragment4.getParentActivity() != null) {
-                    baseFragment4.showDialog(new LimitReachedBottomSheet(baseFragment4, baseFragment4.getParentActivity(), ((Integer) objArr[0]).intValue(), this.currentAccount, null));
+                BaseFragment baseFragment3 = arrayList9.get(arrayList9.size() - 1);
+                if (baseFragment3.getParentActivity() != null) {
+                    baseFragment3.showDialog(new LimitReachedBottomSheet(baseFragment3, baseFragment3.getParentActivity(), ((Integer) objArr[0]).intValue(), this.currentAccount, null));
                 }
             } else if (i == NotificationCenter.currentUserPremiumStatusChanged) {
                 DrawerLayoutAdapter drawerLayoutAdapter2 = this.drawerLayoutAdapter;
@@ -13764,9 +14625,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 int intValue5 = ((Integer) objArr[0]).intValue();
                 String[] strArr = (intValue5 != 0 || Build.VERSION.SDK_INT < 31) ? null : new String[]{"android.permission.BLUETOOTH_CONNECT"};
                 if (strArr != null) {
-                    int i12 = this.requsetPermissionsPointer + 1;
-                    this.requsetPermissionsPointer = i12;
-                    this.requestedPermissions.put(i12, intValue5);
+                    int i22 = this.requsetPermissionsPointer + 1;
+                    this.requsetPermissionsPointer = i22;
+                    this.requestedPermissions.put(i22, intValue5);
                     ActivityCompat.requestPermissions(this, strArr, this.requsetPermissionsPointer);
                 }
             } else if (i == NotificationCenter.chatSwithcedToForum) {
@@ -13779,12 +14640,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$didReceivedNotification$136(int i, DialogInterface dialogInterface, int i2) {
-        if (mainFragmentsStack.isEmpty()) {
+        ArrayList<BaseFragment> arrayList = mainFragmentsStack;
+        if (arrayList.isEmpty()) {
             return;
         }
-        MessagesController messagesController = MessagesController.getInstance(i);
-        ArrayList<BaseFragment> arrayList = mainFragmentsStack;
-        messagesController.openByUserName("spambot", arrayList.get(arrayList.size() - 1), 1);
+        MessagesController.getInstance(i).openByUserName("spambot", arrayList.get(arrayList.size() - 1), 1);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -13794,13 +14654,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$didReceivedNotification$139(final HashMap hashMap, final int i, DialogInterface dialogInterface, int i2) {
-        if (mainFragmentsStack.isEmpty()) {
-            return;
-        }
         ArrayList<BaseFragment> arrayList = mainFragmentsStack;
-        if (AndroidUtilities.isMapsInstalled(arrayList.get(arrayList.size() - 1))) {
+        if (!arrayList.isEmpty() && AndroidUtilities.isMapsInstalled(arrayList.get(arrayList.size() - 1))) {
             LocationActivity locationActivity = new LocationActivity(0);
-            locationActivity.setDelegate(new LocationActivity.LocationActivityDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda162
+            locationActivity.setDelegate(new LocationActivity.LocationActivityDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda43
                 @Override // org.telegram.ui.LocationActivity.LocationActivityDelegate
                 public final void didSelectLocation(TLRPC$MessageMedia tLRPC$MessageMedia, int i3, boolean z, int i4) {
                     LaunchActivity.lambda$didReceivedNotification$138(hashMap, i, tLRPC$MessageMedia, i3, z, i4);
@@ -13848,7 +14705,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$didReceivedNotification$146(final Theme.ThemeInfo themeInfo, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda90
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda82
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$didReceivedNotification$145(tLObject, themeInfo);
@@ -13872,7 +14729,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$didReceivedNotification$148(Theme.ThemeInfo themeInfo, File file) {
         themeInfo.createBackground(file, themeInfo.pathToWallpaper);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda48
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda79
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$didReceivedNotification$147();
@@ -14005,7 +14862,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         AutoDeleteMediaTask.run();
         SharedConfig.checkLogsToDelete();
         if ((Build.VERSION.SDK_INT < 26 || i != 0) && !this.checkFreeDiscSpaceShown) {
-            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda56
+            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda20
                 @Override // java.lang.Runnable
                 public final void run() {
                     LaunchActivity.this.lambda$checkFreeDiscSpace$151(i);
@@ -14017,23 +14874,18 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkFreeDiscSpace$151(int i) {
         File directory;
-        long availableBlocksLong;
         if (UserConfig.getInstance(this.currentAccount).isClientActivated()) {
             try {
                 SharedPreferences globalMainSettings = MessagesController.getGlobalMainSettings();
                 if ((((i == 2 || i == 1) && Math.abs(this.alreadyShownFreeDiscSpaceAlertForced - System.currentTimeMillis()) > 240000) || Math.abs(globalMainSettings.getLong("last_space_check", 0L) - System.currentTimeMillis()) >= 259200000) && (directory = FileLoader.getDirectory(4)) != null) {
                     StatFs statFs = new StatFs(directory.getAbsolutePath());
-                    if (Build.VERSION.SDK_INT < 18) {
-                        availableBlocksLong = Math.abs(statFs.getAvailableBlocks() * statFs.getBlockSize());
-                    } else {
-                        availableBlocksLong = statFs.getAvailableBlocksLong() * statFs.getBlockSizeLong();
-                    }
+                    long availableBlocksLong = statFs.getAvailableBlocksLong() * statFs.getBlockSizeLong();
                     if (i > 0 || availableBlocksLong < 52428800) {
                         if (i > 0) {
                             this.alreadyShownFreeDiscSpaceAlertForced = System.currentTimeMillis();
                         }
                         globalMainSettings.edit().putLong("last_space_check", System.currentTimeMillis()).commit();
-                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda51
+                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda80
                             @Override // java.lang.Runnable
                             public final void run() {
                                 LaunchActivity.this.lambda$checkFreeDiscSpace$150();
@@ -14053,7 +14905,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         }
         try {
             Dialog createFreeSpaceDialog = AlertsCreator.createFreeSpaceDialog(this);
-            createFreeSpaceDialog.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda14
+            createFreeSpaceDialog.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda105
                 @Override // android.content.DialogInterface.OnDismissListener
                 public final void onDismiss(DialogInterface dialogInterface) {
                     LaunchActivity.this.lambda$checkFreeDiscSpace$149(dialogInterface);
@@ -14083,7 +14935,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Removed duplicated region for block: B:17:0x005d  */
     /* JADX WARN: Removed duplicated region for block: B:20:0x0062  */
     /* JADX WARN: Removed duplicated region for block: B:21:0x0063  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x006a A[Catch: Exception -> 0x011e, TryCatch #0 {Exception -> 0x011e, blocks: (B:3:0x0007, B:5:0x0010, B:10:0x001e, B:14:0x0056, B:18:0x005e, B:22:0x0065, B:24:0x006a, B:28:0x007e, B:32:0x00a0, B:33:0x00bc), top: B:38:0x0007 }] */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x006a A[Catch: Exception -> 0x011d, TryCatch #0 {Exception -> 0x011d, blocks: (B:3:0x0007, B:5:0x0010, B:10:0x001e, B:14:0x0056, B:18:0x005e, B:22:0x0065, B:24:0x006a, B:28:0x007d, B:32:0x009f, B:33:0x00bb), top: B:38:0x0007 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -14114,13 +14966,15 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 localeInfoArr[0] = localeInfo3;
                 i = 0;
                 while (i < 2) {
-                    languageCellArr[i] = new LanguageCell(this);
-                    languageCellArr[i].setLanguage(localeInfoArr2[i], localeInfoArr2[i] == localeInfo2 ? stringForLanguageAlert : null, true);
+                    LanguageCell languageCell = new LanguageCell(this);
+                    languageCellArr[i] = languageCell;
+                    LocaleController.LocaleInfo localeInfo4 = localeInfoArr2[i];
+                    languageCell.setLanguage(localeInfo4, localeInfo4 == localeInfo2 ? stringForLanguageAlert : null, true);
                     languageCellArr[i].setTag(Integer.valueOf(i));
                     languageCellArr[i].setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_dialogButtonSelector), 2));
                     languageCellArr[i].setLanguageSelected(i == 0, false);
                     linearLayout.addView(languageCellArr[i], LayoutHelper.createLinear(-1, 50));
-                    languageCellArr[i].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda18
+                    languageCellArr[i].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda122
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
                             LaunchActivity.lambda$showLanguageAlertInternal$152(localeInfoArr, languageCellArr, view);
@@ -14128,20 +14982,20 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     });
                     i++;
                 }
-                LanguageCell languageCell = new LanguageCell(this);
+                LanguageCell languageCell2 = new LanguageCell(this);
                 HashMap<String, String> hashMap2 = this.systemLocaleStrings;
                 int i3 = R.string.ChooseYourLanguageOther;
-                languageCell.setValue(getStringForLanguageAlert(hashMap2, "ChooseYourLanguageOther", i3), getStringForLanguageAlert(this.englishLocaleStrings, "ChooseYourLanguageOther", i3));
-                languageCell.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_dialogButtonSelector), 2));
-                languageCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda16
+                languageCell2.setValue(getStringForLanguageAlert(hashMap2, "ChooseYourLanguageOther", i3), getStringForLanguageAlert(this.englishLocaleStrings, "ChooseYourLanguageOther", i3));
+                languageCell2.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_dialogButtonSelector), 2));
+                languageCell2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda123
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         LaunchActivity.this.lambda$showLanguageAlertInternal$153(view);
                     }
                 });
-                linearLayout.addView(languageCell, LayoutHelper.createLinear(-1, 50));
+                linearLayout.addView(languageCell2, LayoutHelper.createLinear(-1, 50));
                 builder.setView(linearLayout);
-                builder.setNegativeButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda13
+                builder.setNegativeButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda124
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i4) {
                         LaunchActivity.this.lambda$showLanguageAlertInternal$154(localeInfoArr, dialogInterface, i4);
@@ -14170,20 +15024,20 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             i = 0;
             while (i < 2) {
             }
-            LanguageCell languageCell2 = new LanguageCell(this);
+            LanguageCell languageCell22 = new LanguageCell(this);
             HashMap<String, String> hashMap22 = this.systemLocaleStrings;
             int i32 = R.string.ChooseYourLanguageOther;
-            languageCell2.setValue(getStringForLanguageAlert(hashMap22, "ChooseYourLanguageOther", i32), getStringForLanguageAlert(this.englishLocaleStrings, "ChooseYourLanguageOther", i32));
-            languageCell2.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_dialogButtonSelector), 2));
-            languageCell2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda16
+            languageCell22.setValue(getStringForLanguageAlert(hashMap22, "ChooseYourLanguageOther", i32), getStringForLanguageAlert(this.englishLocaleStrings, "ChooseYourLanguageOther", i32));
+            languageCell22.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_dialogButtonSelector), 2));
+            languageCell22.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda123
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     LaunchActivity.this.lambda$showLanguageAlertInternal$153(view);
                 }
             });
-            linearLayout2.addView(languageCell2, LayoutHelper.createLinear(-1, 50));
+            linearLayout2.addView(languageCell22, LayoutHelper.createLinear(-1, 50));
             builder2.setView(linearLayout2);
-            builder2.setNegativeButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda13
+            builder2.setNegativeButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda124
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i4) {
                     LaunchActivity.this.lambda$showLanguageAlertInternal$154(localeInfoArr3, dialogInterface, i4);
@@ -14250,6 +15104,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     private void showLanguageAlert(boolean z) {
         String str;
+        LocaleController.LocaleInfo localeInfo;
         if (UserConfig.getInstance(this.currentAccount).isClientActivated()) {
             try {
                 if (!this.loadingLocaleDialog && !ApplicationLoader.mainInterfacePaused) {
@@ -14272,18 +15127,19 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         str = "jw".equals(str3) ? "jv" : null;
                     }
                     for (int i = 0; i < LocaleController.getInstance().languages.size(); i++) {
-                        LocaleController.LocaleInfo localeInfo = LocaleController.getInstance().languages.get(i);
-                        if (localeInfo.shortName.equals("en")) {
-                            localeInfoArr[0] = localeInfo;
+                        LocaleController.LocaleInfo localeInfo2 = LocaleController.getInstance().languages.get(i);
+                        if (localeInfo2.shortName.equals("en")) {
+                            localeInfoArr[0] = localeInfo2;
                         }
-                        if (localeInfo.shortName.replace("_", "-").equals(str2) || localeInfo.shortName.equals(str3) || localeInfo.shortName.equals(str)) {
-                            localeInfoArr[1] = localeInfo;
+                        if (localeInfo2.shortName.replace("_", "-").equals(str2) || localeInfo2.shortName.equals(str3) || localeInfo2.shortName.equals(str)) {
+                            localeInfoArr[1] = localeInfo2;
                         }
                         if (localeInfoArr[0] != null && localeInfoArr[1] != null) {
                             break;
                         }
                     }
-                    if (localeInfoArr[0] != null && localeInfoArr[1] != null && localeInfoArr[0] != localeInfoArr[1]) {
+                    LocaleController.LocaleInfo localeInfo3 = localeInfoArr[0];
+                    if (localeInfo3 != null && (localeInfo = localeInfoArr[1]) != null && localeInfo3 != localeInfo) {
                         if (BuildVars.LOGS_ENABLED) {
                             FileLog.d("show lang alert for " + localeInfoArr[0].getKey() + " and " + localeInfoArr[1].getKey());
                         }
@@ -14296,7 +15152,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         tLRPC$TL_langpack_getStrings.keys.add("ChooseYourLanguage");
                         tLRPC$TL_langpack_getStrings.keys.add("ChooseYourLanguageOther");
                         tLRPC$TL_langpack_getStrings.keys.add("ChangeLanguageLater");
-                        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_langpack_getStrings, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda149
+                        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_langpack_getStrings, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda34
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                                 LaunchActivity.this.lambda$showLanguageAlert$156(localeInfoArr, str2, tLObject, tLRPC$TL_error);
@@ -14308,7 +15164,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         tLRPC$TL_langpack_getStrings2.keys.add("ChooseYourLanguage");
                         tLRPC$TL_langpack_getStrings2.keys.add("ChooseYourLanguageOther");
                         tLRPC$TL_langpack_getStrings2.keys.add("ChangeLanguageLater");
-                        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_langpack_getStrings2, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda148
+                        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_langpack_getStrings2, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda35
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                                 LaunchActivity.this.lambda$showLanguageAlert$158(localeInfoArr, str2, tLObject, tLRPC$TL_error);
@@ -14332,7 +15188,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 hashMap.put(tLRPC$LangPackString.key, tLRPC$LangPackString.value);
             }
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda76
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda85
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$showLanguageAlert$155(hashMap, localeInfoArr, str);
@@ -14359,7 +15215,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 hashMap.put(tLRPC$LangPackString.key, tLRPC$LangPackString.value);
             }
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda77
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda96
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$showLanguageAlert$157(hashMap, localeInfoArr, str);
@@ -14454,11 +15310,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     private void updateCurrentConnectionState(int i) {
+        int i2;
         String str;
         if (this.actionBarLayout == null) {
             return;
         }
-        int i2 = 0;
         int connectionState = ConnectionsManager.getInstance(this.currentAccount).getConnectionState();
         this.currentConnectionState = connectionState;
         Runnable runnable = null;
@@ -14475,10 +15331,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             i2 = R.string.Connecting;
             str = "Connecting";
         } else {
+            i2 = 0;
             str = null;
         }
         if (connectionState == 1 || connectionState == 4) {
-            runnable = new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda46
+            runnable = new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda39
                 @Override // java.lang.Runnable
                 public final void run() {
                     LaunchActivity.this.lambda$updateCurrentConnectionState$159();
@@ -14492,14 +15349,14 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     public /* synthetic */ void lambda$updateCurrentConnectionState$159() {
         BaseFragment baseFragment;
         if (AndroidUtilities.isTablet()) {
-            if (!layerFragmentsStack.isEmpty()) {
-                ArrayList<BaseFragment> arrayList = layerFragmentsStack;
+            ArrayList<BaseFragment> arrayList = layerFragmentsStack;
+            if (!arrayList.isEmpty()) {
                 baseFragment = arrayList.get(arrayList.size() - 1);
             }
             baseFragment = null;
         } else {
-            if (!mainFragmentsStack.isEmpty()) {
-                ArrayList<BaseFragment> arrayList2 = mainFragmentsStack;
+            ArrayList<BaseFragment> arrayList2 = mainFragmentsStack;
+            if (!arrayList2.isEmpty()) {
                 baseFragment = arrayList2.get(arrayList2.size() - 1);
             }
             baseFragment = null;
@@ -14518,11 +15375,16 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         actionMode.finish();
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:22:0x00a4 A[Catch: Exception -> 0x0112, TRY_LEAVE, TryCatch #0 {Exception -> 0x0112, blocks: (B:2:0x0000, B:4:0x0009, B:6:0x000d, B:8:0x0017, B:22:0x00a4, B:26:0x00b2, B:49:0x010e, B:27:0x00bb, B:30:0x00c1, B:31:0x00ca, B:33:0x00ce, B:34:0x00d4, B:36:0x00d8, B:38:0x00e1, B:39:0x00e7, B:42:0x00ef, B:43:0x00f8, B:46:0x00fe, B:48:0x0106, B:9:0x0030, B:11:0x0034, B:13:0x003e, B:14:0x0057, B:16:0x0063, B:17:0x007c, B:19:0x0088), top: B:54:0x0000 }] */
+    /* JADX WARN: Removed duplicated region for block: B:56:? A[RETURN, SYNTHETIC] */
     @Override // androidx.activity.ComponentActivity, androidx.core.app.ComponentActivity, android.app.Activity
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     protected void onSaveInstanceState(Bundle bundle) {
+        BaseFragment baseFragment;
         try {
             super.onSaveInstanceState(bundle);
-            BaseFragment baseFragment = null;
             if (AndroidUtilities.isTablet()) {
                 ActionBarLayout actionBarLayout = this.layersActionBarLayout;
                 if (actionBarLayout != null && !actionBarLayout.getFragmentStack().isEmpty()) {
@@ -14531,36 +15393,47 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     ActionBarLayout actionBarLayout2 = this.rightActionBarLayout;
                     if (actionBarLayout2 != null && !actionBarLayout2.getFragmentStack().isEmpty()) {
                         baseFragment = this.rightActionBarLayout.getFragmentStack().get(this.rightActionBarLayout.getFragmentStack().size() - 1);
-                    } else if (!this.actionBarLayout.getFragmentStack().isEmpty()) {
-                        baseFragment = this.actionBarLayout.getFragmentStack().get(this.actionBarLayout.getFragmentStack().size() - 1);
+                    } else {
+                        if (!this.actionBarLayout.getFragmentStack().isEmpty()) {
+                            baseFragment = this.actionBarLayout.getFragmentStack().get(this.actionBarLayout.getFragmentStack().size() - 1);
+                        }
+                        baseFragment = null;
                     }
                 }
-            } else if (!this.actionBarLayout.getFragmentStack().isEmpty()) {
-                baseFragment = this.actionBarLayout.getFragmentStack().get(this.actionBarLayout.getFragmentStack().size() - 1);
-            }
-            if (baseFragment != null) {
-                Bundle arguments = baseFragment.getArguments();
-                if ((baseFragment instanceof ChatActivity) && arguments != null) {
-                    bundle.putBundle("args", arguments);
-                    bundle.putString("fragment", "chat");
-                } else if ((baseFragment instanceof GroupCreateFinalActivity) && arguments != null) {
-                    bundle.putBundle("args", arguments);
-                    bundle.putString("fragment", "group");
-                } else if (baseFragment instanceof WallpapersListActivity) {
-                    bundle.putString("fragment", "wallpapers");
-                } else if (baseFragment instanceof ProfileActivity) {
-                    ProfileActivity profileActivity = (ProfileActivity) baseFragment;
-                    if (profileActivity.isSettings()) {
-                        bundle.putString("fragment", "settings");
-                    } else if (profileActivity.isChat() && arguments != null) {
+                if (baseFragment != null) {
+                    Bundle arguments = baseFragment.getArguments();
+                    if ((baseFragment instanceof ChatActivity) && arguments != null) {
                         bundle.putBundle("args", arguments);
-                        bundle.putString("fragment", "chat_profile");
+                        bundle.putString("fragment", "chat");
+                    } else if ((baseFragment instanceof GroupCreateFinalActivity) && arguments != null) {
+                        bundle.putBundle("args", arguments);
+                        bundle.putString("fragment", "group");
+                    } else if (baseFragment instanceof WallpapersListActivity) {
+                        bundle.putString("fragment", "wallpapers");
+                    } else if (baseFragment instanceof ProfileActivity) {
+                        ProfileActivity profileActivity = (ProfileActivity) baseFragment;
+                        if (profileActivity.isSettings()) {
+                            bundle.putString("fragment", "settings");
+                        } else if (profileActivity.isChat() && arguments != null) {
+                            bundle.putBundle("args", arguments);
+                            bundle.putString("fragment", "chat_profile");
+                        }
+                    } else if ((baseFragment instanceof ChannelCreateActivity) && arguments != null && arguments.getInt("step") == 0) {
+                        bundle.putBundle("args", arguments);
+                        bundle.putString("fragment", "channel");
                     }
-                } else if ((baseFragment instanceof ChannelCreateActivity) && arguments != null && arguments.getInt("step") == 0) {
-                    bundle.putBundle("args", arguments);
-                    bundle.putString("fragment", "channel");
+                    baseFragment.saveSelfArgs(bundle);
+                    return;
                 }
-                baseFragment.saveSelfArgs(bundle);
+                return;
+            }
+            if (!this.actionBarLayout.getFragmentStack().isEmpty()) {
+                baseFragment = this.actionBarLayout.getFragmentStack().get(this.actionBarLayout.getFragmentStack().size() - 1);
+                if (baseFragment != null) {
+                }
+            }
+            baseFragment = null;
+            if (baseFragment != null) {
             }
         } catch (Exception e) {
             FileLog.e(e);
@@ -14627,6 +15500,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     @Override // android.app.Activity, android.view.Window.Callback
     public void onActionModeStarted(ActionMode actionMode) {
+        int type;
         super.onActionModeStarted(actionMode);
         this.visibleActionMode = actionMode;
         try {
@@ -14637,27 +15511,36 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         } catch (Exception e) {
             FileLog.e(e);
         }
-        if (Build.VERSION.SDK_INT < 23 || actionMode.getType() != 1) {
-            this.actionBarLayout.onActionModeStarted(actionMode);
-            if (AndroidUtilities.isTablet()) {
-                this.rightActionBarLayout.onActionModeStarted(actionMode);
-                this.layersActionBarLayout.onActionModeStarted(actionMode);
+        if (Build.VERSION.SDK_INT >= 23) {
+            type = actionMode.getType();
+            if (type == 1) {
+                return;
             }
+        }
+        this.actionBarLayout.onActionModeStarted(actionMode);
+        if (AndroidUtilities.isTablet()) {
+            this.rightActionBarLayout.onActionModeStarted(actionMode);
+            this.layersActionBarLayout.onActionModeStarted(actionMode);
         }
     }
 
     @Override // android.app.Activity, android.view.Window.Callback
     public void onActionModeFinished(ActionMode actionMode) {
+        int type;
         super.onActionModeFinished(actionMode);
         if (this.visibleActionMode == actionMode) {
             this.visibleActionMode = null;
         }
-        if (Build.VERSION.SDK_INT < 23 || actionMode.getType() != 1) {
-            this.actionBarLayout.onActionModeFinished(actionMode);
-            if (AndroidUtilities.isTablet()) {
-                this.rightActionBarLayout.onActionModeFinished(actionMode);
-                this.layersActionBarLayout.onActionModeFinished(actionMode);
+        if (Build.VERSION.SDK_INT >= 23) {
+            type = actionMode.getType();
+            if (type == 1) {
+                return;
             }
+        }
+        this.actionBarLayout.onActionModeFinished(actionMode);
+        if (AndroidUtilities.isTablet()) {
+            this.rightActionBarLayout.onActionModeFinished(actionMode);
+            this.layersActionBarLayout.onActionModeFinished(actionMode);
         }
     }
 
@@ -14680,6 +15563,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     @Override // androidx.core.app.ComponentActivity, android.app.Activity, android.view.Window.Callback
     public boolean dispatchKeyEvent(KeyEvent keyEvent) {
         BaseFragment lastFragment;
+        int streamMinVolume;
         keyEvent.getKeyCode();
         boolean z = true;
         if ((keyEvent.getKeyCode() == 24 || keyEvent.getKeyCode() == 25) && (lastFragment = getLastFragment()) != null && lastFragment.getLastStoryViewer() != null) {
@@ -14691,23 +15575,28 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 if (Build.VERSION.SDK_INT >= 32) {
                     boolean isSpeakerMuted = WebRtcAudioTrack.isSpeakerMuted();
                     AudioManager audioManager = (AudioManager) getSystemService(MediaStreamTrack.AUDIO_TRACK_KIND);
-                    z = (audioManager.getStreamVolume(0) == audioManager.getStreamMinVolume(0) && keyEvent.getKeyCode() == 25) ? false : false;
+                    streamMinVolume = audioManager.getStreamMinVolume(0);
+                    z = (audioManager.getStreamVolume(0) == streamMinVolume && keyEvent.getKeyCode() == 25) ? false : false;
                     WebRtcAudioTrack.setSpeakerMute(z);
                     if (isSpeakerMuted != WebRtcAudioTrack.isSpeakerMuted()) {
                         showVoiceChatTooltip(z ? 42 : 43);
                     }
                 }
-            } else if (!mainFragmentsStack.isEmpty() && ((!PhotoViewer.hasInstance() || !PhotoViewer.getInstance().isVisible()) && keyEvent.getRepeatCount() == 0)) {
+            } else {
                 ArrayList<BaseFragment> arrayList = mainFragmentsStack;
-                BaseFragment baseFragment = arrayList.get(arrayList.size() - 1);
-                if ((baseFragment instanceof ChatActivity) && !BaseFragment.hasSheets(baseFragment) && ((ChatActivity) baseFragment).maybePlayVisibleVideo()) {
-                    return true;
-                }
-                if (AndroidUtilities.isTablet() && !rightFragmentsStack.isEmpty()) {
-                    ArrayList<BaseFragment> arrayList2 = rightFragmentsStack;
-                    BaseFragment baseFragment2 = arrayList2.get(arrayList2.size() - 1);
-                    if ((baseFragment2 instanceof ChatActivity) && !BaseFragment.hasSheets(baseFragment2) && ((ChatActivity) baseFragment2).maybePlayVisibleVideo()) {
+                if (!arrayList.isEmpty() && ((!PhotoViewer.hasInstance() || !PhotoViewer.getInstance().isVisible()) && keyEvent.getRepeatCount() == 0)) {
+                    BaseFragment baseFragment = arrayList.get(arrayList.size() - 1);
+                    if ((baseFragment instanceof ChatActivity) && !BaseFragment.hasSheets(baseFragment) && ((ChatActivity) baseFragment).maybePlayVisibleVideo()) {
                         return true;
+                    }
+                    if (AndroidUtilities.isTablet()) {
+                        ArrayList<BaseFragment> arrayList2 = rightFragmentsStack;
+                        if (!arrayList2.isEmpty()) {
+                            BaseFragment baseFragment2 = arrayList2.get(arrayList2.size() - 1);
+                            if ((baseFragment2 instanceof ChatActivity) && !BaseFragment.hasSheets(baseFragment2) && ((ChatActivity) baseFragment2).maybePlayVisibleVideo()) {
+                                return true;
+                            }
+                        }
                     }
                 }
             }
@@ -14753,24 +15642,34 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         return super.onKeyUp(i, keyEvent);
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:133:0x0292, code lost:
+        if (org.telegram.ui.LaunchActivity.mainFragmentsStack.size() == 1) goto L137;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:140:0x02ab, code lost:
+        if ((r9.get(0) instanceof org.telegram.ui.LoginActivity) == false) goto L139;
+     */
     @Override // org.telegram.ui.ActionBar.INavigationLayout.INavigationLayoutDelegate
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public boolean needPresentFragment(INavigationLayout iNavigationLayout, INavigationLayout.NavigationParams navigationParams) {
+        boolean z;
         ActionBarLayout actionBarLayout;
         ActionBarLayout actionBarLayout2;
         ActionBarLayout actionBarLayout3;
         ActionBarLayout actionBarLayout4;
         BaseFragment baseFragment = navigationParams.fragment;
-        boolean z = navigationParams.removeLast;
-        boolean z2 = navigationParams.noAnimation;
+        boolean z2 = navigationParams.removeLast;
+        boolean z3 = navigationParams.noAnimation;
         if (ArticleViewer.hasInstance() && ArticleViewer.getInstance().isVisible()) {
             ArticleViewer.getInstance().close(false, true);
         }
         if (AndroidUtilities.isTablet()) {
-            boolean z3 = baseFragment instanceof LoginActivity;
-            this.drawerLayoutContainer.setAllowOpenDrawer((z3 || (baseFragment instanceof IntroActivity) || (baseFragment instanceof CountrySelectActivity) || ((actionBarLayout4 = this.layersActionBarLayout) != null && actionBarLayout4.getView().getVisibility() == 0)) ? false : true, true);
+            boolean z4 = baseFragment instanceof LoginActivity;
+            this.drawerLayoutContainer.setAllowOpenDrawer((z4 || (baseFragment instanceof IntroActivity) || (baseFragment instanceof CountrySelectActivity) || ((actionBarLayout4 = this.layersActionBarLayout) != null && actionBarLayout4.getView().getVisibility() == 0)) ? false : true, true);
             if ((baseFragment instanceof DialogsActivity) && ((DialogsActivity) baseFragment).isMainDialogList() && iNavigationLayout != (actionBarLayout3 = this.actionBarLayout)) {
                 actionBarLayout3.removeAllFragments();
-                getActionBarLayout().presentFragment(navigationParams.setRemoveLast(z).setNoAnimation(z2).setCheckPresentFromDelegate(false));
+                getActionBarLayout().presentFragment(navigationParams.setRemoveLast(z2).setNoAnimation(z3).setCheckPresentFromDelegate(false));
                 this.layersActionBarLayout.removeAllFragments();
                 this.layersActionBarLayout.getView().setVisibility(8);
                 this.drawerLayoutContainer.setAllowOpenDrawer(true, false);
@@ -14782,43 +15681,43 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 }
                 return false;
             } else if ((baseFragment instanceof ChatActivity) && !((ChatActivity) baseFragment).isInScheduleMode()) {
-                boolean z4 = this.tabletFullSize;
-                if ((!z4 && iNavigationLayout == this.rightActionBarLayout) || (z4 && iNavigationLayout == this.actionBarLayout)) {
-                    boolean z5 = (z4 && iNavigationLayout == (actionBarLayout2 = this.actionBarLayout) && actionBarLayout2.getFragmentStack().size() == 1) ? false : true;
+                boolean z5 = this.tabletFullSize;
+                if ((!z5 && iNavigationLayout == this.rightActionBarLayout) || (z5 && iNavigationLayout == this.actionBarLayout)) {
+                    boolean z6 = (z5 && iNavigationLayout == (actionBarLayout2 = this.actionBarLayout) && actionBarLayout2.getFragmentStack().size() == 1) ? false : true;
                     if (!this.layersActionBarLayout.getFragmentStack().isEmpty()) {
                         while (this.layersActionBarLayout.getFragmentStack().size() - 1 > 0) {
                             ActionBarLayout actionBarLayout5 = this.layersActionBarLayout;
                             actionBarLayout5.removeFragmentFromStack(actionBarLayout5.getFragmentStack().get(0));
                         }
-                        this.layersActionBarLayout.closeLastFragment(!z2);
+                        this.layersActionBarLayout.closeLastFragment(!z3);
                     }
-                    if (!z5) {
-                        getActionBarLayout().presentFragment(navigationParams.setNoAnimation(z2).setCheckPresentFromDelegate(false));
+                    if (!z6) {
+                        getActionBarLayout().presentFragment(navigationParams.setNoAnimation(z3).setCheckPresentFromDelegate(false));
                     }
-                    return z5;
-                } else if (!z4 && iNavigationLayout != (actionBarLayout = this.rightActionBarLayout) && actionBarLayout != null) {
+                    return z6;
+                } else if (!z5 && iNavigationLayout != (actionBarLayout = this.rightActionBarLayout) && actionBarLayout != null) {
                     if (actionBarLayout.getView() != null) {
                         this.rightActionBarLayout.getView().setVisibility(0);
                     }
                     this.backgroundTablet.setVisibility(8);
                     this.rightActionBarLayout.removeAllFragments();
-                    this.rightActionBarLayout.presentFragment(navigationParams.setNoAnimation(true).setRemoveLast(z).setCheckPresentFromDelegate(false));
+                    this.rightActionBarLayout.presentFragment(navigationParams.setNoAnimation(true).setRemoveLast(z2).setCheckPresentFromDelegate(false));
                     if (!this.layersActionBarLayout.getFragmentStack().isEmpty()) {
                         while (this.layersActionBarLayout.getFragmentStack().size() - 1 > 0) {
                             ActionBarLayout actionBarLayout6 = this.layersActionBarLayout;
                             actionBarLayout6.removeFragmentFromStack(actionBarLayout6.getFragmentStack().get(0));
                         }
-                        this.layersActionBarLayout.closeLastFragment(!z2);
+                        this.layersActionBarLayout.closeLastFragment(!z3);
                     }
                     return false;
-                } else if (z4 && iNavigationLayout != this.actionBarLayout) {
-                    getActionBarLayout().presentFragment(navigationParams.setRemoveLast(this.actionBarLayout.getFragmentStack().size() > 1).setNoAnimation(z2).setCheckPresentFromDelegate(false));
+                } else if (z5 && iNavigationLayout != this.actionBarLayout) {
+                    getActionBarLayout().presentFragment(navigationParams.setRemoveLast(this.actionBarLayout.getFragmentStack().size() > 1).setNoAnimation(z3).setCheckPresentFromDelegate(false));
                     if (!this.layersActionBarLayout.getFragmentStack().isEmpty()) {
                         while (this.layersActionBarLayout.getFragmentStack().size() - 1 > 0) {
                             ActionBarLayout actionBarLayout7 = this.layersActionBarLayout;
                             actionBarLayout7.removeFragmentFromStack(actionBarLayout7.getFragmentStack().get(0));
                         }
-                        this.layersActionBarLayout.closeLastFragment(!z2);
+                        this.layersActionBarLayout.closeLastFragment(!z3);
                     }
                     return false;
                 } else {
@@ -14828,9 +15727,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             ActionBarLayout actionBarLayout9 = this.layersActionBarLayout;
                             actionBarLayout9.removeFragmentFromStack(actionBarLayout9.getFragmentStack().get(0));
                         }
-                        this.layersActionBarLayout.closeLastFragment(!z2);
+                        this.layersActionBarLayout.closeLastFragment(!z3);
                     }
-                    getActionBarLayout().presentFragment(navigationParams.setRemoveLast(this.actionBarLayout.getFragmentStack().size() > 1).setNoAnimation(z2).setCheckPresentFromDelegate(false));
+                    getActionBarLayout().presentFragment(navigationParams.setRemoveLast(this.actionBarLayout.getFragmentStack().size() > 1).setNoAnimation(z3).setCheckPresentFromDelegate(false));
                     return false;
                 }
             } else {
@@ -14849,31 +15748,53 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             i++;
                         }
                     }
-                    if (z3 && i == -1) {
+                    if (z4 && i == -1) {
                         this.backgroundTablet.setVisibility(0);
                         this.shadowTabletSide.setVisibility(8);
                         this.shadowTablet.setBackgroundColor(0);
                     } else {
                         this.shadowTablet.setBackgroundColor(2130706432);
                     }
-                    this.layersActionBarLayout.presentFragment(navigationParams.setRemoveLast(z).setNoAnimation(z2).setCheckPresentFromDelegate(false));
+                    this.layersActionBarLayout.presentFragment(navigationParams.setRemoveLast(z2).setNoAnimation(z3).setCheckPresentFromDelegate(false));
                     return false;
                 }
             }
         } else {
-            this.drawerLayoutContainer.setAllowOpenDrawer((baseFragment instanceof LoginActivity) || (baseFragment instanceof IntroActivity) || (baseFragment instanceof ProxyListActivity) || (baseFragment instanceof ProxySettingsActivity) ? !(mainFragmentsStack.size() == 0 || (mainFragmentsStack.get(0) instanceof IntroActivity) || (mainFragmentsStack.get(0) instanceof LoginActivity)) : !((baseFragment instanceof CountrySelectActivity) && mainFragmentsStack.size() == 1), false);
+            if ((baseFragment instanceof LoginActivity) || (baseFragment instanceof IntroActivity) || (baseFragment instanceof ProxyListActivity) || (baseFragment instanceof ProxySettingsActivity)) {
+                ArrayList<BaseFragment> arrayList = mainFragmentsStack;
+                if (arrayList.size() != 0) {
+                    if (!(arrayList.get(0) instanceof IntroActivity)) {
+                    }
+                }
+                z = false;
+            } else {
+                if (baseFragment instanceof CountrySelectActivity) {
+                }
+                z = true;
+            }
+            this.drawerLayoutContainer.setAllowOpenDrawer(z, false);
         }
         return true;
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:83:0x016b, code lost:
+        if (org.telegram.ui.LaunchActivity.mainFragmentsStack.size() == 1) goto L87;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:88:0x017c, code lost:
+        if ((r6.get(0) instanceof org.telegram.ui.IntroActivity) == false) goto L89;
+     */
     @Override // org.telegram.ui.ActionBar.INavigationLayout.INavigationLayoutDelegate
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public boolean needAddFragmentToStack(BaseFragment baseFragment, INavigationLayout iNavigationLayout) {
+        boolean z;
         ActionBarLayout actionBarLayout;
         ActionBarLayout actionBarLayout2;
         ActionBarLayout actionBarLayout3;
         if (AndroidUtilities.isTablet()) {
-            boolean z = baseFragment instanceof LoginActivity;
-            this.drawerLayoutContainer.setAllowOpenDrawer((z || (baseFragment instanceof IntroActivity) || (baseFragment instanceof CountrySelectActivity) || (baseFragment instanceof ProxyListActivity) || (baseFragment instanceof ProxySettingsActivity) || this.layersActionBarLayout.getView().getVisibility() == 0) ? false : true, true);
+            boolean z2 = baseFragment instanceof LoginActivity;
+            this.drawerLayoutContainer.setAllowOpenDrawer((z2 || (baseFragment instanceof IntroActivity) || (baseFragment instanceof CountrySelectActivity) || (baseFragment instanceof ProxyListActivity) || (baseFragment instanceof ProxySettingsActivity) || this.layersActionBarLayout.getView().getVisibility() == 0) ? false : true, true);
             if (baseFragment instanceof DialogsActivity) {
                 if (((DialogsActivity) baseFragment).isMainDialogList() && iNavigationLayout != (actionBarLayout3 = this.actionBarLayout)) {
                     actionBarLayout3.removeAllFragments();
@@ -14890,8 +15811,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     return false;
                 }
             } else if ((baseFragment instanceof ChatActivity) && !((ChatActivity) baseFragment).isInScheduleMode()) {
-                boolean z2 = this.tabletFullSize;
-                if (!z2 && iNavigationLayout != (actionBarLayout2 = this.rightActionBarLayout)) {
+                boolean z3 = this.tabletFullSize;
+                if (!z3 && iNavigationLayout != (actionBarLayout2 = this.rightActionBarLayout)) {
                     actionBarLayout2.getView().setVisibility(0);
                     this.backgroundTablet.setVisibility(8);
                     this.rightActionBarLayout.removeAllFragments();
@@ -14904,7 +15825,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         this.layersActionBarLayout.closeLastFragment(true);
                     }
                     return false;
-                } else if (z2 && iNavigationLayout != (actionBarLayout = this.actionBarLayout)) {
+                } else if (z3 && iNavigationLayout != (actionBarLayout = this.actionBarLayout)) {
                     actionBarLayout.addFragmentToStack(baseFragment);
                     if (!this.layersActionBarLayout.getFragmentStack().isEmpty()) {
                         while (this.layersActionBarLayout.getFragmentStack().size() - 1 > 0) {
@@ -14931,7 +15852,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             i++;
                         }
                     }
-                    if (z && i == -1) {
+                    if (z2 && i == -1) {
                         this.backgroundTablet.setVisibility(0);
                         this.shadowTabletSide.setVisibility(8);
                         this.shadowTablet.setBackgroundColor(0);
@@ -14943,7 +15864,17 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 }
             }
         } else {
-            this.drawerLayoutContainer.setAllowOpenDrawer((baseFragment instanceof LoginActivity) || (baseFragment instanceof IntroActivity) || (baseFragment instanceof ProxyListActivity) || (baseFragment instanceof ProxySettingsActivity) ? !(mainFragmentsStack.size() == 0 || (mainFragmentsStack.get(0) instanceof IntroActivity)) : !((baseFragment instanceof CountrySelectActivity) && mainFragmentsStack.size() == 1), false);
+            if ((baseFragment instanceof LoginActivity) || (baseFragment instanceof IntroActivity) || (baseFragment instanceof ProxyListActivity) || (baseFragment instanceof ProxySettingsActivity)) {
+                ArrayList<BaseFragment> arrayList = mainFragmentsStack;
+                if (arrayList.size() != 0) {
+                }
+                z = false;
+            } else {
+                if (baseFragment instanceof CountrySelectActivity) {
+                }
+                z = true;
+            }
+            this.drawerLayoutContainer.setAllowOpenDrawer(z, false);
         }
         return true;
     }
@@ -15035,17 +15966,20 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     public int getNavigationBarColor() {
+        int navigationBarColor;
         if (Build.VERSION.SDK_INT >= 26) {
             Window window = getWindow();
             if (this.customNavigationBar != null) {
                 return this.drawerLayoutContainer.getNavigationBarColor();
             }
-            return window.getNavigationBarColor();
+            navigationBarColor = window.getNavigationBarColor();
+            return navigationBarColor;
         }
         return 0;
     }
 
     public void setNavigationBarColor(int i, boolean z) {
+        int navigationBarColor;
         if (Build.VERSION.SDK_INT >= 26) {
             Window window = getWindow();
             if (this.customNavigationBar != null) {
@@ -15055,10 +15989,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         AndroidUtilities.setLightNavigationBar(window, AndroidUtilities.computePerceivedBrightness(i) >= 0.721f);
                     }
                 }
-            } else if (window.getNavigationBarColor() != i) {
-                window.setNavigationBarColor(i);
-                if (z) {
-                    AndroidUtilities.setLightNavigationBar(window, AndroidUtilities.computePerceivedBrightness(i) >= 0.721f);
+            } else {
+                navigationBarColor = window.getNavigationBarColor();
+                if (navigationBarColor != i) {
+                    window.setNavigationBarColor(i);
+                    if (z) {
+                        AndroidUtilities.setLightNavigationBar(window, AndroidUtilities.computePerceivedBrightness(i) >= 0.721f);
+                    }
                 }
             }
         }
@@ -15081,6 +16018,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     public void animateNavigationBarColor(final int i) {
+        ValueAnimator ofArgb;
         if (Build.VERSION.SDK_INT < 26) {
             return;
         }
@@ -15089,9 +16027,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             valueAnimator.cancel();
             this.navBarAnimator = null;
         }
-        ValueAnimator ofArgb = ValueAnimator.ofArgb(getNavigationBarColor(), i);
+        ofArgb = ValueAnimator.ofArgb(getNavigationBarColor(), i);
         this.navBarAnimator = ofArgb;
-        ofArgb.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda1
+        ofArgb.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda81
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                 LaunchActivity.this.lambda$animateNavigationBarColor$160(valueAnimator2);
@@ -15123,8 +16061,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         return AndroidUtilities.getLightNavigationBar(getWindow());
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0070  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x00e2  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0071  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x00e4  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -15229,7 +16167,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         TL_stories$TL_stories_getStoriesByID tL_stories$TL_stories_getStoriesByID = new TL_stories$TL_stories_getStoriesByID();
         tL_stories$TL_stories_getStoriesByID.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(clientUserId);
         tL_stories$TL_stories_getStoriesByID.id.add(Integer.valueOf(i));
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stories$TL_stories_getStoriesByID, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda122
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stories$TL_stories_getStoriesByID, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda78
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 LaunchActivity.this.lambda$openMyStory$162(i, clientUserId, z, tLObject, tLRPC$TL_error);
@@ -15239,7 +16177,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$openMyStory$162(final int i, final long j, final boolean z, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda82
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda106
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.this.lambda$openMyStory$161(tLObject, i, j, z);
@@ -15294,6 +16232,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     private void openStories(long[] jArr, boolean z) {
         boolean z2;
+        StoriesListPlaceProvider of;
         final long[] jArr2 = jArr;
         int i = 0;
         while (true) {
@@ -15338,7 +16277,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         if (!arrayList3.isEmpty() && z) {
             final MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
             final int[] iArr = {arrayList3.size()};
-            final Runnable runnable = new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda106
+            final Runnable runnable = new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda49
                 @Override // java.lang.Runnable
                 public final void run() {
                     LaunchActivity.this.lambda$openStories$163(iArr, jArr2);
@@ -15354,7 +16293,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 } else if (inputPeer == null) {
                     iArr[0] = iArr[0] - 1;
                 } else {
-                    ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stories$TL_stories_getPeerStories, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda119
+                    ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stories$TL_stories_getPeerStories, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda50
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                             LaunchActivity.lambda$openStories$165(MessagesController.this, longValue, runnable, tLObject, tLRPC$TL_error);
@@ -15374,21 +16313,24 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         if (arrayList2.isEmpty()) {
             return;
         }
-        StoriesListPlaceProvider storiesListPlaceProvider = null;
         if (lastFragment instanceof DialogsActivity) {
             try {
-                storiesListPlaceProvider = StoriesListPlaceProvider.of(((DialogsActivity) lastFragment).dialogStoriesCell.recyclerListView);
+                of = StoriesListPlaceProvider.of(((DialogsActivity) lastFragment).dialogStoriesCell.recyclerListView);
             } catch (Exception unused) {
             }
+            lastFragment.getOrCreateStoryViewer().instantClose();
+            lastFragment.getOrCreateStoryViewer().open(this, null, arrayList2, 0, null, null, of, false);
         }
+        of = null;
         lastFragment.getOrCreateStoryViewer().instantClose();
-        lastFragment.getOrCreateStoryViewer().open(this, null, arrayList2, 0, null, null, storiesListPlaceProvider, false);
+        lastFragment.getOrCreateStoryViewer().open(this, null, arrayList2, 0, null, null, of, false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$openStories$163(int[] iArr, long[] jArr) {
-        iArr[0] = iArr[0] - 1;
-        if (iArr[0] == 0) {
+        int i = iArr[0] - 1;
+        iArr[0] = i;
+        if (i == 0) {
             NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.storiesUpdated, new Object[0]);
             openStories(jArr, false);
         }
@@ -15396,7 +16338,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$openStories$165(final MessagesController messagesController, final long j, final Runnable runnable, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda43
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda91
             @Override // java.lang.Runnable
             public final void run() {
                 LaunchActivity.lambda$openStories$164(TLObject.this, messagesController, j, runnable);

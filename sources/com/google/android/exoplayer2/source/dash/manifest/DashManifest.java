@@ -55,16 +55,18 @@ public class DashManifest implements FilterableManifest<DashManifest> {
 
     public final long getPeriodDurationMs(int i) {
         long j;
+        long j2;
         if (i == this.periods.size() - 1) {
-            long j2 = this.durationMs;
-            if (j2 == -9223372036854775807L) {
+            j = this.durationMs;
+            if (j == -9223372036854775807L) {
                 return -9223372036854775807L;
             }
-            j = j2 - this.periods.get(i).startMs;
+            j2 = this.periods.get(i).startMs;
         } else {
-            j = this.periods.get(i + 1).startMs - this.periods.get(i).startMs;
+            j = this.periods.get(i + 1).startMs;
+            j2 = this.periods.get(i).startMs;
         }
-        return j;
+        return j - j2;
     }
 
     public final long getPeriodDurationUs(int i) {

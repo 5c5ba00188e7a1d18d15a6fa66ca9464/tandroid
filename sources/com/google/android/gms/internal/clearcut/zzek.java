@@ -5,11 +5,10 @@ import j$.util.function.Consumer;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-/* JADX INFO: Add missing generic type declarations: [V, K] */
 /* loaded from: classes.dex */
-final class zzek<K, V> implements Iterator<Map.Entry<K, V>>, j$.util.Iterator {
+final class zzek implements Iterator, j$.util.Iterator {
     private int pos;
-    private Iterator<Map.Entry<K, V>> zzor;
+    private Iterator zzor;
     private final /* synthetic */ zzei zzos;
 
     private zzek(zzei zzeiVar) {
@@ -24,7 +23,7 @@ final class zzek<K, V> implements Iterator<Map.Entry<K, V>>, j$.util.Iterator {
         this(zzeiVar);
     }
 
-    private final Iterator<Map.Entry<K, V>> zzdw() {
+    private final Iterator zzdw() {
         Map map;
         if (this.zzor == null) {
             map = this.zzos.zzop;
@@ -36,6 +35,11 @@ final class zzek<K, V> implements Iterator<Map.Entry<K, V>>, j$.util.Iterator {
     @Override // j$.util.Iterator
     public /* synthetic */ void forEachRemaining(Consumer consumer) {
         Iterator.-CC.$default$forEachRemaining(this, consumer);
+    }
+
+    @Override // java.util.Iterator
+    public /* synthetic */ void forEachRemaining(java.util.function.Consumer consumer) {
+        forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
     }
 
     @Override // java.util.Iterator, j$.util.Iterator
@@ -54,16 +58,16 @@ final class zzek<K, V> implements Iterator<Map.Entry<K, V>>, j$.util.Iterator {
     @Override // java.util.Iterator, j$.util.Iterator
     public final /* synthetic */ Object next() {
         List list;
-        Map.Entry<K, V> entry;
+        Object obj;
         if (zzdw().hasNext()) {
-            entry = zzdw().next();
+            obj = zzdw().next();
         } else {
             list = this.zzos.zzom;
             int i = this.pos - 1;
             this.pos = i;
-            entry = (Map.Entry<K, V>) list.get(i);
+            obj = list.get(i);
         }
-        return entry;
+        return (Map.Entry) obj;
     }
 
     @Override // java.util.Iterator, j$.util.Iterator

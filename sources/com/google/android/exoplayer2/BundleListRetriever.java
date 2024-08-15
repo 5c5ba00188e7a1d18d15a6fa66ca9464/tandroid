@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Parcel;
 import android.os.RemoteException;
+import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import com.google.common.collect.ImmutableList;
 import java.util.Collection;
@@ -39,5 +40,39 @@ public final class BundleListRetriever extends Binder {
         }
         parcel2.writeInt(readInt < size ? 2 : 0);
         return true;
+    }
+
+    public static ImmutableList<Bundle> getList(IBinder iBinder) {
+        int readInt;
+        ImmutableList.Builder builder = ImmutableList.builder();
+        int i = 1;
+        int i2 = 0;
+        while (i != 0) {
+            Parcel obtain = Parcel.obtain();
+            Parcel obtain2 = Parcel.obtain();
+            try {
+                obtain.writeInt(i2);
+                try {
+                    iBinder.transact(1, obtain, obtain2, 0);
+                    while (true) {
+                        readInt = obtain2.readInt();
+                        if (readInt == 1) {
+                            builder.add((ImmutableList.Builder) ((Bundle) Assertions.checkNotNull(obtain2.readBundle())));
+                            i2++;
+                        }
+                    }
+                    obtain2.recycle();
+                    obtain.recycle();
+                    i = readInt;
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+            } catch (Throwable th) {
+                obtain2.recycle();
+                obtain.recycle();
+                throw th;
+            }
+        }
+        return builder.build();
     }
 }

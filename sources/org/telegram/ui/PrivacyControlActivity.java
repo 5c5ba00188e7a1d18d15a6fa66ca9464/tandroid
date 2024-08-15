@@ -224,7 +224,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
 
     @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
     public void didUploadPhoto(final TLRPC$InputFile tLRPC$InputFile, final TLRPC$InputFile tLRPC$InputFile2, final double d, String str, final TLRPC$PhotoSize tLRPC$PhotoSize, final TLRPC$PhotoSize tLRPC$PhotoSize2, boolean z, final TLRPC$VideoSize tLRPC$VideoSize) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda8
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 PrivacyControlActivity.this.lambda$didUploadPhoto$2(tLRPC$PhotoSize2, tLRPC$InputFile, tLRPC$InputFile2, d, tLRPC$VideoSize, tLRPC$PhotoSize);
@@ -245,10 +245,8 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
             }
             if (tLRPC$InputFile2 != null) {
                 tLRPC$TL_photos_uploadProfilePhoto.video = tLRPC$InputFile2;
-                int i = tLRPC$TL_photos_uploadProfilePhoto.flags | 2;
-                tLRPC$TL_photos_uploadProfilePhoto.flags = i;
                 tLRPC$TL_photos_uploadProfilePhoto.video_start_ts = d;
-                tLRPC$TL_photos_uploadProfilePhoto.flags = i | 4;
+                tLRPC$TL_photos_uploadProfilePhoto.flags = tLRPC$TL_photos_uploadProfilePhoto.flags | 2 | 4;
             }
             if (tLRPC$VideoSize != null) {
                 tLRPC$TL_photos_uploadProfilePhoto.video_emoji_markup = tLRPC$VideoSize;
@@ -256,7 +254,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
             }
             tLRPC$TL_photos_uploadProfilePhoto.fallback = true;
             tLRPC$TL_photos_uploadProfilePhoto.flags |= 8;
-            getConnectionsManager().sendRequest(tLRPC$TL_photos_uploadProfilePhoto, new RequestDelegate() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda15
+            getConnectionsManager().sendRequest(tLRPC$TL_photos_uploadProfilePhoto, new RequestDelegate() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda4
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     PrivacyControlActivity.this.lambda$didUploadPhoto$1(tLObject, tLRPC$TL_error);
@@ -277,7 +275,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$didUploadPhoto$1(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda7
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda16
             @Override // java.lang.Runnable
             public final void run() {
                 PrivacyControlActivity.this.lambda$didUploadPhoto$0(tLObject);
@@ -338,6 +336,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
         private BackgroundGradientDrawable.Disposable backgroundGradientDisposable;
         private ChatMessageCell cell;
         private HintView hintView;
+        private final Runnable invalidateRunnable;
         private MessageObject messageObject;
         private Drawable shadowDrawable;
 
@@ -360,9 +359,9 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
             return false;
         }
 
-        public MessageCell(PrivacyControlActivity privacyControlActivity, Context context) {
+        public MessageCell(Context context) {
             super(context);
-            new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$MessageCell$$ExternalSyntheticLambda0
+            this.invalidateRunnable = new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$MessageCell$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     PrivacyControlActivity.MessageCell.this.invalidate();
@@ -372,7 +371,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
             setClipToPadding(false);
             this.shadowDrawable = Theme.getThemedDrawableByKey(context, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow);
             setPadding(0, AndroidUtilities.dp(11.0f), 0, AndroidUtilities.dp(11.0f));
-            TLRPC$User user = MessagesController.getInstance(((BaseFragment) privacyControlActivity).currentAccount).getUser(Long.valueOf(UserConfig.getInstance(((BaseFragment) privacyControlActivity).currentAccount).getClientUserId()));
+            TLRPC$User user = MessagesController.getInstance(((BaseFragment) PrivacyControlActivity.this).currentAccount).getUser(Long.valueOf(UserConfig.getInstance(((BaseFragment) PrivacyControlActivity.this).currentAccount).getClientUserId()));
             TLRPC$TL_message tLRPC$TL_message = new TLRPC$TL_message();
             tLRPC$TL_message.message = LocaleController.getString("PrivacyForwardsMessageLine", R.string.PrivacyForwardsMessageLine);
             tLRPC$TL_message.date = (((int) (System.currentTimeMillis() / 1000)) - 3600) + 60;
@@ -387,14 +386,14 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
             tLRPC$TL_message.out = false;
             TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
             tLRPC$TL_message.peer_id = tLRPC$TL_peerUser;
-            tLRPC$TL_peerUser.user_id = UserConfig.getInstance(((BaseFragment) privacyControlActivity).currentAccount).getClientUserId();
-            MessageObject messageObject = new MessageObject(((BaseFragment) privacyControlActivity).currentAccount, tLRPC$TL_message, true, false);
+            tLRPC$TL_peerUser.user_id = UserConfig.getInstance(((BaseFragment) PrivacyControlActivity.this).currentAccount).getClientUserId();
+            MessageObject messageObject = new MessageObject(((BaseFragment) PrivacyControlActivity.this).currentAccount, tLRPC$TL_message, true, false);
             this.messageObject = messageObject;
             messageObject.eventId = 1L;
             messageObject.resetLayout();
-            ChatMessageCell chatMessageCell = new ChatMessageCell(context, ((BaseFragment) privacyControlActivity).currentAccount);
+            ChatMessageCell chatMessageCell = new ChatMessageCell(context, ((BaseFragment) PrivacyControlActivity.this).currentAccount);
             this.cell = chatMessageCell;
-            chatMessageCell.setDelegate(new ChatMessageCell.ChatMessageCellDelegate(this, privacyControlActivity) { // from class: org.telegram.ui.PrivacyControlActivity.MessageCell.1
+            chatMessageCell.setDelegate(new ChatMessageCell.ChatMessageCellDelegate() { // from class: org.telegram.ui.PrivacyControlActivity.MessageCell.1
                 @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                 public /* synthetic */ boolean canDrawOutboundsContent() {
                     return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$canDrawOutboundsContent(this);
@@ -875,7 +874,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
         if (this.rulesType == 5) {
-            this.messageCell = new MessageCell(this, context);
+            this.messageCell = new MessageCell(context);
         }
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setAllowOverlayTitle(true);
@@ -924,8 +923,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
         this.listAdapter = new ListAdapter(context);
         FrameLayout frameLayout = new FrameLayout(context);
         this.fragmentView = frameLayout;
-        FrameLayout frameLayout2 = frameLayout;
-        frameLayout2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
+        frameLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
         RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.PrivacyControlActivity.2
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
@@ -938,9 +936,9 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
         recyclerListView.setLayoutManager(new LinearLayoutManager(context, 1, false));
         this.listView.setVerticalScrollBarEnabled(false);
         ((DefaultItemAnimator) this.listView.getItemAnimator()).setDelayAnimations(false);
-        frameLayout2.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
+        frameLayout.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
         this.listView.setAdapter(this.listAdapter);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda19
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i2) {
                 PrivacyControlActivity.this.lambda$createView$9(view, i2);
@@ -966,7 +964,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
     public /* synthetic */ void lambda$createView$9(View view, final int i) {
         ArrayList<Long> arrayList;
         if (i == this.currentPhotoForRestRow) {
-            AlertDialog create = AlertsCreator.createSimpleAlert(getContext(), LocaleController.getString("RemovePublicPhoto", R.string.RemovePublicPhoto), LocaleController.getString("RemovePhotoForRestDescription", R.string.RemovePhotoForRestDescription), LocaleController.getString("Remove", R.string.Remove), new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda4
+            AlertDialog create = AlertsCreator.createSimpleAlert(getContext(), LocaleController.getString("RemovePublicPhoto", R.string.RemovePublicPhoto), LocaleController.getString("RemovePhotoForRestDescription", R.string.RemovePhotoForRestDescription), LocaleController.getString("Remove", R.string.Remove), new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
                     PrivacyControlActivity.this.lambda$createView$3();
@@ -982,12 +980,12 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
         if (i == this.photoForRestRow) {
             ImageUpdater imageUpdater = this.imageUpdater;
             if (imageUpdater != null) {
-                imageUpdater.openMenu(false, new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda13
+                imageUpdater.openMenu(false, new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda7
                     @Override // java.lang.Runnable
                     public final void run() {
                         PrivacyControlActivity.lambda$createView$4();
                     }
-                }, new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda3
+                }, new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda8
                     @Override // android.content.DialogInterface.OnDismissListener
                     public final void onDismiss(DialogInterface dialogInterface) {
                         PrivacyControlActivity.this.lambda$createView$5(dialogInterface);
@@ -998,7 +996,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                 this.setAvatarCell.imageView.playAnimation();
             }
         } else if (this.rulesType == 10 && i == this.myContactsRow && !getMessagesController().newNoncontactPeersRequirePremiumWithoutOwnpremium && !getUserConfig().isPremium()) {
-            BulletinFactory.of(this).createSimpleBulletin(R.raw.star_premium_2, LocaleController.getString(R.string.OptionPremiumRequiredTitle), AndroidUtilities.replaceTags(LocaleController.getString(R.string.OptionPremiumRequiredMessage)), LocaleController.getString(R.string.OptionPremiumRequiredButton), new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda6
+            BulletinFactory.of(this).createSimpleBulletin(R.raw.star_premium_2, LocaleController.getString(R.string.OptionPremiumRequiredTitle), AndroidUtilities.replaceTags(LocaleController.getString(R.string.OptionPremiumRequiredMessage)), LocaleController.getString(R.string.OptionPremiumRequiredButton), new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda9
                 @Override // java.lang.Runnable
                 public final void run() {
                     PrivacyControlActivity.this.lambda$createView$6();
@@ -1009,7 +1007,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
             this.shakeDp = i3;
             AndroidUtilities.shakeViewSpring(view, i3);
         } else if (this.rulesType == 8 && ((i == this.myContactsRow || i == this.nobodyRow) && !getUserConfig().isPremium())) {
-            BulletinFactory.of(this).createSimpleBulletin(R.raw.star_premium_2, LocaleController.getString(R.string.OptionPremiumRequiredTitle), AndroidUtilities.replaceTags(LocaleController.getString(R.string.OptionPremiumRequiredMessage)), LocaleController.getString(R.string.OptionPremiumRequiredButton), new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda5
+            BulletinFactory.of(this).createSimpleBulletin(R.raw.star_premium_2, LocaleController.getString(R.string.OptionPremiumRequiredTitle), AndroidUtilities.replaceTags(LocaleController.getString(R.string.OptionPremiumRequiredMessage)), LocaleController.getString(R.string.OptionPremiumRequiredButton), new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda10
                 @Override // java.lang.Runnable
                 public final void run() {
                     PrivacyControlActivity.this.lambda$createView$7();
@@ -1063,7 +1061,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                         }
                     }
                     groupCreateActivity.select(arrayList, z);
-                    groupCreateActivity.setDelegate(new GroupCreateActivity.GroupCreateActivityDelegate() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda20
+                    groupCreateActivity.setDelegate(new GroupCreateActivity.GroupCreateActivityDelegate() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda11
                         @Override // org.telegram.ui.GroupCreateActivity.GroupCreateActivityDelegate
                         public final void didSelectUsers(boolean z2, ArrayList arrayList2) {
                             PrivacyControlActivity.this.lambda$createView$8(i, z2, arrayList2);
@@ -1170,6 +1168,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
     }
 
     private void applyCurrentPrivacySettings() {
+        final AlertDialog alertDialog;
         TLRPC$InputUser inputUser;
         TLRPC$InputUser inputUser2;
         if (this.rulesType == 10) {
@@ -1184,7 +1183,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                 tLRPC$TL_globalPrivacySettings.hide_read_marks = globalPrivacySettings.hide_read_marks;
             }
             tLRPC$TL_account_setGlobalPrivacySettings.settings.new_noncontact_peers_require_premium = this.currentType == 2;
-            getConnectionsManager().sendRequest(tLRPC$TL_account_setGlobalPrivacySettings, new RequestDelegate() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda17
+            getConnectionsManager().sendRequest(tLRPC$TL_account_setGlobalPrivacySettings, new RequestDelegate() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda12
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     PrivacyControlActivity.this.lambda$applyCurrentPrivacySettings$11(globalPrivacySettings, tLRPC$TL_account_setGlobalPrivacySettings, tLObject, tLRPC$TL_error);
@@ -1204,7 +1203,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                 } else {
                     tLRPC$TL_account_setPrivacy2.rules.add(new TLRPC$TL_inputPrivacyValueAllowContacts());
                 }
-                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_setPrivacy2, new RequestDelegate() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda14
+                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_setPrivacy2, new RequestDelegate() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda13
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         PrivacyControlActivity.this.lambda$applyCurrentPrivacySettings$13(tLObject, tLRPC$TL_error);
@@ -1278,13 +1277,14 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                 tLRPC$TL_account_setPrivacy.rules.add(new TLRPC$TL_inputPrivacyValueAllowPremium());
             }
         }
-        final AlertDialog alertDialog = null;
         if (getParentActivity() != null) {
             alertDialog = new AlertDialog(getParentActivity(), 3);
             alertDialog.setCanCancel(false);
             alertDialog.show();
+        } else {
+            alertDialog = null;
         }
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_setPrivacy, new RequestDelegate() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda18
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_setPrivacy, new RequestDelegate() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda14
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 PrivacyControlActivity.this.lambda$applyCurrentPrivacySettings$15(alertDialog, tLObject, tLRPC$TL_error);
@@ -1302,7 +1302,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
         tLRPC$TL_globalPrivacySettings2.keep_archived_unmuted = globalPrivacySettings2.keep_archived_unmuted;
         tLRPC$TL_globalPrivacySettings2.new_noncontact_peers_require_premium = globalPrivacySettings2.new_noncontact_peers_require_premium;
         tLRPC$TL_globalPrivacySettings2.hide_read_marks = this.selectedReadValue;
-        getConnectionsManager().sendRequest(tLRPC$TL_account_setGlobalPrivacySettings2, new RequestDelegate() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda16
+        getConnectionsManager().sendRequest(tLRPC$TL_account_setGlobalPrivacySettings2, new RequestDelegate() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda15
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 PrivacyControlActivity.this.lambda$applyCurrentPrivacySettings$17(globalPrivacySettings2, tLRPC$TL_account_setGlobalPrivacySettings2, tLObject, tLRPC$TL_error);
@@ -1312,7 +1312,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$applyCurrentPrivacySettings$11(final TLRPC$TL_globalPrivacySettings tLRPC$TL_globalPrivacySettings, final TLRPC$TL_account_setGlobalPrivacySettings tLRPC$TL_account_setGlobalPrivacySettings, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda10
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda19
             @Override // java.lang.Runnable
             public final void run() {
                 PrivacyControlActivity.this.lambda$applyCurrentPrivacySettings$10(tLRPC$TL_error, tLRPC$TL_globalPrivacySettings, tLRPC$TL_account_setGlobalPrivacySettings);
@@ -1335,7 +1335,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$applyCurrentPrivacySettings$13(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda9
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda17
             @Override // java.lang.Runnable
             public final void run() {
                 PrivacyControlActivity.this.lambda$applyCurrentPrivacySettings$12(tLRPC$TL_error, tLObject);
@@ -1352,7 +1352,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$applyCurrentPrivacySettings$15(final AlertDialog alertDialog, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda12
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda20
             @Override // java.lang.Runnable
             public final void run() {
                 PrivacyControlActivity.this.lambda$applyCurrentPrivacySettings$14(alertDialog, tLRPC$TL_error, tLObject);
@@ -1382,7 +1382,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$applyCurrentPrivacySettings$17(final TLRPC$TL_globalPrivacySettings tLRPC$TL_globalPrivacySettings, final TLRPC$TL_account_setGlobalPrivacySettings tLRPC$TL_account_setGlobalPrivacySettings, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda11
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda18
             @Override // java.lang.Runnable
             public final void run() {
                 PrivacyControlActivity.this.lambda$applyCurrentPrivacySettings$16(tLRPC$TL_globalPrivacySettings, tLRPC$TL_account_setGlobalPrivacySettings);
@@ -1618,10 +1618,8 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
         }
         int i6 = this.rowCount;
         int i7 = i6 + 1;
-        this.rowCount = i7;
         this.sectionRow = i6;
         int i8 = i7 + 1;
-        this.rowCount = i8;
         this.everybodyRow = i7;
         int i9 = i8 + 1;
         this.rowCount = i9;
@@ -1633,13 +1631,10 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
         if (i4 == 6 && this.currentType == 1) {
             int i10 = this.rowCount;
             int i11 = i10 + 1;
-            this.rowCount = i11;
             this.phoneDetailRow = i10;
             int i12 = i11 + 1;
-            this.rowCount = i12;
             this.phoneSectionRow = i11;
             int i13 = i12 + 1;
-            this.rowCount = i13;
             this.phoneEverybodyRow = i12;
             this.rowCount = i13 + 1;
             this.phoneContactsRow = i13;
@@ -1669,10 +1664,8 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
             int i21 = this.rulesType;
             if (i21 == 2) {
                 int i22 = i20 + 1;
-                this.rowCount = i22;
                 this.p2pSectionRow = i20;
                 int i23 = i22 + 1;
-                this.rowCount = i23;
                 this.p2pRow = i22;
                 this.rowCount = i23 + 1;
                 this.p2pDetailRow = i23;
@@ -1693,7 +1686,6 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
             if (this.rulesType == 0 && (this.currentType != 0 || ((arrayList = this.currentMinus) != null && !arrayList.isEmpty()))) {
                 int i27 = this.rowCount;
                 int i28 = i27 + 1;
-                this.rowCount = i28;
                 this.readRow = i27;
                 this.rowCount = i28 + 1;
                 this.readDetailRow = i28;
@@ -1701,7 +1693,6 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
             if (this.rulesType == 0 && !getMessagesController().premiumFeaturesBlocked()) {
                 int i29 = this.rowCount;
                 int i30 = i29 + 1;
-                this.rowCount = i30;
                 this.readPremiumRow = i29;
                 this.rowCount = i30 + 1;
                 this.readPremiumDetailRow = i30;
@@ -1797,7 +1788,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                     builder.setMessage(LocaleController.getString("CustomHelp", R.string.CustomHelp));
                 }
                 builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
-                builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda2
+                builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda5
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i) {
                         PrivacyControlActivity.this.lambda$processDone$18(globalMainSettings, dialogInterface, i);
@@ -1823,13 +1814,13 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
             builder.setTitle(LocaleController.getString("UserRestrictionsApplyChanges", R.string.UserRestrictionsApplyChanges));
             builder.setMessage(LocaleController.getString("PrivacySettingsChangedAlert", R.string.PrivacySettingsChangedAlert));
-            builder.setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda0
+            builder.setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda1
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
                     PrivacyControlActivity.this.lambda$checkDiscard$19(dialogInterface, i);
                 }
             });
-            builder.setNegativeButton(LocaleController.getString("PassportDiscard", R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda1
+            builder.setNegativeButton(LocaleController.getString("PassportDiscard", R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda2
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
                     PrivacyControlActivity.this.lambda$checkDiscard$20(dialogInterface, i);
@@ -2158,7 +2149,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                                 i2 = R.drawable.greydivider_bottom;
                             }
                         } else {
-                            textInfoPrivacyCell.setText(AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.PrivacyBirthdaySet), new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$ListAdapter$$ExternalSyntheticLambda0
+                            textInfoPrivacyCell.setText(AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.PrivacyBirthdaySet), new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$ListAdapter$$ExternalSyntheticLambda1
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     PrivacyControlActivity.ListAdapter.this.lambda$onBindViewHolder$4();
@@ -2175,7 +2166,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                         }
                     }
                 } else {
-                    textInfoPrivacyCell.setText(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.PrivacyMessagesInfo), new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$ListAdapter$$ExternalSyntheticLambda1
+                    textInfoPrivacyCell.setText(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.PrivacyMessagesInfo), new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$ListAdapter$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
                         public final void run() {
                             PrivacyControlActivity.ListAdapter.this.lambda$onBindViewHolder$0();
@@ -2300,7 +2291,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onBindViewHolder$4() {
             PrivacyControlActivity privacyControlActivity = PrivacyControlActivity.this;
-            privacyControlActivity.showDialog(AlertsCreator.createBirthdayPickerDialog(privacyControlActivity.getContext(), LocaleController.getString(R.string.EditProfileBirthdayTitle), LocaleController.getString(R.string.EditProfileBirthdayButton), null, new Utilities.Callback() { // from class: org.telegram.ui.PrivacyControlActivity$ListAdapter$$ExternalSyntheticLambda3
+            privacyControlActivity.showDialog(AlertsCreator.createBirthdayPickerDialog(privacyControlActivity.getContext(), LocaleController.getString(R.string.EditProfileBirthdayTitle), LocaleController.getString(R.string.EditProfileBirthdayButton), null, new Utilities.Callback() { // from class: org.telegram.ui.PrivacyControlActivity$ListAdapter$$ExternalSyntheticLambda2
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     PrivacyControlActivity.ListAdapter.this.lambda$onBindViewHolder$3((TLRPC$TL_birthday) obj);
@@ -2321,7 +2312,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                 PrivacyControlActivity.this.getMessagesStorage().updateUserInfo(userFull, false);
             }
             PrivacyControlActivity.this.getMessagesController().invalidateContentSettings();
-            PrivacyControlActivity.this.getConnectionsManager().sendRequest(tLRPC$TL_account_updateBirthday, new RequestDelegate() { // from class: org.telegram.ui.PrivacyControlActivity$ListAdapter$$ExternalSyntheticLambda4
+            PrivacyControlActivity.this.getConnectionsManager().sendRequest(tLRPC$TL_account_updateBirthday, new RequestDelegate() { // from class: org.telegram.ui.PrivacyControlActivity$ListAdapter$$ExternalSyntheticLambda3
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     PrivacyControlActivity.ListAdapter.this.lambda$onBindViewHolder$2(userFull, tLRPC$TL_birthday2, tLObject, tLRPC$TL_error);
@@ -2334,7 +2325,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onBindViewHolder$2(final TLRPC$UserFull tLRPC$UserFull, final TLRPC$TL_birthday tLRPC$TL_birthday, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$ListAdapter$$ExternalSyntheticLambda2
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PrivacyControlActivity$ListAdapter$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
                     PrivacyControlActivity.ListAdapter.this.lambda$onBindViewHolder$1(tLObject, tLRPC$UserFull, tLRPC$TL_birthday, tLRPC$TL_error);

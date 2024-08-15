@@ -20,7 +20,7 @@ import org.telegram.ui.Components.UItem;
 import org.telegram.ui.Components.UniversalAdapter;
 import org.telegram.ui.Components.UniversalRecyclerView;
 import org.telegram.ui.bots.BotBiometry;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class BotBiometrySettings extends BaseFragment {
     private final ArrayList<BotBiometry.Bot> biometryBots = new ArrayList<>();
     private final HashMap<BotBiometry.Bot, SpannableStringBuilder> botName = new HashMap<>();

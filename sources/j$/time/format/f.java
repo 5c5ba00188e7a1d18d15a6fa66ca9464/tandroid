@@ -10,15 +10,16 @@ public final class f implements h {
     }
 
     @Override // j$.time.format.h
-    public boolean a(t tVar, StringBuilder sb) {
+    public final boolean a(t tVar, StringBuilder sb) {
         sb.append(this.a);
         return true;
     }
 
-    public String toString() {
-        if (this.a == '\'') {
+    public final String toString() {
+        char c = this.a;
+        if (c == '\'') {
             return "''";
         }
-        return "'" + this.a + "'";
+        return "'" + c + "'";
     }
 }

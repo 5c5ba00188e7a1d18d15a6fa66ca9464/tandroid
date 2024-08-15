@@ -71,6 +71,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
     private boolean drawCheck;
     private boolean drawCount;
     private boolean drawNameLock;
+    private boolean drawPremium;
     private TLRPC$EncryptedChat encryptedChat;
     private boolean[] isOnline;
     private TLRPC$FileLocation lastAvatar;
@@ -259,6 +260,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
         String removeDiacritics;
         this.drawNameLock = false;
         this.drawCheck = false;
+        this.drawPremium = false;
         if (this.encryptedChat != null) {
             this.drawNameLock = true;
             this.dialog_id = DialogObject.makeEncryptedDialogId(tLRPC$EncryptedChat.id);
@@ -293,9 +295,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
                     }
                     this.nameLockTop = AndroidUtilities.dp(21.0f);
                     this.drawCheck = this.user.verified;
-                    if (!this.savedMessages) {
-                        MessagesController.getInstance(this.currentAccount).isPremiumUser(this.user);
-                    }
+                    this.drawPremium = !this.savedMessages && MessagesController.getInstance(this.currentAccount).isPremiumUser(this.user);
                     updateStatus(this.drawCheck, this.user, null, false);
                 } else if (this.contact != null) {
                     this.dialog_id = 0L;
@@ -608,8 +608,8 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
         TLRPC$FileLocation tLRPC$FileLocation;
         Drawable drawable2;
         TLRPC$User tLRPC$User3 = this.user;
-        TLRPC$FileLocation tLRPC$FileLocation2 = null;
         boolean z = true;
+        TLRPC$FileLocation tLRPC$FileLocation2 = null;
         if (tLRPC$User3 != null) {
             this.avatarDrawable.setInfo(this.currentAccount, tLRPC$User3);
             if (UserObject.isReplyUser(this.user)) {
@@ -727,10 +727,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
             return;
         }
         if (this.useSeparator) {
-            Paint paint = null;
-            if (this.customPaints && (resourcesProvider = this.resourcesProvider) != null) {
-                paint = resourcesProvider.getPaint("paintDivider");
-            }
+            Paint paint = (!this.customPaints || (resourcesProvider = this.resourcesProvider) == null) ? null : resourcesProvider.getPaint("paintDivider");
             if (paint == null) {
                 paint = Theme.dividerPaint;
             }

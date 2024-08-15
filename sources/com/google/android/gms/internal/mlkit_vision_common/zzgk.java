@@ -8,20 +8,23 @@ import java.io.IOException;
 /* loaded from: classes.dex */
 final class zzgk implements ObjectEncoder {
     static final zzgk zza = new zzgk();
+    private static final FieldDescriptor zzb;
+    private static final FieldDescriptor zzc;
+    private static final FieldDescriptor zzd;
 
     static {
         FieldDescriptor.Builder builder = FieldDescriptor.builder("languageOption");
         zzae zzaeVar = new zzae();
         zzaeVar.zza(3);
-        builder.withProperty(zzaeVar.zzb()).build();
+        zzb = builder.withProperty(zzaeVar.zzb()).build();
         FieldDescriptor.Builder builder2 = FieldDescriptor.builder("isUsingLegacyApi");
         zzae zzaeVar2 = new zzae();
         zzaeVar2.zza(4);
-        builder2.withProperty(zzaeVar2.zzb()).build();
+        zzc = builder2.withProperty(zzaeVar2.zzb()).build();
         FieldDescriptor.Builder builder3 = FieldDescriptor.builder("sdkVersion");
         zzae zzaeVar3 = new zzae();
         zzaeVar3.zza(5);
-        builder3.withProperty(zzaeVar3.zzb()).build();
+        zzd = builder3.withProperty(zzaeVar3.zzb()).build();
     }
 
     private zzgk() {

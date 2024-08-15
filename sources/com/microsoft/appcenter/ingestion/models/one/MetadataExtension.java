@@ -31,7 +31,7 @@ public class MetadataExtension implements Model {
         if (this == obj) {
             return true;
         }
-        if (obj == null || MetadataExtension.class != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         return this.mMetadata.toString().equals(((MetadataExtension) obj).mMetadata.toString());

@@ -126,9 +126,9 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
     }
 
     private static FrameAndTickRate parseFrameAndTickRates(XmlPullParser xmlPullParser) throws SubtitleDecoderException {
+        float f;
         String attributeValue = xmlPullParser.getAttributeValue("http://www.w3.org/ns/ttml#parameter", "frameRate");
         int parseInt = attributeValue != null ? Integer.parseInt(attributeValue) : 30;
-        float f = 1.0f;
         String attributeValue2 = xmlPullParser.getAttributeValue("http://www.w3.org/ns/ttml#parameter", "frameRateMultiplier");
         if (attributeValue2 != null) {
             String[] split = Util.split(attributeValue2, " ");
@@ -136,6 +136,8 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
                 throw new SubtitleDecoderException("frameRateMultiplier doesn't have 2 parts");
             }
             f = Integer.parseInt(split[0]) / Integer.parseInt(split[1]);
+        } else {
+            f = 1.0f;
         }
         FrameAndTickRate frameAndTickRate = DEFAULT_FRAME_AND_TICK_RATE;
         int i = frameAndTickRate.subFrameRate;
@@ -230,10 +232,10 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:59:0x01a8, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:59:0x01ad, code lost:
         if (r0.equals("tb") == false) goto L40;
      */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x017b  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x017d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -242,6 +244,7 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
         float f;
         float parseFloat2;
         float parseFloat3;
+        CellResolution cellResolution2;
         float f2;
         int i;
         String attributeValue;
@@ -318,13 +321,15 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
                     String lowerCase = Ascii.toLowerCase(attributeValue5);
                     lowerCase.hashCode();
                     if (lowerCase.equals("center")) {
+                        cellResolution2 = cellResolution;
                         f2 = parseFloat + (parseFloat3 / 2.0f);
                         i = 1;
                     } else if (lowerCase.equals("after")) {
+                        cellResolution2 = cellResolution;
                         f2 = parseFloat + parseFloat3;
                         i = 2;
                     }
-                    float f4 = 1.0f / cellResolution.rows;
+                    float f4 = 1.0f / cellResolution2.rows;
                     attributeValue = XmlPullParserUtil.getAttributeValue(xmlPullParser, "writingMode");
                     if (attributeValue != null) {
                         String lowerCase2 = Ascii.toLowerCase(attributeValue);
@@ -364,9 +369,10 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
                     i2 = Integer.MIN_VALUE;
                     return new TtmlRegion(attributeValue2, f, f2, 0, i, parseFloat2, parseFloat3, 1, f4, i2);
                 }
+                cellResolution2 = cellResolution;
                 f2 = parseFloat;
                 i = 0;
-                float f42 = 1.0f / cellResolution.rows;
+                float f42 = 1.0f / cellResolution2.rows;
                 attributeValue = XmlPullParserUtil.getAttributeValue(xmlPullParser, "writingMode");
                 if (attributeValue != null) {
                 }
@@ -386,7 +392,7 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:102:0x01e0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:102:0x01e5, code lost:
         if (r3.equals("text") == false) goto L49;
      */
     /*
@@ -761,12 +767,12 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
         char c;
         int attributeCount = xmlPullParser.getAttributeCount();
         TtmlStyle parseStyleAttributes = parseStyleAttributes(xmlPullParser, null);
+        String[] strArr = null;
         String str = null;
         String str2 = "";
         long j3 = -9223372036854775807L;
         long j4 = -9223372036854775807L;
         long j5 = -9223372036854775807L;
-        String[] strArr = null;
         for (int i = 0; i < attributeCount; i++) {
             String attributeName = xmlPullParser.getAttributeName(i);
             String attributeValue = xmlPullParser.getAttributeValue(i);
@@ -1073,9 +1079,11 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class CellResolution {
+        final int columns;
         final int rows;
 
         CellResolution(int i, int i2) {
+            this.columns = i;
             this.rows = i2;
         }
     }

@@ -9,9 +9,9 @@ public final class zzao implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
     public final /* bridge */ /* synthetic */ Object createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
+        int i = 0;
         String str = null;
         String str2 = null;
-        int i = 0;
         while (parcel.dataPosition() < validateObjectHeader) {
             int readHeader = SafeParcelReader.readHeader(parcel);
             int fieldId = SafeParcelReader.getFieldId(readHeader);

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.util.Log;
 import android.view.ActionProvider;
 import android.view.CollapsibleActionView;
@@ -259,17 +258,12 @@ public class MenuItemWrapperICS extends BaseMenuWrapper implements MenuItem {
 
     @Override // android.view.MenuItem
     public MenuItem setActionProvider(ActionProvider actionProvider) {
-        androidx.core.view.ActionProvider actionProviderWrapper;
-        if (Build.VERSION.SDK_INT >= 16) {
-            actionProviderWrapper = new ActionProviderWrapperJB(this, this.mContext, actionProvider);
-        } else {
-            actionProviderWrapper = new ActionProviderWrapper(this.mContext, actionProvider);
-        }
+        ActionProviderWrapperJB actionProviderWrapperJB = new ActionProviderWrapperJB(this.mContext, actionProvider);
         SupportMenuItem supportMenuItem = this.mWrappedObject;
         if (actionProvider == null) {
-            actionProviderWrapper = null;
+            actionProviderWrapperJB = null;
         }
-        supportMenuItem.setSupportActionProvider(actionProviderWrapper);
+        supportMenuItem.setSupportActionProvider(actionProviderWrapperJB);
         return this;
     }
 
@@ -425,7 +419,7 @@ public class MenuItemWrapperICS extends BaseMenuWrapper implements MenuItem {
     private class ActionProviderWrapperJB extends ActionProviderWrapper implements ActionProvider.VisibilityListener {
         private ActionProvider.VisibilityListener mListener;
 
-        ActionProviderWrapperJB(MenuItemWrapperICS menuItemWrapperICS, Context context, android.view.ActionProvider actionProvider) {
+        ActionProviderWrapperJB(Context context, android.view.ActionProvider actionProvider) {
             super(context, actionProvider);
         }
 

@@ -216,6 +216,11 @@ public abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K,
                 Iterator.-CC.$default$forEachRemaining(this, consumer);
             }
 
+            @Override // java.util.Iterator
+            public /* synthetic */ void forEachRemaining(java.util.function.Consumer consumer) {
+                forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
+            }
+
             WrappedIterator() {
                 Collection<V> collection = WrappedCollection.this.delegate;
                 this.originalDelegate = collection;
@@ -541,6 +546,11 @@ public abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K,
                 Iterator.-CC.$default$forEachRemaining(this, consumer);
             }
 
+            @Override // java.util.Iterator
+            public /* synthetic */ void forEachRemaining(java.util.function.Consumer consumer) {
+                forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
+            }
+
             1(java.util.Iterator it) {
                 this.val$entryIterator = it;
             }
@@ -763,6 +773,11 @@ public abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K,
             Iterator.-CC.$default$forEachRemaining(this, consumer);
         }
 
+        @Override // java.util.Iterator
+        public /* synthetic */ void forEachRemaining(java.util.function.Consumer consumer) {
+            forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
+        }
+
         abstract T output(K k, V v);
 
         Itr() {
@@ -975,6 +990,11 @@ public abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K,
             @Override // j$.util.Iterator
             public /* synthetic */ void forEachRemaining(Consumer consumer) {
                 Iterator.-CC.$default$forEachRemaining(this, consumer);
+            }
+
+            @Override // java.util.Iterator
+            public /* synthetic */ void forEachRemaining(java.util.function.Consumer consumer) {
+                forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
             }
 
             AsMapIterator() {

@@ -60,11 +60,10 @@ public class ArchiveSettingsActivity extends BaseFragment implements Notificatio
         });
         FrameLayout frameLayout = new FrameLayout(context);
         this.fragmentView = frameLayout;
-        FrameLayout frameLayout2 = frameLayout;
-        frameLayout2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
+        frameLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
         RecyclerListView recyclerListView = new RecyclerListView(context);
         this.listView = recyclerListView;
-        recyclerListView.setLayoutManager(new LinearLayoutManager(this, context, 1, false) { // from class: org.telegram.ui.ArchiveSettingsActivity.2
+        recyclerListView.setLayoutManager(new LinearLayoutManager(context, 1, false) { // from class: org.telegram.ui.ArchiveSettingsActivity.2
             @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
             public boolean supportsPredictiveItemAnimations() {
                 return false;
@@ -82,8 +81,8 @@ public class ArchiveSettingsActivity extends BaseFragment implements Notificatio
         defaultItemAnimator.setDelayAnimations(false);
         defaultItemAnimator.setSupportsChangeAnimations(false);
         this.listView.setItemAnimator(defaultItemAnimator);
-        frameLayout2.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ArchiveSettingsActivity$$ExternalSyntheticLambda2
+        frameLayout.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ArchiveSettingsActivity$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i) {
                 ArchiveSettingsActivity.this.lambda$createView$1(view, i);
@@ -120,7 +119,7 @@ public class ArchiveSettingsActivity extends BaseFragment implements Notificatio
         } else if (i2 == 7) {
             if (!getUserConfig().isPremium() && !getMessagesController().autoarchiveAvailable && !this.settings.archive_and_mute_new_noncontact_peers) {
                 Bulletin.SimpleLayout simpleLayout = new Bulletin.SimpleLayout(getContext(), getResourceProvider());
-                simpleLayout.textView.setText(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.UnlockPremium), Theme.key_undo_cancelColor, 0, new Runnable() { // from class: org.telegram.ui.ArchiveSettingsActivity$$ExternalSyntheticLambda0
+                simpleLayout.textView.setText(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.UnlockPremium), Theme.key_undo_cancelColor, 0, new Runnable() { // from class: org.telegram.ui.ArchiveSettingsActivity$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
                         ArchiveSettingsActivity.this.lambda$createView$0();
@@ -191,7 +190,7 @@ public class ArchiveSettingsActivity extends BaseFragment implements Notificatio
             if (this == obj) {
                 return true;
             }
-            if (obj == null || ItemInner.class != obj.getClass()) {
+            if (obj == null || getClass() != obj.getClass()) {
                 return false;
             }
             ItemInner itemInner = (ItemInner) obj;
@@ -300,7 +299,7 @@ public class ArchiveSettingsActivity extends BaseFragment implements Notificatio
         if (this.changed) {
             TLRPC$TL_account_setGlobalPrivacySettings tLRPC$TL_account_setGlobalPrivacySettings = new TLRPC$TL_account_setGlobalPrivacySettings();
             tLRPC$TL_account_setGlobalPrivacySettings.settings = this.settings;
-            getConnectionsManager().sendRequest(tLRPC$TL_account_setGlobalPrivacySettings, new RequestDelegate() { // from class: org.telegram.ui.ArchiveSettingsActivity$$ExternalSyntheticLambda1
+            getConnectionsManager().sendRequest(tLRPC$TL_account_setGlobalPrivacySettings, new RequestDelegate() { // from class: org.telegram.ui.ArchiveSettingsActivity$$ExternalSyntheticLambda0
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     ArchiveSettingsActivity.lambda$onFragmentDestroy$2(tLObject, tLRPC$TL_error);

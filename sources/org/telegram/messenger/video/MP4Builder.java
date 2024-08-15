@@ -89,6 +89,7 @@ public class MP4Builder {
     }
 
     public long writeSampleData(int i, ByteBuffer byteBuffer, MediaCodec.BufferInfo bufferInfo, boolean z) throws Exception {
+        boolean z2;
         if (this.writeNewMdat) {
             this.mdat.setContentSize(0L);
             this.mdat.getBox(this.fc);
@@ -101,8 +102,8 @@ public class MP4Builder {
         interleaveChunkMdat.setContentSize(interleaveChunkMdat.getContentSize() + bufferInfo.size);
         long j = this.wroteSinceLastMdat + bufferInfo.size;
         this.wroteSinceLastMdat = j;
-        boolean z2 = true;
         if (j >= 32768) {
+            z2 = true;
             if (this.splitMdat) {
                 flushCurrentMdat();
                 this.writeNewMdat = true;
@@ -408,8 +409,8 @@ public class MP4Builder {
         if (sampleCompositions == null) {
             return;
         }
-        CompositionTimeToSample.Entry entry = null;
         ArrayList arrayList = new ArrayList();
+        CompositionTimeToSample.Entry entry = null;
         for (int i : sampleCompositions) {
             if (entry != null && entry.getOffset() == i) {
                 entry.setCount(entry.getCount() + 1);

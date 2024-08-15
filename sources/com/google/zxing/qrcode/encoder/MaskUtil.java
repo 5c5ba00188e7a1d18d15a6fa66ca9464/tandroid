@@ -19,8 +19,8 @@ final class MaskUtil {
                 byte b = bArr[i3];
                 int i4 = i3 + 1;
                 if (b == bArr[i4]) {
-                    int i5 = i2 + 1;
-                    if (b == array[i5][i3] && b == array[i5][i4]) {
+                    byte[] bArr2 = array[i2 + 1];
+                    if (b == bArr2[i3] && b == bArr2[i4]) {
                         i++;
                     }
                 }

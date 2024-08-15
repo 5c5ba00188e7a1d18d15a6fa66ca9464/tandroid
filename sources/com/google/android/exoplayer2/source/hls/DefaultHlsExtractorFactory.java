@@ -60,8 +60,8 @@ public final class DefaultHlsExtractorFactory implements HlsExtractorFactory {
         for (int i : iArr) {
             addFileTypeIfValidAndNotPresent(i, arrayList);
         }
-        Extractor extractor = null;
         extractorInput.resetPeekPosition();
+        Extractor extractor = null;
         for (int i2 = 0; i2 < arrayList.size(); i2++) {
             int intValue = ((Integer) arrayList.get(i2)).intValue();
             Extractor extractor2 = (Extractor) Assertions.checkNotNull(createExtractorByFileType(intValue, format, list, timestampAdjuster));

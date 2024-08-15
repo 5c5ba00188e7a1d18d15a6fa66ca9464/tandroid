@@ -8,20 +8,23 @@ import java.io.IOException;
 /* loaded from: classes.dex */
 final class zzkt implements ObjectEncoder {
     static final zzkt zza = new zzkt();
+    private static final FieldDescriptor zzb;
+    private static final FieldDescriptor zzc;
+    private static final FieldDescriptor zzd;
 
     static {
         FieldDescriptor.Builder builder = FieldDescriptor.builder("inferenceCommonLogEvent");
         zzbz zzbzVar = new zzbz();
         zzbzVar.zza(1);
-        builder.withProperty(zzbzVar.zzb()).build();
+        zzb = builder.withProperty(zzbzVar.zzb()).build();
         FieldDescriptor.Builder builder2 = FieldDescriptor.builder("imageInfo");
         zzbz zzbzVar2 = new zzbz();
         zzbzVar2.zza(2);
-        builder2.withProperty(zzbzVar2.zzb()).build();
+        zzc = builder2.withProperty(zzbzVar2.zzb()).build();
         FieldDescriptor.Builder builder3 = FieldDescriptor.builder("recognizerOptions");
         zzbz zzbzVar3 = new zzbz();
         zzbzVar3.zza(3);
-        builder3.withProperty(zzbzVar3.zzb()).build();
+        zzd = builder3.withProperty(zzbzVar3.zzb()).build();
     }
 
     private zzkt() {

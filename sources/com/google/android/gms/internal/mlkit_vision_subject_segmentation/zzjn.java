@@ -8,28 +8,33 @@ import java.io.IOException;
 /* loaded from: classes.dex */
 final class zzjn implements ObjectEncoder {
     static final zzjn zza = new zzjn();
+    private static final FieldDescriptor zzb;
+    private static final FieldDescriptor zzc;
+    private static final FieldDescriptor zzd;
+    private static final FieldDescriptor zze;
+    private static final FieldDescriptor zzf;
 
     static {
         FieldDescriptor.Builder builder = FieldDescriptor.builder("inferenceCommonLogEvent");
         zzbz zzbzVar = new zzbz();
         zzbzVar.zza(1);
-        builder.withProperty(zzbzVar.zzb()).build();
+        zzb = builder.withProperty(zzbzVar.zzb()).build();
         FieldDescriptor.Builder builder2 = FieldDescriptor.builder("imageInfo");
         zzbz zzbzVar2 = new zzbz();
         zzbzVar2.zza(2);
-        builder2.withProperty(zzbzVar2.zzb()).build();
+        zzc = builder2.withProperty(zzbzVar2.zzb()).build();
         FieldDescriptor.Builder builder3 = FieldDescriptor.builder("captionCount");
         zzbz zzbzVar3 = new zzbz();
         zzbzVar3.zza(4);
-        builder3.withProperty(zzbzVar3.zzb()).build();
+        zzd = builder3.withProperty(zzbzVar3.zzb()).build();
         FieldDescriptor.Builder builder4 = FieldDescriptor.builder("highestScore");
         zzbz zzbzVar4 = new zzbz();
         zzbzVar4.zza(5);
-        builder4.withProperty(zzbzVar4.zzb()).build();
+        zze = builder4.withProperty(zzbzVar4.zzb()).build();
         FieldDescriptor.Builder builder5 = FieldDescriptor.builder("imageType");
         zzbz zzbzVar5 = new zzbz();
         zzbzVar5.zza(6);
-        builder5.withProperty(zzbzVar5.zzb()).build();
+        zzf = builder5.withProperty(zzbzVar5.zzb()).build();
     }
 
     private zzjn() {

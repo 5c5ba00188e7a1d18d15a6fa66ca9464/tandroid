@@ -61,6 +61,7 @@ public class ComponentActivity extends androidx.core.app.ComponentActivity imple
     private ViewModelProvider.Factory mDefaultFactory;
     private boolean mDispatchingOnMultiWindowModeChanged;
     private boolean mDispatchingOnPictureInPictureModeChanged;
+    private final AtomicInteger mNextLocalRequestCode;
     private final OnBackPressedDispatcher mOnBackPressedDispatcher;
     private final CopyOnWriteArrayList<Consumer<Configuration>> mOnConfigurationChangedListeners;
     private final CopyOnWriteArrayList<Consumer<MultiWindowModeChangedInfo>> mOnMultiWindowModeChangedListeners;
@@ -70,7 +71,7 @@ public class ComponentActivity extends androidx.core.app.ComponentActivity imple
     final SavedStateRegistryController mSavedStateRegistryController;
     private ViewModelStore mViewModelStore;
     final ContextAwareHelper mContextAwareHelper = new ContextAwareHelper();
-    private final MenuHostHelper mMenuHostHelper = new MenuHostHelper(new Runnable() { // from class: androidx.activity.ComponentActivity$$ExternalSyntheticLambda2
+    private final MenuHostHelper mMenuHostHelper = new MenuHostHelper(new Runnable() { // from class: androidx.activity.ComponentActivity$$ExternalSyntheticLambda0
         @Override // java.lang.Runnable
         public final void run() {
             ComponentActivity.this.invalidateMenu();
@@ -108,10 +109,11 @@ public class ComponentActivity extends androidx.core.app.ComponentActivity imple
                 }
             }
         });
-        new AtomicInteger();
+        this.mNextLocalRequestCode = new AtomicInteger();
         this.mActivityResultRegistry = new ActivityResultRegistry() { // from class: androidx.activity.ComponentActivity.2
             @Override // androidx.activity.result.ActivityResultRegistry
             public <I, O> void onLaunch(final int i, ActivityResultContract<I, O> activityResultContract, I i2, ActivityOptionsCompat activityOptionsCompat) {
+                Bundle bundle;
                 ComponentActivity componentActivity = ComponentActivity.this;
                 final ActivityResultContract.SynchronousResult<O> synchronousResult = activityResultContract.getSynchronousResult(componentActivity, i2);
                 if (synchronousResult != null) {
@@ -124,15 +126,16 @@ public class ComponentActivity extends androidx.core.app.ComponentActivity imple
                     return;
                 }
                 Intent createIntent = activityResultContract.createIntent(componentActivity, i2);
-                Bundle bundle = null;
                 if (createIntent.getExtras() != null && createIntent.getExtras().getClassLoader() == null) {
                     createIntent.setExtrasClassLoader(componentActivity.getClassLoader());
                 }
                 if (createIntent.hasExtra("androidx.activity.result.contract.extra.ACTIVITY_OPTIONS_BUNDLE")) {
-                    bundle = createIntent.getBundleExtra("androidx.activity.result.contract.extra.ACTIVITY_OPTIONS_BUNDLE");
+                    Bundle bundleExtra = createIntent.getBundleExtra("androidx.activity.result.contract.extra.ACTIVITY_OPTIONS_BUNDLE");
                     createIntent.removeExtra("androidx.activity.result.contract.extra.ACTIVITY_OPTIONS_BUNDLE");
+                    bundle = bundleExtra;
+                } else {
+                    bundle = null;
                 }
-                Bundle bundle2 = bundle;
                 if ("androidx.activity.result.contract.action.REQUEST_PERMISSIONS".equals(createIntent.getAction())) {
                     String[] stringArrayExtra = createIntent.getStringArrayExtra("androidx.activity.result.contract.extra.PERMISSIONS");
                     if (stringArrayExtra == null) {
@@ -142,7 +145,7 @@ public class ComponentActivity extends androidx.core.app.ComponentActivity imple
                 } else if ("androidx.activity.result.contract.action.INTENT_SENDER_REQUEST".equals(createIntent.getAction())) {
                     IntentSenderRequest intentSenderRequest = (IntentSenderRequest) createIntent.getParcelableExtra("androidx.activity.result.contract.extra.INTENT_SENDER_REQUEST");
                     try {
-                        ActivityCompat.startIntentSenderForResult(componentActivity, intentSenderRequest.getIntentSender(), i, intentSenderRequest.getFillInIntent(), intentSenderRequest.getFlagsMask(), intentSenderRequest.getFlagsValues(), 0, bundle2);
+                        ActivityCompat.startIntentSenderForResult(componentActivity, intentSenderRequest.getIntentSender(), i, intentSenderRequest.getFillInIntent(), intentSenderRequest.getFlagsMask(), intentSenderRequest.getFlagsValues(), 0, bundle);
                     } catch (IntentSender.SendIntentException e) {
                         new Handler(Looper.getMainLooper()).post(new Runnable() { // from class: androidx.activity.ComponentActivity.2.2
                             @Override // java.lang.Runnable
@@ -152,7 +155,7 @@ public class ComponentActivity extends androidx.core.app.ComponentActivity imple
                         });
                     }
                 } else {
-                    ActivityCompat.startActivityForResult(componentActivity, createIntent, i, bundle2);
+                    ActivityCompat.startActivityForResult(componentActivity, createIntent, i, bundle);
                 }
             }
         };
@@ -167,20 +170,18 @@ public class ComponentActivity extends androidx.core.app.ComponentActivity imple
             throw new IllegalStateException("getLifecycle() returned null in ComponentActivity's constructor. Please make sure you are lazily constructing your Lifecycle in the first call to getLifecycle() rather than relying on field initialization.");
         }
         int i = Build.VERSION.SDK_INT;
-        if (i >= 19) {
-            getLifecycle().addObserver(new LifecycleEventObserver() { // from class: androidx.activity.ComponentActivity.3
-                @Override // androidx.lifecycle.LifecycleEventObserver
-                public void onStateChanged(LifecycleOwner lifecycleOwner, Lifecycle.Event event) {
-                    if (event == Lifecycle.Event.ON_STOP) {
-                        Window window = ComponentActivity.this.getWindow();
-                        View peekDecorView = window != null ? window.peekDecorView() : null;
-                        if (peekDecorView != null) {
-                            Api19Impl.cancelPendingInputEvents(peekDecorView);
-                        }
+        getLifecycle().addObserver(new LifecycleEventObserver() { // from class: androidx.activity.ComponentActivity.3
+            @Override // androidx.lifecycle.LifecycleEventObserver
+            public void onStateChanged(LifecycleOwner lifecycleOwner, Lifecycle.Event event) {
+                if (event == Lifecycle.Event.ON_STOP) {
+                    Window window = ComponentActivity.this.getWindow();
+                    View peekDecorView = window != null ? window.peekDecorView() : null;
+                    if (peekDecorView != null) {
+                        Api19Impl.cancelPendingInputEvents(peekDecorView);
                     }
                 }
-            });
-        }
+            }
+        });
         getLifecycle().addObserver(new LifecycleEventObserver() { // from class: androidx.activity.ComponentActivity.4
             @Override // androidx.lifecycle.LifecycleEventObserver
             public void onStateChanged(LifecycleOwner lifecycleOwner, Lifecycle.Event event) {
@@ -202,7 +203,7 @@ public class ComponentActivity extends androidx.core.app.ComponentActivity imple
         });
         create.performAttach();
         SavedStateHandleSupport.enableSavedStateHandles(this);
-        if (19 <= i && i <= 23) {
+        if (i <= 23) {
             getLifecycle().addObserver(new ImmLeaksCleaner(this));
         }
         getSavedStateRegistry().registerSavedStateProvider("android:support:activity-result", new SavedStateRegistry.SavedStateProvider() { // from class: androidx.activity.ComponentActivity$$ExternalSyntheticLambda1
@@ -213,7 +214,7 @@ public class ComponentActivity extends androidx.core.app.ComponentActivity imple
                 return lambda$new$0;
             }
         });
-        addOnContextAvailableListener(new OnContextAvailableListener() { // from class: androidx.activity.ComponentActivity$$ExternalSyntheticLambda0
+        addOnContextAvailableListener(new OnContextAvailableListener() { // from class: androidx.activity.ComponentActivity$$ExternalSyntheticLambda2
             @Override // androidx.activity.contextaware.OnContextAvailableListener
             public final void onContextAvailable(Context context) {
                 ComponentActivity.this.lambda$new$1(context);
@@ -356,7 +357,7 @@ public class ComponentActivity extends androidx.core.app.ComponentActivity imple
         invalidateOptionsMenu();
     }
 
-    @Override // androidx.lifecycle.LifecycleOwner
+    @Override // androidx.core.app.ComponentActivity, androidx.lifecycle.LifecycleOwner
     public Lifecycle getLifecycle() {
         return this.mLifecycleRegistry;
     }

@@ -97,16 +97,20 @@ public final class SynchronousMediaCodecAdapter implements MediaCodecAdapter {
 
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecAdapter
     public ByteBuffer getInputBuffer(int i) {
+        ByteBuffer inputBuffer;
         if (Util.SDK_INT >= 21) {
-            return this.codec.getInputBuffer(i);
+            inputBuffer = this.codec.getInputBuffer(i);
+            return inputBuffer;
         }
         return ((ByteBuffer[]) Util.castNonNull(this.inputByteBuffers))[i];
     }
 
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecAdapter
     public ByteBuffer getOutputBuffer(int i) {
+        ByteBuffer outputBuffer;
         if (Util.SDK_INT >= 21) {
-            return this.codec.getOutputBuffer(i);
+            outputBuffer = this.codec.getOutputBuffer(i);
+            return outputBuffer;
         }
         return ((ByteBuffer[]) Util.castNonNull(this.outputByteBuffers))[i];
     }

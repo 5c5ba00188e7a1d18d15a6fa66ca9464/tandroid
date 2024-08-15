@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
@@ -46,6 +45,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     protected int autoRepeat;
     protected int autoRepeatCount;
     protected int autoRepeatPlayCount;
+    protected long autoRepeatTimeout;
     protected volatile Bitmap backgroundBitmap;
     private Paint[] backgroundPaint;
     BitmapsCache bitmapsCache;
@@ -157,9 +157,6 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         return -2;
     }
 
-    public void setAutoRepeatTimeout(long j) {
-    }
-
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
     public class 3 implements Runnable {
@@ -256,14 +253,14 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
             return;
         }
         if (z) {
-            DispatchQueuePoolBackground.execute(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda0
+            DispatchQueuePoolBackground.execute(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     RLottieDrawable.lambda$recycleNativePtr$0(j, j2);
                 }
             });
         } else {
-            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda1
+            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     RLottieDrawable.lambda$recycleNativePtr$1(j, j2);
@@ -376,6 +373,8 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
             }
         };
         this.loadFrameRunnable = new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable.5
+            private long lastUpdate = 0;
+
             /* JADX WARN: Removed duplicated region for block: B:72:0x0149 A[Catch: Exception -> 0x02cd, TryCatch #0 {Exception -> 0x02cd, blocks: (B:34:0x00ad, B:36:0x00b4, B:43:0x00cd, B:47:0x00d8, B:49:0x00e2, B:66:0x0133, B:68:0x013b, B:70:0x0141, B:72:0x0149, B:73:0x0159, B:75:0x0161, B:77:0x0169, B:78:0x0196, B:81:0x01ba, B:83:0x01c9, B:85:0x01cd, B:87:0x01d9, B:89:0x01e1, B:91:0x01e7, B:92:0x01ec, B:94:0x01f8, B:95:0x01fc, B:97:0x0204, B:99:0x0213, B:101:0x021b, B:102:0x0220, B:103:0x022b, B:105:0x022f, B:107:0x0233, B:109:0x0237, B:111:0x023b, B:112:0x0242, B:113:0x024b, B:115:0x024f, B:116:0x0256, B:117:0x025f, B:122:0x026c, B:124:0x0271, B:125:0x027b, B:126:0x0281, B:128:0x0285, B:130:0x0291, B:131:0x029c, B:133:0x02a2, B:135:0x02a8, B:137:0x02b9, B:138:0x02c5, B:120:0x0266, B:64:0x0119, B:65:0x011d, B:39:0x00ba, B:41:0x00c2, B:42:0x00ca), top: B:151:0x00ad }] */
             /* JADX WARN: Removed duplicated region for block: B:75:0x0161 A[Catch: Exception -> 0x02cd, TryCatch #0 {Exception -> 0x02cd, blocks: (B:34:0x00ad, B:36:0x00b4, B:43:0x00cd, B:47:0x00d8, B:49:0x00e2, B:66:0x0133, B:68:0x013b, B:70:0x0141, B:72:0x0149, B:73:0x0159, B:75:0x0161, B:77:0x0169, B:78:0x0196, B:81:0x01ba, B:83:0x01c9, B:85:0x01cd, B:87:0x01d9, B:89:0x01e1, B:91:0x01e7, B:92:0x01ec, B:94:0x01f8, B:95:0x01fc, B:97:0x0204, B:99:0x0213, B:101:0x021b, B:102:0x0220, B:103:0x022b, B:105:0x022f, B:107:0x0233, B:109:0x0237, B:111:0x023b, B:112:0x0242, B:113:0x024b, B:115:0x024f, B:116:0x0256, B:117:0x025f, B:122:0x026c, B:124:0x0271, B:125:0x027b, B:126:0x0281, B:128:0x0285, B:130:0x0291, B:131:0x029c, B:133:0x02a2, B:135:0x02a8, B:137:0x02b9, B:138:0x02c5, B:120:0x0266, B:64:0x0119, B:65:0x011d, B:39:0x00ba, B:41:0x00c2, B:42:0x00ca), top: B:151:0x00ad }] */
             /* JADX WARN: Removed duplicated region for block: B:79:0x01b7  */
@@ -721,6 +720,8 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
             }
         };
         this.loadFrameRunnable = new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable.5
+            private long lastUpdate = 0;
+
             /* JADX WARN: Removed duplicated region for block: B:72:0x0149 A[Catch: Exception -> 0x02cd, TryCatch #0 {Exception -> 0x02cd, blocks: (B:34:0x00ad, B:36:0x00b4, B:43:0x00cd, B:47:0x00d8, B:49:0x00e2, B:66:0x0133, B:68:0x013b, B:70:0x0141, B:72:0x0149, B:73:0x0159, B:75:0x0161, B:77:0x0169, B:78:0x0196, B:81:0x01ba, B:83:0x01c9, B:85:0x01cd, B:87:0x01d9, B:89:0x01e1, B:91:0x01e7, B:92:0x01ec, B:94:0x01f8, B:95:0x01fc, B:97:0x0204, B:99:0x0213, B:101:0x021b, B:102:0x0220, B:103:0x022b, B:105:0x022f, B:107:0x0233, B:109:0x0237, B:111:0x023b, B:112:0x0242, B:113:0x024b, B:115:0x024f, B:116:0x0256, B:117:0x025f, B:122:0x026c, B:124:0x0271, B:125:0x027b, B:126:0x0281, B:128:0x0285, B:130:0x0291, B:131:0x029c, B:133:0x02a2, B:135:0x02a8, B:137:0x02b9, B:138:0x02c5, B:120:0x0266, B:64:0x0119, B:65:0x011d, B:39:0x00ba, B:41:0x00c2, B:42:0x00ca), top: B:151:0x00ad }] */
             /* JADX WARN: Removed duplicated region for block: B:75:0x0161 A[Catch: Exception -> 0x02cd, TryCatch #0 {Exception -> 0x02cd, blocks: (B:34:0x00ad, B:36:0x00b4, B:43:0x00cd, B:47:0x00d8, B:49:0x00e2, B:66:0x0133, B:68:0x013b, B:70:0x0141, B:72:0x0149, B:73:0x0159, B:75:0x0161, B:77:0x0169, B:78:0x0196, B:81:0x01ba, B:83:0x01c9, B:85:0x01cd, B:87:0x01d9, B:89:0x01e1, B:91:0x01e7, B:92:0x01ec, B:94:0x01f8, B:95:0x01fc, B:97:0x0204, B:99:0x0213, B:101:0x021b, B:102:0x0220, B:103:0x022b, B:105:0x022f, B:107:0x0233, B:109:0x0237, B:111:0x023b, B:112:0x0242, B:113:0x024b, B:115:0x024f, B:116:0x0256, B:117:0x025f, B:122:0x026c, B:124:0x0271, B:125:0x027b, B:126:0x0281, B:128:0x0285, B:130:0x0291, B:131:0x029c, B:133:0x02a2, B:135:0x02a8, B:137:0x02b9, B:138:0x02c5, B:120:0x0266, B:64:0x0119, B:65:0x011d, B:39:0x00ba, B:41:0x00c2, B:42:0x00ca), top: B:151:0x00ad }] */
             /* JADX WARN: Removed duplicated region for block: B:79:0x01b7  */
@@ -1098,6 +1099,8 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
             }
         };
         this.loadFrameRunnable = new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable.5
+            private long lastUpdate = 0;
+
             /* JADX WARN: Removed duplicated region for block: B:72:0x0149 A[Catch: Exception -> 0x02cd, TryCatch #0 {Exception -> 0x02cd, blocks: (B:34:0x00ad, B:36:0x00b4, B:43:0x00cd, B:47:0x00d8, B:49:0x00e2, B:66:0x0133, B:68:0x013b, B:70:0x0141, B:72:0x0149, B:73:0x0159, B:75:0x0161, B:77:0x0169, B:78:0x0196, B:81:0x01ba, B:83:0x01c9, B:85:0x01cd, B:87:0x01d9, B:89:0x01e1, B:91:0x01e7, B:92:0x01ec, B:94:0x01f8, B:95:0x01fc, B:97:0x0204, B:99:0x0213, B:101:0x021b, B:102:0x0220, B:103:0x022b, B:105:0x022f, B:107:0x0233, B:109:0x0237, B:111:0x023b, B:112:0x0242, B:113:0x024b, B:115:0x024f, B:116:0x0256, B:117:0x025f, B:122:0x026c, B:124:0x0271, B:125:0x027b, B:126:0x0281, B:128:0x0285, B:130:0x0291, B:131:0x029c, B:133:0x02a2, B:135:0x02a8, B:137:0x02b9, B:138:0x02c5, B:120:0x0266, B:64:0x0119, B:65:0x011d, B:39:0x00ba, B:41:0x00c2, B:42:0x00ca), top: B:151:0x00ad }] */
             /* JADX WARN: Removed duplicated region for block: B:75:0x0161 A[Catch: Exception -> 0x02cd, TryCatch #0 {Exception -> 0x02cd, blocks: (B:34:0x00ad, B:36:0x00b4, B:43:0x00cd, B:47:0x00d8, B:49:0x00e2, B:66:0x0133, B:68:0x013b, B:70:0x0141, B:72:0x0149, B:73:0x0159, B:75:0x0161, B:77:0x0169, B:78:0x0196, B:81:0x01ba, B:83:0x01c9, B:85:0x01cd, B:87:0x01d9, B:89:0x01e1, B:91:0x01e7, B:92:0x01ec, B:94:0x01f8, B:95:0x01fc, B:97:0x0204, B:99:0x0213, B:101:0x021b, B:102:0x0220, B:103:0x022b, B:105:0x022f, B:107:0x0233, B:109:0x0237, B:111:0x023b, B:112:0x0242, B:113:0x024b, B:115:0x024f, B:116:0x0256, B:117:0x025f, B:122:0x026c, B:124:0x0271, B:125:0x027b, B:126:0x0281, B:128:0x0285, B:130:0x0291, B:131:0x029c, B:133:0x02a2, B:135:0x02a8, B:137:0x02b9, B:138:0x02c5, B:120:0x0266, B:64:0x0119, B:65:0x011d, B:39:0x00ba, B:41:0x00c2, B:42:0x00ca), top: B:151:0x00ad }] */
             /* JADX WARN: Removed duplicated region for block: B:79:0x01b7  */
@@ -1377,7 +1380,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                 return false;
             }
             this.loadingInBackground = true;
-            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda4
+            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     RLottieDrawable.this.lambda$setBaseDice$3(readRes);
@@ -1390,7 +1393,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setBaseDice$3(String str) {
         this.nativePtr = createWithJson(str, "dice", this.metaData, null);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda2
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 RLottieDrawable.this.lambda$setBaseDice$2();
@@ -1425,7 +1428,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                 this.setLastFrame = true;
             }
             this.secondLoadingInBackground = true;
-            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda5
+            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     RLottieDrawable.this.lambda$setDiceNumber$6(readRes);
@@ -1438,7 +1441,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setDiceNumber$6(String str) {
         if (this.destroyAfterLoading) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda3
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
                     RLottieDrawable.this.lambda$setDiceNumber$4();
@@ -1448,7 +1451,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         }
         final int[] iArr = new int[3];
         this.secondNativePtr = createWithJson(str, "dice", iArr, null);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda6
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 RLottieDrawable.this.lambda$setDiceNumber$5(iArr);
@@ -1536,6 +1539,8 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
             }
         };
         this.loadFrameRunnable = new Runnable() { // from class: org.telegram.ui.Components.RLottieDrawable.5
+            private long lastUpdate = 0;
+
             /* JADX WARN: Removed duplicated region for block: B:72:0x0149 A[Catch: Exception -> 0x02cd, TryCatch #0 {Exception -> 0x02cd, blocks: (B:34:0x00ad, B:36:0x00b4, B:43:0x00cd, B:47:0x00d8, B:49:0x00e2, B:66:0x0133, B:68:0x013b, B:70:0x0141, B:72:0x0149, B:73:0x0159, B:75:0x0161, B:77:0x0169, B:78:0x0196, B:81:0x01ba, B:83:0x01c9, B:85:0x01cd, B:87:0x01d9, B:89:0x01e1, B:91:0x01e7, B:92:0x01ec, B:94:0x01f8, B:95:0x01fc, B:97:0x0204, B:99:0x0213, B:101:0x021b, B:102:0x0220, B:103:0x022b, B:105:0x022f, B:107:0x0233, B:109:0x0237, B:111:0x023b, B:112:0x0242, B:113:0x024b, B:115:0x024f, B:116:0x0256, B:117:0x025f, B:122:0x026c, B:124:0x0271, B:125:0x027b, B:126:0x0281, B:128:0x0285, B:130:0x0291, B:131:0x029c, B:133:0x02a2, B:135:0x02a8, B:137:0x02b9, B:138:0x02c5, B:120:0x0266, B:64:0x0119, B:65:0x011d, B:39:0x00ba, B:41:0x00c2, B:42:0x00ca), top: B:151:0x00ad }] */
             /* JADX WARN: Removed duplicated region for block: B:75:0x0161 A[Catch: Exception -> 0x02cd, TryCatch #0 {Exception -> 0x02cd, blocks: (B:34:0x00ad, B:36:0x00b4, B:43:0x00cd, B:47:0x00d8, B:49:0x00e2, B:66:0x0133, B:68:0x013b, B:70:0x0141, B:72:0x0149, B:73:0x0159, B:75:0x0161, B:77:0x0169, B:78:0x0196, B:81:0x01ba, B:83:0x01c9, B:85:0x01cd, B:87:0x01d9, B:89:0x01e1, B:91:0x01e7, B:92:0x01ec, B:94:0x01f8, B:95:0x01fc, B:97:0x0204, B:99:0x0213, B:101:0x021b, B:102:0x0220, B:103:0x022b, B:105:0x022f, B:107:0x0233, B:109:0x0237, B:111:0x023b, B:112:0x0242, B:113:0x024b, B:115:0x024f, B:116:0x0256, B:117:0x025f, B:122:0x026c, B:124:0x0271, B:125:0x027b, B:126:0x0281, B:128:0x0285, B:130:0x0291, B:131:0x029c, B:133:0x02a2, B:135:0x02a8, B:137:0x02b9, B:138:0x02c5, B:120:0x0266, B:64:0x0119, B:65:0x011d, B:39:0x00ba, B:41:0x00c2, B:42:0x00ca), top: B:151:0x00ad }] */
             /* JADX WARN: Removed duplicated region for block: B:79:0x01b7  */
@@ -1903,8 +1908,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
             return;
         }
         boolean z = true;
-        boolean z2 = this.parentViews.isEmpty() && getCallback() == null;
-        if (Build.VERSION.SDK_INT < 19 ? !z2 || this.masterParent != null : !z2 || ((view = this.masterParent) != null && view.isAttachedToWindow())) {
+        if (!(this.parentViews.isEmpty() && getCallback() == null) || ((view = this.masterParent) != null && view.isAttachedToWindow())) {
             z = false;
         }
         if (z) {
@@ -1977,6 +1981,10 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
 
     public void setAutoRepeatCount(int i) {
         this.autoRepeatCount = i;
+    }
+
+    public void setAutoRepeatTimeout(long j) {
+        this.autoRepeatTimeout = j;
     }
 
     protected void finalize() throws Throwable {

@@ -417,7 +417,7 @@ public class AvatarPreviewer {
             setWillNotDraw(false);
             View view = new View(context);
             this.blurView = view;
-            view.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda2
+            view.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda5
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
                     AvatarPreviewer.Layout.this.lambda$new$0(view2);
@@ -522,7 +522,7 @@ public class AvatarPreviewer {
                 return;
             }
             this.blurView.setBackground(null);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda5
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     AvatarPreviewer.Layout.this.prepareBlurBitmap();
@@ -558,7 +558,7 @@ public class AvatarPreviewer {
             if (data.infoLoadTask != null) {
                 InfoLoadTask<?, ?> infoLoadTask = data.infoLoadTask;
                 this.infoLoadTask = infoLoadTask;
-                infoLoadTask.load(new Consumer() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda4
+                infoLoadTask.load(new Consumer() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda3
                     @Override // androidx.core.util.Consumer
                     public final void accept(Object obj) {
                         AvatarPreviewer.Layout.this.lambda$setData$2(data, obj);
@@ -574,7 +574,7 @@ public class AvatarPreviewer {
                     final MenuItem menuItem = menuItemArr[i];
                     ActionBarMenuSubItem addItem = ActionBarMenuItem.addItem(i == 0, i == this.menuItems.length - 1, this.menu, menuItem.iconResId, LocaleController.getString(menuItem.labelKey, menuItem.labelResId), false, this.resourcesProvider);
                     addItem.setTag(Integer.valueOf(i));
-                    addItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda3
+                    addItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda4
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
                             AvatarPreviewer.Layout.this.lambda$setData$3(menuItem, view);

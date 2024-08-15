@@ -8,7 +8,7 @@ public class KeepAliveJob extends JobIntentService {
     private static volatile CountDownLatch countDownLatch;
     private static volatile boolean startingJob;
     private static final Object sync = new Object();
-    private static Runnable finishJobByTimeoutRunnable = KeepAliveJob$$ExternalSyntheticLambda0.INSTANCE;
+    private static Runnable finishJobByTimeoutRunnable = new KeepAliveJob$$ExternalSyntheticLambda0();
 
     public static void startJob() {
         Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.KeepAliveJob$$ExternalSyntheticLambda1
@@ -19,7 +19,6 @@ public class KeepAliveJob extends JobIntentService {
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$startJob$0() {
         if (startingJob || countDownLatch != null) {
             return;
@@ -36,7 +35,6 @@ public class KeepAliveJob extends JobIntentService {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public static void finishJobInternal() {
         synchronized (sync) {
             if (countDownLatch != null) {
@@ -55,7 +53,7 @@ public class KeepAliveJob extends JobIntentService {
     }
 
     public static void finishJob() {
-        Utilities.globalQueue.postRunnable(KeepAliveJob$$ExternalSyntheticLambda0.INSTANCE);
+        Utilities.globalQueue.postRunnable(new KeepAliveJob$$ExternalSyntheticLambda0());
     }
 
     @Override // org.telegram.messenger.support.JobIntentService

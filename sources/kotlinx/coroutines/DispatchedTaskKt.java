@@ -19,11 +19,6 @@ public final class DispatchedTaskKt {
     }
 
     public static final <T> void dispatch(DispatchedTask<? super T> dispatchedTask, int i) {
-        if (DebugKt.getASSERTIONS_ENABLED()) {
-            if (!(i != -1)) {
-                throw new AssertionError();
-            }
-        }
         Continuation<? super T> delegate$kotlinx_coroutines_core = dispatchedTask.getDelegate$kotlinx_coroutines_core();
         boolean z = i == 4;
         if (!z && (delegate$kotlinx_coroutines_core instanceof DispatchedContinuation) && isCancellableMode(i) == isCancellableMode(dispatchedTask.resumeMode)) {

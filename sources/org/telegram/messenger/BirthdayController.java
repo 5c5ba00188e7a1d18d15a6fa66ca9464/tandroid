@@ -63,7 +63,7 @@ public class BirthdayController {
                     for (int i2 = 0; i2 < TLdeserialize.contacts.size(); i2++) {
                         arrayList.add(Long.valueOf(TLdeserialize.contacts.get(i2).contact_id));
                     }
-                    MessagesStorage.getInstance(i).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.BirthdayController$$ExternalSyntheticLambda0
+                    MessagesStorage.getInstance(i).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.BirthdayController$$ExternalSyntheticLambda3
                         @Override // java.lang.Runnable
                         public final void run() {
                             BirthdayController.this.lambda$new$1(i, arrayList, TLdeserialize);
@@ -80,7 +80,7 @@ public class BirthdayController {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(int i, ArrayList arrayList, final TL_birthdays tL_birthdays) {
         final ArrayList<TLRPC$User> users = MessagesStorage.getInstance(i).getUsers(arrayList);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.BirthdayController$$ExternalSyntheticLambda1
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.BirthdayController$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 BirthdayController.this.lambda$new$0(tL_birthdays, users);
@@ -126,7 +126,7 @@ public class BirthdayController {
                 public void serializeToStream(AbstractSerializedData abstractSerializedData) {
                     abstractSerializedData.writeInt32(-621959068);
                 }
-            }, new RequestDelegate() { // from class: org.telegram.messenger.BirthdayController$$ExternalSyntheticLambda3
+            }, new RequestDelegate() { // from class: org.telegram.messenger.BirthdayController$$ExternalSyntheticLambda1
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     BirthdayController.this.lambda$check$3(tLObject, tLRPC$TL_error);
@@ -137,7 +137,7 @@ public class BirthdayController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$check$3(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.BirthdayController$$ExternalSyntheticLambda2
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.BirthdayController$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 BirthdayController.this.lambda$check$2(tLObject);

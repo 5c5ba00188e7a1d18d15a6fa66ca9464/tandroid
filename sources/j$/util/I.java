@@ -1,85 +1,101 @@
 package j$.util;
 
-import j$.util.p;
-import j$.util.s;
-import java.util.Objects;
+import j$.util.function.Consumer;
+import java.util.Comparator;
+import java.util.Spliterator;
 /* loaded from: classes2.dex */
-public abstract class I {
-    private static final s a = new D();
-    private static final s.b b = new B();
-    private static final s.c c = new C();
-    private static final s.a d = new A();
+public final /* synthetic */ class I implements K {
+    public final /* synthetic */ Spliterator.OfLong a;
 
-    private static void a(int i, int i2, int i3) {
-        if (i2 <= i3) {
-            if (i2 < 0) {
-                throw new ArrayIndexOutOfBoundsException(i2);
-            }
-            if (i3 > i) {
-                throw new ArrayIndexOutOfBoundsException(i3);
-            }
-            return;
+    private /* synthetic */ I(Spliterator.OfLong ofLong) {
+        this.a = ofLong;
+    }
+
+    public static /* synthetic */ K f(Spliterator.OfLong ofLong) {
+        if (ofLong == null) {
+            return null;
         }
-        throw new ArrayIndexOutOfBoundsException("origin(" + i2 + ") > fence(" + i3 + ")");
+        return ofLong instanceof J ? ((J) ofLong).a : new I(ofLong);
     }
 
-    public static s.a b() {
-        return d;
+    @Override // j$.util.K, j$.util.Q
+    public final /* synthetic */ boolean a(Consumer consumer) {
+        return this.a.tryAdvance(Consumer.Wrapper.convert(consumer));
     }
 
-    public static s.b c() {
-        return b;
+    @Override // j$.util.K
+    public final /* synthetic */ void b(j$.util.function.h0 h0Var) {
+        this.a.forEachRemaining(j$.util.function.g0.a(h0Var));
     }
 
-    public static s.c d() {
-        return c;
+    @Override // j$.util.Q
+    public final /* synthetic */ int characteristics() {
+        return this.a.characteristics();
     }
 
-    public static s e() {
-        return a;
+    @Override // j$.util.K
+    public final /* synthetic */ boolean e(j$.util.function.h0 h0Var) {
+        return this.a.tryAdvance(j$.util.function.g0.a(h0Var));
     }
 
-    public static n f(s.a aVar) {
-        Objects.requireNonNull(aVar);
-        return new x(aVar);
+    public final /* synthetic */ boolean equals(Object obj) {
+        if (obj instanceof I) {
+            obj = ((I) obj).a;
+        }
+        return this.a.equals(obj);
     }
 
-    public static p.a g(s.b bVar) {
-        Objects.requireNonNull(bVar);
-        return new v(bVar);
+    @Override // j$.util.Q
+    public final /* synthetic */ long estimateSize() {
+        return this.a.estimateSize();
     }
 
-    public static p.b h(s.c cVar) {
-        Objects.requireNonNull(cVar);
-        return new w(cVar);
+    @Override // j$.util.K, j$.util.Q
+    public final /* synthetic */ void forEachRemaining(Consumer consumer) {
+        this.a.forEachRemaining(Consumer.Wrapper.convert(consumer));
     }
 
-    public static java.util.Iterator i(s sVar) {
-        Objects.requireNonNull(sVar);
-        return new u(sVar);
+    @Override // j$.util.N
+    public final /* synthetic */ void forEachRemaining(Object obj) {
+        this.a.forEachRemaining((Spliterator.OfLong) obj);
     }
 
-    public static s.a j(double[] dArr, int i, int i2, int i3) {
-        Objects.requireNonNull(dArr);
-        a(dArr.length, i, i2);
-        return new z(dArr, i, i2, i3);
+    @Override // j$.util.Q
+    public final /* synthetic */ Comparator getComparator() {
+        return this.a.getComparator();
     }
 
-    public static s.b k(int[] iArr, int i, int i2, int i3) {
-        Objects.requireNonNull(iArr);
-        a(iArr.length, i, i2);
-        return new F(iArr, i, i2, i3);
+    @Override // j$.util.Q
+    public final /* synthetic */ long getExactSizeIfKnown() {
+        return this.a.getExactSizeIfKnown();
     }
 
-    public static s.c l(long[] jArr, int i, int i2, int i3) {
-        Objects.requireNonNull(jArr);
-        a(jArr.length, i, i2);
-        return new H(jArr, i, i2, i3);
+    @Override // j$.util.Q
+    public final /* synthetic */ boolean hasCharacteristics(int i) {
+        return this.a.hasCharacteristics(i);
     }
 
-    public static s m(Object[] objArr, int i, int i2, int i3) {
-        Objects.requireNonNull(objArr);
-        a(objArr.length, i, i2);
-        return new y(objArr, i, i2, i3);
+    public final /* synthetic */ int hashCode() {
+        return this.a.hashCode();
+    }
+
+    @Override // j$.util.N
+    public final /* synthetic */ boolean tryAdvance(Object obj) {
+        return this.a.tryAdvance((Spliterator.OfLong) obj);
+    }
+
+    @Override // j$.util.K, j$.util.N, j$.util.Q
+    public final /* synthetic */ K trySplit() {
+        return f(this.a.trySplit());
+    }
+
+    @Override // j$.util.N, j$.util.Q
+    public final /* synthetic */ N trySplit() {
+        return L.f(this.a.trySplit());
+    }
+
+    @Override // j$.util.Q
+    public final /* synthetic */ Q trySplit() {
+        return O.f(this.a.trySplit());
     }
 }

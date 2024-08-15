@@ -39,7 +39,7 @@ public class SLConfigDescriptor extends BaseDescriptor {
         if (this == obj) {
             return true;
         }
-        return obj != null && SLConfigDescriptor.class == obj.getClass() && this.predefined == ((SLConfigDescriptor) obj).predefined;
+        return obj != null && getClass() == obj.getClass() && this.predefined == ((SLConfigDescriptor) obj).predefined;
     }
 
     public int hashCode() {

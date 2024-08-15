@@ -160,7 +160,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
         this.afterNextLayout = new ArrayList<>();
         this.collapsedProgress1 = -1.0f;
         this.allowGlobalUpdates = true;
-        this.comparator = new Comparator() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda11
+        this.comparator = new Comparator() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda4
             @Override // java.util.Comparator
             public final int compare(Object obj, Object obj2) {
                 int lambda$new$6;
@@ -232,13 +232,13 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, 0, false);
         this.layoutManager = linearLayoutManager;
         recyclerListView2.setLayoutManager(linearLayoutManager);
-        this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda12
+        this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda6
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i3) {
                 DialogStoriesCell.this.lambda$new$1(view, i3);
             }
         });
-        this.recyclerListView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda13
+        this.recyclerListView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda7
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
             public final boolean onItemClick(View view, int i3) {
                 boolean lambda$new$2;
@@ -320,7 +320,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
         };
         this.listViewMini = recyclerListView3;
         recyclerListView3.setLayoutManager(new LinearLayoutManager(getContext(), 0, false));
-        this.listViewMini.addItemDecoration(new RecyclerView.ItemDecoration(this) { // from class: org.telegram.ui.Stories.DialogStoriesCell.4
+        this.listViewMini.addItemDecoration(new RecyclerView.ItemDecoration() { // from class: org.telegram.ui.Stories.DialogStoriesCell.4
             @Override // androidx.recyclerview.widget.RecyclerView.ItemDecoration
             public void getItemOffsets(Rect rect, View view, RecyclerView recyclerView, RecyclerView.State state) {
                 int childLayoutPosition = recyclerView.getChildLayoutPosition(view);
@@ -332,7 +332,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
                 }
             }
         });
-        DefaultItemAnimator defaultItemAnimator2 = new DefaultItemAnimator(this) { // from class: org.telegram.ui.Stories.DialogStoriesCell.5
+        DefaultItemAnimator defaultItemAnimator2 = new DefaultItemAnimator() { // from class: org.telegram.ui.Stories.DialogStoriesCell.5
             @Override // androidx.recyclerview.widget.DefaultItemAnimator
             protected float animateByScale(View view) {
                 return 0.6f;
@@ -386,7 +386,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
                 ensureStoryFileLoadedObject.cancel();
                 this.globalCancelable = null;
             }
-            Runnable runnable = new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda10
+            Runnable runnable = new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda8
                 @Override // java.lang.Runnable
                 public final void run() {
                     DialogStoriesCell.this.lambda$openStoryForCell$5(storyCell, j);
@@ -450,7 +450,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
                 z2 = false;
                 z3 = true;
                 StoryViewer orCreateStoryViewer = this.fragment.getOrCreateStoryViewer();
-                orCreateStoryViewer.doOnAnimationReady(new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda9
+                orCreateStoryViewer.doOnAnimationReady(new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda13
                     @Override // java.lang.Runnable
                     public final void run() {
                         DialogStoriesCell.this.lambda$openStoryForCell$3(j);
@@ -474,7 +474,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
         }
         z3 = false;
         StoryViewer orCreateStoryViewer2 = this.fragment.getOrCreateStoryViewer();
-        orCreateStoryViewer2.doOnAnimationReady(new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda9
+        orCreateStoryViewer2.doOnAnimationReady(new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda13
             @Override // java.lang.Runnable
             public final void run() {
                 DialogStoriesCell.this.lambda$openStoryForCell$3(j);
@@ -524,13 +524,13 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
         this.oldMiniItems.addAll(this.miniItems);
         this.items.clear();
         if (this.type != 1) {
-            this.items.add(new Item(this, UserConfig.getInstance(this.currentAccount).getClientUserId()));
+            this.items.add(new Item(UserConfig.getInstance(this.currentAccount).getClientUserId()));
         }
         ArrayList<TL_stories$PeerStories> hiddenList = this.type == 1 ? this.storiesController.getHiddenList() : this.storiesController.getDialogListStories();
         for (int i = 0; i < hiddenList.size(); i++) {
             long peerDialogId = DialogObject.getPeerDialogId(hiddenList.get(i).peer);
             if (peerDialogId != UserConfig.getInstance(this.currentAccount).getClientUserId()) {
-                this.items.add(new Item(this, peerDialogId));
+                this.items.add(new Item(peerDialogId));
             }
         }
         int size = this.items.size();
@@ -837,7 +837,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         if (i == NotificationCenter.storiesUpdated && this.allowGlobalUpdates) {
             updateItems(getVisibility() == 0, false);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda6
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     DialogStoriesCell.this.lambda$didReceivedNotification$7();
@@ -923,13 +923,13 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
         StoriesUtilities.updateColors();
         final int textColor = getTextColor();
         this.titleView.setTextColor(textColor);
-        AndroidUtilities.forEachViews((RecyclerView) this.recyclerListView, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda1
+        AndroidUtilities.forEachViews((RecyclerView) this.recyclerListView, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda9
             @Override // com.google.android.exoplayer2.util.Consumer
             public final void accept(Object obj) {
                 DialogStoriesCell.lambda$updateColors$9(textColor, (View) obj);
             }
         });
-        AndroidUtilities.forEachViews((RecyclerView) this.listViewMini, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda3
+        AndroidUtilities.forEachViews((RecyclerView) this.listViewMini, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda10
             @Override // com.google.android.exoplayer2.util.Consumer
             public final void accept(Object obj) {
                 DialogStoriesCell.lambda$updateColors$10((View) obj);
@@ -1034,7 +1034,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
             Theme.ResourcesProvider resourceProvider = baseFragment != null ? baseFragment.getResourceProvider() : null;
             final AlertDialog alertDialog = new AlertDialog(getContext(), 3, resourceProvider);
             alertDialog.showDelayed(500L);
-            MessagesController.getInstance(this.currentAccount).getStoriesController().canSendStoryFor(j, new Consumer() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda2
+            MessagesController.getInstance(this.currentAccount).getStoriesController().canSendStoryFor(j, new Consumer() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda11
                 @Override // com.google.android.exoplayer2.util.Consumer
                 public final void accept(Object obj) {
                     DialogStoriesCell.this.lambda$openStoryRecorder$11(alertDialog, j, storyCell, (Boolean) obj);
@@ -1187,7 +1187,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
     public class Item extends AdapterWithDiffUtils.Item {
         final long dialogId;
 
-        public Item(DialogStoriesCell dialogStoriesCell, long j) {
+        public Item(long j) {
             super(0, false);
             this.dialogId = j;
         }
@@ -1379,7 +1379,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
                     DialogStoriesCell.this.textAnimator.setDuration(150L);
                     this.textView.setAlpha(0.0f);
                     this.textView.setTranslationY(AndroidUtilities.dp(5.0f));
-                    DialogStoriesCell.this.animationRunnable = new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$StoryCell$$ExternalSyntheticLambda2
+                    DialogStoriesCell.this.animationRunnable = new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$StoryCell$$ExternalSyntheticLambda1
                         @Override // java.lang.Runnable
                         public final void run() {
                             DialogStoriesCell.StoryCell.this.lambda$setDialogId$0();
@@ -1550,7 +1550,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
                         avatarStoryParams2.forceAnimateProgressToSegments = true;
                         avatarStoryParams2.progressToSegments = 0.0f;
                         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-                        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.DialogStoriesCell$StoryCell$$ExternalSyntheticLambda1
+                        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.DialogStoriesCell$StoryCell$$ExternalSyntheticLambda0
                             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                                 DialogStoriesCell.StoryCell.this.lambda$dispatchDraw$1(valueAnimator);
@@ -1665,7 +1665,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
             ValueAnimator ofFloat2 = ValueAnimator.ofFloat(1.05f, 1.0f);
             ofFloat2.setDuration(250L);
             ofFloat2.setInterpolator(new OvershootInterpolator());
-            ValueAnimator.AnimatorUpdateListener animatorUpdateListener = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.DialogStoriesCell$StoryCell$$ExternalSyntheticLambda0
+            ValueAnimator.AnimatorUpdateListener animatorUpdateListener = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.DialogStoriesCell$StoryCell$$ExternalSyntheticLambda2
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     DialogStoriesCell.StoryCell.this.lambda$animateBounce$2(valueAnimator);
@@ -1906,7 +1906,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
         }
         this.currentState = i;
         if (i != 1 && this.updateOnIdleState) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda7
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     DialogStoriesCell.this.lambda$updateCurrentState$12();
@@ -1915,7 +1915,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
         }
         int i2 = this.currentState;
         if (i2 == 0) {
-            AndroidUtilities.forEachViews((RecyclerView) this.recyclerListView, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda4
+            AndroidUtilities.forEachViews((RecyclerView) this.recyclerListView, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda3
                 @Override // com.google.android.exoplayer2.util.Consumer
                 public final void accept(Object obj) {
                     DialogStoriesCell.lambda$updateCurrentState$13((View) obj);
@@ -1993,7 +1993,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
             return hintView2;
         }
         this.premiumHint = new HintView2(getContext(), 1).setBgColor(Theme.getColor(Theme.key_undo_background)).setMultilineText(true).setTextAlign(Layout.Alignment.ALIGN_CENTER).setJoint(0.0f, 29.0f);
-        SpannableStringBuilder replaceSingleTag = AndroidUtilities.replaceSingleTag(LocaleController.getString("StoriesPremiumHint2").replace('\n', ' '), Theme.key_undo_cancelColor, 0, new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda8
+        SpannableStringBuilder replaceSingleTag = AndroidUtilities.replaceSingleTag(LocaleController.getString("StoriesPremiumHint2").replace('\n', ' '), Theme.key_undo_cancelColor, 0, new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
                 DialogStoriesCell.this.lambda$makePremiumHint$14();

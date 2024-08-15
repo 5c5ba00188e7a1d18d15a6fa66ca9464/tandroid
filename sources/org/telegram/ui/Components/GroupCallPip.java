@@ -113,7 +113,7 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
         avatarsImageView.setStyle(5);
         this.avatarsImageView.setCentered(true);
         this.avatarsImageView.setVisibility(8);
-        this.avatarsImageView.setDelegate(new Runnable() { // from class: org.telegram.ui.Components.GroupCallPip$$ExternalSyntheticLambda2
+        this.avatarsImageView.setDelegate(new Runnable() { // from class: org.telegram.ui.Components.GroupCallPip$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 GroupCallPip.this.lambda$new$0();
@@ -257,6 +257,7 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
         AnimatorSet moveToBoundsAnimator;
         boolean pressed;
         Runnable pressedRunnable;
+        long startTime;
         float startX;
         float startY;
         final /* synthetic */ float val$touchSlop;
@@ -350,7 +351,7 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
                 groupCallPip4.windowOffsetTop = iArr[1] - layoutParams.y;
                 this.startX = rawX;
                 this.startY = rawY;
-                System.currentTimeMillis();
+                this.startTime = System.currentTimeMillis();
                 AndroidUtilities.runOnUIThread(this.pressedRunnable, 300L);
                 GroupCallPip groupCallPip5 = GroupCallPip.this;
                 WindowManager.LayoutParams layoutParams2 = groupCallPip5.windowLayoutParams;
@@ -667,7 +668,7 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
         ofFloat3.setStartDelay(0.7f * f);
         ofFloat3.setDuration(f * 0.3f);
         animatorSet.playTogether(ofFloat3);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.GroupCallPip$$ExternalSyntheticLambda3
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.GroupCallPip$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 GroupCallPip.lambda$remove$2();
@@ -985,7 +986,7 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
         fArr[1] = z ? 1.0f : 0.0f;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
         this.pinAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.GroupCallPip$$ExternalSyntheticLambda0
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.GroupCallPip$$ExternalSyntheticLambda3
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                 GroupCallPip.this.lambda$pinnedToCenter$3(valueAnimator2);

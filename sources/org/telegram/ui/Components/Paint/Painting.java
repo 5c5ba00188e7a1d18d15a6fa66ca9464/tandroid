@@ -177,7 +177,7 @@ public class Painting {
         if (this.helperApplyAnimator != null) {
             return;
         }
-        this.renderView.performInContext(new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda9
+        this.renderView.performInContext(new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 Painting.this.lambda$setHelperShape$2(shape);
@@ -202,7 +202,7 @@ public class Painting {
             fArr[1] = this.helperShown ? 1.0f : 0.0f;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
             this.helperAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda0
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda12
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                     Painting.this.lambda$setHelperShape$1(valueAnimator2);
@@ -230,7 +230,7 @@ public class Painting {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setHelperShape$1(final ValueAnimator valueAnimator) {
-        this.renderView.performInContext(new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda4
+        this.renderView.performInContext(new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda14
             @Override // java.lang.Runnable
             public final void run() {
                 Painting.this.lambda$setHelperShape$0(valueAnimator);
@@ -282,7 +282,7 @@ public class Painting {
         }
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.helperApplyAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda1
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda8
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                 Painting.this.lambda$applyHelperShape$4(valueAnimator2);
@@ -298,7 +298,7 @@ public class Painting {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$applyHelperShape$4(final ValueAnimator valueAnimator) {
-        this.renderView.performInContext(new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda3
+        this.renderView.performInContext(new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
             public final void run() {
                 Painting.this.lambda$applyHelperShape$3(valueAnimator);
@@ -358,7 +358,7 @@ public class Painting {
         if (shape == null) {
             return;
         }
-        this.renderView.performInContext(new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda11
+        this.renderView.performInContext(new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 Painting.this.lambda$paintShape$5(shape, runnable);
@@ -386,7 +386,7 @@ public class Painting {
         if (this.helperApplyAnimator != null) {
             return;
         }
-        this.renderView.performInContext(new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda8
+        this.renderView.performInContext(new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 Painting.this.lambda$paintStroke$6(path, z, z2, runnable);
@@ -404,11 +404,11 @@ public class Painting {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void paintStrokeInternal(Path path, boolean z, boolean z2) {
+        RectF rectF;
         this.activePath = path;
         if (path == null) {
             return;
         }
-        RectF rectF = null;
         GLES20.glBindFramebuffer(36160, getReusableFramebuffer());
         GLES20.glFramebufferTexture2D(36160, 36064, 3553, getPaintTexture(), 0);
         Utils.HasGLError();
@@ -443,6 +443,8 @@ public class Painting {
                 this.renderState.viewportScale = 1.0f;
             }
             rectF = Render.RenderPath(path, this.renderState, z2);
+        } else {
+            rectF = null;
         }
         GLES20.glBindFramebuffer(36160, 0);
         PaintingDelegate paintingDelegate = this.delegate;
@@ -461,7 +463,7 @@ public class Painting {
         if (shape == null || this.shaders == null) {
             return;
         }
-        this.renderView.performInContext(new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda10
+        this.renderView.performInContext(new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 Painting.this.lambda$commitShape$7(shape, i);
@@ -562,7 +564,7 @@ public class Painting {
         if (this.shaders == null || this.brush == null) {
             return;
         }
-        this.renderView.performInContext(new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda7
+        this.renderView.performInContext(new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
                 Painting.this.lambda$commitPath$8(path, i, z, runnable);
@@ -673,7 +675,7 @@ public class Painting {
     }
 
     public void clearStroke(final Runnable runnable) {
-        this.renderView.performInContext(new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda6
+        this.renderView.performInContext(new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 Painting.this.lambda$clearStroke$9(runnable);
@@ -732,7 +734,7 @@ public class Painting {
     private Slice registerUndo(RectF rectF, boolean z) {
         if (rectF != null && rectF.setIntersect(rectF, getBounds())) {
             final Slice slice = new Slice(getPaintingData(rectF, true, z, false).data, z ? 1 : 0, rectF, this.delegate.requestDispatchQueue());
-            this.delegate.requestUndoStore().registerUndo(UUID.randomUUID(), new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda12
+            this.delegate.requestUndoStore().registerUndo(UUID.randomUUID(), new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda9
                 @Override // java.lang.Runnable
                 public final void run() {
                     Painting.this.lambda$registerUndo$11(slice);
@@ -747,7 +749,7 @@ public class Painting {
         if (rectF != null && rectF.setIntersect(rectF, getBounds())) {
             final Slice slice = new Slice(getPaintingData(rectF, true, false, false).data, 0, rectF, this.delegate.requestDispatchQueue());
             final Slice slice2 = new Slice(getPaintingData(rectF, true, true, false).data, 1, rectF, this.delegate.requestDispatchQueue());
-            this.delegate.requestUndoStore().registerUndo(UUID.randomUUID(), new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda14
+            this.delegate.requestUndoStore().registerUndo(UUID.randomUUID(), new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda13
                 @Override // java.lang.Runnable
                 public final void run() {
                     Painting.this.lambda$registerDoubleUndo$12(slice, slice2, z);
@@ -768,7 +770,7 @@ public class Painting {
     /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: restoreSlice */
     public void lambda$registerUndo$11(final Slice slice) {
-        this.renderView.performInContext(new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda13
+        this.renderView.performInContext(new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 Painting.this.lambda$restoreSlice$13(slice);
@@ -913,7 +915,14 @@ public class Painting {
         Utils.HasGLError();
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:37:0x0122  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x012b  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private void renderBlitPath(int i, Path path, float f) {
+        Object obj;
+        Object obj2;
         if (path == null) {
             return;
         }
@@ -946,7 +955,6 @@ public class Painting {
             GLES20.glActiveTexture(33986);
             GLES20.glBindTexture(3553, this.originalBitmapTexture.texture());
         }
-        Object obj = null;
         if (brush instanceof Brush.Blurer) {
             GLES20.glUniform1i(shader.getUniform("blured"), 2);
             GLES20.glActiveTexture(33986);
@@ -954,24 +962,34 @@ public class Painting {
             if (blurManager != null) {
                 obj = blurManager.getTextureLock();
                 GLES20.glBindTexture(3553, this.blurManager.getTexture());
-            } else {
-                Texture texture = this.bluredTexture;
-                if (texture != null) {
-                    GLES20.glBindTexture(3553, texture.texture());
+                obj2 = obj;
+                GLES20.glBlendFunc(1, 771);
+                GLES20.glVertexAttribPointer(0, 2, 5126, false, 8, (Buffer) this.vertexBuffer);
+                GLES20.glEnableVertexAttribArray(0);
+                GLES20.glVertexAttribPointer(1, 2, 5126, false, 8, (Buffer) this.textureBuffer);
+                GLES20.glEnableVertexAttribArray(1);
+                if (obj2 == null) {
+                    synchronized (obj2) {
+                        GLES20.glDrawArrays(5, 0, 4);
+                    }
+                } else {
+                    GLES20.glDrawArrays(5, 0, 4);
                 }
+                Utils.HasGLError();
+            }
+            Texture texture = this.bluredTexture;
+            if (texture != null) {
+                GLES20.glBindTexture(3553, texture.texture());
             }
         }
+        obj = null;
+        obj2 = obj;
         GLES20.glBlendFunc(1, 771);
         GLES20.glVertexAttribPointer(0, 2, 5126, false, 8, (Buffer) this.vertexBuffer);
         GLES20.glEnableVertexAttribArray(0);
         GLES20.glVertexAttribPointer(1, 2, 5126, false, 8, (Buffer) this.textureBuffer);
         GLES20.glEnableVertexAttribArray(1);
-        if (obj != null) {
-            synchronized (obj) {
-                GLES20.glDrawArrays(5, 0, 4);
-            }
-        } else {
-            GLES20.glDrawArrays(5, 0, 4);
+        if (obj2 == null) {
         }
         Utils.HasGLError();
     }

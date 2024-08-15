@@ -14,29 +14,20 @@ import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 /* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public final class Status extends AbstractSafeParcelable implements Result, ReflectedParcelable {
-    public static final Parcelable.Creator<Status> CREATOR;
-    public static final Status RESULT_CANCELED;
-    public static final Status RESULT_INTERNAL_ERROR;
-    public static final Status RESULT_INTERRUPTED;
-    public static final Status RESULT_SUCCESS;
-    public static final Status RESULT_TIMEOUT;
     final int zzb;
     private final int zzc;
     private final String zzd;
     private final PendingIntent zze;
     private final ConnectionResult zzf;
-
-    static {
-        new Status(-1);
-        RESULT_SUCCESS = new Status(0);
-        RESULT_INTERRUPTED = new Status(14);
-        RESULT_INTERNAL_ERROR = new Status(8);
-        RESULT_TIMEOUT = new Status(15);
-        RESULT_CANCELED = new Status(16);
-        new Status(17);
-        new Status(18);
-        CREATOR = new zzb();
-    }
+    public static final Status RESULT_SUCCESS_CACHE = new Status(-1);
+    public static final Status RESULT_SUCCESS = new Status(0);
+    public static final Status RESULT_INTERRUPTED = new Status(14);
+    public static final Status RESULT_INTERNAL_ERROR = new Status(8);
+    public static final Status RESULT_TIMEOUT = new Status(15);
+    public static final Status RESULT_CANCELED = new Status(16);
+    public static final Status zza = new Status(17);
+    public static final Status RESULT_DEAD_CLIENT = new Status(18);
+    public static final Parcelable.Creator<Status> CREATOR = new zzb();
 
     public Status(int i) {
         this(i, (String) null);

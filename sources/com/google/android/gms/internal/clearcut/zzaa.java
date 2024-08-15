@@ -22,6 +22,7 @@ public class zzaa {
 
     @TargetApi(24)
     private static boolean zzf(Context context) {
+        Object systemService;
         boolean z = zzdd;
         if (!z) {
             UserManager userManager = zzdc;
@@ -29,7 +30,8 @@ public class zzaa {
                 synchronized (zzaa.class) {
                     userManager = zzdc;
                     if (userManager == null) {
-                        UserManager userManager2 = (UserManager) context.getSystemService(UserManager.class);
+                        systemService = context.getSystemService(UserManager.class);
+                        UserManager userManager2 = (UserManager) systemService;
                         zzdc = userManager2;
                         if (userManager2 == null) {
                             zzdd = true;

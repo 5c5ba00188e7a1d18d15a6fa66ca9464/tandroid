@@ -10,7 +10,9 @@ import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 import com.google.android.exoplayer2.text.Cue;
 import com.google.android.exoplayer2.text.Subtitle;
+import com.google.android.exoplayer2.text.SubtitleDecoderException;
 import com.google.android.exoplayer2.text.SubtitleInputBuffer;
+import com.google.android.exoplayer2.text.SubtitleOutputBuffer;
 import com.google.android.exoplayer2.text.cea.Cea708Decoder;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.CodecSpecificDataUtil;
@@ -32,6 +34,7 @@ public final class Cea708Decoder extends CeaDecoder {
     private CueInfoBuilder currentCueInfoBuilder;
     private DtvCcPacket currentDtvCcPacket;
     private int currentWindow;
+    private final boolean isWideAspectRatio;
     private List<Cue> lastCues;
     private final int selectedServiceNumber;
     private final ParsableByteArray ccData = new ParsableByteArray();
@@ -43,11 +46,35 @@ public final class Cea708Decoder extends CeaDecoder {
         return "Cea708Decoder";
     }
 
+    @Override // com.google.android.exoplayer2.text.cea.CeaDecoder, com.google.android.exoplayer2.decoder.Decoder
+    public /* bridge */ /* synthetic */ SubtitleInputBuffer dequeueInputBuffer() throws SubtitleDecoderException {
+        return super.dequeueInputBuffer();
+    }
+
+    @Override // com.google.android.exoplayer2.text.cea.CeaDecoder, com.google.android.exoplayer2.decoder.Decoder
+    public /* bridge */ /* synthetic */ SubtitleOutputBuffer dequeueOutputBuffer() throws SubtitleDecoderException {
+        return super.dequeueOutputBuffer();
+    }
+
+    @Override // com.google.android.exoplayer2.text.cea.CeaDecoder
+    public /* bridge */ /* synthetic */ void queueInputBuffer(SubtitleInputBuffer subtitleInputBuffer) throws SubtitleDecoderException {
+        super.queueInputBuffer(subtitleInputBuffer);
+    }
+
+    @Override // com.google.android.exoplayer2.text.cea.CeaDecoder, com.google.android.exoplayer2.decoder.Decoder
+    public /* bridge */ /* synthetic */ void release() {
+        super.release();
+    }
+
+    @Override // com.google.android.exoplayer2.text.cea.CeaDecoder, com.google.android.exoplayer2.text.SubtitleDecoder
+    public /* bridge */ /* synthetic */ void setPositionUs(long j) {
+        super.setPositionUs(j);
+    }
+
     public Cea708Decoder(int i, List<byte[]> list) {
+        boolean z = true;
         this.selectedServiceNumber = i == -1 ? 1 : i;
-        if (list != null) {
-            CodecSpecificDataUtil.parseCea708InitializationData(list);
-        }
+        this.isWideAspectRatio = (list == null || !CodecSpecificDataUtil.parseCea708InitializationData(list)) ? false : false;
         this.cueInfoBuilders = new CueInfoBuilder[8];
         for (int i2 = 0; i2 < 8; i2++) {
             this.cueInfoBuilders[i2] = new CueInfoBuilder();
@@ -118,7 +145,6 @@ public final class Cea708Decoder extends CeaDecoder {
                             byte[] bArr2 = dtvCcPacket2.packetData;
                             int i6 = dtvCcPacket2.currentIndex;
                             int i7 = i6 + 1;
-                            dtvCcPacket2.currentIndex = i7;
                             bArr2[i6] = readUnsignedByte2;
                             dtvCcPacket2.currentIndex = i7 + 1;
                             bArr2[i7] = readUnsignedByte3;
@@ -146,10 +172,10 @@ public final class Cea708Decoder extends CeaDecoder {
         if (dtvCcPacket.currentIndex != (dtvCcPacket.packetSize * 2) - 1) {
             Log.d("Cea708Decoder", "DtvCcPacket ended prematurely; size is " + ((this.currentDtvCcPacket.packetSize * 2) - 1) + ", but current index is " + this.currentDtvCcPacket.currentIndex + " (sequence number " + this.currentDtvCcPacket.sequenceNumber + ");");
         }
-        boolean z = false;
         ParsableBitArray parsableBitArray = this.captionChannelPacketData;
         DtvCcPacket dtvCcPacket2 = this.currentDtvCcPacket;
         parsableBitArray.reset(dtvCcPacket2.packetData, dtvCcPacket2.currentIndex);
+        boolean z = false;
         while (true) {
             if (this.captionChannelPacketData.bitsLeft() <= 0) {
                 break;

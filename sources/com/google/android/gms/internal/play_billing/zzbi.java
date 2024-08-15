@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 /* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public abstract class zzbi extends zzaq {
-    public static final /* synthetic */ int zzb = 0;
+    public static final /* synthetic */ int $r8$clinit = 0;
     private static final Logger zzc = Logger.getLogger(zzbi.class.getName());
     private static final boolean zzd = zzeq.zzx();
     zzbj zza;
@@ -71,8 +71,8 @@ public abstract class zzbi extends zzaq {
             return 10;
         }
         if (((-34359738368L) & j) != 0) {
-            i = 6;
             j >>>= 28;
+            i = 6;
         } else {
             i = 2;
         }

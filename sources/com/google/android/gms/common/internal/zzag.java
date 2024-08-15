@@ -10,6 +10,7 @@ import com.google.android.gms.common.wrappers.Wrappers;
 public final class zzag {
     private static final Object zza = new Object();
     private static boolean zzb;
+    private static String zzc;
     private static int zzd;
 
     public static int zza(Context context) {
@@ -32,7 +33,7 @@ public final class zzag {
             if (bundle == null) {
                 return;
             }
-            bundle.getString("com.google.app.id");
+            zzc = bundle.getString("com.google.app.id");
             zzd = bundle.getInt("com.google.android.gms.version");
         }
     }

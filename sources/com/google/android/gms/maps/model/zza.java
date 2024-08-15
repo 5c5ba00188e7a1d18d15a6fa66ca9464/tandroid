@@ -9,8 +9,8 @@ public final class zza implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
     public final /* bridge */ /* synthetic */ Object createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
-        float f = 0.0f;
         LatLng latLng = null;
+        float f = 0.0f;
         float f2 = 0.0f;
         float f3 = 0.0f;
         while (parcel.dataPosition() < validateObjectHeader) {

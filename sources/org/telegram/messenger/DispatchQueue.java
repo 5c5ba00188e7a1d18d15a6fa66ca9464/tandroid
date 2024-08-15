@@ -42,7 +42,6 @@ public class DispatchQueue extends Thread {
         int i2 = indexPointer;
         indexPointer = i2 + 1;
         this.index = i2;
-        this.threadPriority = THREAD_PRIORITY_DEFAULT;
         this.threadPriority = i;
         setName(str);
         if (z) {

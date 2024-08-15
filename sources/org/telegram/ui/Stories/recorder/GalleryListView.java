@@ -115,6 +115,7 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
     private final FrameLayout searchContainer;
     private final StickerEmptyView searchEmptyView;
     private final ActionBarMenuItem searchItem;
+    private final GridLayoutManager searchLayoutManager;
     private final RecyclerListView searchListView;
     public MediaController.AlbumEntry selectedAlbum;
     public ArrayList<MediaController.PhotoEntry> selectedPhotos;
@@ -159,7 +160,7 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
             }
         };
         this.listView = recyclerListView;
-        recyclerListView.setItemSelectorColorProvider(new GenericProvider() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$$ExternalSyntheticLambda3
+        recyclerListView.setItemSelectorColorProvider(new GenericProvider() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$$ExternalSyntheticLambda2
             @Override // org.telegram.messenger.GenericProvider
             public final Object provide(Object obj) {
                 Integer lambda$new$0;
@@ -192,7 +193,7 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
                 return (i2 == 0 || i2 == 1 || i2 == GalleryListView.this.adapter.getItemCount() - 1) ? 3 : 1;
             }
         });
-        recyclerListView.addItemDecoration(new RecyclerView.ItemDecoration(this) { // from class: org.telegram.ui.Stories.recorder.GalleryListView.4
+        recyclerListView.addItemDecoration(new RecyclerView.ItemDecoration() { // from class: org.telegram.ui.Stories.recorder.GalleryListView.4
             @Override // androidx.recyclerview.widget.RecyclerView.ItemDecoration
             public void getItemOffsets(Rect rect, View view, RecyclerView recyclerView, RecyclerView.State state) {
                 int dp = AndroidUtilities.dp(5.0f);
@@ -202,7 +203,7 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
         });
         recyclerListView.setClipToPadding(false);
         addView(recyclerListView, LayoutHelper.createFrame(-1, -1, 119));
-        recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$$ExternalSyntheticLambda5
+        recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$$ExternalSyntheticLambda3
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i2) {
                 GalleryListView.this.lambda$new$1(view, i2);
@@ -250,7 +251,7 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
         this.dropDownContainer = actionBarMenuItem;
         actionBarMenuItem.setSubMenuOpenSide(1);
         actionBar.addView(actionBarMenuItem, 0, LayoutHelper.createFrame(-2, -1.0f, 51, AndroidUtilities.isTablet() ? 64.0f : 56.0f, 0.0f, 40.0f, 0.0f));
-        actionBarMenuItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$$ExternalSyntheticLambda0
+        actionBarMenuItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$$ExternalSyntheticLambda4
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 GalleryListView.this.lambda$new$2(view);
@@ -279,7 +280,9 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
         addView(frameLayout, LayoutHelper.createFrame(-1, -1, 119));
         RecyclerListView recyclerListView2 = new RecyclerListView(context, resourcesProvider);
         this.searchListView = recyclerListView2;
-        recyclerListView2.setLayoutManager(new GridLayoutManager(context, 3));
+        GridLayoutManager gridLayoutManager2 = new GridLayoutManager(context, 3);
+        this.searchLayoutManager = gridLayoutManager2;
+        recyclerListView2.setLayoutManager(gridLayoutManager2);
         SearchAdapter searchAdapter = new SearchAdapter() { // from class: org.telegram.ui.Stories.recorder.GalleryListView.8
             @Override // org.telegram.ui.Stories.recorder.GalleryListView.SearchAdapter
             protected void onLoadingUpdate(boolean z2) {
@@ -313,7 +316,7 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
             }
         });
         recyclerListView2.setClipToPadding(true);
-        recyclerListView2.addItemDecoration(new RecyclerView.ItemDecoration(this) { // from class: org.telegram.ui.Stories.recorder.GalleryListView.10
+        recyclerListView2.addItemDecoration(new RecyclerView.ItemDecoration() { // from class: org.telegram.ui.Stories.recorder.GalleryListView.10
             @Override // androidx.recyclerview.widget.RecyclerView.ItemDecoration
             public void getItemOffsets(Rect rect, View view, RecyclerView recyclerView, RecyclerView.State state) {
                 int dp = AndroidUtilities.dp(4.0f);
@@ -327,7 +330,7 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
             }
         });
         frameLayout.addView(recyclerListView2, LayoutHelper.createFrame(-1, -1, 119));
-        FlickerLoadingView flickerLoadingView = new FlickerLoadingView(this, context, resourcesProvider) { // from class: org.telegram.ui.Stories.recorder.GalleryListView.11
+        FlickerLoadingView flickerLoadingView = new FlickerLoadingView(context, resourcesProvider) { // from class: org.telegram.ui.Stories.recorder.GalleryListView.11
             @Override // org.telegram.ui.Components.FlickerLoadingView
             public int getColumnsCount() {
                 return 3;
@@ -343,7 +346,7 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
         stickerEmptyView.title.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText, resourcesProvider));
         stickerEmptyView.title.setTypeface(null);
         stickerEmptyView.title.setText(LocaleController.getString(R.string.SearchImagesType));
-        this.keyboardNotifier = new KeyboardNotifier(this, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$$ExternalSyntheticLambda4
+        this.keyboardNotifier = new KeyboardNotifier(this, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$$ExternalSyntheticLambda5
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 GalleryListView.this.lambda$new$3((Integer) obj);
@@ -685,7 +688,7 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
         final ArrayList<MediaController.AlbumEntry> arrayList = MediaController.allMediaAlbums;
         ArrayList<MediaController.AlbumEntry> arrayList2 = new ArrayList<>(arrayList);
         this.dropDownAlbums = arrayList2;
-        Collections.sort(arrayList2, new Comparator() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$$ExternalSyntheticLambda2
+        Collections.sort(arrayList2, new Comparator() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$$ExternalSyntheticLambda0
             @Override // java.util.Comparator
             public final int compare(Object obj, Object obj2) {
                 int lambda$updateAlbumsDropDown$5;
@@ -825,7 +828,7 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
             this.durationTextPaint = textPaint;
             TextPaint textPaint2 = new TextPaint(1);
             this.draftTextPaint = textPaint2;
-            this.unload = new Runnable() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$Cell$$ExternalSyntheticLambda0
+            this.unload = new Runnable() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$Cell$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     GalleryListView.Cell.this.lambda$new$0();
@@ -1068,7 +1071,7 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
                 this.loadingBitmap = null;
             }
             DispatchQueue queue = getQueue();
-            Runnable runnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$Cell$$ExternalSyntheticLambda1
+            Runnable runnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$Cell$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     GalleryListView.Cell.this.lambda$loadBitmap$2(obj, str);
@@ -1175,7 +1178,7 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
 
         @Override // android.view.View
         public void draw(Canvas canvas) {
-            boolean z = true;
+            boolean z = false;
             if (this.topLeft || this.topRight) {
                 canvas.save();
                 this.clipPath.rewind();
@@ -1191,8 +1194,7 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
                 fArr2[2] = dp2;
                 this.clipPath.addRoundRect(rectF, this.radii, Path.Direction.CW);
                 canvas.clipPath(this.clipPath);
-            } else {
-                z = false;
+                z = true;
             }
             super.draw(canvas);
             canvas.drawRect(0.0f, 0.0f, getWidth(), getHeight(), this.bgPaint);
@@ -1300,7 +1302,7 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
     private class HeaderView extends FrameLayout {
         public TextView textView;
 
-        public HeaderView(GalleryListView galleryListView, Context context, boolean z) {
+        public HeaderView(Context context, boolean z) {
             super(context);
             setPadding(AndroidUtilities.dp(z ? 14.0f : 16.0f), AndroidUtilities.dp(16.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(10.0f));
             TextView textView = new TextView(context);
@@ -1333,7 +1335,7 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
             } else if (i == 1) {
                 GalleryListView galleryListView2 = GalleryListView.this;
                 GalleryListView galleryListView3 = GalleryListView.this;
-                cell = galleryListView2.headerView = new HeaderView(galleryListView3, galleryListView3.getContext(), GalleryListView.this.onlyPhotos);
+                cell = galleryListView2.headerView = new HeaderView(galleryListView3.getContext(), GalleryListView.this.onlyPhotos);
             } else {
                 cell = new Cell(GalleryListView.this.getContext());
             }
@@ -1446,8 +1448,9 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
         if (recyclerListView == null || recyclerListView.getChildCount() <= 0) {
             padding = getPadding();
         } else {
+            RecyclerListView recyclerListView2 = this.listView;
             int i = ConnectionsManager.DEFAULT_DATACENTER_ID;
-            if (this.listView != null) {
+            if (recyclerListView2 != null) {
                 for (int i2 = 0; i2 < this.listView.getChildCount(); i2++) {
                     View childAt = this.listView.getChildAt(i2);
                     if (this.listView.getChildAdapterPosition(childAt) > 0) {
@@ -1457,8 +1460,8 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
             }
             padding = Math.max(0, Math.min(i, getHeight()));
         }
-        RecyclerListView recyclerListView2 = this.listView;
-        return recyclerListView2 == null ? padding : AndroidUtilities.lerp(0, padding, recyclerListView2.getAlpha());
+        RecyclerListView recyclerListView3 = this.listView;
+        return recyclerListView3 == null ? padding : AndroidUtilities.lerp(0, padding, recyclerListView3.getAlpha());
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -1582,7 +1585,7 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            return new RecyclerListView.Holder(new BackupImageView(this, GalleryListView.this.getContext()) { // from class: org.telegram.ui.Stories.recorder.GalleryListView.SearchAdapter.1
+            return new RecyclerListView.Holder(new BackupImageView(GalleryListView.this.getContext()) { // from class: org.telegram.ui.Stories.recorder.GalleryListView.SearchAdapter.1
                 @Override // android.view.View
                 protected void onMeasure(int i2, int i3) {
                     int size = View.MeasureSpec.getSize(i2);
@@ -1658,7 +1661,7 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
             if (tLRPC$User == null && !this.triedResolvingBot) {
                 TLRPC$TL_contacts_resolveUsername tLRPC$TL_contacts_resolveUsername = new TLRPC$TL_contacts_resolveUsername();
                 tLRPC$TL_contacts_resolveUsername.username = str;
-                this.currentReqId = ConnectionsManager.getInstance(GalleryListView.this.currentAccount).sendRequest(tLRPC$TL_contacts_resolveUsername, new RequestDelegate() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$SearchAdapter$$ExternalSyntheticLambda3
+                this.currentReqId = ConnectionsManager.getInstance(GalleryListView.this.currentAccount).sendRequest(tLRPC$TL_contacts_resolveUsername, new RequestDelegate() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$SearchAdapter$$ExternalSyntheticLambda1
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         GalleryListView.SearchAdapter.this.lambda$loadInternal$1(messagesController, tLObject, tLRPC$TL_error);
@@ -1678,7 +1681,7 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
                 String str4 = str3 != null ? str3 : "";
                 tLRPC$TL_messages_getInlineBotResults.offset = str4;
                 final boolean isEmpty = TextUtils.isEmpty(str4);
-                this.currentReqId = ConnectionsManager.getInstance(GalleryListView.this.currentAccount).sendRequest(tLRPC$TL_messages_getInlineBotResults, new RequestDelegate() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$SearchAdapter$$ExternalSyntheticLambda4
+                this.currentReqId = ConnectionsManager.getInstance(GalleryListView.this.currentAccount).sendRequest(tLRPC$TL_messages_getInlineBotResults, new RequestDelegate() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$SearchAdapter$$ExternalSyntheticLambda2
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         GalleryListView.SearchAdapter.this.lambda$loadInternal$3(isEmpty, tLObject, tLRPC$TL_error);
@@ -1689,7 +1692,7 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$loadInternal$1(final MessagesController messagesController, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$SearchAdapter$$ExternalSyntheticLambda1
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$SearchAdapter$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
                     GalleryListView.SearchAdapter.this.lambda$loadInternal$0(tLObject, messagesController);
@@ -1712,7 +1715,7 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$loadInternal$3(final boolean z, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$SearchAdapter$$ExternalSyntheticLambda2
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$SearchAdapter$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     GalleryListView.SearchAdapter.this.lambda$loadInternal$2(tLObject, z);

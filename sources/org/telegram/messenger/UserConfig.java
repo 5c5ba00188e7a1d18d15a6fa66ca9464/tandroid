@@ -145,7 +145,7 @@ public class UserConfig extends BaseController {
     }
 
     public void saveConfig(final boolean z) {
-        NotificationCenter.getInstance(this.currentAccount).doOnIdle(new Runnable() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda2
+        NotificationCenter.getInstance(this.currentAccount).doOnIdle(new Runnable() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 UserConfig.this.lambda$saveConfig$0(z);
@@ -285,7 +285,7 @@ public class UserConfig extends BaseController {
 
     private void checkPremiumSelf(TLRPC$User tLRPC$User, final TLRPC$User tLRPC$User2) {
         if (tLRPC$User == null || !(tLRPC$User2 == null || tLRPC$User.premium == tLRPC$User2.premium)) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda1
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     UserConfig.this.lambda$checkPremiumSelf$1(tLRPC$User2);
@@ -305,14 +305,14 @@ public class UserConfig extends BaseController {
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(20:9|(1:11)|12|(16:17|18|19|20|(1:24)|26|(1:28)|29|(1:33)|34|(1:38)|39|(1:41)|42|43|44)|47|18|19|20|(2:22|24)|26|(0)|29|(2:31|33)|34|(2:36|38)|39|(0)|42|43|44) */
-    /* JADX WARN: Code restructure failed: missing block: B:25:0x0143, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:25:0x0144, code lost:
         r2 = move-exception;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:26:0x0144, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:26:0x0145, code lost:
         org.telegram.messenger.FileLog.e(r2);
      */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x0151 A[Catch: all -> 0x01cc, TryCatch #0 {, blocks: (B:4:0x0003, B:6:0x0007, B:8:0x0009, B:10:0x0012, B:11:0x001a, B:13:0x00db, B:18:0x00e7, B:19:0x0122, B:21:0x012a, B:23:0x0130, B:27:0x0147, B:29:0x0151, B:30:0x0179, B:32:0x0182, B:34:0x0188, B:35:0x019a, B:37:0x01a3, B:39:0x01a9, B:40:0x01bb, B:42:0x01bf, B:43:0x01c8, B:44:0x01ca, B:26:0x0144), top: B:49:0x0003, inners: #1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x01bf A[Catch: all -> 0x01cc, TryCatch #0 {, blocks: (B:4:0x0003, B:6:0x0007, B:8:0x0009, B:10:0x0012, B:11:0x001a, B:13:0x00db, B:18:0x00e7, B:19:0x0122, B:21:0x012a, B:23:0x0130, B:27:0x0147, B:29:0x0151, B:30:0x0179, B:32:0x0182, B:34:0x0188, B:35:0x019a, B:37:0x01a3, B:39:0x01a9, B:40:0x01bb, B:42:0x01bf, B:43:0x01c8, B:44:0x01ca, B:26:0x0144), top: B:49:0x0003, inners: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x0152 A[Catch: all -> 0x01cd, TryCatch #1 {, blocks: (B:4:0x0003, B:6:0x0007, B:8:0x0009, B:10:0x0012, B:11:0x001a, B:13:0x00db, B:18:0x00e7, B:19:0x0122, B:21:0x012b, B:23:0x0131, B:27:0x0148, B:29:0x0152, B:30:0x017a, B:32:0x0183, B:34:0x0189, B:35:0x019b, B:37:0x01a4, B:39:0x01aa, B:40:0x01bc, B:42:0x01c0, B:43:0x01c9, B:44:0x01cb, B:26:0x0145), top: B:51:0x0003, inners: #0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x01c0 A[Catch: all -> 0x01cd, TryCatch #1 {, blocks: (B:4:0x0003, B:6:0x0007, B:8:0x0009, B:10:0x0012, B:11:0x001a, B:13:0x00db, B:18:0x00e7, B:19:0x0122, B:21:0x012b, B:23:0x0131, B:27:0x0148, B:29:0x0152, B:30:0x017a, B:32:0x0183, B:34:0x0189, B:35:0x019b, B:37:0x01a4, B:39:0x01aa, B:40:0x01bc, B:42:0x01c0, B:43:0x01c9, B:44:0x01cb, B:26:0x0145), top: B:51:0x0003, inners: #0 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -688,7 +688,7 @@ public class UserConfig extends BaseController {
             public void serializeToStream(AbstractSerializedData abstractSerializedData) {
                 abstractSerializedData.writeInt32(1703637384);
             }
-        }, new RequestDelegate() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda3
+        }, new RequestDelegate() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda2
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 UserConfig.this.lambda$loadGlobalTTl$3(tLObject, tLRPC$TL_error);
@@ -698,7 +698,7 @@ public class UserConfig extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadGlobalTTl$3(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda0
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 UserConfig.this.lambda$loadGlobalTTl$2(tLObject);

@@ -39,7 +39,7 @@ public class StartServiceLog extends AbstractLog {
         if (this == obj) {
             return true;
         }
-        if (obj != null && StartServiceLog.class == obj.getClass() && super.equals(obj)) {
+        if (obj != null && getClass() == obj.getClass() && super.equals(obj)) {
             List<String> list = this.services;
             List<String> list2 = ((StartServiceLog) obj).services;
             return list != null ? list.equals(list2) : list2 == null;

@@ -14,7 +14,7 @@ import com.google.android.gms.tasks.TaskCompletionSource;
 /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zao extends GoogleApi implements TelemetryLoggingClient {
-    public static final /* synthetic */ int zab = 0;
+    public static final /* synthetic */ int $r8$clinit = 0;
     private static final Api.ClientKey zac;
     private static final Api.AbstractClientBuilder zad;
     private static final Api zae;
@@ -40,7 +40,7 @@ public final class zao extends GoogleApi implements TelemetryLoggingClient {
             @Override // com.google.android.gms.common.api.internal.RemoteCall
             public final void accept(Object obj, Object obj2) {
                 TelemetryData telemetryData2 = TelemetryData.this;
-                int i = zao.zab;
+                int i = zao.$r8$clinit;
                 ((zai) ((zap) obj).getService()).zae(telemetryData2);
                 ((TaskCompletionSource) obj2).setResult(null);
             }

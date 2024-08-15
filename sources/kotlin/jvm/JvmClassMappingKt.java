@@ -2,7 +2,6 @@ package kotlin.jvm;
 
 import kotlin.jvm.internal.ClassBasedDeclarationContainer;
 import kotlin.jvm.internal.Intrinsics;
-import kotlin.jvm.internal.Reflection;
 import kotlin.reflect.KClass;
 /* compiled from: JvmClassMapping.kt */
 /* loaded from: classes.dex */
@@ -80,10 +79,5 @@ public final class JvmClassMappingKt {
         }
         Intrinsics.checkNotNull(cls, "null cannot be cast to non-null type java.lang.Class<T of kotlin.jvm.JvmClassMappingKt.<get-javaObjectType>>");
         return cls;
-    }
-
-    public static final <T> KClass<T> getKotlinClass(Class<T> cls) {
-        Intrinsics.checkNotNullParameter(cls, "<this>");
-        return Reflection.getOrCreateKotlinClass(cls);
     }
 }

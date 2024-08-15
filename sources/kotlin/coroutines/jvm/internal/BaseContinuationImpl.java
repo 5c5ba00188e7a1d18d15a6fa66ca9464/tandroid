@@ -37,7 +37,6 @@ public abstract class BaseContinuationImpl implements Continuation<Object>, Coro
             if (invokeSuspend == coroutine_suspended) {
                 return;
             }
-            Result.Companion companion2 = Result.Companion;
             obj = Result.constructor-impl(invokeSuspend);
             baseContinuationImpl.releaseIntercepted();
             if (!(continuation2 instanceof BaseContinuationImpl)) {
@@ -68,7 +67,6 @@ public abstract class BaseContinuationImpl implements Continuation<Object>, Coro
         return null;
     }
 
-    @Override // kotlin.coroutines.jvm.internal.CoroutineStackFrame
     public StackTraceElement getStackTraceElement() {
         return DebugMetadataKt.getStackTraceElement(this);
     }

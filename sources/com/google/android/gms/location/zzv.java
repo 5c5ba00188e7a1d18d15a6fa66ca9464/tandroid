@@ -10,9 +10,9 @@ public final class zzv implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
     public final /* bridge */ /* synthetic */ Object createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
+        long j = Long.MAX_VALUE;
         String str = null;
         zzd zzdVar = null;
-        long j = Long.MAX_VALUE;
         int i = 0;
         boolean z = false;
         while (parcel.dataPosition() < validateObjectHeader) {

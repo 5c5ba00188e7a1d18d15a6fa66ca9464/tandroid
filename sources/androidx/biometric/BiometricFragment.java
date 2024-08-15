@@ -612,7 +612,9 @@ public class BiometricFragment extends Fragment {
         }
 
         static android.hardware.biometrics.BiometricPrompt buildPrompt(BiometricPrompt.Builder builder) {
-            return builder.build();
+            android.hardware.biometrics.BiometricPrompt build;
+            build = builder.build();
+            return build;
         }
 
         static void authenticate(android.hardware.biometrics.BiometricPrompt biometricPrompt, CancellationSignal cancellationSignal, Executor executor, BiometricPrompt.AuthenticationCallback authenticationCallback) {
@@ -628,7 +630,9 @@ public class BiometricFragment extends Fragment {
     /* loaded from: classes.dex */
     public static class Api21Impl {
         static Intent createConfirmDeviceCredentialIntent(KeyguardManager keyguardManager, CharSequence charSequence, CharSequence charSequence2) {
-            return keyguardManager.createConfirmDeviceCredentialIntent(charSequence, charSequence2);
+            Intent createConfirmDeviceCredentialIntent;
+            createConfirmDeviceCredentialIntent = keyguardManager.createConfirmDeviceCredentialIntent(charSequence, charSequence2);
+            return createConfirmDeviceCredentialIntent;
         }
     }
 }

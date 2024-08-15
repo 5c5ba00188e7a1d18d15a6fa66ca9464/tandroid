@@ -1,23 +1,21 @@
 package androidx.emoji2.viewsintegration;
 
-import android.os.Build;
 import android.text.method.KeyListener;
 import android.text.method.NumberKeyListener;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.widget.EditText;
 import androidx.core.util.Preconditions;
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class EmojiEditTextHelper {
     private final HelperInternal mHelper;
+    private int mMaxEmojiCount = ConnectionsManager.DEFAULT_DATACENTER_ID;
+    private int mEmojiReplaceStrategy = 0;
 
     public EmojiEditTextHelper(EditText editText, boolean z) {
         Preconditions.checkNotNull(editText, "editText cannot be null");
-        if (Build.VERSION.SDK_INT < 19) {
-            this.mHelper = new HelperInternal();
-        } else {
-            this.mHelper = new HelperInternal19(editText, z);
-        }
+        this.mHelper = new HelperInternal19(editText, z);
     }
 
     public KeyListener getKeyListener(KeyListener keyListener) {
@@ -38,14 +36,15 @@ public final class EmojiEditTextHelper {
     /* loaded from: classes.dex */
     static class HelperInternal {
         KeyListener getKeyListener(KeyListener keyListener) {
-            return keyListener;
+            throw null;
         }
 
         InputConnection onCreateInputConnection(InputConnection inputConnection, EditorInfo editorInfo) {
-            return inputConnection;
+            throw null;
         }
 
         void setEnabled(boolean z) {
+            throw null;
         }
 
         HelperInternal() {

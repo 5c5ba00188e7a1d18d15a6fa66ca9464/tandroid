@@ -54,7 +54,7 @@ public class ProtocolExtension implements Model {
         if (this == obj) {
             return true;
         }
-        if (obj == null || ProtocolExtension.class != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         ProtocolExtension protocolExtension = (ProtocolExtension) obj;

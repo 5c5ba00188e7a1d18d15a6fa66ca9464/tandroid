@@ -16,7 +16,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 /* loaded from: classes.dex */
 public class DefaultHeartBeatInfo implements HeartBeatInfo {
-    private static final ThreadFactory THREAD_FACTORY = new ThreadFactory() { // from class: com.google.firebase.heartbeatinfo.DefaultHeartBeatInfo$$ExternalSyntheticLambda2
+    private static final ThreadFactory THREAD_FACTORY = new ThreadFactory() { // from class: com.google.firebase.heartbeatinfo.DefaultHeartBeatInfo$$ExternalSyntheticLambda0
         @Override // java.util.concurrent.ThreadFactory
         public final Thread newThread(Runnable runnable) {
             Thread lambda$static$0;
@@ -24,6 +24,8 @@ public class DefaultHeartBeatInfo implements HeartBeatInfo {
             return lambda$static$0;
         }
     };
+    private final Executor backgroundExecutor;
+    private final Set<HeartBeatConsumer> consumers;
     private Provider<HeartBeatInfoStorage> storageProvider;
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -32,7 +34,7 @@ public class DefaultHeartBeatInfo implements HeartBeatInfo {
     }
 
     private DefaultHeartBeatInfo(final Context context, Set<HeartBeatConsumer> set) {
-        this(new Lazy(new Provider() { // from class: com.google.firebase.heartbeatinfo.DefaultHeartBeatInfo$$ExternalSyntheticLambda1
+        this(new Lazy(new Provider() { // from class: com.google.firebase.heartbeatinfo.DefaultHeartBeatInfo$$ExternalSyntheticLambda2
             @Override // com.google.firebase.inject.Provider
             public final Object get() {
                 HeartBeatInfoStorage heartBeatInfoStorage;
@@ -44,6 +46,8 @@ public class DefaultHeartBeatInfo implements HeartBeatInfo {
 
     DefaultHeartBeatInfo(Provider<HeartBeatInfoStorage> provider, Set<HeartBeatConsumer> set, Executor executor) {
         this.storageProvider = provider;
+        this.consumers = set;
+        this.backgroundExecutor = executor;
     }
 
     @Override // com.google.firebase.heartbeatinfo.HeartBeatInfo
@@ -64,7 +68,7 @@ public class DefaultHeartBeatInfo implements HeartBeatInfo {
     }
 
     public static Component<HeartBeatInfo> component() {
-        return Component.builder(HeartBeatInfo.class).add(Dependency.required(Context.class)).add(Dependency.setOf(HeartBeatConsumer.class)).factory(new ComponentFactory() { // from class: com.google.firebase.heartbeatinfo.DefaultHeartBeatInfo$$ExternalSyntheticLambda0
+        return Component.builder(HeartBeatInfo.class).add(Dependency.required(Context.class)).add(Dependency.setOf(HeartBeatConsumer.class)).factory(new ComponentFactory() { // from class: com.google.firebase.heartbeatinfo.DefaultHeartBeatInfo$$ExternalSyntheticLambda1
             @Override // com.google.firebase.components.ComponentFactory
             public final Object create(ComponentContainer componentContainer) {
                 HeartBeatInfo lambda$component$4;

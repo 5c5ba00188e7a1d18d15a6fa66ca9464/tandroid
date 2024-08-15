@@ -2,11 +2,8 @@ package j$.time;
 
 import j$.time.format.TextStyle;
 import j$.time.format.r;
-import j$.time.temporal.o;
-import j$.time.temporal.t;
-import j$.time.temporal.u;
-import j$.time.temporal.w;
-import j$.time.temporal.x;
+import j$.time.temporal.p;
+import j$.time.temporal.q;
 import java.util.Locale;
 /* loaded from: classes2.dex */
 public enum DayOfWeek implements j$.time.temporal.k {
@@ -20,52 +17,47 @@ public enum DayOfWeek implements j$.time.temporal.k {
     
     private static final DayOfWeek[] a = values();
 
-    public static DayOfWeek g(int i) {
+    public static DayOfWeek f(int i) {
         if (i < 1 || i > 7) {
-            throw new c("Invalid value for DayOfWeek: " + i);
+            throw new d("Invalid value for DayOfWeek: " + i);
         }
         return a[i - 1];
     }
 
     @Override // j$.time.temporal.k
-    public int a(j$.time.temporal.l lVar) {
-        return lVar == j$.time.temporal.a.DAY_OF_WEEK ? f() : j$.time.temporal.j.a(this, lVar);
+    public final q a(j$.time.temporal.l lVar) {
+        return lVar == j$.time.temporal.a.DAY_OF_WEEK ? lVar.c() : j$.time.temporal.j.c(this, lVar);
     }
 
     @Override // j$.time.temporal.k
-    public x b(j$.time.temporal.l lVar) {
-        return lVar == j$.time.temporal.a.DAY_OF_WEEK ? lVar.a() : j$.time.temporal.j.c(this, lVar);
+    public final boolean b(j$.time.temporal.l lVar) {
+        return lVar instanceof j$.time.temporal.a ? lVar == j$.time.temporal.a.DAY_OF_WEEK : lVar != null && lVar.a(this);
     }
 
     @Override // j$.time.temporal.k
-    public long c(j$.time.temporal.l lVar) {
+    public final long c(j$.time.temporal.l lVar) {
         if (lVar == j$.time.temporal.a.DAY_OF_WEEK) {
-            return f();
+            return ordinal() + 1;
         }
         if (lVar instanceof j$.time.temporal.a) {
-            throw new w("Unsupported field: " + lVar);
+            throw new p("Unsupported field: " + lVar);
         }
-        return lVar.c(this);
+        return lVar.d(this);
     }
 
     @Override // j$.time.temporal.k
-    public Object d(u uVar) {
-        int i = t.a;
-        return uVar == o.a ? j$.time.temporal.b.DAYS : j$.time.temporal.j.b(this, uVar);
+    public final Object d(j$.time.temporal.n nVar) {
+        return nVar == j$.time.temporal.j.h() ? j$.time.temporal.b.DAYS : j$.time.temporal.j.b(this, nVar);
     }
 
     @Override // j$.time.temporal.k
-    public boolean e(j$.time.temporal.l lVar) {
-        return lVar instanceof j$.time.temporal.a ? lVar == j$.time.temporal.a.DAY_OF_WEEK : lVar != null && lVar.d(this);
-    }
-
-    public int f() {
-        return ordinal() + 1;
+    public final int e(j$.time.temporal.a aVar) {
+        return aVar == j$.time.temporal.a.DAY_OF_WEEK ? ordinal() + 1 : j$.time.temporal.j.a(this, aVar);
     }
 
     public String getDisplayName(TextStyle textStyle, Locale locale) {
         r rVar = new r();
         rVar.i(j$.time.temporal.a.DAY_OF_WEEK, textStyle);
-        return rVar.u(locale).a(this);
+        return rVar.v(locale).a(this);
     }
 }

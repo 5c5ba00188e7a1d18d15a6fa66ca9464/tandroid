@@ -933,7 +933,7 @@ public class SharedLinkCell extends FrameLayout {
                     if (!z2) {
                     }
                 }
-                return !z || super.onTouchEvent(motionEvent);
+                return z || super.onTouchEvent(motionEvent);
             } else if (motionEvent.getAction() == 3) {
                 resetPressedLink();
             }
@@ -942,13 +942,14 @@ public class SharedLinkCell extends FrameLayout {
         }
         z = false;
         if (z) {
+            return true;
         }
     }
 
     private void startSpoilerRipples(int i, int i2, int i3) {
         int dp = AndroidUtilities.dp(LocaleController.isRTL ? 8.0f : AndroidUtilities.leftBaseline);
         resetPressedLink();
-        this.spoilerPressed.setOnRippleEndCallback(new Runnable() { // from class: org.telegram.ui.Cells.SharedLinkCell$$ExternalSyntheticLambda1
+        this.spoilerPressed.setOnRippleEndCallback(new Runnable() { // from class: org.telegram.ui.Cells.SharedLinkCell$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 SharedLinkCell.this.lambda$startSpoilerRipples$1();
@@ -956,9 +957,9 @@ public class SharedLinkCell extends FrameLayout {
         });
         int i4 = i - dp;
         float sqrt = (float) Math.sqrt(Math.pow(getWidth(), 2.0d) + Math.pow(getHeight(), 2.0d));
-        float f = 0.0f;
         int i5 = this.spoilerTypePressed;
         if (i5 == 0) {
+            float f = 0.0f;
             for (int i6 = 0; i6 < this.linkLayout.size(); i6++) {
                 StaticLayout staticLayout = this.linkLayout.get(i6);
                 f += staticLayout.getLineBottom(staticLayout.getLineCount() - 1);
@@ -1002,7 +1003,7 @@ public class SharedLinkCell extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startSpoilerRipples$1() {
-        post(new Runnable() { // from class: org.telegram.ui.Cells.SharedLinkCell$$ExternalSyntheticLambda0
+        post(new Runnable() { // from class: org.telegram.ui.Cells.SharedLinkCell$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 SharedLinkCell.this.lambda$startSpoilerRipples$0();

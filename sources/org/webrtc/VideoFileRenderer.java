@@ -68,7 +68,7 @@ public class VideoFileRenderer implements VideoSink {
     @Override // org.webrtc.VideoSink
     public void onFrame(final VideoFrame videoFrame) {
         videoFrame.retain();
-        this.renderThreadHandler.post(new Runnable() { // from class: org.webrtc.VideoFileRenderer$$ExternalSyntheticLambda3
+        this.renderThreadHandler.post(new Runnable() { // from class: org.webrtc.VideoFileRenderer$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 VideoFileRenderer.this.lambda$onFrame$0(videoFrame);
@@ -95,7 +95,7 @@ public class VideoFileRenderer implements VideoSink {
         videoFrame.release();
         final VideoFrame.I420Buffer i420 = cropAndScale.toI420();
         cropAndScale.release();
-        this.fileThreadHandler.post(new Runnable() { // from class: org.webrtc.VideoFileRenderer$$ExternalSyntheticLambda2
+        this.fileThreadHandler.post(new Runnable() { // from class: org.webrtc.VideoFileRenderer$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 VideoFileRenderer.this.lambda$renderFrameOnRenderThread$1(i420, videoFrame);
@@ -118,14 +118,14 @@ public class VideoFileRenderer implements VideoSink {
 
     public void release() {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
-        this.renderThreadHandler.post(new Runnable() { // from class: org.webrtc.VideoFileRenderer$$ExternalSyntheticLambda1
+        this.renderThreadHandler.post(new Runnable() { // from class: org.webrtc.VideoFileRenderer$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 VideoFileRenderer.this.lambda$release$2(countDownLatch);
             }
         });
         ThreadUtils.awaitUninterruptibly(countDownLatch);
-        this.fileThreadHandler.post(new Runnable() { // from class: org.webrtc.VideoFileRenderer$$ExternalSyntheticLambda0
+        this.fileThreadHandler.post(new Runnable() { // from class: org.webrtc.VideoFileRenderer$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 VideoFileRenderer.this.lambda$release$3();

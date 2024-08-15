@@ -53,7 +53,7 @@ public class DraftsController {
 
     private void loadInternal(final boolean z, final Utilities.Callback<ArrayList<StoryDraft>> callback) {
         final MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
-        messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DraftsController$$ExternalSyntheticLambda3
+        messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DraftsController$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 DraftsController.lambda$loadInternal$1(MessagesStorage.this, z, callback);
@@ -110,7 +110,7 @@ public class DraftsController {
                 }
             }
             sQLiteCursor.dispose();
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DraftsController$$ExternalSyntheticLambda4
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DraftsController$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
                     Utilities.Callback.this.run(arrayList);
@@ -129,7 +129,7 @@ public class DraftsController {
             return;
         }
         this.loading = true;
-        loadInternal(false, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.DraftsController$$ExternalSyntheticLambda5
+        loadInternal(false, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.DraftsController$$ExternalSyntheticLambda3
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 DraftsController.this.lambda$load$2((ArrayList) obj);
@@ -171,7 +171,7 @@ public class DraftsController {
             return;
         }
         this.loadingFailed = true;
-        loadInternal(true, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.DraftsController$$ExternalSyntheticLambda6
+        loadInternal(true, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.DraftsController$$ExternalSyntheticLambda2
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 DraftsController.this.lambda$loadFailed$3((ArrayList) obj);
@@ -214,7 +214,7 @@ public class DraftsController {
         }
         final StoryDraft storyDraft = new StoryDraft(storyEntry);
         final MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
-        messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DraftsController$$ExternalSyntheticLambda2
+        messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DraftsController$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 DraftsController.lambda$edit$4(MessagesStorage.this, storyDraft);
@@ -358,7 +358,7 @@ public class DraftsController {
         sb2.append(System.currentTimeMillis());
         sb2.append(")");
         FileLog.d(sb2.toString());
-        messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DraftsController$$ExternalSyntheticLambda1
+        messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DraftsController$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 DraftsController.lambda$append$5(MessagesStorage.this, storyDraft);

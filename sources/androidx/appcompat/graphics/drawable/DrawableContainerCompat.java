@@ -490,9 +490,7 @@ public class DrawableContainerCompat extends Drawable implements Drawable.Callba
             if (i >= 23) {
                 DrawableCompat.setLayoutDirection(drawable, DrawableCompat.getLayoutDirection(this));
             }
-            if (i >= 19) {
-                DrawableCompat.setAutoMirrored(drawable, this.mDrawableContainerState.mAutoMirrored);
-            }
+            DrawableCompat.setAutoMirrored(drawable, this.mDrawableContainerState.mAutoMirrored);
             Rect rect = this.mHotspotBounds;
             if (i >= 21 && rect != null) {
                 DrawableCompat.setHotspotBounds(drawable, rect.left, rect.top, rect.right, rect.bottom);
@@ -713,8 +711,9 @@ public class DrawableContainerCompat extends Drawable implements Drawable.Callba
                 }
                 int i = this.mNumChildren;
                 for (int i2 = 0; i2 < i; i2++) {
-                    if (drawableArr[i2] != null) {
-                        Drawable.ConstantState constantState = drawableArr[i2].getConstantState();
+                    Drawable drawable = drawableArr[i2];
+                    if (drawable != null) {
+                        Drawable.ConstantState constantState = drawable.getConstantState();
                         if (constantState != null) {
                             this.mDrawableFutures.put(i2, constantState);
                         } else {
@@ -810,8 +809,9 @@ public class DrawableContainerCompat extends Drawable implements Drawable.Callba
             Drawable[] drawableArr = this.mDrawables;
             boolean z = false;
             for (int i4 = 0; i4 < i3; i4++) {
-                if (drawableArr[i4] != null) {
-                    boolean layoutDirection = Build.VERSION.SDK_INT >= 23 ? DrawableCompat.setLayoutDirection(drawableArr[i4], i) : false;
+                Drawable drawable = drawableArr[i4];
+                if (drawable != null) {
+                    boolean layoutDirection = Build.VERSION.SDK_INT >= 23 ? DrawableCompat.setLayoutDirection(drawable, i) : false;
                     if (i4 == i2) {
                         z = layoutDirection;
                     }
@@ -840,7 +840,8 @@ public class DrawableContainerCompat extends Drawable implements Drawable.Callba
                 int i = this.mNumChildren;
                 Drawable[] drawableArr = this.mDrawables;
                 for (int i2 = 0; i2 < i; i2++) {
-                    if (drawableArr[i2] != null && DrawableCompat.canApplyTheme(drawableArr[i2])) {
+                    Drawable drawable = drawableArr[i2];
+                    if (drawable != null && DrawableCompat.canApplyTheme(drawable)) {
                         DrawableCompat.applyTheme(drawableArr[i2], theme);
                         this.mChildrenChangingConfigurations |= drawableArr[i2].getChangingConfigurations();
                     }
@@ -1100,11 +1101,15 @@ public class DrawableContainerCompat extends Drawable implements Drawable.Callba
     /* loaded from: classes.dex */
     public static class Api21Impl {
         public static boolean canApplyTheme(Drawable.ConstantState constantState) {
-            return constantState.canApplyTheme();
+            boolean canApplyTheme;
+            canApplyTheme = constantState.canApplyTheme();
+            return canApplyTheme;
         }
 
         public static Resources getResources(Resources.Theme theme) {
-            return theme.getResources();
+            Resources resources;
+            resources = theme.getResources();
+            return resources;
         }
 
         public static void getOutline(Drawable drawable, Outline outline) {

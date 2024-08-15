@@ -99,7 +99,7 @@ public class ViewsForPeerStoriesRequester {
             return false;
         }
         tL_stories$TL_stories_getStoriesViews.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.dialogId);
-        this.currentReqId = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stories$TL_stories_getStoriesViews, new RequestDelegate() { // from class: org.telegram.ui.Stories.ViewsForPeerStoriesRequester$$ExternalSyntheticLambda2
+        this.currentReqId = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stories$TL_stories_getStoriesViews, new RequestDelegate() { // from class: org.telegram.ui.Stories.ViewsForPeerStoriesRequester$$ExternalSyntheticLambda1
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 ViewsForPeerStoriesRequester.this.lambda$requestInternal$2(tL_stories$TL_stories_getStoriesViews, tLObject, tLRPC$TL_error);
@@ -110,7 +110,7 @@ public class ViewsForPeerStoriesRequester {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$requestInternal$2(final TL_stories$TL_stories_getStoriesViews tL_stories$TL_stories_getStoriesViews, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.ViewsForPeerStoriesRequester$$ExternalSyntheticLambda1
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.ViewsForPeerStoriesRequester$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 ViewsForPeerStoriesRequester.this.lambda$requestInternal$1(tLObject, tL_stories$TL_stories_getStoriesViews);

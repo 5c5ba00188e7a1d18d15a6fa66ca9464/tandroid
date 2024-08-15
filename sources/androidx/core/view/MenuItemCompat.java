@@ -67,55 +67,81 @@ public final class MenuItemCompat {
     /* loaded from: classes.dex */
     static class Api26Impl {
         static MenuItem setContentDescription(MenuItem menuItem, CharSequence charSequence) {
-            return menuItem.setContentDescription(charSequence);
+            MenuItem contentDescription;
+            contentDescription = menuItem.setContentDescription(charSequence);
+            return contentDescription;
         }
 
         static CharSequence getContentDescription(MenuItem menuItem) {
-            return menuItem.getContentDescription();
+            CharSequence contentDescription;
+            contentDescription = menuItem.getContentDescription();
+            return contentDescription;
         }
 
         static MenuItem setTooltipText(MenuItem menuItem, CharSequence charSequence) {
-            return menuItem.setTooltipText(charSequence);
+            MenuItem tooltipText;
+            tooltipText = menuItem.setTooltipText(charSequence);
+            return tooltipText;
         }
 
         static CharSequence getTooltipText(MenuItem menuItem) {
-            return menuItem.getTooltipText();
+            CharSequence tooltipText;
+            tooltipText = menuItem.getTooltipText();
+            return tooltipText;
         }
 
         static MenuItem setShortcut(MenuItem menuItem, char c, char c2, int i, int i2) {
-            return menuItem.setShortcut(c, c2, i, i2);
+            MenuItem shortcut;
+            shortcut = menuItem.setShortcut(c, c2, i, i2);
+            return shortcut;
         }
 
         static MenuItem setNumericShortcut(MenuItem menuItem, char c, int i) {
-            return menuItem.setNumericShortcut(c, i);
+            MenuItem numericShortcut;
+            numericShortcut = menuItem.setNumericShortcut(c, i);
+            return numericShortcut;
         }
 
         static int getNumericModifiers(MenuItem menuItem) {
-            return menuItem.getNumericModifiers();
+            int numericModifiers;
+            numericModifiers = menuItem.getNumericModifiers();
+            return numericModifiers;
         }
 
         static MenuItem setAlphabeticShortcut(MenuItem menuItem, char c, int i) {
-            return menuItem.setAlphabeticShortcut(c, i);
+            MenuItem alphabeticShortcut;
+            alphabeticShortcut = menuItem.setAlphabeticShortcut(c, i);
+            return alphabeticShortcut;
         }
 
         static int getAlphabeticModifiers(MenuItem menuItem) {
-            return menuItem.getAlphabeticModifiers();
+            int alphabeticModifiers;
+            alphabeticModifiers = menuItem.getAlphabeticModifiers();
+            return alphabeticModifiers;
         }
 
         static MenuItem setIconTintList(MenuItem menuItem, ColorStateList colorStateList) {
-            return menuItem.setIconTintList(colorStateList);
+            MenuItem iconTintList;
+            iconTintList = menuItem.setIconTintList(colorStateList);
+            return iconTintList;
         }
 
         static ColorStateList getIconTintList(MenuItem menuItem) {
-            return menuItem.getIconTintList();
+            ColorStateList iconTintList;
+            iconTintList = menuItem.getIconTintList();
+            return iconTintList;
         }
 
         static MenuItem setIconTintMode(MenuItem menuItem, PorterDuff.Mode mode) {
-            return menuItem.setIconTintMode(mode);
+            MenuItem iconTintMode;
+            iconTintMode = menuItem.setIconTintMode(mode);
+            return iconTintMode;
         }
 
         static PorterDuff.Mode getIconTintMode(MenuItem menuItem) {
-            return menuItem.getIconTintMode();
+            PorterDuff.Mode iconTintMode;
+            iconTintMode = menuItem.getIconTintMode();
+            return iconTintMode;
         }
     }
 }

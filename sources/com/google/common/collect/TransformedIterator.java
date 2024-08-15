@@ -13,6 +13,11 @@ abstract class TransformedIterator<F, T> implements Iterator<T>, j$.util.Iterato
         Iterator.-CC.$default$forEachRemaining(this, consumer);
     }
 
+    @Override // java.util.Iterator
+    public /* synthetic */ void forEachRemaining(java.util.function.Consumer consumer) {
+        forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
+    }
+
     abstract T transform(F f);
 
     /* JADX INFO: Access modifiers changed from: package-private */

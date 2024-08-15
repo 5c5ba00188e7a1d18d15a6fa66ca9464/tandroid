@@ -1,5 +1,6 @@
 package kotlinx.coroutines;
 
+import androidx.concurrent.futures.AbstractResolvableFuture$SafeAtomicHelper$$ExternalSyntheticBackportWithForwarding0;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import kotlin.KotlinNothingValueException;
@@ -10,7 +11,6 @@ import kotlin.coroutines.jvm.internal.CoroutineStackFrame;
 import kotlin.jvm.functions.Function1;
 import kotlin.jvm.internal.Intrinsics;
 import kotlinx.coroutines.internal.DispatchedContinuation;
-import kotlinx.coroutines.internal.StackTraceRecoveryKt;
 /* compiled from: CancellableContinuationImpl.kt */
 /* loaded from: classes.dex */
 public class CancellableContinuationImpl<T> extends DispatchedTask<T> implements CancellableContinuation<T>, CoroutineStackFrame {
@@ -21,11 +21,6 @@ public class CancellableContinuationImpl<T> extends DispatchedTask<T> implements
     private final CoroutineContext context;
     private final Continuation<T> delegate;
     private DisposableHandle parentHandle;
-
-    @Override // kotlin.coroutines.jvm.internal.CoroutineStackFrame
-    public StackTraceElement getStackTraceElement() {
-        return null;
-    }
 
     protected String nameString() {
         return "CancellableContinuation";
@@ -98,26 +93,15 @@ public class CancellableContinuationImpl<T> extends DispatchedTask<T> implements
 
     private final Object resumedState(NotCompleted notCompleted, Object obj, int i, Function1<? super Throwable, Unit> function1, Object obj2) {
         if (obj instanceof CompletedExceptionally) {
-            if (DebugKt.getASSERTIONS_ENABLED()) {
-                if (!(obj2 == null)) {
-                    throw new AssertionError();
-                }
-            }
-            if (DebugKt.getASSERTIONS_ENABLED()) {
-                if (function1 == null) {
-                    return obj;
-                }
-                throw new AssertionError();
-            }
             return obj;
-        } else if (DispatchedTaskKt.isCancellableMode(i) || obj2 != null) {
+        }
+        if (DispatchedTaskKt.isCancellableMode(i) || obj2 != null) {
             if (function1 == null && !(notCompleted instanceof CancelHandler) && obj2 == null) {
                 return obj;
             }
             return new CompletedContinuation(obj, notCompleted instanceof CancelHandler ? (CancelHandler) notCompleted : null, function1, obj2, null, 16, null);
-        } else {
-            return obj;
         }
+        return obj;
     }
 
     /* JADX WARN: Multi-variable type inference failed */
@@ -159,16 +143,11 @@ public class CancellableContinuationImpl<T> extends DispatchedTask<T> implements
 
     @Override // kotlinx.coroutines.DispatchedTask
     public Throwable getExceptionalResult$kotlinx_coroutines_core(Object obj) {
-        Throwable recoverFromStackFrame;
         Throwable exceptionalResult$kotlinx_coroutines_core = super.getExceptionalResult$kotlinx_coroutines_core(obj);
         if (exceptionalResult$kotlinx_coroutines_core == null) {
             return null;
         }
-        Continuation<T> delegate$kotlinx_coroutines_core = getDelegate$kotlinx_coroutines_core();
-        if (DebugKt.getRECOVER_STACK_TRACES() && (delegate$kotlinx_coroutines_core instanceof CoroutineStackFrame)) {
-            recoverFromStackFrame = StackTraceRecoveryKt.recoverFromStackFrame(exceptionalResult$kotlinx_coroutines_core, (CoroutineStackFrame) delegate$kotlinx_coroutines_core);
-            return recoverFromStackFrame;
-        }
+        getDelegate$kotlinx_coroutines_core();
         return exceptionalResult$kotlinx_coroutines_core;
     }
 
@@ -191,11 +170,11 @@ public class CancellableContinuationImpl<T> extends DispatchedTask<T> implements
                 if (!(!completedContinuation.getCancelled())) {
                     throw new IllegalStateException("Must be called at most once".toString());
                 }
-                if (_state$FU.compareAndSet(this, obj2, CompletedContinuation.copy$default(completedContinuation, null, null, null, null, th, 15, null))) {
+                if (AbstractResolvableFuture$SafeAtomicHelper$$ExternalSyntheticBackportWithForwarding0.m(_state$FU, this, obj2, CompletedContinuation.copy$default(completedContinuation, null, null, null, null, th, 15, null))) {
                     completedContinuation.invokeHandlers(this, th);
                     return;
                 }
-            } else if (_state$FU.compareAndSet(this, obj2, new CompletedContinuation(obj2, null, null, null, th, 14, null))) {
+            } else if (AbstractResolvableFuture$SafeAtomicHelper$$ExternalSyntheticBackportWithForwarding0.m(_state$FU, this, obj2, new CompletedContinuation(obj2, null, null, null, th, 14, null))) {
                 return;
             }
         }
@@ -233,7 +212,7 @@ public class CancellableContinuationImpl<T> extends DispatchedTask<T> implements
                 alreadyResumedError(obj);
                 throw new KotlinNothingValueException();
             }
-        } while (!_state$FU.compareAndSet(this, obj2, resumedState((NotCompleted) obj2, obj, i, function1, null)));
+        } while (!AbstractResolvableFuture$SafeAtomicHelper$$ExternalSyntheticBackportWithForwarding0.m(_state$FU, this, obj2, resumedState((NotCompleted) obj2, obj, i, function1, null)));
         detachChildIfNonResuable();
         dispatchResume(i);
     }

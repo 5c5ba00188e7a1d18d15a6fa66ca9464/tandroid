@@ -220,7 +220,7 @@ public class NativeInstance {
 
     private void onNetworkStateUpdated(final boolean z, final boolean z2) {
         if (this.onStateUpdatedListener != null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.voip.NativeInstance$$ExternalSyntheticLambda2
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.voip.NativeInstance$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     NativeInstance.this.lambda$onNetworkStateUpdated$0(z, z2);
@@ -238,7 +238,7 @@ public class NativeInstance {
         if (this.isGroup && iArr != null && iArr.length == 0) {
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.voip.NativeInstance$$ExternalSyntheticLambda3
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.voip.NativeInstance$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 NativeInstance.this.lambda$onAudioLevelsUpdated$1(iArr, fArr, zArr);

@@ -1,19 +1,68 @@
 package j$.util;
 
-import j$.util.function.Consumer;
-import java.util.Objects;
+import java.util.NoSuchElementException;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class m implements j$.util.function.f {
-    public final /* synthetic */ Consumer a;
+public final class m {
+    private static final m c = new m();
+    private final boolean a;
+    private final int b;
 
-    @Override // j$.util.function.f
-    public final void accept(double d) {
-        this.a.accept(Double.valueOf(d));
+    private m() {
+        this.a = false;
+        this.b = 0;
     }
 
-    @Override // j$.util.function.f
-    public j$.util.function.f j(j$.util.function.f fVar) {
-        Objects.requireNonNull(fVar);
-        return new j$.util.function.e(this, fVar);
+    private m(int i) {
+        this.a = true;
+        this.b = i;
+    }
+
+    public static m a() {
+        return c;
+    }
+
+    public static m d(int i) {
+        return new m(i);
+    }
+
+    public final int b() {
+        if (this.a) {
+            return this.b;
+        }
+        throw new NoSuchElementException("No value present");
+    }
+
+    public final boolean c() {
+        return this.a;
+    }
+
+    public final boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj instanceof m) {
+            m mVar = (m) obj;
+            boolean z = this.a;
+            if (z && mVar.a) {
+                if (this.b == mVar.b) {
+                    return true;
+                }
+            } else if (z == mVar.a) {
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
+    public final int hashCode() {
+        if (this.a) {
+            return this.b;
+        }
+        return 0;
+    }
+
+    public final String toString() {
+        return this.a ? String.format("OptionalInt[%s]", Integer.valueOf(this.b)) : "OptionalInt.empty";
     }
 }

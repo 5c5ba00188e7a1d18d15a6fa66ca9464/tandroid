@@ -109,13 +109,13 @@ public class CreateGroupCallBottomSheet extends BottomSheetWithRecyclerListView 
         textView2.setTextColor(Theme.getColor(i));
         textView2.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(8.0f), 0, ColorUtils.setAlphaComponent(Theme.getColor(i), 120)));
         this.containerView.addView(textView2, LayoutHelper.createFrame(-1, 48.0f, 80, 16.0f, 0.0f, 16.0f, 6.0f));
-        textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.CreateGroupCallBottomSheet$$ExternalSyntheticLambda1
+        textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.CreateGroupCallBottomSheet$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 CreateGroupCallBottomSheet.this.lambda$new$0(view);
             }
         });
-        textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.CreateGroupCallBottomSheet$$ExternalSyntheticLambda0
+        textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.CreateGroupCallBottomSheet$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 CreateGroupCallBottomSheet.this.lambda$new$1(view);

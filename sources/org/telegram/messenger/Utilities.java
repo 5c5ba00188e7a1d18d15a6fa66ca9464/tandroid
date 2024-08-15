@@ -1,7 +1,6 @@
 package org.telegram.messenger;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -134,8 +133,6 @@ public class Utilities {
         return new byte[]{(byte) (i >>> 24), (byte) (i >>> 16), (byte) (i >>> 8), (byte) i};
     }
 
-    public static native boolean loadWebpImage(Bitmap bitmap, ByteBuffer byteBuffer, int i, BitmapFactory.Options options, boolean z);
-
     public static native int needInvert(Object obj, int i, int i2, int i3, int i4);
 
     private static native int pbkdf2(byte[] bArr, byte[] bArr2, byte[] bArr3, int i);
@@ -145,8 +142,6 @@ public class Utilities {
     public static native String readlink(String str);
 
     public static native String readlinkFd(int i);
-
-    public static native int saveProgressiveJpeg(Bitmap bitmap, int i, int i2, int i3, int i4, String str);
 
     public static native void setupNativeCrashesListener(String str);
 
@@ -424,8 +419,8 @@ public class Utilities {
     public static byte[] computeSHA256(byte[]... bArr) {
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-            for (int i = 0; i < bArr.length; i++) {
-                messageDigest.update(bArr[i], 0, bArr[i].length);
+            for (byte[] bArr2 : bArr) {
+                messageDigest.update(bArr2, 0, bArr2.length);
             }
             return messageDigest.digest();
         } catch (Exception e) {
@@ -595,7 +590,7 @@ public class Utilities {
         if (callbackArr == null || callbackArr.length <= i) {
             return;
         }
-        callbackArr[i].run(new Runnable() { // from class: org.telegram.messenger.Utilities$$ExternalSyntheticLambda0
+        callbackArr[i].run(new Runnable() { // from class: org.telegram.messenger.Utilities$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 Utilities.lambda$doCallbacks$0(i, callbackArr);
@@ -617,7 +612,7 @@ public class Utilities {
             return;
         }
         final int[] iArr = {0};
-        Runnable runnable2 = new Runnable() { // from class: org.telegram.messenger.Utilities$$ExternalSyntheticLambda1
+        Runnable runnable2 = new Runnable() { // from class: org.telegram.messenger.Utilities$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 Utilities.lambda$raceCallbacks$1(iArr, callbackArr, runnable);
@@ -630,8 +625,9 @@ public class Utilities {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$raceCallbacks$1(int[] iArr, Callback[] callbackArr, Runnable runnable) {
-        iArr[0] = iArr[0] + 1;
-        if (iArr[0] != callbackArr.length || runnable == null) {
+        int i = iArr[0] + 1;
+        iArr[0] = i;
+        if (i != callbackArr.length || runnable == null) {
             return;
         }
         runnable.run();

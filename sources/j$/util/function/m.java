@@ -1,5 +1,7 @@
 package j$.util.function;
 /* loaded from: classes2.dex */
 public interface m {
-    Object apply(int i);
+    void accept(double d);
+
+    m m(m mVar);
 }

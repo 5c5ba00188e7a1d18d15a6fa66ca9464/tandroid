@@ -91,6 +91,7 @@ public class UndoView extends FrameLayout {
     private TextView subinfoTextView;
     private TextPaint textPaint;
     private int textWidth;
+    int textWidthOut;
     StaticLayout timeLayout;
     StaticLayout timeLayoutOut;
     private long timeLeft;
@@ -218,7 +219,7 @@ public class UndoView extends FrameLayout {
         linearLayout.setOrientation(0);
         this.undoButton.setBackground(Theme.createRadSelectorDrawable(getThemedColor(i2) & 587202559, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f)));
         addView(this.undoButton, LayoutHelper.createFrame(-2, -2.0f, 21, 0.0f, 0.0f, 11.0f, 0.0f));
-        this.undoButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.UndoView$$ExternalSyntheticLambda0
+        this.undoButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.UndoView$$ExternalSyntheticLambda4
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 UndoView.this.lambda$new$0(view);
@@ -250,7 +251,7 @@ public class UndoView extends FrameLayout {
         this.textPaint.setColor(getThemedColor(i));
         setWillNotDraw(false);
         this.backgroundDrawable = Theme.createRoundRectDrawable(AndroidUtilities.dp(10.0f), getThemedColor(i3));
-        setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.UndoView$$ExternalSyntheticLambda3
+        setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.UndoView$$ExternalSyntheticLambda5
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view, MotionEvent motionEvent) {
                 boolean lambda$new$1;
@@ -387,11 +388,11 @@ public class UndoView extends FrameLayout {
         showWithAction(arrayList, i, obj, obj2, runnable, runnable2);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:627:0x1882  */
-    /* JADX WARN: Removed duplicated region for block: B:630:0x18a2  */
-    /* JADX WARN: Removed duplicated region for block: B:633:0x18c9  */
-    /* JADX WARN: Removed duplicated region for block: B:637:0x190e  */
-    /* JADX WARN: Removed duplicated region for block: B:668:0x19c0  */
+    /* JADX WARN: Removed duplicated region for block: B:627:0x188b  */
+    /* JADX WARN: Removed duplicated region for block: B:630:0x18ab  */
+    /* JADX WARN: Removed duplicated region for block: B:633:0x18d2  */
+    /* JADX WARN: Removed duplicated region for block: B:637:0x1917  */
+    /* JADX WARN: Removed duplicated region for block: B:668:0x19c9  */
     /* JADX WARN: Removed duplicated region for block: B:694:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -400,19 +401,19 @@ public class UndoView extends FrameLayout {
         boolean z;
         float f;
         int dp;
-        int i2;
         String str;
+        int i2;
         CharSequence charSequence;
         float f2;
         char c;
-        int i3;
         String str2;
+        int i3;
         CharSequence replaceTags;
         int i4;
-        int i5;
         String str3;
-        int i6;
+        int i5;
         String str4;
+        int i6;
         String str5;
         String str6;
         String str7;
@@ -461,7 +462,7 @@ public class UndoView extends FrameLayout {
         layoutParams2.height = -2;
         this.infoTextView.setMinHeight(0);
         if ((runnable == null && runnable2 == null) || i == ACTION_RINGTONE_ADDED) {
-            setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.UndoView$$ExternalSyntheticLambda1
+            setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.UndoView$$ExternalSyntheticLambda0
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     UndoView.this.lambda$showWithAction$2(view);
@@ -470,7 +471,7 @@ public class UndoView extends FrameLayout {
             setOnTouchListener(null);
         } else {
             setOnClickListener(null);
-            setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.UndoView$$ExternalSyntheticLambda4
+            setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.UndoView$$ExternalSyntheticLambda1
                 @Override // android.view.View.OnTouchListener
                 public final boolean onTouch(View view, MotionEvent motionEvent) {
                     boolean lambda$showWithAction$3;
@@ -610,22 +611,22 @@ public class UndoView extends FrameLayout {
                     int i10 = this.currentAction;
                     if (i10 == 39 || i10 == 100) {
                         if (i10 == 39) {
-                            i3 = R.string.VoipGroupAudioRecordStarted;
                             str2 = "VoipGroupAudioRecordStarted";
+                            i3 = R.string.VoipGroupAudioRecordStarted;
                         } else {
-                            i3 = R.string.VoipGroupVideoRecordStarted;
                             str2 = "VoipGroupVideoRecordStarted";
+                            i3 = R.string.VoipGroupVideoRecordStarted;
                         }
                         replaceTags = AndroidUtilities.replaceTags(LocaleController.getString(str2, i3));
                         i4 = R.raw.voip_record_start;
                         this.timeLeft = 3000L;
                     } else if (i10 == 40 || i10 == 101) {
                         if (i10 == 40) {
-                            i5 = R.string.VoipGroupAudioRecordSaved;
                             str3 = "VoipGroupAudioRecordSaved";
+                            i5 = R.string.VoipGroupAudioRecordSaved;
                         } else {
-                            i5 = R.string.VoipGroupVideoRecordSaved;
                             str3 = "VoipGroupVideoRecordSaved";
+                            i5 = R.string.VoipGroupVideoRecordSaved;
                         }
                         String string = LocaleController.getString(str3, i5);
                         i4 = R.raw.voip_record_saved;
@@ -741,11 +742,11 @@ public class UndoView extends FrameLayout {
                             i4 = R.raw.ic_delete;
                         } else if (i == 82) {
                             if (((MediaController.PhotoEntry) obj).isVideo) {
-                                i6 = R.string.AttachMediaVideoDeselected;
                                 str4 = "AttachMediaVideoDeselected";
+                                i6 = R.string.AttachMediaVideoDeselected;
                             } else {
-                                i6 = R.string.AttachMediaPhotoDeselected;
                                 str4 = "AttachMediaPhotoDeselected";
+                                i6 = R.string.AttachMediaPhotoDeselected;
                             }
                             replaceTags = LocaleController.getString(str4, i6);
                         } else if (i == 78 || i == 79) {
@@ -811,8 +812,8 @@ public class UndoView extends FrameLayout {
                 this.undoImageView.setVisibility(8);
                 this.leftImageView.setVisibility(0);
                 this.infoTextView.setTypeface(Typeface.DEFAULT);
-                long j = -1;
                 int i12 = this.currentAction;
+                long j = -1;
                 if (i12 == 76) {
                     this.infoTextView.setText(LocaleController.getString("BroadcastGroupConvertSuccess", R.string.BroadcastGroupConvertSuccess));
                     this.leftImageView.setAnimation(R.raw.gigagroup_convert, 36, 36);
@@ -911,9 +912,9 @@ public class UndoView extends FrameLayout {
                             if (obj2 == null || (obj2 instanceof TLRPC$TL_forumTopic)) {
                                 if (longValue == UserConfig.getInstance(this.currentAccount).clientUserId) {
                                     if (num.intValue() == 1) {
-                                        this.infoTextView.setText(AndroidUtilities.replaceSingleTag(LocaleController.getString("FwdMessageToSavedMessages", R.string.FwdMessageToSavedMessages), BulletinFactory$$ExternalSyntheticLambda5.INSTANCE));
+                                        this.infoTextView.setText(AndroidUtilities.replaceSingleTag(LocaleController.getString("FwdMessageToSavedMessages", R.string.FwdMessageToSavedMessages), new BulletinFactory$$ExternalSyntheticLambda0()));
                                     } else {
-                                        this.infoTextView.setText(AndroidUtilities.replaceSingleTag(LocaleController.getString("FwdMessagesToSavedMessages", R.string.FwdMessagesToSavedMessages), BulletinFactory$$ExternalSyntheticLambda5.INSTANCE));
+                                        this.infoTextView.setText(AndroidUtilities.replaceSingleTag(LocaleController.getString("FwdMessagesToSavedMessages", R.string.FwdMessagesToSavedMessages), new BulletinFactory$$ExternalSyntheticLambda0()));
                                     }
                                     this.leftImageView.setAnimation(R.raw.saved_messages, 30, 30);
                                     this.timeLeft = 3000L;
@@ -985,7 +986,7 @@ public class UndoView extends FrameLayout {
                     this.leftImageView.setProgress(0.0f);
                     this.leftImageView.playAnimation();
                     if (j > 0) {
-                        this.leftImageView.postDelayed(new Runnable() { // from class: org.telegram.ui.Components.UndoView$$ExternalSyntheticLambda5
+                        this.leftImageView.postDelayed(new Runnable() { // from class: org.telegram.ui.Components.UndoView$$ExternalSyntheticLambda3
                             @Override // java.lang.Runnable
                             public final void run() {
                                 UndoView.this.lambda$showWithAction$7();
@@ -1350,11 +1351,11 @@ public class UndoView extends FrameLayout {
                 MediaController.PhotoEntry photoEntry = (MediaController.PhotoEntry) obj;
                 LinkSpanDrawable.LinksTextView linksTextView4 = this.infoTextView;
                 if (photoEntry.isVideo) {
-                    i2 = R.string.AttachMediaVideoDeselected;
                     str = "AttachMediaVideoDeselected";
+                    i2 = R.string.AttachMediaVideoDeselected;
                 } else {
-                    i2 = R.string.AttachMediaPhotoDeselected;
                     str = "AttachMediaPhotoDeselected";
+                    i2 = R.string.AttachMediaPhotoDeselected;
                 }
                 linksTextView4.setText(LocaleController.getString(str, i2));
                 this.undoButton.setVisibility(0);
@@ -1460,7 +1461,7 @@ public class UndoView extends FrameLayout {
         TLRPC$TL_payments_getPaymentReceipt tLRPC$TL_payments_getPaymentReceipt = new TLRPC$TL_payments_getPaymentReceipt();
         tLRPC$TL_payments_getPaymentReceipt.msg_id = tLRPC$Message.id;
         tLRPC$TL_payments_getPaymentReceipt.peer = this.parentFragment.getMessagesController().getInputPeer(tLRPC$Message.peer_id);
-        this.parentFragment.getConnectionsManager().sendRequest(tLRPC$TL_payments_getPaymentReceipt, new RequestDelegate() { // from class: org.telegram.ui.Components.UndoView$$ExternalSyntheticLambda7
+        this.parentFragment.getConnectionsManager().sendRequest(tLRPC$TL_payments_getPaymentReceipt, new RequestDelegate() { // from class: org.telegram.ui.Components.UndoView$$ExternalSyntheticLambda6
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 UndoView.this.lambda$showWithAction$5(tLObject, tLRPC$TL_error);
@@ -1470,7 +1471,7 @@ public class UndoView extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showWithAction$5(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.UndoView$$ExternalSyntheticLambda6
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.UndoView$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 UndoView.this.lambda$showWithAction$4(tLObject);
@@ -1541,6 +1542,7 @@ public class UndoView extends FrameLayout {
                 if (staticLayout != null) {
                     this.timeLayoutOut = staticLayout;
                     this.timeReplaceProgress = 0.0f;
+                    this.textWidthOut = this.textWidth;
                 }
                 this.textWidth = (int) Math.ceil(this.textPaint.measureText(format));
                 this.timeLayout = new StaticLayout(this.timeLeftString, this.textPaint, ConnectionsManager.DEFAULT_DATACENTER_ID, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);

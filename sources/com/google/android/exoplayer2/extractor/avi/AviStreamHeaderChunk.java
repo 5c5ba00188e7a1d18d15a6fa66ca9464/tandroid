@@ -5,6 +5,7 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 /* loaded from: classes.dex */
 final class AviStreamHeaderChunk implements AviChunk {
+    public final int initialFrames;
     public final int length;
     public final int rate;
     public final int scale;
@@ -31,6 +32,7 @@ final class AviStreamHeaderChunk implements AviChunk {
 
     private AviStreamHeaderChunk(int i, int i2, int i3, int i4, int i5, int i6) {
         this.streamType = i;
+        this.initialFrames = i2;
         this.scale = i3;
         this.rate = i4;
         this.length = i5;

@@ -209,7 +209,7 @@ public class EntityView extends FrameLayout {
         this.announcedSelection = false;
         this.announcedTrash = false;
         this.recognizedLongPress = false;
-        this.longPressRunnable = new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda8
+        this.longPressRunnable = new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
             public final void run() {
                 EntityView.this.lambda$new$0();
@@ -220,13 +220,13 @@ public class EntityView extends FrameLayout {
         this.stickyAngleRunnableValue = -1;
         this.stickyX = 0;
         this.stickyY = 0;
-        this.setStickyXRunnable = new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda7
+        this.setStickyXRunnable = new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
                 EntityView.this.updateStickyX();
             }
         };
-        this.setStickyYRunnable = new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda6
+        this.setStickyYRunnable = new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
             public final void run() {
                 EntityView.this.updateStickyY();
@@ -406,6 +406,8 @@ public class EntityView extends FrameLayout {
     @Override // android.view.View
     public boolean onTouchEvent(MotionEvent motionEvent) {
         boolean z;
+        float rawX;
+        float rawY;
         if (!this.delegate.allowInteraction(this)) {
             return false;
         }
@@ -413,7 +415,10 @@ public class EntityView extends FrameLayout {
         boolean z2 = motionEvent.getPointerCount() > 1;
         if (z2) {
             if (Build.VERSION.SDK_INT >= 29) {
-                this.delegate.getTransformedTouch(motionEvent.getRawX(1), motionEvent.getRawY(1), this.xy2);
+                EntityViewDelegate entityViewDelegate = this.delegate;
+                rawX = motionEvent.getRawX(1);
+                rawY = motionEvent.getRawY(1);
+                entityViewDelegate.getTransformedTouch(rawX, rawY, this.xy2);
             } else {
                 z2 = false;
             }
@@ -502,7 +507,7 @@ public class EntityView extends FrameLayout {
         ValueAnimator duration = ValueAnimator.ofFloat(fArr).setDuration(150L);
         this.stickyXAnimator = duration;
         duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
-        this.stickyXAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda4
+        this.stickyXAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda3
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                 EntityView.this.lambda$runStickyXAnimator$1(valueAnimator2);
@@ -532,7 +537,7 @@ public class EntityView extends FrameLayout {
         ValueAnimator duration = ValueAnimator.ofFloat(fArr).setDuration(150L);
         this.stickyYAnimator = duration;
         duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
-        this.stickyYAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda5
+        this.stickyYAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda2
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                 EntityView.this.lambda$runStickyYAnimator$2(valueAnimator2);
@@ -796,7 +801,7 @@ public class EntityView extends FrameLayout {
                         if (runnable != null) {
                             AndroidUtilities.cancelRunOnUIThread(runnable);
                         }
-                        Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda9
+                        Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda5
                             @Override // java.lang.Runnable
                             public final void run() {
                                 EntityView.this.lambda$rotate$4(intValue);
@@ -826,7 +831,7 @@ public class EntityView extends FrameLayout {
                 ValueAnimator duration = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(150L);
                 this.fromStickyAngleAnimator = duration;
                 duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
-                this.fromStickyAngleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda2
+                this.fromStickyAngleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda6
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
                         EntityView.this.lambda$rotate$5(valueAnimator3);
@@ -875,7 +880,7 @@ public class EntityView extends FrameLayout {
         ValueAnimator duration = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(150L);
         this.angleAnimator = duration;
         duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
-        this.angleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda1
+        this.angleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda8
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
                 EntityView.this.lambda$rotate$3(valueAnimator3);
@@ -953,7 +958,7 @@ public class EntityView extends FrameLayout {
             fArr[1] = z ? 1.0f : 0.0f;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
             this.selectAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda3
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda4
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                     EntityView.this.lambda$updateSelect$6(valueAnimator2);
@@ -1063,12 +1068,17 @@ public class EntityView extends FrameLayout {
         public boolean onTouchEvent(MotionEvent motionEvent) {
             boolean z;
             double atan2;
+            float rawX;
+            float rawY;
             int actionMasked = motionEvent.getActionMasked();
             EntityView.this.delegate.getTransformedTouch(motionEvent.getRawX(), motionEvent.getRawY(), EntityView.this.xy);
             boolean z2 = motionEvent.getPointerCount() > 1 && this.currentHandle == 3;
             if (z2) {
                 if (Build.VERSION.SDK_INT >= 29) {
-                    EntityView.this.delegate.getTransformedTouch(motionEvent.getRawX(1), motionEvent.getRawY(1), EntityView.this.xy2);
+                    EntityViewDelegate entityViewDelegate = EntityView.this.delegate;
+                    rawX = motionEvent.getRawX(1);
+                    rawY = motionEvent.getRawY(1);
+                    entityViewDelegate.getTransformedTouch(rawX, rawY, EntityView.this.xy2);
                 } else {
                     z2 = false;
                 }
@@ -1195,7 +1205,7 @@ public class EntityView extends FrameLayout {
             fArr[1] = z ? 0.5f : 1.0f;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
             this.trashAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda0
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda7
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                     EntityView.this.lambda$updateTrash$7(valueAnimator2);

@@ -21,6 +21,7 @@ public class VoipCoverEmoji {
     private AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable emoji;
     private int fromRandomX;
     private int fromRandomY;
+    private int height;
     private boolean isShown;
     private final View parent;
     private int posX;
@@ -51,7 +52,7 @@ public class VoipCoverEmoji {
         this.emoji.setAlpha(this.alpha);
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.positionAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoipCoverEmoji$$ExternalSyntheticLambda3
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoipCoverEmoji$$ExternalSyntheticLambda2
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 VoipCoverEmoji.this.lambda$new$0(view, valueAnimator);
@@ -102,7 +103,7 @@ public class VoipCoverEmoji {
         this.diffX = this.posX > getCenterX() ? AndroidUtilities.dp(12) : -AndroidUtilities.dp(12);
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         ofFloat.setInterpolator(new CubicBezierInterpolator(0.34d, 1.36d, 0.64d, 1.0d));
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoipCoverEmoji$$ExternalSyntheticLambda2
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoipCoverEmoji$$ExternalSyntheticLambda0
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 VoipCoverEmoji.this.lambda$show$2(r2, r3, valueAnimator);
@@ -115,7 +116,7 @@ public class VoipCoverEmoji {
         ofFloat.start();
         ValueAnimator ofInt = ValueAnimator.ofInt(0, 255, 255);
         ofInt.setInterpolator(CubicBezierInterpolator.DEFAULT);
-        ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoipCoverEmoji$$ExternalSyntheticLambda0
+        ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoipCoverEmoji$$ExternalSyntheticLambda1
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 VoipCoverEmoji.this.lambda$show$3(valueAnimator);
@@ -135,7 +136,7 @@ public class VoipCoverEmoji {
         }
         ValueAnimator ofInt = ValueAnimator.ofInt(AndroidUtilities.dp(i), 0);
         this.diffXAnimator = ofInt;
-        ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoipCoverEmoji$$ExternalSyntheticLambda1
+        ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoipCoverEmoji$$ExternalSyntheticLambda3
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                 VoipCoverEmoji.this.lambda$show$1(valueAnimator2);
@@ -167,6 +168,7 @@ public class VoipCoverEmoji {
 
     public void onLayout(int i, int i2) {
         this.width = i;
+        this.height = i2;
         this.parent.invalidate();
     }
 

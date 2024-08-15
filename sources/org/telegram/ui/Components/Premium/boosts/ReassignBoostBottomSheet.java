@@ -62,6 +62,7 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
     private final List<TL_stories$TL_myBoost> allUsedBoosts;
     private final SelectorBtnCell buttonContainer;
     private final TLRPC$Chat currentChat;
+    private final TL_stories$TL_premium_myBoosts myBoosts;
     private final List<TL_stories$TL_myBoost> selectedBoosts;
     private CountDownTimer timer;
     private TopCell topCell;
@@ -77,6 +78,7 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
         this.selectedBoosts = new ArrayList();
         this.allUsedBoosts = new ArrayList();
         this.topPadding = 0.3f;
+        this.myBoosts = tL_stories$TL_premium_myBoosts;
         this.currentChat = tLRPC$Chat;
         Iterator<TL_stories$TL_myBoost> it = tL_stories$TL_premium_myBoosts.my_boosts.iterator();
         while (it.hasNext()) {
@@ -109,7 +111,7 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
         RecyclerListView recyclerListView = this.recyclerListView;
         int i2 = this.backgroundPaddingLeft;
         recyclerListView.setPadding(i2, 0, i2, AndroidUtilities.dp(64.0f));
-        this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.ReassignBoostBottomSheet$$ExternalSyntheticLambda4
+        this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.ReassignBoostBottomSheet$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i3) {
                 ReassignBoostBottomSheet.this.lambda$new$4(tLRPC$Chat, view, i3);
@@ -118,7 +120,7 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
         fixNavigationBar();
         updateTitle();
         updateActionButton(false);
-        Bulletin.addDelegate(this.container, new Bulletin.Delegate(this) { // from class: org.telegram.ui.Components.Premium.boosts.ReassignBoostBottomSheet.1
+        Bulletin.addDelegate(this.container, new Bulletin.Delegate() { // from class: org.telegram.ui.Components.Premium.boosts.ReassignBoostBottomSheet.1
             @Override // org.telegram.ui.Components.Bulletin.Delegate
             public /* synthetic */ boolean allowLayoutChanges() {
                 return Bulletin.Delegate.-CC.$default$allowLayoutChanges(this);
@@ -173,12 +175,12 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
             arrayList.add(Integer.valueOf(tL_stories$TL_myBoost.slot));
             hashSet.add(Long.valueOf(DialogObject.getPeerDialogId(tL_stories$TL_myBoost.peer)));
         }
-        BoostRepository.applyBoost(tLRPC$Chat.id, arrayList, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.ReassignBoostBottomSheet$$ExternalSyntheticLambda3
+        BoostRepository.applyBoost(tLRPC$Chat.id, arrayList, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.ReassignBoostBottomSheet$$ExternalSyntheticLambda2
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 ReassignBoostBottomSheet.this.lambda$new$1(tLRPC$Chat, arrayList, hashSet, (TL_stories$TL_premium_myBoosts) obj);
             }
-        }, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.ReassignBoostBottomSheet$$ExternalSyntheticLambda2
+        }, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.ReassignBoostBottomSheet$$ExternalSyntheticLambda3
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 ReassignBoostBottomSheet.this.lambda$new$2((TLRPC$TL_error) obj);
@@ -188,7 +190,7 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(TLRPC$Chat tLRPC$Chat, final List list, final HashSet hashSet, final TL_stories$TL_premium_myBoosts tL_stories$TL_premium_myBoosts) {
-        MessagesController.getInstance(this.currentAccount).getBoostsController().getBoostsStats(-tLRPC$Chat.id, new Consumer() { // from class: org.telegram.ui.Components.Premium.boosts.ReassignBoostBottomSheet$$ExternalSyntheticLambda1
+        MessagesController.getInstance(this.currentAccount).getBoostsController().getBoostsStats(-tLRPC$Chat.id, new Consumer() { // from class: org.telegram.ui.Components.Premium.boosts.ReassignBoostBottomSheet$$ExternalSyntheticLambda4
             @Override // com.google.android.exoplayer2.util.Consumer
             public final void accept(Object obj) {
                 ReassignBoostBottomSheet.this.lambda$new$0(tL_stories$TL_premium_myBoosts, list, hashSet, (TL_stories$TL_premium_boostsStatus) obj);

@@ -52,13 +52,11 @@ public class PremiumPreviewGiftSentBottomSheet extends PremiumPreviewBottomSheet
 
     @Override // org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet
     protected void updateRows() {
-        this.rowCount = 0;
         int i = 0 + 1;
         this.rowCount = i;
         this.paddingRow = 0;
         this.featuresStartRow = i;
         int size = i + this.premiumFeatures.size();
-        this.rowCount = size;
         this.featuresEndRow = size;
         this.rowCount = size + 1;
         this.termsRow = size;
@@ -123,7 +121,7 @@ public class PremiumPreviewGiftSentBottomSheet extends PremiumPreviewBottomSheet
     protected void afterCellCreated(int i, View view) {
         if (i == 0) {
             if (Build.VERSION.SDK_INT >= 21) {
-                view.setOutlineProvider(new ViewOutlineProvider(this) { // from class: org.telegram.ui.Components.Premium.boosts.PremiumPreviewGiftSentBottomSheet.1
+                view.setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.Components.Premium.boosts.PremiumPreviewGiftSentBottomSheet.1
                     @Override // android.view.ViewOutlineProvider
                     public void getOutline(View view2, Outline outline) {
                         float dp = AndroidUtilities.dp(12.0f);

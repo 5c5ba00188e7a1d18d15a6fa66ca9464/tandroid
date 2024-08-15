@@ -2,7 +2,6 @@ package androidx.concurrent.futures;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -116,16 +115,13 @@ public abstract class AbstractResolvableFuture<V> implements ListenableFuture<V>
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class Failure {
+        static final Failure FALLBACK_INSTANCE = new Failure(new Throwable("Failure occurred while trying to finish a future.") { // from class: androidx.concurrent.futures.AbstractResolvableFuture.Failure.1
+            @Override // java.lang.Throwable
+            public synchronized Throwable fillInStackTrace() {
+                return this;
+            }
+        });
         final Throwable exception;
-
-        static {
-            new Failure(new Throwable("Failure occurred while trying to finish a future.") { // from class: androidx.concurrent.futures.AbstractResolvableFuture.Failure.1
-                @Override // java.lang.Throwable
-                public synchronized Throwable fillInStackTrace() {
-                    return this;
-                }
-            });
-        }
 
         Failure(Throwable th) {
             this.exception = (Throwable) AbstractResolvableFuture.checkNotNull(th);
@@ -616,17 +612,17 @@ public abstract class AbstractResolvableFuture<V> implements ListenableFuture<V>
 
         @Override // androidx.concurrent.futures.AbstractResolvableFuture.AtomicHelper
         boolean casWaiters(AbstractResolvableFuture<?> abstractResolvableFuture, Waiter waiter, Waiter waiter2) {
-            return this.waitersUpdater.compareAndSet(abstractResolvableFuture, waiter, waiter2);
+            return AbstractResolvableFuture$SafeAtomicHelper$$ExternalSyntheticBackportWithForwarding0.m(this.waitersUpdater, abstractResolvableFuture, waiter, waiter2);
         }
 
         @Override // androidx.concurrent.futures.AbstractResolvableFuture.AtomicHelper
         boolean casListeners(AbstractResolvableFuture<?> abstractResolvableFuture, Listener listener, Listener listener2) {
-            return this.listenersUpdater.compareAndSet(abstractResolvableFuture, listener, listener2);
+            return AbstractResolvableFuture$SafeAtomicHelper$$ExternalSyntheticBackportWithForwarding0.m(this.listenersUpdater, abstractResolvableFuture, listener, listener2);
         }
 
         @Override // androidx.concurrent.futures.AbstractResolvableFuture.AtomicHelper
         boolean casValue(AbstractResolvableFuture<?> abstractResolvableFuture, Object obj, Object obj2) {
-            return this.valueUpdater.compareAndSet(abstractResolvableFuture, obj, obj2);
+            return AbstractResolvableFuture$SafeAtomicHelper$$ExternalSyntheticBackportWithForwarding0.m(this.valueUpdater, abstractResolvableFuture, obj, obj2);
         }
     }
 
@@ -687,7 +683,7 @@ public abstract class AbstractResolvableFuture<V> implements ListenableFuture<V>
     }
 
     static <T> T checkNotNull(T t) {
-        Objects.requireNonNull(t);
+        t.getClass();
         return t;
     }
 }

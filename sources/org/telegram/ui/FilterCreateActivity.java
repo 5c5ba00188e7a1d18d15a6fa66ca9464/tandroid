@@ -230,7 +230,7 @@ public class FilterCreateActivity extends BaseFragment {
         TL_chatlists$TL_inputChatlistDialogFilter tL_chatlists$TL_inputChatlistDialogFilter = new TL_chatlists$TL_inputChatlistDialogFilter();
         tL_chatlists$TL_chatlists_getExportedInvites.chatlist = tL_chatlists$TL_inputChatlistDialogFilter;
         tL_chatlists$TL_inputChatlistDialogFilter.filter_id = this.filter.id;
-        this.requestingInvitesReqId = getConnectionsManager().sendRequest(tL_chatlists$TL_chatlists_getExportedInvites, new RequestDelegate() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda24
+        this.requestingInvitesReqId = getConnectionsManager().sendRequest(tL_chatlists$TL_chatlists_getExportedInvites, new RequestDelegate() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda17
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 FilterCreateActivity.this.lambda$loadInvites$1(tLObject, tLRPC$TL_error);
@@ -239,7 +239,7 @@ public class FilterCreateActivity extends BaseFragment {
     }
 
     public /* synthetic */ void lambda$loadInvites$1(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda13
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda22
             @Override // java.lang.Runnable
             public final void run() {
                 FilterCreateActivity.this.lambda$loadInvites$0(tLObject);
@@ -309,7 +309,7 @@ public class FilterCreateActivity extends BaseFragment {
                 this.items.add(ItemInner.asChat(true, this.newAlwaysShow.get(i).longValue()));
             }
             if (size != this.newAlwaysShow.size()) {
-                this.items.add(ItemInner.asButton(R.drawable.arrow_more, LocaleController.formatPluralString("FilterShowMoreChats", this.newAlwaysShow.size() - 5, new Object[0]), false).whenClicked(new View.OnClickListener() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda6
+                this.items.add(ItemInner.asButton(R.drawable.arrow_more, LocaleController.formatPluralString("FilterShowMoreChats", this.newAlwaysShow.size() - 5, new Object[0]), false).whenClicked(new View.OnClickListener() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda10
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         FilterCreateActivity.this.lambda$updateRows$3(view);
@@ -320,7 +320,7 @@ public class FilterCreateActivity extends BaseFragment {
         this.items.add(ItemInner.asShadow(LocaleController.getString("FilterIncludeInfo", R.string.FilterIncludeInfo)));
         if (!this.filter.isChatlist()) {
             this.items.add(ItemInner.asHeader(LocaleController.getString("FilterExclude", R.string.FilterExclude)));
-            this.items.add(ItemInner.asButton(R.drawable.msg2_chats_add, LocaleController.getString(R.string.FilterRemoveChats), false).whenClicked(new View.OnClickListener() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda7
+            this.items.add(ItemInner.asButton(R.drawable.msg2_chats_add, LocaleController.getString(R.string.FilterRemoveChats), false).whenClicked(new View.OnClickListener() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda11
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     FilterCreateActivity.this.lambda$updateRows$4(view);
@@ -341,7 +341,7 @@ public class FilterCreateActivity extends BaseFragment {
                     this.items.add(ItemInner.asChat(false, this.newNeverShow.get(i2).longValue()));
                 }
                 if (size2 != this.newNeverShow.size()) {
-                    this.items.add(ItemInner.asButton(R.drawable.arrow_more, LocaleController.formatPluralString("FilterShowMoreChats", this.newNeverShow.size() - 5, new Object[0]), false).whenClicked(new View.OnClickListener() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda5
+                    this.items.add(ItemInner.asButton(R.drawable.arrow_more, LocaleController.formatPluralString("FilterShowMoreChats", this.newNeverShow.size() - 5, new Object[0]), false).whenClicked(new View.OnClickListener() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda12
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
                             FilterCreateActivity.this.lambda$updateRows$5(view);
@@ -376,7 +376,7 @@ public class FilterCreateActivity extends BaseFragment {
             arrayList.add(ItemInner.asShadow(string));
         }
         if (!this.creatingNew) {
-            this.items.add(ItemInner.asButton(0, LocaleController.getString("FilterDelete", R.string.FilterDelete), true).whenClicked(new View.OnClickListener() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda8
+            this.items.add(ItemInner.asButton(0, LocaleController.getString("FilterDelete", R.string.FilterDelete), true).whenClicked(new View.OnClickListener() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda13
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     FilterCreateActivity.this.deleteFolder(view);
@@ -443,8 +443,7 @@ public class FilterCreateActivity extends BaseFragment {
         this.doneItem = createMenu.addItem(1, LocaleController.getString("Save", R.string.Save).toUpperCase());
         FrameLayout frameLayout = new FrameLayout(context);
         this.fragmentView = frameLayout;
-        FrameLayout frameLayout2 = frameLayout;
-        frameLayout2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
+        frameLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
         RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.FilterCreateActivity.2
             @Override // android.view.ViewGroup, android.view.View
             public boolean requestFocus(int i, Rect rect) {
@@ -467,18 +466,18 @@ public class FilterCreateActivity extends BaseFragment {
         this.listView = recyclerListView;
         recyclerListView.setLayoutManager(new LinearLayoutManager(context, 1, false));
         this.listView.setVerticalScrollBarEnabled(false);
-        frameLayout2.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
+        frameLayout.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
         RecyclerListView recyclerListView2 = this.listView;
         ListAdapter listAdapter = new ListAdapter(context);
         this.adapter = listAdapter;
         recyclerListView2.setAdapter(listAdapter);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda29
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda3
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i) {
                 FilterCreateActivity.this.lambda$createView$7(view, i);
             }
         });
-        this.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda30
+        this.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda4
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
             public final boolean onItemClick(View view, int i) {
                 boolean lambda$createView$8;
@@ -509,7 +508,7 @@ public class FilterCreateActivity extends BaseFragment {
                 showRemoveAlert(itemInner, userCell.getName(), userCell.getCurrentObject(), itemInner.include);
                 return;
             } else if (i2 == 7) {
-                Runnable runnable = new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda17
+                Runnable runnable = new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda18
                     @Override // java.lang.Runnable
                     public final void run() {
                         FilterCreateActivity.this.lambda$createView$6(itemInner);
@@ -539,8 +538,8 @@ public class FilterCreateActivity extends BaseFragment {
 
     public /* synthetic */ void lambda$createView$6(ItemInner itemInner) {
         FilterChatlistActivity filterChatlistActivity = new FilterChatlistActivity(this.filter, itemInner.link);
-        filterChatlistActivity.setOnEdit(new FilterCreateActivity$$ExternalSyntheticLambda22(this));
-        filterChatlistActivity.setOnDelete(new FilterCreateActivity$$ExternalSyntheticLambda23(this));
+        filterChatlistActivity.setOnEdit(new FilterCreateActivity$$ExternalSyntheticLambda23(this));
+        filterChatlistActivity.setOnDelete(new FilterCreateActivity$$ExternalSyntheticLambda24(this));
         presentFragment(filterChatlistActivity);
     }
 
@@ -581,7 +580,7 @@ public class FilterCreateActivity extends BaseFragment {
                 BulletinFactory.of(this).createErrorBulletin(LocaleController.getString("FilterInviteErrorExcluded", R.string.FilterInviteErrorExcluded)).show();
             }
         } else {
-            save(false, new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda11
+            save(false, new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda26
                 @Override // java.lang.Runnable
                 public final void run() {
                     FilterCreateActivity.this.lambda$onClickCreateLink$12();
@@ -608,7 +607,7 @@ public class FilterCreateActivity extends BaseFragment {
             tL_chatlists$TL_inputChatlistDialogFilter.filter_id = this.filter.id;
             tL_chatlists$TL_chatlists_exportChatlistInvite.peers = arrayList;
             tL_chatlists$TL_chatlists_exportChatlistInvite.title = "";
-            getConnectionsManager().sendRequest(tL_chatlists$TL_chatlists_exportChatlistInvite, new RequestDelegate() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda25
+            getConnectionsManager().sendRequest(tL_chatlists$TL_chatlists_exportChatlistInvite, new RequestDelegate() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda28
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     FilterCreateActivity.this.lambda$onClickCreateLink$11(tLObject, tLRPC$TL_error);
@@ -616,14 +615,14 @@ public class FilterCreateActivity extends BaseFragment {
             });
         } else {
             FilterChatlistActivity filterChatlistActivity = new FilterChatlistActivity(this.filter, null);
-            filterChatlistActivity.setOnEdit(new FilterCreateActivity$$ExternalSyntheticLambda22(this));
-            filterChatlistActivity.setOnDelete(new FilterCreateActivity$$ExternalSyntheticLambda23(this));
+            filterChatlistActivity.setOnEdit(new FilterCreateActivity$$ExternalSyntheticLambda23(this));
+            filterChatlistActivity.setOnDelete(new FilterCreateActivity$$ExternalSyntheticLambda24(this));
             presentFragment(filterChatlistActivity);
         }
     }
 
     public /* synthetic */ void lambda$onClickCreateLink$11(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda14
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda30
             @Override // java.lang.Runnable
             public final void run() {
                 FilterCreateActivity.this.lambda$onClickCreateLink$10(tLRPC$TL_error, tLObject);
@@ -637,10 +636,10 @@ public class FilterCreateActivity extends BaseFragment {
             getMessagesController().loadRemoteFilters(true);
             final TL_chatlists$TL_chatlists_exportedChatlistInvite tL_chatlists$TL_chatlists_exportedChatlistInvite = (TL_chatlists$TL_chatlists_exportedChatlistInvite) tLObject;
             FilterChatlistActivity filterChatlistActivity = new FilterChatlistActivity(this.filter, tL_chatlists$TL_chatlists_exportedChatlistInvite.invite);
-            filterChatlistActivity.setOnEdit(new FilterCreateActivity$$ExternalSyntheticLambda22(this));
-            filterChatlistActivity.setOnDelete(new FilterCreateActivity$$ExternalSyntheticLambda23(this));
+            filterChatlistActivity.setOnEdit(new FilterCreateActivity$$ExternalSyntheticLambda23(this));
+            filterChatlistActivity.setOnDelete(new FilterCreateActivity$$ExternalSyntheticLambda24(this));
             presentFragment(filterChatlistActivity);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda15
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda31
                 @Override // java.lang.Runnable
                 public final void run() {
                     FilterCreateActivity.this.lambda$onClickCreateLink$9(tL_chatlists$TL_chatlists_exportedChatlistInvite);
@@ -656,7 +655,11 @@ public class FilterCreateActivity extends BaseFragment {
     private void showSaveHint() {
         HintView hintView = this.saveHintView;
         if (hintView == null || hintView.getVisibility() != 0) {
-            HintView hintView2 = new HintView(this, getContext(), 6, true) { // from class: org.telegram.ui.FilterCreateActivity.3
+            HintView hintView2 = new HintView(getContext(), 6, true) { // from class: org.telegram.ui.FilterCreateActivity.3
+                {
+                    FilterCreateActivity.this = this;
+                }
+
                 @Override // android.view.View
                 public void setVisibility(int i) {
                     super.setVisibility(i);
@@ -711,16 +714,15 @@ public class FilterCreateActivity extends BaseFragment {
         if (tL_chatlists$TL_exportedChatlistInvite == null) {
             return;
         }
-        int i = -1;
-        int i2 = 0;
+        int i = 0;
         while (true) {
-            if (i2 >= this.invites.size()) {
+            if (i >= this.invites.size()) {
+                i = -1;
                 break;
-            } else if (TextUtils.equals(this.invites.get(i2).url, tL_chatlists$TL_exportedChatlistInvite.url)) {
-                i = i2;
+            } else if (TextUtils.equals(this.invites.get(i).url, tL_chatlists$TL_exportedChatlistInvite.url)) {
                 break;
             } else {
-                i2++;
+                i++;
             }
         }
         if (i < 0) {
@@ -734,7 +736,7 @@ public class FilterCreateActivity extends BaseFragment {
     public void deleteFolder(View view) {
         MessagesController.DialogFilter dialogFilter = this.filter;
         if (dialogFilter != null && dialogFilter.isChatlist()) {
-            FolderBottomSheet.showForDeletion(this, this.filter.id, new Utilities.Callback() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda21
+            FolderBottomSheet.showForDeletion(this, this.filter.id, new Utilities.Callback() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda15
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     FilterCreateActivity.this.lambda$deleteFolder$13((Boolean) obj);
@@ -746,7 +748,7 @@ public class FilterCreateActivity extends BaseFragment {
         builder.setTitle(LocaleController.getString("FilterDelete", R.string.FilterDelete));
         builder.setMessage(LocaleController.getString("FilterDeleteAlert", R.string.FilterDeleteAlert));
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-        builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda1
+        builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda16
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 FilterCreateActivity.this.lambda$deleteFolder$16(dialogInterface, i);
@@ -775,7 +777,7 @@ public class FilterCreateActivity extends BaseFragment {
         }
         TLRPC$TL_messages_updateDialogFilter tLRPC$TL_messages_updateDialogFilter = new TLRPC$TL_messages_updateDialogFilter();
         tLRPC$TL_messages_updateDialogFilter.id = this.filter.id;
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_updateDialogFilter, new RequestDelegate() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda26
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_updateDialogFilter, new RequestDelegate() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda25
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 FilterCreateActivity.this.lambda$deleteFolder$15(alertDialog, tLObject, tLRPC$TL_error);
@@ -784,7 +786,7 @@ public class FilterCreateActivity extends BaseFragment {
     }
 
     public /* synthetic */ void lambda$deleteFolder$15(final AlertDialog alertDialog, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda16
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda29
             @Override // java.lang.Runnable
             public final void run() {
                 FilterCreateActivity.this.lambda$deleteFolder$14(alertDialog);
@@ -846,7 +848,7 @@ public class FilterCreateActivity extends BaseFragment {
     private void selectChatsFor(final boolean z) {
         UsersSelectActivity usersSelectActivity = new UsersSelectActivity(z, z ? this.newAlwaysShow : this.newNeverShow, this.newFilterFlags);
         usersSelectActivity.noChatTypes = this.filter.isChatlist();
-        usersSelectActivity.setDelegate(new UsersSelectActivity.FilterUsersActivityDelegate() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda31
+        usersSelectActivity.setDelegate(new UsersSelectActivity.FilterUsersActivityDelegate() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda20
             @Override // org.telegram.ui.UsersSelectActivity.FilterUsersActivityDelegate
             public final void didSelectChats(ArrayList arrayList, int i) {
                 FilterCreateActivity.this.lambda$selectChatsFor$17(z, arrayList, i);
@@ -981,7 +983,7 @@ public class FilterCreateActivity extends BaseFragment {
             if (this.creatingNew) {
                 builder.setTitle(LocaleController.getString("FilterDiscardNewTitle", R.string.FilterDiscardNewTitle));
                 builder.setMessage(LocaleController.getString("FilterDiscardNewAlert", R.string.FilterDiscardNewAlert));
-                builder.setPositiveButton(LocaleController.getString("FilterDiscardNewSave", R.string.FilterDiscardNewSave), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda2
+                builder.setPositiveButton(LocaleController.getString("FilterDiscardNewSave", R.string.FilterDiscardNewSave), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda5
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i) {
                         FilterCreateActivity.this.lambda$checkDiscard$18(dialogInterface, i);
@@ -990,14 +992,14 @@ public class FilterCreateActivity extends BaseFragment {
             } else {
                 builder.setTitle(LocaleController.getString("FilterDiscardTitle", R.string.FilterDiscardTitle));
                 builder.setMessage(LocaleController.getString("FilterDiscardAlert", R.string.FilterDiscardAlert));
-                builder.setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda3
+                builder.setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda6
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i) {
                         FilterCreateActivity.this.lambda$checkDiscard$19(dialogInterface, i);
                     }
                 });
             }
-            builder.setNegativeButton(LocaleController.getString("PassportDiscard", R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda0
+            builder.setNegativeButton(LocaleController.getString("PassportDiscard", R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda7
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
                     FilterCreateActivity.this.lambda$checkDiscard$20(dialogInterface, i);
@@ -1043,7 +1045,7 @@ public class FilterCreateActivity extends BaseFragment {
             }
         }
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-        builder.setPositiveButton(LocaleController.getString("StickersRemove", R.string.StickersRemove), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda4
+        builder.setPositiveButton(LocaleController.getString("StickersRemove", R.string.StickersRemove), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda14
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 FilterCreateActivity.this.lambda$showRemoveAlert$21(itemInner, z, dialogInterface, i);
@@ -1077,7 +1079,7 @@ public class FilterCreateActivity extends BaseFragment {
             hintView.hide(true);
             this.saveHintView = null;
         }
-        save(true, new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda10
+        save(true, new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda19
             @Override // java.lang.Runnable
             public final void run() {
                 FilterCreateActivity.this.lambda$processDone$22();
@@ -1097,7 +1099,7 @@ public class FilterCreateActivity extends BaseFragment {
     }
 
     private void save(boolean z, final Runnable runnable) {
-        saveFilterToServer(this.filter, this.newFilterFlags, this.newFilterName, this.newFilterColor, this.newAlwaysShow, this.newNeverShow, this.newPinned, this.creatingNew, false, this.hasUserChanged, true, z, this, new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda12
+        saveFilterToServer(this.filter, this.newFilterFlags, this.newFilterName, this.newFilterColor, this.newAlwaysShow, this.newNeverShow, this.newPinned, this.creatingNew, false, this.hasUserChanged, true, z, this, new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda21
             @Override // java.lang.Runnable
             public final void run() {
                 FilterCreateActivity.this.lambda$save$23(runnable);
@@ -1197,7 +1199,7 @@ public class FilterCreateActivity extends BaseFragment {
                     arrayList5.add(Long.valueOf(keyAt));
                 }
             }
-            Collections.sort(arrayList5, new Comparator() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda20
+            Collections.sort(arrayList5, new Comparator() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda0
                 @Override // java.util.Comparator
                 public final int compare(Object obj, Object obj2) {
                     int lambda$saveFilterToServer$24;
@@ -1257,7 +1259,7 @@ public class FilterCreateActivity extends BaseFragment {
             i4 = 1;
         }
         final AlertDialog alertDialog2 = alertDialog;
-        baseFragment.getConnectionsManager().sendRequest(tLRPC$TL_messages_updateDialogFilter, new RequestDelegate() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda27
+        baseFragment.getConnectionsManager().sendRequest(tLRPC$TL_messages_updateDialogFilter, new RequestDelegate() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda1
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 FilterCreateActivity.lambda$saveFilterToServer$26(z5, alertDialog2, dialogFilter, i, str, i2, arrayList, arrayList2, z, z2, z3, z4, baseFragment, runnable, tLObject, tLRPC$TL_error);
@@ -1279,7 +1281,7 @@ public class FilterCreateActivity extends BaseFragment {
     }
 
     public static /* synthetic */ void lambda$saveFilterToServer$26(final boolean z, final AlertDialog alertDialog, final MessagesController.DialogFilter dialogFilter, final int i, final String str, final int i2, final ArrayList arrayList, final ArrayList arrayList2, final boolean z2, final boolean z3, final boolean z4, final boolean z5, final BaseFragment baseFragment, final Runnable runnable, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda19
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 FilterCreateActivity.lambda$saveFilterToServer$25(z, alertDialog, dialogFilter, i, str, i2, arrayList, arrayList2, z2, z3, z4, z5, baseFragment, runnable);
@@ -1470,7 +1472,7 @@ public class FilterCreateActivity extends BaseFragment {
             if (this == obj) {
                 return true;
             }
-            if (obj == null || ItemInner.class != obj.getClass()) {
+            if (obj == null || getClass() != obj.getClass()) {
                 return false;
             }
             ItemInner itemInner = (ItemInner) obj;
@@ -1582,7 +1584,7 @@ public class FilterCreateActivity extends BaseFragment {
                     });
                     EditTextBoldCursor textView = pollEditTextCell.getTextView();
                     pollEditTextCell.setShowNextButton(true);
-                    textView.setOnFocusChangeListener(new View.OnFocusChangeListener() { // from class: org.telegram.ui.FilterCreateActivity$ListAdapter$$ExternalSyntheticLambda0
+                    textView.setOnFocusChangeListener(new View.OnFocusChangeListener() { // from class: org.telegram.ui.FilterCreateActivity$ListAdapter$$ExternalSyntheticLambda1
                         @Override // android.view.View.OnFocusChangeListener
                         public final void onFocusChange(View view, boolean z) {
                             FilterCreateActivity.ListAdapter.this.lambda$onCreateViewHolder$0(pollEditTextCell, view, z);
@@ -1756,7 +1758,7 @@ public class FilterCreateActivity extends BaseFragment {
                     final PeerColorActivity.PeerColorGrid peerColorGrid = (PeerColorActivity.PeerColorGrid) viewHolder.itemView;
                     peerColorGrid.setCloseAsLock(!FilterCreateActivity.this.getUserConfig().isPremium());
                     peerColorGrid.setSelected(FilterCreateActivity.this.getUserConfig().isPremium() ? FilterCreateActivity.this.newFilterColor : -1, false);
-                    peerColorGrid.setOnColorClick(new Utilities.Callback() { // from class: org.telegram.ui.FilterCreateActivity$ListAdapter$$ExternalSyntheticLambda1
+                    peerColorGrid.setOnColorClick(new Utilities.Callback() { // from class: org.telegram.ui.FilterCreateActivity$ListAdapter$$ExternalSyntheticLambda0
                         @Override // org.telegram.messenger.Utilities.Callback
                         public final void run(Object obj) {
                             FilterCreateActivity.ListAdapter.this.lambda$onBindViewHolder$1(peerColorGrid, (Integer) obj);
@@ -1791,7 +1793,7 @@ public class FilterCreateActivity extends BaseFragment {
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda28
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda8
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 FilterCreateActivity.this.lambda$getThemeDescriptions$27();
@@ -2005,6 +2007,7 @@ public class FilterCreateActivity extends BaseFragment {
         private int filterId;
         private BaseFragment fragment;
         private TL_chatlists$TL_exportedChatlistInvite lastInvite;
+        private boolean lastRevoked;
         protected String lastUrl;
         Drawable linkIcon;
         boolean needDivider;
@@ -2106,6 +2109,7 @@ public class FilterCreateActivity extends BaseFragment {
         }
 
         public void setRevoked(final boolean z, boolean z2) {
+            this.lastRevoked = z;
             if ((z ? 1.0f : 0.0f) != this.revokeT) {
                 ValueAnimator valueAnimator = this.valueAnimator;
                 if (valueAnimator != null) {
@@ -2186,13 +2190,13 @@ public class FilterCreateActivity extends BaseFragment {
                 return;
             }
             ItemOptions makeOptions = ItemOptions.makeOptions(baseFragment, this);
-            makeOptions.add(R.drawable.msg_qrcode, LocaleController.getString("GetQRCode", R.string.GetQRCode), new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$LinkCell$$ExternalSyntheticLambda3
+            makeOptions.add(R.drawable.msg_qrcode, LocaleController.getString("GetQRCode", R.string.GetQRCode), new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$LinkCell$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     FilterCreateActivity.LinkCell.this.qrcode();
                 }
             });
-            makeOptions.add(R.drawable.msg_delete, (CharSequence) LocaleController.getString("DeleteLink", R.string.DeleteLink), true, new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$LinkCell$$ExternalSyntheticLambda2
+            makeOptions.add(R.drawable.msg_delete, (CharSequence) LocaleController.getString("DeleteLink", R.string.DeleteLink), true, new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$LinkCell$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     FilterCreateActivity.LinkCell.this.deleteLink();
@@ -2228,7 +2232,7 @@ public class FilterCreateActivity extends BaseFragment {
                     FilterCreateActivity.LinkCell.this.lambda$deleteLink$4();
                 }
             };
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_chatlists$TL_chatlists_deleteExportedInvite, new RequestDelegate() { // from class: org.telegram.ui.FilterCreateActivity$LinkCell$$ExternalSyntheticLambda6
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_chatlists$TL_chatlists_deleteExportedInvite, new RequestDelegate() { // from class: org.telegram.ui.FilterCreateActivity$LinkCell$$ExternalSyntheticLambda5
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     FilterCreateActivity.LinkCell.this.lambda$deleteLink$6(runnable, tLObject, tLRPC$TL_error);
@@ -2242,7 +2246,7 @@ public class FilterCreateActivity extends BaseFragment {
         }
 
         public /* synthetic */ void lambda$deleteLink$6(final Runnable runnable, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$LinkCell$$ExternalSyntheticLambda5
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$LinkCell$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
                     FilterCreateActivity.LinkCell.this.lambda$deleteLink$5(tLRPC$TL_error, runnable);
@@ -2445,7 +2449,7 @@ public class FilterCreateActivity extends BaseFragment {
         MessagesController.DialogFilter dialogFilter;
         if (!this.showedUpdateBulletin && (dialogFilter = this.filter) != null && dialogFilter.isChatlist() && this.filter.isMyChatlist()) {
             this.showedUpdateBulletin = true;
-            this.showBulletinOnResume = new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda18
+            this.showBulletinOnResume = new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda27
                 @Override // java.lang.Runnable
                 public final void run() {
                     FilterCreateActivity.this.lambda$onUpdate$28(z, i);
@@ -2486,7 +2490,7 @@ public class FilterCreateActivity extends BaseFragment {
             TL_chatlists$TL_inputChatlistDialogFilter tL_chatlists$TL_inputChatlistDialogFilter = new TL_chatlists$TL_inputChatlistDialogFilter();
             tL_chatlists$TL_chatlists_getExportedInvites.chatlist = tL_chatlists$TL_inputChatlistDialogFilter;
             tL_chatlists$TL_inputChatlistDialogFilter.filter_id = dialogFilter.id;
-            baseFragment.getConnectionsManager().sendRequest(tL_chatlists$TL_chatlists_getExportedInvites, new RequestDelegate() { // from class: org.telegram.ui.FilterCreateActivity$FilterInvitesBottomSheet$$ExternalSyntheticLambda3
+            baseFragment.getConnectionsManager().sendRequest(tL_chatlists$TL_chatlists_getExportedInvites, new RequestDelegate() { // from class: org.telegram.ui.FilterCreateActivity$FilterInvitesBottomSheet$$ExternalSyntheticLambda0
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     FilterCreateActivity.FilterInvitesBottomSheet.lambda$show$1(BaseFragment.this, dialogFilter, runnable, currentTimeMillis, tLObject, tLRPC$TL_error);
@@ -2542,7 +2546,7 @@ public class FilterCreateActivity extends BaseFragment {
             this.button.setBackground(Theme.AdaptiveRipple.filledRectByKey(Theme.key_featuredStickers_addButton, 8.0f));
             this.button.setText(LocaleController.getString("FolderLinkShareButton", R.string.FolderLinkShareButton));
             this.button.setGravity(17);
-            this.button.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.FilterCreateActivity$FilterInvitesBottomSheet$$ExternalSyntheticLambda0
+            this.button.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.FilterCreateActivity$FilterInvitesBottomSheet$$ExternalSyntheticLambda3
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     FilterCreateActivity.FilterInvitesBottomSheet.this.lambda$new$2(view);
@@ -2693,13 +2697,13 @@ public class FilterCreateActivity extends BaseFragment {
                                 FilterCreateActivity.FilterInvitesBottomSheet.1.1.this.copy();
                             }
                         });
-                        makeOptions.add(R.drawable.msg_qrcode, LocaleController.getString("GetQRCode", R.string.GetQRCode), new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$FilterInvitesBottomSheet$1$1$$ExternalSyntheticLambda2
+                        makeOptions.add(R.drawable.msg_qrcode, LocaleController.getString("GetQRCode", R.string.GetQRCode), new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$FilterInvitesBottomSheet$1$1$$ExternalSyntheticLambda1
                             @Override // java.lang.Runnable
                             public final void run() {
                                 FilterCreateActivity.FilterInvitesBottomSheet.1.1.this.qrcode();
                             }
                         });
-                        makeOptions.add(R.drawable.msg_delete, (CharSequence) LocaleController.getString("DeleteLink", R.string.DeleteLink), true, new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$FilterInvitesBottomSheet$1$1$$ExternalSyntheticLambda1
+                        makeOptions.add(R.drawable.msg_delete, (CharSequence) LocaleController.getString("DeleteLink", R.string.DeleteLink), true, new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$FilterInvitesBottomSheet$1$1$$ExternalSyntheticLambda2
                             @Override // java.lang.Runnable
                             public final void run() {
                                 FilterCreateActivity.FilterInvitesBottomSheet.1.1.this.deleteLink();
@@ -2861,7 +2865,7 @@ public class FilterCreateActivity extends BaseFragment {
         }
 
         public /* synthetic */ void lambda$createLink$4(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$FilterInvitesBottomSheet$$ExternalSyntheticLambda2
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FilterCreateActivity$FilterInvitesBottomSheet$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
                 public final void run() {
                     FilterCreateActivity.FilterInvitesBottomSheet.this.lambda$createLink$3(tLRPC$TL_error, tLObject);
@@ -2882,7 +2886,7 @@ public class FilterCreateActivity extends BaseFragment {
         public void onViewCreated(FrameLayout frameLayout) {
             super.onViewCreated(frameLayout);
             this.recyclerListView.setOverScrollMode(2);
-            this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.FilterCreateActivity$FilterInvitesBottomSheet$$ExternalSyntheticLambda5
+            this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.FilterCreateActivity$FilterInvitesBottomSheet$$ExternalSyntheticLambda2
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
                 public final void onItemClick(View view, int i) {
                     FilterCreateActivity.FilterInvitesBottomSheet.this.lambda$onViewCreated$5(view, i);
@@ -2961,7 +2965,7 @@ public class FilterCreateActivity extends BaseFragment {
             int i2 = this.padding;
             addView(textView, LayoutHelper.createFrame(-1, -1.0f, i, i2, 16.66f, i2, this.bottomMargin));
             textView.setAlpha(0.0f);
-            AnimatedTextView animatedTextView = new AnimatedTextView(getContext(), false, true, true, r19) { // from class: org.telegram.ui.FilterCreateActivity.HeaderCellColorPreview.1
+            AnimatedTextView animatedTextView = new AnimatedTextView(getContext(), false, true, true) { // from class: org.telegram.ui.FilterCreateActivity.HeaderCellColorPreview.1
                 private final Paint backgroundPaint = new Paint(1);
 
                 {

@@ -5,10 +5,13 @@ import android.os.Parcelable;
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.MediaMetadata;
 import com.google.android.exoplayer2.metadata.Metadata;
+import com.google.android.exoplayer2.metadata.mp4.SlowMotionData;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import com.google.common.base.Objects;
+import com.google.common.collect.ComparisonChain;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 /* loaded from: classes.dex */
 public final class SlowMotionData implements Metadata.Entry {
@@ -49,6 +52,14 @@ public final class SlowMotionData implements Metadata.Entry {
 
     /* loaded from: classes.dex */
     public static final class Segment implements Parcelable {
+        public static final Comparator<Segment> BY_START_THEN_END_THEN_DIVISOR = new Comparator() { // from class: com.google.android.exoplayer2.metadata.mp4.SlowMotionData$Segment$$ExternalSyntheticLambda0
+            @Override // java.util.Comparator
+            public final int compare(Object obj, Object obj2) {
+                int lambda$static$0;
+                lambda$static$0 = SlowMotionData.Segment.lambda$static$0((SlowMotionData.Segment) obj, (SlowMotionData.Segment) obj2);
+                return lambda$static$0;
+            }
+        };
         public static final Parcelable.Creator<Segment> CREATOR = new Parcelable.Creator<Segment>() { // from class: com.google.android.exoplayer2.metadata.mp4.SlowMotionData.Segment.1
             @Override // android.os.Parcelable.Creator
             public Segment createFromParcel(Parcel parcel) {
@@ -67,6 +78,11 @@ public final class SlowMotionData implements Metadata.Entry {
         @Override // android.os.Parcelable
         public int describeContents() {
             return 0;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public static /* synthetic */ int lambda$static$0(Segment segment, Segment segment2) {
+            return ComparisonChain.start().compare(segment.startTimeMs, segment2.startTimeMs).compare(segment.endTimeMs, segment2.endTimeMs).compare(segment.speedDivisor, segment2.speedDivisor).result();
         }
 
         public Segment(long j, long j2, int i) {

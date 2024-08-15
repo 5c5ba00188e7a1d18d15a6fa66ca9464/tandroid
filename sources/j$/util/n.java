@@ -1,14 +1,69 @@
 package j$.util;
 
-import j$.util.function.Consumer;
+import java.util.NoSuchElementException;
 /* loaded from: classes2.dex */
-public interface n extends p {
-    void e(j$.util.function.f fVar);
+public final class n {
+    private static final n c = new n();
+    private final boolean a;
+    private final long b;
 
-    void forEachRemaining(Consumer consumer);
+    private n() {
+        this.a = false;
+        this.b = 0L;
+    }
 
-    @Override // java.util.Iterator
-    Double next();
+    private n(long j) {
+        this.a = true;
+        this.b = j;
+    }
 
-    double nextDouble();
+    public static n a() {
+        return c;
+    }
+
+    public static n d(long j) {
+        return new n(j);
+    }
+
+    public final long b() {
+        if (this.a) {
+            return this.b;
+        }
+        throw new NoSuchElementException("No value present");
+    }
+
+    public final boolean c() {
+        return this.a;
+    }
+
+    public final boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj instanceof n) {
+            n nVar = (n) obj;
+            boolean z = this.a;
+            if (z && nVar.a) {
+                if (this.b == nVar.b) {
+                    return true;
+                }
+            } else if (z == nVar.a) {
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
+    public final int hashCode() {
+        if (this.a) {
+            long j = this.b;
+            return (int) (j ^ (j >>> 32));
+        }
+        return 0;
+    }
+
+    public final String toString() {
+        return this.a ? String.format("OptionalLong[%s]", Long.valueOf(this.b)) : "OptionalLong.empty";
+    }
 }

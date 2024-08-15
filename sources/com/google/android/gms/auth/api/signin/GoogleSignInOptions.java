@@ -29,6 +29,7 @@ import org.json.JSONObject;
 /* loaded from: classes.dex */
 public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.ApiOptions, ReflectedParcelable {
     public static final Parcelable.Creator<GoogleSignInOptions> CREATOR;
+    public static final GoogleSignInOptions DEFAULT_GAMES_SIGN_IN;
     public static final GoogleSignInOptions DEFAULT_SIGN_IN;
     public static final Scope zaa = new Scope("profile");
     public static final Scope zab = new Scope("email");
@@ -46,6 +47,7 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
     private String zan;
     private ArrayList zao;
     private String zap;
+    private Map zaq;
 
     static {
         Scope scope = new Scope("https://www.googleapis.com/auth/games_lite");
@@ -57,7 +59,7 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
         DEFAULT_SIGN_IN = builder.build();
         Builder builder2 = new Builder();
         builder2.requestScopes(scope, new Scope[0]);
-        builder2.build();
+        DEFAULT_GAMES_SIGN_IN = builder2.build();
         CREATOR = new zae();
         zag = new zac();
     }
@@ -328,6 +330,7 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
         this.zam = str;
         this.zan = str2;
         this.zao = new ArrayList(map.values());
+        this.zaq = map;
         this.zap = str3;
     }
 }

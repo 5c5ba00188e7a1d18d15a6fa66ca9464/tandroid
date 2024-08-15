@@ -37,7 +37,7 @@ class TooltipPopup {
         View inflate = LayoutInflater.from(context).inflate(R$layout.abc_tooltip, (ViewGroup) null);
         this.mContentView = inflate;
         this.mMessageView = (TextView) inflate.findViewById(R$id.message);
-        layoutParams.setTitle(TooltipPopup.class.getSimpleName());
+        layoutParams.setTitle(getClass().getSimpleName());
         layoutParams.packageName = context.getPackageName();
         layoutParams.type = 1002;
         layoutParams.width = -2;
@@ -105,25 +105,26 @@ class TooltipPopup {
         int[] iArr = this.mTmpAnchorPos;
         int i4 = iArr[0];
         int[] iArr2 = this.mTmpAppPos;
-        iArr[0] = i4 - iArr2[0];
+        int i5 = i4 - iArr2[0];
+        iArr[0] = i5;
         iArr[1] = iArr[1] - iArr2[1];
-        layoutParams.x = (iArr[0] + i) - (appRootView.getWidth() / 2);
+        layoutParams.x = (i5 + i) - (appRootView.getWidth() / 2);
         int makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, 0);
         this.mContentView.measure(makeMeasureSpec, makeMeasureSpec);
         int measuredHeight = this.mContentView.getMeasuredHeight();
-        int[] iArr3 = this.mTmpAnchorPos;
-        int i5 = ((iArr3[1] + i3) - dimensionPixelOffset3) - measuredHeight;
-        int i6 = iArr3[1] + height + dimensionPixelOffset3;
+        int i6 = this.mTmpAnchorPos[1];
+        int i7 = ((i3 + i6) - dimensionPixelOffset3) - measuredHeight;
+        int i8 = i6 + height + dimensionPixelOffset3;
         if (z) {
-            if (i5 >= 0) {
-                layoutParams.y = i5;
+            if (i7 >= 0) {
+                layoutParams.y = i7;
             } else {
-                layoutParams.y = i6;
+                layoutParams.y = i8;
             }
-        } else if (measuredHeight + i6 <= this.mTmpDisplayFrame.height()) {
-            layoutParams.y = i6;
+        } else if (measuredHeight + i8 <= this.mTmpDisplayFrame.height()) {
+            layoutParams.y = i8;
         } else {
-            layoutParams.y = i5;
+            layoutParams.y = i7;
         }
     }
 

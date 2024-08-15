@@ -39,7 +39,6 @@ public class RtpParameters {
         public Long ssrc;
 
         public Encoding(String str, boolean z, Double d) {
-            this.active = true;
             this.bitratePriority = 1.0d;
             this.networkPriority = 0;
             this.rid = str;
@@ -49,9 +48,6 @@ public class RtpParameters {
 
         @CalledByNative("Encoding")
         Encoding(String str, boolean z, double d, int i, Integer num, Integer num2, Integer num3, Integer num4, Double d2, Long l) {
-            this.active = true;
-            this.bitratePriority = 1.0d;
-            this.networkPriority = 0;
             this.rid = str;
             this.active = z;
             this.bitratePriority = d;

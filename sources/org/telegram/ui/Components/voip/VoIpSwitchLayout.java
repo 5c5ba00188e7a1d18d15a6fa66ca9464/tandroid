@@ -234,7 +234,7 @@ public class VoIpSwitchLayout extends FrameLayout {
                         VoIpButtonView voIpButtonView4 = this.voIpButtonView;
                         RLottieDrawable rLottieDrawable = z ? voIpButtonView4.selectedIcon : voIpButtonView4.unSelectedIcon;
                         rLottieDrawable.setMasterParent(this.voIpButtonView);
-                        rLottieDrawable.setOnAnimationEndListener(new Runnable() { // from class: org.telegram.ui.Components.voip.VoIpSwitchLayout$$ExternalSyntheticLambda2
+                        rLottieDrawable.setOnAnimationEndListener(new Runnable() { // from class: org.telegram.ui.Components.voip.VoIpSwitchLayout$$ExternalSyntheticLambda1
                             @Override // java.lang.Runnable
                             public final void run() {
                                 VoIpSwitchLayout.this.lambda$setType$3(dp);
@@ -256,7 +256,7 @@ public class VoIpSwitchLayout extends FrameLayout {
                         VoIpButtonView voIpButtonView5 = this.voIpButtonView;
                         RLottieDrawable rLottieDrawable2 = z ? voIpButtonView5.selectedIcon : voIpButtonView5.unSelectedIcon;
                         rLottieDrawable2.setMasterParent(this.voIpButtonView);
-                        rLottieDrawable2.setOnAnimationEndListener(new Runnable() { // from class: org.telegram.ui.Components.voip.VoIpSwitchLayout$$ExternalSyntheticLambda1
+                        rLottieDrawable2.setOnAnimationEndListener(new Runnable() { // from class: org.telegram.ui.Components.voip.VoIpSwitchLayout$$ExternalSyntheticLambda0
                             @Override // java.lang.Runnable
                             public final void run() {
                                 VoIpSwitchLayout.this.lambda$setType$1(dp);
@@ -299,7 +299,7 @@ public class VoIpSwitchLayout extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setType$3(final int i) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.VoIpSwitchLayout$$ExternalSyntheticLambda0
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.VoIpSwitchLayout$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 VoIpSwitchLayout.this.lambda$setType$2(i);
@@ -375,7 +375,7 @@ public class VoIpSwitchLayout extends FrameLayout {
                         ofInt = ValueAnimator.ofInt(iArr);
                     }
                     this.animator = ofInt;
-                    ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIpSwitchLayout$VoIpButtonView$$ExternalSyntheticLambda3
+                    ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIpSwitchLayout$VoIpButtonView$$ExternalSyntheticLambda1
                         @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                         public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                             VoIpSwitchLayout.VoIpButtonView.this.lambda$setSelectedState$0(valueAnimator2);
@@ -397,7 +397,7 @@ public class VoIpSwitchLayout extends FrameLayout {
                     this.animator = ofInt2;
                     if (z) {
                         this.unselectedRadius = this.maxRadius;
-                        ofInt2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIpSwitchLayout$VoIpButtonView$$ExternalSyntheticLambda1
+                        ofInt2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIpSwitchLayout$VoIpButtonView$$ExternalSyntheticLambda2
                             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                             public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
                                 VoIpSwitchLayout.VoIpButtonView.this.lambda$setSelectedState$1(valueAnimator3);
@@ -416,7 +416,7 @@ public class VoIpSwitchLayout extends FrameLayout {
                         this.selectedIcon.start();
                     } else {
                         this.selectedRadius = this.maxRadius;
-                        ofInt2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIpSwitchLayout$VoIpButtonView$$ExternalSyntheticLambda0
+                        ofInt2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIpSwitchLayout$VoIpButtonView$$ExternalSyntheticLambda3
                             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                             public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
                                 VoIpSwitchLayout.VoIpButtonView.this.lambda$setSelectedState$2(valueAnimator3);
@@ -509,7 +509,7 @@ public class VoIpSwitchLayout extends FrameLayout {
             fArr[1] = z ? 0.8f : 1.0f;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
             this.pressedScaleAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIpSwitchLayout$VoIpButtonView$$ExternalSyntheticLambda2
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIpSwitchLayout$VoIpButtonView$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                     VoIpSwitchLayout.VoIpButtonView.this.lambda$setPressedBtn$3(valueAnimator2);

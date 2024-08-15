@@ -2,12 +2,9 @@ package com.google.android.gms.internal.play_billing;
 /* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public class zzcl {
+    private static final zzbn zzb = zzbn.zza;
     protected volatile zzdf zza;
     private volatile zzba zzc;
-
-    static {
-        zzbn zzbnVar = zzbn.zza;
-    }
 
     public boolean equals(Object obj) {
         if (this == obj) {

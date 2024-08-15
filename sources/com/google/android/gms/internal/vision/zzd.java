@@ -6,6 +6,8 @@ import android.os.Parcelable;
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public class zzd {
+    private static final ClassLoader zza = zzd.class.getClassLoader();
+
     private zzd() {
     }
 
@@ -24,9 +26,5 @@ public class zzd {
         } else {
             parcel.writeStrongBinder(iInterface.asBinder());
         }
-    }
-
-    static {
-        zzd.class.getClassLoader();
     }
 }

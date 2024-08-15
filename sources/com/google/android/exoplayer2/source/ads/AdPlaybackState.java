@@ -80,15 +80,16 @@ public final class AdPlaybackState implements Bundleable {
         }
 
         public int getNextAdIndexToPlay(int i) {
-            int i2 = i + 1;
+            int i2;
+            int i3 = i + 1;
             while (true) {
                 int[] iArr = this.states;
-                if (i2 >= iArr.length || this.isServerSideInserted || iArr[i2] == 0 || iArr[i2] == 1) {
+                if (i3 >= iArr.length || this.isServerSideInserted || (i2 = iArr[i3]) == 0 || i2 == 1) {
                     break;
                 }
-                i2++;
+                i3++;
             }
-            return i2;
+            return i3;
         }
 
         public boolean shouldPlayAdGroup() {
@@ -100,8 +101,8 @@ public final class AdPlaybackState implements Bundleable {
                 return true;
             }
             for (int i = 0; i < this.count; i++) {
-                int[] iArr = this.states;
-                if (iArr[i] == 0 || iArr[i] == 1) {
+                int i2 = this.states[i];
+                if (i2 == 0 || i2 == 1) {
                     return true;
                 }
             }

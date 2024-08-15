@@ -81,8 +81,10 @@ public class ErrorLogHelper {
 
     @TargetApi(21)
     private static String getArchitecture() {
+        String[] strArr;
         if (Build.VERSION.SDK_INT >= 21) {
-            return Build.SUPPORTED_ABIS[0];
+            strArr = Build.SUPPORTED_ABIS;
+            return strArr[0];
         }
         return Build.CPU_ABI;
     }

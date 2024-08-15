@@ -5,6 +5,7 @@ import java.util.List;
 public final class DecoderResult {
     private final List<byte[]> byteSegments;
     private final String ecLevel;
+    private int numBits;
     private Object other;
     private final byte[] rawBytes;
     private final int structuredAppendParity;
@@ -13,6 +14,7 @@ public final class DecoderResult {
 
     public DecoderResult(byte[] bArr, String str, List<byte[]> list, String str2, int i, int i2) {
         this.rawBytes = bArr;
+        this.numBits = bArr == null ? 0 : bArr.length * 8;
         this.text = str;
         this.byteSegments = list;
         this.ecLevel = str2;

@@ -37,7 +37,7 @@ public class CustomTabsClient {
     }
 
     public CustomTabsSession newSession(final CustomTabsCallback customTabsCallback) {
-        ICustomTabsCallback.Stub stub = new ICustomTabsCallback.Stub(this) { // from class: org.telegram.messenger.support.customtabs.CustomTabsClient.2
+        ICustomTabsCallback.Stub stub = new ICustomTabsCallback.Stub() { // from class: org.telegram.messenger.support.customtabs.CustomTabsClient.2
             private Handler mHandler = new Handler(Looper.getMainLooper());
 
             @Override // org.telegram.messenger.support.customtabs.ICustomTabsCallback

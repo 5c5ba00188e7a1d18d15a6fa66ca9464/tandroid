@@ -1280,7 +1280,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
 
     @Override // com.google.android.exoplayer2.Player.Listener
     public void onPlayerError(final PlaybackException playbackException) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.VideoPlayer$$ExternalSyntheticLambda1
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.VideoPlayer$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 VideoPlayer.this.lambda$onPlayerError$1(playbackException);
@@ -1302,7 +1302,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
                 }
                 DispatchQueue dispatchQueue = this.workerQueue;
                 if (dispatchQueue != null) {
-                    dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.VideoPlayer$$ExternalSyntheticLambda0
+                    dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.VideoPlayer$$ExternalSyntheticLambda1
                         @Override // java.lang.Runnable
                         public final void run() {
                             VideoPlayer.this.lambda$onPlayerError$0();
@@ -1393,6 +1393,8 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
     public class VisualizerBufferSink implements TeeAudioProcessor.AudioBufferSink {
         ByteBuffer byteBuffer;
         long lastUpdateTime;
+        private final int BUFFER_SIZE = 1024;
+        private final int MAX_BUFFER_SIZE = LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM;
         FourierTransform.FFT fft = new FourierTransform.FFT(1024, 48000.0f);
         float[] real = new float[1024];
         int position = 0;
@@ -1402,7 +1404,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
         }
 
         public VisualizerBufferSink() {
-            VideoPlayer.this = r3;
+            VideoPlayer.this = r4;
             ByteBuffer allocateDirect = ByteBuffer.allocateDirect(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM);
             this.byteBuffer = allocateDirect;
             allocateDirect.position(0);
@@ -1462,10 +1464,11 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
                                 int i5 = 170 * i;
                                 float f5 = this.fft.getSpectrumReal()[i5];
                                 float f6 = this.fft.getSpectrumImaginary()[i5];
-                                fArr[i] = (float) (Math.sqrt((f5 * f5) + (f6 * f6)) / 30.0d);
-                                if (fArr[i] > 1.0f) {
+                                float sqrt3 = (float) (Math.sqrt((f5 * f5) + (f6 * f6)) / 30.0d);
+                                fArr[i] = sqrt3;
+                                if (sqrt3 > 1.0f) {
                                     fArr[i] = 1.0f;
-                                } else if (fArr[i] < 0.0f) {
+                                } else if (sqrt3 < 0.0f) {
                                     fArr[i] = 0.0f;
                                 }
                                 i++;
@@ -1532,8 +1535,8 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
             ByteBuffer byteBuffer = mediaFormat.getByteBuffer("hdr-static-info");
             byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
             if (byteBuffer.get() == 0) {
-                byteBuffer.getShort(17);
-                byteBuffer.getShort(19);
+                hDRInfo.maxlum = byteBuffer.getShort(17);
+                hDRInfo.minlum = byteBuffer.getShort(19) * 1.0E-4f;
             }
             if (Build.VERSION.SDK_INT >= 24) {
                 if (mediaFormat.containsKey("color-transfer")) {
@@ -1543,10 +1546,12 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
                     hDRInfo.colorStandard = mediaFormat.getInteger("color-standard");
                 }
                 if (mediaFormat.containsKey("color-range")) {
-                    mediaFormat.getInteger("color-range");
+                    hDRInfo.colorRange = mediaFormat.getInteger("color-range");
                 }
             }
         } catch (Exception unused) {
+            hDRInfo.minlum = 0.0f;
+            hDRInfo.maxlum = 0.0f;
         }
         return hDRInfo;
     }

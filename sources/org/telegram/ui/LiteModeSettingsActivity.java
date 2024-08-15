@@ -65,7 +65,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
     LinearLayoutManager layoutManager;
     RecyclerListView listView;
     Bulletin restrictBulletin;
-    private Utilities.Callback<Boolean> onPowerAppliedChange = new Utilities.Callback() { // from class: org.telegram.ui.LiteModeSettingsActivity$$ExternalSyntheticLambda0
+    private Utilities.Callback<Boolean> onPowerAppliedChange = new Utilities.Callback() { // from class: org.telegram.ui.LiteModeSettingsActivity$$ExternalSyntheticLambda2
         @Override // org.telegram.messenger.Utilities.Callback
         public final void run(Object obj) {
             LiteModeSettingsActivity.this.lambda$new$1((Boolean) obj);
@@ -107,7 +107,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
         defaultItemAnimator.setSupportsChangeAnimations(false);
         this.listView.setItemAnimator(defaultItemAnimator);
         this.contentView.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.LiteModeSettingsActivity$$ExternalSyntheticLambda2
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.LiteModeSettingsActivity$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
             public /* synthetic */ boolean hasDoubleTap(View view, int i) {
                 return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i);
@@ -350,7 +350,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
                 switchCell = new PowerSaverSlider(context);
                 switchCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
             } else if (i == 2) {
-                switchCell = new TextInfoPrivacyCell(this, context) { // from class: org.telegram.ui.LiteModeSettingsActivity.Adapter.1
+                switchCell = new TextInfoPrivacyCell(context) { // from class: org.telegram.ui.LiteModeSettingsActivity.Adapter.1
                     @Override // org.telegram.ui.Cells.TextInfoPrivacyCell, android.view.View
                     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
                         super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
@@ -469,7 +469,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
             imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteGrayIcon), PorterDuff.Mode.MULTIPLY));
             this.imageView.setVisibility(8);
             addView(this.imageView, LayoutHelper.createFrame(24, 24.0f, (LocaleController.isRTL ? 5 : 3) | 16, 20.0f, 0.0f, 20.0f, 0.0f));
-            TextView textView = new TextView(this, context, LiteModeSettingsActivity.this) { // from class: org.telegram.ui.LiteModeSettingsActivity.SwitchCell.1
+            TextView textView = new TextView(context) { // from class: org.telegram.ui.LiteModeSettingsActivity.SwitchCell.1
                 @Override // android.widget.TextView, android.view.View
                 protected void onMeasure(int i2, int i3) {
                     if (View.MeasureSpec.getMode(i2) == Integer.MIN_VALUE) {
@@ -514,9 +514,9 @@ public class LiteModeSettingsActivity extends BaseFragment {
                 this.textViewLayout.addView(this.arrowView, LayoutHelper.createLinear(16, 16, 0.0f, 16, 2, 0, 0, 0));
             }
             addView(this.textViewLayout, LayoutHelper.createFrame(-1, -2.0f, (LocaleController.isRTL ? 5 : 3) | 16, 64.0f, 0.0f, 8.0f, 0.0f));
-            Switch r5 = new Switch(context);
-            this.switchView = r5;
-            r5.setVisibility(8);
+            Switch r1 = new Switch(context);
+            this.switchView = r1;
+            r1.setVisibility(8);
             this.switchView.setColors(Theme.key_switchTrack, Theme.key_switchTrackChecked, i, i);
             this.switchView.setImportantForAccessibility(2);
             addView(this.switchView, LayoutHelper.createFrame(37, 50.0f, (LocaleController.isRTL ? 3 : 5) | 16, 19.0f, 0.0f, 19.0f, 0.0f));
@@ -743,7 +743,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
             this.headerTextView.setGravity(LocaleController.isRTL ? 5 : 3);
             this.headerTextView.setText(LocaleController.getString("LiteBatteryTitle"));
             this.headerLayout.addView(this.headerTextView, LayoutHelper.createLinear(-2, -2, 16));
-            AnimatedTextView animatedTextView = new AnimatedTextView(this, context, true, false, false, LiteModeSettingsActivity.this) { // from class: org.telegram.ui.LiteModeSettingsActivity.PowerSaverSlider.1
+            AnimatedTextView animatedTextView = new AnimatedTextView(context, true, false, false) { // from class: org.telegram.ui.LiteModeSettingsActivity.PowerSaverSlider.1
                 Drawable backgroundDrawable = Theme.createRoundRectDrawable(AndroidUtilities.dp(4.0f), Theme.multAlpha(Theme.getColor(Theme.key_windowBackgroundWhiteBlueHeader), 0.15f));
 
                 /* JADX INFO: Access modifiers changed from: protected */
@@ -764,7 +764,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
             SeekBarView seekBarView = new SeekBarView(context, true, null);
             this.seekBarView = seekBarView;
             seekBarView.setReportChanges(true);
-            this.seekBarView.setDelegate(new SeekBarView.SeekBarViewDelegate(LiteModeSettingsActivity.this) { // from class: org.telegram.ui.LiteModeSettingsActivity.PowerSaverSlider.2
+            this.seekBarView.setDelegate(new SeekBarView.SeekBarViewDelegate() { // from class: org.telegram.ui.LiteModeSettingsActivity.PowerSaverSlider.2
                 @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
                 public CharSequence getContentDescription() {
                     return " ";
@@ -810,7 +810,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
             this.leftTextView.setGravity(3);
             this.leftTextView.setText(LocaleController.getString("LiteBatteryDisabled", R.string.LiteBatteryDisabled));
             this.valuesView.addView(this.leftTextView, LayoutHelper.createFrame(-2, -2, 19));
-            AnimatedTextView animatedTextView2 = new AnimatedTextView(context, false, true, true, LiteModeSettingsActivity.this) { // from class: org.telegram.ui.LiteModeSettingsActivity.PowerSaverSlider.3
+            AnimatedTextView animatedTextView2 = new AnimatedTextView(context, false, true, true) { // from class: org.telegram.ui.LiteModeSettingsActivity.PowerSaverSlider.3
                 /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.AnimatedTextView, android.view.View
                 public void onMeasure(int i3, int i4) {
@@ -842,7 +842,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
             this.rightTextView.setText(LocaleController.getString("LiteBatteryEnabled", R.string.LiteBatteryEnabled));
             this.valuesView.addView(this.rightTextView, LayoutHelper.createFrame(-2, -2, 21));
             addView(this.valuesView, LayoutHelper.createFrame(-1, -2.0f, 55, 21.0f, 52.0f, 21.0f, 0.0f));
-            this.seekBarAccessibilityDelegate = new IntSeekBarAccessibilityDelegate(LiteModeSettingsActivity.this) { // from class: org.telegram.ui.LiteModeSettingsActivity.PowerSaverSlider.4
+            this.seekBarAccessibilityDelegate = new IntSeekBarAccessibilityDelegate() { // from class: org.telegram.ui.LiteModeSettingsActivity.PowerSaverSlider.4
                 @Override // org.telegram.ui.Components.IntSeekBarAccessibilityDelegate
                 protected int getDelta() {
                     return 5;
@@ -909,8 +909,8 @@ public class LiteModeSettingsActivity extends BaseFragment {
         }
 
         public void update() {
-            int i;
             String str;
+            int i;
             int powerSaverLevel = LiteMode.getPowerSaverLevel();
             this.middleTextView.cancelAnimation();
             if (powerSaverLevel <= 0) {
@@ -924,11 +924,11 @@ public class LiteModeSettingsActivity extends BaseFragment {
             }
             AnimatedTextView animatedTextView = this.headerOnView;
             if (LiteMode.isPowerSaverApplied()) {
-                i = R.string.LiteBatteryEnabled;
                 str = "LiteBatteryEnabled";
+                i = R.string.LiteBatteryEnabled;
             } else {
-                i = R.string.LiteBatteryDisabled;
                 str = "LiteBatteryDisabled";
+                i = R.string.LiteBatteryDisabled;
             }
             animatedTextView.setText(LocaleController.getString(str, i).toUpperCase());
             updateHeaderOnVisibility(powerSaverLevel > 0 && powerSaverLevel < 100);
@@ -955,7 +955,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
                 }
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(this.onActiveT, f);
                 this.onActiveAnimator = ofFloat;
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.LiteModeSettingsActivity$PowerSaverSlider$$ExternalSyntheticLambda0
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.LiteModeSettingsActivity$PowerSaverSlider$$ExternalSyntheticLambda1
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                         LiteModeSettingsActivity.PowerSaverSlider.this.lambda$updateOnActive$0(valueAnimator2);
@@ -994,7 +994,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
                 }
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(this.offActiveT, f);
                 this.offActiveAnimator = ofFloat;
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.LiteModeSettingsActivity$PowerSaverSlider$$ExternalSyntheticLambda1
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.LiteModeSettingsActivity$PowerSaverSlider$$ExternalSyntheticLambda0
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                         LiteModeSettingsActivity.PowerSaverSlider.this.lambda$updateOffActive$1(valueAnimator2);

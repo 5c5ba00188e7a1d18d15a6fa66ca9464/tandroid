@@ -5,13 +5,12 @@ import j$.util.function.Consumer;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-/* JADX INFO: Add missing generic type declarations: [V, K] */
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
-final class zzlp<K, V> implements Iterator<Map.Entry<K, V>>, j$.util.Iterator {
+final class zzlp implements Iterator, j$.util.Iterator {
     private int zza;
     private boolean zzb;
-    private Iterator<Map.Entry<K, V>> zzc;
+    private Iterator zzc;
     private final /* synthetic */ zzlh zzd;
 
     private zzlp(zzlh zzlhVar) {
@@ -22,6 +21,11 @@ final class zzlp<K, V> implements Iterator<Map.Entry<K, V>>, j$.util.Iterator {
     @Override // j$.util.Iterator
     public /* synthetic */ void forEachRemaining(Consumer consumer) {
         Iterator.-CC.$default$forEachRemaining(this, consumer);
+    }
+
+    @Override // java.util.Iterator
+    public /* synthetic */ void forEachRemaining(java.util.function.Consumer consumer) {
+        forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
     }
 
     @Override // java.util.Iterator, j$.util.Iterator
@@ -59,7 +63,7 @@ final class zzlp<K, V> implements Iterator<Map.Entry<K, V>>, j$.util.Iterator {
         zza().remove();
     }
 
-    private final java.util.Iterator<Map.Entry<K, V>> zza() {
+    private final java.util.Iterator zza() {
         Map map;
         if (this.zzc == null) {
             map = this.zzd.zzc;
@@ -77,7 +81,7 @@ final class zzlp<K, V> implements Iterator<Map.Entry<K, V>>, j$.util.Iterator {
         this.zza = i;
         list = this.zzd.zzb;
         if (i >= list.size()) {
-            return zza().next();
+            return (Map.Entry) zza().next();
         }
         list2 = this.zzd.zzb;
         return (Map.Entry) list2.get(this.zza);

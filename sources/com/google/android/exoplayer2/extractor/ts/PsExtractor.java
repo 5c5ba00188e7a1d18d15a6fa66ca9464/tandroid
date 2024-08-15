@@ -19,6 +19,21 @@ import java.util.Map;
 import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public final class PsExtractor implements Extractor {
+    public static final ExtractorsFactory FACTORY = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.ts.PsExtractor$$ExternalSyntheticLambda0
+        @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+        public final Extractor[] createExtractors() {
+            Extractor[] lambda$static$0;
+            lambda$static$0 = PsExtractor.lambda$static$0();
+            return lambda$static$0;
+        }
+
+        @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+        public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
+            Extractor[] createExtractors;
+            createExtractors = createExtractors();
+            return createExtractors;
+        }
+    };
     private final PsDurationReader durationReader;
     private boolean foundAllTracks;
     private boolean foundAudioTrack;
@@ -33,24 +48,6 @@ public final class PsExtractor implements Extractor {
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
     public void release() {
-    }
-
-    static {
-        PsExtractor$$ExternalSyntheticLambda0 psExtractor$$ExternalSyntheticLambda0 = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.ts.PsExtractor$$ExternalSyntheticLambda0
-            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
-            public final Extractor[] createExtractors() {
-                Extractor[] lambda$static$0;
-                lambda$static$0 = PsExtractor.lambda$static$0();
-                return lambda$static$0;
-            }
-
-            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
-            public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
-                Extractor[] createExtractors;
-                createExtractors = createExtractors();
-                return createExtractors;
-            }
-        };
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -108,6 +105,7 @@ public final class PsExtractor implements Extractor {
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
     public int read(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException {
+        ElementaryStreamReader elementaryStreamReader;
         Assertions.checkStateNotNull(this.output);
         long length = extractorInput.getLength();
         if ((length != -1) && !this.durationReader.isDurationReadFinished()) {
@@ -144,7 +142,6 @@ public final class PsExtractor implements Extractor {
                 PesReader pesReader = this.psPayloadReaders.get(i);
                 if (!this.foundAllTracks) {
                     if (pesReader == null) {
-                        ElementaryStreamReader elementaryStreamReader = null;
                         if (i == 189) {
                             elementaryStreamReader = new Ac3Reader();
                             this.foundAudioTrack = true;
@@ -157,6 +154,8 @@ public final class PsExtractor implements Extractor {
                             elementaryStreamReader = new H262Reader();
                             this.foundVideoTrack = true;
                             this.lastTrackPosition = extractorInput.getPosition();
+                        } else {
+                            elementaryStreamReader = null;
                         }
                         if (elementaryStreamReader != null) {
                             elementaryStreamReader.createTracks(this.output, new TsPayloadReader.TrackIdGenerator(i, LiteMode.FLAG_CHAT_BLUR));

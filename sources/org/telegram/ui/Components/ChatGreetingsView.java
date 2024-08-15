@@ -68,6 +68,7 @@ public class ChatGreetingsView extends LinearLayout {
     private AnimatorSet togglingStickersAnimator;
     private float viewTop;
     private float viewTranslationX;
+    private boolean visiblePartSet;
     boolean wasDraw;
 
     /* loaded from: classes3.dex */
@@ -139,7 +140,7 @@ public class ChatGreetingsView extends LinearLayout {
                 this.premiumIconView.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN));
                 this.premiumIconView.setBackground(Theme.createCircleDrawable(AndroidUtilities.dp(78.0f), 469762048));
                 this.premiumIconView.setAnimation(R.raw.large_message_lock, 80, 80);
-                this.premiumIconView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatGreetingsView$$ExternalSyntheticLambda1
+                this.premiumIconView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatGreetingsView$$ExternalSyntheticLambda3
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         ChatGreetingsView.this.lambda$setPremiumLock$0(view);
@@ -168,7 +169,7 @@ public class ChatGreetingsView extends LinearLayout {
             textView3.setTextColor(getThemedColor(i));
             this.premiumTextView.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
             if (this.premiumButtonView == null) {
-                TextView textView4 = new TextView(this, getContext()) { // from class: org.telegram.ui.Components.ChatGreetingsView.1
+                TextView textView4 = new TextView(getContext()) { // from class: org.telegram.ui.Components.ChatGreetingsView.1
                     private final Path clipPath = new Path();
                     StarParticlesView.Drawable starParticlesDrawable;
 
@@ -277,7 +278,7 @@ public class ChatGreetingsView extends LinearLayout {
         } else {
             this.stickerToSendView.setImage(ImageLocation.getForDocument(tLRPC$Document), createFilter(tLRPC$Document), ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90), tLRPC$Document), (String) null, 0, tLRPC$Document);
         }
-        this.stickerToSendView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatGreetingsView$$ExternalSyntheticLambda3
+        this.stickerToSendView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatGreetingsView$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ChatGreetingsView.this.lambda$setSticker$2(tLRPC$Document, view);
@@ -317,7 +318,7 @@ public class ChatGreetingsView extends LinearLayout {
         } else {
             this.nextStickerToSendView.setImage(ImageLocation.getForDocument(tLRPC$Document), createFilter(tLRPC$Document), ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90), tLRPC$Document), (String) null, 0, tLRPC$Document);
         }
-        this.nextStickerToSendView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatGreetingsView$$ExternalSyntheticLambda2
+        this.nextStickerToSendView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatGreetingsView$$ExternalSyntheticLambda5
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ChatGreetingsView.this.lambda$setNextSticker$3(tLRPC$Document, view);
@@ -533,6 +534,7 @@ public class ChatGreetingsView extends LinearLayout {
     }
 
     public void setVisiblePart(float f, int i) {
+        this.visiblePartSet = true;
         this.backgroundHeight = i;
         this.viewTop = f;
         this.viewTranslationX = 0.0f;
@@ -628,7 +630,7 @@ public class ChatGreetingsView extends LinearLayout {
         linearLayout.addView(textView2, LayoutHelper.createLinear(-1, -2, 1, 12, 9, 12, 19));
         if (!premiumFeaturesBlocked) {
             PremiumButtonView premiumButtonView = new PremiumButtonView(context, true, resourcesProvider);
-            premiumButtonView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatGreetingsView$$ExternalSyntheticLambda0
+            premiumButtonView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatGreetingsView$$ExternalSyntheticLambda2
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     ChatGreetingsView.lambda$showPremiumSheet$4(BottomSheet.this, view);

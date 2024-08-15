@@ -1,22 +1,19 @@
 package com.google.android.play.integrity.internal;
-
-import java.util.Objects;
 /* compiled from: com.google.android.play:integrity@@1.3.0 */
 /* loaded from: classes.dex */
 public final class al implements ak {
+    private static final al a = new al(null);
     private final Object b;
-
-    static {
-        new al(null);
-    }
 
     private al(Object obj) {
         this.b = obj;
     }
 
     public static ak b(Object obj) {
-        Objects.requireNonNull(obj, "instance cannot be null");
-        return new al(obj);
+        if (obj != null) {
+            return new al(obj);
+        }
+        throw new NullPointerException("instance cannot be null");
     }
 
     @Override // com.google.android.play.integrity.internal.an

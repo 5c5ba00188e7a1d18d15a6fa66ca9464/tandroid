@@ -11,12 +11,14 @@ final class zap implements PendingResult.StatusListener {
     final /* synthetic */ PendingResult zaa;
     final /* synthetic */ TaskCompletionSource zab;
     final /* synthetic */ PendingResultUtil.ResultConverter zac;
+    final /* synthetic */ zas zad;
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public zap(PendingResult pendingResult, TaskCompletionSource taskCompletionSource, PendingResultUtil.ResultConverter resultConverter, zas zasVar) {
         this.zaa = pendingResult;
         this.zab = taskCompletionSource;
         this.zac = resultConverter;
+        this.zad = zasVar;
     }
 
     @Override // com.google.android.gms.common.api.PendingResult.StatusListener

@@ -66,21 +66,15 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.chatInfoDidLoad);
         getMessagesController().loadFullChat(this.chatId, this.classGuid, true);
         this.loading = true;
-        this.rowCount = 0;
         int i = 0 + 1;
-        this.rowCount = i;
         this.linkRow = 0;
         int i2 = i + 1;
-        this.rowCount = i2;
         this.linkInfoRow = i;
         int i3 = i2 + 1;
-        this.rowCount = i3;
         this.copyLinkRow = i2;
         int i4 = i3 + 1;
-        this.rowCount = i4;
         this.revokeLinkRow = i3;
         int i5 = i4 + 1;
-        this.rowCount = i5;
         this.shareLinkRow = i4;
         this.rowCount = i5 + 1;
         this.shadowRow = i5;
@@ -109,20 +103,19 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
         this.listAdapter = new ListAdapter(context);
         FrameLayout frameLayout = new FrameLayout(context);
         this.fragmentView = frameLayout;
-        FrameLayout frameLayout2 = frameLayout;
-        frameLayout2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
+        frameLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
         EmptyTextProgressView emptyTextProgressView = new EmptyTextProgressView(context);
         this.emptyView = emptyTextProgressView;
         emptyTextProgressView.showProgress();
-        frameLayout2.addView(this.emptyView, LayoutHelper.createFrame(-1, -1, 51));
+        frameLayout.addView(this.emptyView, LayoutHelper.createFrame(-1, -1, 51));
         RecyclerListView recyclerListView = new RecyclerListView(context);
         this.listView = recyclerListView;
         recyclerListView.setLayoutManager(new LinearLayoutManager(context, 1, false));
         this.listView.setEmptyView(this.emptyView);
         this.listView.setVerticalScrollBarEnabled(false);
-        frameLayout2.addView(this.listView, LayoutHelper.createFrame(-1, -1, 51));
+        frameLayout.addView(this.listView, LayoutHelper.createFrame(-1, -1, 51));
         this.listView.setAdapter(this.listAdapter);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.GroupInviteActivity$$ExternalSyntheticLambda3
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.GroupInviteActivity$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i) {
                 GroupInviteActivity.this.lambda$createView$1(view, i);
@@ -162,7 +155,7 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
             builder.setMessage(LocaleController.getString("RevokeAlert", R.string.RevokeAlert));
             builder.setTitle(LocaleController.getString("RevokeLink", R.string.RevokeLink));
-            builder.setPositiveButton(LocaleController.getString("RevokeButton", R.string.RevokeButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.GroupInviteActivity$$ExternalSyntheticLambda0
+            builder.setPositiveButton(LocaleController.getString("RevokeButton", R.string.RevokeButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.GroupInviteActivity$$ExternalSyntheticLambda2
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i2) {
                     GroupInviteActivity.this.lambda$createView$0(dialogInterface, i2);
@@ -211,7 +204,7 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
         this.loading = true;
         TLRPC$TL_messages_exportChatInvite tLRPC$TL_messages_exportChatInvite = new TLRPC$TL_messages_exportChatInvite();
         tLRPC$TL_messages_exportChatInvite.peer = getMessagesController().getInputPeer(-this.chatId);
-        ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_exportChatInvite, new RequestDelegate() { // from class: org.telegram.ui.GroupInviteActivity$$ExternalSyntheticLambda2
+        ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_exportChatInvite, new RequestDelegate() { // from class: org.telegram.ui.GroupInviteActivity$$ExternalSyntheticLambda0
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 GroupInviteActivity.this.lambda$generateLink$3(z, tLObject, tLRPC$TL_error);
@@ -225,7 +218,7 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$generateLink$3(final boolean z, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.GroupInviteActivity$$ExternalSyntheticLambda1
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.GroupInviteActivity$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 GroupInviteActivity.this.lambda$generateLink$2(tLRPC$TL_error, tLObject, z);

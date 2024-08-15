@@ -28,7 +28,7 @@ public class VoipAudioManager {
     public void setSpeakerphoneOn(final boolean z) {
         this.isSpeakerphoneOn = Boolean.valueOf(z);
         final AudioManager audioManager = getAudioManager();
-        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.voip.VoipAudioManager$$ExternalSyntheticLambda0
+        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.voip.VoipAudioManager$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 audioManager.setSpeakerphoneOn(z);
@@ -45,7 +45,7 @@ public class VoipAudioManager {
     }
 
     public void isBluetoothAndSpeakerOnAsync(final Utilities.Callback2<Boolean, Boolean> callback2) {
-        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.voip.VoipAudioManager$$ExternalSyntheticLambda2
+        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.voip.VoipAudioManager$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 VoipAudioManager.this.lambda$isBluetoothAndSpeakerOnAsync$2(callback2);
@@ -58,7 +58,7 @@ public class VoipAudioManager {
         AudioManager audioManager = getAudioManager();
         final boolean isBluetoothScoOn = audioManager.isBluetoothScoOn();
         final boolean isSpeakerphoneOn = audioManager.isSpeakerphoneOn();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.voip.VoipAudioManager$$ExternalSyntheticLambda1
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.voip.VoipAudioManager$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 VoipAudioManager.lambda$isBluetoothAndSpeakerOnAsync$1(Utilities.Callback2.this, isBluetoothScoOn, isSpeakerphoneOn);

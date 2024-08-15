@@ -2,33 +2,34 @@ package j$.util.stream;
 
 import java.util.concurrent.CountedCompleter;
 import java.util.concurrent.ForkJoinPool;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-abstract class f extends CountedCompleter {
+public abstract class f extends CountedCompleter {
     static final int g = ForkJoinPool.getCommonPoolParallelism() << 2;
-    protected final y2 a;
-    protected j$.util.s b;
+    protected final u0 a;
+    protected j$.util.Q b;
     protected long c;
     protected f d;
     protected f e;
     private Object f;
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public f(f fVar, j$.util.s sVar) {
+    public f(f fVar, j$.util.Q q) {
         super(fVar);
-        this.b = sVar;
+        this.b = q;
         this.a = fVar.a;
         this.c = fVar.c;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public f(y2 y2Var, j$.util.s sVar) {
+    public f(u0 u0Var, j$.util.Q q) {
         super(null);
-        this.a = y2Var;
-        this.b = sVar;
+        this.a = u0Var;
+        this.b = q;
         this.c = 0L;
     }
 
-    public static long h(long j) {
+    public static long f(long j) {
         long j2 = j / g;
         if (j2 > 0) {
             return j2;
@@ -45,58 +46,48 @@ abstract class f extends CountedCompleter {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public f c() {
+    public final f c() {
         return (f) getCompleter();
     }
 
     @Override // java.util.concurrent.CountedCompleter
     public void compute() {
-        j$.util.s trySplit;
-        j$.util.s sVar = this.b;
-        long estimateSize = sVar.estimateSize();
+        j$.util.Q trySplit;
+        j$.util.Q q = this.b;
+        long estimateSize = q.estimateSize();
         long j = this.c;
         if (j == 0) {
-            j = h(estimateSize);
+            j = f(estimateSize);
             this.c = j;
         }
         boolean z = false;
         f fVar = this;
-        while (estimateSize > j && (trySplit = sVar.trySplit()) != null) {
-            f f = fVar.f(trySplit);
-            fVar.d = f;
-            f f2 = fVar.f(sVar);
-            fVar.e = f2;
+        while (estimateSize > j && (trySplit = q.trySplit()) != null) {
+            f d = fVar.d(trySplit);
+            fVar.d = d;
+            f d2 = fVar.d(q);
+            fVar.e = d2;
             fVar.setPendingCount(1);
             if (z) {
-                sVar = trySplit;
-                fVar = f;
-                f = f2;
+                q = trySplit;
+                fVar = d;
+                d = d2;
             } else {
-                fVar = f2;
+                fVar = d2;
             }
             z = !z;
-            f.fork();
-            estimateSize = sVar.estimateSize();
+            d.fork();
+            estimateSize = q.estimateSize();
         }
-        fVar.g(fVar.a());
+        fVar.e(fVar.a());
         fVar.tryComplete();
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public boolean d() {
-        return this.d == null;
-    }
+    public abstract f d(j$.util.Q q);
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public boolean e() {
-        return c() == null;
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public abstract f f(j$.util.s sVar);
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void g(Object obj) {
+    public void e(Object obj) {
         this.f = obj;
     }
 
@@ -113,7 +104,7 @@ abstract class f extends CountedCompleter {
     }
 
     @Override // java.util.concurrent.CountedCompleter, java.util.concurrent.ForkJoinTask
-    protected void setRawResult(Object obj) {
+    protected final void setRawResult(Object obj) {
         if (obj != null) {
             throw new IllegalStateException();
         }

@@ -84,8 +84,9 @@ public final class MpegAudioReader implements ElementaryStreamReader {
         byte[] data = parsableByteArray.getData();
         int limit = parsableByteArray.limit();
         for (int position = parsableByteArray.getPosition(); position < limit; position++) {
-            boolean z = (data[position] & 255) == 255;
-            boolean z2 = this.lastByteWasFF && (data[position] & 224) == 224;
+            byte b = data[position];
+            boolean z = (b & 255) == 255;
+            boolean z2 = this.lastByteWasFF && (b & 224) == 224;
             this.lastByteWasFF = z;
             if (z2) {
                 parsableByteArray.setPosition(position + 1);

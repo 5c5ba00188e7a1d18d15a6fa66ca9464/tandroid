@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.mlkit_vision_label;
 
 import java.util.Arrays;
-import java.util.Objects;
 import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
@@ -38,7 +37,7 @@ class zzax extends zzay {
     }
 
     public final zzax zza(Object obj) {
-        Objects.requireNonNull(obj);
+        obj.getClass();
         zzb(this.zzb + 1);
         Object[] objArr = this.zza;
         int i = this.zzb;

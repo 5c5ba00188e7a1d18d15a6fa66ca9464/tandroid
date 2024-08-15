@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.mediacodec;
 import android.graphics.Point;
 import android.media.MediaCodecInfo;
 import android.util.Pair;
+import android.util.Range;
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.decoder.DecoderReuseEvaluation;
 import com.google.android.exoplayer2.mediacodec.MediaCodecUtil;
@@ -23,6 +24,9 @@ public final class MediaCodecInfo {
     public final String mimeType;
     public final String name;
     public final boolean secure;
+    public final boolean softwareOnly;
+    public final boolean tunneling;
+    public final boolean vendor;
 
     public static MediaCodecInfo newInstance(String str, String str2, String str3, MediaCodecInfo.CodecCapabilities codecCapabilities, boolean z, boolean z2, boolean z3, boolean z4, boolean z5) {
         return new MediaCodecInfo(str, str2, str3, codecCapabilities, z, z2, z3, (z4 || codecCapabilities == null || !isAdaptive(codecCapabilities) || needsDisableAdaptationWorkaround(str)) ? false : true, codecCapabilities != null && isTunneling(codecCapabilities), z5 || (codecCapabilities != null && isSecure(codecCapabilities)));
@@ -34,7 +38,10 @@ public final class MediaCodecInfo {
         this.codecMimeType = str3;
         this.capabilities = codecCapabilities;
         this.hardwareAccelerated = z;
+        this.softwareOnly = z2;
+        this.vendor = z3;
         this.adaptive = z4;
+        this.tunneling = z5;
         this.secure = z6;
         this.isVideo = MimeTypes.isVideo(str2);
     }
@@ -192,12 +199,13 @@ public final class MediaCodecInfo {
     }
 
     public boolean isVideoSizeAndRateSupportedV21(int i, int i2, double d) {
+        MediaCodecInfo.VideoCapabilities videoCapabilities;
         MediaCodecInfo.CodecCapabilities codecCapabilities = this.capabilities;
         if (codecCapabilities == null) {
             logNoSupport("sizeAndRate.caps");
             return false;
         }
-        MediaCodecInfo.VideoCapabilities videoCapabilities = codecCapabilities.getVideoCapabilities();
+        videoCapabilities = codecCapabilities.getVideoCapabilities();
         if (videoCapabilities == null) {
             logNoSupport("sizeAndRate.vCaps");
             return false;
@@ -222,49 +230,63 @@ public final class MediaCodecInfo {
         return true;
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:5:0x0006, code lost:
+        r0 = r0.getVideoCapabilities();
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public Point alignVideoSizeV21(int i, int i2) {
         MediaCodecInfo.VideoCapabilities videoCapabilities;
         MediaCodecInfo.CodecCapabilities codecCapabilities = this.capabilities;
-        if (codecCapabilities == null || (videoCapabilities = codecCapabilities.getVideoCapabilities()) == null) {
+        if (codecCapabilities == null || videoCapabilities == null) {
             return null;
         }
         return alignVideoSizeV21(videoCapabilities, i, i2);
     }
 
     public boolean isAudioSampleRateSupportedV21(int i) {
+        MediaCodecInfo.AudioCapabilities audioCapabilities;
+        boolean isSampleRateSupported;
         MediaCodecInfo.CodecCapabilities codecCapabilities = this.capabilities;
         if (codecCapabilities == null) {
             logNoSupport("sampleRate.caps");
             return false;
         }
-        MediaCodecInfo.AudioCapabilities audioCapabilities = codecCapabilities.getAudioCapabilities();
+        audioCapabilities = codecCapabilities.getAudioCapabilities();
         if (audioCapabilities == null) {
             logNoSupport("sampleRate.aCaps");
             return false;
-        } else if (audioCapabilities.isSampleRateSupported(i)) {
-            return true;
-        } else {
-            logNoSupport("sampleRate.support, " + i);
-            return false;
         }
+        isSampleRateSupported = audioCapabilities.isSampleRateSupported(i);
+        if (isSampleRateSupported) {
+            return true;
+        }
+        logNoSupport("sampleRate.support, " + i);
+        return false;
     }
 
     public boolean isAudioChannelCountSupportedV21(int i) {
+        MediaCodecInfo.AudioCapabilities audioCapabilities;
+        int maxInputChannelCount;
         MediaCodecInfo.CodecCapabilities codecCapabilities = this.capabilities;
         if (codecCapabilities == null) {
             logNoSupport("channelCount.caps");
             return false;
         }
-        MediaCodecInfo.AudioCapabilities audioCapabilities = codecCapabilities.getAudioCapabilities();
+        audioCapabilities = codecCapabilities.getAudioCapabilities();
         if (audioCapabilities == null) {
             logNoSupport("channelCount.aCaps");
             return false;
-        } else if (adjustMaxInputChannelCount(this.name, this.mimeType, audioCapabilities.getMaxInputChannelCount()) < i) {
+        }
+        String str = this.name;
+        String str2 = this.mimeType;
+        maxInputChannelCount = audioCapabilities.getMaxInputChannelCount();
+        if (adjustMaxInputChannelCount(str, str2, maxInputChannelCount) < i) {
             logNoSupport("channelCount.support, " + i);
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 
     private void logNoSupport(String str) {
@@ -314,28 +336,49 @@ public final class MediaCodecInfo {
     }
 
     private static boolean areSizeAndRateSupportedV21(MediaCodecInfo.VideoCapabilities videoCapabilities, int i, int i2, double d) {
+        boolean isSizeSupported;
+        boolean areSizeAndRateSupported;
         Point alignVideoSizeV21 = alignVideoSizeV21(videoCapabilities, i, i2);
         int i3 = alignVideoSizeV21.x;
         int i4 = alignVideoSizeV21.y;
         if (d == -1.0d || d < 1.0d) {
-            return videoCapabilities.isSizeSupported(i3, i4);
+            isSizeSupported = videoCapabilities.isSizeSupported(i3, i4);
+            return isSizeSupported;
         }
-        return videoCapabilities.areSizeAndRateSupported(i3, i4, Math.floor(d));
+        areSizeAndRateSupported = videoCapabilities.areSizeAndRateSupported(i3, i4, Math.floor(d));
+        return areSizeAndRateSupported;
     }
 
     private static Point alignVideoSizeV21(MediaCodecInfo.VideoCapabilities videoCapabilities, int i, int i2) {
-        int widthAlignment = videoCapabilities.getWidthAlignment();
-        int heightAlignment = videoCapabilities.getHeightAlignment();
+        int widthAlignment;
+        int heightAlignment;
+        widthAlignment = videoCapabilities.getWidthAlignment();
+        heightAlignment = videoCapabilities.getHeightAlignment();
         return new Point(Util.ceilDivide(i, widthAlignment) * widthAlignment, Util.ceilDivide(i2, heightAlignment) * heightAlignment);
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:4:0x0003, code lost:
+        r3 = r3.getVideoCapabilities();
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private static MediaCodecInfo.CodecProfileLevel[] estimateLegacyVp9ProfileLevels(MediaCodecInfo.CodecCapabilities codecCapabilities) {
+        int i;
         MediaCodecInfo.VideoCapabilities videoCapabilities;
-        int intValue = (codecCapabilities == null || (videoCapabilities = codecCapabilities.getVideoCapabilities()) == null) ? 0 : videoCapabilities.getBitrateRange().getUpper().intValue();
-        int i = intValue >= 180000000 ? 1024 : intValue >= 120000000 ? LiteMode.FLAG_CALLS_ANIMATIONS : intValue >= 60000000 ? LiteMode.FLAG_CHAT_BLUR : intValue >= 30000000 ? 128 : intValue >= 18000000 ? 64 : intValue >= 12000000 ? 32 : intValue >= 7200000 ? 16 : intValue >= 3600000 ? 8 : intValue >= 1800000 ? 4 : intValue >= 800000 ? 2 : 1;
+        Range bitrateRange;
+        Comparable upper;
+        if (codecCapabilities == null || videoCapabilities == null) {
+            i = 0;
+        } else {
+            bitrateRange = videoCapabilities.getBitrateRange();
+            upper = bitrateRange.getUpper();
+            i = ((Integer) upper).intValue();
+        }
+        int i2 = i >= 180000000 ? 1024 : i >= 120000000 ? LiteMode.FLAG_CALLS_ANIMATIONS : i >= 60000000 ? LiteMode.FLAG_CHAT_BLUR : i >= 30000000 ? 128 : i >= 18000000 ? 64 : i >= 12000000 ? 32 : i >= 7200000 ? 16 : i >= 3600000 ? 8 : i >= 1800000 ? 4 : i >= 800000 ? 2 : 1;
         MediaCodecInfo.CodecProfileLevel codecProfileLevel = new MediaCodecInfo.CodecProfileLevel();
         codecProfileLevel.profile = 1;
-        codecProfileLevel.level = i;
+        codecProfileLevel.level = i2;
         return new MediaCodecInfo.CodecProfileLevel[]{codecProfileLevel};
     }
 
@@ -375,13 +418,16 @@ public final class MediaCodecInfo {
     /* loaded from: classes.dex */
     public static final class Api29 {
         public static int areResolutionAndFrameRateCovered(MediaCodecInfo.VideoCapabilities videoCapabilities, int i, int i2, double d) {
-            List<MediaCodecInfo.VideoCapabilities.PerformancePoint> supportedPerformancePoints = videoCapabilities.getSupportedPerformancePoints();
+            List supportedPerformancePoints;
+            boolean covers;
+            supportedPerformancePoints = videoCapabilities.getSupportedPerformancePoints();
             if (supportedPerformancePoints == null || supportedPerformancePoints.isEmpty()) {
                 return 0;
             }
             MediaCodecInfo.VideoCapabilities.PerformancePoint performancePoint = new MediaCodecInfo.VideoCapabilities.PerformancePoint(i, i2, (int) d);
             for (int i3 = 0; i3 < supportedPerformancePoints.size(); i3++) {
-                if (supportedPerformancePoints.get(i3).covers(performancePoint)) {
+                covers = ((MediaCodecInfo.VideoCapabilities.PerformancePoint) supportedPerformancePoints.get(i3)).covers(performancePoint);
+                if (covers) {
                     return 2;
                 }
             }

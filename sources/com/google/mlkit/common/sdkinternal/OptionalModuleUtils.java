@@ -25,16 +25,31 @@ public class OptionalModuleUtils {
     public static final Feature[] EMPTY_FEATURES = new Feature[0];
     public static final Feature FEATURE_BARCODE;
     public static final Feature FEATURE_CUSTOM_ICA;
+    public static final Feature FEATURE_DOCSCAN_CROP;
+    public static final Feature FEATURE_DOCSCAN_DETECT;
+    public static final Feature FEATURE_DOCSCAN_ENHANCE;
+    public static final Feature FEATURE_DOCSCAN_SHADOW_REMOVAL;
+    public static final Feature FEATURE_DOCSCAN_STAIN_REMOVAL;
+    public static final Feature FEATURE_DOCSCAN_UI;
     public static final Feature FEATURE_FACE;
     public static final Feature FEATURE_ICA;
+    public static final Feature FEATURE_IMAGE_CAPTION;
+    public static final Feature FEATURE_IMAGE_QUALITY_AESTHETIC;
+    public static final Feature FEATURE_IMAGE_QUALITY_TECHNICAL;
     public static final Feature FEATURE_LANGID;
     public static final Feature FEATURE_MLKIT_BARCODE_UI;
     public static final Feature FEATURE_NLCLASSIFIER;
     public static final Feature FEATURE_OCR;
+    public static final Feature FEATURE_OCR_CHINESE;
+    public static final Feature FEATURE_OCR_COMMON;
+    public static final Feature FEATURE_OCR_DEVANAGARI;
+    public static final Feature FEATURE_OCR_JAPANESE;
+    public static final Feature FEATURE_OCR_KOREAN;
     public static final Feature FEATURE_SMART_REPLY;
     public static final Feature FEATURE_SUBJECT_SEGMENTATION;
     public static final Feature FEATURE_TFLITE_DYNAMITE;
     private static final zzat zza;
+    private static final zzat zzb;
 
     static {
         Feature feature = new Feature("vision.barcode", 1L);
@@ -47,11 +62,11 @@ public class OptionalModuleUtils {
         FEATURE_ICA = feature4;
         Feature feature5 = new Feature("vision.ocr", 1L);
         FEATURE_OCR = feature5;
-        new Feature("mlkit.ocr.chinese", 1L);
-        new Feature("mlkit.ocr.common", 1L);
-        new Feature("mlkit.ocr.devanagari", 1L);
-        new Feature("mlkit.ocr.japanese", 1L);
-        new Feature("mlkit.ocr.korean", 1L);
+        FEATURE_OCR_CHINESE = new Feature("mlkit.ocr.chinese", 1L);
+        FEATURE_OCR_COMMON = new Feature("mlkit.ocr.common", 1L);
+        FEATURE_OCR_DEVANAGARI = new Feature("mlkit.ocr.devanagari", 1L);
+        FEATURE_OCR_JAPANESE = new Feature("mlkit.ocr.japanese", 1L);
+        FEATURE_OCR_KOREAN = new Feature("mlkit.ocr.korean", 1L);
         Feature feature6 = new Feature("mlkit.langid", 1L);
         FEATURE_LANGID = feature6;
         Feature feature7 = new Feature("mlkit.nlclassifier", 1L);
@@ -62,15 +77,15 @@ public class OptionalModuleUtils {
         FEATURE_MLKIT_BARCODE_UI = feature9;
         Feature feature10 = new Feature("mlkit.smartreply", 1L);
         FEATURE_SMART_REPLY = feature10;
-        new Feature("mlkit.image.caption", 1L);
-        new Feature("mlkit.docscan.detect", 1L);
-        new Feature("mlkit.docscan.crop", 1L);
-        new Feature("mlkit.docscan.enhance", 1L);
-        new Feature("mlkit.docscan.ui", 1L);
-        new Feature("mlkit.docscan.stain", 1L);
-        new Feature("mlkit.docscan.shadow", 1L);
-        new Feature("mlkit.quality.aesthetic", 1L);
-        new Feature("mlkit.quality.technical", 1L);
+        FEATURE_IMAGE_CAPTION = new Feature("mlkit.image.caption", 1L);
+        FEATURE_DOCSCAN_DETECT = new Feature("mlkit.docscan.detect", 1L);
+        FEATURE_DOCSCAN_CROP = new Feature("mlkit.docscan.crop", 1L);
+        FEATURE_DOCSCAN_ENHANCE = new Feature("mlkit.docscan.enhance", 1L);
+        FEATURE_DOCSCAN_UI = new Feature("mlkit.docscan.ui", 1L);
+        FEATURE_DOCSCAN_STAIN_REMOVAL = new Feature("mlkit.docscan.stain", 1L);
+        FEATURE_DOCSCAN_SHADOW_REMOVAL = new Feature("mlkit.docscan.shadow", 1L);
+        FEATURE_IMAGE_QUALITY_AESTHETIC = new Feature("mlkit.quality.aesthetic", 1L);
+        FEATURE_IMAGE_QUALITY_TECHNICAL = new Feature("mlkit.quality.technical", 1L);
         FEATURE_SUBJECT_SEGMENTATION = new Feature("mlkit.segmentation.subject", 1L);
         zzas zzasVar = new zzas();
         zzasVar.zza("barcode", feature);
@@ -94,7 +109,7 @@ public class OptionalModuleUtils {
         zzasVar2.zza("com.google.android.gms.mlkit.nlclassifier", feature7);
         zzasVar2.zza("com.google.android.gms.tflite_dynamite", feature8);
         zzasVar2.zza("com.google.android.gms.mlkit_smartreply", feature10);
-        zzasVar2.zzb();
+        zzb = zzasVar2.zzb();
     }
 
     @Deprecated

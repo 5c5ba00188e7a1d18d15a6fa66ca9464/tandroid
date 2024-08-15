@@ -1,7 +1,16 @@
 package com.google.android.gms.internal.clearcut;
+
+import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public abstract class zzbk {
+    private int zzfq;
+    private int zzfr;
+    private boolean zzfs;
+
     private zzbk() {
+        this.zzfq = 100;
+        this.zzfr = ConnectionsManager.DEFAULT_DATACENTER_ID;
+        this.zzfs = false;
     }
 
     public static long zza(long j) {

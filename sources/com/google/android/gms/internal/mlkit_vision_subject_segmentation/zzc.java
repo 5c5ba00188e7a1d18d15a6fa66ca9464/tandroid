@@ -6,9 +6,7 @@ import android.os.Parcelable;
 /* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
 public final class zzc {
-    static {
-        zzc.class.getClassLoader();
-    }
+    private static final ClassLoader zza = zzc.class.getClassLoader();
 
     private zzc() {
     }

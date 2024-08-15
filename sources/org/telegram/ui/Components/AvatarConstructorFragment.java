@@ -181,6 +181,7 @@ public class AvatarConstructorFragment extends BaseFragment {
         final ContainerLayout containerLayout = new ContainerLayout(context) { // from class: org.telegram.ui.Components.AvatarConstructorFragment.4
             boolean isScrolling;
             boolean maybeScroll;
+            float scrollFromX;
             float scrollFromY;
             float startFromProgressToExpand;
 
@@ -330,7 +331,7 @@ public class AvatarConstructorFragment extends BaseFragment {
                         rect.offset(0, (int) AvatarConstructorFragment.this.linearLayout.getY());
                         if (AvatarConstructorFragment.this.keyboardVisibleProgress == 0.0f && !rect.contains((int) motionEvent.getX(), (int) motionEvent.getY())) {
                             this.maybeScroll = true;
-                            motionEvent.getX();
+                            this.scrollFromX = motionEvent.getX();
                             this.scrollFromY = motionEvent.getY();
                         }
                     } else if (motionEvent.getAction() == 2 && ((z = this.maybeScroll) || this.isScrolling)) {
@@ -340,7 +341,7 @@ public class AvatarConstructorFragment extends BaseFragment {
                             this.maybeScroll = false;
                             this.isScrolling = true;
                             this.startFromProgressToExpand = AvatarConstructorFragment.this.progressToExpand;
-                            motionEvent.getX();
+                            this.scrollFromX = motionEvent.getX();
                             this.scrollFromY = motionEvent.getY();
                         }
                     } else if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
@@ -362,7 +363,7 @@ public class AvatarConstructorFragment extends BaseFragment {
         this.linearLayout.setPadding(0, AndroidUtilities.statusBarHeight, 0, 0);
         this.linearLayout.setOrientation(1);
         LinearLayout linearLayout = this.linearLayout;
-        PreviewView previewView = new PreviewView(this, getContext()) { // from class: org.telegram.ui.Components.AvatarConstructorFragment.5
+        PreviewView previewView = new PreviewView(getContext()) { // from class: org.telegram.ui.Components.AvatarConstructorFragment.5
             @Override // org.telegram.ui.Components.AvatarConstructorFragment.PreviewView, android.view.View
             public void invalidate() {
                 super.invalidate();
@@ -458,7 +459,7 @@ public class AvatarConstructorFragment extends BaseFragment {
         textView4.setTypeface(AndroidUtilities.bold());
         textView4.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
         this.button.addView(textView4, LayoutHelper.createFrame(-2, -2, 17));
-        this.button.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AvatarConstructorFragment$$ExternalSyntheticLambda3
+        this.button.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AvatarConstructorFragment$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 AvatarConstructorFragment.this.lambda$createView$0(view2);
@@ -470,7 +471,7 @@ public class AvatarConstructorFragment extends BaseFragment {
         containerLayout.addView(this.colorPickerPreviewView, LayoutHelper.createFrame(-1, -1.0f));
         CanvasButton canvasButton = new CanvasButton(containerLayout);
         this.avatarClickableArea = canvasButton;
-        canvasButton.setDelegate(new Runnable() { // from class: org.telegram.ui.Components.AvatarConstructorFragment$$ExternalSyntheticLambda5
+        canvasButton.setDelegate(new Runnable() { // from class: org.telegram.ui.Components.AvatarConstructorFragment$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 AvatarConstructorFragment.this.lambda$createView$1();
@@ -617,7 +618,7 @@ public class AvatarConstructorFragment extends BaseFragment {
                 NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needCheckSystemBarColors, new Object[0]);
             }
         }
-        this.expandAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.AvatarConstructorFragment$$ExternalSyntheticLambda1
+        this.expandAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.AvatarConstructorFragment$$ExternalSyntheticLambda4
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 AvatarConstructorFragment.this.lambda$setExpanded$3(z2, valueAnimator);
@@ -750,7 +751,7 @@ public class AvatarConstructorFragment extends BaseFragment {
             this.colorFilter = new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN);
             this.expandProgress = new AnimatedFloat(this, 200L, CubicBezierInterpolator.EASE_OUT);
             this.overrideExpandProgress = -1.0f;
-            BackupImageView backupImageView = new BackupImageView(context, AvatarConstructorFragment.this) { // from class: org.telegram.ui.Components.AvatarConstructorFragment.PreviewView.1
+            BackupImageView backupImageView = new BackupImageView(context) { // from class: org.telegram.ui.Components.AvatarConstructorFragment.PreviewView.1
                 @Override // android.view.View
                 public void invalidate() {
                     super.invalidate();
@@ -960,10 +961,11 @@ public class AvatarConstructorFragment extends BaseFragment {
                     int i2 = this.stableIdPointer;
                     this.stableIdPointer = i2 + 1;
                     backgroundGradient.stableId = i2;
-                    backgroundGradient.color1 = iArr[i][0];
-                    backgroundGradient.color2 = iArr[i][1];
-                    backgroundGradient.color3 = iArr[i][2];
-                    backgroundGradient.color4 = iArr[i][3];
+                    int[] iArr2 = iArr[i];
+                    backgroundGradient.color1 = iArr2[0];
+                    backgroundGradient.color2 = iArr2[1];
+                    backgroundGradient.color3 = iArr2[2];
+                    backgroundGradient.color4 = iArr2[3];
                     this.gradients.add(backgroundGradient);
                     i++;
                 } else {
@@ -974,7 +976,7 @@ public class AvatarConstructorFragment extends BaseFragment {
                             AvatarConstructorFragment.BackgroundSelectView.this.lambda$new$0(view, i3);
                         }
                     });
-                    RecyclerView.Adapter adapter = new RecyclerView.Adapter(AvatarConstructorFragment.this) { // from class: org.telegram.ui.Components.AvatarConstructorFragment.BackgroundSelectView.1
+                    RecyclerView.Adapter adapter = new RecyclerView.Adapter() { // from class: org.telegram.ui.Components.AvatarConstructorFragment.BackgroundSelectView.1
                         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
                         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i3) {
                             BackgroundSelectView backgroundSelectView = BackgroundSelectView.this;
@@ -1141,7 +1143,7 @@ public class AvatarConstructorFragment extends BaseFragment {
             }
         }).alpha(1.0f).setDuration(200L).start();
         this.colorPickerGradient = new BackgroundGradient();
-        ColorPicker colorPicker = new ColorPicker(this, getContext(), false, new ColorPicker.ColorPickerDelegate() { // from class: org.telegram.ui.Components.AvatarConstructorFragment$$ExternalSyntheticLambda6
+        ColorPicker colorPicker = new ColorPicker(getContext(), false, new ColorPicker.ColorPickerDelegate() { // from class: org.telegram.ui.Components.AvatarConstructorFragment$$ExternalSyntheticLambda5
             @Override // org.telegram.ui.Components.ColorPicker.ColorPickerDelegate
             public /* synthetic */ void deleteTheme() {
                 ColorPicker.ColorPickerDelegate.-CC.$default$deleteTheme(this);
@@ -1202,7 +1204,7 @@ public class AvatarConstructorFragment extends BaseFragment {
         textView.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
         frameLayout.addView(textView, LayoutHelper.createFrame(-2, -2, 17));
         linearLayout.addView(frameLayout, LayoutHelper.createFrame(-1, 48.0f, 0, 16.0f, -8.0f, 16.0f, 16.0f));
-        frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AvatarConstructorFragment$$ExternalSyntheticLambda4
+        frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AvatarConstructorFragment$$ExternalSyntheticLambda6
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 AvatarConstructorFragment.this.lambda$showColorPicker$5(zArr, view);
@@ -1441,7 +1443,7 @@ public class AvatarConstructorFragment extends BaseFragment {
                 fArr[1] = z ? 0.0f : 1.0f;
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
                 this.lightProgressAnimator = ofFloat;
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.AvatarConstructorFragment$$ExternalSyntheticLambda0
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.AvatarConstructorFragment$$ExternalSyntheticLambda3
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                         AvatarConstructorFragment.this.lambda$isLightStatusBar$6(valueAnimator2);

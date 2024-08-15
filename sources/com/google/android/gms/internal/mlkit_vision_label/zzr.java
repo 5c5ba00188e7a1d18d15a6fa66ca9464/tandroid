@@ -4,10 +4,8 @@ import java.util.logging.Logger;
 /* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 final class zzr {
-    static {
-        Logger.getLogger(zzr.class.getName());
-        new zzq(null);
-    }
+    private static final Logger zza = Logger.getLogger(zzr.class.getName());
+    private static final zzq zzb = new zzq(null);
 
     private zzr() {
     }

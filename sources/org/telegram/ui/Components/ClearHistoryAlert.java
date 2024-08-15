@@ -292,7 +292,7 @@ public class ClearHistoryAlert extends BottomSheet {
                         this.cell.setText(LocaleController.formatString("ClearHistoryOptionAlso", R.string.ClearHistoryOptionAlso, UserObject.getFirstName(tLRPC$User)), "", false, false);
                         this.cell.setPadding(LocaleController.isRTL ? AndroidUtilities.dp(16.0f) : AndroidUtilities.dp(5.0f), 0, LocaleController.isRTL ? AndroidUtilities.dp(5.0f) : AndroidUtilities.dp(16.0f), 0);
                         this.linearLayout.addView(this.cell, LayoutHelper.createLinear(-1, 48, 51, 0, 0, 0, 0));
-                        this.cell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ClearHistoryAlert$$ExternalSyntheticLambda2
+                        this.cell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ClearHistoryAlert$$ExternalSyntheticLambda0
                             @Override // android.view.View.OnClickListener
                             public final void onClick(View view) {
                                 ClearHistoryAlert.lambda$new$0(zArr, view);
@@ -381,7 +381,7 @@ public class ClearHistoryAlert extends BottomSheet {
                 } else {
                     this.setTimerButton.setText(LocaleController.getString("AutoDeleteConfirm", R.string.AutoDeleteConfirm));
                 }
-                this.setTimerButton.background.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ClearHistoryAlert$$ExternalSyntheticLambda0
+                this.setTimerButton.background.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ClearHistoryAlert$$ExternalSyntheticLambda2
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         ClearHistoryAlert.this.lambda$new$2(view);
@@ -432,7 +432,7 @@ public class ClearHistoryAlert extends BottomSheet {
         bottomSheetCell22.setBackgroundColor(getThemedColor(i3));
         if (!this.autoDeleteOnly) {
         }
-        this.setTimerButton.background.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ClearHistoryAlert$$ExternalSyntheticLambda0
+        this.setTimerButton.background.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ClearHistoryAlert$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ClearHistoryAlert.this.lambda$new$2(view);
@@ -443,8 +443,9 @@ public class ClearHistoryAlert extends BottomSheet {
     }
 
     public static /* synthetic */ void lambda$new$0(boolean[] zArr, View view) {
-        zArr[0] = !zArr[0];
-        ((CheckBoxCell) view).setChecked(zArr[0], true);
+        boolean z = !zArr[0];
+        zArr[0] = z;
+        ((CheckBoxCell) view).setChecked(z, true);
     }
 
     public /* synthetic */ void lambda$new$1(View view) {

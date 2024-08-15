@@ -199,7 +199,7 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
         this.listView.setVerticalScrollBarEnabled(false);
         this.listView.setAdapter(this.listAdapter);
         frameLayout2.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.RestrictedLanguagesSelectActivity$$ExternalSyntheticLambda6
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.RestrictedLanguagesSelectActivity$$ExternalSyntheticLambda5
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i) {
                 RestrictedLanguagesSelectActivity.this.lambda$createView$1(view, i);
@@ -240,7 +240,7 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
         LocaleController.LocaleInfo currentLocaleInfo = LocaleController.getInstance().getCurrentLocaleInfo();
         final String str = language.code;
         if (this.selectedLanguages.contains(str)) {
-            Collection$-EL.removeIf(this.selectedLanguages, new Predicate() { // from class: org.telegram.ui.RestrictedLanguagesSelectActivity$$ExternalSyntheticLambda0
+            Collection$-EL.removeIf(this.selectedLanguages, new Predicate() { // from class: org.telegram.ui.RestrictedLanguagesSelectActivity$$ExternalSyntheticLambda6
                 @Override // j$.util.function.Predicate
                 public /* synthetic */ Predicate and(Predicate predicate) {
                     return Predicate.-CC.$default$and(this, predicate);
@@ -435,13 +435,13 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
             return new RecyclerListView.Holder(headerCell);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:14:0x004d, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:14:0x004e, code lost:
             if (r7 == (r5.this$0.searchResult.size() - 1)) goto L16;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:15:0x004f, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:15:0x0050, code lost:
             r7 = true;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:25:0x0088, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:25:0x008a, code lost:
             if (r7 == (r5.this$0.allLanguages.size() - 1)) goto L16;
          */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -524,7 +524,7 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
     public static void checkRestrictedLanguages(boolean z) {
         boolean z2 = MessagesController.getGlobalMainSettings().getBoolean("translate_button_restricted_languages_changed", false);
         if (MessagesController.getGlobalMainSettings().getInt("translate_button_restricted_languages_version", 0) != 2 || (z && !z2)) {
-            getExtendedDoNotTranslate(new Utilities.Callback() { // from class: org.telegram.ui.RestrictedLanguagesSelectActivity$$ExternalSyntheticLambda5
+            getExtendedDoNotTranslate(new Utilities.Callback() { // from class: org.telegram.ui.RestrictedLanguagesSelectActivity$$ExternalSyntheticLambda0
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     RestrictedLanguagesSelectActivity.lambda$checkRestrictedLanguages$2((HashSet) obj);
@@ -558,17 +558,17 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
             return;
         }
         final HashSet hashSet = new HashSet();
-        Utilities.doCallbacks(new Utilities.Callback() { // from class: org.telegram.ui.RestrictedLanguagesSelectActivity$$ExternalSyntheticLambda3
+        Utilities.doCallbacks(new Utilities.Callback() { // from class: org.telegram.ui.RestrictedLanguagesSelectActivity$$ExternalSyntheticLambda1
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 RestrictedLanguagesSelectActivity.lambda$getExtendedDoNotTranslate$3(hashSet, (Runnable) obj);
             }
-        }, new Utilities.Callback() { // from class: org.telegram.ui.RestrictedLanguagesSelectActivity$$ExternalSyntheticLambda1
+        }, new Utilities.Callback() { // from class: org.telegram.ui.RestrictedLanguagesSelectActivity$$ExternalSyntheticLambda2
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 RestrictedLanguagesSelectActivity.lambda$getExtendedDoNotTranslate$4(hashSet, (Runnable) obj);
             }
-        }, new Utilities.Callback() { // from class: org.telegram.ui.RestrictedLanguagesSelectActivity$$ExternalSyntheticLambda2
+        }, new Utilities.Callback() { // from class: org.telegram.ui.RestrictedLanguagesSelectActivity$$ExternalSyntheticLambda3
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 RestrictedLanguagesSelectActivity.lambda$getExtendedDoNotTranslate$5(hashSet, (Runnable) obj);

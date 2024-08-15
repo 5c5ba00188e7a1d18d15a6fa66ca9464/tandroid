@@ -3,6 +3,7 @@ package org.webrtc;
 import android.graphics.SurfaceTexture;
 import android.view.Surface;
 import java.util.ArrayList;
+import javax.microedition.khronos.egl.EGLContext;
 import org.webrtc.EglBase10;
 import org.webrtc.EglBase14;
 /* loaded from: classes.dex */
@@ -94,6 +95,14 @@ public interface EglBase {
             }
         }
 
+        public static EglBase create() {
+            return create(null, EglBase.CONFIG_PLAIN);
+        }
+
+        public static EglBase create(Context context) {
+            return create(context, EglBase.CONFIG_PLAIN);
+        }
+
         public static EglBase10 createEgl10(int[] iArr) {
             return new EglBase10Impl(null, iArr);
         }
@@ -102,12 +111,20 @@ public interface EglBase {
             return new EglBase10Impl(context == null ? null : context.getRawContext(), iArr);
         }
 
+        public static EglBase10 createEgl10(EGLContext eGLContext, int[] iArr) {
+            return new EglBase10Impl(eGLContext, iArr);
+        }
+
         public static EglBase14 createEgl14(int[] iArr) {
             return new EglBase14Impl(null, iArr);
         }
 
         public static EglBase14 createEgl14(EglBase14.Context context, int[] iArr) {
             return new EglBase14Impl(context == null ? null : context.getRawContext(), iArr);
+        }
+
+        public static EglBase14 createEgl14(android.opengl.EGLContext eGLContext, int[] iArr) {
+            return new EglBase14Impl(eGLContext, iArr);
         }
     }
 

@@ -26,7 +26,6 @@ class VersionedParcelParcel extends VersionedParcel {
         super(arrayMap, arrayMap2, arrayMap3);
         this.mPositionLookup = new SparseIntArray();
         this.mCurrentField = -1;
-        this.mNextRead = 0;
         this.mFieldId = -1;
         this.mParcel = parcel;
         this.mOffset = i;
@@ -149,7 +148,7 @@ class VersionedParcelParcel extends VersionedParcel {
 
     @Override // androidx.versionedparcelable.VersionedParcel
     public <T extends Parcelable> T readParcelable() {
-        return (T) this.mParcel.readParcelable(VersionedParcelParcel.class.getClassLoader());
+        return (T) this.mParcel.readParcelable(getClass().getClassLoader());
     }
 
     @Override // androidx.versionedparcelable.VersionedParcel

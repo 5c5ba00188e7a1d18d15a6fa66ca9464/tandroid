@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.RandomAccess;
 import java.util.Set;
 /* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
@@ -36,7 +35,7 @@ public abstract class zzw extends zzy implements Serializable {
     public static /* bridge */ /* synthetic */ void zzk(zzw zzwVar, Object obj) {
         Object obj2;
         Map map = zzwVar.zza;
-        Objects.requireNonNull(map);
+        map.getClass();
         try {
             obj2 = map.remove(obj);
         } catch (ClassCastException | NullPointerException unused) {

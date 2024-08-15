@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -15,6 +16,7 @@ import androidx.appcompat.R$styleable;
 import androidx.appcompat.view.ActionMode;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.core.view.ViewCompat;
+import androidx.core.view.ViewPropertyAnimatorCompat;
 /* loaded from: classes.dex */
 public class ActionBarContextView extends AbsActionBarView {
     private View mClose;
@@ -46,8 +48,23 @@ public class ActionBarContextView extends AbsActionBarView {
     }
 
     @Override // androidx.appcompat.widget.AbsActionBarView, android.view.View
+    public /* bridge */ /* synthetic */ boolean onHoverEvent(MotionEvent motionEvent) {
+        return super.onHoverEvent(motionEvent);
+    }
+
+    @Override // androidx.appcompat.widget.AbsActionBarView, android.view.View
+    public /* bridge */ /* synthetic */ boolean onTouchEvent(MotionEvent motionEvent) {
+        return super.onTouchEvent(motionEvent);
+    }
+
+    @Override // androidx.appcompat.widget.AbsActionBarView, android.view.View
     public /* bridge */ /* synthetic */ void setVisibility(int i) {
         super.setVisibility(i);
+    }
+
+    @Override // androidx.appcompat.widget.AbsActionBarView
+    public /* bridge */ /* synthetic */ ViewPropertyAnimatorCompat setupAnimatorToVisibility(int i, long j) {
+        return super.setupAnimatorToVisibility(i, j);
     }
 
     public ActionBarContextView(Context context) {
@@ -161,7 +178,7 @@ public class ActionBarContextView extends AbsActionBarView {
         }
         View findViewById = this.mClose.findViewById(R$id.action_mode_close_button);
         this.mCloseButton = findViewById;
-        findViewById.setOnClickListener(new View.OnClickListener(this) { // from class: androidx.appcompat.widget.ActionBarContextView.1
+        findViewById.setOnClickListener(new View.OnClickListener() { // from class: androidx.appcompat.widget.ActionBarContextView.1
             @Override // android.view.View.OnClickListener
             public void onClick(View view2) {
                 actionMode.finish();

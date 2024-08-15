@@ -6,31 +6,30 @@ import j$.util.function.ToIntFunction;
 import j$.util.function.ToLongFunction;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Objects;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class Comparator$-CC {
+public final /* synthetic */ class Comparator$-CC<T> {
     public static Comparator a() {
         return f.INSTANCE;
     }
 
     public static <T, U extends Comparable<? super U>> Comparator<T> comparing(Function<? super T, ? extends U> function) {
-        Objects.requireNonNull(function);
-        return new d(function);
+        function.getClass();
+        return new c(function, 3);
     }
 
     public static <T> Comparator<T> comparingDouble(ToDoubleFunction<? super T> toDoubleFunction) {
-        Objects.requireNonNull(toDoubleFunction);
-        return new d(toDoubleFunction);
+        toDoubleFunction.getClass();
+        return new c(toDoubleFunction, 0);
     }
 
     public static <T> Comparator<T> comparingInt(ToIntFunction<? super T> toIntFunction) {
-        Objects.requireNonNull(toIntFunction);
-        return new d(toIntFunction);
+        toIntFunction.getClass();
+        return new c(toIntFunction, 1);
     }
 
     public static <T> Comparator<T> comparingLong(ToLongFunction<? super T> toLongFunction) {
-        Objects.requireNonNull(toLongFunction);
-        return new d(toLongFunction);
+        toLongFunction.getClass();
+        return new c(toLongFunction, 2);
     }
 
     public static <T extends Comparable<? super T>> Comparator<T> reverseOrder() {

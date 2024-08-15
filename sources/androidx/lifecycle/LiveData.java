@@ -100,7 +100,7 @@ public abstract class LiveData<T> {
 
     public void observeForever(Observer<? super T> observer) {
         assertMainThread("observeForever");
-        AlwaysActiveObserver alwaysActiveObserver = new AlwaysActiveObserver(this, observer);
+        AlwaysActiveObserver alwaysActiveObserver = new AlwaysActiveObserver(observer);
         LiveData<T>.ObserverWrapper putIfAbsent = this.mObservers.putIfAbsent(observer, alwaysActiveObserver);
         if (putIfAbsent instanceof LifecycleBoundObserver) {
             throw new IllegalArgumentException("Cannot add the same observer with different lifecycles");
@@ -259,7 +259,7 @@ public abstract class LiveData<T> {
             return true;
         }
 
-        AlwaysActiveObserver(LiveData liveData, Observer<? super T> observer) {
+        AlwaysActiveObserver(Observer<? super T> observer) {
             super(observer);
         }
     }

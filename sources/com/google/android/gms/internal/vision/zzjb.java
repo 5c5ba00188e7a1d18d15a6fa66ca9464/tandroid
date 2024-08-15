@@ -17,7 +17,10 @@ public abstract class zzjb<MessageType extends zzjb<MessageType, BuilderType>, B
     /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
     /* loaded from: classes.dex */
     protected static class zza<T extends zzjb<T, ?>> extends zzhg<T> {
+        private final T zza;
+
         public zza(T t) {
+            this.zza = t;
         }
     }
 

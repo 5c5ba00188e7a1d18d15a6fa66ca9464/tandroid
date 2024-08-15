@@ -123,7 +123,16 @@ public final class FileDataSource extends BaseDataSource {
     public static final class Api21 {
         /* JADX INFO: Access modifiers changed from: private */
         public static boolean isPermissionError(Throwable th) {
-            return (th instanceof ErrnoException) && ((ErrnoException) th).errno == OsConstants.EACCES;
+            int i;
+            int i2;
+            if (th instanceof ErrnoException) {
+                i = ((ErrnoException) th).errno;
+                i2 = OsConstants.EACCES;
+                if (i == i2) {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

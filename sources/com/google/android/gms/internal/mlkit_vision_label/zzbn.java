@@ -2,7 +2,6 @@ package com.google.android.gms.internal.mlkit_vision_label;
 
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Objects;
 /* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 class zzbn extends zzca {
@@ -10,7 +9,7 @@ class zzbn extends zzca {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public zzbn(Map map) {
-        Objects.requireNonNull(map);
+        map.getClass();
         this.zzb = map;
     }
 

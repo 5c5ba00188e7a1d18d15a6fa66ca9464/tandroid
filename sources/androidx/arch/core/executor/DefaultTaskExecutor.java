@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class DefaultTaskExecutor extends TaskExecutor {
     private volatile Handler mMainHandler;
     private final Object mLock = new Object();
-    private final ExecutorService mDiskIO = Executors.newFixedThreadPool(4, new ThreadFactory(this) { // from class: androidx.arch.core.executor.DefaultTaskExecutor.1
+    private final ExecutorService mDiskIO = Executors.newFixedThreadPool(4, new ThreadFactory() { // from class: androidx.arch.core.executor.DefaultTaskExecutor.1
         private final AtomicInteger mThreadId = new AtomicInteger(0);
 
         @Override // java.util.concurrent.ThreadFactory
@@ -46,18 +46,17 @@ public class DefaultTaskExecutor extends TaskExecutor {
     }
 
     private static Handler createAsync(Looper looper) {
-        int i = Build.VERSION.SDK_INT;
-        if (i >= 28) {
-            return Handler.createAsync(looper);
+        Handler createAsync;
+        if (Build.VERSION.SDK_INT >= 28) {
+            createAsync = Handler.createAsync(looper);
+            return createAsync;
         }
-        if (i >= 16) {
-            try {
-                return (Handler) Handler.class.getDeclaredConstructor(Looper.class, Handler.Callback.class, Boolean.TYPE).newInstance(looper, null, Boolean.TRUE);
-            } catch (IllegalAccessException | InstantiationException | NoSuchMethodException unused) {
-            } catch (InvocationTargetException unused2) {
-                return new Handler(looper);
-            }
+        try {
+            return (Handler) Handler.class.getDeclaredConstructor(Looper.class, Handler.Callback.class, Boolean.TYPE).newInstance(looper, null, Boolean.TRUE);
+        } catch (IllegalAccessException | InstantiationException | NoSuchMethodException unused) {
+            return new Handler(looper);
+        } catch (InvocationTargetException unused2) {
+            return new Handler(looper);
         }
-        return new Handler(looper);
     }
 }

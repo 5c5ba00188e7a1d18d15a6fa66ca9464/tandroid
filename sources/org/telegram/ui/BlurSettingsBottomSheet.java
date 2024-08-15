@@ -19,6 +19,7 @@ public class BlurSettingsBottomSheet extends BottomSheet {
     public static float blurRadius = 1.0f;
     public static float saturation = 1.0f;
     SizeNotifierFrameLayout contentView;
+    BaseFragment fragment;
 
     public static void show(BaseFragment baseFragment) {
         new BlurSettingsBottomSheet(baseFragment).show();
@@ -26,6 +27,7 @@ public class BlurSettingsBottomSheet extends BottomSheet {
 
     private BlurSettingsBottomSheet(BaseFragment baseFragment) {
         super(baseFragment.getParentActivity(), false);
+        this.fragment = baseFragment;
         if (baseFragment.getFragmentView() instanceof SizeNotifierFrameLayout) {
             this.contentView = (SizeNotifierFrameLayout) baseFragment.getFragmentView();
         }
@@ -139,7 +141,7 @@ public class BlurSettingsBottomSheet extends BottomSheet {
         });
         seekBarView3.setReportChanges(true);
         linearLayout.addView(seekBarView3, LayoutHelper.createFrame(-1, 38.0f, 0, 5.0f, 4.0f, 5.0f, 0.0f));
-        linearLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener(this) { // from class: org.telegram.ui.BlurSettingsBottomSheet.4
+        linearLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener() { // from class: org.telegram.ui.BlurSettingsBottomSheet.4
             @Override // android.view.View.OnLayoutChangeListener
             public void onLayoutChange(View view, int i2, int i3, int i4, int i5, int i6, int i7, int i8, int i9) {
                 seekBarView.setProgress(BlurSettingsBottomSheet.saturation);

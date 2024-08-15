@@ -239,13 +239,13 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
             }
         };
         this.listView = recyclerListView;
-        final RecyclerListView.OnItemClickListener onItemClickListener = new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.TrendingStickersLayout$$ExternalSyntheticLambda1
+        final RecyclerListView.OnItemClickListener onItemClickListener = new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.TrendingStickersLayout$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i2) {
                 TrendingStickersLayout.this.lambda$new$0(view, i2);
             }
         };
-        recyclerListView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.TrendingStickersLayout$$ExternalSyntheticLambda0
+        recyclerListView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.TrendingStickersLayout$$ExternalSyntheticLambda1
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view, MotionEvent motionEvent) {
                 boolean lambda$new$1;
@@ -396,6 +396,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
     @Override // android.view.ViewGroup, android.view.View
     protected void dispatchDraw(Canvas canvas) {
         int i;
+        int i2;
         float f = this.highlightProgress;
         if (f != 0.0f && this.scrollToSet != null) {
             float f2 = f - 0.0053333333f;
@@ -408,25 +409,25 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
             Integer num = (Integer) this.adapter.setsToPosition.get(this.scrollToSet);
             if (num != null) {
                 View findViewByPosition = this.layoutManager.findViewByPosition(num.intValue());
-                int i2 = -1;
                 if (findViewByPosition != null) {
-                    i2 = (int) findViewByPosition.getY();
-                    i = ((int) findViewByPosition.getY()) + findViewByPosition.getMeasuredHeight();
+                    i = (int) findViewByPosition.getY();
+                    i2 = ((int) findViewByPosition.getY()) + findViewByPosition.getMeasuredHeight();
                 } else {
                     i = -1;
+                    i2 = -1;
                 }
                 View findViewByPosition2 = this.layoutManager.findViewByPosition(num.intValue() + 1);
                 if (findViewByPosition2 != null) {
                     if (findViewByPosition == null) {
-                        i2 = (int) findViewByPosition2.getY();
+                        i = (int) findViewByPosition2.getY();
                     }
-                    i = ((int) findViewByPosition2.getY()) + findViewByPosition2.getMeasuredHeight();
+                    i2 = ((int) findViewByPosition2.getY()) + findViewByPosition2.getMeasuredHeight();
                 }
                 if (findViewByPosition != null || findViewByPosition2 != null) {
                     this.paint.setColor(Theme.getColor(Theme.key_featuredStickers_addButton));
                     float f3 = this.highlightProgress;
                     this.paint.setAlpha((int) ((f3 < 0.06f ? f3 / 0.06f : 1.0f) * 25.5f));
-                    canvas.drawRect(0.0f, i2, getMeasuredWidth(), i, this.paint);
+                    canvas.drawRect(0.0f, i, getMeasuredWidth(), i2, this.paint);
                 }
             }
         }
@@ -731,7 +732,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
             FrameLayout frameLayout;
             FeaturedStickerSetInfoCell featuredStickerSetInfoCell;
             if (i == 0) {
-                StickerEmojiCell stickerEmojiCell = new StickerEmojiCell(this, this.context, false, TrendingStickersLayout.this.resourcesProvider) { // from class: org.telegram.ui.Components.TrendingStickersLayout.TrendingStickersAdapter.1
+                StickerEmojiCell stickerEmojiCell = new StickerEmojiCell(this.context, false, TrendingStickersLayout.this.resourcesProvider) { // from class: org.telegram.ui.Components.TrendingStickersLayout.TrendingStickersAdapter.1
                     @Override // android.widget.FrameLayout, android.view.View
                     public void onMeasure(int i2, int i3) {
                         super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(82.0f), 1073741824));
@@ -744,7 +745,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
                     featuredStickerSetInfoCell = new EmptyCell(this.context);
                 } else if (i == 2) {
                     FeaturedStickerSetInfoCell featuredStickerSetInfoCell2 = new FeaturedStickerSetInfoCell(this.context, 17, true, true, TrendingStickersLayout.this.resourcesProvider);
-                    featuredStickerSetInfoCell2.setAddOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TrendingStickersLayout$TrendingStickersAdapter$$ExternalSyntheticLambda0
+                    featuredStickerSetInfoCell2.setAddOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TrendingStickersLayout$TrendingStickersAdapter$$ExternalSyntheticLambda1
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
                             TrendingStickersLayout.TrendingStickersAdapter.this.lambda$onCreateViewHolder$0(view);
@@ -759,7 +760,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
                     featuredStickerSetInfoCell = null;
                 } else {
                     ?? featuredStickerSetCell2 = new FeaturedStickerSetCell2(this.context, TrendingStickersLayout.this.resourcesProvider);
-                    featuredStickerSetCell2.setAddOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TrendingStickersLayout$TrendingStickersAdapter$$ExternalSyntheticLambda1
+                    featuredStickerSetCell2.setAddOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TrendingStickersLayout$TrendingStickersAdapter$$ExternalSyntheticLambda2
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
                             TrendingStickersLayout.TrendingStickersAdapter.this.lambda$onCreateViewHolder$1(view);
@@ -1031,7 +1032,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
             TLRPC$TL_messages_getOldFeaturedStickers tLRPC$TL_messages_getOldFeaturedStickers = new TLRPC$TL_messages_getOldFeaturedStickers();
             tLRPC$TL_messages_getOldFeaturedStickers.offset = this.otherPacks.size();
             tLRPC$TL_messages_getOldFeaturedStickers.limit = 40;
-            ConnectionsManager.getInstance(TrendingStickersLayout.this.currentAccount).sendRequest(tLRPC$TL_messages_getOldFeaturedStickers, new RequestDelegate() { // from class: org.telegram.ui.Components.TrendingStickersLayout$TrendingStickersAdapter$$ExternalSyntheticLambda3
+            ConnectionsManager.getInstance(TrendingStickersLayout.this.currentAccount).sendRequest(tLRPC$TL_messages_getOldFeaturedStickers, new RequestDelegate() { // from class: org.telegram.ui.Components.TrendingStickersLayout$TrendingStickersAdapter$$ExternalSyntheticLambda0
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     TrendingStickersLayout.TrendingStickersAdapter.this.lambda$loadMoreStickerSets$3(tLObject, tLRPC$TL_error);
@@ -1041,7 +1042,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$loadMoreStickerSets$3(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TrendingStickersLayout$TrendingStickersAdapter$$ExternalSyntheticLambda2
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TrendingStickersLayout$TrendingStickersAdapter$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     TrendingStickersLayout.TrendingStickersAdapter.this.lambda$loadMoreStickerSets$2(tLRPC$TL_error, tLObject);

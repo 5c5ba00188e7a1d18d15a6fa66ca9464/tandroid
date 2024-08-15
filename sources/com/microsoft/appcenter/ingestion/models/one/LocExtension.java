@@ -31,7 +31,7 @@ public class LocExtension implements Model {
         if (this == obj) {
             return true;
         }
-        if (obj == null || LocExtension.class != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         String str = this.tz;

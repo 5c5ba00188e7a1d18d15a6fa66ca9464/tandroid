@@ -8,9 +8,7 @@ import kotlin.jvm.internal.DefaultConstructorMarker;
 /* compiled from: Executors.kt */
 /* loaded from: classes.dex */
 public abstract class ExecutorCoroutineDispatcher extends CoroutineDispatcher implements Closeable {
-    static {
-        new Key(null);
-    }
+    public static final Key Key = new Key(null);
 
     /* compiled from: Executors.kt */
     /* loaded from: classes.dex */

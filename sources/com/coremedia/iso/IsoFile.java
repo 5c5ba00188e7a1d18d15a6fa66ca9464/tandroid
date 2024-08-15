@@ -5,9 +5,7 @@ import com.googlecode.mp4parser.util.Logger;
 import java.io.IOException;
 /* loaded from: classes.dex */
 public class IsoFile extends BasicContainer {
-    static {
-        Logger.getLogger(IsoFile.class);
-    }
+    private static Logger LOG = Logger.getLogger(IsoFile.class);
 
     public static byte[] fourCCtoBytes(String str) {
         byte[] bArr = new byte[4];
@@ -21,11 +19,11 @@ public class IsoFile extends BasicContainer {
 
     @Override // com.googlecode.mp4parser.BasicContainer, java.io.Closeable, java.lang.AutoCloseable
     public void close() throws IOException {
-        this.dataSource.close();
+        throw null;
     }
 
     @Override // com.googlecode.mp4parser.BasicContainer
     public String toString() {
-        return "model(" + this.dataSource.toString() + ")";
+        throw null;
     }
 }

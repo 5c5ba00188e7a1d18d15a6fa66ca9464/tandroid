@@ -67,7 +67,7 @@ public class ProfileHoursCell extends LinearLayout {
         int i = 0;
         for (int i2 = 7; i < i2; i2 = 7) {
             if (i == 0) {
-                FrameLayout frameLayout = new FrameLayout(this, context) { // from class: org.telegram.ui.Business.ProfileHoursCell.1
+                FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Business.ProfileHoursCell.1
                     @Override // android.widget.FrameLayout, android.view.View
                     protected void onMeasure(int i3, int i4) {
                         super.onMeasure(i3, View.MeasureSpec.makeMeasureSpec(Math.max(View.MeasureSpec.getSize(i4), AndroidUtilities.dp(60.0f)), View.MeasureSpec.getMode(i4)));
@@ -179,7 +179,7 @@ public class ProfileHoursCell extends LinearLayout {
     }
 
     /* JADX WARN: Removed duplicated region for block: B:84:0x015d  */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x0165  */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x0163  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -234,15 +234,15 @@ public class ProfileHoursCell extends LinearLayout {
         while (i6 < this.timeText.length) {
             int i7 = 0;
             while (true) {
-                TextView[][] textViewArr = this.timeText;
-                if (i7 < textViewArr[i6].length) {
+                TextView[] textViewArr = this.timeText[i6];
+                if (i7 < textViewArr.length) {
                     if (i6 != 0 || z6) {
                         if ((i7 == i5) == z7) {
                             f = 1.0f;
                             if (!this.firstAfterAttach) {
-                                textViewArr[i6][i7].setAlpha(f);
+                                textViewArr[i7].setAlpha(f);
                             } else {
-                                textViewArr[i6][i7].animate().alpha(f).setDuration(320L).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).start();
+                                textViewArr[i7].animate().alpha(f).setDuration(320L).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).start();
                             }
                             i7++;
                             i5 = 1;
@@ -330,19 +330,21 @@ public class ProfileHoursCell extends LinearLayout {
                             }
                             if (i == -1) {
                                 textView.setText(LocaleController.getString(R.string.BusinessHoursProfileClose));
+                                arrayList = adaptWeeklyOpen;
                             } else {
                                 int i23 = i < i12 ? i + (10080 - i12) : i - i12;
                                 if (i23 < 60) {
-                                    textView.setText(LocaleController.formatPluralString("BusinessHoursProfileOpensInMinutes", i23, new Object[0]));
-                                } else if (i23 < 1440) {
                                     arrayList = adaptWeeklyOpen;
-                                    textView.setText(LocaleController.formatPluralString("BusinessHoursProfileOpensInHours", (int) Math.ceil(i23 / 60.0f), new Object[0]));
+                                    textView.setText(LocaleController.formatPluralString("BusinessHoursProfileOpensInMinutes", i23, new Object[0]));
                                 } else {
                                     arrayList = adaptWeeklyOpen;
-                                    textView.setText(LocaleController.formatPluralString("BusinessHoursProfileOpensInDays", (int) Math.ceil((i23 / 60.0f) / 24.0f), new Object[0]));
+                                    if (i23 < 1440) {
+                                        textView.setText(LocaleController.formatPluralString("BusinessHoursProfileOpensInHours", (int) Math.ceil(i23 / 60.0f), new Object[0]));
+                                    } else {
+                                        textView.setText(LocaleController.formatPluralString("BusinessHoursProfileOpensInDays", (int) Math.ceil((i23 / 60.0f) / 24.0f), new Object[0]));
+                                    }
                                 }
                             }
-                            arrayList = adaptWeeklyOpen;
                         } else {
                             arrayList = adaptWeeklyOpen;
                             z5 = z6;

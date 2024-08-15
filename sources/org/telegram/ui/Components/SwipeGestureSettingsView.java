@@ -95,7 +95,7 @@ public class SwipeGestureSettingsView extends FrameLayout {
         this.picker.setMaxValue(z ? this.strings.length - 1 : this.strings.length - 2);
         this.picker.setAllItemsCount(this.hasTabs ? this.strings.length : this.strings.length - 1);
         this.picker.setWrapSelectorWheel(true);
-        this.picker.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.SwipeGestureSettingsView$$ExternalSyntheticLambda1
+        this.picker.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.SwipeGestureSettingsView$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.Components.NumberPicker.Formatter
             public final String format(int i3) {
                 String lambda$new$0;
@@ -103,7 +103,7 @@ public class SwipeGestureSettingsView extends FrameLayout {
                 return lambda$new$0;
             }
         });
-        this.picker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() { // from class: org.telegram.ui.Components.SwipeGestureSettingsView$$ExternalSyntheticLambda2
+        this.picker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() { // from class: org.telegram.ui.Components.SwipeGestureSettingsView$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.NumberPicker.OnValueChangeListener
             public final void onValueChange(NumberPicker numberPicker2, int i3, int i4) {
                 SwipeGestureSettingsView.this.lambda$new$1(numberPicker2, i3, i4);
@@ -160,7 +160,7 @@ public class SwipeGestureSettingsView extends FrameLayout {
             AndroidUtilities.updateViewVisibilityAnimated(this.iconViews[this.currentIconIndex], false, 0.5f, true);
             AndroidUtilities.updateViewVisibilityAnimated(this.iconViews[i], true, 0.5f, true);
             this.currentIconIndex = i;
-            Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.SwipeGestureSettingsView$$ExternalSyntheticLambda0
+            Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.SwipeGestureSettingsView$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     SwipeGestureSettingsView.this.lambda$swapIcons$2();

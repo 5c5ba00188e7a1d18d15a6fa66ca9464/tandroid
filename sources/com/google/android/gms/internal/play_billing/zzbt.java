@@ -65,7 +65,9 @@ public final class zzbt {
     public static final zzbt zzx;
     public static final zzbt zzy;
     public static final zzbt zzz;
+    private final zzcj zzab;
     private final int zzac;
+    private final Class zzad;
 
     static {
         zzcj zzcjVar = zzcj.zze;
@@ -189,11 +191,14 @@ public final class zzbt {
 
     private zzbt(String str, int i, int i2, int i3, zzcj zzcjVar) {
         this.zzac = i2;
+        this.zzab = zzcjVar;
         int i4 = i3 - 1;
         if (i4 == 1) {
-            zzcjVar.zza();
-        } else if (i4 == 3) {
-            zzcjVar.zza();
+            this.zzad = zzcjVar.zza();
+        } else if (i4 != 3) {
+            this.zzad = null;
+        } else {
+            this.zzad = zzcjVar.zza();
         }
         if (i3 == 1) {
             zzcj zzcjVar2 = zzcj.zza;

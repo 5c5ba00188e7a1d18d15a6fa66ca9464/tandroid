@@ -26,8 +26,9 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
 import androidx.core.graphics.ColorUtils;
-import j$.wrappers.$r8$wrapper$java$util$stream$IntStream$-V-WRP;
-import j$.wrappers.$r8$wrapper$java$util$stream$IntStream$-WRP;
+import androidx.emoji2.text.UnprecomputeTextOnModificationSpannable$CharSequenceHelper_API24$$ExternalSyntheticAPIConversion0;
+import androidx.emoji2.text.UnprecomputeTextOnModificationSpannable$CharSequenceHelper_API24$$ExternalSyntheticAPIConversion1;
+import j$.util.stream.IntStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.IntStream;
@@ -473,17 +474,17 @@ public class AnimatedTextView extends View {
                 this.oldHeight = 0.0f;
                 this.oldWidth = 0.0f;
                 this.isRTL = AndroidUtilities.isRTL(this.currentText);
-                diff(this.splitByWords ? new WordSequence(this.oldText) : this.oldText, this.splitByWords ? new WordSequence(this.currentText) : this.currentText, new RegionCallback() { // from class: org.telegram.ui.Components.AnimatedTextView$AnimatedTextDrawable$$ExternalSyntheticLambda4
+                diff(this.splitByWords ? new WordSequence(this.oldText) : this.oldText, this.splitByWords ? new WordSequence(this.currentText) : this.currentText, new RegionCallback() { // from class: org.telegram.ui.Components.AnimatedTextView$AnimatedTextDrawable$$ExternalSyntheticLambda1
                     @Override // org.telegram.ui.Components.AnimatedTextView.AnimatedTextDrawable.RegionCallback
                     public final void run(CharSequence charSequence2, int i2, int i3) {
                         AnimatedTextView.AnimatedTextDrawable.this.lambda$setText$0(i, arrayList2, arrayList, charSequence2, i2, i3);
                     }
-                }, new RegionCallback() { // from class: org.telegram.ui.Components.AnimatedTextView$AnimatedTextDrawable$$ExternalSyntheticLambda3
+                }, new RegionCallback() { // from class: org.telegram.ui.Components.AnimatedTextView$AnimatedTextDrawable$$ExternalSyntheticLambda2
                     @Override // org.telegram.ui.Components.AnimatedTextView.AnimatedTextDrawable.RegionCallback
                     public final void run(CharSequence charSequence2, int i2, int i3) {
                         AnimatedTextView.AnimatedTextDrawable.this.lambda$setText$1(i, arrayList, charSequence2, i2, i3);
                     }
-                }, new RegionCallback() { // from class: org.telegram.ui.Components.AnimatedTextView$AnimatedTextDrawable$$ExternalSyntheticLambda2
+                }, new RegionCallback() { // from class: org.telegram.ui.Components.AnimatedTextView$AnimatedTextDrawable$$ExternalSyntheticLambda3
                     @Override // org.telegram.ui.Components.AnimatedTextView.AnimatedTextDrawable.RegionCallback
                     public final void run(CharSequence charSequence2, int i2, int i3) {
                         AnimatedTextView.AnimatedTextDrawable.this.lambda$setText$2(i, arrayList2, charSequence2, i2, i3);
@@ -512,7 +513,7 @@ public class AnimatedTextView extends View {
                 if (runnable != null) {
                     runnable.run();
                 }
-                this.animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.AnimatedTextView$AnimatedTextDrawable$$ExternalSyntheticLambda0
+                this.animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.AnimatedTextView$AnimatedTextDrawable$$ExternalSyntheticLambda4
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
                         AnimatedTextView.AnimatedTextDrawable.this.lambda$setText$3(valueAnimator3);
@@ -563,9 +564,9 @@ public class AnimatedTextView extends View {
                 this.currentParts = r12;
                 this.currentText = charSequence;
                 Part[] partArr3 = {new Part(makeLayout(charSequence, i), 0.0f, -1)};
-                Part[] partArr4 = this.currentParts;
-                this.currentWidth = partArr4[0].width;
-                this.currentHeight = partArr4[0].layout.getHeight();
+                Part part = this.currentParts[0];
+                this.currentWidth = part.width;
+                this.currentHeight = part.layout.getHeight();
                 this.isRTL = AndroidUtilities.isRTL(this.currentText);
             }
             clearOldParts();
@@ -676,13 +677,29 @@ public class AnimatedTextView extends View {
         }
 
         private StaticLayout makeLayout(CharSequence charSequence, int i) {
+            StaticLayout.Builder obtain;
+            StaticLayout.Builder maxLines;
+            StaticLayout.Builder lineSpacing;
+            StaticLayout.Builder alignment;
+            StaticLayout.Builder ellipsize;
+            StaticLayout.Builder ellipsizedWidth;
+            StaticLayout.Builder includePad;
+            StaticLayout build;
             if (i <= 0) {
                 android.graphics.Point point = AndroidUtilities.displaySize;
                 i = Math.min(point.x, point.y);
             }
             int i2 = i;
             if (Build.VERSION.SDK_INT >= 23) {
-                return StaticLayout.Builder.obtain(charSequence, 0, charSequence.length(), this.textPaint, i2).setMaxLines(1).setLineSpacing(0.0f, 1.0f).setAlignment(Layout.Alignment.ALIGN_NORMAL).setEllipsize(TextUtils.TruncateAt.END).setEllipsizedWidth(i2).setIncludePad(this.includeFontPadding).build();
+                obtain = StaticLayout.Builder.obtain(charSequence, 0, charSequence.length(), this.textPaint, i2);
+                maxLines = obtain.setMaxLines(1);
+                lineSpacing = maxLines.setLineSpacing(0.0f, 1.0f);
+                alignment = lineSpacing.setAlignment(Layout.Alignment.ALIGN_NORMAL);
+                ellipsize = alignment.setEllipsize(TextUtils.TruncateAt.END);
+                ellipsizedWidth = ellipsize.setEllipsizedWidth(i2);
+                includePad = ellipsizedWidth.setIncludePad(this.includeFontPadding);
+                build = includePad.build();
+                return build;
             }
             return new StaticLayout(charSequence, 0, charSequence.length(), this.textPaint, i2, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, this.includeFontPadding, TextUtils.TruncateAt.END, i2);
         }
@@ -695,12 +712,12 @@ public class AnimatedTextView extends View {
 
             @Override // java.lang.CharSequence
             public /* synthetic */ IntStream chars() {
-                return $r8$wrapper$java$util$stream$IntStream$-WRP.convert(chars());
+                return IntStream.Wrapper.convert(chars());
             }
 
             @Override // java.lang.CharSequence
-            public /* synthetic */ IntStream codePoints() {
-                return $r8$wrapper$java$util$stream$IntStream$-WRP.convert(codePoints());
+            public /* synthetic */ java.util.stream.IntStream codePoints() {
+                return IntStream.Wrapper.convert(codePoints());
             }
 
             public WordSequence(CharSequence charSequence) {
@@ -794,7 +811,7 @@ public class AnimatedTextView extends View {
             @Override // java.lang.CharSequence
             public j$.util.stream.IntStream chars() {
                 if (Build.VERSION.SDK_INT >= 24) {
-                    return $r8$wrapper$java$util$stream$IntStream$-V-WRP.convert(toCharSequence().chars());
+                    return UnprecomputeTextOnModificationSpannable$CharSequenceHelper_API24$$ExternalSyntheticAPIConversion0.m(toCharSequence());
                 }
                 return null;
             }
@@ -802,7 +819,7 @@ public class AnimatedTextView extends View {
             @Override // java.lang.CharSequence
             public j$.util.stream.IntStream codePoints() {
                 if (Build.VERSION.SDK_INT >= 24) {
-                    return $r8$wrapper$java$util$stream$IntStream$-V-WRP.convert(toCharSequence().codePoints());
+                    return UnprecomputeTextOnModificationSpannable$CharSequenceHelper_API24$$ExternalSyntheticAPIConversion1.m(toCharSequence());
                 }
                 return null;
             }
@@ -965,11 +982,12 @@ public class AnimatedTextView extends View {
                         }
                         StaticLayout makeLayout = makeLayout(partArr[i3].layout.getText(), i - ((int) Math.ceil(Math.min(this.currentWidth, this.oldWidth))));
                         Part[] partArr2 = this.currentParts;
-                        partArr2[i3] = new Part(makeLayout, partArr2[i3].offset, partArr2[i3].toOppositeIndex);
+                        Part part = partArr2[i3];
+                        partArr2[i3] = new Part(makeLayout, part.offset, part.toOppositeIndex);
                         float f2 = this.currentWidth;
-                        Part[] partArr3 = this.currentParts;
-                        this.currentWidth = f2 + partArr3[i3].width;
-                        this.currentHeight = Math.max(this.currentHeight, partArr3[i3].layout.getHeight());
+                        Part part2 = this.currentParts[i3];
+                        this.currentWidth = f2 + part2.width;
+                        this.currentHeight = Math.max(this.currentHeight, part2.layout.getHeight());
                         i3++;
                     }
                 }
@@ -977,17 +995,18 @@ public class AnimatedTextView extends View {
                     this.oldWidth = 0.0f;
                     this.oldHeight = 0.0f;
                     while (true) {
-                        Part[] partArr4 = this.oldParts;
-                        if (i2 >= partArr4.length) {
+                        Part[] partArr3 = this.oldParts;
+                        if (i2 >= partArr3.length) {
                             break;
                         }
-                        StaticLayout makeLayout2 = makeLayout(partArr4[i2].layout.getText(), i - ((int) Math.ceil(Math.min(this.currentWidth, this.oldWidth))));
-                        Part[] partArr5 = this.oldParts;
-                        partArr5[i2] = new Part(makeLayout2, partArr5[i2].offset, partArr5[i2].toOppositeIndex);
+                        StaticLayout makeLayout2 = makeLayout(partArr3[i2].layout.getText(), i - ((int) Math.ceil(Math.min(this.currentWidth, this.oldWidth))));
+                        Part[] partArr4 = this.oldParts;
+                        Part part3 = partArr4[i2];
+                        partArr4[i2] = new Part(makeLayout2, part3.offset, part3.toOppositeIndex);
                         float f3 = this.oldWidth;
-                        Part[] partArr6 = this.oldParts;
-                        this.oldWidth = f3 + partArr6[i2].width;
-                        this.oldHeight = Math.max(this.oldHeight, partArr6[i2].layout.getHeight());
+                        Part part4 = this.oldParts[i2];
+                        this.oldWidth = f3 + part4.width;
+                        this.oldHeight = Math.max(this.oldHeight, part4.layout.getHeight());
                         i2++;
                     }
                 }
@@ -1031,7 +1050,7 @@ public class AnimatedTextView extends View {
             final int textColor = getTextColor();
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
             this.colorAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.AnimatedTextView$AnimatedTextDrawable$$ExternalSyntheticLambda1
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.AnimatedTextView$AnimatedTextDrawable$$ExternalSyntheticLambda5
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                     AnimatedTextView.AnimatedTextDrawable.this.lambda$setTextColor$9(textColor, i, valueAnimator2);

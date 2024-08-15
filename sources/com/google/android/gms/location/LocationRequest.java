@@ -342,17 +342,19 @@ public final class LocationRequest extends AbstractSafeParcelable implements Ref
         }
 
         public final Builder zzc(int i) {
+            int i2;
             boolean z;
-            int i2 = 2;
             if (i == 0 || i == 1) {
                 i2 = i;
-            } else if (i != 2) {
-                i2 = i;
-                z = false;
-                Preconditions.checkArgument(z, "throttle behavior %d must be a ThrottleBehavior.THROTTLE_* constant", Integer.valueOf(i));
-                this.zzk = i2;
-                return this;
             } else {
+                i2 = 2;
+                if (i != 2) {
+                    i2 = i;
+                    z = false;
+                    Preconditions.checkArgument(z, "throttle behavior %d must be a ThrottleBehavior.THROTTLE_* constant", Integer.valueOf(i));
+                    this.zzk = i2;
+                    return this;
+                }
                 i = 2;
             }
             z = true;

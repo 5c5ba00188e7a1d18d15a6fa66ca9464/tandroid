@@ -273,7 +273,7 @@ public class AppCompatViewInflater {
         if (view != null) {
             return;
         }
-        throw new IllegalStateException(AppCompatViewInflater.class.getName() + " asked to inflate view for <" + str + ">, but returned null");
+        throw new IllegalStateException(getClass().getName() + " asked to inflate view for <" + str + ">, but returned null");
     }
 
     private View createViewFromTag(Context context, String str, AttributeSet attributeSet) {
@@ -310,15 +310,13 @@ public class AppCompatViewInflater {
 
     private void checkOnClickListener(View view, AttributeSet attributeSet) {
         Context context = view.getContext();
-        if (context instanceof ContextWrapper) {
-            if (Build.VERSION.SDK_INT < 15 || ViewCompat.hasOnClickListeners(view)) {
-                TypedArray obtainStyledAttributes = context.obtainStyledAttributes(attributeSet, sOnClickAttrs);
-                String string = obtainStyledAttributes.getString(0);
-                if (string != null) {
-                    view.setOnClickListener(new DeclaredOnClickListener(view, string));
-                }
-                obtainStyledAttributes.recycle();
+        if ((context instanceof ContextWrapper) && ViewCompat.hasOnClickListeners(view)) {
+            TypedArray obtainStyledAttributes = context.obtainStyledAttributes(attributeSet, sOnClickAttrs);
+            String string = obtainStyledAttributes.getString(0);
+            if (string != null) {
+                view.setOnClickListener(new DeclaredOnClickListener(view, string));
             }
+            obtainStyledAttributes.recycle();
         }
     }
 
@@ -354,8 +352,7 @@ public class AppCompatViewInflater {
     }
 
     private void backportAccessibilityAttributes(Context context, View view, AttributeSet attributeSet) {
-        int i = Build.VERSION.SDK_INT;
-        if (i < 19 || i > 28) {
+        if (Build.VERSION.SDK_INT > 28) {
             return;
         }
         TypedArray obtainStyledAttributes = context.obtainStyledAttributes(attributeSet, sAccessibilityHeading);

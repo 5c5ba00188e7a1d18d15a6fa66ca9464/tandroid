@@ -29,9 +29,9 @@ public final class zzmj {
     private final String zzi;
     private final int zzj;
     private final Map zzk = new HashMap();
+    private final Map zzl = new HashMap();
 
     public zzmj(Context context, final SharedPrefManager sharedPrefManager, zzmc zzmcVar, String str) {
-        new HashMap();
         this.zzc = context.getPackageName();
         this.zzd = CommonUtils.getAppVersion(context);
         this.zzf = sharedPrefManager;

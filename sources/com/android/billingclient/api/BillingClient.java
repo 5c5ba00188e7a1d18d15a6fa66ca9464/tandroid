@@ -12,7 +12,6 @@ public abstract class BillingClient {
         private volatile zzbe zzb;
         private final Context zzc;
         private volatile PurchasesUpdatedListener zzd;
-        private volatile AlternativeBillingListener zzg;
 
         /* synthetic */ Builder(Context context, zzi zziVar) {
             this.zzc = context;
@@ -22,13 +21,11 @@ public abstract class BillingClient {
             if (this.zzc != null) {
                 if (this.zzd != null) {
                     if (this.zzb != null) {
-                        if (this.zzd != null || this.zzg == null) {
-                            if (this.zzd != null) {
-                                return new BillingClientImpl(null, this.zzb, this.zzc, this.zzd, this.zzg, null);
-                            }
-                            return new BillingClientImpl(null, this.zzb, this.zzc, null, null);
+                        PurchasesUpdatedListener purchasesUpdatedListener = this.zzd;
+                        if (this.zzd != null) {
+                            return new BillingClientImpl(null, this.zzb, this.zzc, this.zzd, null, null);
                         }
-                        throw new IllegalArgumentException("Please provide a valid listener for Google Play Billing purchases updates when enabling Alternative Billing.");
+                        return new BillingClientImpl(null, this.zzb, this.zzc, null, null);
                     }
                     throw new IllegalArgumentException("Pending purchases for one-time products must be supported.");
                 }

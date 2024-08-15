@@ -19,6 +19,8 @@ public enum zzgz implements zzje {
     zzo(14),
     zzp(16);
     
+    private static final zzjh<zzgz> zzq = new zzjh<zzgz>() { // from class: com.google.android.gms.internal.vision.zzgy
+    };
     private final int zzr;
 
     @Override // com.google.android.gms.internal.vision.zzje
@@ -77,10 +79,5 @@ public enum zzgz implements zzje {
 
     zzgz(int i) {
         this.zzr = i;
-    }
-
-    static {
-        new Object() { // from class: com.google.android.gms.internal.vision.zzgy
-        };
     }
 }

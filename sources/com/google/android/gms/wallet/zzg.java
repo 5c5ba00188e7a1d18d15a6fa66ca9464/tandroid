@@ -10,8 +10,8 @@ public final class zzg implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
     public final /* bridge */ /* synthetic */ Object createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
-        boolean z = false;
         ArrayList<Integer> arrayList = null;
+        boolean z = false;
         int i = 0;
         boolean z2 = true;
         while (parcel.dataPosition() < validateObjectHeader) {

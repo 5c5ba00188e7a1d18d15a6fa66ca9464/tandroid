@@ -133,12 +133,12 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
         this.addingException = bundle.getBoolean("exception", false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:57:0x0125  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x0140  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0160  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x016d  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x0181  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0185  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x011b  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0130  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x014c  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0157  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x016b  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x016f  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -164,7 +164,6 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
         boolean z2 = this.addingException;
         if (z2) {
             int i2 = 0 + 1;
-            this.rowCount = i2;
             this.avatarRow = 0;
             this.rowCount = i2 + 1;
             this.avatarSectionRow = i2;
@@ -197,7 +196,6 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
         }
         int i7 = this.rowCount;
         int i8 = i7 + 1;
-        this.rowCount = i8;
         this.soundRow = i7;
         this.rowCount = i8 + 1;
         this.vibrateRow = i8;
@@ -225,13 +223,10 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
                 if (DialogObject.isEncryptedDialog(this.dialogId) && !z) {
                     int i12 = this.rowCount;
                     int i13 = i12 + 1;
-                    this.rowCount = i13;
                     this.popupRow = i12;
                     int i14 = i13 + 1;
-                    this.rowCount = i14;
                     this.popupEnabledRow = i13;
                     int i15 = i14 + 1;
-                    this.rowCount = i15;
                     this.popupDisabledRow = i14;
                     this.rowCount = i15 + 1;
                     this.popupInfoRow = i15;
@@ -244,13 +239,10 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
                 if (!DialogObject.isUserDialog(this.dialogId)) {
                     int i16 = this.rowCount;
                     int i17 = i16 + 1;
-                    this.rowCount = i17;
                     this.callsRow = i16;
                     int i18 = i17 + 1;
-                    this.rowCount = i18;
                     this.callsVibrateRow = i17;
                     int i19 = i18 + 1;
-                    this.rowCount = i19;
                     this.ringtoneRow = i18;
                     this.rowCount = i19 + 1;
                     this.ringtoneInfoRow = i19;
@@ -262,17 +254,14 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
                 }
                 int i20 = this.rowCount;
                 int i21 = i20 + 1;
-                this.rowCount = i21;
                 this.ledRow = i20;
                 int i22 = i21 + 1;
-                this.rowCount = i22;
                 this.colorRow = i21;
                 int i23 = i22 + 1;
                 this.rowCount = i23;
                 this.ledInfoRow = i22;
                 if (this.addingException) {
                     int i24 = i23 + 1;
-                    this.rowCount = i24;
                     this.customResetRow = i23;
                     this.rowCount = i24 + 1;
                     this.customResetShadowRow = i24;
@@ -317,10 +306,8 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
         }
         int i202 = this.rowCount;
         int i212 = i202 + 1;
-        this.rowCount = i212;
         this.ledRow = i202;
         int i222 = i212 + 1;
-        this.rowCount = i222;
         this.colorRow = i212;
         int i232 = i222 + 1;
         this.rowCount = i232;
@@ -436,24 +423,23 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
         }
         FrameLayout frameLayout = new FrameLayout(context);
         this.fragmentView = frameLayout;
-        FrameLayout frameLayout2 = frameLayout;
-        frameLayout2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray, this.resourcesProvider));
+        frameLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray, this.resourcesProvider));
         RecyclerListView recyclerListView = new RecyclerListView(context);
         this.listView = recyclerListView;
-        frameLayout2.addView(recyclerListView, LayoutHelper.createFrame(-1, -1.0f));
+        frameLayout.addView(recyclerListView, LayoutHelper.createFrame(-1, -1.0f));
         RecyclerListView recyclerListView2 = this.listView;
         ListAdapter listAdapter = new ListAdapter(context);
         this.adapter = listAdapter;
         recyclerListView2.setAdapter(listAdapter);
         this.listView.setItemAnimator(null);
         this.listView.setLayoutAnimation(null);
-        this.listView.setLayoutManager(new LinearLayoutManager(this, context) { // from class: org.telegram.ui.ProfileNotificationsActivity.2
+        this.listView.setLayoutManager(new LinearLayoutManager(context) { // from class: org.telegram.ui.ProfileNotificationsActivity.2
             @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
             public boolean supportsPredictiveItemAnimations() {
                 return false;
             }
         });
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ProfileNotificationsActivity$$ExternalSyntheticLambda7
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ProfileNotificationsActivity$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i) {
                 ProfileNotificationsActivity.this.lambda$createView$6(context, sharedPrefKey, view, i);
@@ -467,7 +453,7 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
         if (view.isEnabled()) {
             Parcelable parcelable = null;
             if (i == this.customResetRow) {
-                AlertDialog create = new AlertDialog.Builder(context, this.resourcesProvider).setTitle(LocaleController.getString(R.string.ResetCustomNotificationsAlertTitle)).setMessage(LocaleController.getString(R.string.ResetCustomNotificationsAlert)).setPositiveButton(LocaleController.getString(R.string.Reset), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProfileNotificationsActivity$$ExternalSyntheticLambda0
+                AlertDialog create = new AlertDialog.Builder(context, this.resourcesProvider).setTitle(LocaleController.getString(R.string.ResetCustomNotificationsAlertTitle)).setMessage(LocaleController.getString(R.string.ResetCustomNotificationsAlert)).setPositiveButton(LocaleController.getString(R.string.Reset), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProfileNotificationsActivity$$ExternalSyntheticLambda2
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i2) {
                         ProfileNotificationsActivity.this.lambda$createView$0(str, dialogInterface, i2);
@@ -503,7 +489,7 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
                     FileLog.e(e);
                 }
             } else if (i == this.vibrateRow) {
-                showDialog(AlertsCreator.createVibrationSelectDialog(getParentActivity(), this.dialogId, this.topicId, false, false, new Runnable() { // from class: org.telegram.ui.ProfileNotificationsActivity$$ExternalSyntheticLambda1
+                showDialog(AlertsCreator.createVibrationSelectDialog(getParentActivity(), this.dialogId, this.topicId, false, false, new Runnable() { // from class: org.telegram.ui.ProfileNotificationsActivity$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
                         ProfileNotificationsActivity.this.lambda$createView$1();
@@ -527,7 +513,7 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
                     }
                 }, this.resourcesProvider));
             } else if (i == this.priorityRow) {
-                showDialog(AlertsCreator.createPrioritySelectDialog(getParentActivity(), this.dialogId, this.topicId, -1, new Runnable() { // from class: org.telegram.ui.ProfileNotificationsActivity$$ExternalSyntheticLambda3
+                showDialog(AlertsCreator.createPrioritySelectDialog(getParentActivity(), this.dialogId, this.topicId, -1, new Runnable() { // from class: org.telegram.ui.ProfileNotificationsActivity$$ExternalSyntheticLambda5
                     @Override // java.lang.Runnable
                     public final void run() {
                         ProfileNotificationsActivity.this.lambda$createView$3();
@@ -550,7 +536,7 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
                     if (getParentActivity() == null) {
                         return;
                     }
-                    showDialog(AlertsCreator.createColorSelectDialog(getParentActivity(), this.dialogId, this.topicId, -1, new Runnable() { // from class: org.telegram.ui.ProfileNotificationsActivity$$ExternalSyntheticLambda2
+                    showDialog(AlertsCreator.createColorSelectDialog(getParentActivity(), this.dialogId, this.topicId, -1, new Runnable() { // from class: org.telegram.ui.ProfileNotificationsActivity$$ExternalSyntheticLambda7
                         @Override // java.lang.Runnable
                         public final void run() {
                             ProfileNotificationsActivity.this.lambda$createView$5();
@@ -645,13 +631,15 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onActivityResultFragment(int i, int i2, Intent intent) {
+        String str;
         Ringtone ringtone;
         if (i2 != -1 || intent == null) {
             return;
         }
         Uri uri = (Uri) intent.getParcelableExtra("android.intent.extra.ringtone.PICKED_URI");
-        String str = null;
-        if (uri != null && (ringtone = RingtoneManager.getRingtone(ApplicationLoader.applicationContext, uri)) != null) {
+        if (uri == null || (ringtone = RingtoneManager.getRingtone(ApplicationLoader.applicationContext, uri)) == null) {
+            str = null;
+        } else {
             if (i == 13) {
                 if (uri.equals(Settings.System.DEFAULT_RINGTONE_URI)) {
                     str = LocaleController.getString("DefaultRingtone", R.string.DefaultRingtone);
@@ -1120,7 +1108,7 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ProfileNotificationsActivity$$ExternalSyntheticLambda5
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ProfileNotificationsActivity$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 ProfileNotificationsActivity.this.lambda$getThemeDescriptions$7();

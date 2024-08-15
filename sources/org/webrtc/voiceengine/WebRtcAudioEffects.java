@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 import org.telegram.messenger.SharedConfig;
 import org.webrtc.Logging;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class WebRtcAudioEffects {
     private static final UUID AOSP_ACOUSTIC_ECHO_CANCELER = UUID.fromString("bb392ec0-8d4d-11e0-a896-0002a5d5c51b");
     private static final UUID AOSP_NOISE_SUPPRESSOR = UUID.fromString("c06c8400-8e06-11e0-9cb6-0002a5d5c51b");
@@ -50,9 +50,6 @@ public class WebRtcAudioEffects {
 
     private static boolean isAcousticEchoCancelerExcludedByUUID() {
         AudioEffect.Descriptor[] availableEffects;
-        if (Build.VERSION.SDK_INT < 18) {
-            return false;
-        }
         for (AudioEffect.Descriptor descriptor : getAvailableEffects()) {
             if (descriptor.type.equals(AudioEffect.EFFECT_TYPE_AEC) && descriptor.uuid.equals(AOSP_ACOUSTIC_ECHO_CANCELER)) {
                 return true;
@@ -63,9 +60,6 @@ public class WebRtcAudioEffects {
 
     private static boolean isNoiseSuppressorExcludedByUUID() {
         AudioEffect.Descriptor[] availableEffects;
-        if (Build.VERSION.SDK_INT < 18) {
-            return false;
-        }
         for (AudioEffect.Descriptor descriptor : getAvailableEffects()) {
             if (descriptor.type.equals(AudioEffect.EFFECT_TYPE_NS) && descriptor.uuid.equals(AOSP_NOISE_SUPPRESSOR)) {
                 return true;
@@ -75,16 +69,10 @@ public class WebRtcAudioEffects {
     }
 
     private static boolean isAcousticEchoCancelerEffectAvailable() {
-        if (Build.VERSION.SDK_INT < 18) {
-            return false;
-        }
         return isEffectTypeAvailable(AudioEffect.EFFECT_TYPE_AEC);
     }
 
     private static boolean isNoiseSuppressorEffectAvailable() {
-        if (Build.VERSION.SDK_INT < 18) {
-            return false;
-        }
         return isEffectTypeAvailable(AudioEffect.EFFECT_TYPE_NS);
     }
 
@@ -202,9 +190,6 @@ public class WebRtcAudioEffects {
     }
 
     private boolean effectTypeIsVoIP(UUID uuid) {
-        if (Build.VERSION.SDK_INT < 18) {
-            return false;
-        }
         return (AudioEffect.EFFECT_TYPE_AEC.equals(uuid) && isAcousticEchoCancelerSupported()) || (AudioEffect.EFFECT_TYPE_NS.equals(uuid) && isNoiseSuppressorSupported());
     }
 

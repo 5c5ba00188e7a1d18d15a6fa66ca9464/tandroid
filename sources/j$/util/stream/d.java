@@ -7,22 +7,22 @@ abstract class d extends f {
     protected volatile boolean i;
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public d(d dVar, j$.util.s sVar) {
-        super(dVar, sVar);
+    public d(d dVar, j$.util.Q q) {
+        super(dVar, q);
         this.h = dVar.h;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public d(y2 y2Var, j$.util.s sVar) {
-        super(y2Var, sVar);
+    public d(u0 u0Var, j$.util.Q q) {
+        super(u0Var, q);
         this.h = new AtomicReference(null);
     }
 
     @Override // j$.util.stream.f
-    public Object b() {
-        if (e()) {
+    public final Object b() {
+        if (c() == null) {
             Object obj = this.h.get();
-            return obj == null ? k() : obj;
+            return obj == null ? i() : obj;
         }
         return super.b();
     }
@@ -34,18 +34,18 @@ abstract class d extends f {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void compute() {
+    public final void compute() {
         Object obj;
-        j$.util.s trySplit;
-        j$.util.s sVar = this.b;
-        long estimateSize = sVar.estimateSize();
+        j$.util.Q trySplit;
+        j$.util.Q q = this.b;
+        long estimateSize = q.estimateSize();
         long j = this.c;
         if (j == 0) {
-            j = f.h(estimateSize);
+            j = f.f(estimateSize);
             this.c = j;
         }
-        boolean z = false;
         AtomicReference atomicReference = this.h;
+        boolean z = false;
         d dVar = this;
         while (true) {
             obj = atomicReference.get();
@@ -65,18 +65,18 @@ abstract class d extends f {
                 }
             }
             if (z2) {
-                obj = dVar.k();
+                obj = dVar.i();
                 break;
-            } else if (estimateSize <= j || (trySplit = sVar.trySplit()) == null) {
+            } else if (estimateSize <= j || (trySplit = q.trySplit()) == null) {
                 break;
             } else {
-                d dVar3 = (d) dVar.f(trySplit);
+                d dVar3 = (d) dVar.d(trySplit);
                 dVar.d = dVar3;
-                d dVar4 = (d) dVar.f(sVar);
+                d dVar4 = (d) dVar.d(q);
                 dVar.e = dVar4;
                 dVar.setPendingCount(1);
                 if (z) {
-                    sVar = trySplit;
+                    q = trySplit;
                     dVar = dVar3;
                     dVar3 = dVar4;
                 } else {
@@ -84,52 +84,47 @@ abstract class d extends f {
                 }
                 z = !z;
                 dVar3.fork();
-                estimateSize = sVar.estimateSize();
+                estimateSize = q.estimateSize();
             }
         }
-        dVar.g(obj);
+        dVar.e(obj);
         dVar.tryComplete();
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // j$.util.stream.f
-    public void g(Object obj) {
-        if (!e()) {
-            super.g(obj);
+    public final void e(Object obj) {
+        if (!(c() == null)) {
+            super.e(obj);
         } else if (obj != null) {
-            this.h.compareAndSet(null, obj);
+            AtomicReference atomicReference = this.h;
+            while (!atomicReference.compareAndSet(null, obj) && atomicReference.get() == null) {
+            }
         }
     }
 
-    @Override // j$.util.stream.f, java.util.concurrent.CountedCompleter, java.util.concurrent.ForkJoinTask
-    public Object getRawResult() {
-        return b();
-    }
-
-    protected void i() {
+    protected void g() {
         this.i = true;
     }
 
+    @Override // j$.util.stream.f, java.util.concurrent.CountedCompleter, java.util.concurrent.ForkJoinTask
+    public final Object getRawResult() {
+        return b();
+    }
+
     /* JADX INFO: Access modifiers changed from: protected */
-    public void j() {
+    public final void h() {
         d dVar = this;
         for (d dVar2 = (d) c(); dVar2 != null; dVar2 = (d) dVar2.c()) {
             if (dVar2.d == dVar) {
                 d dVar3 = (d) dVar2.e;
                 if (!dVar3.i) {
-                    dVar3.i();
+                    dVar3.g();
                 }
             }
             dVar = dVar2;
         }
     }
 
-    protected abstract Object k();
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void l(Object obj) {
-        if (obj != null) {
-            this.h.compareAndSet(null, obj);
-        }
-    }
+    protected abstract Object i();
 }

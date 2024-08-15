@@ -2,7 +2,7 @@ package org.webrtc;
 
 import android.view.SurfaceHolder;
 import java.util.concurrent.CountDownLatch;
-import org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda2;
+import org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda6;
 import org.webrtc.EglBase;
 import org.webrtc.RendererCommon;
 /* loaded from: classes.dex */
@@ -78,7 +78,7 @@ public class SurfaceEglRenderer extends EglRenderer implements SurfaceHolder.Cal
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
         ThreadUtils.checkIsOnMainThread();
         CountDownLatch countDownLatch = new CountDownLatch(1);
-        releaseEglSurface(new Theme$$ExternalSyntheticLambda2(countDownLatch), false);
+        releaseEglSurface(new Theme$$ExternalSyntheticLambda6(countDownLatch), false);
         ThreadUtils.awaitUninterruptibly(countDownLatch);
     }
 

@@ -129,7 +129,7 @@ public class ExternalActionActivity extends Activity implements INavigationLayou
             layoutParams.width = -1;
             layoutParams.height = -1;
             relativeLayout.setLayoutParams(layoutParams);
-            SizeNotifierFrameLayout sizeNotifierFrameLayout = new SizeNotifierFrameLayout(this, this) { // from class: org.telegram.ui.ExternalActionActivity.1
+            SizeNotifierFrameLayout sizeNotifierFrameLayout = new SizeNotifierFrameLayout(this) { // from class: org.telegram.ui.ExternalActionActivity.1
                 @Override // org.telegram.ui.Components.SizeNotifierFrameLayout
                 protected boolean isActionBarVisible() {
                     return false;
@@ -143,7 +143,7 @@ public class ExternalActionActivity extends Activity implements INavigationLayou
             FrameLayout frameLayout = new FrameLayout(this);
             frameLayout.setBackgroundColor(2130706432);
             relativeLayout.addView(frameLayout, LayoutHelper.createRelative(-1, -1));
-            frameLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ExternalActionActivity$$ExternalSyntheticLambda4
+            frameLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ExternalActionActivity$$ExternalSyntheticLambda0
                 @Override // android.view.View.OnTouchListener
                 public final boolean onTouch(View view, MotionEvent motionEvent) {
                     boolean lambda$onCreate$0;
@@ -151,7 +151,7 @@ public class ExternalActionActivity extends Activity implements INavigationLayou
                     return lambda$onCreate$0;
                 }
             });
-            frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ExternalActionActivity$$ExternalSyntheticLambda3
+            frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ExternalActionActivity$$ExternalSyntheticLambda1
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     ExternalActionActivity.lambda$onCreate$1(view);
@@ -170,7 +170,7 @@ public class ExternalActionActivity extends Activity implements INavigationLayou
         } else {
             RelativeLayout relativeLayout2 = new RelativeLayout(this);
             this.drawerLayoutContainer.addView(relativeLayout2, LayoutHelper.createFrame(-1, -1.0f));
-            SizeNotifierFrameLayout sizeNotifierFrameLayout2 = new SizeNotifierFrameLayout(this, this) { // from class: org.telegram.ui.ExternalActionActivity.2
+            SizeNotifierFrameLayout sizeNotifierFrameLayout2 = new SizeNotifierFrameLayout(this) { // from class: org.telegram.ui.ExternalActionActivity.2
                 @Override // org.telegram.ui.Components.SizeNotifierFrameLayout
                 protected boolean isActionBarVisible() {
                     return false;
@@ -238,7 +238,7 @@ public class ExternalActionActivity extends Activity implements INavigationLayou
         this.passcodeView.onShow(true, false);
         SharedConfig.isWaitingForPasscodeEnter = true;
         this.drawerLayoutContainer.setAllowOpenDrawer(false, false);
-        this.passcodeView.setDelegate(new PasscodeView.PasscodeViewDelegate() { // from class: org.telegram.ui.ExternalActionActivity$$ExternalSyntheticLambda10
+        this.passcodeView.setDelegate(new PasscodeView.PasscodeViewDelegate() { // from class: org.telegram.ui.ExternalActionActivity$$ExternalSyntheticLambda2
             @Override // org.telegram.ui.Components.PasscodeView.PasscodeViewDelegate
             public final void didAcceptedPassword(PasscodeView passcodeView) {
                 ExternalActionActivity.this.lambda$showPasscodeActivity$2(passcodeView);
@@ -321,7 +321,7 @@ public class ExternalActionActivity extends Activity implements INavigationLayou
                         builder.show();
                         return true;
                     } else if (activatedAccountsCount >= 2) {
-                        AlertDialog createAccountSelectDialog = AlertsCreator.createAccountSelectDialog(this, new AlertsCreator.AccountSelectDelegate() { // from class: org.telegram.ui.ExternalActionActivity$$ExternalSyntheticLambda9
+                        AlertDialog createAccountSelectDialog = AlertsCreator.createAccountSelectDialog(this, new AlertsCreator.AccountSelectDelegate() { // from class: org.telegram.ui.ExternalActionActivity$$ExternalSyntheticLambda3
                             @Override // org.telegram.ui.Components.AlertsCreator.AccountSelectDelegate
                             public final void didSelectAccount(int i3) {
                                 ExternalActionActivity.this.lambda$handleIntent$3(i, intent, z, z2, z3, i3);
@@ -329,7 +329,7 @@ public class ExternalActionActivity extends Activity implements INavigationLayou
                         });
                         createAccountSelectDialog.show();
                         createAccountSelectDialog.setCanceledOnTouchOutside(false);
-                        createAccountSelectDialog.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.ExternalActionActivity$$ExternalSyntheticLambda1
+                        createAccountSelectDialog.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.ExternalActionActivity$$ExternalSyntheticLambda4
                             @Override // android.content.DialogInterface.OnDismissListener
                             public final void onDismiss(DialogInterface dialogInterface) {
                                 ExternalActionActivity.this.lambda$handleIntent$4(dialogInterface);
@@ -351,14 +351,14 @@ public class ExternalActionActivity extends Activity implements INavigationLayou
                 }
                 final int[] iArr = {0};
                 final AlertDialog alertDialog = new AlertDialog(this, 3);
-                alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.ExternalActionActivity$$ExternalSyntheticLambda0
+                alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.ExternalActionActivity$$ExternalSyntheticLambda5
                     @Override // android.content.DialogInterface.OnCancelListener
                     public final void onCancel(DialogInterface dialogInterface) {
                         ExternalActionActivity.lambda$handleIntent$5(i, iArr, dialogInterface);
                     }
                 });
                 alertDialog.show();
-                iArr[0] = ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_account_getAuthorizationForm, new RequestDelegate() { // from class: org.telegram.ui.ExternalActionActivity$$ExternalSyntheticLambda8
+                iArr[0] = ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_account_getAuthorizationForm, new RequestDelegate() { // from class: org.telegram.ui.ExternalActionActivity$$ExternalSyntheticLambda6
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         ExternalActionActivity.this.lambda$handleIntent$10(iArr, i, alertDialog, tLRPC$TL_account_getAuthorizationForm, stringExtra2, stringExtra, tLObject, tLRPC$TL_error);
@@ -417,7 +417,7 @@ public class ExternalActionActivity extends Activity implements INavigationLayou
             });
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ExternalActionActivity$$ExternalSyntheticLambda6
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ExternalActionActivity$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
                 ExternalActionActivity.this.lambda$handleIntent$9(alertDialog, tLRPC$TL_error);
@@ -427,7 +427,7 @@ public class ExternalActionActivity extends Activity implements INavigationLayou
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$handleIntent$7(final AlertDialog alertDialog, final int i, final TLRPC$TL_account_authorizationForm tLRPC$TL_account_authorizationForm, final TLRPC$TL_account_getAuthorizationForm tLRPC$TL_account_getAuthorizationForm, final String str, final String str2, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ExternalActionActivity$$ExternalSyntheticLambda5
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ExternalActionActivity$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
             public final void run() {
                 ExternalActionActivity.this.lambda$handleIntent$6(alertDialog, tLObject, i, tLRPC$TL_account_authorizationForm, tLRPC$TL_account_getAuthorizationForm, str, str2);
@@ -468,7 +468,7 @@ public class ExternalActionActivity extends Activity implements INavigationLayou
             if ("APP_VERSION_OUTDATED".equals(tLRPC$TL_error.text)) {
                 AlertDialog showUpdateAppAlert = AlertsCreator.showUpdateAppAlert(this, LocaleController.getString("UpdateAppAlert", R.string.UpdateAppAlert), true);
                 if (showUpdateAppAlert != null) {
-                    showUpdateAppAlert.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.ExternalActionActivity$$ExternalSyntheticLambda2
+                    showUpdateAppAlert.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.ExternalActionActivity$$ExternalSyntheticLambda10
                         @Override // android.content.DialogInterface.OnDismissListener
                         public final void onDismiss(DialogInterface dialogInterface) {
                             ExternalActionActivity.this.lambda$handleIntent$8(tLRPC$TL_error, dialogInterface);

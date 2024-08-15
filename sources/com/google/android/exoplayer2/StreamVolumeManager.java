@@ -63,8 +63,10 @@ public final class StreamVolumeManager {
     }
 
     public int getMinVolume() {
+        int streamMinVolume;
         if (Util.SDK_INT >= 28) {
-            return this.audioManager.getStreamMinVolume(this.streamType);
+            streamMinVolume = this.audioManager.getStreamMinVolume(this.streamType);
+            return streamMinVolume;
         }
         return 0;
     }
@@ -107,10 +109,12 @@ public final class StreamVolumeManager {
     }
 
     private static boolean getMutedFromManager(AudioManager audioManager, int i) {
-        if (Util.SDK_INT >= 23) {
-            return audioManager.isStreamMute(i);
+        boolean isStreamMute;
+        if (Util.SDK_INT < 23) {
+            return getVolumeFromManager(audioManager, i) == 0;
         }
-        return getVolumeFromManager(audioManager, i) == 0;
+        isStreamMute = audioManager.isStreamMute(i);
+        return isStreamMute;
     }
 
     /* loaded from: classes.dex */

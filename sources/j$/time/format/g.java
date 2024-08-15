@@ -1,6 +1,6 @@
 package j$.time.format;
 
-import java.util.List;
+import java.util.ArrayList;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class g implements h {
@@ -8,9 +8,8 @@ public final class g implements h {
     private final boolean b;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public g(List list, boolean z) {
-        this.a = (h[]) list.toArray(new h[list.size()]);
-        this.b = z;
+    public g(ArrayList arrayList, boolean z) {
+        this((h[]) arrayList.toArray(new h[arrayList.size()]), z);
     }
 
     g(h[] hVarArr, boolean z) {
@@ -19,9 +18,10 @@ public final class g implements h {
     }
 
     @Override // j$.time.format.h
-    public boolean a(t tVar, StringBuilder sb) {
+    public final boolean a(t tVar, StringBuilder sb) {
         int length = sb.length();
-        if (this.b) {
+        boolean z = this.b;
+        if (z) {
             tVar.g();
         }
         try {
@@ -31,29 +31,31 @@ public final class g implements h {
                     return true;
                 }
             }
-            if (this.b) {
+            if (z) {
                 tVar.a();
             }
             return true;
         } finally {
-            if (this.b) {
+            if (z) {
                 tVar.a();
             }
         }
     }
 
-    public g b(boolean z) {
-        return z == this.b ? this : new g(this.a, z);
+    public final g b() {
+        return !this.b ? this : new g(this.a, false);
     }
 
-    public String toString() {
+    public final String toString() {
         StringBuilder sb = new StringBuilder();
-        if (this.a != null) {
-            sb.append(this.b ? "[" : "(");
-            for (h hVar : this.a) {
+        h[] hVarArr = this.a;
+        if (hVarArr != null) {
+            boolean z = this.b;
+            sb.append(z ? "[" : "(");
+            for (h hVar : hVarArr) {
                 sb.append(hVar);
             }
-            sb.append(this.b ? "]" : ")");
+            sb.append(z ? "]" : ")");
         }
         return sb.toString();
     }

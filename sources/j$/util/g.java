@@ -1,70 +1,463 @@
 package j$.util;
 
-import java.util.Objects;
+import j$.util.Map;
+import j$.util.function.BiConsumer;
+import j$.util.function.BiFunction;
+import j$.util.function.Function;
+import java.io.Serializable;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Set;
+import java.util.concurrent.ConcurrentMap;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public class g implements j$.util.function.f {
-    private double a;
-    private double b;
-    private long count;
-    private double sum;
-    private double min = Double.POSITIVE_INFINITY;
-    private double max = Double.NEGATIVE_INFINITY;
+public final class g implements java.util.Map, Serializable, Map {
+    private final java.util.Map a;
+    final Object b;
+    private transient Set c;
+    private transient Set d;
+    private transient Collection e;
 
-    private void d(double d) {
-        double d2 = d - this.a;
-        double d3 = this.sum;
-        double d4 = d3 + d2;
-        this.a = (d4 - d3) - d2;
-        this.sum = d4;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public g(java.util.Map map) {
+        map.getClass();
+        this.a = map;
+        this.b = this;
     }
 
-    @Override // j$.util.function.f
-    public void accept(double d) {
-        this.count++;
-        this.b += d;
-        d(d);
-        this.min = Math.min(this.min, d);
-        this.max = Math.max(this.max, d);
-    }
-
-    public void b(g gVar) {
-        this.count += gVar.count;
-        this.b += gVar.b;
-        d(gVar.sum);
-        d(gVar.a);
-        this.min = Math.min(this.min, gVar.min);
-        this.max = Math.max(this.max, gVar.max);
-    }
-
-    public final double c() {
-        double d = this.sum + this.a;
-        return (Double.isNaN(d) && Double.isInfinite(this.b)) ? this.b : d;
-    }
-
-    @Override // j$.util.function.f
-    public j$.util.function.f j(j$.util.function.f fVar) {
-        Objects.requireNonNull(fVar);
-        return new j$.util.function.e(this, fVar);
-    }
-
-    public String toString() {
-        double d;
-        Object[] objArr = new Object[6];
-        objArr[0] = g.class.getSimpleName();
-        objArr[1] = Long.valueOf(this.count);
-        objArr[2] = Double.valueOf(c());
-        objArr[3] = Double.valueOf(this.min);
-        if (this.count > 0) {
-            double c = c();
-            double d2 = this.count;
-            Double.isNaN(d2);
-            Double.isNaN(d2);
-            d = c / d2;
-        } else {
-            d = 0.0d;
+    private static Set a(Set set, Object obj) {
+        Constructor constructor;
+        Constructor constructor2;
+        constructor = DesugarCollections.f;
+        if (constructor == null) {
+            return Collections.synchronizedSet(set);
         }
-        objArr[4] = Double.valueOf(d);
-        objArr[5] = Double.valueOf(this.max);
-        return String.format("%s{count=%d, sum=%f, min=%f, average=%f, max=%f}", objArr);
+        try {
+            constructor2 = DesugarCollections.f;
+            return (Set) constructor2.newInstance(set, obj);
+        } catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
+            throw new Error("Unable to instantiate a synchronized list.", e);
+        }
+    }
+
+    @Override // java.util.Map, j$.util.Map
+    public final void clear() {
+        synchronized (this.b) {
+            this.a.clear();
+        }
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:18:0x0031, code lost:
+        r5 = null;
+     */
+    @Override // j$.util.Map
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public final Object compute(Object obj, BiFunction biFunction) {
+        Object $default$compute;
+        Object apply;
+        synchronized (this.b) {
+            java.util.Map map = this.a;
+            if (map instanceof Map) {
+                $default$compute = ((Map) map).compute(obj, biFunction);
+            } else if (map instanceof ConcurrentMap) {
+                ConcurrentMap concurrentMap = (ConcurrentMap) map;
+                biFunction.getClass();
+                loop0: while (true) {
+                    Object obj2 = concurrentMap.get(obj);
+                    while (true) {
+                        apply = biFunction.apply(obj, obj2);
+                        if (apply != null) {
+                            if (obj2 == null) {
+                                obj2 = concurrentMap.putIfAbsent(obj, apply);
+                                if (obj2 == null) {
+                                    break loop0;
+                                }
+                            } else if (concurrentMap.replace(obj, obj2, apply)) {
+                                break;
+                            }
+                        } else if ((obj2 != null || concurrentMap.containsKey(obj)) && !concurrentMap.remove(obj, obj2)) {
+                        }
+                    }
+                }
+                $default$compute = apply;
+            } else {
+                $default$compute = Map.-CC.$default$compute(map, obj, biFunction);
+            }
+        }
+        return $default$compute;
+    }
+
+    @Override // java.util.Map
+    public final /* synthetic */ Object compute(Object obj, java.util.function.BiFunction biFunction) {
+        return compute(obj, BiFunction.VivifiedWrapper.convert(biFunction));
+    }
+
+    @Override // j$.util.Map
+    public final Object computeIfAbsent(Object obj, Function function) {
+        Object $default$computeIfAbsent;
+        Object apply;
+        synchronized (this.b) {
+            java.util.Map map = this.a;
+            if (map instanceof Map) {
+                $default$computeIfAbsent = ((Map) map).computeIfAbsent(obj, function);
+            } else if (map instanceof ConcurrentMap) {
+                ConcurrentMap concurrentMap = (ConcurrentMap) map;
+                function.getClass();
+                Object obj2 = concurrentMap.get(obj);
+                $default$computeIfAbsent = (obj2 == null && (apply = function.apply(obj)) != null && (obj2 = concurrentMap.putIfAbsent(obj, apply)) == null) ? apply : obj2;
+            } else {
+                $default$computeIfAbsent = Map.-CC.$default$computeIfAbsent(map, obj, function);
+            }
+        }
+        return $default$computeIfAbsent;
+    }
+
+    @Override // java.util.Map
+    public final /* synthetic */ Object computeIfAbsent(Object obj, java.util.function.Function function) {
+        return computeIfAbsent(obj, Function.VivifiedWrapper.convert(function));
+    }
+
+    @Override // j$.util.Map
+    public final Object computeIfPresent(Object obj, BiFunction biFunction) {
+        Object $default$computeIfPresent;
+        synchronized (this.b) {
+            java.util.Map map = this.a;
+            if (map instanceof Map) {
+                $default$computeIfPresent = ((Map) map).computeIfPresent(obj, biFunction);
+            } else if (map instanceof ConcurrentMap) {
+                ConcurrentMap concurrentMap = (ConcurrentMap) map;
+                biFunction.getClass();
+                while (true) {
+                    Object obj2 = concurrentMap.get(obj);
+                    if (obj2 == null) {
+                        $default$computeIfPresent = obj2;
+                        break;
+                    }
+                    Object apply = biFunction.apply(obj, obj2);
+                    if (apply != null) {
+                        if (concurrentMap.replace(obj, obj2, apply)) {
+                            $default$computeIfPresent = apply;
+                            break;
+                        }
+                    } else if (concurrentMap.remove(obj, obj2)) {
+                        $default$computeIfPresent = null;
+                        break;
+                    }
+                }
+            } else {
+                $default$computeIfPresent = Map.-CC.$default$computeIfPresent(map, obj, biFunction);
+            }
+        }
+        return $default$computeIfPresent;
+    }
+
+    @Override // java.util.Map
+    public final /* synthetic */ Object computeIfPresent(Object obj, java.util.function.BiFunction biFunction) {
+        return computeIfPresent(obj, BiFunction.VivifiedWrapper.convert(biFunction));
+    }
+
+    @Override // java.util.Map, j$.util.Map
+    public final boolean containsKey(Object obj) {
+        boolean containsKey;
+        synchronized (this.b) {
+            containsKey = this.a.containsKey(obj);
+        }
+        return containsKey;
+    }
+
+    @Override // java.util.Map, j$.util.Map
+    public final boolean containsValue(Object obj) {
+        boolean containsValue;
+        synchronized (this.b) {
+            containsValue = this.a.containsValue(obj);
+        }
+        return containsValue;
+    }
+
+    @Override // java.util.Map, j$.util.Map
+    public final Set entrySet() {
+        Set set;
+        synchronized (this.b) {
+            if (this.d == null) {
+                this.d = a(this.a.entrySet(), this.b);
+            }
+            set = this.d;
+        }
+        return set;
+    }
+
+    @Override // java.util.Map, j$.util.Map
+    public final boolean equals(Object obj) {
+        boolean equals;
+        if (this == obj) {
+            return true;
+        }
+        synchronized (this.b) {
+            equals = this.a.equals(obj);
+        }
+        return equals;
+    }
+
+    @Override // j$.util.Map
+    public final void forEach(BiConsumer biConsumer) {
+        synchronized (this.b) {
+            Map.-EL.forEach(this.a, biConsumer);
+        }
+    }
+
+    @Override // java.util.Map
+    public final /* synthetic */ void forEach(java.util.function.BiConsumer biConsumer) {
+        forEach(BiConsumer.VivifiedWrapper.convert(biConsumer));
+    }
+
+    @Override // java.util.Map, j$.util.Map
+    public final Object get(Object obj) {
+        Object obj2;
+        synchronized (this.b) {
+            obj2 = this.a.get(obj);
+        }
+        return obj2;
+    }
+
+    @Override // java.util.Map, j$.util.Map
+    public final Object getOrDefault(Object obj, Object obj2) {
+        Object orDefault;
+        synchronized (this.b) {
+            orDefault = Map.-EL.getOrDefault(this.a, obj, obj2);
+        }
+        return orDefault;
+    }
+
+    @Override // java.util.Map, j$.util.Map
+    public final int hashCode() {
+        int hashCode;
+        synchronized (this.b) {
+            hashCode = this.a.hashCode();
+        }
+        return hashCode;
+    }
+
+    @Override // java.util.Map, j$.util.Map
+    public final boolean isEmpty() {
+        boolean isEmpty;
+        synchronized (this.b) {
+            isEmpty = this.a.isEmpty();
+        }
+        return isEmpty;
+    }
+
+    @Override // java.util.Map, j$.util.Map
+    public final Set keySet() {
+        Set set;
+        synchronized (this.b) {
+            if (this.c == null) {
+                this.c = a(this.a.keySet(), this.b);
+            }
+            set = this.c;
+        }
+        return set;
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x0022, code lost:
+        r3 = r7.apply(r2, r6);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x0026, code lost:
+        if (r3 == null) goto L23;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:15:0x002c, code lost:
+        if (r1.replace(r5, r2, r3) == false) goto L35;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:16:0x002e, code lost:
+        r6 = r3;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:18:0x0034, code lost:
+        if (r1.remove(r5, r2) == false) goto L28;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:19:0x0036, code lost:
+        r6 = null;
+     */
+    @Override // j$.util.Map
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public final Object merge(Object obj, Object obj2, BiFunction biFunction) {
+        Object $default$merge;
+        synchronized (this.b) {
+            java.util.Map map = this.a;
+            if (map instanceof Map) {
+                $default$merge = ((Map) map).merge(obj, obj2, biFunction);
+            } else if (map instanceof ConcurrentMap) {
+                ConcurrentMap concurrentMap = (ConcurrentMap) map;
+                biFunction.getClass();
+                obj2.getClass();
+                loop0: while (true) {
+                    Object obj3 = concurrentMap.get(obj);
+                    while (true) {
+                        if (obj3 != null) {
+                            break;
+                        }
+                        obj3 = concurrentMap.putIfAbsent(obj, obj2);
+                        if (obj3 == null) {
+                            break loop0;
+                        }
+                    }
+                }
+                $default$merge = obj2;
+            } else {
+                $default$merge = Map.-CC.$default$merge(map, obj, obj2, biFunction);
+            }
+        }
+        return $default$merge;
+    }
+
+    @Override // java.util.Map
+    public final /* synthetic */ Object merge(Object obj, Object obj2, java.util.function.BiFunction biFunction) {
+        return merge(obj, obj2, BiFunction.VivifiedWrapper.convert(biFunction));
+    }
+
+    @Override // java.util.Map, j$.util.Map
+    public final Object put(Object obj, Object obj2) {
+        Object put;
+        synchronized (this.b) {
+            put = this.a.put(obj, obj2);
+        }
+        return put;
+    }
+
+    @Override // java.util.Map, j$.util.Map
+    public final void putAll(java.util.Map map) {
+        synchronized (this.b) {
+            this.a.putAll(map);
+        }
+    }
+
+    @Override // java.util.Map, j$.util.Map
+    public final Object putIfAbsent(Object obj, Object obj2) {
+        Object a;
+        synchronized (this.b) {
+            a = Map.-EL.a(this.a, obj, obj2);
+        }
+        return a;
+    }
+
+    @Override // java.util.Map, j$.util.Map
+    public final Object remove(Object obj) {
+        Object remove;
+        synchronized (this.b) {
+            remove = this.a.remove(obj);
+        }
+        return remove;
+    }
+
+    @Override // java.util.Map, j$.util.Map
+    public final boolean remove(Object obj, Object obj2) {
+        boolean remove;
+        synchronized (this.b) {
+            java.util.Map map = this.a;
+            remove = map instanceof Map ? ((Map) map).remove(obj, obj2) : Map.-CC.$default$remove(map, obj, obj2);
+        }
+        return remove;
+    }
+
+    @Override // java.util.Map, j$.util.Map
+    public final Object replace(Object obj, Object obj2) {
+        Object replace;
+        synchronized (this.b) {
+            java.util.Map map = this.a;
+            replace = map instanceof Map ? ((Map) map).replace(obj, obj2) : Map.-CC.$default$replace(map, obj, obj2);
+        }
+        return replace;
+    }
+
+    @Override // java.util.Map, j$.util.Map
+    public final boolean replace(Object obj, Object obj2, Object obj3) {
+        boolean replace;
+        synchronized (this.b) {
+            java.util.Map map = this.a;
+            replace = map instanceof Map ? ((Map) map).replace(obj, obj2, obj3) : Map.-CC.$default$replace(map, obj, obj2, obj3);
+        }
+        return replace;
+    }
+
+    @Override // j$.util.Map
+    public final void replaceAll(BiFunction biFunction) {
+        synchronized (this.b) {
+            java.util.Map map = this.a;
+            if (map instanceof Map) {
+                ((Map) map).replaceAll(biFunction);
+            } else if (map instanceof ConcurrentMap) {
+                ConcurrentMap concurrentMap = (ConcurrentMap) map;
+                biFunction.getClass();
+                j$.util.concurrent.u uVar = new j$.util.concurrent.u(0, concurrentMap, biFunction);
+                if (concurrentMap instanceof j$.util.concurrent.v) {
+                    ((j$.util.concurrent.v) concurrentMap).forEach(uVar);
+                } else {
+                    j$.time.a.a(concurrentMap, uVar);
+                }
+            } else {
+                Map.-CC.$default$replaceAll(map, biFunction);
+            }
+        }
+    }
+
+    @Override // java.util.Map
+    public final /* synthetic */ void replaceAll(java.util.function.BiFunction biFunction) {
+        replaceAll(BiFunction.VivifiedWrapper.convert(biFunction));
+    }
+
+    @Override // java.util.Map, j$.util.Map
+    public final int size() {
+        int size;
+        synchronized (this.b) {
+            size = this.a.size();
+        }
+        return size;
+    }
+
+    public final String toString() {
+        String obj;
+        synchronized (this.b) {
+            obj = this.a.toString();
+        }
+        return obj;
+    }
+
+    @Override // java.util.Map, j$.util.Map
+    public final Collection values() {
+        Collection collection;
+        Constructor constructor;
+        Constructor constructor2;
+        Collection collection2;
+        synchronized (this.b) {
+            if (this.e == null) {
+                Collection values = this.a.values();
+                Object obj = this.b;
+                constructor = DesugarCollections.e;
+                if (constructor == null) {
+                    collection2 = Collections.synchronizedCollection(values);
+                } else {
+                    try {
+                        constructor2 = DesugarCollections.e;
+                        collection2 = (Collection) constructor2.newInstance(values, obj);
+                    } catch (IllegalAccessException e) {
+                        e = e;
+                        throw new Error("Unable to instantiate a synchronized list.", e);
+                    } catch (InstantiationException e2) {
+                        e = e2;
+                        throw new Error("Unable to instantiate a synchronized list.", e);
+                    } catch (InvocationTargetException e3) {
+                        e = e3;
+                        throw new Error("Unable to instantiate a synchronized list.", e);
+                    }
+                }
+                this.e = collection2;
+            }
+            collection = this.e;
+        }
+        return collection;
     }
 }

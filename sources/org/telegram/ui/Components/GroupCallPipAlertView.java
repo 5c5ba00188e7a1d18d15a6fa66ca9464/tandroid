@@ -91,7 +91,7 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
         setOrientation(1);
         this.currentAccount = i;
         this.paint.setAlpha(234);
-        FrameLayout frameLayout = new FrameLayout(this, context) { // from class: org.telegram.ui.Components.GroupCallPipAlertView.1
+        FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Components.GroupCallPipAlertView.1
             @Override // android.view.View
             public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
                 super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
@@ -186,10 +186,22 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(Context context, View view) {
+        boolean z;
+        boolean canDrawOverlays;
         if (VoIPService.getSharedInstance() == null) {
             return;
         }
-        VoIPService.getSharedInstance().toggleSpeakerphoneOrShowRouteSheet(getContext(), Build.VERSION.SDK_INT < 23 || Settings.canDrawOverlays(context));
+        VoIPService sharedInstance = VoIPService.getSharedInstance();
+        Context context2 = getContext();
+        if (Build.VERSION.SDK_INT >= 23) {
+            canDrawOverlays = Settings.canDrawOverlays(context);
+            if (!canDrawOverlays) {
+                z = false;
+                sharedInstance.toggleSpeakerphoneOrShowRouteSheet(context2, z);
+            }
+        }
+        z = true;
+        sharedInstance.toggleSpeakerphoneOrShowRouteSheet(context2, z);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -215,12 +227,24 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$4(final Context context, View view) {
-        GroupCallActivity.onLeaveClick(getContext(), new Runnable() { // from class: org.telegram.ui.Components.GroupCallPipAlertView$$ExternalSyntheticLambda4
+        boolean z;
+        boolean canDrawOverlays;
+        Context context2 = getContext();
+        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.GroupCallPipAlertView$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 GroupCallPip.updateVisibility(context);
             }
-        }, Build.VERSION.SDK_INT < 23 || Settings.canDrawOverlays(context));
+        };
+        if (Build.VERSION.SDK_INT >= 23) {
+            canDrawOverlays = Settings.canDrawOverlays(context);
+            if (!canDrawOverlays) {
+                z = false;
+                GroupCallActivity.onLeaveClick(context2, runnable, z);
+            }
+        }
+        z = true;
+        GroupCallActivity.onLeaveClick(context2, runnable, z);
     }
 
     /* JADX WARN: Removed duplicated region for block: B:28:0x0055  */
@@ -456,8 +480,8 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
 
     private void updateButtons(boolean z) {
         VoIPService sharedInstance;
-        int i;
         String str;
+        int i;
         if (this.soundButton == null || this.muteButton == null || (sharedInstance = VoIPService.getSharedInstance()) == null) {
             return;
         }
@@ -480,11 +504,11 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
             int i2 = R.drawable.calls_unmute;
             int alphaComponent = ColorUtils.setAlphaComponent(-1, (int) ((sharedInstance.isMicMute() ? 0.3f : 0.15f) * 255.0f));
             if (sharedInstance.isMicMute()) {
-                i = R.string.VoipUnmute;
                 str = "VoipUnmute";
+                i = R.string.VoipUnmute;
             } else {
-                i = R.string.VoipMute;
                 str = "VoipMute";
+                i = R.string.VoipMute;
             }
             voIPToggleButton.setData(i2, -1, alphaComponent, 0.1f, true, LocaleController.getString(str, i), sharedInstance.isMicMute(), z);
         }

@@ -3,12 +3,9 @@ package com.google.android.datatransport.runtime.firebase.transport;
 import com.google.firebase.encoders.proto.Protobuf;
 /* loaded from: classes.dex */
 public final class TimeWindow {
+    private static final TimeWindow DEFAULT_INSTANCE = new Builder().build();
     private final long end_ms_;
     private final long start_ms_;
-
-    static {
-        new Builder().build();
-    }
 
     TimeWindow(long j, long j2) {
         this.start_ms_ = j;

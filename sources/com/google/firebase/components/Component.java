@@ -75,7 +75,7 @@ public final class Component<T> {
 
     @SafeVarargs
     public static <T> Component<T> of(final T t, Class<T> cls, Class<? super T>... clsArr) {
-        return builder(cls, clsArr).factory(new ComponentFactory() { // from class: com.google.firebase.components.Component$$ExternalSyntheticLambda1
+        return builder(cls, clsArr).factory(new ComponentFactory() { // from class: com.google.firebase.components.Component$$ExternalSyntheticLambda0
             @Override // com.google.firebase.components.ComponentFactory
             public final Object create(ComponentContainer componentContainer) {
                 Object lambda$of$1;
@@ -90,7 +90,7 @@ public final class Component<T> {
     }
 
     public static <T> Component<T> intoSet(final T t, Class<T> cls) {
-        return intoSetBuilder(cls).factory(new ComponentFactory() { // from class: com.google.firebase.components.Component$$ExternalSyntheticLambda0
+        return intoSetBuilder(cls).factory(new ComponentFactory() { // from class: com.google.firebase.components.Component$$ExternalSyntheticLambda1
             @Override // com.google.firebase.components.ComponentFactory
             public final Object create(ComponentContainer componentContainer) {
                 Object lambda$intoSet$2;

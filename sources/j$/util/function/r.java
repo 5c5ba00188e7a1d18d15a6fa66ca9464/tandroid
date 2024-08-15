@@ -1,54 +1,50 @@
 package j$.util.function;
 
-import java.util.Objects;
+import java.util.function.DoublePredicate;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class r implements s {
-    public final /* synthetic */ int a;
-    public final /* synthetic */ s b;
-    public final /* synthetic */ s c;
+public final /* synthetic */ class r implements DoublePredicate {
+    public final /* synthetic */ s a;
 
-    public /* synthetic */ r(s sVar, s sVar2, int i) {
-        this.a = i;
-        if (i != 1) {
-            this.b = sVar;
-            this.c = sVar2;
-            return;
-        }
-        this.b = sVar;
-        this.c = sVar2;
+    private /* synthetic */ r(s sVar) {
+        this.a = sVar;
     }
 
-    @Override // j$.util.function.s
-    public s a(s sVar) {
-        switch (this.a) {
-            case 0:
-                Objects.requireNonNull(sVar);
-                return new r(this, sVar, 0);
-            default:
-                Objects.requireNonNull(sVar);
-                return new r(this, sVar, 0);
+    public static /* synthetic */ DoublePredicate a(s sVar) {
+        if (sVar == null) {
+            return null;
         }
+        return sVar instanceof q ? ((q) sVar).a : new r(sVar);
     }
 
-    @Override // j$.util.function.s
-    public final long applyAsLong(long j) {
-        switch (this.a) {
-            case 0:
-                return this.c.applyAsLong(this.b.applyAsLong(j));
-            default:
-                return this.b.applyAsLong(this.c.applyAsLong(j));
-        }
+    @Override // java.util.function.DoublePredicate
+    public final /* synthetic */ DoublePredicate and(DoublePredicate doublePredicate) {
+        return a(((q) this.a).a(q.b(doublePredicate)));
     }
 
-    @Override // j$.util.function.s
-    public s b(s sVar) {
-        switch (this.a) {
-            case 0:
-                Objects.requireNonNull(sVar);
-                return new r(this, sVar, 1);
-            default:
-                Objects.requireNonNull(sVar);
-                return new r(this, sVar, 1);
+    public final /* synthetic */ boolean equals(Object obj) {
+        s sVar = this.a;
+        if (obj instanceof r) {
+            obj = ((r) obj).a;
         }
+        return sVar.equals(obj);
+    }
+
+    public final /* synthetic */ int hashCode() {
+        return this.a.hashCode();
+    }
+
+    @Override // java.util.function.DoublePredicate
+    public final /* synthetic */ DoublePredicate negate() {
+        return a(((q) this.a).c());
+    }
+
+    @Override // java.util.function.DoublePredicate
+    public final /* synthetic */ DoublePredicate or(DoublePredicate doublePredicate) {
+        return a(((q) this.a).d(q.b(doublePredicate)));
+    }
+
+    @Override // java.util.function.DoublePredicate
+    public final /* synthetic */ boolean test(double d) {
+        return ((q) this.a).e(d);
     }
 }

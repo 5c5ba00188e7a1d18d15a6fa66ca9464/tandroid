@@ -48,9 +48,11 @@ public interface TsPayloadReader {
     public static final class DvbSubtitleInfo {
         public final byte[] initializationData;
         public final String language;
+        public final int type;
 
         public DvbSubtitleInfo(String str, int i, byte[] bArr) {
             this.language = str;
+            this.type = i;
             this.initializationData = bArr;
         }
     }

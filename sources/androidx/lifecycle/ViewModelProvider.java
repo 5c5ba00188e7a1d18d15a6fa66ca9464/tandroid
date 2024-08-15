@@ -4,7 +4,6 @@ import android.app.Application;
 import androidx.lifecycle.viewmodel.CreationExtras;
 import androidx.lifecycle.viewmodel.MutableCreationExtras;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Objects;
 import kotlin.jvm.internal.DefaultConstructorMarker;
 import kotlin.jvm.internal.Intrinsics;
 /* compiled from: ViewModelProvider.kt */
@@ -52,15 +51,15 @@ public class ViewModelProvider {
         /* compiled from: ViewModelProvider.kt */
         /* loaded from: classes.dex */
         public final /* synthetic */ class -CC {
-            public static ViewModel $default$create(Factory _this, Class modelClass) {
+            public static ViewModel $default$create(Factory factory, Class modelClass) {
                 Intrinsics.checkNotNullParameter(modelClass, "modelClass");
                 throw new UnsupportedOperationException("Factory.create(String) is unsupported.  This Factory requires `CreationExtras` to be passed into `create` method.");
             }
 
-            public static ViewModel $default$create(Factory _this, Class modelClass, CreationExtras extras) {
+            public static ViewModel $default$create(Factory factory, Class modelClass, CreationExtras extras) {
                 Intrinsics.checkNotNullParameter(modelClass, "modelClass");
                 Intrinsics.checkNotNullParameter(extras, "extras");
-                return _this.create(modelClass);
+                return factory.create(modelClass);
             }
         }
     }
@@ -109,8 +108,10 @@ public class ViewModelProvider {
                 Intrinsics.checkNotNullExpressionValue(viewModel, "viewModel");
                 onRequeryFactory.onRequery(viewModel);
             }
-            Objects.requireNonNull(viewModel, "null cannot be cast to non-null type T of androidx.lifecycle.ViewModelProvider.get");
-            return viewModel;
+            if (viewModel != null) {
+                return viewModel;
+            }
+            throw new NullPointerException("null cannot be cast to non-null type T of androidx.lifecycle.ViewModelProvider.get");
         }
         MutableCreationExtras mutableCreationExtras = new MutableCreationExtras(this.defaultCreationExtras);
         mutableCreationExtras.set(NewInstanceFactory.VIEW_MODEL_KEY, key);

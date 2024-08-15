@@ -3,6 +3,7 @@ package com.google.android.gms.internal.mlkit_language_id;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.charset.Charset;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Locale;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
@@ -10,6 +11,7 @@ import java.util.Locale;
 public abstract class zzdn implements Serializable, Iterable<Byte> {
     public static final zzdn zza = new zzdx(zzeq.zzb);
     private static final zzdt zzb;
+    private static final Comparator<zzdn> zzd;
     private int zzc = 0;
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -114,6 +116,6 @@ public abstract class zzdn implements Serializable, Iterable<Byte> {
     /* JADX WARN: Multi-variable type inference failed */
     static {
         zzb = zzdl.zza() ? new zzdw(null) : new zzdr(null);
-        new zzdp();
+        zzd = new zzdp();
     }
 }

@@ -88,6 +88,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
     private int onlineCount;
     private Integer overrideSubtitleColor;
     private ChatActivity parentFragment;
+    public boolean premiumIconHiddable;
     private boolean pressed;
     private Theme.ResourcesProvider resourcesProvider;
     private int rightAvatarPadding;
@@ -139,7 +140,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
     private class SimpleTextConnectedView extends SimpleTextView {
         private AtomicReference<SimpleTextView> reference;
 
-        public SimpleTextConnectedView(ChatAvatarContainer chatAvatarContainer, Context context, AtomicReference<SimpleTextView> atomicReference) {
+        public SimpleTextConnectedView(Context context, AtomicReference<SimpleTextView> atomicReference) {
             super(context);
             this.reference = atomicReference;
         }
@@ -186,8 +187,9 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         this.onlineCount = -1;
         this.lastSubtitleColorKey = -1;
         this.allowShorterStatus = false;
+        this.premiumIconHiddable = false;
         this.bounce = new ButtonBounce(this);
-        this.onLongClick = new Runnable() { // from class: org.telegram.ui.Components.ChatAvatarContainer$$ExternalSyntheticLambda4
+        this.onLongClick = new Runnable() { // from class: org.telegram.ui.Components.ChatAvatarContainer$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 ChatAvatarContainer.this.lambda$new$3();
@@ -218,14 +220,14 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         this.avatarImageView.setRoundRadius(AndroidUtilities.dp(21.0f));
         addView(this.avatarImageView);
         if (z3) {
-            this.avatarImageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatAvatarContainer$$ExternalSyntheticLambda0
+            this.avatarImageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatAvatarContainer$$ExternalSyntheticLambda3
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     ChatAvatarContainer.this.lambda$new$0(view);
                 }
             });
         }
-        SimpleTextConnectedView simpleTextConnectedView = new SimpleTextConnectedView(this, context, this.titleTextLargerCopyView);
+        SimpleTextConnectedView simpleTextConnectedView = new SimpleTextConnectedView(context, this.titleTextLargerCopyView);
         this.titleTextView = simpleTextConnectedView;
         simpleTextConnectedView.setEllipsizeByGradient(true);
         this.titleTextView.setTextColor(getThemedColor(Theme.key_actionBarDefaultTitle));
@@ -252,7 +254,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             this.animatedSubtitleTextView.setTranslationY(-AndroidUtilities.dp(1.0f));
             addView(this.animatedSubtitleTextView);
         } else {
-            SimpleTextConnectedView simpleTextConnectedView2 = new SimpleTextConnectedView(this, context, this.subtitleTextLargerCopyView);
+            SimpleTextConnectedView simpleTextConnectedView2 = new SimpleTextConnectedView(context, this.subtitleTextLargerCopyView);
             this.subtitleTextView = simpleTextConnectedView2;
             simpleTextConnectedView2.setEllipsizeByGradient(true);
             SimpleTextView simpleTextView = this.subtitleTextView;
@@ -279,7 +281,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             imageView2.setImageDrawable(timerDrawable);
             addView(this.timeItem);
             this.secretChatTimer = z;
-            this.timeItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatAvatarContainer$$ExternalSyntheticLambda2
+            this.timeItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatAvatarContainer$$ExternalSyntheticLambda4
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     ChatAvatarContainer.this.lambda$new$1(resourcesProvider, view);
@@ -309,7 +311,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         ChatActivity chatActivity4 = this.parentFragment;
         if (chatActivity4 != null && (chatActivity4.getChatMode() == 0 || this.parentFragment.getChatMode() == 3)) {
             if ((!this.parentFragment.isThreadChat() || this.parentFragment.isTopic) && !UserObject.isReplyUser(this.parentFragment.getCurrentUser())) {
-                setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatAvatarContainer$$ExternalSyntheticLambda1
+                setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatAvatarContainer$$ExternalSyntheticLambda5
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         ChatAvatarContainer.this.lambda$new$2(view);
@@ -416,6 +418,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.BackupImageView, android.view.View
         public void onDraw(Canvas canvas) {
+            long dialogId;
             if (ChatAvatarContainer.this.allowDrawStories && this.animatedEmojiDrawable == null) {
                 this.params.originalAvatarRect.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
                 StoriesUtilities.AvatarStoryParams avatarStoryParams = this.params;
@@ -425,16 +428,13 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
                 if (ChatAvatarContainer.this.storiesForceState != null) {
                     this.params.forceState = ChatAvatarContainer.this.storiesForceState.intValue();
                 }
-                long j = 0;
                 if (ChatAvatarContainer.this.parentFragment != null) {
-                    j = ChatAvatarContainer.this.parentFragment.getDialogId();
+                    dialogId = ChatAvatarContainer.this.parentFragment.getDialogId();
                 } else {
                     BaseFragment baseFragment = this.val$baseFragment;
-                    if (baseFragment instanceof TopicsFragment) {
-                        j = ((TopicsFragment) baseFragment).getDialogId();
-                    }
+                    dialogId = baseFragment instanceof TopicsFragment ? ((TopicsFragment) baseFragment).getDialogId() : 0L;
                 }
-                StoriesUtilities.drawAvatarWithStory(j, canvas, this.imageReceiver, this.params);
+                StoriesUtilities.drawAvatarWithStory(dialogId, canvas, this.imageReceiver, this.params);
                 return;
             }
             super.onDraw(canvas);
@@ -558,9 +558,9 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
 
             @Override // org.telegram.ui.Components.AutoDeletePopupWrapper.Callback
             public void dismiss() {
-                ActionBarPopupWindow[] actionBarPopupWindowArr = r2;
-                if (actionBarPopupWindowArr[0] != null) {
-                    actionBarPopupWindowArr[0].dismiss();
+                ActionBarPopupWindow actionBarPopupWindow = r2[0];
+                if (actionBarPopupWindow != null) {
+                    actionBarPopupWindow.dismiss();
                 }
             }
 
@@ -580,7 +580,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             }
         }, true, 0, this.resourcesProvider);
         autoDeletePopupWrapper.lambda$updateItems$7(i);
-        final ActionBarPopupWindow[] actionBarPopupWindowArr = {new ActionBarPopupWindow(autoDeletePopupWrapper.windowLayout, -2, -2) { // from class: org.telegram.ui.Components.ChatAvatarContainer.3
+        ActionBarPopupWindow actionBarPopupWindow = new ActionBarPopupWindow(autoDeletePopupWrapper.windowLayout, -2, -2) { // from class: org.telegram.ui.Components.ChatAvatarContainer.3
             @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow, android.widget.PopupWindow
             public void dismiss() {
                 super.dismiss();
@@ -588,8 +588,9 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
                     ChatAvatarContainer.this.parentFragment.dimBehindView(false);
                 }
             }
-        }};
-        actionBarPopupWindowArr[0].setPauseNotifications(true);
+        };
+        final ActionBarPopupWindow[] actionBarPopupWindowArr = {actionBarPopupWindow};
+        actionBarPopupWindow.setPauseNotifications(true);
         actionBarPopupWindowArr[0].setDismissAnimationDuration(220);
         actionBarPopupWindowArr[0].setOutsideTouchable(true);
         actionBarPopupWindowArr[0].setClippingEnabled(true);
@@ -598,9 +599,9 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         autoDeletePopupWrapper.windowLayout.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000.0f), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000.0f), Integer.MIN_VALUE));
         actionBarPopupWindowArr[0].setInputMethodMode(2);
         actionBarPopupWindowArr[0].getContentView().setFocusableInTouchMode(true);
-        ActionBarPopupWindow actionBarPopupWindow = actionBarPopupWindowArr[0];
+        ActionBarPopupWindow actionBarPopupWindow2 = actionBarPopupWindowArr[0];
         BackupImageView backupImageView = this.avatarImageView;
-        actionBarPopupWindow.showAtLocation(backupImageView, 0, (int) (backupImageView.getX() + getX()), (int) this.avatarImageView.getY());
+        actionBarPopupWindow2.showAtLocation(backupImageView, 0, (int) (backupImageView.getX() + getX()), (int) this.avatarImageView.getY());
         this.parentFragment.dimBehindView(true);
         return true;
     }
@@ -766,7 +767,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         simpleTextView.setText(this.titleTextView.getText());
         ViewPropertyAnimator duration = simpleTextView.animate().alpha(0.0f).setDuration(350L);
         CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
-        duration.setInterpolator(cubicBezierInterpolator).withEndAction(new Runnable() { // from class: org.telegram.ui.Components.ChatAvatarContainer$$ExternalSyntheticLambda5
+        duration.setInterpolator(cubicBezierInterpolator).withEndAction(new Runnable() { // from class: org.telegram.ui.Components.ChatAvatarContainer$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 ChatAvatarContainer.this.lambda$fadeOutToLessWidth$4();
@@ -793,7 +794,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
                 simpleTextView2.setText(animatedTextView.getText());
             }
         }
-        simpleTextView2.animate().alpha(0.0f).setDuration(350L).setInterpolator(cubicBezierInterpolator).withEndAction(new Runnable() { // from class: org.telegram.ui.Components.ChatAvatarContainer$$ExternalSyntheticLambda3
+        simpleTextView2.animate().alpha(0.0f).setDuration(350L).setInterpolator(cubicBezierInterpolator).withEndAction(new Runnable() { // from class: org.telegram.ui.Components.ChatAvatarContainer$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 ChatAvatarContainer.this.lambda$fadeOutToLessWidth$5();

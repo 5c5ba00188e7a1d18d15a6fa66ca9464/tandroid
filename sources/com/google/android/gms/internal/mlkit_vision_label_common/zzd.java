@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.mlkit_vision_label_common;
 
 import java.util.Arrays;
-import java.util.Objects;
 /* compiled from: com.google.mlkit:image-labeling-common@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zzd {
@@ -14,7 +13,7 @@ public final class zzd {
         zzc zzcVar = new zzc(null);
         this.zzb = zzcVar;
         this.zzc = zzcVar;
-        Objects.requireNonNull(str);
+        str.getClass();
         this.zza = str;
     }
 

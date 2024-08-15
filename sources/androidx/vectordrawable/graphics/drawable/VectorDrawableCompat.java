@@ -15,6 +15,7 @@ import android.graphics.PathMeasure;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
+import android.graphics.Region;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.VectorDrawable;
@@ -37,6 +38,7 @@ import org.xmlpull.v1.XmlPullParserException;
 public class VectorDrawableCompat extends VectorDrawableCommon {
     static final PorterDuff.Mode DEFAULT_TINT_MODE = PorterDuff.Mode.SRC_IN;
     private boolean mAllowCaching;
+    private Drawable.ConstantState mCachedConstantStateDelegate;
     private ColorFilter mColorFilter;
     private boolean mMutated;
     private PorterDuffColorFilter mTintFilter;
@@ -44,6 +46,81 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
     private final float[] mTmpFloats;
     private final Matrix mTmpMatrix;
     private VectorDrawableCompatState mVectorState;
+
+    @Override // androidx.vectordrawable.graphics.drawable.VectorDrawableCommon, android.graphics.drawable.Drawable
+    public /* bridge */ /* synthetic */ void applyTheme(Resources.Theme theme) {
+        super.applyTheme(theme);
+    }
+
+    @Override // androidx.vectordrawable.graphics.drawable.VectorDrawableCommon, android.graphics.drawable.Drawable
+    public /* bridge */ /* synthetic */ void clearColorFilter() {
+        super.clearColorFilter();
+    }
+
+    @Override // androidx.vectordrawable.graphics.drawable.VectorDrawableCommon, android.graphics.drawable.Drawable
+    public /* bridge */ /* synthetic */ Drawable getCurrent() {
+        return super.getCurrent();
+    }
+
+    @Override // androidx.vectordrawable.graphics.drawable.VectorDrawableCommon, android.graphics.drawable.Drawable
+    public /* bridge */ /* synthetic */ int getMinimumHeight() {
+        return super.getMinimumHeight();
+    }
+
+    @Override // androidx.vectordrawable.graphics.drawable.VectorDrawableCommon, android.graphics.drawable.Drawable
+    public /* bridge */ /* synthetic */ int getMinimumWidth() {
+        return super.getMinimumWidth();
+    }
+
+    @Override // androidx.vectordrawable.graphics.drawable.VectorDrawableCommon, android.graphics.drawable.Drawable
+    public /* bridge */ /* synthetic */ boolean getPadding(Rect rect) {
+        return super.getPadding(rect);
+    }
+
+    @Override // androidx.vectordrawable.graphics.drawable.VectorDrawableCommon, android.graphics.drawable.Drawable
+    public /* bridge */ /* synthetic */ int[] getState() {
+        return super.getState();
+    }
+
+    @Override // androidx.vectordrawable.graphics.drawable.VectorDrawableCommon, android.graphics.drawable.Drawable
+    public /* bridge */ /* synthetic */ Region getTransparentRegion() {
+        return super.getTransparentRegion();
+    }
+
+    @Override // androidx.vectordrawable.graphics.drawable.VectorDrawableCommon, android.graphics.drawable.Drawable
+    public /* bridge */ /* synthetic */ void jumpToCurrentState() {
+        super.jumpToCurrentState();
+    }
+
+    @Override // androidx.vectordrawable.graphics.drawable.VectorDrawableCommon, android.graphics.drawable.Drawable
+    public /* bridge */ /* synthetic */ void setChangingConfigurations(int i) {
+        super.setChangingConfigurations(i);
+    }
+
+    @Override // androidx.vectordrawable.graphics.drawable.VectorDrawableCommon, android.graphics.drawable.Drawable
+    public /* bridge */ /* synthetic */ void setColorFilter(int i, PorterDuff.Mode mode) {
+        super.setColorFilter(i, mode);
+    }
+
+    @Override // androidx.vectordrawable.graphics.drawable.VectorDrawableCommon, android.graphics.drawable.Drawable
+    public /* bridge */ /* synthetic */ void setFilterBitmap(boolean z) {
+        super.setFilterBitmap(z);
+    }
+
+    @Override // androidx.vectordrawable.graphics.drawable.VectorDrawableCommon, android.graphics.drawable.Drawable
+    public /* bridge */ /* synthetic */ void setHotspot(float f, float f2) {
+        super.setHotspot(f, f2);
+    }
+
+    @Override // androidx.vectordrawable.graphics.drawable.VectorDrawableCommon, android.graphics.drawable.Drawable
+    public /* bridge */ /* synthetic */ void setHotspotBounds(int i, int i2, int i3, int i4) {
+        super.setHotspotBounds(i, i2, i3, i4);
+    }
+
+    @Override // androidx.vectordrawable.graphics.drawable.VectorDrawableCommon, android.graphics.drawable.Drawable
+    public /* bridge */ /* synthetic */ boolean setState(int[] iArr) {
+        return super.setState(iArr);
+    }
 
     VectorDrawableCompat() {
         this.mAllowCaching = true;
@@ -239,15 +316,17 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
 
     @Override // android.graphics.drawable.Drawable
     protected boolean onStateChange(int[] iArr) {
+        boolean z;
         PorterDuff.Mode mode;
         Drawable drawable = this.mDelegateDrawable;
         if (drawable != null) {
             return drawable.setState(iArr);
         }
-        boolean z = false;
         VectorDrawableCompatState vectorDrawableCompatState = this.mVectorState;
         ColorStateList colorStateList = vectorDrawableCompatState.mTint;
-        if (colorStateList != null && (mode = vectorDrawableCompatState.mTintMode) != null) {
+        if (colorStateList == null || (mode = vectorDrawableCompatState.mTintMode) == null) {
+            z = false;
+        } else {
             this.mTintFilter = updateTintFilter(this.mTintFilter, colorStateList, mode);
             invalidateSelf();
             z = true;
@@ -320,7 +399,7 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
         if (Build.VERSION.SDK_INT >= 24) {
             VectorDrawableCompat vectorDrawableCompat = new VectorDrawableCompat();
             vectorDrawableCompat.mDelegateDrawable = ResourcesCompat.getDrawable(resources, i, theme);
-            new VectorDrawableDelegateState(vectorDrawableCompat.mDelegateDrawable.getConstantState());
+            vectorDrawableCompat.mCachedConstantStateDelegate = new VectorDrawableDelegateState(vectorDrawableCompat.mDelegateDrawable.getConstantState());
             return vectorDrawableCompat;
         }
         try {
@@ -459,8 +538,8 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
                     if (vFullPath.getPathName() != null) {
                         vPathRenderer.mVGTargetsMap.put(vFullPath.getPathName(), vFullPath);
                     }
-                    z = false;
                     vectorDrawableCompatState.mChangingConfigurations = vFullPath.mChangingConfigurations | vectorDrawableCompatState.mChangingConfigurations;
+                    z = false;
                 } else if ("clip-path".equals(name)) {
                     VClipPath vClipPath = new VClipPath();
                     vClipPath.inflate(resources, attributeSet, theme, xmlPullParser);
@@ -495,7 +574,7 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
     }
 
     private boolean needMirroring() {
-        return Build.VERSION.SDK_INT >= 17 && isAutoMirrored() && DrawableCompat.getLayoutDirection(this) == 1;
+        return isAutoMirrored() && DrawableCompat.getLayoutDirection(this) == 1;
     }
 
     @Override // android.graphics.drawable.Drawable
@@ -579,14 +658,18 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
 
         @Override // android.graphics.drawable.Drawable.ConstantState
         public Drawable newDrawable(Resources resources, Resources.Theme theme) {
+            Drawable newDrawable;
             VectorDrawableCompat vectorDrawableCompat = new VectorDrawableCompat();
-            vectorDrawableCompat.mDelegateDrawable = (VectorDrawable) this.mDelegateState.newDrawable(resources, theme);
+            newDrawable = this.mDelegateState.newDrawable(resources, theme);
+            vectorDrawableCompat.mDelegateDrawable = (VectorDrawable) newDrawable;
             return vectorDrawableCompat;
         }
 
         @Override // android.graphics.drawable.Drawable.ConstantState
         public boolean canApplyTheme() {
-            return this.mDelegateState.canApplyTheme();
+            boolean canApplyTheme;
+            canApplyTheme = this.mDelegateState.canApplyTheme();
+            return canApplyTheme;
         }
 
         @Override // android.graphics.drawable.Drawable.ConstantState

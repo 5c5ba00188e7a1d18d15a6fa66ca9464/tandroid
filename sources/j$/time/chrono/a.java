@@ -2,9 +2,8 @@ package j$.time.chrono;
 
 import j$.util.concurrent.ConcurrentHashMap;
 import java.util.Locale;
-import java.util.Objects;
 /* loaded from: classes2.dex */
-public abstract class a implements g {
+public abstract class a implements d {
     static {
         new ConcurrentHashMap();
         new ConcurrentHashMap();
@@ -12,27 +11,27 @@ public abstract class a implements g {
     }
 
     @Override // java.lang.Comparable
-    public int compareTo(Object obj) {
-        Objects.requireNonNull((g) obj);
+    public final int compareTo(Object obj) {
+        ((d) obj).getClass();
         return 0;
     }
 
-    public boolean equals(Object obj) {
+    public final boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
         if (obj instanceof a) {
-            Objects.requireNonNull((a) obj);
+            ((a) obj).getClass();
             return true;
         }
         return false;
     }
 
-    public int hashCode() {
+    public final int hashCode() {
         return getClass().hashCode() ^ 72805;
     }
 
-    public String toString() {
+    public final String toString() {
         return "ISO";
     }
 }

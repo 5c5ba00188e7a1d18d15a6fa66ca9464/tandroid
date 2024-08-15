@@ -68,9 +68,10 @@ public class ShapeInput {
             float f = shape.rotation;
             if (f != 0.0f) {
                 float[] fArr = this.tempPoint;
-                fArr[0] = fArr[0] - shape.centerX;
+                float f2 = fArr[0] - shape.centerX;
+                fArr[0] = f2;
                 fArr[1] = fArr[1] - shape.centerY;
-                double d = fArr[0];
+                double d = f2;
                 double d2 = f * (z ? -1 : 1);
                 double cos = Math.cos(d2);
                 Double.isNaN(d);
@@ -78,7 +79,7 @@ public class ShapeInput {
                 double d4 = this.tempPoint[1];
                 double sin = Math.sin(d2);
                 Double.isNaN(d4);
-                float f2 = (float) (d3 - (d4 * sin));
+                float f3 = (float) (d3 - (d4 * sin));
                 double d5 = this.tempPoint[0];
                 double sin2 = Math.sin(d2);
                 Double.isNaN(d5);
@@ -88,7 +89,7 @@ public class ShapeInput {
                 Double.isNaN(d7);
                 float[] fArr2 = this.tempPoint;
                 Shape shape2 = this.shape;
-                fArr2[0] = f2 + shape2.centerX;
+                fArr2[0] = f3 + shape2.centerX;
                 fArr2[1] = ((float) (d6 + (d7 * cos2))) + shape2.centerY;
             }
         }
@@ -373,7 +374,7 @@ public class ShapeInput {
             Point point2 = new Point() { // from class: org.telegram.ui.Components.Paint.ShapeInput.2
                 /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
                 {
-                    super(ShapeInput.this);
+                    super();
                 }
 
                 @Override // org.telegram.ui.Components.Paint.ShapeInput.Point
@@ -395,7 +396,7 @@ public class ShapeInput {
             Point point3 = new Point() { // from class: org.telegram.ui.Components.Paint.ShapeInput.3
                 /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
                 {
-                    super(ShapeInput.this);
+                    super();
                 }
 
                 @Override // org.telegram.ui.Components.Paint.ShapeInput.Point
@@ -434,6 +435,8 @@ public class ShapeInput {
         }
         if (this.shape.getType() == 2) {
             this.allPoints.add(new Point() { // from class: org.telegram.ui.Components.Paint.ShapeInput.5
+                final int n = 5;
+
                 @Override // org.telegram.ui.Components.Paint.ShapeInput.Point
                 void set() {
                     float min2 = Math.min(ShapeInput.this.shape.radiusX, ShapeInput.this.shape.radiusY);
@@ -643,7 +646,7 @@ public class ShapeInput {
         public Shape shape;
 
         public CornerPoint(Shape shape, boolean z, boolean z2) {
-            super(ShapeInput.this);
+            super();
             this.rotate = false;
             this.shape = shape;
             this.rx = z ? -1.0f : 1.0f;
@@ -704,11 +707,11 @@ public class ShapeInput {
         void set() {
         }
 
-        public Point(ShapeInput shapeInput) {
+        public Point() {
             set();
         }
 
-        public Point(ShapeInput shapeInput, boolean z) {
+        public Point(boolean z) {
             this.green = z;
             set();
         }

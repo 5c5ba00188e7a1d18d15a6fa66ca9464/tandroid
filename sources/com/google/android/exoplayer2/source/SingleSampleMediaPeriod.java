@@ -91,8 +91,9 @@ public final class SingleSampleMediaPeriod implements MediaPeriod, Loader.Callba
     @Override // com.google.android.exoplayer2.source.MediaPeriod
     public long selectTracks(ExoTrackSelection[] exoTrackSelectionArr, boolean[] zArr, SampleStream[] sampleStreamArr, boolean[] zArr2, long j) {
         for (int i = 0; i < exoTrackSelectionArr.length; i++) {
-            if (sampleStreamArr[i] != null && (exoTrackSelectionArr[i] == null || !zArr[i])) {
-                this.sampleStreams.remove(sampleStreamArr[i]);
+            SampleStream sampleStream = sampleStreamArr[i];
+            if (sampleStream != null && (exoTrackSelectionArr[i] == null || !zArr[i])) {
+                this.sampleStreams.remove(sampleStream);
                 sampleStreamArr[i] = null;
             }
             if (sampleStreamArr[i] == null && exoTrackSelectionArr[i] != null) {

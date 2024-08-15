@@ -160,13 +160,6 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
     Window mWindow;
     boolean mWindowNoTitle;
 
-    /* loaded from: classes.dex */
-    interface ActionBarMenuCallback {
-        View onCreatePanelView(int i);
-
-        boolean onPreparePanel(int i);
-    }
-
     @Override // androidx.appcompat.app.AppCompatDelegate
     public void onSaveInstanceState(Bundle bundle) {
     }
@@ -175,12 +168,11 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
     }
 
     static {
-        int i = Build.VERSION.SDK_INT;
-        boolean z = i < 21;
+        boolean z = Build.VERSION.SDK_INT < 21;
         IS_PRE_LOLLIPOP = z;
         sWindowBackgroundStyleable = new int[]{16842836};
         sCanReturnDifferentContext = !"robolectric".equals(Build.FINGERPRINT);
-        sCanApplyOverrideConfiguration = i >= 17;
+        sCanApplyOverrideConfiguration = true;
         if (!z || sInstalledExceptionHandler) {
             return;
         }
@@ -316,19 +308,13 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
         if (!sCanReturnDifferentContext) {
             return super.attachBaseContext2(context);
         }
-        Configuration configuration = null;
-        if (Build.VERSION.SDK_INT >= 17) {
-            Configuration configuration2 = new Configuration();
-            configuration2.uiMode = -1;
-            configuration2.fontScale = 0.0f;
-            Configuration configuration3 = Api17Impl.createConfigurationContext(context, configuration2).getResources().getConfiguration();
-            Configuration configuration4 = context.getResources().getConfiguration();
-            configuration3.uiMode = configuration4.uiMode;
-            if (!configuration3.equals(configuration4)) {
-                configuration = generateConfigDelta(configuration3, configuration4);
-            }
-        }
-        Configuration createOverrideAppConfiguration = createOverrideAppConfiguration(context, mapNightMode, calculateApplicationLocales, configuration, true);
+        Configuration configuration = new Configuration();
+        configuration.uiMode = -1;
+        configuration.fontScale = 0.0f;
+        Configuration configuration2 = Api17Impl.createConfigurationContext(context, configuration).getResources().getConfiguration();
+        Configuration configuration3 = context.getResources().getConfiguration();
+        configuration2.uiMode = configuration3.uiMode;
+        Configuration createOverrideAppConfiguration = createOverrideAppConfiguration(context, mapNightMode, calculateApplicationLocales, !configuration2.equals(configuration3) ? generateConfigDelta(configuration2, configuration3) : null, true);
         androidx.appcompat.view.ContextThemeWrapper contextThemeWrapper = new androidx.appcompat.view.ContextThemeWrapper(context, R$style.Theme_AppCompat_Empty);
         contextThemeWrapper.applyOverrideConfiguration(createOverrideAppConfiguration);
         boolean z = false;
@@ -351,15 +337,16 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
 
     @Override // androidx.appcompat.app.AppCompatDelegate
     public void onCreate(Bundle bundle) {
+        String str;
         this.mBaseContextAttached = true;
         applyApplicationSpecificConfig(false);
         ensureWindow();
         Object obj = this.mHost;
         if (obj instanceof Activity) {
-            String str = null;
             try {
                 str = NavUtils.getParentActivityName((Activity) obj);
             } catch (IllegalArgumentException unused) {
+                str = null;
             }
             if (str != null) {
                 ActionBar peekSupportActionBar = peekSupportActionBar();
@@ -884,8 +871,8 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
         invalidatePanelMenu(0);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0025  */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x0029  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0026  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x002a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1343,31 +1330,32 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
     }
 
     private boolean initializePanelMenu(PanelFeatureState panelFeatureState) {
+        Resources.Theme theme;
         Context context = this.mContext;
         int i = panelFeatureState.featureId;
         if ((i == 0 || i == 108) && this.mDecorContentParent != null) {
             TypedValue typedValue = new TypedValue();
-            Resources.Theme theme = context.getTheme();
-            theme.resolveAttribute(R$attr.actionBarTheme, typedValue, true);
-            Resources.Theme theme2 = null;
+            Resources.Theme theme2 = context.getTheme();
+            theme2.resolveAttribute(R$attr.actionBarTheme, typedValue, true);
             if (typedValue.resourceId != 0) {
-                theme2 = context.getResources().newTheme();
-                theme2.setTo(theme);
-                theme2.applyStyle(typedValue.resourceId, true);
-                theme2.resolveAttribute(R$attr.actionBarWidgetTheme, typedValue, true);
-            } else {
+                theme = context.getResources().newTheme();
+                theme.setTo(theme2);
+                theme.applyStyle(typedValue.resourceId, true);
                 theme.resolveAttribute(R$attr.actionBarWidgetTheme, typedValue, true);
+            } else {
+                theme2.resolveAttribute(R$attr.actionBarWidgetTheme, typedValue, true);
+                theme = null;
             }
             if (typedValue.resourceId != 0) {
-                if (theme2 == null) {
-                    theme2 = context.getResources().newTheme();
-                    theme2.setTo(theme);
+                if (theme == null) {
+                    theme = context.getResources().newTheme();
+                    theme.setTo(theme2);
                 }
-                theme2.applyStyle(typedValue.resourceId, true);
+                theme.applyStyle(typedValue.resourceId, true);
             }
-            if (theme2 != null) {
+            if (theme != null) {
                 androidx.appcompat.view.ContextThemeWrapper contextThemeWrapper = new androidx.appcompat.view.ContextThemeWrapper(context, 0);
-                contextThemeWrapper.getTheme().setTo(theme2);
+                contextThemeWrapper.getTheme().setTo(theme);
                 context = contextThemeWrapper;
             }
         }
@@ -1897,15 +1885,12 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
     }
 
     void setConfigurationLocales(Configuration configuration, LocaleListCompat localeListCompat) {
-        int i = Build.VERSION.SDK_INT;
-        if (i >= 24) {
+        if (Build.VERSION.SDK_INT >= 24) {
             Api24Impl.setLocales(configuration, localeListCompat);
-        } else if (i >= 17) {
-            Api17Impl.setLocale(configuration, localeListCompat.get(0));
-            Api17Impl.setLayoutDirection(configuration, localeListCompat.get(0));
-        } else {
-            configuration.locale = localeListCompat.get(0);
+            return;
         }
+        Api17Impl.setLocale(configuration, localeListCompat.get(0));
+        Api17Impl.setLayoutDirection(configuration, localeListCompat.get(0));
     }
 
     LocaleListCompat getConfigurationLocales(Configuration configuration) {
@@ -1945,7 +1930,7 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
         return configuration2;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:42:0x0089  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0083  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1963,10 +1948,7 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
         LocaleListCompat configurationLocales2 = localeListCompat == null ? null : getConfigurationLocales(createOverrideAppConfiguration);
         int i4 = i2 != i3 ? LiteMode.FLAG_CALLS_ANIMATIONS : 0;
         if (configurationLocales2 != null && !configurationLocales.equals(configurationLocales2)) {
-            i4 |= 4;
-            if (Build.VERSION.SDK_INT >= 17) {
-                i4 |= LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM;
-            }
+            i4 = i4 | 4 | LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM;
         }
         boolean z3 = true;
         if (((activityHandlesConfigChangesFlags ^ (-1)) & i4) != 0 && z && this.mBaseContextAttached && (sCanReturnDifferentContext || this.mCreated)) {
@@ -2335,7 +2317,6 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public class AppCompatWindowCallback extends WindowCallbackWrapper {
-        private ActionBarMenuCallback mActionBarCallback;
         private boolean mDispatchKeyEventBypassEnabled;
         private boolean mOnContentChangedBypassEnabled;
         private boolean mOnPanelClosedBypassEnabled;
@@ -2367,9 +2348,7 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
 
         @Override // androidx.appcompat.view.WindowCallbackWrapper, android.view.Window.Callback
         public View onCreatePanelView(int i) {
-            View onCreatePanelView;
-            ActionBarMenuCallback actionBarMenuCallback = this.mActionBarCallback;
-            return (actionBarMenuCallback == null || (onCreatePanelView = actionBarMenuCallback.onCreatePanelView(i)) == null) ? super.onCreatePanelView(i) : onCreatePanelView;
+            return super.onCreatePanelView(i);
         }
 
         @Override // android.view.Window.Callback
@@ -2385,19 +2364,14 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
             if (i == 0 && menuBuilder == null) {
                 return false;
             }
-            boolean z = true;
             if (menuBuilder != null) {
                 menuBuilder.setOverrideVisibleItems(true);
             }
-            ActionBarMenuCallback actionBarMenuCallback = this.mActionBarCallback;
-            z = (actionBarMenuCallback == null || !actionBarMenuCallback.onPreparePanel(i)) ? false : false;
-            if (!z) {
-                z = super.onPreparePanel(i, view, menu);
-            }
+            boolean onPreparePanel = super.onPreparePanel(i, view, menu);
             if (menuBuilder != null) {
                 menuBuilder.setOverrideVisibleItems(false);
             }
-            return z;
+            return onPreparePanel;
         }
 
         @Override // androidx.appcompat.view.WindowCallbackWrapper, android.view.Window.Callback
@@ -2691,9 +2665,7 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
             if (i34 != i35) {
                 configuration3.smallestScreenWidthDp = i35;
             }
-            if (i5 >= 17) {
-                Api17Impl.generateConfigDelta_densityDpi(configuration, configuration2, configuration3);
-            }
+            Api17Impl.generateConfigDelta_densityDpi(configuration, configuration2, configuration3);
         }
         return configuration3;
     }
@@ -2726,11 +2698,15 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
     /* loaded from: classes.dex */
     public static class Api21Impl {
         static boolean isPowerSaveMode(PowerManager powerManager) {
-            return powerManager.isPowerSaveMode();
+            boolean isPowerSaveMode;
+            isPowerSaveMode = powerManager.isPowerSaveMode();
+            return isPowerSaveMode;
         }
 
         static String toLanguageTag(Locale locale) {
-            return locale.toLanguageTag();
+            String languageTag;
+            languageTag = locale.toLanguageTag();
+            return languageTag;
         }
     }
 
@@ -2738,9 +2714,13 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
     /* loaded from: classes.dex */
     public static class Api24Impl {
         static void generateConfigDelta_locale(Configuration configuration, Configuration configuration2, Configuration configuration3) {
-            LocaleList locales = configuration.getLocales();
-            LocaleList locales2 = configuration2.getLocales();
-            if (locales.equals(locales2)) {
+            LocaleList locales;
+            LocaleList locales2;
+            boolean equals;
+            locales = configuration.getLocales();
+            locales2 = configuration2.getLocales();
+            equals = locales.equals(locales2);
+            if (equals) {
                 return;
             }
             configuration3.setLocales(locales2);
@@ -2748,15 +2728,23 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
         }
 
         static LocaleListCompat getLocales(Configuration configuration) {
-            return LocaleListCompat.forLanguageTags(configuration.getLocales().toLanguageTags());
+            LocaleList locales;
+            String languageTags;
+            locales = configuration.getLocales();
+            languageTags = locales.toLanguageTags();
+            return LocaleListCompat.forLanguageTags(languageTags);
         }
 
         static void setLocales(Configuration configuration, LocaleListCompat localeListCompat) {
-            configuration.setLocales(LocaleList.forLanguageTags(localeListCompat.toLanguageTags()));
+            LocaleList forLanguageTags;
+            forLanguageTags = LocaleList.forLanguageTags(localeListCompat.toLanguageTags());
+            configuration.setLocales(forLanguageTags);
         }
 
         public static void setDefaultLocales(LocaleListCompat localeListCompat) {
-            LocaleList.setDefault(LocaleList.forLanguageTags(localeListCompat.toLanguageTags()));
+            LocaleList forLanguageTags;
+            forLanguageTags = LocaleList.forLanguageTags(localeListCompat.toLanguageTags());
+            LocaleList.setDefault(forLanguageTags);
         }
     }
 
@@ -2764,15 +2752,29 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
     /* loaded from: classes.dex */
     public static class Api26Impl {
         static void generateConfigDelta_colorMode(Configuration configuration, Configuration configuration2, Configuration configuration3) {
-            int i = configuration.colorMode & 3;
-            int i2 = configuration2.colorMode;
-            if (i != (i2 & 3)) {
-                configuration3.colorMode |= i2 & 3;
+            int i;
+            int i2;
+            int i3;
+            int i4;
+            int i5;
+            int i6;
+            int i7;
+            int i8;
+            i = configuration.colorMode;
+            int i9 = i & 3;
+            i2 = configuration2.colorMode;
+            if (i9 != (i2 & 3)) {
+                i7 = configuration3.colorMode;
+                i8 = configuration2.colorMode;
+                configuration3.colorMode = i7 | (i8 & 3);
             }
-            int i3 = configuration.colorMode & 12;
-            int i4 = configuration2.colorMode;
-            if (i3 != (i4 & 12)) {
-                configuration3.colorMode |= i4 & 12;
+            i3 = configuration.colorMode;
+            int i10 = i3 & 12;
+            i4 = configuration2.colorMode;
+            if (i10 != (i4 & 12)) {
+                i5 = configuration3.colorMode;
+                i6 = configuration2.colorMode;
+                configuration3.colorMode = i5 | (i6 & 12);
             }
         }
     }

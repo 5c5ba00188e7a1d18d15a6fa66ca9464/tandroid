@@ -106,6 +106,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
     private TLRPC$RequestPeerType requestPeerType;
     private ArrayList<Long> selectedDialogs;
     boolean updateListPending;
+    private boolean firstUpdate = true;
     ArrayList<ItemInternal> itemInternals = new ArrayList<>();
     ArrayList<ItemInternal> oldItems = new ArrayList<>();
     int stableIdPointer = 10;
@@ -132,12 +133,13 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
     }
 
     public DialogsAdapter(DialogsActivity dialogsActivity, Context context, int i, int i2, boolean z, ArrayList<Long> arrayList, int i3, TLRPC$RequestPeerType tLRPC$RequestPeerType) {
+        boolean z2 = true;
         this.mContext = context;
         this.parentFragment = dialogsActivity;
         this.dialogsType = i;
         this.folderId = i2;
         this.isOnlySelect = z;
-        this.hasHints = i2 == 0 && i == 0 && !z;
+        this.hasHints = (i2 == 0 && i == 0 && !z) ? false : false;
         this.selectedDialogs = arrayList;
         this.currentAccount = i3;
         if (i2 == 0) {
@@ -233,57 +235,57 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         TLRPC$RecentMeUrl recentMeUrl;
         private final int stableId;
 
-        public ItemInternal(DialogsAdapter dialogsAdapter, TL_chatlists$TL_chatlists_chatlistUpdates tL_chatlists$TL_chatlists_chatlistUpdates) {
+        public ItemInternal(TL_chatlists$TL_chatlists_chatlistUpdates tL_chatlists$TL_chatlists_chatlistUpdates) {
             super(17, true);
             this.chatlistUpdates = tL_chatlists$TL_chatlists_chatlistUpdates;
-            int i = dialogsAdapter.stableIdPointer;
-            dialogsAdapter.stableIdPointer = i + 1;
+            int i = DialogsAdapter.this.stableIdPointer;
+            DialogsAdapter.this.stableIdPointer = i + 1;
             this.stableId = i;
         }
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        public ItemInternal(DialogsAdapter dialogsAdapter, int i, TLRPC$Dialog tLRPC$Dialog) {
+        public ItemInternal(int i, TLRPC$Dialog tLRPC$Dialog) {
             super(i, true);
             boolean z = true;
             this.dialog = tLRPC$Dialog;
             if (tLRPC$Dialog != null) {
-                int i2 = dialogsAdapter.dialogsStableIds.get(tLRPC$Dialog.id, -1);
+                int i2 = DialogsAdapter.this.dialogsStableIds.get(tLRPC$Dialog.id, -1);
                 if (i2 >= 0) {
                     this.stableId = i2;
                 } else {
-                    int i3 = dialogsAdapter.stableIdPointer;
-                    dialogsAdapter.stableIdPointer = i3 + 1;
+                    int i3 = DialogsAdapter.this.stableIdPointer;
+                    DialogsAdapter.this.stableIdPointer = i3 + 1;
                     this.stableId = i3;
-                    dialogsAdapter.dialogsStableIds.put(tLRPC$Dialog.id, i3);
+                    DialogsAdapter.this.dialogsStableIds.put(tLRPC$Dialog.id, i3);
                 }
             } else if (i == 19) {
                 this.stableId = 5;
             } else {
-                int i4 = dialogsAdapter.stableIdPointer;
-                dialogsAdapter.stableIdPointer = i4 + 1;
+                int i4 = DialogsAdapter.this.stableIdPointer;
+                DialogsAdapter.this.stableIdPointer = i4 + 1;
                 this.stableId = i4;
             }
             if (tLRPC$Dialog != null) {
-                if (dialogsAdapter.dialogsType == 7 || dialogsAdapter.dialogsType == 8) {
-                    MessagesController.DialogFilter dialogFilter = MessagesController.getInstance(dialogsAdapter.currentAccount).selectedDialogFilter[dialogsAdapter.dialogsType == 8 ? (char) 1 : (char) 0];
+                if (DialogsAdapter.this.dialogsType == 7 || DialogsAdapter.this.dialogsType == 8) {
+                    MessagesController.DialogFilter dialogFilter = MessagesController.getInstance(DialogsAdapter.this.currentAccount).selectedDialogFilter[DialogsAdapter.this.dialogsType == 8 ? (char) 1 : (char) 0];
                     this.pinned = (dialogFilter == null || dialogFilter.pinnedDialogs.indexOfKey(tLRPC$Dialog.id) < 0) ? false : false;
                 } else {
                     this.pinned = tLRPC$Dialog.pinned;
                 }
                 this.isFolder = tLRPC$Dialog.isFolder;
-                this.isForumCell = MessagesController.getInstance(dialogsAdapter.currentAccount).isForum(tLRPC$Dialog.id);
+                this.isForumCell = MessagesController.getInstance(DialogsAdapter.this.currentAccount).isForum(tLRPC$Dialog.id);
             }
         }
 
-        public ItemInternal(DialogsAdapter dialogsAdapter, int i, TLRPC$RecentMeUrl tLRPC$RecentMeUrl) {
+        public ItemInternal(int i, TLRPC$RecentMeUrl tLRPC$RecentMeUrl) {
             super(i, true);
             this.recentMeUrl = tLRPC$RecentMeUrl;
-            int i2 = dialogsAdapter.stableIdPointer;
-            dialogsAdapter.stableIdPointer = i2 + 1;
+            int i2 = DialogsAdapter.this.stableIdPointer;
+            DialogsAdapter.this.stableIdPointer = i2 + 1;
             this.stableId = i2;
         }
 
-        public ItemInternal(DialogsAdapter dialogsAdapter, int i) {
+        public ItemInternal(int i) {
             super(i, true);
             this.emptyType = i;
             if (i == 10) {
@@ -291,37 +293,37 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
             } else if (this.viewType == 19) {
                 this.stableId = 5;
             } else {
-                int i2 = dialogsAdapter.stableIdPointer;
-                dialogsAdapter.stableIdPointer = i2 + 1;
+                int i2 = DialogsAdapter.this.stableIdPointer;
+                DialogsAdapter.this.stableIdPointer = i2 + 1;
                 this.stableId = i2;
             }
         }
 
-        public ItemInternal(DialogsAdapter dialogsAdapter, int i, int i2) {
+        public ItemInternal(int i, int i2) {
             super(i, true);
             this.emptyType = i2;
-            int i3 = dialogsAdapter.stableIdPointer;
-            dialogsAdapter.stableIdPointer = i3 + 1;
+            int i3 = DialogsAdapter.this.stableIdPointer;
+            DialogsAdapter.this.stableIdPointer = i3 + 1;
             this.stableId = i3;
         }
 
-        public ItemInternal(DialogsAdapter dialogsAdapter, int i, TLRPC$TL_contact tLRPC$TL_contact) {
+        public ItemInternal(int i, TLRPC$TL_contact tLRPC$TL_contact) {
             super(i, true);
             this.contact = tLRPC$TL_contact;
             if (tLRPC$TL_contact != null) {
-                int i2 = dialogsAdapter.dialogsStableIds.get(tLRPC$TL_contact.user_id, -1);
+                int i2 = DialogsAdapter.this.dialogsStableIds.get(tLRPC$TL_contact.user_id, -1);
                 if (i2 > 0) {
                     this.stableId = i2;
                     return;
                 }
-                int i3 = dialogsAdapter.stableIdPointer;
-                dialogsAdapter.stableIdPointer = i3 + 1;
+                int i3 = DialogsAdapter.this.stableIdPointer;
+                DialogsAdapter.this.stableIdPointer = i3 + 1;
                 this.stableId = i3;
-                dialogsAdapter.dialogsStableIds.put(this.contact.user_id, i3);
+                DialogsAdapter.this.dialogsStableIds.put(this.contact.user_id, i3);
                 return;
             }
-            int i4 = dialogsAdapter.stableIdPointer;
-            dialogsAdapter.stableIdPointer = i4 + 1;
+            int i4 = DialogsAdapter.this.stableIdPointer;
+            DialogsAdapter.this.stableIdPointer = i4 + 1;
             this.stableId = i4;
         }
 
@@ -378,7 +380,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                 try {
                     final int currentTime = ConnectionsManager.getInstance(this.currentAccount).getCurrentTime();
                     final MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
-                    Collections.sort(this.onlineContacts, new Comparator() { // from class: org.telegram.ui.Adapters.DialogsAdapter$$ExternalSyntheticLambda6
+                    Collections.sort(this.onlineContacts, new Comparator() { // from class: org.telegram.ui.Adapters.DialogsAdapter$$ExternalSyntheticLambda0
                         @Override // java.util.Comparator
                         public final int compare(Object obj, Object obj2) {
                             int lambda$sortOnlineContacts$0;
@@ -531,7 +533,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
             calculateDiff.dispatchUpdatesTo(this);
             return;
         }
-        Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsAdapter$$ExternalSyntheticLambda4
+        Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsAdapter$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 DialogsAdapter.this.lambda$updateList$2(callback, runnable, arrayList2);
@@ -542,7 +544,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateList$2(DiffUtil.Callback callback, final Runnable runnable, final ArrayList arrayList) {
         final DiffUtil.DiffResult calculateDiff = DiffUtil.calculateDiff(callback);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsAdapter$$ExternalSyntheticLambda5
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsAdapter$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 DialogsAdapter.this.lambda$updateList$1(runnable, arrayList, calculateDiff);
@@ -609,12 +611,12 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
     /* JADX WARN: Type inference failed for: r3v15, types: [org.telegram.ui.Adapters.DialogsAdapter$3] */
     /* JADX WARN: Type inference failed for: r3v16, types: [org.telegram.ui.Cells.DialogsHintCell] */
     /* JADX WARN: Type inference failed for: r3v17, types: [org.telegram.ui.Adapters.DialogsAdapter$5] */
-    /* JADX WARN: Type inference failed for: r3v18, types: [android.widget.FrameLayout, org.telegram.ui.Adapters.DialogsAdapter$LastEmptyView] */
+    /* JADX WARN: Type inference failed for: r3v18, types: [org.telegram.ui.Adapters.DialogsAdapter$LastEmptyView, android.view.ViewGroup] */
     /* JADX WARN: Type inference failed for: r3v19, types: [android.view.View] */
     /* JADX WARN: Type inference failed for: r3v20 */
     /* JADX WARN: Type inference failed for: r3v3, types: [org.telegram.ui.Components.FlickerLoadingView] */
-    /* JADX WARN: Type inference failed for: r3v4, types: [android.widget.FrameLayout, org.telegram.ui.Cells.HeaderCell] */
-    /* JADX WARN: Type inference failed for: r3v5, types: [android.widget.FrameLayout, org.telegram.ui.Adapters.DialogsAdapter$2] */
+    /* JADX WARN: Type inference failed for: r3v4, types: [org.telegram.ui.Cells.HeaderCell, android.view.ViewGroup] */
+    /* JADX WARN: Type inference failed for: r3v5, types: [android.view.View, org.telegram.ui.Adapters.DialogsAdapter$2, android.view.ViewGroup] */
     /* JADX WARN: Type inference failed for: r3v6, types: [org.telegram.ui.Cells.DialogMeUrlCell] */
     /* JADX WARN: Type inference failed for: r3v7, types: [org.telegram.ui.Cells.DialogsEmptyCell] */
     /* JADX WARN: Type inference failed for: r3v8, types: [org.telegram.ui.Cells.UserCell] */
@@ -669,7 +671,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                 textView.setText(LocaleController.getString("RecentlyViewedHide", R.string.RecentlyViewedHide));
                 textView.setGravity((LocaleController.isRTL ? 3 : 5) | 16);
                 flickerLoadingView.addView(textView, LayoutHelper.createFrame(-1, -1.0f, (LocaleController.isRTL ? 3 : 5) | 48, 17.0f, 15.0f, 17.0f, 0.0f));
-                textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Adapters.DialogsAdapter$$ExternalSyntheticLambda0
+                textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Adapters.DialogsAdapter$$ExternalSyntheticLambda4
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view3) {
                         DialogsAdapter.this.lambda$onCreateViewHolder$3(view3);
@@ -677,7 +679,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                 });
                 break;
             case 3:
-                flickerLoadingView = new FrameLayout(this, this.mContext) { // from class: org.telegram.ui.Adapters.DialogsAdapter.2
+                flickerLoadingView = new FrameLayout(this.mContext) { // from class: org.telegram.ui.Adapters.DialogsAdapter.2
                     @Override // android.widget.FrameLayout, android.view.View
                     protected void onMeasure(int i4, int i5) {
                         super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i4), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(12.0f), 1073741824));
@@ -796,7 +798,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                 flickerLoadingView = new DialogsHintCell(this.mContext, null);
                 break;
             case 18:
-                flickerLoadingView = new View(this, this.mContext) { // from class: org.telegram.ui.Adapters.DialogsAdapter.5
+                flickerLoadingView = new View(this.mContext) { // from class: org.telegram.ui.Adapters.DialogsAdapter.5
                     @Override // android.view.View
                     protected void onMeasure(int i4, int i5) {
                         super.onMeasure(i4, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(81.0f), 1073741824));
@@ -805,7 +807,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                 break;
             case 19:
                 flickerLoadingView = new LastEmptyView(this.mContext);
-                flickerLoadingView.addView(new ArchiveHelp(this.mContext, this.currentAccount, null, new Runnable() { // from class: org.telegram.ui.Adapters.DialogsAdapter$$ExternalSyntheticLambda2
+                flickerLoadingView.addView(new ArchiveHelp(this.mContext, this.currentAccount, null, new Runnable() { // from class: org.telegram.ui.Adapters.DialogsAdapter$$ExternalSyntheticLambda5
                     @Override // java.lang.Runnable
                     public final void run() {
                         DialogsAdapter.this.onArchiveSettingsClick();
@@ -831,10 +833,9 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
         TLRPC$Chat tLRPC$Chat;
+        TLRPC$User tLRPC$User;
         String str;
         String str2;
-        TLRPC$User tLRPC$User;
-        String formatUserStatus;
         String lowerCase;
         TLRPC$Chat chat;
         int itemViewType = viewHolder.getItemViewType();
@@ -881,27 +882,23 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                     tLRPC$User = tLRPC$Chat;
                 } else {
                     TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(tLRPC$Dialog.id));
+                    String str4 = "";
                     if (user != null) {
                         String userName = UserObject.getUserName(user);
-                        if (UserObject.isReplyUser(user)) {
-                            str = userName;
-                            str2 = "";
-                            tLRPC$User = user;
-                        } else {
+                        if (!UserObject.isReplyUser(user)) {
                             if (user.bot) {
-                                formatUserStatus = LocaleController.getString("Bot", R.string.Bot);
+                                str4 = LocaleController.getString("Bot", R.string.Bot);
                             } else {
-                                formatUserStatus = LocaleController.formatUserStatus(this.currentAccount, user);
+                                str4 = LocaleController.formatUserStatus(this.currentAccount, user);
                             }
-                            tLRPC$User = user;
-                            str = userName;
-                            str2 = formatUserStatus;
                         }
+                        tLRPC$User = user;
+                        str = userName;
                     } else {
-                        str = null;
-                        str2 = "";
                         tLRPC$User = null;
+                        str = null;
                     }
+                    str2 = str4;
                 }
                 profileSearchCell.useSeparator = tLRPC$Dialog2 != null;
                 profileSearchCell.setData(tLRPC$User, null, str, str2, false, false);
@@ -937,13 +934,13 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
             dialogsEmptyCell.setType(dialogsEmptyType, this.isOnlySelect);
             int i6 = this.dialogsType;
             if (i6 != 7 && i6 != 8) {
-                dialogsEmptyCell.setOnUtyanAnimationEndListener(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsAdapter$$ExternalSyntheticLambda3
+                dialogsEmptyCell.setOnUtyanAnimationEndListener(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsAdapter$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         DialogsAdapter.this.lambda$onBindViewHolder$4();
                     }
                 });
-                dialogsEmptyCell.setOnUtyanAnimationUpdateListener(new Consumer() { // from class: org.telegram.ui.Adapters.DialogsAdapter$$ExternalSyntheticLambda1
+                dialogsEmptyCell.setOnUtyanAnimationUpdateListener(new Consumer() { // from class: org.telegram.ui.Adapters.DialogsAdapter$$ExternalSyntheticLambda2
                     @Override // androidx.core.util.Consumer
                     public final void accept(Object obj) {
                         DialogsAdapter.this.lambda$onBindViewHolder$5((Float) obj);
@@ -1198,6 +1195,9 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         int currentRequestCount;
         int networkRequestCount;
         boolean resumed;
+        private final int MAX_REQUEST_COUNT = 4;
+        private final int MAX_NETWORK_REQUEST_COUNT = 6;
+        private final int NETWORK_REQUESTS_RESET_TIME = 60000;
         HashSet<Long> dialogsReadyMap = new HashSet<>();
         HashSet<Long> preloadedErrorMap = new HashSet<>();
         HashSet<Long> loadingDialogs = new HashSet<>();
@@ -1253,7 +1253,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
             @Override // org.telegram.messenger.MessagesController.MessagesLoadedCallback
             public void onMessagesLoaded(final boolean z) {
                 final long j = this.val$dialog_id;
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsAdapter$DialogsPreloader$1$$ExternalSyntheticLambda1
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsAdapter$DialogsPreloader$1$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         DialogsAdapter.DialogsPreloader.1.this.lambda$onMessagesLoaded$0(z, j);
@@ -1284,7 +1284,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
             @Override // org.telegram.messenger.MessagesController.MessagesLoadedCallback
             public void onError() {
                 final long j = this.val$dialog_id;
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsAdapter$DialogsPreloader$1$$ExternalSyntheticLambda0
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsAdapter$DialogsPreloader$1$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         DialogsAdapter.DialogsPreloader.1.this.lambda$onError$1(j);
@@ -1476,7 +1476,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         int i4 = 0;
         this.isEmpty = false;
         if (size == 0 && this.parentFragment.isArchive()) {
-            this.itemInternals.add(new ItemInternal(this, 19));
+            this.itemInternals.add(new ItemInternal(19));
             return;
         }
         if (!this.hasHints && this.dialogsType == 0 && (i3 = this.folderId) == 0 && messagesController.isDialogsEndReached(i3) && !this.forceUpdatingContacts) {
@@ -1510,88 +1510,88 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
             TL_chatlists$TL_chatlists_chatlistUpdates chatlistFolderUpdates = messagesController.getChatlistFolderUpdates(dialogFilter.id);
             if (chatlistFolderUpdates != null && chatlistFolderUpdates.missing_peers.size() > 0) {
                 this.hasChatlistHint = true;
-                this.itemInternals.add(new ItemInternal(this, chatlistFolderUpdates));
+                this.itemInternals.add(new ItemInternal(chatlistFolderUpdates));
             }
         }
         if (this.requestPeerType != null) {
-            this.itemInternals.add(new ItemInternal(this, 15));
+            this.itemInternals.add(new ItemInternal(15));
         }
         if (this.collapsedView || this.isTransitionSupport) {
             for (int i7 = 0; i7 < dialogsArray.size(); i7++) {
                 if (this.dialogsType == 2 && (dialogsArray.get(i7) instanceof DialogsActivity.DialogsHeader)) {
-                    this.itemInternals.add(new ItemInternal(this, 14, dialogsArray.get(i7)));
+                    this.itemInternals.add(new ItemInternal(14, dialogsArray.get(i7)));
                 } else {
-                    this.itemInternals.add(new ItemInternal(this, 0, dialogsArray.get(i7)));
+                    this.itemInternals.add(new ItemInternal(0, dialogsArray.get(i7)));
                 }
             }
-            this.itemInternals.add(new ItemInternal(this, 10));
+            this.itemInternals.add(new ItemInternal(10));
             return;
         }
         if (this.dialogsCount == 0 && this.forceUpdatingContacts) {
             this.isEmpty = true;
             if (this.requestPeerType != null) {
-                this.itemInternals.add(new ItemInternal(this, 16));
+                this.itemInternals.add(new ItemInternal(16));
             } else {
-                this.itemInternals.add(new ItemInternal(this, 5, dialogsEmptyType()));
+                this.itemInternals.add(new ItemInternal(5, dialogsEmptyType()));
             }
-            this.itemInternals.add(new ItemInternal(this, 8));
-            this.itemInternals.add(new ItemInternal(this, 7));
-            this.itemInternals.add(new ItemInternal(this, 13));
+            this.itemInternals.add(new ItemInternal(8));
+            this.itemInternals.add(new ItemInternal(7));
+            this.itemInternals.add(new ItemInternal(13));
         } else {
             ArrayList<TLRPC$TL_contact> arrayList = this.onlineContacts;
             if (arrayList != null && !arrayList.isEmpty() && (i = this.dialogsType) != 7 && i != 8) {
                 if (this.dialogsCount == 0) {
                     this.isEmpty = true;
                     if (this.requestPeerType != null) {
-                        this.itemInternals.add(new ItemInternal(this, 16));
+                        this.itemInternals.add(new ItemInternal(16));
                     } else {
-                        this.itemInternals.add(new ItemInternal(this, 5, dialogsEmptyType()));
+                        this.itemInternals.add(new ItemInternal(5, dialogsEmptyType()));
                     }
-                    this.itemInternals.add(new ItemInternal(this, 8));
-                    this.itemInternals.add(new ItemInternal(this, 7));
+                    this.itemInternals.add(new ItemInternal(8));
+                    this.itemInternals.add(new ItemInternal(7));
                 } else {
                     for (int i8 = 0; i8 < dialogsArray.size(); i8++) {
-                        this.itemInternals.add(new ItemInternal(this, 0, dialogsArray.get(i8)));
+                        this.itemInternals.add(new ItemInternal(0, dialogsArray.get(i8)));
                     }
-                    this.itemInternals.add(new ItemInternal(this, 8));
-                    this.itemInternals.add(new ItemInternal(this, 7));
+                    this.itemInternals.add(new ItemInternal(8));
+                    this.itemInternals.add(new ItemInternal(7));
                 }
                 for (int i9 = 0; i9 < this.onlineContacts.size(); i9++) {
-                    this.itemInternals.add(new ItemInternal(this, 6, this.onlineContacts.get(i9)));
+                    this.itemInternals.add(new ItemInternal(6, this.onlineContacts.get(i9)));
                 }
-                this.itemInternals.add(new ItemInternal(this, 10));
+                this.itemInternals.add(new ItemInternal(10));
                 z = true;
                 tLRPC$RequestPeerType = this.requestPeerType;
                 if ((!(tLRPC$RequestPeerType instanceof TLRPC$TL_requestPeerTypeBroadcast) || (tLRPC$RequestPeerType instanceof TLRPC$TL_requestPeerTypeChat)) && this.dialogsCount > 0) {
-                    this.itemInternals.add(new ItemInternal(this, 12));
+                    this.itemInternals.add(new ItemInternal(12));
                 }
                 if (!z) {
                     for (int i10 = 0; i10 < dialogsArray.size(); i10++) {
                         if (this.dialogsType == 2 && (dialogsArray.get(i10) instanceof DialogsActivity.DialogsHeader)) {
-                            this.itemInternals.add(new ItemInternal(this, 14, dialogsArray.get(i10)));
+                            this.itemInternals.add(new ItemInternal(14, dialogsArray.get(i10)));
                         } else {
-                            this.itemInternals.add(new ItemInternal(this, 0, dialogsArray.get(i10)));
+                            this.itemInternals.add(new ItemInternal(0, dialogsArray.get(i10)));
                         }
                     }
                     if (!this.forceShowEmptyCell && (i2 = this.dialogsType) != 7 && i2 != 8 && !MessagesController.getInstance(this.currentAccount).isDialogsEndReached(this.folderId)) {
                         if (this.dialogsCount != 0) {
-                            this.itemInternals.add(new ItemInternal(this, 1));
+                            this.itemInternals.add(new ItemInternal(1));
                         }
-                        this.itemInternals.add(new ItemInternal(this, 10));
+                        this.itemInternals.add(new ItemInternal(10));
                     } else {
                         int i11 = this.dialogsCount;
                         if (i11 == 0) {
                             this.isEmpty = true;
                             if (this.requestPeerType != null) {
-                                this.itemInternals.add(new ItemInternal(this, 16));
+                                this.itemInternals.add(new ItemInternal(16));
                             } else {
-                                this.itemInternals.add(new ItemInternal(this, 5, dialogsEmptyType()));
+                                this.itemInternals.add(new ItemInternal(5, dialogsEmptyType()));
                             }
                         } else {
                             if (this.folderId == 0 && i11 > 10 && this.dialogsType == 0) {
-                                this.itemInternals.add(new ItemInternal(this, 11));
+                                this.itemInternals.add(new ItemInternal(11));
                             }
-                            this.itemInternals.add(new ItemInternal(this, 10));
+                            this.itemInternals.add(new ItemInternal(10));
                         }
                     }
                 }
@@ -1609,18 +1609,18 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                 return;
             } else if (this.hasHints) {
                 int size3 = MessagesController.getInstance(this.currentAccount).hintDialogs.size();
-                this.itemInternals.add(new ItemInternal(this, 2));
+                this.itemInternals.add(new ItemInternal(2));
                 for (int i12 = 0; i12 < size3; i12++) {
-                    this.itemInternals.add(new ItemInternal(this, 4, MessagesController.getInstance(this.currentAccount).hintDialogs.get(i12)));
+                    this.itemInternals.add(new ItemInternal(4, MessagesController.getInstance(this.currentAccount).hintDialogs.get(i12)));
                 }
-                this.itemInternals.add(new ItemInternal(this, 3));
+                this.itemInternals.add(new ItemInternal(3));
             } else {
                 int i13 = this.dialogsType;
                 if (i13 == 11 || i13 == 13) {
-                    this.itemInternals.add(new ItemInternal(this, 7));
-                    this.itemInternals.add(new ItemInternal(this, 12));
+                    this.itemInternals.add(new ItemInternal(7));
+                    this.itemInternals.add(new ItemInternal(12));
                 } else if (i13 == 12) {
-                    this.itemInternals.add(new ItemInternal(this, 7));
+                    this.itemInternals.add(new ItemInternal(7));
                 }
             }
         }
@@ -1628,7 +1628,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         tLRPC$RequestPeerType = this.requestPeerType;
         if (!(tLRPC$RequestPeerType instanceof TLRPC$TL_requestPeerTypeBroadcast)) {
         }
-        this.itemInternals.add(new ItemInternal(this, 12));
+        this.itemInternals.add(new ItemInternal(12));
         if (!z) {
         }
         if (messagesController.hiddenUndoChats.isEmpty()) {

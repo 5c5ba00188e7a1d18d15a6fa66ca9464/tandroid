@@ -6,7 +6,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 import com.google.android.gms.common.annotation.KeepName;
-import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import java.io.Closeable;
@@ -17,9 +16,11 @@ import java.util.HashMap;
 /* loaded from: classes.dex */
 public final class DataHolder extends AbstractSafeParcelable implements Closeable {
     public static final Parcelable.Creator<DataHolder> CREATOR = new zaf();
+    private static final Builder zaf = new zab(new String[0], null);
     final int zaa;
     Bundle zab;
     int[] zac;
+    int zad;
     private final String[] zag;
     private final CursorWindow[] zah;
     private final int zai;
@@ -30,16 +31,9 @@ public final class DataHolder extends AbstractSafeParcelable implements Closeabl
     /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
     /* loaded from: classes.dex */
     public static class Builder {
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public /* synthetic */ Builder(String[] strArr, String str, zac zacVar) {
-            String[] strArr2 = (String[]) Preconditions.checkNotNull(strArr);
-            new ArrayList();
-            new HashMap();
-        }
-    }
-
-    static {
-        new zab(new String[0], null);
+        private final String[] zaa;
+        private final ArrayList zab = new ArrayList();
+        private final HashMap zac = new HashMap();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -128,6 +122,7 @@ public final class DataHolder extends AbstractSafeParcelable implements Closeabl
         while (true) {
             CursorWindow[] cursorWindowArr = this.zah;
             if (i >= cursorWindowArr.length) {
+                this.zad = i3;
                 return;
             }
             this.zac[i] = i3;

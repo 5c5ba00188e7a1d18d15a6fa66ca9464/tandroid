@@ -155,7 +155,7 @@ public class ChannelBoostLayout extends FrameLayout {
                         frameLayout = new FixedHeightEmptyCell(ChannelBoostLayout.this.getContext(), 8);
                         break;
                     case 8:
-                        FrameLayout frameLayout2 = new FrameLayout(this, ChannelBoostLayout.this.getContext()) { // from class: org.telegram.ui.ChannelBoostLayout.1.3
+                        FrameLayout frameLayout2 = new FrameLayout(ChannelBoostLayout.this.getContext()) { // from class: org.telegram.ui.ChannelBoostLayout.1.3
                             @Override // android.widget.FrameLayout, android.view.View
                             protected void onMeasure(int i2, int i3) {
                                 super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(50.0f), 1073741824));
@@ -170,7 +170,7 @@ public class ChannelBoostLayout extends FrameLayout {
                         frameLayout = frameLayout2;
                         break;
                     case 9:
-                        ManageChatTextCell manageChatTextCell = new ManageChatTextCell(this, ChannelBoostLayout.this.getContext()) { // from class: org.telegram.ui.ChannelBoostLayout.1.4
+                        ManageChatTextCell manageChatTextCell = new ManageChatTextCell(ChannelBoostLayout.this.getContext()) { // from class: org.telegram.ui.ChannelBoostLayout.1.4
                             @Override // org.telegram.ui.Cells.ManageChatTextCell
                             protected int getFullHeight() {
                                 return AndroidUtilities.dp(50.0f);
@@ -336,7 +336,7 @@ public class ChannelBoostLayout extends FrameLayout {
         defaultItemAnimator.setSupportsChangeAnimations(false);
         defaultItemAnimator.setDelayAnimations(false);
         this.listView.setItemAnimator(defaultItemAnimator);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ChannelBoostLayout$$ExternalSyntheticLambda10
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ChannelBoostLayout$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i) {
                 ChannelBoostLayout.this.lambda$new$0(baseFragment, j, resourcesProvider, view, i);
@@ -407,59 +407,59 @@ public class ChannelBoostLayout extends FrameLayout {
         ArrayList<? extends AdapterWithDiffUtils.Item> arrayList = new ArrayList<>(this.items);
         this.items.clear();
         if (this.boostsStatus != null) {
-            this.items.add(new ItemInternal(this, 4, false));
-            this.items.add(new ItemInternal(this, 1, LocaleController.getString("StatisticOverview", R.string.StatisticOverview)));
-            this.items.add(new ItemInternal(this, 0, false));
-            this.items.add(new ItemInternal(this, 2, false));
+            this.items.add(new ItemInternal(4, false));
+            this.items.add(new ItemInternal(1, LocaleController.getString("StatisticOverview", R.string.StatisticOverview)));
+            this.items.add(new ItemInternal(0, false));
+            this.items.add(new ItemInternal(2, false));
             if (this.boostsStatus.prepaid_giveaways.size() > 0) {
-                this.items.add(new ItemInternal(this, 12, LocaleController.getString("BoostingPreparedGiveaways", R.string.BoostingPreparedGiveaways)));
+                this.items.add(new ItemInternal(12, LocaleController.getString("BoostingPreparedGiveaways", R.string.BoostingPreparedGiveaways)));
                 int i = 0;
                 while (i < this.boostsStatus.prepaid_giveaways.size()) {
-                    this.items.add(new ItemInternal(this, 11, this.boostsStatus.prepaid_giveaways.get(i), i == this.boostsStatus.prepaid_giveaways.size() - 1));
+                    this.items.add(new ItemInternal(11, this.boostsStatus.prepaid_giveaways.get(i), i == this.boostsStatus.prepaid_giveaways.size() - 1));
                     i++;
                 }
-                this.items.add(new ItemInternal(this, 6, LocaleController.getString("BoostingSelectPaidGiveaway", R.string.BoostingSelectPaidGiveaway)));
+                this.items.add(new ItemInternal(6, LocaleController.getString("BoostingSelectPaidGiveaway", R.string.BoostingSelectPaidGiveaway)));
             }
-            this.items.add(new ItemInternal(this, 13, LocaleController.getString("Boosters", R.string.Boosters)));
+            this.items.add(new ItemInternal(13, LocaleController.getString("Boosters", R.string.Boosters)));
             if (this.selectedTab == 0) {
                 if (this.boosters.isEmpty()) {
-                    this.items.add(new ItemInternal(this, 8, false));
-                    this.items.add(new ItemInternal(this, 2, false));
+                    this.items.add(new ItemInternal(8, false));
+                    this.items.add(new ItemInternal(2, false));
                 } else {
                     int i2 = 0;
                     while (i2 < this.boosters.size()) {
-                        this.items.add(new ItemInternal(this, 5, this.boosters.get(i2), i2 == this.boosters.size() - 1 && !this.hasBoostsNext, this.selectedTab));
+                        this.items.add(new ItemInternal(5, this.boosters.get(i2), i2 == this.boosters.size() - 1 && !this.hasBoostsNext, this.selectedTab));
                         i2++;
                     }
                     if (this.hasBoostsNext) {
-                        this.items.add(new ItemInternal(this, 9, true));
+                        this.items.add(new ItemInternal(9, true));
                     } else {
-                        this.items.add(new ItemInternal(this, 7, false));
+                        this.items.add(new ItemInternal(7, false));
                     }
-                    this.items.add(new ItemInternal(this, 6, LocaleController.getString(isChannel() ? R.string.BoostersInfoDescription : R.string.BoostersInfoGroupDescription)));
+                    this.items.add(new ItemInternal(6, LocaleController.getString(isChannel() ? R.string.BoostersInfoDescription : R.string.BoostersInfoGroupDescription)));
                 }
             } else if (this.gifts.isEmpty()) {
-                this.items.add(new ItemInternal(this, 8, false));
-                this.items.add(new ItemInternal(this, 2, false));
+                this.items.add(new ItemInternal(8, false));
+                this.items.add(new ItemInternal(2, false));
             } else {
                 int i3 = 0;
                 while (i3 < this.gifts.size()) {
-                    this.items.add(new ItemInternal(this, 5, this.gifts.get(i3), i3 == this.gifts.size() - 1 && !this.hasGiftsNext, this.selectedTab));
+                    this.items.add(new ItemInternal(5, this.gifts.get(i3), i3 == this.gifts.size() - 1 && !this.hasGiftsNext, this.selectedTab));
                     i3++;
                 }
                 if (this.hasGiftsNext) {
-                    this.items.add(new ItemInternal(this, 9, true));
+                    this.items.add(new ItemInternal(9, true));
                 } else {
-                    this.items.add(new ItemInternal(this, 7, false));
+                    this.items.add(new ItemInternal(7, false));
                 }
-                this.items.add(new ItemInternal(this, 6, LocaleController.getString(isChannel() ? R.string.BoostersInfoDescription : R.string.BoostersInfoGroupDescription)));
+                this.items.add(new ItemInternal(6, LocaleController.getString(isChannel() ? R.string.BoostersInfoDescription : R.string.BoostersInfoGroupDescription)));
             }
-            this.items.add(new ItemInternal(this, 1, LocaleController.getString("LinkForBoosting", R.string.LinkForBoosting)));
-            this.items.add(new ItemInternal(this, 3, this.boostsStatus.boost_url));
+            this.items.add(new ItemInternal(1, LocaleController.getString("LinkForBoosting", R.string.LinkForBoosting)));
+            this.items.add(new ItemInternal(3, this.boostsStatus.boost_url));
             if (MessagesController.getInstance(this.currentAccount).giveawayGiftsPurchaseAvailable && ChatObject.hasAdminRights(this.currentChat)) {
-                this.items.add(new ItemInternal(this, 6, LocaleController.getString(isChannel() ? R.string.BoostingShareThisLink : R.string.BoostingShareThisLinkGroup)));
-                this.items.add(new ItemInternal(this, 10, true));
-                this.items.add(new ItemInternal(this, 6, LocaleController.getString(isChannel() ? R.string.BoostingGetMoreBoosts : R.string.BoostingGetMoreBoostsGroup)));
+                this.items.add(new ItemInternal(6, LocaleController.getString(isChannel() ? R.string.BoostingShareThisLink : R.string.BoostingShareThisLinkGroup)));
+                this.items.add(new ItemInternal(10, true));
+                this.items.add(new ItemInternal(6, LocaleController.getString(isChannel() ? R.string.BoostingGetMoreBoosts : R.string.BoostingGetMoreBoostsGroup)));
             }
         }
         if (z) {
@@ -471,7 +471,7 @@ public class ChannelBoostLayout extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadStatistic$2(final TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelBoostLayout$$ExternalSyntheticLambda7
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelBoostLayout$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 ChannelBoostLayout.this.lambda$loadStatistic$1(tL_stories$TL_premium_boostsStatus);
@@ -480,7 +480,7 @@ public class ChannelBoostLayout extends FrameLayout {
     }
 
     private void loadStatistic() {
-        MessagesController.getInstance(this.currentAccount).getBoostsController().getBoostsStats(this.dialogId, new Consumer() { // from class: org.telegram.ui.ChannelBoostLayout$$ExternalSyntheticLambda0
+        MessagesController.getInstance(this.currentAccount).getBoostsController().getBoostsStats(this.dialogId, new Consumer() { // from class: org.telegram.ui.ChannelBoostLayout$$ExternalSyntheticLambda4
             @Override // com.google.android.exoplayer2.util.Consumer
             public final void accept(Object obj) {
                 ChannelBoostLayout.this.lambda$loadStatistic$2((TL_stories$TL_premium_boostsStatus) obj);
@@ -508,21 +508,21 @@ public class ChannelBoostLayout extends FrameLayout {
         }
         this.usersLoading = true;
         if (bool == null) {
-            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.ChannelBoostLayout$$ExternalSyntheticLambda4
+            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.ChannelBoostLayout$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChannelBoostLayout.this.lambda$loadUsers$4();
                 }
             });
         } else if (bool.booleanValue()) {
-            loadOnlyGifts(null, new Runnable() { // from class: org.telegram.ui.ChannelBoostLayout$$ExternalSyntheticLambda3
+            loadOnlyGifts(null, new Runnable() { // from class: org.telegram.ui.ChannelBoostLayout$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChannelBoostLayout.this.lambda$loadUsers$5();
                 }
             });
         } else {
-            loadOnlyBoosts(null, new Runnable() { // from class: org.telegram.ui.ChannelBoostLayout$$ExternalSyntheticLambda2
+            loadOnlyBoosts(null, new Runnable() { // from class: org.telegram.ui.ChannelBoostLayout$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChannelBoostLayout.this.lambda$loadUsers$6();
@@ -540,7 +540,7 @@ public class ChannelBoostLayout extends FrameLayout {
             countDownLatch.await();
         } catch (InterruptedException unused) {
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelBoostLayout$$ExternalSyntheticLambda1
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelBoostLayout$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 ChannelBoostLayout.this.lambda$loadUsers$3();
@@ -571,7 +571,7 @@ public class ChannelBoostLayout extends FrameLayout {
         tL_stories$TL_premium_getBoostsList.limit = this.limitBoosts;
         tL_stories$TL_premium_getBoostsList.offset = this.lastBoostsOffset;
         tL_stories$TL_premium_getBoostsList.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.dialogId);
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stories$TL_premium_getBoostsList, new RequestDelegate() { // from class: org.telegram.ui.ChannelBoostLayout$$ExternalSyntheticLambda8
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stories$TL_premium_getBoostsList, new RequestDelegate() { // from class: org.telegram.ui.ChannelBoostLayout$$ExternalSyntheticLambda7
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 ChannelBoostLayout.this.lambda$loadOnlyBoosts$8(countDownLatch, runnable, tLObject, tLRPC$TL_error);
@@ -581,7 +581,7 @@ public class ChannelBoostLayout extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadOnlyBoosts$8(final CountDownLatch countDownLatch, final Runnable runnable, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelBoostLayout$$ExternalSyntheticLambda6
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelBoostLayout$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
             public final void run() {
                 ChannelBoostLayout.this.lambda$loadOnlyBoosts$7(countDownLatch, tLObject, runnable);
@@ -632,7 +632,7 @@ public class ChannelBoostLayout extends FrameLayout {
         tL_stories$TL_premium_getBoostsList.gifts = true;
         tL_stories$TL_premium_getBoostsList.offset = this.lastGiftsOffset;
         tL_stories$TL_premium_getBoostsList.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.dialogId);
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stories$TL_premium_getBoostsList, new RequestDelegate() { // from class: org.telegram.ui.ChannelBoostLayout$$ExternalSyntheticLambda9
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stories$TL_premium_getBoostsList, new RequestDelegate() { // from class: org.telegram.ui.ChannelBoostLayout$$ExternalSyntheticLambda8
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 ChannelBoostLayout.this.lambda$loadOnlyGifts$10(countDownLatch, runnable, tLObject, tLRPC$TL_error);
@@ -642,7 +642,7 @@ public class ChannelBoostLayout extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadOnlyGifts$10(final CountDownLatch countDownLatch, final Runnable runnable, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelBoostLayout$$ExternalSyntheticLambda5
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelBoostLayout$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
                 ChannelBoostLayout.this.lambda$loadOnlyGifts$9(countDownLatch, tLObject, runnable);
@@ -696,25 +696,25 @@ public class ChannelBoostLayout extends FrameLayout {
         int tab;
         String title;
 
-        public ItemInternal(ChannelBoostLayout channelBoostLayout, int i, String str) {
+        public ItemInternal(int i, String str) {
             super(i, false);
             this.title = str;
         }
 
-        public ItemInternal(ChannelBoostLayout channelBoostLayout, int i, TL_stories$TL_boost tL_stories$TL_boost, boolean z, int i2) {
+        public ItemInternal(int i, TL_stories$TL_boost tL_stories$TL_boost, boolean z, int i2) {
             super(i, true);
             this.booster = tL_stories$TL_boost;
             this.isLast = z;
             this.tab = i2;
         }
 
-        public ItemInternal(ChannelBoostLayout channelBoostLayout, int i, TL_stories$TL_prepaidGiveaway tL_stories$TL_prepaidGiveaway, boolean z) {
+        public ItemInternal(int i, TL_stories$TL_prepaidGiveaway tL_stories$TL_prepaidGiveaway, boolean z) {
             super(i, true);
             this.prepaidGiveaway = tL_stories$TL_prepaidGiveaway;
             this.isLast = z;
         }
 
-        public ItemInternal(ChannelBoostLayout channelBoostLayout, int i, boolean z) {
+        public ItemInternal(int i, boolean z) {
             super(i, z);
         }
 
@@ -723,7 +723,7 @@ public class ChannelBoostLayout extends FrameLayout {
             if (this == obj) {
                 return true;
             }
-            if (obj == null || ItemInternal.class != obj.getClass()) {
+            if (obj == null || getClass() != obj.getClass()) {
                 return false;
             }
             ItemInternal itemInternal = (ItemInternal) obj;

@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.mediacodec;
 
 import android.annotation.TargetApi;
 import android.media.MediaCodec;
+import android.media.MediaCodec$CodecException;
 import android.media.MediaCrypto;
 import android.media.MediaCryptoException;
 import android.media.MediaFormat;
@@ -184,6 +185,7 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
     public static class DecoderInitializationException extends Exception {
         public final MediaCodecInfo codecInfo;
         public final String diagnosticInfo;
+        public final DecoderInitializationException fallbackDecoderInitializationException;
         public final String mimeType;
         public final boolean secureDecoderRequired;
 
@@ -201,6 +203,7 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
             this.secureDecoderRequired = z;
             this.codecInfo = mediaCodecInfo;
             this.diagnosticInfo = str3;
+            this.fallbackDecoderInitializationException = decoderInitializationException;
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -209,8 +212,10 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
         }
 
         private static String getDiagnosticInfoV21(Throwable th) {
-            if (th instanceof MediaCodec.CodecException) {
-                return ((MediaCodec.CodecException) th).getDiagnosticInfo();
+            String diagnosticInfo;
+            if (th instanceof MediaCodec$CodecException) {
+                diagnosticInfo = ((MediaCodec$CodecException) th).getDiagnosticInfo();
+                return diagnosticInfo;
             }
             return null;
         }
@@ -950,13 +955,13 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x0080, code lost:
-        if (drainAndUpdateCodecDrmSessionV23() == false) goto L34;
+    /* JADX WARN: Code restructure failed: missing block: B:38:0x0080, code lost:
+        if (drainAndUpdateCodecDrmSessionV23() == false) goto L35;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:56:0x00b2, code lost:
-        if (drainAndUpdateCodecDrmSessionV23() == false) goto L34;
+    /* JADX WARN: Code restructure failed: missing block: B:57:0x00b2, code lost:
+        if (drainAndUpdateCodecDrmSessionV23() == false) goto L35;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:68:0x00cf, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:69:0x00cf, code lost:
         r7 = 2;
      */
     /*
@@ -1129,6 +1134,10 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
     private boolean drainOutputBuffer(long j, long j2) throws ExoPlaybackException {
         boolean z;
         boolean processOutputBuffer;
+        MediaCodecAdapter mediaCodecAdapter;
+        ByteBuffer byteBuffer;
+        int i;
+        MediaCodec.BufferInfo bufferInfo;
         int dequeueOutputBufferIndex;
         if (!hasOutputBuffer()) {
             if (this.codecNeedsEosOutputExceptionWorkaround && this.codecReceivedEos) {
@@ -1158,8 +1167,8 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
                 this.codec.releaseOutputBuffer(dequeueOutputBufferIndex, false);
                 return true;
             } else {
-                MediaCodec.BufferInfo bufferInfo = this.outputBufferInfo;
-                if (bufferInfo.size == 0 && (bufferInfo.flags & 4) != 0) {
+                MediaCodec.BufferInfo bufferInfo2 = this.outputBufferInfo;
+                if (bufferInfo2.size == 0 && (bufferInfo2.flags & 4) != 0) {
                     processEndOfStream();
                     return false;
                 }
@@ -1168,16 +1177,16 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
                 this.outputBuffer = outputBuffer;
                 if (outputBuffer != null) {
                     outputBuffer.position(this.outputBufferInfo.offset);
-                    ByteBuffer byteBuffer = this.outputBuffer;
-                    MediaCodec.BufferInfo bufferInfo2 = this.outputBufferInfo;
-                    byteBuffer.limit(bufferInfo2.offset + bufferInfo2.size);
+                    ByteBuffer byteBuffer2 = this.outputBuffer;
+                    MediaCodec.BufferInfo bufferInfo3 = this.outputBufferInfo;
+                    byteBuffer2.limit(bufferInfo3.offset + bufferInfo3.size);
                 }
                 if (this.codecNeedsEosBufferTimestampWorkaround) {
-                    MediaCodec.BufferInfo bufferInfo3 = this.outputBufferInfo;
-                    if (bufferInfo3.presentationTimeUs == 0 && (bufferInfo3.flags & 4) != 0) {
+                    MediaCodec.BufferInfo bufferInfo4 = this.outputBufferInfo;
+                    if (bufferInfo4.presentationTimeUs == 0 && (bufferInfo4.flags & 4) != 0) {
                         long j3 = this.largestQueuedPresentationTimeUs;
                         if (j3 != -9223372036854775807L) {
-                            bufferInfo3.presentationTimeUs = j3;
+                            bufferInfo4.presentationTimeUs = j3;
                         }
                     }
                 }
@@ -1190,22 +1199,22 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
         }
         if (this.codecNeedsEosOutputExceptionWorkaround && this.codecReceivedEos) {
             try {
-                MediaCodecAdapter mediaCodecAdapter = this.codec;
-                ByteBuffer byteBuffer2 = this.outputBuffer;
-                int i = this.outputIndex;
-                MediaCodec.BufferInfo bufferInfo4 = this.outputBufferInfo;
+                mediaCodecAdapter = this.codec;
+                byteBuffer = this.outputBuffer;
+                i = this.outputIndex;
+                bufferInfo = this.outputBufferInfo;
                 z = false;
-                try {
-                    processOutputBuffer = processOutputBuffer(j, j2, mediaCodecAdapter, byteBuffer2, i, bufferInfo4.flags, 1, bufferInfo4.presentationTimeUs, this.isDecodeOnlyOutputBuffer, this.isLastOutputBuffer, this.outputFormat);
-                } catch (IllegalStateException unused2) {
-                    processEndOfStream();
-                    if (this.outputStreamEnded) {
-                        releaseCodec();
-                    }
-                    return z;
-                }
+            } catch (IllegalStateException unused2) {
+                z = false;
+            }
+            try {
+                processOutputBuffer = processOutputBuffer(j, j2, mediaCodecAdapter, byteBuffer, i, bufferInfo.flags, 1, bufferInfo.presentationTimeUs, this.isDecodeOnlyOutputBuffer, this.isLastOutputBuffer, this.outputFormat);
             } catch (IllegalStateException unused3) {
-                z = false;
+                processEndOfStream();
+                if (this.outputStreamEnded) {
+                    releaseCodec();
+                }
+                return z;
             }
         } else {
             z = false;
@@ -1406,12 +1415,14 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
     }
 
     private static boolean isMediaCodecExceptionV21(IllegalStateException illegalStateException) {
-        return illegalStateException instanceof MediaCodec.CodecException;
+        return illegalStateException instanceof MediaCodec$CodecException;
     }
 
     private static boolean isRecoverableMediaCodecExceptionV21(IllegalStateException illegalStateException) {
-        if (illegalStateException instanceof MediaCodec.CodecException) {
-            return ((MediaCodec.CodecException) illegalStateException).isRecoverable();
+        boolean isRecoverable;
+        if (illegalStateException instanceof MediaCodec$CodecException) {
+            isRecoverable = ((MediaCodec$CodecException) illegalStateException).isRecoverable();
+            return isRecoverable;
         }
         return false;
     }
@@ -1488,11 +1499,18 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
     /* loaded from: classes.dex */
     public static final class Api31 {
         public static void setLogSessionIdToMediaCodecFormat(MediaCodecAdapter.Configuration configuration, PlayerId playerId) {
-            LogSessionId logSessionId = playerId.getLogSessionId();
-            if (logSessionId.equals(LogSessionId.LOG_SESSION_ID_NONE)) {
+            LogSessionId logSessionId;
+            boolean equals;
+            String stringId;
+            LogSessionId logSessionId2 = playerId.getLogSessionId();
+            logSessionId = LogSessionId.LOG_SESSION_ID_NONE;
+            equals = logSessionId2.equals(logSessionId);
+            if (equals) {
                 return;
             }
-            configuration.mediaFormat.setString("log-session-id", logSessionId.getStringId());
+            MediaFormat mediaFormat = configuration.mediaFormat;
+            stringId = logSessionId2.getStringId();
+            mediaFormat.setString("log-session-id", stringId);
         }
     }
 }

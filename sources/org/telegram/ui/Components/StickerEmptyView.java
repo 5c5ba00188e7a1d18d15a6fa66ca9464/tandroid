@@ -90,7 +90,7 @@ public class StickerEmptyView extends FrameLayout implements NotificationCenter.
         linearLayout.setOrientation(1);
         BackupImageView backupImageView = new BackupImageView(context);
         this.stickerView = backupImageView;
-        backupImageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.StickerEmptyView$$ExternalSyntheticLambda1
+        backupImageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.StickerEmptyView$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 StickerEmptyView.this.lambda$new$0(view2);
@@ -145,14 +145,14 @@ public class StickerEmptyView extends FrameLayout implements NotificationCenter.
         textView.setGravity(17);
         textView.setTypeface(AndroidUtilities.bold());
         textView.setTextSize(1, 15.0f);
-        FrameLayout frameLayout = new FrameLayout(this, getContext()) { // from class: org.telegram.ui.Components.StickerEmptyView.3
+        FrameLayout frameLayout = new FrameLayout(getContext()) { // from class: org.telegram.ui.Components.StickerEmptyView.3
             @Override // android.view.ViewGroup
             public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
                 getParent().requestDisallowInterceptTouchEvent(true);
                 return true;
             }
         };
-        frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.StickerEmptyView$$ExternalSyntheticLambda0
+        frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.StickerEmptyView$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 AndroidUtilities.runOnUIThread(runnable, 100L);

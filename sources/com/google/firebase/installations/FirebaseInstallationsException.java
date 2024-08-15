@@ -3,6 +3,7 @@ package com.google.firebase.installations;
 import com.google.firebase.FirebaseException;
 /* loaded from: classes.dex */
 public class FirebaseInstallationsException extends FirebaseException {
+    private final Status status;
 
     /* loaded from: classes.dex */
     public enum Status {
@@ -12,9 +13,11 @@ public class FirebaseInstallationsException extends FirebaseException {
     }
 
     public FirebaseInstallationsException(Status status) {
+        this.status = status;
     }
 
     public FirebaseInstallationsException(String str, Status status) {
         super(str);
+        this.status = status;
     }
 }

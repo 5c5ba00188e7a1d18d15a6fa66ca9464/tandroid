@@ -203,9 +203,7 @@ public class ActionBarOverlayLayout extends ViewGroup implements DecorContentPar
     @Override // android.view.View
     @Deprecated
     public void onWindowSystemUiVisibilityChanged(int i) {
-        if (Build.VERSION.SDK_INT >= 16) {
-            super.onWindowSystemUiVisibilityChanged(i);
-        }
+        super.onWindowSystemUiVisibilityChanged(i);
         pullChildren();
         int i2 = this.mLastSystemUiVisibility ^ i;
         this.mLastSystemUiVisibility = i;

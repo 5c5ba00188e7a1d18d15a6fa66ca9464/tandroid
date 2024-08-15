@@ -67,7 +67,7 @@ public class ChatActivityMemberRequestsDelegate {
             this.pendingRequestsEnterOffset = -getViewHeight();
             View view = new View(this.fragment.getParentActivity());
             view.setBackground(Theme.getSelectorDrawable(false));
-            view.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Delegates.ChatActivityMemberRequestsDelegate$$ExternalSyntheticLambda2
+            view.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Delegates.ChatActivityMemberRequestsDelegate$$ExternalSyntheticLambda0
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
                     ChatActivityMemberRequestsDelegate.this.lambda$getView$0(view2);
@@ -77,7 +77,7 @@ public class ChatActivityMemberRequestsDelegate {
             LinearLayout linearLayout = new LinearLayout(this.fragment.getParentActivity());
             linearLayout.setOrientation(0);
             this.root.addView(linearLayout, LayoutHelper.createFrame(-1, -1.0f, 48, 0.0f, 0.0f, 36.0f, 0.0f));
-            AvatarsImageView avatarsImageView = new AvatarsImageView(this, this.fragment.getParentActivity(), false) { // from class: org.telegram.ui.Delegates.ChatActivityMemberRequestsDelegate.1
+            AvatarsImageView avatarsImageView = new AvatarsImageView(this.fragment.getParentActivity(), false) { // from class: org.telegram.ui.Delegates.ChatActivityMemberRequestsDelegate.1
                 /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.AvatarsImageView, android.view.View
                 public void onMeasure(int i, int i2) {
@@ -229,7 +229,7 @@ public class ChatActivityMemberRequestsDelegate {
             fArr[1] = z ? 1.0f : 0.0f;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
             this.pendingRequestsAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Delegates.ChatActivityMemberRequestsDelegate$$ExternalSyntheticLambda0
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Delegates.ChatActivityMemberRequestsDelegate$$ExternalSyntheticLambda2
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                     ChatActivityMemberRequestsDelegate.this.lambda$animatePendingRequests$2(valueAnimator2);

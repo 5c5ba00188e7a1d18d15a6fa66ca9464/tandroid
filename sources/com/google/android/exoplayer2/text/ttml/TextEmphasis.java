@@ -37,6 +37,9 @@ final class TextEmphasis {
     /* JADX WARN: Code restructure failed: missing block: B:35:0x0081, code lost:
         if (r9.equals("auto") != false) goto L22;
      */
+    /* JADX WARN: Code restructure failed: missing block: B:72:0x00fe, code lost:
+        if (r9.equals("dot") == false) goto L59;
+     */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -45,7 +48,8 @@ final class TextEmphasis {
         char c2;
         String str = (String) Iterables.getFirst(Sets.intersection(POSITION_VALUES, immutableSet), "outside");
         int hashCode = str.hashCode();
-        char c3 = 1;
+        char c3 = 0;
+        char c4 = 1;
         if (hashCode == -1392885889) {
             if (str.equals("before")) {
                 c = 2;
@@ -69,11 +73,11 @@ final class TextEmphasis {
             int hashCode2 = str2.hashCode();
             if (hashCode2 != 3005871) {
                 if (hashCode2 == 3387192 && str2.equals("none")) {
-                    c3 = 0;
+                    c4 = 0;
                 }
-                c3 = 65535;
+                c4 = 65535;
             }
-            return new TextEmphasis(c3 == 0 ? 0 : -1, 0, i);
+            return new TextEmphasis(c4 == 0 ? 0 : -1, 0, i);
         }
         Sets.SetView intersection2 = Sets.intersection(MARK_FILL_VALUES, immutableSet);
         Sets.SetView intersection3 = Sets.intersection(MARK_SHAPE_VALUES, immutableSet);
@@ -96,17 +100,21 @@ final class TextEmphasis {
         int i2 = c2 != 0 ? 1 : 2;
         String str4 = (String) Iterables.getFirst(intersection3, "circle");
         int hashCode4 = str4.hashCode();
-        if (hashCode4 != -1360216880) {
-            if (hashCode4 != -905816648) {
-                if (hashCode4 == 99657 && str4.equals("dot")) {
-                    r5 = 0;
-                }
-            } else if (str4.equals("sesame")) {
-                r5 = 1;
+        if (hashCode4 == -1360216880) {
+            if (str4.equals("circle")) {
+                c3 = 2;
             }
-        } else if (str4.equals("circle")) {
-            r5 = 2;
+            c3 = 65535;
+        } else if (hashCode4 != -905816648) {
+            if (hashCode4 == 99657) {
+            }
+            c3 = 65535;
+        } else {
+            if (str4.equals("sesame")) {
+                c3 = 1;
+            }
+            c3 = 65535;
         }
-        return new TextEmphasis(r5 != 0 ? r5 != 1 ? 1 : 3 : 2, i2, i);
+        return new TextEmphasis(c3 != 0 ? c3 != 1 ? 1 : 3 : 2, i2, i);
     }
 }

@@ -222,7 +222,7 @@ public class GroupCallRecordAlert extends BottomSheet {
             this.positiveButton.setForeground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), 0, ColorUtils.setAlphaComponent(Theme.getColor(i2), 76)));
         }
         this.positiveButton.setPadding(0, AndroidUtilities.dp(12.0f), 0, AndroidUtilities.dp(12.0f));
-        this.positiveButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.GroupCallRecordAlert$$ExternalSyntheticLambda0
+        this.positiveButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.GroupCallRecordAlert$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view3) {
                 GroupCallRecordAlert.this.lambda$new$0(view3);
@@ -253,7 +253,7 @@ public class GroupCallRecordAlert extends BottomSheet {
             } else {
                 this.titles[i3].setText(LocaleController.getString("VoipRecordLandscape", R.string.VoipRecordLandscape));
             }
-            this.titles[i3].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.GroupCallRecordAlert$$ExternalSyntheticLambda1
+            this.titles[i3].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.GroupCallRecordAlert$$ExternalSyntheticLambda2
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view3) {
                     GroupCallRecordAlert.this.lambda$new$1(i3, view3);

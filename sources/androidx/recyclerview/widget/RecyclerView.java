@@ -61,10 +61,10 @@ import org.telegram.tgnet.ConnectionsManager;
 public class RecyclerView extends ViewGroup implements NestedScrollingChild {
     static final boolean ALLOW_SIZE_IN_UNSPECIFIED_SPEC;
     static final boolean ALLOW_THREAD_GAP_WORK;
-    private static final int[] CLIP_TO_PADDING_ATTR = {16842987};
     private static final boolean FORCE_ABS_FOCUS_SEARCH_DIRECTION;
     static final boolean FORCE_INVALIDATE_DISPLAY_LIST;
     private static final boolean IGNORE_DETACHED_FOCUSED_CHILD;
+    private static final Class<?>[] LAYOUT_MANAGER_CONSTRUCTOR_SIGNATURE;
     static final boolean POST_UPDATES_ON_ANIMATION;
     static final Interpolator sQuinticInterpolator;
     private int bottomGlowOffset;
@@ -111,7 +111,6 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
     private final int[] mNestedOffsets;
     private final RecyclerViewDataObserver mObserver;
     private List<OnChildAttachStateChangeListener> mOnChildAttachStateListeners;
-    private OnFlingListener mOnFlingListener;
     private final ArrayList<OnItemTouchListener> mOnItemTouchListeners;
     final List<ViewHolder> mPendingAccessibilityImportanceChange;
     private SavedState mPendingSavedState;
@@ -119,7 +118,6 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
     GapWorker.LayoutPrefetchRegistryImpl mPrefetchRegistry;
     private boolean mPreserveFocusAfterLayout;
     public final Recycler mRecycler;
-    RecyclerListener mRecyclerListener;
     final int[] mReusableIntPair;
     private EdgeEffect mRightGlow;
     private float mScaledHorizontalScrollFactor;
@@ -142,6 +140,8 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
     private final ViewInfoStore.ProcessCallback mViewInfoProcessCallback;
     final ViewInfoStore mViewInfoStore;
     private int topGlowOffset;
+    private static final int[] NESTED_SCROLLING_ATTRS = {16843830};
+    private static final int[] CLIP_TO_PADDING_ATTR = {16842987};
 
     /* loaded from: classes.dex */
     public interface ChildDrawingOrderCallback {
@@ -179,7 +179,6 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
 
     /* loaded from: classes.dex */
     public interface RecyclerListener {
-        void onViewRecycled(ViewHolder viewHolder);
     }
 
     /* loaded from: classes.dex */
@@ -189,6 +188,10 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
     @Override // android.view.ViewGroup, android.view.View
     public CharSequence getAccessibilityClassName() {
         return "androidx.recyclerview.widget.RecyclerView";
+    }
+
+    public OnFlingListener getOnFlingListener() {
+        return null;
     }
 
     public void onChildAttachedToWindow(View view) {
@@ -206,14 +209,19 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
     public void setOnFlingListener(OnFlingListener onFlingListener) {
     }
 
+    public void setRecyclerListener(RecyclerListener recyclerListener) {
+    }
+
     static {
         int i = Build.VERSION.SDK_INT;
-        FORCE_INVALIDATE_DISPLAY_LIST = i == 18 || i == 19 || i == 20;
+        FORCE_INVALIDATE_DISPLAY_LIST = i == 19 || i == 20;
         ALLOW_SIZE_IN_UNSPECIFIED_SPEC = i >= 23;
-        POST_UPDATES_ON_ANIMATION = i >= 16;
+        POST_UPDATES_ON_ANIMATION = true;
         ALLOW_THREAD_GAP_WORK = i >= 21;
-        FORCE_ABS_FOCUS_SEARCH_DIRECTION = i <= 15;
-        IGNORE_DETACHED_FOCUSED_CHILD = i <= 15;
+        FORCE_ABS_FOCUS_SEARCH_DIRECTION = false;
+        IGNORE_DETACHED_FOCUSED_CHILD = false;
+        Class<?> cls = Integer.TYPE;
+        LAYOUT_MANAGER_CONSTRUCTOR_SIGNATURE = new Class[]{Context.class, AttributeSet.class, cls, cls};
         sQuinticInterpolator = new Interpolator() { // from class: androidx.recyclerview.widget.RecyclerView.3
             @Override // android.animation.TimeInterpolator
             public float getInterpolation(float f) {
@@ -705,10 +713,6 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
         return this.mAdapter;
     }
 
-    public void setRecyclerListener(RecyclerListener recyclerListener) {
-        this.mRecyclerListener = recyclerListener;
-    }
-
     @Override // android.view.View
     public int getBaseline() {
         LayoutManager layoutManager = this.mLayout;
@@ -767,10 +771,6 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
         }
         this.mRecycler.updateViewCacheSize();
         requestLayout();
-    }
-
-    public OnFlingListener getOnFlingListener() {
-        return this.mOnFlingListener;
     }
 
     @Override // android.view.View
@@ -1089,15 +1089,18 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
         int i10 = i6 - iArr4[1];
         int i11 = this.mLastTouchX;
         int[] iArr5 = this.mScrollOffset;
-        this.mLastTouchX = i11 - iArr5[0];
-        this.mLastTouchY -= iArr5[1];
+        int i12 = iArr5[0];
+        this.mLastTouchX = i11 - i12;
+        int i13 = this.mLastTouchY;
+        int i14 = iArr5[1];
+        this.mLastTouchY = i13 - i14;
         if (motionEvent != null) {
-            motionEvent.offsetLocation(iArr5[0], iArr5[1]);
+            motionEvent.offsetLocation(i12, i14);
         }
         int[] iArr6 = this.mNestedOffsets;
-        int i12 = iArr6[0];
+        int i15 = iArr6[0];
         int[] iArr7 = this.mScrollOffset;
-        iArr6[0] = i12 + iArr7[0];
+        iArr6[0] = i15 + iArr7[0];
         iArr6[1] = iArr6[1] + iArr7[1];
         if (getOverScrollMode() != 2) {
             if (motionEvent != null && !MotionEventCompat.isFromSource(motionEvent, 8194)) {
@@ -1710,8 +1713,15 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
+    /* JADX WARN: Code restructure failed: missing block: B:19:0x004b, code lost:
+        if (r1 >= 30.0f) goto L17;
+     */
     @Override // android.view.ViewGroup, android.view.View
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void onAttachedToWindow() {
+        float f;
         super.onAttachedToWindow();
         this.mLayoutOrScrollCounter = 0;
         boolean z = true;
@@ -1729,13 +1739,10 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
             if (gapWorker == null) {
                 this.mGapWorker = new GapWorker();
                 Display display = ViewCompat.getDisplay(this);
-                float f = 60.0f;
                 if (!isInEditMode() && display != null) {
-                    float refreshRate = display.getRefreshRate();
-                    if (refreshRate >= 30.0f) {
-                        f = refreshRate;
-                    }
+                    f = display.getRefreshRate();
                 }
+                f = 60.0f;
                 GapWorker gapWorker2 = this.mGapWorker;
                 gapWorker2.mFrameIntervalNs = 1.0E9f / f;
                 threadLocal.set(gapWorker2);
@@ -2469,11 +2476,11 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
         if (getScrollState() == 2) {
             OverScroller overScroller = this.mViewFlinger.mOverScroller;
             state.mRemainingScrollHorizontal = overScroller.getFinalX() - overScroller.getCurrX();
-            overScroller.getFinalY();
-            overScroller.getCurrY();
+            state.mRemainingScrollVertical = overScroller.getFinalY() - overScroller.getCurrY();
             return;
         }
         state.mRemainingScrollHorizontal = 0;
+        state.mRemainingScrollVertical = 0;
     }
 
     private void dispatchLayoutStep1() {
@@ -4261,10 +4268,7 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
         }
 
         void dispatchViewRecycled(ViewHolder viewHolder) {
-            RecyclerListener recyclerListener = RecyclerView.this.mRecyclerListener;
-            if (recyclerListener != null) {
-                recyclerListener.onViewRecycled(viewHolder);
-            }
+            RecyclerView.this.getClass();
             Adapter adapter = RecyclerView.this.mAdapter;
             if (adapter != null) {
                 adapter.onViewRecycled(viewHolder);
@@ -4582,6 +4586,7 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
         private int mHeightMode;
         ViewBoundsCheck mHorizontalBoundCheck;
         private final ViewBoundsCheck.Callback mHorizontalBoundCheckCallback;
+        boolean mIsAttachedToWindow;
         private boolean mItemPrefetchEnabled;
         private boolean mMeasurementCacheEnabled;
         int mPrefetchMaxCountObserved;
@@ -4786,6 +4791,7 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
             this.mHorizontalBoundCheck = new ViewBoundsCheck(callback);
             this.mVerticalBoundCheck = new ViewBoundsCheck(callback2);
             this.mRequestedSimpleAnimations = false;
+            this.mIsAttachedToWindow = false;
             this.mAutoMeasure = false;
             this.mMeasurementCacheEnabled = true;
             this.mItemPrefetchEnabled = true;
@@ -4894,10 +4900,12 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
         }
 
         void dispatchAttachedToWindow(RecyclerView recyclerView) {
+            this.mIsAttachedToWindow = true;
             onAttachedToWindow(recyclerView);
         }
 
         void dispatchDetachedFromWindow(RecyclerView recyclerView, Recycler recycler) {
+            this.mIsAttachedToWindow = false;
             onDetachedFromWindow(recyclerView, recycler);
         }
 
@@ -6511,6 +6519,7 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
         int mFocusedItemPosition;
         int mFocusedSubChildId;
         int mRemainingScrollHorizontal;
+        int mRemainingScrollVertical;
         int mTargetPosition = -1;
         int mPreviousLayoutItemCount = 0;
         int mDeletedInvisibleItemCountSincePreviousLayout = 0;
@@ -6598,6 +6607,7 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
         private long mAddDelay = 0;
         private long mRemoveDelay = 0;
         private long mMoveDelay = 0;
+        private long mDelay = 0;
         private long mChangeDelay = 0;
 
         /* loaded from: classes.dex */

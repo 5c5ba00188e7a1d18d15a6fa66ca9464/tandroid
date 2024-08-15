@@ -7,12 +7,15 @@ import com.microsoft.appcenter.ingestion.models.Log;
 import com.microsoft.appcenter.ingestion.models.one.PartAUtils;
 import com.microsoft.appcenter.utils.storage.SharedPreferencesManager;
 import java.util.HashMap;
+import java.util.Map;
 /* loaded from: classes.dex */
 public class AnalyticsTransmissionTarget {
+    private Channel mChannel;
     Context mContext;
     final AnalyticsTransmissionTarget mParentTarget;
-    private final PropertyConfigurator mPropertyConfigurator;
     private final String mTransmissionTargetToken;
+    private final Map<String, AnalyticsTransmissionTarget> mChildrenTargets = new HashMap();
+    private final PropertyConfigurator mPropertyConfigurator = new PropertyConfigurator(this);
 
     /* JADX INFO: Access modifiers changed from: private */
     public static void addTicketToLog(Log log) {
@@ -20,15 +23,14 @@ public class AnalyticsTransmissionTarget {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public AnalyticsTransmissionTarget(String str, AnalyticsTransmissionTarget analyticsTransmissionTarget) {
-        new HashMap();
         this.mTransmissionTargetToken = str;
         this.mParentTarget = analyticsTransmissionTarget;
-        this.mPropertyConfigurator = new PropertyConfigurator(this);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public void initInBackground(Context context, Channel channel) {
         this.mContext = context;
+        this.mChannel = channel;
         channel.addListener(this.mPropertyConfigurator);
     }
 

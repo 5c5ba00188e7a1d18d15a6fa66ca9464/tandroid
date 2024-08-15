@@ -1,26 +1,20 @@
 package j$.util.stream;
-/* JADX INFO: Access modifiers changed from: package-private */
+
+import j$.util.function.Consumer;
 /* loaded from: classes2.dex */
-public abstract class d1 extends e1 {
+final class d1 extends f1 implements j$.util.H {
     /* JADX INFO: Access modifiers changed from: package-private */
-    public d1(c cVar, e4 e4Var, int i) {
-        super(cVar, i);
+    public d1(A0 a0) {
+        super(a0);
     }
 
-    @Override // j$.util.stream.c
-    final boolean B0() {
-        return false;
+    @Override // j$.util.Q
+    public final /* synthetic */ boolean a(Consumer consumer) {
+        return j$.util.a.p(this, consumer);
     }
 
-    @Override // j$.util.stream.c, j$.util.stream.g
-    public /* bridge */ /* synthetic */ LongStream parallel() {
-        parallel();
-        return this;
-    }
-
-    @Override // j$.util.stream.c, j$.util.stream.g
-    public /* bridge */ /* synthetic */ LongStream sequential() {
-        sequential();
-        return this;
+    @Override // j$.util.Q
+    public final /* synthetic */ void forEachRemaining(Consumer consumer) {
+        j$.util.a.g(this, consumer);
     }
 }

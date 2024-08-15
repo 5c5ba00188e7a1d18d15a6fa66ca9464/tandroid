@@ -6,17 +6,16 @@ import j$.util.function.Function;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 /* loaded from: classes2.dex */
 public interface Map<K, V> {
 
     /* loaded from: classes2.dex */
-    public final /* synthetic */ class -CC {
+    public final /* synthetic */ class -CC<K, V> {
         /* JADX WARN: Multi-variable type inference failed */
         public static Object $default$compute(java.util.Map map, Object obj, BiFunction biFunction) {
-            Objects.requireNonNull(biFunction);
+            biFunction.getClass();
             Object obj2 = map.get(obj);
             Object apply = biFunction.apply(obj, obj2);
             if (apply != null) {
@@ -33,7 +32,7 @@ public interface Map<K, V> {
         /* JADX WARN: Multi-variable type inference failed */
         public static Object $default$computeIfAbsent(java.util.Map map, Object obj, Function function) {
             Object apply;
-            Objects.requireNonNull(function);
+            function.getClass();
             Object obj2 = map.get(obj);
             if (obj2 != null || (apply = function.apply(obj)) == null) {
                 return obj2;
@@ -44,7 +43,7 @@ public interface Map<K, V> {
 
         /* JADX WARN: Multi-variable type inference failed */
         public static Object $default$computeIfPresent(java.util.Map map, Object obj, BiFunction biFunction) {
-            Objects.requireNonNull(biFunction);
+            biFunction.getClass();
             Object obj2 = map.get(obj);
             if (obj2 != null) {
                 Object apply = biFunction.apply(obj, obj2);
@@ -58,7 +57,7 @@ public interface Map<K, V> {
         }
 
         public static void $default$forEach(java.util.Map map, BiConsumer biConsumer) {
-            Objects.requireNonNull(biConsumer);
+            biConsumer.getClass();
             for (Map.Entry<K, V> entry : map.entrySet()) {
                 try {
                     biConsumer.accept(entry.getKey(), entry.getValue());
@@ -70,8 +69,8 @@ public interface Map<K, V> {
 
         /* JADX WARN: Multi-variable type inference failed */
         public static Object $default$merge(java.util.Map map, Object obj, Object obj2, BiFunction biFunction) {
-            Objects.requireNonNull(biFunction);
-            Objects.requireNonNull(obj2);
+            biFunction.getClass();
+            obj2.getClass();
             Object obj3 = map.get(obj);
             if (obj3 != null) {
                 obj2 = biFunction.apply(obj3, obj2);
@@ -91,7 +90,7 @@ public interface Map<K, V> {
 
         public static boolean $default$remove(java.util.Map map, Object obj, Object obj2) {
             Object obj3 = map.get(obj);
-            if (a.u(obj3, obj2)) {
+            if (a.r(obj3, obj2)) {
                 if (obj3 != null || map.containsKey(obj)) {
                     map.remove(obj);
                     return true;
@@ -108,7 +107,7 @@ public interface Map<K, V> {
 
         public static boolean $default$replace(java.util.Map map, Object obj, Object obj2, Object obj3) {
             Object obj4 = map.get(obj);
-            if (a.u(obj4, obj2)) {
+            if (a.r(obj4, obj2)) {
                 if (obj4 != null || map.containsKey(obj)) {
                     map.put(obj, obj3);
                     return true;
@@ -119,7 +118,7 @@ public interface Map<K, V> {
         }
 
         public static void $default$replaceAll(java.util.Map map, BiFunction biFunction) {
-            Objects.requireNonNull(biFunction);
+            biFunction.getClass();
             for (Map.Entry<K, V> entry : map.entrySet()) {
                 try {
                     try {
@@ -144,7 +143,7 @@ public interface Map<K, V> {
             if (map instanceof Map) {
                 ((Map) map).forEach(biConsumer);
             } else if (map instanceof ConcurrentMap) {
-                j$.lang.d.a((ConcurrentMap) map, biConsumer);
+                j$.time.a.a((ConcurrentMap) map, biConsumer);
             } else {
                 -CC.$default$forEach(map, biConsumer);
             }

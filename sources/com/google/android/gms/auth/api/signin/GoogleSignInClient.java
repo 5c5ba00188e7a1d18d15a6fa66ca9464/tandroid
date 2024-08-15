@@ -14,12 +14,8 @@ import com.google.android.gms.tasks.Task;
 /* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
 /* loaded from: classes.dex */
 public class GoogleSignInClient extends GoogleApi<GoogleSignInOptions> {
-    static int zba;
-
-    static {
-        new zbb(null);
-        zba = 1;
-    }
+    private static final zbb zbb = new zbb(null);
+    static int zba = 1;
 
     private final synchronized int zba() {
         int i;
@@ -29,14 +25,14 @@ public class GoogleSignInClient extends GoogleApi<GoogleSignInOptions> {
             GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
             int isGooglePlayServicesAvailable = googleApiAvailability.isGooglePlayServicesAvailable(applicationContext, GooglePlayServicesUtilLight.GOOGLE_PLAY_SERVICES_VERSION_CODE);
             if (isGooglePlayServicesAvailable == 0) {
-                zba = 4;
                 i = 4;
+                zba = 4;
             } else if (googleApiAvailability.getErrorResolutionIntent(applicationContext, isGooglePlayServicesAvailable, null) != null || DynamiteModule.getLocalVersion(applicationContext, "com.google.android.gms.auth.api.fallback") == 0) {
-                zba = 2;
                 i = 2;
+                zba = 2;
             } else {
-                zba = 3;
                 i = 3;
+                zba = 3;
             }
         }
         return i;

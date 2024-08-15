@@ -50,7 +50,7 @@ import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.CounterView;
-import org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda3;
+import org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda8;
 import org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Components.RecyclerListView;
@@ -226,7 +226,6 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
         super(context, sizeNotifierFrameLayout);
         this.oldItems = new ArrayList<>();
         this.items = new ArrayList<>();
-        this.showWithCut = true;
         this.showWithCut = z;
         this.currentAccount = i;
         this.fragment = baseFragment;
@@ -258,13 +257,13 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
         recyclerListView.setAdapter(adapter);
         recyclerListView.setOverScrollMode(2);
         addView(recyclerListView, LayoutHelper.createFrame(-1, 48.0f));
-        recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda12
+        recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda3
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i2) {
                 SearchTagsList.this.lambda$new$2(i, baseFragment, view, i2);
             }
         });
-        recyclerListView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda13
+        recyclerListView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda4
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
             public final boolean onItemClick(View view, int i2) {
                 boolean lambda$new$4;
@@ -272,7 +271,7 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
                 return lambda$new$4;
             }
         });
-        DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator(this) { // from class: org.telegram.ui.Components.SearchTagsList.3
+        DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator() { // from class: org.telegram.ui.Components.SearchTagsList.3
             @Override // androidx.recyclerview.widget.SimpleItemAnimator, androidx.recyclerview.widget.RecyclerView.ItemAnimator
             public boolean canReuseUpdatedViewHolder(RecyclerView.ViewHolder viewHolder) {
                 return true;
@@ -334,7 +333,7 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
                 }
                 i3++;
             }
-            this.listView.forAllChild(new Consumer() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda9
+            this.listView.forAllChild(new Consumer() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda5
                 @Override // androidx.core.util.Consumer
                 public final void accept(Object obj) {
                     SearchTagsList.lambda$new$1((View) obj);
@@ -370,7 +369,7 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
             reactionButton.startAnimation();
         }
         final Item item = this.items.get(i2);
-        ItemOptions.makeOptions(baseFragment, view).setGravity(3).add(R.drawable.menu_tag_rename, LocaleController.getString(TextUtils.isEmpty(item.name) ? R.string.SavedTagLabelTag : R.string.SavedTagRenameTag), new Runnable() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda11
+        ItemOptions.makeOptions(baseFragment, view).setGravity(3).add(R.drawable.menu_tag_rename, LocaleController.getString(TextUtils.isEmpty(item.name) ? R.string.SavedTagLabelTag : R.string.SavedTagRenameTag), new Runnable() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 SearchTagsList.this.lambda$new$3(i, item, resourcesProvider);
@@ -411,9 +410,8 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r0v14, types: [android.app.Dialog] */
-    /* JADX WARN: Type inference failed for: r0v15, types: [android.app.Dialog] */
+    /* JADX WARN: Type inference failed for: r0v15, types: [org.telegram.ui.ActionBar.AlertDialog] */
     /* JADX WARN: Type inference failed for: r0v16, types: [org.telegram.ui.ActionBar.AlertDialog] */
-    /* JADX WARN: Type inference failed for: r0v17, types: [org.telegram.ui.ActionBar.AlertDialog] */
     /* JADX WARN: Type inference failed for: r14v0, types: [org.telegram.ui.ActionBar.AlertDialog[]] */
     /* JADX WARN: Type inference failed for: r15v0, types: [org.telegram.ui.ActionBar.AlertDialog$Builder] */
     /* JADX WARN: Type inference failed for: r1v17 */
@@ -496,9 +494,9 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
                         return true;
                     }
                     MessagesController.getInstance(i).renameSavedReactionTag(ReactionsLayoutInBubble.VisibleReaction.fromTL(tLRPC$Reaction), obj);
-                    AlertDialog[] alertDialogArr = r14;
-                    if (alertDialogArr[0] != null) {
-                        alertDialogArr[0].dismiss();
+                    AlertDialog alertDialog = r14[0];
+                    if (alertDialog != null) {
+                        alertDialog.dismiss();
                     }
                     if (r14[0] == SearchTagsList.currentDialog) {
                         AlertDialog unused = SearchTagsList.currentDialog = null;
@@ -539,13 +537,13 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
         linearLayout.addView(editTextBoldCursor, LayoutHelper.createLinear(-1, -2, 24.0f, 0.0f, 24.0f, 10.0f));
         r15.setView(linearLayout);
         r15.setWidth(AndroidUtilities.dp(292.0f));
-        r15.setPositiveButton(LocaleController.getString(R.string.Save), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda1
+        r15.setPositiveButton(LocaleController.getString(R.string.Save), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda8
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i3) {
                 SearchTagsList.lambda$openRenameTagAlert$5(EditTextBoldCursor.this, i, tLRPC$Reaction, dialogInterface, i3);
             }
         });
-        r15.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda2
+        r15.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda9
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i3) {
                 dialogInterface.dismiss();
@@ -555,13 +553,13 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
             AlertDialog create = r15.create();
             currentDialog = create;
             r14[0] = create;
-            create.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda3
+            create.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda10
                 @Override // android.content.DialogInterface.OnDismissListener
                 public final void onDismiss(DialogInterface dialogInterface) {
                     SearchTagsList.lambda$openRenameTagAlert$7(currentFocus, dialogInterface);
                 }
             });
-            currentDialog.setOnShowListener(new DialogInterface.OnShowListener() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda6
+            currentDialog.setOnShowListener(new DialogInterface.OnShowListener() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda11
                 @Override // android.content.DialogInterface.OnShowListener
                 public final void onShow(DialogInterface dialogInterface) {
                     SearchTagsList.lambda$openRenameTagAlert$8(EditTextBoldCursor.this, dialogInterface);
@@ -570,15 +568,16 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
             currentDialog.showDelayed(250L);
             r1 = 0;
         } else {
+            AlertDialog create2 = r15.create();
             r1 = 0;
-            r14[0] = r15.create();
-            r14[0].setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda4
+            r14[0] = create2;
+            create2.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda12
                 @Override // android.content.DialogInterface.OnDismissListener
                 public final void onDismiss(DialogInterface dialogInterface) {
                     AndroidUtilities.hideKeyboard(EditTextBoldCursor.this);
                 }
             });
-            r14[0].setOnShowListener(new DialogInterface.OnShowListener() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda5
+            r14[0].setOnShowListener(new DialogInterface.OnShowListener() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda13
                 @Override // android.content.DialogInterface.OnShowListener
                 public final void onShow(DialogInterface dialogInterface) {
                     SearchTagsList.lambda$openRenameTagAlert$10(EditTextBoldCursor.this, dialogInterface);
@@ -624,7 +623,7 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
     }
 
     public void clear() {
-        this.listView.forAllChild(new Consumer() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda8
+        this.listView.forAllChild(new Consumer() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda1
             @Override // androidx.core.util.Consumer
             public final void accept(Object obj) {
                 SearchTagsList.lambda$clear$11((View) obj);
@@ -659,7 +658,7 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
             }
         } else if (i == NotificationCenter.emojiLoaded) {
             invalidate();
-            AndroidUtilities.forEachViews((RecyclerView) this.listView, (com.google.android.exoplayer2.util.Consumer<View>) FloatingDebugView$$ExternalSyntheticLambda3.INSTANCE);
+            AndroidUtilities.forEachViews((RecyclerView) this.listView, (com.google.android.exoplayer2.util.Consumer<View>) new FloatingDebugView$$ExternalSyntheticLambda8());
         }
     }
 
@@ -735,7 +734,7 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
         LinearLayout linearLayout = this.premiumLayout;
         if (linearLayout != null) {
             if (z) {
-                linearLayout.animate().alpha(0.0f).withEndAction(new Runnable() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda10
+                linearLayout.animate().alpha(0.0f).withEndAction(new Runnable() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
                         SearchTagsList.this.lambda$updateTags$12();

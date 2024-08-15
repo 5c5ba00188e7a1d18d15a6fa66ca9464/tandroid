@@ -79,7 +79,7 @@ public final class BundleKt {
                 bundle.putSerializable(component1, (Serializable) component2);
             } else {
                 int i = Build.VERSION.SDK_INT;
-                if (i >= 18 && (component2 instanceof IBinder)) {
+                if (component2 instanceof IBinder) {
                     BundleApi18ImplKt.putBinder(bundle, component1, (IBinder) component2);
                 } else if (i >= 21 && (component2 instanceof Size)) {
                     BundleApi21ImplKt.putSize(bundle, component1, (Size) component2);

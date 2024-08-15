@@ -19,6 +19,7 @@ public class MediaHeaderBox extends AbstractFullBox {
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_3 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_4 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_5 = null;
+    private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_6 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_7 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_8 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_9 = null;
@@ -41,7 +42,7 @@ public class MediaHeaderBox extends AbstractFullBox {
         ajc$tjp_3 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "getDuration", "com.coremedia.iso.boxes.MediaHeaderBox", "", "", "", "long"), 58);
         ajc$tjp_4 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "getLanguage", "com.coremedia.iso.boxes.MediaHeaderBox", "", "", "", "java.lang.String"), 62);
         ajc$tjp_5 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setCreationTime", "com.coremedia.iso.boxes.MediaHeaderBox", "java.util.Date", "creationTime", "", "void"), 79);
-        factory.makeSJP("method-execution", factory.makeMethodSig("1", "setModificationTime", "com.coremedia.iso.boxes.MediaHeaderBox", "java.util.Date", "modificationTime", "", "void"), 83);
+        ajc$tjp_6 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setModificationTime", "com.coremedia.iso.boxes.MediaHeaderBox", "java.util.Date", "modificationTime", "", "void"), 83);
         ajc$tjp_7 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setTimescale", "com.coremedia.iso.boxes.MediaHeaderBox", "long", "timescale", "", "void"), 87);
         ajc$tjp_8 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setDuration", "com.coremedia.iso.boxes.MediaHeaderBox", "long", "duration", "", "void"), 91);
         ajc$tjp_9 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setLanguage", "com.coremedia.iso.boxes.MediaHeaderBox", "java.lang.String", "language", "", "void"), 95);

@@ -29,6 +29,7 @@ public class RLottieImageView extends ImageView {
     private Integer layerNum;
     private boolean onlyLastFrame;
     private boolean playing;
+    private boolean startOnAttach;
 
     protected void onLoaded() {
     }
@@ -302,8 +303,11 @@ public class RLottieImageView extends ImageView {
             ImageReceiver imageReceiver = this.imageReceiver;
             if (imageReceiver != null) {
                 imageReceiver.startAnimation();
+                return;
             }
+            return;
         }
+        this.startOnAttach = true;
     }
 
     public void stopAnimation() {
@@ -319,8 +323,11 @@ public class RLottieImageView extends ImageView {
             ImageReceiver imageReceiver = this.imageReceiver;
             if (imageReceiver != null) {
                 imageReceiver.stopAnimation();
+                return;
             }
+            return;
         }
+        this.startOnAttach = false;
     }
 
     public RLottieDrawable getAnimatedDrawable() {

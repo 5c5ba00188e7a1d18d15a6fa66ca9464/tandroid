@@ -1,44 +1,43 @@
 package j$.util.stream;
 
-import j$.util.function.Consumer;
+import java.util.concurrent.CountedCompleter;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class Q1 extends R1 implements y1 {
+public final class Q1 extends f {
+    private final u1 h;
+
+    Q1(Q1 q1, j$.util.Q q) {
+        super(q1, q);
+        this.h = q1.h;
+    }
+
     /* JADX INFO: Access modifiers changed from: package-private */
-    public Q1(y1 y1Var, y1 y1Var2) {
-        super(y1Var, y1Var2);
+    public Q1(u1 u1Var, u0 u0Var, j$.util.Q q) {
+        super(u0Var, q);
+        this.h = u1Var;
     }
 
-    @Override // j$.util.stream.A1
-    /* renamed from: a */
-    public /* synthetic */ void i(Long[] lArr, int i) {
-        o1.j(this, lArr, i);
+    @Override // j$.util.stream.f
+    protected final Object a() {
+        u0 u0Var = this.a;
+        O1 u = this.h.u();
+        u0Var.X0(this.b, u);
+        return u;
     }
 
-    @Override // j$.util.stream.z1
-    /* renamed from: f */
-    public long[] c(int i) {
-        return new long[i];
+    @Override // j$.util.stream.f
+    protected final f d(j$.util.Q q) {
+        return new Q1(this, q);
     }
 
-    @Override // j$.util.stream.A1
-    public /* synthetic */ void forEach(Consumer consumer) {
-        o1.m(this, consumer);
-    }
-
-    @Override // j$.util.stream.A1
-    /* renamed from: h */
-    public /* synthetic */ y1 r(long j, long j2, j$.util.function.m mVar) {
-        return o1.p(this, j, j2, mVar);
-    }
-
-    @Override // j$.util.stream.A1
-    public j$.util.t spliterator() {
-        return new h2(this);
-    }
-
-    @Override // j$.util.stream.A1
-    public j$.util.s spliterator() {
-        return new h2(this);
+    @Override // j$.util.stream.f, java.util.concurrent.CountedCompleter
+    public final void onCompletion(CountedCompleter countedCompleter) {
+        f fVar = this.d;
+        if (!(fVar == null)) {
+            O1 o1 = (O1) ((Q1) fVar).b();
+            o1.k((O1) ((Q1) this.e).b());
+            e(o1);
+        }
+        super.onCompletion(countedCompleter);
     }
 }

@@ -171,10 +171,12 @@ final class SefReader {
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class DataReference {
+        public final int dataType;
         public final int size;
         public final long startOffset;
 
         public DataReference(int i, long j, int i2) {
+            this.dataType = i;
             this.startOffset = j;
             this.size = i2;
         }

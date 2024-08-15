@@ -1,9 +1,8 @@
 package androidx.interpolator.view.animation;
 
 import android.view.animation.Interpolator;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class LookupTableInterpolator implements Interpolator {
+abstract class LookupTableInterpolator implements Interpolator {
     private final float mStepSize;
     private final float[] mValues;
 
@@ -26,6 +25,7 @@ public abstract class LookupTableInterpolator implements Interpolator {
         float f2 = this.mStepSize;
         float f3 = (f - (min * f2)) / f2;
         float[] fArr2 = this.mValues;
-        return fArr2[min] + (f3 * (fArr2[min + 1] - fArr2[min]));
+        float f4 = fArr2[min];
+        return f4 + (f3 * (fArr2[min + 1] - f4));
     }
 }

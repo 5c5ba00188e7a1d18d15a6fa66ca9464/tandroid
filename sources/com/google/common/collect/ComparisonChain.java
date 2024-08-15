@@ -2,6 +2,7 @@ package com.google.common.collect;
 
 import com.google.common.primitives.Booleans;
 import com.google.common.primitives.Ints;
+import com.google.common.primitives.Longs;
 import java.util.Comparator;
 /* loaded from: classes.dex */
 public abstract class ComparisonChain {
@@ -19,6 +20,11 @@ public abstract class ComparisonChain {
         @Override // com.google.common.collect.ComparisonChain
         public ComparisonChain compare(int i, int i2) {
             return classify(Ints.compare(i, i2));
+        }
+
+        @Override // com.google.common.collect.ComparisonChain
+        public ComparisonChain compare(long j, long j2) {
+            return classify(Longs.compare(j, j2));
         }
 
         @Override // com.google.common.collect.ComparisonChain
@@ -43,6 +49,8 @@ public abstract class ComparisonChain {
 
     public abstract ComparisonChain compare(int i, int i2);
 
+    public abstract ComparisonChain compare(long j, long j2);
+
     public abstract <T> ComparisonChain compare(T t, T t2, Comparator<T> comparator);
 
     public abstract ComparisonChain compareFalseFirst(boolean z, boolean z2);
@@ -64,6 +72,11 @@ public abstract class ComparisonChain {
 
         @Override // com.google.common.collect.ComparisonChain
         public ComparisonChain compare(int i, int i2) {
+            return this;
+        }
+
+        @Override // com.google.common.collect.ComparisonChain
+        public ComparisonChain compare(long j, long j2) {
             return this;
         }
 

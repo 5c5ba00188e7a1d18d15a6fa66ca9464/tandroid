@@ -6,19 +6,28 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
 /* loaded from: classes2.dex */
 public final class r {
-    public static final /* synthetic */ int f = 0;
+    private static final a f = new j$.time.temporal.n() { // from class: j$.time.format.a
+        @Override // j$.time.temporal.n
+        public final Object a(j$.time.temporal.k kVar) {
+            int i = r.g;
+            ZoneId zoneId = (ZoneId) kVar.d(j$.time.temporal.j.j());
+            if (zoneId == null || (zoneId instanceof ZoneOffset)) {
+                return null;
+            }
+            return zoneId;
+        }
+    };
+    public static final /* synthetic */ int g = 0;
     private r a;
     private final r b;
-    private final List c;
+    private final ArrayList c;
     private final boolean d;
     private int e;
 
+    /* JADX WARN: Type inference failed for: r0v0, types: [j$.time.format.a] */
     static {
         HashMap hashMap = new HashMap();
         hashMap.put('G', j$.time.temporal.a.ERA);
@@ -59,198 +68,190 @@ public final class r {
         this.d = false;
     }
 
-    private r(r rVar, boolean z) {
+    private r(r rVar) {
         this.a = this;
         this.c = new ArrayList();
         this.e = -1;
         this.b = rVar;
-        this.d = z;
+        this.d = true;
     }
 
     private int d(h hVar) {
-        Objects.requireNonNull(hVar, "pp");
-        r rVar = this.a;
-        Objects.requireNonNull(rVar);
-        rVar.c.add(hVar);
-        r rVar2 = this.a;
-        rVar2.e = -1;
-        return rVar2.c.size() - 1;
+        if (hVar != null) {
+            r rVar = this.a;
+            rVar.getClass();
+            rVar.c.add(hVar);
+            r rVar2 = this.a;
+            rVar2.e = -1;
+            return rVar2.c.size() - 1;
+        }
+        throw new NullPointerException("pp");
     }
 
-    private r k(k kVar) {
+    private void l(k kVar) {
         k c;
         r rVar = this.a;
         int i = rVar.e;
-        if (i >= 0) {
-            k kVar2 = (k) rVar.c.get(i);
-            if (kVar.b == kVar.c && k.b(kVar) == y.NOT_NEGATIVE) {
-                c = kVar2.d(kVar.c);
-                d(kVar.c());
-                this.a.e = i;
-            } else {
-                c = kVar2.c();
-                this.a.e = d(kVar);
-            }
-            this.a.c.set(i, c);
-        } else {
+        if (i < 0) {
             rVar.e = d(kVar);
+            return;
         }
-        return this;
-    }
-
-    private a v(Locale locale, int i, j$.time.chrono.g gVar) {
-        Objects.requireNonNull(locale, "locale");
-        while (this.a.b != null) {
-            p();
+        k kVar2 = (k) rVar.c.get(i);
+        int i2 = kVar.b;
+        int i3 = kVar.c;
+        if (i2 == i3 && k.b(kVar) == y.NOT_NEGATIVE) {
+            c = kVar2.d(i3);
+            d(kVar.c());
+            this.a.e = i;
+        } else {
+            c = kVar2.c();
+            this.a.e = d(kVar);
         }
-        return new a(new g(this.c, false), locale, w.a, i, null, gVar, null);
+        this.a.c.set(i, c);
     }
 
-    public r a(a aVar) {
-        d(aVar.f(false));
-        return this;
+    private b w(Locale locale, x xVar, j$.time.chrono.e eVar) {
+        if (locale != null) {
+            while (this.a.b != null) {
+                p();
+            }
+            g gVar = new g(this.c, false);
+            w wVar = w.a;
+            return new b(gVar, locale, xVar, eVar);
+        }
+        throw new NullPointerException("locale");
     }
 
-    public r b(j$.time.temporal.l lVar, int i, int i2, boolean z) {
-        d(new i(lVar, i, i2, z));
-        return this;
+    public final void a(b bVar) {
+        d(bVar.e());
     }
 
-    public r c() {
-        d(new j(-2));
-        return this;
+    public final void b(j$.time.temporal.a aVar) {
+        d(new i(aVar));
     }
 
-    public r e(char c) {
+    public final void c() {
+        d(new j());
+    }
+
+    public final void e(char c) {
         d(new f(c));
-        return this;
     }
 
-    public r f(String str) {
+    public final void f(String str) {
         if (str.length() > 0) {
             d(str.length() == 1 ? new f(str.charAt(0)) : new n(str));
         }
-        return this;
     }
 
-    public r g(String str, String str2) {
+    public final void g(String str, String str2) {
         d(new l(str, str2));
-        return this;
     }
 
-    public r h() {
+    public final void h() {
         d(l.d);
-        return this;
     }
 
-    public r i(j$.time.temporal.l lVar, TextStyle textStyle) {
-        Objects.requireNonNull(lVar, "field");
-        Objects.requireNonNull(textStyle, "textStyle");
-        d(new o(lVar, textStyle, new v()));
-        return this;
+    public final void i(j$.time.temporal.a aVar, TextStyle textStyle) {
+        if (aVar == null) {
+            throw new NullPointerException("field");
+        }
+        if (textStyle == null) {
+            throw new NullPointerException("textStyle");
+        }
+        d(new o(aVar, textStyle, new v()));
     }
 
-    public r j(j$.time.temporal.l lVar, Map map) {
-        Objects.requireNonNull(lVar, "field");
-        LinkedHashMap linkedHashMap = new LinkedHashMap(map);
+    public final void j(j$.time.temporal.a aVar, HashMap hashMap) {
+        if (aVar == null) {
+            throw new NullPointerException("field");
+        }
+        LinkedHashMap linkedHashMap = new LinkedHashMap(hashMap);
         TextStyle textStyle = TextStyle.FULL;
-        d(new o(lVar, textStyle, new c(this, new u(Collections.singletonMap(textStyle, linkedHashMap)))));
-        return this;
+        d(new o(aVar, textStyle, new c(new u(Collections.singletonMap(textStyle, linkedHashMap)))));
     }
 
-    public r l(j$.time.temporal.l lVar, int i) {
-        Objects.requireNonNull(lVar, "field");
-        if (i >= 1 && i <= 19) {
-            k(new k(lVar, i, i, y.NOT_NEGATIVE));
+    public final r k(j$.time.temporal.l lVar, int i, int i2, y yVar) {
+        if (i == i2 && yVar == y.NOT_NEGATIVE) {
+            m(lVar, i2);
             return this;
+        } else if (lVar != null) {
+            if (yVar != null) {
+                if (i < 1 || i > 19) {
+                    throw new IllegalArgumentException("The minimum width must be from 1 to 19 inclusive but was " + i);
+                } else if (i2 < 1 || i2 > 19) {
+                    throw new IllegalArgumentException("The maximum width must be from 1 to 19 inclusive but was " + i2);
+                } else if (i2 >= i) {
+                    l(new k(lVar, i, i2, yVar));
+                    return this;
+                } else {
+                    throw new IllegalArgumentException("The maximum width must exceed or equal the minimum width but " + i2 + " < " + i);
+                }
+            }
+            throw new NullPointerException("signStyle");
+        } else {
+            throw new NullPointerException("field");
+        }
+    }
+
+    public final void m(j$.time.temporal.l lVar, int i) {
+        if (lVar == null) {
+            throw new NullPointerException("field");
+        }
+        if (i >= 1 && i <= 19) {
+            l(new k(lVar, i, i, y.NOT_NEGATIVE));
+            return;
         }
         throw new IllegalArgumentException("The width must be from 1 to 19 inclusive but was " + i);
     }
 
-    public r m(j$.time.temporal.l lVar, int i, int i2, y yVar) {
-        if (i == i2 && yVar == y.NOT_NEGATIVE) {
-            l(lVar, i2);
-            return this;
-        }
-        Objects.requireNonNull(lVar, "field");
-        Objects.requireNonNull(yVar, "signStyle");
-        if (i < 1 || i > 19) {
-            throw new IllegalArgumentException("The minimum width must be from 1 to 19 inclusive but was " + i);
-        } else if (i2 < 1 || i2 > 19) {
-            throw new IllegalArgumentException("The maximum width must be from 1 to 19 inclusive but was " + i2);
-        } else if (i2 >= i) {
-            k(new k(lVar, i, i2, yVar));
-            return this;
-        } else {
-            throw new IllegalArgumentException("The maximum width must exceed or equal the minimum width but " + i2 + " < " + i);
-        }
+    public final void n() {
+        d(new p(f, "ZoneRegionId()"));
     }
 
-    public r n() {
-        d(new p(new j$.time.temporal.u() { // from class: j$.time.format.b
-            @Override // j$.time.temporal.u
-            public final Object a(j$.time.temporal.k kVar) {
-                int i = r.f;
-                int i2 = j$.time.temporal.t.a;
-                ZoneId zoneId = (ZoneId) kVar.d(j$.time.temporal.m.a);
-                if (zoneId == null || (zoneId instanceof ZoneOffset)) {
-                    return null;
-                }
-                return zoneId;
-            }
-        }, "ZoneRegionId()"));
-        return this;
+    public final void o(TextStyle textStyle) {
+        d(new q(textStyle));
     }
 
-    public r o(TextStyle textStyle) {
-        d(new q(textStyle, null));
-        return this;
-    }
-
-    public r p() {
+    public final void p() {
         r rVar = this.a;
-        if (rVar.b != null) {
-            if (rVar.c.size() > 0) {
-                r rVar2 = this.a;
-                g gVar = new g(rVar2.c, rVar2.d);
-                this.a = this.a.b;
-                d(gVar);
-            } else {
-                this.a = this.a.b;
-            }
-            return this;
+        if (rVar.b == null) {
+            throw new IllegalStateException("Cannot call optionalEnd() as there was no previous call to optionalStart()");
         }
-        throw new IllegalStateException("Cannot call optionalEnd() as there was no previous call to optionalStart()");
+        if (rVar.c.size() <= 0) {
+            this.a = this.a.b;
+            return;
+        }
+        r rVar2 = this.a;
+        g gVar = new g(rVar2.c, rVar2.d);
+        this.a = this.a.b;
+        d(gVar);
     }
 
-    public r q() {
+    public final void q() {
         r rVar = this.a;
         rVar.e = -1;
-        this.a = new r(rVar, true);
-        return this;
+        this.a = new r(rVar);
     }
 
-    public r r() {
+    public final void r() {
         d(m.INSENSITIVE);
-        return this;
     }
 
-    public r s() {
+    public final void s() {
         d(m.SENSITIVE);
-        return this;
     }
 
-    public r t() {
+    public final void t() {
         d(m.LENIENT);
-        return this;
-    }
-
-    public a u(Locale locale) {
-        return v(locale, 2, null);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public a w(int i, j$.time.chrono.g gVar) {
-        return v(Locale.getDefault(), i, gVar);
+    public final b u(x xVar, j$.time.chrono.e eVar) {
+        return w(Locale.getDefault(), xVar, eVar);
+    }
+
+    public final b v(Locale locale) {
+        return w(locale, x.SMART, null);
     }
 }

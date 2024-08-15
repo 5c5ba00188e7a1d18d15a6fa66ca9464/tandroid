@@ -24,6 +24,7 @@ import org.telegram.ui.Components.voip.VoIPStatusTextView;
 public class VoIPStatusTextView extends FrameLayout {
     boolean animationInProgress;
     ValueAnimator animator;
+    VoIPBackgroundProvider backgroundProvider;
     FrameLayout badConnectionLayer;
     TextView badConnectionTextView;
     CharSequence nextTextToSet;
@@ -35,6 +36,7 @@ public class VoIPStatusTextView extends FrameLayout {
     public VoIPStatusTextView(Context context, VoIPBackgroundProvider voIPBackgroundProvider) {
         super(context);
         this.textView = new TextView[2];
+        this.backgroundProvider = voIPBackgroundProvider;
         for (int i = 0; i < 2; i++) {
             this.textView[i] = new TextView(context);
             this.textView[i].setTextSize(1, 15.0f);
@@ -117,7 +119,7 @@ public class VoIPStatusTextView extends FrameLayout {
         } else {
             this.textView[1].setText(str);
             TextView[] textViewArr = this.textView;
-            replaceViews(textViewArr[0], textViewArr[1], new Runnable() { // from class: org.telegram.ui.Components.voip.VoIPStatusTextView$$ExternalSyntheticLambda1
+            replaceViews(textViewArr[0], textViewArr[1], new Runnable() { // from class: org.telegram.ui.Components.voip.VoIPStatusTextView$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     VoIPStatusTextView.this.lambda$setText$0();
@@ -169,7 +171,7 @@ public class VoIPStatusTextView extends FrameLayout {
         this.animationInProgress = true;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.animator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPStatusTextView$$ExternalSyntheticLambda0
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPStatusTextView$$ExternalSyntheticLambda1
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 VoIPStatusTextView.lambda$replaceViews$1(view2, view, valueAnimator);

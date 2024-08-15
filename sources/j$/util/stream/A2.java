@@ -1,71 +1,46 @@
 package j$.util.stream;
 
-import j$.util.function.Consumer;
-import j$.util.function.Supplier;
-import java.util.Objects;
+import j$.util.Comparator$-CC;
+import java.util.Arrays;
+import java.util.Comparator;
 /* loaded from: classes2.dex */
-class A2 extends T2 implements S2, l3 {
-    final /* synthetic */ Supplier b;
-    final /* synthetic */ j$.util.function.v c;
-    final /* synthetic */ j$.util.function.b d;
+final class A2 extends V1 {
+    private final boolean l;
+    private final Comparator m;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public A2(Supplier supplier, j$.util.function.v vVar, j$.util.function.b bVar) {
-        this.b = supplier;
-        this.c = vVar;
-        this.d = bVar;
+    public A2(c cVar) {
+        super(cVar, T2.q | T2.o);
+        this.l = true;
+        this.m = Comparator$-CC.a();
     }
 
-    @Override // j$.util.stream.m3
-    public /* synthetic */ void accept(double d) {
-        o1.f(this);
-        throw null;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public A2(c cVar, Comparator comparator) {
+        super(cVar, T2.q | T2.p);
+        this.l = false;
+        comparator.getClass();
+        this.m = comparator;
     }
 
-    @Override // j$.util.stream.m3
-    public /* synthetic */ void accept(int i) {
-        o1.d(this);
-        throw null;
+    @Override // j$.util.stream.c
+    public final D0 i1(j$.util.Q q, j$.util.function.N n, c cVar) {
+        if (T2.SORTED.d(cVar.K0()) && this.l) {
+            return cVar.Z0(q, false, n);
+        }
+        Object[] o = cVar.Z0(q, true, n).o(n);
+        Arrays.sort(o, this.m);
+        return new G0(o);
     }
 
-    @Override // j$.util.stream.m3, j$.util.stream.l3, j$.util.function.q
-    public void accept(long j) {
-        this.c.accept(this.a, j);
-    }
-
-    @Override // j$.util.function.Consumer
-    public /* synthetic */ Consumer andThen(Consumer consumer) {
-        return Consumer.-CC.$default$andThen(this, consumer);
-    }
-
-    @Override // j$.util.function.Consumer
-    /* renamed from: b */
-    public /* synthetic */ void accept(Long l) {
-        o1.c(this, l);
-    }
-
-    @Override // j$.util.function.q
-    public j$.util.function.q f(j$.util.function.q qVar) {
-        Objects.requireNonNull(qVar);
-        return new j$.util.function.p(this, qVar);
-    }
-
-    @Override // j$.util.stream.S2
-    public void h(S2 s2) {
-        this.a = this.d.apply(this.a, ((A2) s2).a);
-    }
-
-    @Override // j$.util.stream.m3
-    public /* synthetic */ void m() {
-    }
-
-    @Override // j$.util.stream.m3
-    public void n(long j) {
-        this.a = this.b.get();
-    }
-
-    @Override // j$.util.stream.m3
-    public /* synthetic */ boolean o() {
-        return false;
+    @Override // j$.util.stream.c
+    public final f2 l1(int i, f2 f2Var) {
+        f2Var.getClass();
+        if (T2.SORTED.d(i) && this.l) {
+            return f2Var;
+        }
+        boolean d = T2.SIZED.d(i);
+        Comparator comparator = this.m;
+        return d ? new F2(f2Var, comparator) : new B2(f2Var, comparator);
     }
 }

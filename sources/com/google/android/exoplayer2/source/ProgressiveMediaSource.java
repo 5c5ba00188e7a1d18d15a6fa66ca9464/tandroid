@@ -175,7 +175,7 @@ public final class ProgressiveMediaSource extends BaseMediaSource implements Pro
     private void notifySourceInfoRefreshed() {
         Timeline singlePeriodTimeline = new SinglePeriodTimeline(this.timelineDurationUs, this.timelineIsSeekable, false, this.timelineIsLive, null, this.mediaItem);
         if (this.timelineIsPlaceholder) {
-            singlePeriodTimeline = new ForwardingTimeline(this, singlePeriodTimeline) { // from class: com.google.android.exoplayer2.source.ProgressiveMediaSource.1
+            singlePeriodTimeline = new ForwardingTimeline(singlePeriodTimeline) { // from class: com.google.android.exoplayer2.source.ProgressiveMediaSource.1
                 @Override // com.google.android.exoplayer2.source.ForwardingTimeline, com.google.android.exoplayer2.Timeline
                 public Timeline.Window getWindow(int i, Timeline.Window window, long j) {
                     super.getWindow(i, window, j);

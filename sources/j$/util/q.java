@@ -1,19 +1,73 @@
 package j$.util;
 
 import j$.util.function.Consumer;
-import java.util.Objects;
+import java.util.PrimitiveIterator;
+import java.util.function.Consumer;
+import java.util.function.DoubleConsumer;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class q implements j$.util.function.q {
-    public final /* synthetic */ Consumer a;
+public final /* synthetic */ class q implements PrimitiveIterator.OfDouble {
+    public final /* synthetic */ r a;
 
-    @Override // j$.util.function.q
-    public final void accept(long j) {
-        this.a.accept(Long.valueOf(j));
+    private /* synthetic */ q(r rVar) {
+        this.a = rVar;
     }
 
-    @Override // j$.util.function.q
-    public j$.util.function.q f(j$.util.function.q qVar) {
-        Objects.requireNonNull(qVar);
-        return new j$.util.function.p(this, qVar);
+    public static /* synthetic */ PrimitiveIterator.OfDouble a(r rVar) {
+        if (rVar == null) {
+            return null;
+        }
+        return rVar instanceof p ? ((p) rVar).a : new q(rVar);
+    }
+
+    public final /* synthetic */ boolean equals(Object obj) {
+        r rVar = this.a;
+        if (obj instanceof q) {
+            obj = ((q) obj).a;
+        }
+        return rVar.equals(obj);
+    }
+
+    @Override // java.util.PrimitiveIterator
+    public final /* synthetic */ void forEachRemaining(DoubleConsumer doubleConsumer) {
+        this.a.forEachRemaining(doubleConsumer);
+    }
+
+    @Override // java.util.PrimitiveIterator.OfDouble, java.util.Iterator
+    public final /* synthetic */ void forEachRemaining(Consumer consumer) {
+        this.a.forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
+    }
+
+    @Override // java.util.PrimitiveIterator.OfDouble
+    public final /* synthetic */ void forEachRemaining(DoubleConsumer doubleConsumer) {
+        this.a.d(j$.util.function.k.a(doubleConsumer));
+    }
+
+    @Override // java.util.Iterator
+    public final /* synthetic */ boolean hasNext() {
+        return this.a.hasNext();
+    }
+
+    public final /* synthetic */ int hashCode() {
+        return this.a.hashCode();
+    }
+
+    @Override // java.util.PrimitiveIterator.OfDouble, java.util.Iterator
+    public final /* synthetic */ Double next() {
+        return this.a.next();
+    }
+
+    @Override // java.util.PrimitiveIterator.OfDouble, java.util.Iterator
+    public final /* synthetic */ Object next() {
+        return this.a.next();
+    }
+
+    @Override // java.util.PrimitiveIterator.OfDouble
+    public final /* synthetic */ double nextDouble() {
+        return this.a.nextDouble();
+    }
+
+    @Override // java.util.Iterator
+    public final /* synthetic */ void remove() {
+        this.a.remove();
     }
 }

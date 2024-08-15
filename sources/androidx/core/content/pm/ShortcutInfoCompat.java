@@ -3,6 +3,7 @@ package androidx.core.content.pm;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.LocusId;
 import android.content.pm.PackageManager;
 import android.content.pm.ShortcutInfo;
 import android.graphics.drawable.Drawable;
@@ -55,7 +56,11 @@ public class ShortcutInfoCompat {
     }
 
     public ShortcutInfo toShortcutInfo() {
-        ShortcutInfo.Builder intents = new ShortcutInfo.Builder(this.mContext, this.mId).setShortLabel(this.mLabel).setIntents(this.mIntents);
+        ShortcutInfo.Builder shortLabel;
+        ShortcutInfo.Builder intents;
+        ShortcutInfo build;
+        shortLabel = new ShortcutInfo.Builder(this.mContext, this.mId).setShortLabel(this.mLabel);
+        intents = shortLabel.setIntents(this.mIntents);
         IconCompat iconCompat = this.mIcon;
         if (iconCompat != null) {
             intents.setIcon(iconCompat.toIcon(this.mContext));
@@ -100,7 +105,8 @@ public class ShortcutInfoCompat {
         if (Build.VERSION.SDK_INT >= 33) {
             Api33Impl.setExcludedFromSurfaces(intents, this.mExcludedSurfaces);
         }
-        return intents.build();
+        build = intents.build();
+        return build;
     }
 
     private PersistableBundle buildLegacyExtrasBundle() {
@@ -200,21 +206,29 @@ public class ShortcutInfoCompat {
     }
 
     static Person[] getPersonsFromExtra(PersistableBundle persistableBundle) {
-        if (persistableBundle == null || !persistableBundle.containsKey("extraPersonCount")) {
+        boolean containsKey;
+        int i;
+        PersistableBundle persistableBundle2;
+        if (persistableBundle != null) {
+            containsKey = persistableBundle.containsKey("extraPersonCount");
+            if (containsKey) {
+                i = persistableBundle.getInt("extraPersonCount");
+                Person[] personArr = new Person[i];
+                int i2 = 0;
+                while (i2 < i) {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("extraPerson_");
+                    int i3 = i2 + 1;
+                    sb.append(i3);
+                    persistableBundle2 = persistableBundle.getPersistableBundle(sb.toString());
+                    personArr[i2] = Person.fromPersistableBundle(persistableBundle2);
+                    i2 = i3;
+                }
+                return personArr;
+            }
             return null;
         }
-        int i = persistableBundle.getInt("extraPersonCount");
-        Person[] personArr = new Person[i];
-        int i2 = 0;
-        while (i2 < i) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("extraPerson_");
-            int i3 = i2 + 1;
-            sb.append(i3);
-            personArr[i2] = Person.fromPersistableBundle(persistableBundle.getPersistableBundle(sb.toString()));
-            i2 = i3;
-        }
-        return personArr;
+        return null;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -227,22 +241,34 @@ public class ShortcutInfoCompat {
     }
 
     static LocusIdCompat getLocusId(ShortcutInfo shortcutInfo) {
+        PersistableBundle extras;
+        LocusId locusId;
+        LocusId locusId2;
         if (Build.VERSION.SDK_INT >= 29) {
-            if (shortcutInfo.getLocusId() == null) {
+            locusId = shortcutInfo.getLocusId();
+            if (locusId == null) {
                 return null;
             }
-            return LocusIdCompat.toLocusIdCompat(shortcutInfo.getLocusId());
+            locusId2 = shortcutInfo.getLocusId();
+            return LocusIdCompat.toLocusIdCompat(locusId2);
         }
-        return getLocusIdFromExtra(shortcutInfo.getExtras());
+        extras = shortcutInfo.getExtras();
+        return getLocusIdFromExtra(extras);
     }
 
     public boolean isExcludedFromSurfaces(int i) {
         return (i & this.mExcludedSurfaces) != 0;
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:5:0x0004, code lost:
+        r2 = r2.getString("extraLocusId");
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private static LocusIdCompat getLocusIdFromExtra(PersistableBundle persistableBundle) {
         String string;
-        if (persistableBundle == null || (string = persistableBundle.getString("extraLocusId")) == null) {
+        if (persistableBundle == null || string == null) {
             return null;
         }
         return new LocusIdCompat(string);
@@ -305,39 +331,82 @@ public class ShortcutInfoCompat {
         }
 
         public Builder(Context context, ShortcutInfo shortcutInfo) {
+            String id;
+            String str;
+            Intent[] intents;
+            ComponentName activity;
+            CharSequence shortLabel;
+            CharSequence longLabel;
+            CharSequence disabledMessage;
+            boolean isEnabled;
+            Set<String> categories;
+            PersistableBundle extras;
+            UserHandle userHandle;
+            long lastChangedTimestamp;
+            boolean isDynamic;
+            boolean isPinned;
+            boolean isDeclaredInManifest;
+            boolean isImmutable;
+            boolean isEnabled2;
+            boolean hasKeyFieldsOnly;
+            int rank;
+            PersistableBundle extras2;
+            boolean isCached;
+            int disabledReason;
             ShortcutInfoCompat shortcutInfoCompat = new ShortcutInfoCompat();
             this.mInfo = shortcutInfoCompat;
             shortcutInfoCompat.mContext = context;
-            shortcutInfoCompat.mId = shortcutInfo.getId();
-            shortcutInfoCompat.mPackageName = shortcutInfo.getPackage();
-            Intent[] intents = shortcutInfo.getIntents();
+            id = shortcutInfo.getId();
+            shortcutInfoCompat.mId = id;
+            str = shortcutInfo.getPackage();
+            shortcutInfoCompat.mPackageName = str;
+            intents = shortcutInfo.getIntents();
             shortcutInfoCompat.mIntents = (Intent[]) Arrays.copyOf(intents, intents.length);
-            shortcutInfoCompat.mActivity = shortcutInfo.getActivity();
-            shortcutInfoCompat.mLabel = shortcutInfo.getShortLabel();
-            shortcutInfoCompat.mLongLabel = shortcutInfo.getLongLabel();
-            shortcutInfoCompat.mDisabledMessage = shortcutInfo.getDisabledMessage();
+            activity = shortcutInfo.getActivity();
+            shortcutInfoCompat.mActivity = activity;
+            shortLabel = shortcutInfo.getShortLabel();
+            shortcutInfoCompat.mLabel = shortLabel;
+            longLabel = shortcutInfo.getLongLabel();
+            shortcutInfoCompat.mLongLabel = longLabel;
+            disabledMessage = shortcutInfo.getDisabledMessage();
+            shortcutInfoCompat.mDisabledMessage = disabledMessage;
             int i = Build.VERSION.SDK_INT;
             if (i >= 28) {
-                shortcutInfoCompat.mDisabledReason = shortcutInfo.getDisabledReason();
+                disabledReason = shortcutInfo.getDisabledReason();
+                shortcutInfoCompat.mDisabledReason = disabledReason;
             } else {
-                shortcutInfoCompat.mDisabledReason = shortcutInfo.isEnabled() ? 0 : 3;
+                isEnabled = shortcutInfo.isEnabled();
+                shortcutInfoCompat.mDisabledReason = isEnabled ? 0 : 3;
             }
-            shortcutInfoCompat.mCategories = shortcutInfo.getCategories();
-            shortcutInfoCompat.mPersons = ShortcutInfoCompat.getPersonsFromExtra(shortcutInfo.getExtras());
-            shortcutInfoCompat.mUser = shortcutInfo.getUserHandle();
-            shortcutInfoCompat.mLastChangedTimestamp = shortcutInfo.getLastChangedTimestamp();
+            categories = shortcutInfo.getCategories();
+            shortcutInfoCompat.mCategories = categories;
+            extras = shortcutInfo.getExtras();
+            shortcutInfoCompat.mPersons = ShortcutInfoCompat.getPersonsFromExtra(extras);
+            userHandle = shortcutInfo.getUserHandle();
+            shortcutInfoCompat.mUser = userHandle;
+            lastChangedTimestamp = shortcutInfo.getLastChangedTimestamp();
+            shortcutInfoCompat.mLastChangedTimestamp = lastChangedTimestamp;
             if (i >= 30) {
-                shortcutInfoCompat.mIsCached = shortcutInfo.isCached();
+                isCached = shortcutInfo.isCached();
+                shortcutInfoCompat.mIsCached = isCached;
             }
-            shortcutInfoCompat.mIsDynamic = shortcutInfo.isDynamic();
-            shortcutInfoCompat.mIsPinned = shortcutInfo.isPinned();
-            shortcutInfoCompat.mIsDeclaredInManifest = shortcutInfo.isDeclaredInManifest();
-            shortcutInfoCompat.mIsImmutable = shortcutInfo.isImmutable();
-            shortcutInfoCompat.mIsEnabled = shortcutInfo.isEnabled();
-            shortcutInfoCompat.mHasKeyFieldsOnly = shortcutInfo.hasKeyFieldsOnly();
+            isDynamic = shortcutInfo.isDynamic();
+            shortcutInfoCompat.mIsDynamic = isDynamic;
+            isPinned = shortcutInfo.isPinned();
+            shortcutInfoCompat.mIsPinned = isPinned;
+            isDeclaredInManifest = shortcutInfo.isDeclaredInManifest();
+            shortcutInfoCompat.mIsDeclaredInManifest = isDeclaredInManifest;
+            isImmutable = shortcutInfo.isImmutable();
+            shortcutInfoCompat.mIsImmutable = isImmutable;
+            isEnabled2 = shortcutInfo.isEnabled();
+            shortcutInfoCompat.mIsEnabled = isEnabled2;
+            hasKeyFieldsOnly = shortcutInfo.hasKeyFieldsOnly();
+            shortcutInfoCompat.mHasKeyFieldsOnly = hasKeyFieldsOnly;
             shortcutInfoCompat.mLocusId = ShortcutInfoCompat.getLocusId(shortcutInfo);
-            shortcutInfoCompat.mRank = shortcutInfo.getRank();
-            shortcutInfoCompat.mExtras = shortcutInfo.getExtras();
+            rank = shortcutInfo.getRank();
+            shortcutInfoCompat.mRank = rank;
+            extras2 = shortcutInfo.getExtras();
+            shortcutInfoCompat.mExtras = extras2;
         }
 
         public Builder setShortLabel(CharSequence charSequence) {
@@ -453,8 +522,9 @@ public class ShortcutInfoCompat {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    private static class Api33Impl {
+    public static class Api33Impl {
         static void setExcludedFromSurfaces(ShortcutInfo.Builder builder, int i) {
             builder.setExcludedFromSurfaces(i);
         }

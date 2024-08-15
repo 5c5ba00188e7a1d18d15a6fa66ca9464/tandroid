@@ -6,12 +6,9 @@ import java.util.Collections;
 import java.util.List;
 /* loaded from: classes.dex */
 public final class LogSourceMetrics {
+    private static final LogSourceMetrics DEFAULT_INSTANCE = new Builder().build();
     private final List<LogEventDropped> log_event_dropped_;
     private final String log_source_;
-
-    static {
-        new Builder().build();
-    }
 
     LogSourceMetrics(String str, List<LogEventDropped> list) {
         this.log_source_ = str;

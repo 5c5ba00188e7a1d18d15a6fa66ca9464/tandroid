@@ -15,6 +15,7 @@ public final class SpliceInfoDecoder extends SimpleMetadataDecoder {
 
     @Override // com.google.android.exoplayer2.metadata.SimpleMetadataDecoder
     protected Metadata decode(MetadataInputBuffer metadataInputBuffer, ByteBuffer byteBuffer) {
+        Metadata.Entry spliceNullCommand;
         TimestampAdjuster timestampAdjuster = this.timestampAdjuster;
         if (timestampAdjuster == null || metadataInputBuffer.subsampleOffsetUs != timestampAdjuster.getTimestampOffsetUs()) {
             TimestampAdjuster timestampAdjuster2 = new TimestampAdjuster(metadataInputBuffer.timeUs);
@@ -30,19 +31,18 @@ public final class SpliceInfoDecoder extends SimpleMetadataDecoder {
         this.sectionHeader.skipBits(20);
         int readBits2 = this.sectionHeader.readBits(12);
         int readBits3 = this.sectionHeader.readBits(8);
-        Metadata.Entry entry = null;
         this.sectionData.skipBytes(14);
         if (readBits3 == 0) {
-            entry = new SpliceNullCommand();
+            spliceNullCommand = new SpliceNullCommand();
         } else if (readBits3 == 255) {
-            entry = PrivateCommand.parseFromSection(this.sectionData, readBits2, readBits);
+            spliceNullCommand = PrivateCommand.parseFromSection(this.sectionData, readBits2, readBits);
         } else if (readBits3 == 4) {
-            entry = SpliceScheduleCommand.parseFromSection(this.sectionData);
+            spliceNullCommand = SpliceScheduleCommand.parseFromSection(this.sectionData);
         } else if (readBits3 == 5) {
-            entry = SpliceInsertCommand.parseFromSection(this.sectionData, readBits, this.timestampAdjuster);
-        } else if (readBits3 == 6) {
-            entry = TimeSignalCommand.parseFromSection(this.sectionData, readBits, this.timestampAdjuster);
+            spliceNullCommand = SpliceInsertCommand.parseFromSection(this.sectionData, readBits, this.timestampAdjuster);
+        } else {
+            spliceNullCommand = readBits3 != 6 ? null : TimeSignalCommand.parseFromSection(this.sectionData, readBits, this.timestampAdjuster);
         }
-        return entry == null ? new Metadata(new Metadata.Entry[0]) : new Metadata(entry);
+        return spliceNullCommand == null ? new Metadata(new Metadata.Entry[0]) : new Metadata(spliceNullCommand);
     }
 }

@@ -164,11 +164,11 @@ public class zzy {
         String zza = zza(contentResolver, str, (String) null);
         if (zza != null && !zza.equals("")) {
             if (zzcr.matcher(zza).matches()) {
-                z = true;
                 bool = Boolean.TRUE;
+                z = true;
             } else if (zzcs.matcher(zza).matches()) {
-                z = false;
                 bool = Boolean.FALSE;
+                z = false;
             } else {
                 Log.w("Gservices", "attempt to read gservices key " + str + " (value \"" + zza + "\") as boolean");
             }

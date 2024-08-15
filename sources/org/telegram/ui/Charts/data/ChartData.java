@@ -24,6 +24,8 @@ public class ChartData {
     protected long timeStep;
     public long[] x;
     public float[] xPercentage;
+    public int xTickFormatter;
+    public int xTooltipFormatter;
     public float yRate;
     public int yTickFormatter;
     public int yTooltipFormatter;
@@ -34,6 +36,8 @@ public class ChartData {
         this.maxValue = 0L;
         this.minValue = Long.MAX_VALUE;
         this.oneDayPercentage = 0.0f;
+        this.xTickFormatter = 0;
+        this.xTooltipFormatter = 0;
         this.yRate = 0.0f;
         this.yTickFormatter = 0;
         this.yTooltipFormatter = 0;
@@ -44,6 +48,8 @@ public class ChartData {
         this.maxValue = 0L;
         this.minValue = Long.MAX_VALUE;
         this.oneDayPercentage = 0.0f;
+        this.xTickFormatter = 0;
+        this.xTooltipFormatter = 0;
         this.yRate = 0.0f;
         this.yTickFormatter = 0;
         this.yTooltipFormatter = 0;
@@ -61,7 +67,7 @@ public class ChartData {
                     i2 = i3;
                 }
             } else {
-                Line line = new Line(this);
+                Line line = new Line();
                 this.lines.add(line);
                 int length2 = jSONArray2.length() - 1;
                 line.id = jSONArray2.getString(0);
@@ -70,19 +76,19 @@ public class ChartData {
                 while (i4 < length2) {
                     int i5 = i4 + 1;
                     line.y[i4] = jSONArray2.getLong(i5);
-                    long[] jArr = line.y;
-                    if (jArr[i4] > line.maxValue) {
-                        line.maxValue = jArr[i4];
+                    long j = line.y[i4];
+                    if (j > line.maxValue) {
+                        line.maxValue = j;
                     }
-                    if (jArr[i4] < line.minValue) {
-                        line.minValue = jArr[i4];
+                    if (j < line.minValue) {
+                        line.minValue = j;
                     }
                     i4 = i5;
                 }
             }
-            long[] jArr2 = this.x;
-            if (jArr2.length > 1) {
-                this.timeStep = jArr2[1] - jArr2[0];
+            long[] jArr = this.x;
+            if (jArr.length > 1) {
+                this.timeStep = jArr[1] - jArr[0];
             } else {
                 this.timeStep = 86400000L;
             }
@@ -91,9 +97,9 @@ public class ChartData {
         JSONObject optJSONObject = jSONObject.optJSONObject("colors");
         JSONObject optJSONObject2 = jSONObject.optJSONObject("names");
         try {
-            getFormatter(jSONObject.getString("xTickFormatter"));
+            this.xTickFormatter = getFormatter(jSONObject.getString("xTickFormatter"));
             this.yTickFormatter = getFormatter(jSONObject.getString("yTickFormatter"));
-            getFormatter(jSONObject.getString("xTooltipFormatter"));
+            this.xTooltipFormatter = getFormatter(jSONObject.getString("xTooltipFormatter"));
             this.yTooltipFormatter = getFormatter(jSONObject.getString("yTooltipFormatter"));
         } catch (Exception unused) {
         }
@@ -196,12 +202,13 @@ public class ChartData {
             while (i <= i2) {
                 int i3 = (i2 + i) >> 1;
                 float[] fArr = this.xPercentage;
-                if ((f < fArr[i3] && (i3 == 0 || f > fArr[i3 - 1])) || f == fArr[i3]) {
+                float f2 = fArr[i3];
+                if ((f < f2 && (i3 == 0 || f > fArr[i3 - 1])) || f == f2) {
                     return i3;
                 }
-                if (f < fArr[i3]) {
+                if (f < f2) {
                     i2 = i3 - 1;
-                } else if (f > fArr[i3]) {
+                } else if (f > f2) {
                     i = i3 + 1;
                 }
             }
@@ -220,12 +227,13 @@ public class ChartData {
         while (i <= i3) {
             int i4 = (i3 + i) >> 1;
             float[] fArr = this.xPercentage;
-            if ((f > fArr[i4] && (i4 == i2 || f < fArr[i4 + 1])) || f == fArr[i4]) {
+            float f2 = fArr[i4];
+            if ((f > f2 && (i4 == i2 || f < fArr[i4 + 1])) || f == f2) {
                 return i4;
             }
-            if (f < fArr[i4]) {
+            if (f < f2) {
                 i3 = i4 - 1;
-            } else if (f > fArr[i4]) {
+            } else if (f > f2) {
                 i = i4 + 1;
             }
         }
@@ -244,12 +252,13 @@ public class ChartData {
         while (i <= i2) {
             int i3 = (i2 + i) >> 1;
             float[] fArr2 = this.xPercentage;
-            if ((f > fArr2[i3] && (i3 == length - 1 || f < fArr2[i3 + 1])) || f == fArr2[i3]) {
+            float f2 = fArr2[i3];
+            if ((f > f2 && (i3 == length - 1 || f < fArr2[i3 + 1])) || f == f2) {
                 return i3;
             }
-            if (f < fArr2[i3]) {
+            if (f < f2) {
                 i2 = i3 - 1;
-            } else if (f > fArr2[i3]) {
+            } else if (f > f2) {
                 i = i3 + 1;
             }
         }
@@ -268,7 +277,7 @@ public class ChartData {
         public int color = -16777216;
         public int colorDark = -1;
 
-        public Line(ChartData chartData) {
+        public Line() {
         }
     }
 }

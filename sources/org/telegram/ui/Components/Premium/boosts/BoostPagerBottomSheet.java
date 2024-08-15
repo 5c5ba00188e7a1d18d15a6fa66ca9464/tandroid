@@ -176,7 +176,7 @@ public class BoostPagerBottomSheet extends BottomSheet {
         this.viewPager = viewPagerFixed;
         viewPagerFixed.setOverScrollMode(2);
         viewPagerFixed.setClipToPadding(false);
-        viewPagerFixed.setAdapter(new ViewPagerFixed.Adapter(this) { // from class: org.telegram.ui.Components.Premium.boosts.BoostPagerBottomSheet.2
+        viewPagerFixed.setAdapter(new ViewPagerFixed.Adapter() { // from class: org.telegram.ui.Components.Premium.boosts.BoostPagerBottomSheet.2
             @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
             public void bindView(View view, int i, int i2) {
             }
@@ -257,7 +257,7 @@ public class BoostPagerBottomSheet extends BottomSheet {
             }
         });
         loadData(z2);
-        Bulletin.addDelegate(this.container, new Bulletin.Delegate(this) { // from class: org.telegram.ui.Components.Premium.boosts.BoostPagerBottomSheet.5
+        Bulletin.addDelegate(this.container, new Bulletin.Delegate() { // from class: org.telegram.ui.Components.Premium.boosts.BoostPagerBottomSheet.5
             @Override // org.telegram.ui.Components.Bulletin.Delegate
             public /* synthetic */ boolean allowLayoutChanges() {
                 return Bulletin.Delegate.-CC.$default$allowLayoutChanges(this);

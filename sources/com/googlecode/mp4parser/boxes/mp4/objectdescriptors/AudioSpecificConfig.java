@@ -20,6 +20,7 @@ public class AudioSpecificConfig extends BaseDescriptor {
     public int coreCoderDelay;
     public int dependsOnCoreCoder;
     public int directMapping;
+    public ELDSpecificConfig eldSpecificConfig;
     public int epConfig;
     public int erHvxcExtensionFlag;
     public int extensionAudioObjectType;
@@ -207,7 +208,7 @@ public class AudioSpecificConfig extends BaseDescriptor {
             case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
                 throw new UnsupportedOperationException("can't parse SLSSpecificConfig yet");
             case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
-                new ELDSpecificConfig(this.channelConfiguration, bitReaderBuffer);
+                this.eldSpecificConfig = new ELDSpecificConfig(this.channelConfiguration, bitReaderBuffer);
                 break;
             case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
             case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
@@ -288,19 +289,25 @@ public class AudioSpecificConfig extends BaseDescriptor {
 
     /* loaded from: classes.dex */
     public class ELDSpecificConfig {
+        public boolean aacScalefactorDataResilienceFlag;
+        public boolean aacSectionDataResilienceFlag;
+        public boolean aacSpectralDataResilienceFlag;
+        public boolean frameLengthFlag;
+        public boolean ldSbrCrcFlag;
         public boolean ldSbrPresentFlag;
+        public boolean ldSbrSamplingRate;
 
         public ELDSpecificConfig(int i, BitReaderBuffer bitReaderBuffer) {
             int i2;
-            bitReaderBuffer.readBool();
-            bitReaderBuffer.readBool();
-            bitReaderBuffer.readBool();
-            bitReaderBuffer.readBool();
+            this.frameLengthFlag = bitReaderBuffer.readBool();
+            this.aacSectionDataResilienceFlag = bitReaderBuffer.readBool();
+            this.aacScalefactorDataResilienceFlag = bitReaderBuffer.readBool();
+            this.aacSpectralDataResilienceFlag = bitReaderBuffer.readBool();
             boolean readBool = bitReaderBuffer.readBool();
             this.ldSbrPresentFlag = readBool;
             if (readBool) {
-                bitReaderBuffer.readBool();
-                bitReaderBuffer.readBool();
+                this.ldSbrSamplingRate = bitReaderBuffer.readBool();
+                this.ldSbrCrcFlag = bitReaderBuffer.readBool();
                 ld_sbr_header(i, bitReaderBuffer);
             }
             while (bitReaderBuffer.readBits(4) != 0) {
@@ -343,35 +350,47 @@ public class AudioSpecificConfig extends BaseDescriptor {
                     break;
             }
             for (int i3 = 0; i3 < i2; i3++) {
-                new sbr_header(AudioSpecificConfig.this, bitReaderBuffer);
+                new sbr_header(bitReaderBuffer);
             }
         }
     }
 
     /* loaded from: classes.dex */
     public class sbr_header {
+        public boolean bs_alter_scale;
+        public boolean bs_amp_res;
+        public int bs_freq_scale;
         public boolean bs_header_extra_1;
         public boolean bs_header_extra_2;
+        public boolean bs_interpol_freq;
+        public int bs_limiter_bands;
+        public int bs_limiter_gains;
+        public int bs_noise_bands;
+        public int bs_reserved;
+        public boolean bs_smoothing_mode;
+        public int bs_start_freq;
+        public int bs_stop_freq;
+        public int bs_xover_band;
 
-        public sbr_header(AudioSpecificConfig audioSpecificConfig, BitReaderBuffer bitReaderBuffer) {
-            bitReaderBuffer.readBool();
-            bitReaderBuffer.readBits(4);
-            bitReaderBuffer.readBits(4);
-            bitReaderBuffer.readBits(3);
-            bitReaderBuffer.readBits(2);
+        public sbr_header(BitReaderBuffer bitReaderBuffer) {
+            this.bs_amp_res = bitReaderBuffer.readBool();
+            this.bs_start_freq = bitReaderBuffer.readBits(4);
+            this.bs_stop_freq = bitReaderBuffer.readBits(4);
+            this.bs_xover_band = bitReaderBuffer.readBits(3);
+            this.bs_reserved = bitReaderBuffer.readBits(2);
             this.bs_header_extra_1 = bitReaderBuffer.readBool();
             this.bs_header_extra_2 = bitReaderBuffer.readBool();
             if (this.bs_header_extra_1) {
-                bitReaderBuffer.readBits(2);
-                bitReaderBuffer.readBool();
-                bitReaderBuffer.readBits(2);
+                this.bs_freq_scale = bitReaderBuffer.readBits(2);
+                this.bs_alter_scale = bitReaderBuffer.readBool();
+                this.bs_noise_bands = bitReaderBuffer.readBits(2);
             }
             if (this.bs_header_extra_2) {
-                bitReaderBuffer.readBits(2);
-                bitReaderBuffer.readBits(2);
-                bitReaderBuffer.readBool();
+                this.bs_limiter_bands = bitReaderBuffer.readBits(2);
+                this.bs_limiter_gains = bitReaderBuffer.readBits(2);
+                this.bs_interpol_freq = bitReaderBuffer.readBool();
             }
-            bitReaderBuffer.readBool();
+            this.bs_smoothing_mode = bitReaderBuffer.readBool();
         }
     }
 
@@ -595,7 +614,7 @@ public class AudioSpecificConfig extends BaseDescriptor {
         if (this == obj) {
             return true;
         }
-        if (obj == null || AudioSpecificConfig.class != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         AudioSpecificConfig audioSpecificConfig = (AudioSpecificConfig) obj;

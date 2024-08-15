@@ -380,7 +380,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
         updateColors();
         this.activeTextPaint.setColor(-1);
         if (z) {
-            FrameLayout frameLayout = new FrameLayout(this, context) { // from class: org.telegram.ui.CalendarActivity.7
+            FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.CalendarActivity.7
                 @Override // android.view.View
                 public void onDraw(Canvas canvas) {
                     canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), AndroidUtilities.getShadowHeight(), Theme.dividerPaint);
@@ -395,7 +395,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
             textView.setGravity(17);
             this.selectDaysButton.setTextSize(1, 15.0f);
             this.selectDaysButton.setTypeface(AndroidUtilities.bold());
-            this.selectDaysButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CalendarActivity$$ExternalSyntheticLambda2
+            this.selectDaysButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CalendarActivity$$ExternalSyntheticLambda1
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     CalendarActivity.this.lambda$createView$0(view);
@@ -409,7 +409,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
             textView2.setGravity(17);
             this.removeDaysButton.setTextSize(1, 15.0f);
             this.removeDaysButton.setTypeface(AndroidUtilities.bold());
-            this.removeDaysButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CalendarActivity$$ExternalSyntheticLambda1
+            this.removeDaysButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CalendarActivity$$ExternalSyntheticLambda2
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     CalendarActivity.this.lambda$createView$1(view);
@@ -508,7 +508,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
         tLRPC$TL_messages_getSearchResultsCalendar.offset_id = this.lastId;
         final Calendar calendar = Calendar.getInstance();
         this.listView.setItemAnimator(null);
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_getSearchResultsCalendar, new RequestDelegate() { // from class: org.telegram.ui.CalendarActivity$$ExternalSyntheticLambda4
+        getConnectionsManager().sendRequest(tLRPC$TL_messages_getSearchResultsCalendar, new RequestDelegate() { // from class: org.telegram.ui.CalendarActivity$$ExternalSyntheticLambda3
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 CalendarActivity.this.lambda$loadNext$3(calendar, tLObject, tLRPC$TL_error);
@@ -518,7 +518,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadNext$3(final Calendar calendar, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CalendarActivity$$ExternalSyntheticLambda3
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CalendarActivity$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 CalendarActivity.this.lambda$loadNext$2(tLRPC$TL_error, tLObject, calendar);
@@ -757,6 +757,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes4.dex */
     public class MonthView extends FrameLayout {
+        boolean attached;
         int cellCount;
         int currentMonthInYear;
         int currentYear;
@@ -779,7 +780,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
             setWillNotDraw(false);
             this.titleView = new SimpleTextView(context);
             if (CalendarActivity.this.calendarType == 0 && CalendarActivity.this.canClearHistory) {
-                this.titleView.setOnLongClickListener(new View.OnLongClickListener() { // from class: org.telegram.ui.CalendarActivity$MonthView$$ExternalSyntheticLambda1
+                this.titleView.setOnLongClickListener(new View.OnLongClickListener() { // from class: org.telegram.ui.CalendarActivity$MonthView$$ExternalSyntheticLambda0
                     @Override // android.view.View.OnLongClickListener
                     public final boolean onLongClick(View view) {
                         boolean lambda$new$0;
@@ -787,7 +788,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
                         return lambda$new$0;
                     }
                 });
-                this.titleView.setOnClickListener(new View.OnClickListener(CalendarActivity.this) { // from class: org.telegram.ui.CalendarActivity.MonthView.1
+                this.titleView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CalendarActivity.MonthView.1
                     @Override // android.view.View.OnClickListener
                     public void onClick(View view) {
                         MonthView monthView;
@@ -862,6 +863,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
         /* loaded from: classes4.dex */
         public class 2 extends GestureDetector.SimpleOnGestureListener {
             final /* synthetic */ Context val$context;
+            final /* synthetic */ CalendarActivity val$this$0;
 
             @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
             public boolean onDown(MotionEvent motionEvent) {
@@ -869,6 +871,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
             }
 
             2(CalendarActivity calendarActivity, Context context) {
+                this.val$this$0 = calendarActivity;
                 this.val$context = context;
             }
 
@@ -996,7 +999,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
                     ActionBarMenuSubItem actionBarMenuSubItem = new ActionBarMenuSubItem(CalendarActivity.this.getParentActivity(), true, false);
                     actionBarMenuSubItem.setTextAndIcon(LocaleController.getString("JumpToDate", R.string.JumpToDate), R.drawable.msg_message);
                     actionBarMenuSubItem.setMinimumWidth(160);
-                    actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CalendarActivity$MonthView$2$$ExternalSyntheticLambda2
+                    actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CalendarActivity$MonthView$2$$ExternalSyntheticLambda0
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
                             CalendarActivity.MonthView.2.this.lambda$onLongPress$1(dayAtCoord, view);
@@ -1007,7 +1010,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
                         ActionBarMenuSubItem actionBarMenuSubItem2 = new ActionBarMenuSubItem(CalendarActivity.this.getParentActivity(), false, false);
                         actionBarMenuSubItem2.setTextAndIcon(LocaleController.getString("SelectThisDay", R.string.SelectThisDay), R.drawable.msg_select);
                         actionBarMenuSubItem2.setMinimumWidth(160);
-                        actionBarMenuSubItem2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CalendarActivity$MonthView$2$$ExternalSyntheticLambda3
+                        actionBarMenuSubItem2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CalendarActivity$MonthView$2$$ExternalSyntheticLambda1
                             @Override // android.view.View.OnClickListener
                             public final void onClick(View view) {
                                 CalendarActivity.MonthView.2.this.lambda$onLongPress$2(dayAtCoord, view);
@@ -1017,7 +1020,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
                         ActionBarMenuSubItem actionBarMenuSubItem3 = new ActionBarMenuSubItem(CalendarActivity.this.getParentActivity(), false, true);
                         actionBarMenuSubItem3.setTextAndIcon(LocaleController.getString("ClearHistory", R.string.ClearHistory), R.drawable.msg_delete);
                         actionBarMenuSubItem3.setMinimumWidth(160);
-                        actionBarMenuSubItem3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CalendarActivity$MonthView$2$$ExternalSyntheticLambda0
+                        actionBarMenuSubItem3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CalendarActivity$MonthView$2$$ExternalSyntheticLambda2
                             @Override // android.view.View.OnClickListener
                             public final void onClick(View view) {
                                 CalendarActivity.MonthView.2.this.lambda$onLongPress$3(view);
@@ -1036,7 +1039,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
                             }
                         }
                     };
-                    CalendarActivity.this.blurredView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CalendarActivity$MonthView$2$$ExternalSyntheticLambda1
+                    CalendarActivity.this.blurredView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CalendarActivity$MonthView$2$$ExternalSyntheticLambda3
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
                             CalendarActivity.MonthView.2.this.lambda$onLongPress$4(view);
@@ -1180,7 +1183,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
                 final float f9 = f2;
                 final float f10 = f5;
                 final float f11 = f6;
-                duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.CalendarActivity$MonthView$$ExternalSyntheticLambda0
+                duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.CalendarActivity$MonthView$$ExternalSyntheticLambda1
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                         CalendarActivity.MonthView.this.lambda$animateRow$1(rowAnimationValue2, f7, f8, f9, f10, f3, f11, valueAnimator2);
@@ -1543,6 +1546,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
         @Override // android.view.ViewGroup, android.view.View
         protected void onAttachedToWindow() {
             super.onAttachedToWindow();
+            this.attached = true;
             if (this.imagesByDays != null) {
                 for (int i = 0; i < this.imagesByDays.size(); i++) {
                     this.imagesByDays.valueAt(i).onAttachedToWindow();
@@ -1553,6 +1557,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
         @Override // android.view.ViewGroup, android.view.View
         protected void onDetachedFromWindow() {
             super.onDetachedFromWindow();
+            this.attached = false;
             if (this.imagesByDays != null) {
                 for (int i = 0; i < this.imagesByDays.size(); i++) {
                     this.imagesByDays.valueAt(i).onDetachedFromWindow();
@@ -1650,14 +1655,14 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
         float toSelSEProgress;
         boolean wasDrawn;
 
-        private PeriodDay(CalendarActivity calendarActivity) {
+        private PeriodDay() {
             this.enterAlpha = 1.0f;
             this.startEnterDelay = 1.0f;
             this.hasImage = true;
         }
 
         /* synthetic */ PeriodDay(CalendarActivity calendarActivity, 1 r2) {
-            this(calendarActivity);
+            this();
         }
     }
 

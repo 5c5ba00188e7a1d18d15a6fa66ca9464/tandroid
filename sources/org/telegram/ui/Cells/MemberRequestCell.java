@@ -35,8 +35,8 @@ public class MemberRequestCell extends FrameLayout {
 
     public MemberRequestCell(Context context, final OnClickListener onClickListener, boolean z) {
         super(context);
-        int i;
         String str;
+        int i;
         this.avatarDrawable = new AvatarDrawable();
         BackupImageView backupImageView = new BackupImageView(getContext());
         this.avatarImageView = backupImageView;
@@ -66,17 +66,17 @@ public class MemberRequestCell extends FrameLayout {
         textView.setMaxLines(1);
         textView.setPadding(dp, 0, dp, 0);
         if (z) {
-            i = R.string.AddToChannel;
             str = "AddToChannel";
+            i = R.string.AddToChannel;
         } else {
-            i = R.string.AddToGroup;
             str = "AddToGroup";
+            i = R.string.AddToGroup;
         }
         textView.setText(LocaleController.getString(str, i));
         textView.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
         textView.setTextSize(14.0f);
         textView.setTypeface(AndroidUtilities.bold());
-        textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.MemberRequestCell$$ExternalSyntheticLambda1
+        textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.MemberRequestCell$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 MemberRequestCell.this.lambda$new$0(onClickListener, view);
@@ -94,7 +94,7 @@ public class MemberRequestCell extends FrameLayout {
         textView2.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText));
         textView2.setTextSize(14.0f);
         textView2.setTypeface(AndroidUtilities.bold());
-        textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.MemberRequestCell$$ExternalSyntheticLambda0
+        textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.MemberRequestCell$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 MemberRequestCell.this.lambda$new$1(onClickListener, view);

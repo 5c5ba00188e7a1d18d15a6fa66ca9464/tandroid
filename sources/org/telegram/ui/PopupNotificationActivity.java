@@ -619,7 +619,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
         builder.setMessage(LocaleController.getString("PermissionNoAudioWithHint", R.string.PermissionNoAudioWithHint));
-        builder.setNegativeButton(LocaleController.getString("PermissionOpenSettings", R.string.PermissionOpenSettings), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PopupNotificationActivity$$ExternalSyntheticLambda0
+        builder.setNegativeButton(LocaleController.getString("PermissionOpenSettings", R.string.PermissionOpenSettings), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PopupNotificationActivity$$ExternalSyntheticLambda2
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i2) {
                 PopupNotificationActivity.this.lambda$onRequestPermissionsResult$0(dialogInterface, i2);
@@ -740,7 +740,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                         translationX = dp - this.centerView.getTranslationX();
                         viewGroup = this.leftView;
                         viewGroup2 = this.leftButtonsView;
-                        this.onAnimationEndRunnable = new Runnable() { // from class: org.telegram.ui.PopupNotificationActivity$$ExternalSyntheticLambda8
+                        this.onAnimationEndRunnable = new Runnable() { // from class: org.telegram.ui.PopupNotificationActivity$$ExternalSyntheticLambda6
                             @Override // java.lang.Runnable
                             public final void run() {
                                 PopupNotificationActivity.this.lambda$onTouchEventMy$1();
@@ -750,7 +750,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                         translationX = (-dp) - this.centerView.getTranslationX();
                         viewGroup = this.rightView;
                         viewGroup2 = this.rightButtonsView;
-                        this.onAnimationEndRunnable = new Runnable() { // from class: org.telegram.ui.PopupNotificationActivity$$ExternalSyntheticLambda6
+                        this.onAnimationEndRunnable = new Runnable() { // from class: org.telegram.ui.PopupNotificationActivity$$ExternalSyntheticLambda7
                             @Override // java.lang.Runnable
                             public final void run() {
                                 PopupNotificationActivity.this.lambda$onTouchEventMy$2();
@@ -760,7 +760,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                         float f2 = -this.centerView.getTranslationX();
                         ViewGroup viewGroup3 = x2 > 0 ? this.leftView : this.rightView;
                         ViewGroup viewGroup4 = x2 > 0 ? this.leftButtonsView : this.rightButtonsView;
-                        this.onAnimationEndRunnable = new Runnable() { // from class: org.telegram.ui.PopupNotificationActivity$$ExternalSyntheticLambda7
+                        this.onAnimationEndRunnable = new Runnable() { // from class: org.telegram.ui.PopupNotificationActivity$$ExternalSyntheticLambda8
                             @Override // java.lang.Runnable
                             public final void run() {
                                 PopupNotificationActivity.this.lambda$onTouchEventMy$3();
@@ -813,7 +813,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                 translationX = dp - this.centerView.getTranslationX();
                 viewGroup = this.leftView;
                 viewGroup2 = this.leftButtonsView;
-                this.onAnimationEndRunnable = new Runnable() { // from class: org.telegram.ui.PopupNotificationActivity$$ExternalSyntheticLambda8
+                this.onAnimationEndRunnable = new Runnable() { // from class: org.telegram.ui.PopupNotificationActivity$$ExternalSyntheticLambda6
                     @Override // java.lang.Runnable
                     public final void run() {
                         PopupNotificationActivity.this.lambda$onTouchEventMy$1();
@@ -948,7 +948,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                                 linearLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                                 linearLayout.setWeightSum(100.0f);
                                 linearLayout.setTag("b");
-                                linearLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.PopupNotificationActivity$$ExternalSyntheticLambda5
+                                linearLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.PopupNotificationActivity$$ExternalSyntheticLambda0
                                     @Override // android.view.View.OnTouchListener
                                     public final boolean onTouch(View view, MotionEvent motionEvent) {
                                         boolean lambda$getButtonsViewForMessage$4;
@@ -1009,19 +1009,17 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:45:0x0170  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x0184  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x0174  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x0188  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private ViewGroup getViewForMessage(int i, boolean z) {
         ViewGroup frameLayout;
+        ViewGroup viewGroup;
         int i2;
         boolean z2;
-        ViewGroup viewGroup;
-        ViewGroup frameLayout2;
         PopupAudioView popupAudioView;
-        ViewGroup viewGroup2;
         int i3 = i;
         if (this.popupMessages.size() != 1 || (i3 >= 0 && i3 < this.popupMessages.size())) {
             if (i3 == -1) {
@@ -1037,19 +1035,19 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                     this.imageViews.remove(0);
                 } else {
                     frameLayout = new FrameLayout(this);
-                    FrameLayout frameLayout3 = new FrameLayout(this);
-                    frameLayout3.setPadding(AndroidUtilities.dp(10.0f), AndroidUtilities.dp(10.0f), AndroidUtilities.dp(10.0f), AndroidUtilities.dp(10.0f));
-                    frameLayout3.setBackgroundDrawable(Theme.getSelectorDrawable(false));
-                    frameLayout.addView(frameLayout3, LayoutHelper.createFrame(-1, -1.0f));
+                    FrameLayout frameLayout2 = new FrameLayout(this);
+                    frameLayout2.setPadding(AndroidUtilities.dp(10.0f), AndroidUtilities.dp(10.0f), AndroidUtilities.dp(10.0f), AndroidUtilities.dp(10.0f));
+                    frameLayout2.setBackgroundDrawable(Theme.getSelectorDrawable(false));
+                    frameLayout.addView(frameLayout2, LayoutHelper.createFrame(-1, -1.0f));
                     BackupImageView backupImageView = new BackupImageView(this);
                     backupImageView.setTag(311);
-                    frameLayout3.addView(backupImageView, LayoutHelper.createFrame(-1, -1.0f));
+                    frameLayout2.addView(backupImageView, LayoutHelper.createFrame(-1, -1.0f));
                     TextView textView = new TextView(this);
                     textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
                     textView.setTextSize(1, 16.0f);
                     textView.setGravity(17);
                     textView.setTag(312);
-                    frameLayout3.addView(textView, LayoutHelper.createFrame(-1, -2, 17));
+                    frameLayout2.addView(textView, LayoutHelper.createFrame(-1, -2, 17));
                     frameLayout.setTag(2);
                     frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PopupNotificationActivity$$ExternalSyntheticLambda3
                         @Override // android.view.View.OnClickListener
@@ -1058,9 +1056,9 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                         }
                     });
                 }
-                ViewGroup viewGroup3 = frameLayout;
-                TextView textView2 = (TextView) viewGroup3.findViewWithTag(312);
-                BackupImageView backupImageView2 = (BackupImageView) viewGroup3.findViewWithTag(311);
+                viewGroup = frameLayout;
+                TextView textView2 = (TextView) viewGroup.findViewWithTag(312);
+                BackupImageView backupImageView2 = (BackupImageView) viewGroup.findViewWithTag(311);
                 backupImageView2.setAspectFit(true);
                 int i5 = messageObject.type;
                 if (i5 == 1) {
@@ -1082,11 +1080,9 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                                 textView2.setVisibility(0);
                                 textView2.setTextSize(2, SharedConfig.fontSize);
                                 textView2.setText(messageObject.messageText);
-                                viewGroup = viewGroup3;
                             } else {
                                 backupImageView2.setVisibility(0);
                                 textView2.setVisibility(i2);
-                                viewGroup = viewGroup3;
                             }
                         }
                     }
@@ -1094,72 +1090,63 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                     z2 = false;
                     if (z2) {
                     }
-                } else {
-                    viewGroup = viewGroup3;
-                    if (i5 == 4) {
-                        textView2.setVisibility(8);
-                        textView2.setText(messageObject.messageText);
-                        backupImageView2.setVisibility(0);
-                        TLRPC$GeoPoint tLRPC$GeoPoint = messageObject.messageOwner.media.geo;
-                        double d = tLRPC$GeoPoint.lat;
-                        double d2 = tLRPC$GeoPoint._long;
-                        if (MessagesController.getInstance(messageObject.currentAccount).mapProvider == 2) {
-                            backupImageView2.setImage(ImageLocation.getForWebFile(WebFile.createWithGeoPoint(tLRPC$GeoPoint, 100, 100, 15, Math.min(2, (int) Math.ceil(AndroidUtilities.density)))), (String) null, (String) null, (Drawable) null, messageObject);
-                            viewGroup = viewGroup3;
-                        } else {
-                            backupImageView2.setImage(AndroidUtilities.formapMapUrl(messageObject.currentAccount, d, d2, 100, 100, true, 15, -1), null, null);
-                            viewGroup = viewGroup3;
-                        }
+                } else if (i5 == 4) {
+                    textView2.setVisibility(8);
+                    textView2.setText(messageObject.messageText);
+                    backupImageView2.setVisibility(0);
+                    TLRPC$GeoPoint tLRPC$GeoPoint = messageObject.messageOwner.media.geo;
+                    double d = tLRPC$GeoPoint.lat;
+                    double d2 = tLRPC$GeoPoint._long;
+                    if (MessagesController.getInstance(messageObject.currentAccount).mapProvider == 2) {
+                        backupImageView2.setImage(ImageLocation.getForWebFile(WebFile.createWithGeoPoint(tLRPC$GeoPoint, 100, 100, 15, Math.min(2, (int) Math.ceil(AndroidUtilities.density)))), (String) null, (String) null, (Drawable) null, messageObject);
+                    } else {
+                        backupImageView2.setImage(AndroidUtilities.formapMapUrl(messageObject.currentAccount, d, d2, 100, 100, true, 15, -1), null, null);
                     }
                 }
             } else if (messageObject.type == 2) {
                 if (this.audioViews.size() > 0) {
-                    ViewGroup viewGroup4 = this.audioViews.get(0);
+                    viewGroup = this.audioViews.get(0);
                     this.audioViews.remove(0);
-                    popupAudioView = (PopupAudioView) viewGroup4.findViewWithTag(300);
-                    viewGroup2 = viewGroup4;
+                    popupAudioView = (PopupAudioView) viewGroup.findViewWithTag(300);
                 } else {
-                    ViewGroup frameLayout4 = new FrameLayout(this);
-                    FrameLayout frameLayout5 = new FrameLayout(this);
-                    frameLayout5.setPadding(AndroidUtilities.dp(10.0f), AndroidUtilities.dp(10.0f), AndroidUtilities.dp(10.0f), AndroidUtilities.dp(10.0f));
-                    frameLayout5.setBackgroundDrawable(Theme.getSelectorDrawable(false));
-                    frameLayout4.addView(frameLayout5, LayoutHelper.createFrame(-1, -1.0f));
-                    FrameLayout frameLayout6 = new FrameLayout(this);
-                    frameLayout5.addView(frameLayout6, LayoutHelper.createFrame(-1, -2.0f, 17, 20.0f, 0.0f, 20.0f, 0.0f));
+                    viewGroup = new FrameLayout(this);
+                    FrameLayout frameLayout3 = new FrameLayout(this);
+                    frameLayout3.setPadding(AndroidUtilities.dp(10.0f), AndroidUtilities.dp(10.0f), AndroidUtilities.dp(10.0f), AndroidUtilities.dp(10.0f));
+                    frameLayout3.setBackgroundDrawable(Theme.getSelectorDrawable(false));
+                    viewGroup.addView(frameLayout3, LayoutHelper.createFrame(-1, -1.0f));
+                    FrameLayout frameLayout4 = new FrameLayout(this);
+                    frameLayout3.addView(frameLayout4, LayoutHelper.createFrame(-1, -2.0f, 17, 20.0f, 0.0f, 20.0f, 0.0f));
                     PopupAudioView popupAudioView2 = new PopupAudioView(this);
                     popupAudioView2.setTag(300);
-                    frameLayout6.addView(popupAudioView2);
-                    frameLayout4.setTag(3);
-                    frameLayout4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PopupNotificationActivity$$ExternalSyntheticLambda4
+                    frameLayout4.addView(popupAudioView2);
+                    viewGroup.setTag(3);
+                    viewGroup.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PopupNotificationActivity$$ExternalSyntheticLambda4
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
                             PopupNotificationActivity.this.lambda$getViewForMessage$7(view);
                         }
                     });
                     popupAudioView = popupAudioView2;
-                    viewGroup2 = frameLayout4;
                 }
                 popupAudioView.setMessageObject(messageObject);
-                viewGroup = viewGroup2;
                 if (DownloadController.getInstance(messageObject.currentAccount).canDownloadMedia(messageObject)) {
                     popupAudioView.downloadAudioIfNeed();
-                    viewGroup = viewGroup2;
                 }
             } else {
                 if (this.textViews.size() > 0) {
-                    frameLayout2 = this.textViews.get(0);
+                    viewGroup = this.textViews.get(0);
                     this.textViews.remove(0);
                 } else {
-                    frameLayout2 = new FrameLayout(this);
+                    viewGroup = new FrameLayout(this);
                     ScrollView scrollView = new ScrollView(this);
                     scrollView.setFillViewport(true);
-                    frameLayout2.addView(scrollView, LayoutHelper.createFrame(-1, -1.0f));
+                    viewGroup.addView(scrollView, LayoutHelper.createFrame(-1, -1.0f));
                     LinearLayout linearLayout = new LinearLayout(this);
                     linearLayout.setOrientation(0);
                     linearLayout.setBackgroundDrawable(Theme.getSelectorDrawable(false));
                     scrollView.addView(linearLayout, LayoutHelper.createScroll(-1, -2, 1));
                     linearLayout.setPadding(AndroidUtilities.dp(10.0f), AndroidUtilities.dp(10.0f), AndroidUtilities.dp(10.0f), AndroidUtilities.dp(10.0f));
-                    linearLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PopupNotificationActivity$$ExternalSyntheticLambda2
+                    linearLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PopupNotificationActivity$$ExternalSyntheticLambda5
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
                             PopupNotificationActivity.this.lambda$getViewForMessage$8(view);
@@ -1173,12 +1160,11 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                     textView3.setLinkTextColor(Theme.getColor(i6));
                     textView3.setGravity(17);
                     linearLayout.addView(textView3, LayoutHelper.createLinear(-1, -2, 17));
-                    frameLayout2.setTag(1);
+                    viewGroup.setTag(1);
                 }
-                TextView textView4 = (TextView) frameLayout2.findViewWithTag(301);
+                TextView textView4 = (TextView) viewGroup.findViewWithTag(301);
                 textView4.setTextSize(2, SharedConfig.fontSize);
                 textView4.setText(messageObject.messageText);
-                viewGroup = frameLayout2;
             }
             if (viewGroup.getParent() == null) {
                 this.messageContainer.addView(viewGroup);

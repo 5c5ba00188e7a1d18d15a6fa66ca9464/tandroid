@@ -1,142 +1,71 @@
 package j$.util.stream;
 
-import java.util.concurrent.CountedCompleter;
+import j$.util.function.Consumer;
 /* loaded from: classes2.dex */
-final class A3 extends d {
-    private final c j;
-    private final j$.util.function.m k;
-    private final long l;
-    private final long m;
-    private long n;
-    private volatile boolean o;
-
-    A3(A3 a3, j$.util.s sVar) {
-        super(a3, sVar);
-        this.j = a3.j;
-        this.k = a3.k;
-        this.l = a3.l;
-        this.m = a3.m;
+final class A3 extends V2 {
+    A3(u0 u0Var, j$.util.Q q, boolean z) {
+        super(u0Var, q, z);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public A3(c cVar, y2 y2Var, j$.util.s sVar, j$.util.function.m mVar, long j, long j2) {
-        super(y2Var, sVar);
-        this.j = cVar;
-        this.k = mVar;
-        this.l = j;
-        this.m = j2;
+    public A3(u0 u0Var, a aVar, boolean z) {
+        super(u0Var, aVar, z);
     }
 
-    private long m(long j) {
-        if (this.o) {
-            return this.n;
-        }
-        A3 a3 = (A3) this.d;
-        A3 a32 = (A3) this.e;
-        if (a3 == null || a32 == null) {
-            return this.n;
-        }
-        long m = a3.m(j);
-        return m >= j ? m : m + a32.m(j);
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // j$.util.stream.f
-    public Object a() {
-        if (e()) {
-            s1 o0 = this.j.o0(d4.SIZED.e(this.j.c) ? this.j.l0(this.b) : -1L, this.k);
-            m3 C0 = this.j.C0(this.a.n0(), o0);
-            y2 y2Var = this.a;
-            y2Var.j0(y2Var.q0(C0), this.b);
-            return o0.a();
-        }
-        y2 y2Var2 = this.a;
-        s1 o02 = y2Var2.o0(-1L, this.k);
-        y2Var2.p0(o02, this.b);
-        A1 a = o02.a();
-        this.n = a.count();
-        this.o = true;
-        this.b = null;
-        return a;
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // j$.util.stream.f
-    public f f(j$.util.s sVar) {
-        return new A3(this, sVar);
-    }
-
-    @Override // j$.util.stream.d
-    protected void i() {
-        this.i = true;
-        if (this.o) {
-            g(k());
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // j$.util.stream.d
-    /* renamed from: n */
-    public final A1 k() {
-        return x2.k(this.j.w0());
-    }
-
-    /* JADX WARN: Removed duplicated region for block: B:18:0x0065  */
-    @Override // j$.util.stream.f, java.util.concurrent.CountedCompleter
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public final void onCompletion(CountedCompleter countedCompleter) {
-        A3 a3;
-        A1 i;
-        boolean z = true;
-        if (!d()) {
-            this.n = ((A3) this.d).n + ((A3) this.e).n;
-            if (this.i) {
-                this.n = 0L;
-            } else if (this.n != 0) {
-                i = ((A3) this.d).n == 0 ? (A1) ((A3) this.e).b() : x2.i(this.j.w0(), (A1) ((A3) this.d).b(), (A1) ((A3) this.e).b());
-                A1 a1 = i;
-                if (e()) {
-                    a1 = a1.r(this.l, this.m >= 0 ? Math.min(a1.count(), this.l + this.m) : this.n, this.k);
-                }
-                g(a1);
-                this.o = true;
-            }
-            i = k();
-            A1 a12 = i;
-            if (e()) {
-            }
-            g(a12);
-            this.o = true;
-        }
-        if (this.m >= 0 && !e()) {
-            long j = this.l + this.m;
-            long m = this.o ? this.n : m(j);
-            if (m < j) {
-                A3 a32 = (A3) c();
-                A3 a33 = this;
-                while (true) {
-                    if (a32 != null) {
-                        if (a33 == a32.e && (a3 = (A3) a32.d) != null) {
-                            m += a3.m(j);
-                            if (m >= j) {
-                                break;
-                            }
+    @Override // j$.util.Q
+    public final boolean a(Consumer consumer) {
+        Object obj;
+        consumer.getClass();
+        boolean f = f();
+        if (f) {
+            P2 p2 = (P2) this.h;
+            long j = this.g;
+            if (p2.c != 0) {
+                if (j < p2.count()) {
+                    for (int i = 0; i <= p2.c; i++) {
+                        long j2 = p2.d[i];
+                        Object[] objArr = p2.f[i];
+                        if (j < objArr.length + j2) {
+                            obj = objArr[(int) (j - j2)];
                         }
-                        a33 = a32;
-                        a32 = (A3) a32.c();
-                    } else if (m < j) {
-                        z = false;
                     }
+                    throw new IndexOutOfBoundsException(Long.toString(j));
                 }
+                throw new IndexOutOfBoundsException(Long.toString(j));
+            } else if (j >= p2.b) {
+                throw new IndexOutOfBoundsException(Long.toString(j));
+            } else {
+                obj = p2.e[(int) j];
             }
-            if (z) {
-                j();
-            }
+            consumer.accept(obj);
         }
-        this.b = null;
-        this.e = null;
-        this.d = null;
+        return f;
+    }
+
+    @Override // j$.util.Q
+    public final void forEachRemaining(Consumer consumer) {
+        if (this.h != null || this.i) {
+            do {
+            } while (a(consumer));
+            return;
+        }
+        consumer.getClass();
+        h();
+        z3 z3Var = new z3(consumer, 1);
+        this.b.X0(this.d, z3Var);
+        this.i = true;
+    }
+
+    @Override // j$.util.stream.V2
+    final void i() {
+        P2 p2 = new P2();
+        this.h = p2;
+        this.e = this.b.Y0(new z3(p2, 0));
+        this.f = new a(this, 7);
+    }
+
+    @Override // j$.util.stream.V2
+    final V2 k(j$.util.Q q) {
+        return new A3(this.b, q, this.a);
     }
 }

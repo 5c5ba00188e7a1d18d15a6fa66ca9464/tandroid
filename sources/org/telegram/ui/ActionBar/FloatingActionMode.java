@@ -96,7 +96,7 @@ public final class FloatingActionMode extends ActionMode {
         PopupMenu popupMenu = new PopupMenu(context, null);
         this.mMenu = popupMenu.getMenu();
         setType(1);
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() { // from class: org.telegram.ui.ActionBar.FloatingActionMode$$ExternalSyntheticLambda1
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() { // from class: org.telegram.ui.ActionBar.FloatingActionMode$$ExternalSyntheticLambda2
             @Override // android.widget.PopupMenu.OnMenuItemClickListener
             public final boolean onMenuItemClick(MenuItem menuItem) {
                 boolean lambda$new$0;
@@ -132,7 +132,7 @@ public final class FloatingActionMode extends ActionMode {
     }
 
     private void setFloatingToolbar(FloatingToolbar floatingToolbar) {
-        FloatingToolbar onMenuItemClickListener = floatingToolbar.setMenu(this.mMenu).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() { // from class: org.telegram.ui.ActionBar.FloatingActionMode$$ExternalSyntheticLambda0
+        FloatingToolbar onMenuItemClickListener = floatingToolbar.setMenu(this.mMenu).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() { // from class: org.telegram.ui.ActionBar.FloatingActionMode$$ExternalSyntheticLambda3
             @Override // android.view.MenuItem.OnMenuItemClickListener
             public final boolean onMenuItemClick(MenuItem menuItem) {
                 boolean lambda$setFloatingToolbar$1;
@@ -214,7 +214,9 @@ public final class FloatingActionMode extends ActionMode {
     }
 
     private boolean isContentRectWithinBounds() {
-        ((WindowManager) this.mContext.getSystemService(WindowManager.class)).getDefaultDisplay().getRealSize(this.mDisplaySize);
+        Object systemService;
+        systemService = this.mContext.getSystemService(WindowManager.class);
+        ((WindowManager) systemService).getDefaultDisplay().getRealSize(this.mDisplaySize);
         Rect rect = this.mScreenRect;
         Point point = this.mDisplaySize;
         rect.set(0, 0, point.x, point.y);

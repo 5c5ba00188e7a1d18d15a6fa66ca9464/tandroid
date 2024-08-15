@@ -227,7 +227,7 @@ public class HistoryFragment extends UniversalFragment {
         public /* synthetic */ void lambda$$2() {
             final ArrayList arrayList = new ArrayList(HistoryFragment.this.history);
             final String str = HistoryFragment.this.query;
-            Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.web.HistoryFragment$2$$ExternalSyntheticLambda2
+            Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.web.HistoryFragment$2$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     HistoryFragment.2.this.lambda$$1(arrayList, str);
@@ -245,7 +245,7 @@ public class HistoryFragment extends UniversalFragment {
                     arrayList2.add(entry);
                 }
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.HistoryFragment$2$$ExternalSyntheticLambda1
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.HistoryFragment$2$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     HistoryFragment.2.this.lambda$$0(arrayList2);

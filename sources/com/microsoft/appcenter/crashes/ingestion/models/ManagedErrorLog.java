@@ -60,7 +60,7 @@ public class ManagedErrorLog extends AbstractErrorLog {
         if (this == obj) {
             return true;
         }
-        if (obj != null && ManagedErrorLog.class == obj.getClass() && super.equals(obj)) {
+        if (obj != null && getClass() == obj.getClass() && super.equals(obj)) {
             ManagedErrorLog managedErrorLog = (ManagedErrorLog) obj;
             Exception exception = this.exception;
             if (exception == null ? managedErrorLog.exception == null : exception.equals(managedErrorLog.exception)) {

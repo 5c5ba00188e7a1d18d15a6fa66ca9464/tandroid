@@ -1,4 +1,5 @@
 package org.telegram.ui.Components;
+/* compiled from: R8$$SyntheticClass */
 /* loaded from: classes3.dex */
 public final /* synthetic */ class ReplyMessageLine$$ExternalSyntheticBackport0 {
     public static /* synthetic */ int m(int i, int i2) {

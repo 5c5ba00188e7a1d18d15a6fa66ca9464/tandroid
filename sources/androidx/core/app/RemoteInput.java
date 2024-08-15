@@ -94,12 +94,11 @@ public final class RemoteInput {
     }
 
     public static Bundle getResultsFromIntent(Intent intent) {
-        Intent clipDataIntentFromIntent;
-        int i = Build.VERSION.SDK_INT;
-        if (i >= 20) {
+        if (Build.VERSION.SDK_INT >= 20) {
             return Api20Impl.getResultsFromIntent(intent);
         }
-        if (i < 16 || (clipDataIntentFromIntent = getClipDataIntentFromIntent(intent)) == null) {
+        Intent clipDataIntentFromIntent = getClipDataIntentFromIntent(intent);
+        if (clipDataIntentFromIntent == null) {
             return null;
         }
         return (Bundle) clipDataIntentFromIntent.getExtras().getParcelable("android.remoteinput.resultsData");
@@ -137,11 +136,15 @@ public final class RemoteInput {
     /* loaded from: classes.dex */
     public static class Api26Impl {
         static Map<String, Uri> getDataResultsFromIntent(Intent intent, String str) {
-            return android.app.RemoteInput.getDataResultsFromIntent(intent, str);
+            Map<String, Uri> dataResultsFromIntent;
+            dataResultsFromIntent = android.app.RemoteInput.getDataResultsFromIntent(intent, str);
+            return dataResultsFromIntent;
         }
 
         static Set<String> getAllowedDataTypes(Object obj) {
-            return ((android.app.RemoteInput) obj).getAllowedDataTypes();
+            Set<String> allowedDataTypes;
+            allowedDataTypes = ((android.app.RemoteInput) obj).getAllowedDataTypes();
+            return allowedDataTypes;
         }
 
         static void addDataResultToIntent(RemoteInput remoteInput, Intent intent, Map<String, Uri> map) {
@@ -149,7 +152,9 @@ public final class RemoteInput {
         }
 
         static RemoteInput.Builder setAllowDataType(RemoteInput.Builder builder, String str, boolean z) {
-            return builder.setAllowDataType(str, z);
+            RemoteInput.Builder allowDataType;
+            allowDataType = builder.setAllowDataType(str, z);
+            return allowDataType;
         }
     }
 
@@ -157,7 +162,9 @@ public final class RemoteInput {
     /* loaded from: classes.dex */
     public static class Api20Impl {
         static Bundle getResultsFromIntent(Intent intent) {
-            return android.app.RemoteInput.getResultsFromIntent(intent);
+            Bundle resultsFromIntent;
+            resultsFromIntent = android.app.RemoteInput.getResultsFromIntent(intent);
+            return resultsFromIntent;
         }
 
         static void addResultsToIntent(Object obj, Intent intent, Bundle bundle) {
@@ -165,8 +172,16 @@ public final class RemoteInput {
         }
 
         public static android.app.RemoteInput fromCompat(RemoteInput remoteInput) {
+            RemoteInput.Builder label;
+            RemoteInput.Builder choices;
+            RemoteInput.Builder allowFreeFormInput;
+            RemoteInput.Builder addExtras;
+            android.app.RemoteInput build;
             Set<String> allowedDataTypes;
-            RemoteInput.Builder addExtras = new RemoteInput.Builder(remoteInput.getResultKey()).setLabel(remoteInput.getLabel()).setChoices(remoteInput.getChoices()).setAllowFreeFormInput(remoteInput.getAllowFreeFormInput()).addExtras(remoteInput.getExtras());
+            label = new RemoteInput.Builder(remoteInput.getResultKey()).setLabel(remoteInput.getLabel());
+            choices = label.setChoices(remoteInput.getChoices());
+            allowFreeFormInput = choices.setAllowFreeFormInput(remoteInput.getAllowFreeFormInput());
+            addExtras = allowFreeFormInput.addExtras(remoteInput.getExtras());
             if (Build.VERSION.SDK_INT >= 26 && (allowedDataTypes = remoteInput.getAllowedDataTypes()) != null) {
                 for (String str : allowedDataTypes) {
                     Api26Impl.setAllowDataType(addExtras, str, true);
@@ -175,7 +190,8 @@ public final class RemoteInput {
             if (Build.VERSION.SDK_INT >= 29) {
                 Api29Impl.setEditChoicesBeforeSending(addExtras, remoteInput.getEditChoicesBeforeSending());
             }
-            return addExtras.build();
+            build = addExtras.build();
+            return build;
         }
     }
 
@@ -195,11 +211,15 @@ public final class RemoteInput {
     /* loaded from: classes.dex */
     public static class Api29Impl {
         static int getEditChoicesBeforeSending(Object obj) {
-            return ((android.app.RemoteInput) obj).getEditChoicesBeforeSending();
+            int editChoicesBeforeSending;
+            editChoicesBeforeSending = ((android.app.RemoteInput) obj).getEditChoicesBeforeSending();
+            return editChoicesBeforeSending;
         }
 
         static RemoteInput.Builder setEditChoicesBeforeSending(RemoteInput.Builder builder, int i) {
-            return builder.setEditChoicesBeforeSending(i);
+            RemoteInput.Builder editChoicesBeforeSending;
+            editChoicesBeforeSending = builder.setEditChoicesBeforeSending(i);
+            return editChoicesBeforeSending;
         }
     }
 }

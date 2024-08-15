@@ -191,7 +191,7 @@ public class EditTextCaption extends EditTextBoldCursor {
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r2v1, types: [org.telegram.ui.ActionBar.AlertDialog$Builder] */
-    /* JADX WARN: Type inference failed for: r3v2, types: [android.widget.FrameLayout, android.view.View] */
+    /* JADX WARN: Type inference failed for: r3v2, types: [android.widget.FrameLayout, android.view.View, android.view.ViewGroup] */
     public void makeSelectedUrl() {
         Object builder;
         final int selectionEnd;
@@ -204,7 +204,7 @@ public class EditTextCaption extends EditTextBoldCursor {
         ?? r2 = builder;
         r2.setTitle(LocaleController.getString("CreateLink", R.string.CreateLink));
         ?? frameLayout = new FrameLayout(getContext());
-        final EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(this, getContext()) { // from class: org.telegram.ui.Components.EditTextCaption.2
+        final EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(getContext()) { // from class: org.telegram.ui.Components.EditTextCaption.2
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
             public void onMeasure(int i, int i2) {
@@ -238,19 +238,19 @@ public class EditTextCaption extends EditTextBoldCursor {
         textView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.multAlpha(themedColor, 0.12f), Theme.multAlpha(themedColor, 0.15f)));
         ScaleStateListAnimator.apply(textView, 0.1f, 1.5f);
         frameLayout.addView(textView, LayoutHelper.createFrame(-2, 26.0f, 21, 0.0f, 0.0f, 24.0f, 3.0f));
-        final Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.EditTextCaption$$ExternalSyntheticLambda5
+        final Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.EditTextCaption$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 EditTextCaption.this.lambda$makeSelectedUrl$0(editTextBoldCursor, textView);
             }
         };
-        textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.EditTextCaption$$ExternalSyntheticLambda4
+        textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.EditTextCaption$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 EditTextCaption.this.lambda$makeSelectedUrl$1(editTextBoldCursor, runnable, view);
             }
         });
-        editTextBoldCursor.addTextChangedListener(new TextWatcher(this) { // from class: org.telegram.ui.Components.EditTextCaption.3
+        editTextBoldCursor.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.Components.EditTextCaption.3
             @Override // android.text.TextWatcher
             public void beforeTextChanged(CharSequence charSequence2, int i, int i2, int i3) {
             }
@@ -287,7 +287,7 @@ public class EditTextCaption extends EditTextBoldCursor {
             i = getSelectionStart();
             selectionEnd = getSelectionEnd();
         }
-        r2.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.EditTextCaption$$ExternalSyntheticLambda0
+        r2.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.EditTextCaption$$ExternalSyntheticLambda2
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i2) {
                 EditTextCaption.this.lambda$makeSelectedUrl$2(i, selectionEnd, editTextBoldCursor, dialogInterface, i2);
@@ -297,13 +297,13 @@ public class EditTextCaption extends EditTextBoldCursor {
         if (this.adaptiveCreateLinkDialog) {
             AlertDialog create = r2.create();
             this.creationLinkDialog = create;
-            create.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.EditTextCaption$$ExternalSyntheticLambda1
+            create.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.EditTextCaption$$ExternalSyntheticLambda3
                 @Override // android.content.DialogInterface.OnDismissListener
                 public final void onDismiss(DialogInterface dialogInterface) {
                     EditTextCaption.this.lambda$makeSelectedUrl$3(dialogInterface);
                 }
             });
-            this.creationLinkDialog.setOnShowListener(new DialogInterface.OnShowListener() { // from class: org.telegram.ui.Components.EditTextCaption$$ExternalSyntheticLambda3
+            this.creationLinkDialog.setOnShowListener(new DialogInterface.OnShowListener() { // from class: org.telegram.ui.Components.EditTextCaption$$ExternalSyntheticLambda4
                 @Override // android.content.DialogInterface.OnShowListener
                 public final void onShow(DialogInterface dialogInterface) {
                     EditTextCaption.lambda$makeSelectedUrl$4(EditTextBoldCursor.this, dialogInterface);
@@ -311,7 +311,7 @@ public class EditTextCaption extends EditTextBoldCursor {
             });
             this.creationLinkDialog.showDelayed(250L);
         } else {
-            r2.show().setOnShowListener(new DialogInterface.OnShowListener() { // from class: org.telegram.ui.Components.EditTextCaption$$ExternalSyntheticLambda2
+            r2.show().setOnShowListener(new DialogInterface.OnShowListener() { // from class: org.telegram.ui.Components.EditTextCaption$$ExternalSyntheticLambda5
                 @Override // android.content.DialogInterface.OnShowListener
                 public final void onShow(DialogInterface dialogInterface) {
                     EditTextCaption.lambda$makeSelectedUrl$5(EditTextBoldCursor.this, dialogInterface);
@@ -440,8 +440,9 @@ public class EditTextCaption extends EditTextBoldCursor {
             for (int i2 = 0; i2 < quoteSpanArr.length; i2++) {
                 text.removeSpan(quoteSpanArr[i2]);
                 text.removeSpan(quoteSpanArr[i2].styleSpan);
-                if (quoteSpanArr[i2].collapsedSpan != null) {
-                    text.removeSpan(quoteSpanArr[i2].collapsedSpan);
+                QuoteSpan.QuoteCollapsedPart quoteCollapsedPart = quoteSpanArr[i2].collapsedSpan;
+                if (quoteCollapsedPart != null) {
+                    text.removeSpan(quoteCollapsedPart);
                 }
             }
             if (quoteSpanArr.length > 0) {
@@ -499,7 +500,7 @@ public class EditTextCaption extends EditTextBoldCursor {
                 callback.onDestroyActionMode(actionMode);
             }
         };
-        return Build.VERSION.SDK_INT >= 23 ? new ActionMode.Callback2(this) { // from class: org.telegram.ui.Components.EditTextCaption.5
+        return Build.VERSION.SDK_INT >= 23 ? new ActionMode.Callback2() { // from class: org.telegram.ui.Components.EditTextCaption.5
             @Override // android.view.ActionMode.Callback
             public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
                 return callback2.onCreateActionMode(actionMode, menu);
@@ -662,8 +663,8 @@ public class EditTextCaption extends EditTextBoldCursor {
             wrap.setHintText(this.caption);
         }
         List<AccessibilityNodeInfoCompat.AccessibilityActionCompat> actionList = wrap.getActionList();
-        int i = 0;
         int size = actionList.size();
+        int i = 0;
         while (true) {
             if (i >= size) {
                 break;

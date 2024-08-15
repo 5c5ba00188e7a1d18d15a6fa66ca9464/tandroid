@@ -201,20 +201,26 @@ public final class VideoFrameReleaseHelper {
 
     private void updateSurfacePlaybackFrameRate(boolean z) {
         Surface surface;
+        float f;
         if (Util.SDK_INT < 30 || (surface = this.surface) == null || this.changeFrameRateStrategy == Integer.MIN_VALUE) {
             return;
         }
-        float f = 0.0f;
         if (this.started) {
             float f2 = this.surfaceMediaFrameRate;
             if (f2 != -1.0f) {
-                f = this.playbackSpeed * f2;
+                f = f2 * this.playbackSpeed;
+                if (z && this.surfacePlaybackFrameRate == f) {
+                    return;
+                }
+                this.surfacePlaybackFrameRate = f;
+                Api30.setSurfaceFrameRate(surface, f);
             }
         }
-        if (z || this.surfacePlaybackFrameRate != f) {
-            this.surfacePlaybackFrameRate = f;
-            Api30.setSurfaceFrameRate(surface, f);
+        f = 0.0f;
+        if (z) {
         }
+        this.surfacePlaybackFrameRate = f;
+        Api30.setSurfaceFrameRate(surface, f);
     }
 
     private void clearSurfaceFrameRate() {

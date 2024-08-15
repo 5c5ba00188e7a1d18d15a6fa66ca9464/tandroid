@@ -10,11 +10,6 @@ import kotlinx.coroutines.CompletionStateKt;
 public class ScopeCoroutine<T> extends AbstractCoroutine<T> implements CoroutineStackFrame {
     public final Continuation<T> uCont;
 
-    @Override // kotlin.coroutines.jvm.internal.CoroutineStackFrame
-    public final StackTraceElement getStackTraceElement() {
-        return null;
-    }
-
     @Override // kotlinx.coroutines.JobSupport
     protected final boolean isScopedCoroutine() {
         return true;

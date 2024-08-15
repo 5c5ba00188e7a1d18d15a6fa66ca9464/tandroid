@@ -1,80 +1,33 @@
 package j$.util.stream;
-
-import j$.util.function.Function;
-import j$.util.function.ToIntFunction;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-class N extends L0 {
-    public final /* synthetic */ int l = 1;
-    final /* synthetic */ Object m;
-
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public N(U u, c cVar, e4 e4Var, int i, j$.wrappers.F f) {
-        super(cVar, e4Var, i);
-        this.m = f;
-    }
+public final class N extends S implements c2 {
+    final j$.util.function.m b;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // j$.util.stream.c
-    public m3 C0(int i, m3 m3Var) {
-        switch (this.l) {
-            case 0:
-                return new K(this, m3Var);
-            case 1:
-                return new G0(this, m3Var);
-            case 2:
-                return new G0(this, m3Var, (j$.lang.a) null);
-            case 3:
-                return new G0(this, m3Var, (j$.lang.b) null);
-            case 4:
-                return new G0(this, m3Var, (j$.lang.c) null);
-            case 5:
-                return new a1(this, m3Var);
-            case 6:
-                return new Y2(this, m3Var);
-            default:
-                return new s(this, m3Var);
-        }
+    public N(j$.util.function.m mVar, boolean z) {
+        super(z);
+        this.b = mVar;
     }
 
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public N(M0 m0, c cVar, e4 e4Var, int i, j$.util.function.l lVar) {
-        super(cVar, e4Var, i);
-        this.m = lVar;
+    @Override // j$.util.stream.S, j$.util.stream.f2, j$.util.stream.c2, j$.util.function.m
+    public final void accept(double d) {
+        this.b.accept(d);
     }
 
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public N(M0 m0, c cVar, e4 e4Var, int i, j$.util.function.m mVar) {
-        super(cVar, e4Var, i);
-        this.m = mVar;
+    @Override // j$.util.function.Consumer
+    public final /* bridge */ /* synthetic */ void accept(Object obj) {
+        p((Double) obj);
     }
 
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public N(M0 m0, c cVar, e4 e4Var, int i, j$.wrappers.U u) {
-        super(cVar, e4Var, i);
-        this.m = u;
+    @Override // j$.util.function.m
+    public final j$.util.function.m m(j$.util.function.m mVar) {
+        mVar.getClass();
+        return new j$.util.function.j(this, mVar);
     }
 
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public N(M0 m0, c cVar, e4 e4Var, int i, j$.wrappers.a0 a0Var) {
-        super(cVar, e4Var, i);
-        this.m = a0Var;
-    }
-
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public N(e1 e1Var, c cVar, e4 e4Var, int i, j$.wrappers.m0 m0Var) {
-        super(cVar, e4Var, i);
-        this.m = m0Var;
-    }
-
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public N(e3 e3Var, c cVar, e4 e4Var, int i, Function function) {
-        super(cVar, e4Var, i);
-        this.m = function;
-    }
-
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public N(e3 e3Var, c cVar, e4 e4Var, int i, ToIntFunction toIntFunction) {
-        super(cVar, e4Var, i);
-        this.m = toIntFunction;
+    @Override // j$.util.stream.c2
+    public final /* synthetic */ void p(Double d) {
+        u0.j0(this, d);
     }
 }

@@ -15,7 +15,7 @@ class ErrorParser {
             stripeError.decline_code = StripeJsonUtils.optString(jSONObject, "decline_code");
             stripeError.message = StripeJsonUtils.optString(jSONObject, "message");
             stripeError.param = StripeJsonUtils.optString(jSONObject, "param");
-            StripeJsonUtils.optString(jSONObject, "type");
+            stripeError.type = StripeJsonUtils.optString(jSONObject, "type");
         } catch (JSONException unused) {
             stripeError.message = "An improperly formatted error response was found.";
         }
@@ -29,6 +29,7 @@ class ErrorParser {
         public String decline_code;
         public String message;
         public String param;
+        public String type;
 
         StripeError() {
         }

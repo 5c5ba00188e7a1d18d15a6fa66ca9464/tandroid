@@ -68,6 +68,7 @@ public class AcceptDeclineView extends View {
     Drawable rippleDrawable;
     float smallRadius;
     boolean startDrag;
+    float startX;
     float startY;
     float touchSlop;
 
@@ -158,7 +159,7 @@ public class AcceptDeclineView extends View {
         if (isEnabled()) {
             int action = motionEvent.getAction();
             if (action == 0) {
-                motionEvent.getX();
+                this.startX = motionEvent.getX();
                 this.startY = motionEvent.getY();
                 if (this.leftAnimator == null && this.declineRect.contains((int) motionEvent.getX(), (int) motionEvent.getY())) {
                     this.rippleDrawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(52.0f), 0, this.retryMod ? Theme.getColor(Theme.key_listSelector) : -51130);
@@ -503,6 +504,7 @@ public class AcceptDeclineView extends View {
 
         @Override // android.view.accessibility.AccessibilityNodeProvider
         public AccessibilityNodeInfo createAccessibilityNodeInfo(int i) {
+            AccessibilityNodeInfo.AccessibilityAction accessibilityAction;
             if (i == -1) {
                 AccessibilityNodeInfo obtain = AccessibilityNodeInfo.obtain(this.hostView);
                 obtain.setPackageName(this.hostView.getContext().getPackageName());
@@ -515,7 +517,8 @@ public class AcceptDeclineView extends View {
             obtain2.setPackageName(this.hostView.getContext().getPackageName());
             int i3 = Build.VERSION.SDK_INT;
             if (i3 >= 21) {
-                obtain2.addAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_CLICK);
+                accessibilityAction = AccessibilityNodeInfo.AccessibilityAction.ACTION_CLICK;
+                obtain2.addAction(accessibilityAction);
             }
             obtain2.setText(getVirtualViewText(i));
             obtain2.setClassName(Button.class.getName());

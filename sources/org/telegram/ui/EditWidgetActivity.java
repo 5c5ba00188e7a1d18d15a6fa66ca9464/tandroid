@@ -18,7 +18,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.os.Build;
 import android.text.SpannableStringBuilder;
 import android.view.MotionEvent;
 import android.view.View;
@@ -245,23 +244,30 @@ public class EditWidgetActivity extends BaseFragment {
             this.shadowDrawable = Theme.getThemedDrawableByKey(context, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow);
         }
 
-        /* JADX WARN: Can't wrap try/catch for region: R(20:302|(1:304)(2:385|(1:387)(18:388|(1:390)(1:391)|306|(1:384)(2:315|(13:319|320|(1:322)(1:381)|323|(2:379|380)(1:325)|326|(2:(2:329|(1:331)(2:364|(1:366)))(1:367)|332)(5:368|369|370|371|372)|333|334|(1:336)(1:360)|337|338|(8:340|(1:342)(1:353)|343|(1:345)(1:352)|346|(1:348)(1:351)|349|350)(4:354|(1:356)(1:359)|357|358)))|382|383|320|(0)(0)|323|(0)(0)|326|(0)(0)|333|334|(0)(0)|337|338|(0)(0)))|305|306|(1:308)|384|382|383|320|(0)(0)|323|(0)(0)|326|(0)(0)|333|334|(0)(0)|337|338|(0)(0)) */
+        /* JADX WARN: Can't wrap try/catch for region: R(20:292|(1:294)(2:375|(1:377)(18:378|(1:380)(1:381)|296|(1:374)(2:305|(13:309|310|(1:312)(1:371)|313|(2:369|370)(1:315)|316|(2:(2:319|(1:321)(2:354|(1:356)))(1:357)|322)(5:358|359|360|361|362)|323|324|(1:326)(1:350)|327|328|(8:330|(1:332)(1:343)|333|(1:335)(1:342)|336|(1:338)(1:341)|339|340)(4:344|(1:346)(1:349)|347|348)))|372|373|310|(0)(0)|313|(0)(0)|316|(0)(0)|323|324|(0)(0)|327|328|(0)(0)))|295|296|(1:298)|374|372|373|310|(0)(0)|313|(0)(0)|316|(0)(0)|323|324|(0)(0)|327|328|(0)(0)) */
+        /* JADX WARN: Can't wrap try/catch for region: R(9:119|(1:121)(2:130|(1:132)(8:133|(1:135)(1:136)|123|124|125|126|101|102))|122|123|124|125|126|101|102) */
         /* JADX WARN: Code restructure failed: missing block: B:110:0x02a2, code lost:
             if ((r0 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChannelMigrateFrom) != false) goto L64;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:365:0x0901, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:168:0x03fa, code lost:
+            r0 = move-exception;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:169:0x03fb, code lost:
+            org.telegram.messenger.FileLog.e(r0);
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:355:0x08af, code lost:
             r0 = th;
          */
-        /* JADX WARN: Removed duplicated region for block: B:338:0x083b  */
-        /* JADX WARN: Removed duplicated region for block: B:339:0x083e  */
-        /* JADX WARN: Removed duplicated region for block: B:343:0x085f  */
-        /* JADX WARN: Removed duplicated region for block: B:346:0x0877  */
-        /* JADX WARN: Removed duplicated region for block: B:355:0x08a9 A[Catch: all -> 0x0906, TRY_LEAVE, TryCatch #3 {all -> 0x0906, blocks: (B:342:0x084b, B:344:0x0860, B:347:0x0879, B:349:0x0884, B:354:0x089f, B:350:0x088a, B:352:0x0892, B:353:0x0897, B:355:0x08a9), top: B:405:0x084b }] */
-        /* JADX WARN: Removed duplicated region for block: B:361:0x08f2 A[Catch: all -> 0x0901, TryCatch #0 {all -> 0x0901, blocks: (B:359:0x08e9, B:361:0x08f2, B:363:0x08f7, B:362:0x08f5), top: B:399:0x08e9 }] */
-        /* JADX WARN: Removed duplicated region for block: B:362:0x08f5 A[Catch: all -> 0x0901, TryCatch #0 {all -> 0x0901, blocks: (B:359:0x08e9, B:361:0x08f2, B:363:0x08f7, B:362:0x08f5), top: B:399:0x08e9 }] */
-        /* JADX WARN: Removed duplicated region for block: B:374:0x0910  */
-        /* JADX WARN: Removed duplicated region for block: B:387:0x095f  */
-        /* JADX WARN: Removed duplicated region for block: B:405:0x084b A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:328:0x07e9  */
+        /* JADX WARN: Removed duplicated region for block: B:329:0x07ec  */
+        /* JADX WARN: Removed duplicated region for block: B:333:0x080d  */
+        /* JADX WARN: Removed duplicated region for block: B:336:0x0825  */
+        /* JADX WARN: Removed duplicated region for block: B:345:0x0857 A[Catch: all -> 0x08b4, TRY_LEAVE, TryCatch #1 {all -> 0x08b4, blocks: (B:332:0x07f9, B:334:0x080e, B:337:0x0827, B:339:0x0832, B:344:0x084d, B:340:0x0838, B:342:0x0840, B:343:0x0845, B:345:0x0857), top: B:391:0x07f9 }] */
+        /* JADX WARN: Removed duplicated region for block: B:351:0x08a0 A[Catch: all -> 0x08af, TryCatch #5 {all -> 0x08af, blocks: (B:349:0x0897, B:351:0x08a0, B:353:0x08a5, B:352:0x08a3), top: B:399:0x0897 }] */
+        /* JADX WARN: Removed duplicated region for block: B:352:0x08a3 A[Catch: all -> 0x08af, TryCatch #5 {all -> 0x08af, blocks: (B:349:0x0897, B:351:0x08a0, B:353:0x08a5, B:352:0x08a3), top: B:399:0x0897 }] */
+        /* JADX WARN: Removed duplicated region for block: B:364:0x08be  */
+        /* JADX WARN: Removed duplicated region for block: B:377:0x090d  */
+        /* JADX WARN: Removed duplicated region for block: B:391:0x07f9 A[EXC_TOP_SPLITTER, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -715,7 +721,7 @@ public class EditWidgetActivity extends BaseFragment {
                                 str10 = str8;
                                 charSequence3 = charSequence4;
                             } else {
-                                String str18 = "🎤 ";
+                                String str18 = "🎧 ";
                                 str10 = str8;
                                 if (tLRPC$Chat2 != null && tLRPC$Chat2.id > 0 && chat == null && (!ChatObject.isChannel(tLRPC$Chat2) || ChatObject.isMegagroup(tLRPC$Chat2))) {
                                     if (messageObject.isOutOwner()) {
@@ -733,56 +739,47 @@ public class EditWidgetActivity extends BaseFragment {
                                             }
                                             if (messageObject.isVideo()) {
                                                 str18 = "📹 ";
-                                            } else if (!messageObject.isVoice()) {
-                                                if (messageObject.isMusic()) {
-                                                    str18 = "🎧 ";
-                                                } else {
-                                                    str18 = messageObject.isPhoto() ? "🖼 " : "📎 ";
-                                                }
+                                            } else if (messageObject.isVoice()) {
+                                                str18 = "🎤 ";
+                                            } else if (!messageObject.isMusic()) {
+                                                str18 = messageObject.isPhoto() ? "🖼 " : "📎 ";
                                             }
                                             valueOf = SpannableStringBuilder.valueOf(String.format("%2$s: \u2068%1$s\u2069", str18 + charSequence6.replace('\n', ' '), str19));
                                         } else if (messageObject.messageOwner.media != null && !messageObject.isMediaEmpty()) {
                                             color = getContext().getResources().getColor(R.color.widget_action_text);
                                             TLRPC$MessageMedia tLRPC$MessageMedia = messageObject.messageOwner.media;
                                             if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaPoll) {
-                                                TLRPC$TL_messageMediaPoll tLRPC$TL_messageMediaPoll = (TLRPC$TL_messageMediaPoll) tLRPC$MessageMedia;
-                                                charSequence2 = Build.VERSION.SDK_INT >= 18 ? String.format("📊 \u2068%s\u2069", tLRPC$TL_messageMediaPoll.poll.question.text) : String.format("📊 %s", tLRPC$TL_messageMediaPoll.poll.question.text);
-                                                c3 = 1;
                                                 c2 = 0;
-                                            } else if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaGame) {
-                                                if (Build.VERSION.SDK_INT >= 18) {
-                                                    c2 = 0;
-                                                    charSequence2 = String.format("🎮 \u2068%s\u2069", tLRPC$MessageMedia.game.title);
-                                                } else {
-                                                    c2 = 0;
-                                                    charSequence2 = String.format("🎮 %s", tLRPC$MessageMedia.game.title);
-                                                }
-                                                c3 = 1;
+                                                charSequence2 = String.format("📊 \u2068%s\u2069", ((TLRPC$TL_messageMediaPoll) tLRPC$MessageMedia).poll.question.text);
                                             } else {
                                                 c2 = 0;
-                                                if (messageObject.type == 14) {
-                                                    if (Build.VERSION.SDK_INT >= 18) {
+                                                if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaGame) {
+                                                    charSequence2 = String.format("🎮 \u2068%s\u2069", tLRPC$MessageMedia.game.title);
+                                                } else {
+                                                    if (messageObject.type == 14) {
                                                         c3 = 1;
                                                         charSequence2 = String.format("🎧 \u2068%s - %s\u2069", messageObject.getMusicAuthor(), messageObject.getMusicTitle());
                                                     } else {
                                                         c3 = 1;
-                                                        charSequence2 = String.format("🎧 %s - %s", messageObject.getMusicAuthor(), messageObject.getMusicTitle());
+                                                        charSequence2 = messageObject.messageText.toString();
                                                     }
-                                                } else {
-                                                    c3 = 1;
-                                                    charSequence2 = messageObject.messageText.toString();
+                                                    Object[] objArr = new Object[2];
+                                                    objArr[c2] = charSequence2.replace('\n', ' ');
+                                                    objArr[c3] = str19;
+                                                    SpannableStringBuilder valueOf2 = SpannableStringBuilder.valueOf(String.format("%2$s: \u2068%1$s\u2069", objArr));
+                                                    valueOf2.setSpan(new ForegroundColorSpanThemable(Theme.key_chats_attachMessage), str19.length() + 2, valueOf2.length(), 33);
+                                                    spannableStringBuilder = valueOf2;
+                                                    spannableStringBuilder.setSpan(new ForegroundColorSpanThemable(Theme.key_chats_nameMessage), 0, str19.length() + 1, 33);
+                                                    charSequence3 = spannableStringBuilder;
                                                 }
                                             }
-                                            Object[] objArr = new Object[2];
-                                            objArr[c2] = charSequence2.replace('\n', ' ');
-                                            objArr[c3] = str19;
-                                            SpannableStringBuilder valueOf2 = SpannableStringBuilder.valueOf(String.format("%2$s: \u2068%1$s\u2069", objArr));
-                                            try {
-                                                valueOf2.setSpan(new ForegroundColorSpanThemable(Theme.key_chats_attachMessage), str19.length() + 2, valueOf2.length(), 33);
-                                            } catch (Exception e) {
-                                                FileLog.e(e);
-                                            }
-                                            spannableStringBuilder = valueOf2;
+                                            c3 = 1;
+                                            Object[] objArr2 = new Object[2];
+                                            objArr2[c2] = charSequence2.replace('\n', ' ');
+                                            objArr2[c3] = str19;
+                                            SpannableStringBuilder valueOf22 = SpannableStringBuilder.valueOf(String.format("%2$s: \u2068%1$s\u2069", objArr2));
+                                            valueOf22.setSpan(new ForegroundColorSpanThemable(Theme.key_chats_attachMessage), str19.length() + 2, valueOf22.length(), 33);
+                                            spannableStringBuilder = valueOf22;
                                             spannableStringBuilder.setSpan(new ForegroundColorSpanThemable(Theme.key_chats_nameMessage), 0, str19.length() + 1, 33);
                                             charSequence3 = spannableStringBuilder;
                                         } else {
@@ -794,18 +791,18 @@ public class EditWidgetActivity extends BaseFragment {
                                                 } else {
                                                     c = 0;
                                                 }
-                                                Object[] objArr2 = new Object[2];
-                                                objArr2[c] = str20.replace('\n', ' ').trim();
-                                                objArr2[1] = str19;
-                                                valueOf = SpannableStringBuilder.valueOf(String.format("%2$s: \u2068%1$s\u2069", objArr2));
+                                                Object[] objArr3 = new Object[2];
+                                                objArr3[c] = str20.replace('\n', ' ').trim();
+                                                objArr3[1] = str19;
+                                                valueOf = SpannableStringBuilder.valueOf(String.format("%2$s: \u2068%1$s\u2069", objArr3));
                                             } else {
                                                 valueOf = SpannableStringBuilder.valueOf("");
                                             }
                                         }
                                         spannableStringBuilder.setSpan(new ForegroundColorSpanThemable(Theme.key_chats_nameMessage), 0, str19.length() + 1, 33);
                                         charSequence3 = spannableStringBuilder;
-                                    } catch (Exception e2) {
-                                        FileLog.e(e2);
+                                    } catch (Exception e) {
+                                        FileLog.e(e);
                                         charSequence3 = spannableStringBuilder;
                                     }
                                     spannableStringBuilder = valueOf;
@@ -818,12 +815,10 @@ public class EditWidgetActivity extends BaseFragment {
                                     } else if (messageObject.caption != null) {
                                         if (messageObject.isVideo()) {
                                             str18 = "📹 ";
-                                        } else if (!messageObject.isVoice()) {
-                                            if (messageObject.isMusic()) {
-                                                str18 = "🎧 ";
-                                            } else {
-                                                str18 = messageObject.isPhoto() ? "🖼 " : "📎 ";
-                                            }
+                                        } else if (messageObject.isVoice()) {
+                                            str18 = "🎤 ";
+                                        } else if (!messageObject.isMusic()) {
+                                            str18 = messageObject.isPhoto() ? "🖼 " : "📎 ";
                                         }
                                         charSequence3 = str18 + ((Object) messageObject.caption);
                                     } else {
@@ -1009,9 +1004,7 @@ public class EditWidgetActivity extends BaseFragment {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void updateRows() {
-        this.rowCount = 0;
         int i = 0 + 1;
-        this.rowCount = i;
         this.previewRow = 0;
         this.rowCount = i + 1;
         this.selectChatsRow = i;
@@ -1098,7 +1091,7 @@ public class EditWidgetActivity extends BaseFragment {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new TouchHelperCallback());
         this.itemTouchHelper = itemTouchHelper;
         itemTouchHelper.attachToRecyclerView(this.listView);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.EditWidgetActivity$$ExternalSyntheticLambda2
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.EditWidgetActivity$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i) {
                 EditWidgetActivity.this.lambda$createView$1(context, view, i);
@@ -1112,7 +1105,7 @@ public class EditWidgetActivity extends BaseFragment {
     public /* synthetic */ void lambda$createView$1(Context context, View view, int i) {
         if (i == this.selectChatsRow) {
             InviteMembersBottomSheet inviteMembersBottomSheet = new InviteMembersBottomSheet(context, this.currentAccount, null, 0L, this, null);
-            inviteMembersBottomSheet.setDelegate(new InviteMembersBottomSheet.InviteMembersBottomSheetDelegate() { // from class: org.telegram.ui.EditWidgetActivity$$ExternalSyntheticLambda1
+            inviteMembersBottomSheet.setDelegate(new InviteMembersBottomSheet.InviteMembersBottomSheetDelegate() { // from class: org.telegram.ui.EditWidgetActivity$$ExternalSyntheticLambda2
                 @Override // org.telegram.ui.Components.InviteMembersBottomSheet.InviteMembersBottomSheetDelegate
                 public final void didSelectDialogs(ArrayList arrayList) {
                     EditWidgetActivity.this.lambda$createView$0(arrayList);
@@ -1187,7 +1180,7 @@ public class EditWidgetActivity extends BaseFragment {
             return;
         }
         getParentActivity().finish();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.EditWidgetActivity$$ExternalSyntheticLambda0
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.EditWidgetActivity$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 EditWidgetActivity.this.removeSelfFromStack();

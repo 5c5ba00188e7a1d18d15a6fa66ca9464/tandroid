@@ -1,6 +1,4 @@
 package com.google.android.datatransport;
-
-import java.util.Objects;
 /* loaded from: classes.dex */
 final class AutoValue_Event<T> extends Event<T> {
     private final Integer code;
@@ -10,9 +8,13 @@ final class AutoValue_Event<T> extends Event<T> {
     /* JADX INFO: Access modifiers changed from: package-private */
     public AutoValue_Event(Integer num, T t, Priority priority) {
         this.code = num;
-        Objects.requireNonNull(t, "Null payload");
+        if (t == null) {
+            throw new NullPointerException("Null payload");
+        }
         this.payload = t;
-        Objects.requireNonNull(priority, "Null priority");
+        if (priority == null) {
+            throw new NullPointerException("Null priority");
+        }
         this.priority = priority;
     }
 

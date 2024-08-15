@@ -53,13 +53,20 @@ public class InstallerUtils {
     }
 
     public static boolean isUnknownSourcesEnabled(Context context) {
+        boolean canRequestPackageInstalls;
         int i = Build.VERSION.SDK_INT;
-        if (i >= 26) {
-            return context.getApplicationInfo().targetSdkVersion < 26 || context.getPackageManager().canRequestPackageInstalls();
-        } else if (i >= 17 && i < 21) {
-            return "1".equals(Settings.Global.getString(context.getContentResolver(), "install_non_market_apps"));
-        } else {
+        if (i < 26) {
+            if (i < 21) {
+                return "1".equals(Settings.Global.getString(context.getContentResolver(), "install_non_market_apps"));
+            }
             return "1".equals(Settings.Secure.getString(context.getContentResolver(), "install_non_market_apps"));
         }
+        if (context.getApplicationInfo().targetSdkVersion >= 26) {
+            canRequestPackageInstalls = context.getPackageManager().canRequestPackageInstalls();
+            if (!canRequestPackageInstalls) {
+                return false;
+            }
+        }
+        return true;
     }
 }

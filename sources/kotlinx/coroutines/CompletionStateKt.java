@@ -4,9 +4,7 @@ import kotlin.Result;
 import kotlin.ResultKt;
 import kotlin.Unit;
 import kotlin.coroutines.Continuation;
-import kotlin.coroutines.jvm.internal.CoroutineStackFrame;
 import kotlin.jvm.functions.Function1;
-import kotlinx.coroutines.internal.StackTraceRecoveryKt;
 /* compiled from: CompletionState.kt */
 /* loaded from: classes.dex */
 public final class CompletionStateKt {
@@ -27,25 +25,14 @@ public final class CompletionStateKt {
 
     public static final <T> Object toState(Object obj, CancellableContinuation<?> cancellableContinuation) {
         Throwable th = Result.exceptionOrNull-impl(obj);
-        if (th != null) {
-            if (DebugKt.getRECOVER_STACK_TRACES() && (cancellableContinuation instanceof CoroutineStackFrame)) {
-                th = StackTraceRecoveryKt.recoverFromStackFrame(th, (CoroutineStackFrame) cancellableContinuation);
-            }
-            obj = new CompletedExceptionally(th, false, 2, null);
-        }
-        return obj;
+        return th == null ? obj : new CompletedExceptionally(th, false, 2, null);
     }
 
     public static final <T> Object recoverResult(Object obj, Continuation<? super T> continuation) {
         if (obj instanceof CompletedExceptionally) {
             Result.Companion companion = Result.Companion;
-            Throwable th = ((CompletedExceptionally) obj).cause;
-            if (DebugKt.getRECOVER_STACK_TRACES() && (continuation instanceof CoroutineStackFrame)) {
-                th = StackTraceRecoveryKt.recoverFromStackFrame(th, (CoroutineStackFrame) continuation);
-            }
-            return Result.constructor-impl(ResultKt.createFailure(th));
+            return Result.constructor-impl(ResultKt.createFailure(((CompletedExceptionally) obj).cause));
         }
-        Result.Companion companion2 = Result.Companion;
         return Result.constructor-impl(obj);
     }
 }

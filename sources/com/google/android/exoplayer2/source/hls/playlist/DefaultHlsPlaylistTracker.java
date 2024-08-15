@@ -426,10 +426,7 @@ public final class DefaultHlsPlaylistTracker implements HlsPlaylistTracker, Load
             LoadEventInfo loadEventInfo = new LoadEventInfo(parsingLoadable.loadTaskId, parsingLoadable.dataSpec, parsingLoadable.getUri(), parsingLoadable.getResponseHeaders(), j, j2, parsingLoadable.bytesLoaded());
             boolean z = iOException instanceof HlsPlaylistParser.DeltaUpdateException;
             if ((parsingLoadable.getUri().getQueryParameter("_HLS_msn") != null) || z) {
-                int i2 = ConnectionsManager.DEFAULT_DATACENTER_ID;
-                if (iOException instanceof HttpDataSource.InvalidResponseCodeException) {
-                    i2 = ((HttpDataSource.InvalidResponseCodeException) iOException).responseCode;
-                }
+                int i2 = iOException instanceof HttpDataSource.InvalidResponseCodeException ? ((HttpDataSource.InvalidResponseCodeException) iOException).responseCode : ConnectionsManager.DEFAULT_DATACENTER_ID;
                 if (z || i2 == 400 || i2 == 503) {
                     this.earliestNextLoadTimeMs = SystemClock.elapsedRealtime();
                     loadPlaylist();
@@ -491,6 +488,7 @@ public final class DefaultHlsPlaylistTracker implements HlsPlaylistTracker, Load
         public void processLoadedPlaylist(HlsMediaPlaylist hlsMediaPlaylist, LoadEventInfo loadEventInfo) {
             IOException playlistStuckException;
             boolean z;
+            long j;
             HlsMediaPlaylist hlsMediaPlaylist2 = this.playlistSnapshot;
             long elapsedRealtime = SystemClock.elapsedRealtime();
             this.lastSnapshotLoadMs = elapsedRealtime;
@@ -518,14 +516,13 @@ public final class DefaultHlsPlaylistTracker implements HlsPlaylistTracker, Load
                     DefaultHlsPlaylistTracker.this.notifyPlaylistError(this.playlistUrl, new LoadErrorHandlingPolicy.LoadErrorInfo(loadEventInfo, new MediaLoadData(4), playlistStuckException, 1), z);
                 }
             }
-            long j = 0;
             HlsMediaPlaylist hlsMediaPlaylist4 = this.playlistSnapshot;
-            if (!hlsMediaPlaylist4.serverControl.canBlockReload) {
-                if (hlsMediaPlaylist4 != hlsMediaPlaylist2) {
-                    j = hlsMediaPlaylist4.targetDurationUs;
-                } else {
-                    j = hlsMediaPlaylist4.targetDurationUs / 2;
-                }
+            if (hlsMediaPlaylist4.serverControl.canBlockReload) {
+                j = 0;
+            } else if (hlsMediaPlaylist4 != hlsMediaPlaylist2) {
+                j = hlsMediaPlaylist4.targetDurationUs;
+            } else {
+                j = hlsMediaPlaylist4.targetDurationUs / 2;
             }
             this.earliestNextLoadTimeMs = elapsedRealtime + Util.usToMs(j);
             if (!((this.playlistSnapshot.partTargetDurationUs != -9223372036854775807L || this.playlistUrl.equals(DefaultHlsPlaylistTracker.this.primaryMediaPlaylistUrl)) ? true : true) || this.playlistSnapshot.hasEndTag) {

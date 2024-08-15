@@ -10,11 +10,8 @@ import java.util.Map;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class RtspHeaders {
+    public static final RtspHeaders EMPTY = new Builder().build();
     private final ImmutableListMultimap<String, String> namesAndValues;
-
-    static {
-        new Builder().build();
-    }
 
     /* loaded from: classes.dex */
     public static final class Builder {

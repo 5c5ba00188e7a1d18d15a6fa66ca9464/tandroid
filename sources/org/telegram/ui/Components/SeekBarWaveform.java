@@ -312,6 +312,7 @@ public class SeekBarWaveform {
         int i;
         float f;
         float f2;
+        RectF rectF;
         float[] fArr;
         float[] fArr2;
         int i2;
@@ -440,7 +441,6 @@ public class SeekBarWaveform {
                     }
                 });
             }
-            RectF rectF = null;
             float f9 = this.explodeProgress;
             if (f9 < 0.99f && (fArr = this.heights) != null) {
                 int i11 = (int) ((1.0f - f9) * dpf2);
@@ -456,8 +456,10 @@ public class SeekBarWaveform {
                     float f10 = dpf23 * this.waveScaling;
                     float f11 = dpf25 / 2.0f;
                     rectF.set((AndroidUtilities.dpf2(1.0f) + dpf24) - f11, AndroidUtilities.dp(7.0f) + dp + ((-f10) - f11), dpf24 + AndroidUtilities.dpf2(1.0f) + f11, dp + AndroidUtilities.dp(7.0f) + f10 + f11);
+                    this.particles.setColor(this.outerColor).setEmitArea(rectF).draw(canvas, this.explosionRate);
                 }
             }
+            rectF = null;
             this.particles.setColor(this.outerColor).setEmitArea(rectF).draw(canvas, this.explosionRate);
         }
     }
@@ -562,7 +564,7 @@ public class SeekBarWaveform {
             float x;
             float y;
 
-            private Particle(Particles particles) {
+            private Particle() {
             }
         }
 

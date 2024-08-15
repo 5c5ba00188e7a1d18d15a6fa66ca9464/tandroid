@@ -504,9 +504,12 @@ public class MessagePreviewParams {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r4v1, types: [org.telegram.tgnet.TLRPC$MessageFwdHeader] */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x00e5  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public MessageObject toPreviewMessage(MessageObject messageObject, Boolean bool, final int i) {
+        TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader;
         MessageObject messageObject2;
         TLRPC$TL_message tLRPC$TL_message = new TLRPC$TL_message();
         if (i != 1) {
@@ -549,23 +552,21 @@ public class MessagePreviewParams {
         tLRPC$TL_message.reply_to = tLRPC$Message2.reply_to;
         tLRPC$TL_message.invert_media = tLRPC$Message2.invert_media;
         if (i == 0) {
-            TLRPC$TL_messageFwdHeader tLRPC$TL_messageFwdHeader = null;
             long clientUserId = UserConfig.getInstance(messageObject.currentAccount).getClientUserId();
             if (!this.isSecret) {
                 TLRPC$Message tLRPC$Message4 = messageObject.messageOwner;
-                ?? r4 = tLRPC$Message4.fwd_from;
-                if (r4 != 0) {
+                tLRPC$MessageFwdHeader = tLRPC$Message4.fwd_from;
+                if (tLRPC$MessageFwdHeader != null) {
                     if (!messageObject.isDice()) {
                         this.hasSenders = true;
                     } else {
                         this.willSeeSenders = true;
                     }
-                    tLRPC$TL_messageFwdHeader = r4;
                 } else {
                     long j = tLRPC$Message4.from_id.user_id;
                     if (j == 0 || tLRPC$Message4.dialog_id != clientUserId || j != clientUserId) {
-                        tLRPC$TL_messageFwdHeader = new TLRPC$TL_messageFwdHeader();
-                        tLRPC$TL_messageFwdHeader.from_id = messageObject.messageOwner.from_id;
+                        tLRPC$MessageFwdHeader = new TLRPC$TL_messageFwdHeader();
+                        tLRPC$MessageFwdHeader.from_id = messageObject.messageOwner.from_id;
                         if (!messageObject.isDice()) {
                             this.hasSenders = true;
                         } else {
@@ -573,10 +574,13 @@ public class MessagePreviewParams {
                         }
                     }
                 }
+                if (tLRPC$MessageFwdHeader != null) {
+                    tLRPC$TL_message.fwd_from = tLRPC$MessageFwdHeader;
+                    tLRPC$TL_message.flags |= 4;
+                }
             }
-            if (tLRPC$TL_messageFwdHeader != null) {
-                tLRPC$TL_message.fwd_from = tLRPC$TL_messageFwdHeader;
-                tLRPC$TL_message.flags |= 4;
+            tLRPC$MessageFwdHeader = null;
+            if (tLRPC$MessageFwdHeader != null) {
             }
         }
         MessageObject messageObject3 = new MessageObject(messageObject.currentAccount, tLRPC$TL_message, true, false) { // from class: org.telegram.messenger.MessagePreviewParams.1

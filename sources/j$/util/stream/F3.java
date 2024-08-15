@@ -1,20 +1,18 @@
 package j$.util.stream;
 
-import java.util.Comparator;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 /* loaded from: classes2.dex */
-abstract class F3 extends i3 {
-    protected final Comparator b;
-    protected boolean c;
+abstract class F3 {
+    static final boolean a = ((Boolean) AccessController.doPrivileged(new PrivilegedAction() { // from class: j$.util.stream.E3
+        @Override // java.security.PrivilegedAction
+        public final Object run() {
+            return Boolean.valueOf(Boolean.getBoolean("org.openjdk.java.util.stream.tripwire"));
+        }
+    })).booleanValue();
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public F3(m3 m3Var, Comparator comparator) {
-        super(m3Var);
-        this.b = comparator;
-    }
-
-    @Override // j$.util.stream.i3, j$.util.stream.m3
-    public final boolean o() {
-        this.c = true;
-        return false;
+    public static void a(Class cls, String str) {
+        throw new UnsupportedOperationException(cls + " tripwire tripped but logging not supported: " + str);
     }
 }

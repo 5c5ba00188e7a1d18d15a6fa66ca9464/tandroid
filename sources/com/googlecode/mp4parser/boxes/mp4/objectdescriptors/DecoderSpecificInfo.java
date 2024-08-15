@@ -34,7 +34,7 @@ public class DecoderSpecificInfo extends BaseDescriptor {
         if (this == obj) {
             return true;
         }
-        return obj != null && DecoderSpecificInfo.class == obj.getClass() && Arrays.equals(this.bytes, ((DecoderSpecificInfo) obj).bytes);
+        return obj != null && getClass() == obj.getClass() && Arrays.equals(this.bytes, ((DecoderSpecificInfo) obj).bytes);
     }
 
     public int hashCode() {

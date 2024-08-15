@@ -147,7 +147,7 @@ public class StickerSetCell extends FrameLayout {
         textView2.setBackground(Theme.AdaptiveRipple.createRect(Theme.getColor(i3, resourcesProvider), Theme.getColor(Theme.key_featuredStickers_addButtonPressed, resourcesProvider), 4.0f));
         this.addButtonView.setPadding(AndroidUtilities.dp(14.0f), 0, AndroidUtilities.dp(14.0f), 0);
         this.addButtonView.setGravity(17);
-        this.addButtonView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.StickerSetCell$$ExternalSyntheticLambda4
+        this.addButtonView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.StickerSetCell$$ExternalSyntheticLambda6
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 StickerSetCell.this.lambda$new$0(view);
@@ -163,7 +163,7 @@ public class StickerSetCell extends FrameLayout {
         this.removeButtonView.setBackground(Theme.AdaptiveRipple.createRect(0, Theme.getColor(i3, resourcesProvider) & 452984831, 4.0f));
         this.removeButtonView.setPadding(AndroidUtilities.dp(12.0f), 0, AndroidUtilities.dp(12.0f), 0);
         this.removeButtonView.setGravity(17);
-        this.removeButtonView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.StickerSetCell$$ExternalSyntheticLambda1
+        this.removeButtonView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.StickerSetCell$$ExternalSyntheticLambda7
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 StickerSetCell.this.lambda$new$1(view);
@@ -173,7 +173,7 @@ public class StickerSetCell extends FrameLayout {
         PremiumButtonView premiumButtonView = new PremiumButtonView(context, AndroidUtilities.dp(4.0f), false, resourcesProvider);
         this.premiumButtonView = premiumButtonView;
         premiumButtonView.setIcon(R.raw.unlock_icon);
-        this.premiumButtonView.setButton(LocaleController.getString("Unlock", R.string.Unlock), new View.OnClickListener() { // from class: org.telegram.ui.Cells.StickerSetCell$$ExternalSyntheticLambda5
+        this.premiumButtonView.setButton(LocaleController.getString("Unlock", R.string.Unlock), new View.OnClickListener() { // from class: org.telegram.ui.Cells.StickerSetCell$$ExternalSyntheticLambda8
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 StickerSetCell.this.lambda$new$2(view);
@@ -193,13 +193,13 @@ public class StickerSetCell extends FrameLayout {
         this.sideButtons.addView(this.premiumButtonView, LayoutHelper.createFrameRelatively(-2.0f, 28.0f, (LocaleController.isRTL ? 3 : 5) | 16));
         this.sideButtons.setPadding(AndroidUtilities.dp(10.0f), 0, AndroidUtilities.dp(10.0f), 0);
         addView(this.sideButtons, LayoutHelper.createFrame(-2, -1.0f, LocaleController.isRTL ? 3 : 5, 0.0f, 0.0f, 0.0f, 0.0f));
-        this.sideButtons.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.StickerSetCell$$ExternalSyntheticLambda3
+        this.sideButtons.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.StickerSetCell$$ExternalSyntheticLambda9
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 StickerSetCell.this.lambda$new$3(view);
             }
         });
-        TextView textView4 = new TextView(this, context) { // from class: org.telegram.ui.Cells.StickerSetCell.1
+        TextView textView4 = new TextView(context) { // from class: org.telegram.ui.Cells.StickerSetCell.1
             @Override // android.widget.TextView
             public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
                 super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), AndroidUtilities.dp(14.0f), false), bufferType);
@@ -382,7 +382,7 @@ public class StickerSetCell extends FrameLayout {
             this.valueTextView.setText(LocaleController.formatPluralString(tLRPC$TL_messages_stickerSet.set.emojis ? "EmojiCount" : "Stickers", 0, new Object[0]));
             this.imageView.setImageDrawable(null);
             if (tLRPC$TL_messages_stickerSet.set.thumb_document_id != 0) {
-                AnimatedEmojiDrawable.getDocumentFetcher(UserConfig.selectedAccount).fetchDocument(tLRPC$TL_messages_stickerSet.set.thumb_document_id, new AnimatedEmojiDrawable.ReceivedDocument() { // from class: org.telegram.ui.Cells.StickerSetCell$$ExternalSyntheticLambda10
+                AnimatedEmojiDrawable.getDocumentFetcher(UserConfig.selectedAccount).fetchDocument(tLRPC$TL_messages_stickerSet.set.thumb_document_id, new AnimatedEmojiDrawable.ReceivedDocument() { // from class: org.telegram.ui.Cells.StickerSetCell$$ExternalSyntheticLambda3
                     @Override // org.telegram.ui.Components.AnimatedEmojiDrawable.ReceivedDocument
                     public final void run(TLRPC$Document tLRPC$Document3) {
                         StickerSetCell.this.lambda$setStickersSet$5(tLRPC$Document3);
@@ -401,7 +401,7 @@ public class StickerSetCell extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setStickersSet$5(final TLRPC$Document tLRPC$Document) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Cells.StickerSetCell$$ExternalSyntheticLambda6
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Cells.StickerSetCell$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
                 StickerSetCell.this.lambda$setStickersSet$4(tLRPC$Document);
@@ -527,7 +527,7 @@ public class StickerSetCell extends FrameLayout {
                 this.reorderButton.setVisibility(0);
                 ViewPropertyAnimator duration = this.reorderButton.animate().alpha(fArr[0]).scaleX(fArr2[0]).scaleY(fArr2[0]).setDuration(200L);
                 Interpolator interpolator = Easings.easeOutSine;
-                duration.setInterpolator(interpolator).withEndAction(new Runnable() { // from class: org.telegram.ui.Cells.StickerSetCell$$ExternalSyntheticLambda7
+                duration.setInterpolator(interpolator).withEndAction(new Runnable() { // from class: org.telegram.ui.Cells.StickerSetCell$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         StickerSetCell.this.lambda$setReorderable$6(z);
@@ -535,7 +535,7 @@ public class StickerSetCell extends FrameLayout {
                 }).start();
                 if (this.emojis) {
                     this.sideButtons.setVisibility(0);
-                    this.sideButtons.animate().alpha(fArr[1]).scaleX(fArr2[1]).scaleY(fArr2[1]).setDuration(200L).setInterpolator(interpolator).withEndAction(new Runnable() { // from class: org.telegram.ui.Cells.StickerSetCell$$ExternalSyntheticLambda8
+                    this.sideButtons.animate().alpha(fArr[1]).scaleX(fArr2[1]).scaleY(fArr2[1]).setDuration(200L).setInterpolator(interpolator).withEndAction(new Runnable() { // from class: org.telegram.ui.Cells.StickerSetCell$$ExternalSyntheticLambda1
                         @Override // java.lang.Runnable
                         public final void run() {
                             StickerSetCell.this.lambda$setReorderable$7(z);
@@ -544,7 +544,7 @@ public class StickerSetCell extends FrameLayout {
                     return;
                 }
                 this.optionsButton.setVisibility(0);
-                this.optionsButton.animate().alpha(fArr[1]).scaleX(fArr2[1]).scaleY(fArr2[1]).setDuration(200L).setInterpolator(interpolator).withEndAction(new Runnable() { // from class: org.telegram.ui.Cells.StickerSetCell$$ExternalSyntheticLambda9
+                this.optionsButton.animate().alpha(fArr[1]).scaleX(fArr2[1]).scaleY(fArr2[1]).setDuration(200L).setInterpolator(interpolator).withEndAction(new Runnable() { // from class: org.telegram.ui.Cells.StickerSetCell$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
                         StickerSetCell.this.lambda$setReorderable$8(z);
@@ -655,14 +655,14 @@ public class StickerSetCell extends FrameLayout {
             this.stateAnimator = null;
         }
         if (i == 1) {
-            this.premiumButtonView.setButton(LocaleController.getString("Unlock", R.string.Unlock), new View.OnClickListener() { // from class: org.telegram.ui.Cells.StickerSetCell$$ExternalSyntheticLambda0
+            this.premiumButtonView.setButton(LocaleController.getString("Unlock", R.string.Unlock), new View.OnClickListener() { // from class: org.telegram.ui.Cells.StickerSetCell$$ExternalSyntheticLambda4
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     StickerSetCell.this.lambda$updateButtonState$9(view);
                 }
             });
         } else if (i == 2) {
-            this.premiumButtonView.setButton(LocaleController.getString("Restore", R.string.Restore), new View.OnClickListener() { // from class: org.telegram.ui.Cells.StickerSetCell$$ExternalSyntheticLambda2
+            this.premiumButtonView.setButton(LocaleController.getString("Restore", R.string.Restore), new View.OnClickListener() { // from class: org.telegram.ui.Cells.StickerSetCell$$ExternalSyntheticLambda5
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     StickerSetCell.this.lambda$updateButtonState$10(view);

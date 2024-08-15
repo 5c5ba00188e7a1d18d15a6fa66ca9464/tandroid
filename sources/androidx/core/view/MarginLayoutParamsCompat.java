@@ -1,21 +1,14 @@
 package androidx.core.view;
 
-import android.os.Build;
 import android.view.ViewGroup;
 /* loaded from: classes.dex */
 public final class MarginLayoutParamsCompat {
     public static int getMarginStart(ViewGroup.MarginLayoutParams marginLayoutParams) {
-        if (Build.VERSION.SDK_INT >= 17) {
-            return Api17Impl.getMarginStart(marginLayoutParams);
-        }
-        return marginLayoutParams.leftMargin;
+        return Api17Impl.getMarginStart(marginLayoutParams);
     }
 
     public static int getMarginEnd(ViewGroup.MarginLayoutParams marginLayoutParams) {
-        if (Build.VERSION.SDK_INT >= 17) {
-            return Api17Impl.getMarginEnd(marginLayoutParams);
-        }
-        return marginLayoutParams.rightMargin;
+        return Api17Impl.getMarginEnd(marginLayoutParams);
     }
 
     /* loaded from: classes.dex */

@@ -1,7 +1,7 @@
 package j$.time.format;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public class k implements h {
+public final class k implements h {
     static final long[] f = {0, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000, 10000000000L};
     final j$.time.temporal.l a;
     final int b;
@@ -31,97 +31,65 @@ public class k implements h {
         return kVar.d;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:36:0x009b A[LOOP:0: B:34:0x0092->B:36:0x009b, LOOP_END] */
     @Override // j$.time.format.h
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public boolean a(t tVar, StringBuilder sb) {
-        char c;
-        int i;
-        Long e = tVar.e(this.a);
+    public final boolean a(t tVar, StringBuilder sb) {
+        j$.time.temporal.l lVar = this.a;
+        Long e = tVar.e(lVar);
         if (e == null) {
             return false;
         }
         long longValue = e.longValue();
         w b = tVar.b();
         String l = longValue == Long.MIN_VALUE ? "9223372036854775808" : Long.toString(Math.abs(longValue));
-        if (l.length() > this.c) {
-            throw new j$.time.c("Field " + this.a + " cannot be printed as the value " + longValue + " exceeds the maximum print width of " + this.c);
+        int length = l.length();
+        int i = this.c;
+        if (length > i) {
+            throw new j$.time.d("Field " + lVar + " cannot be printed as the value " + longValue + " exceeds the maximum print width of " + i);
         }
-        b.a(l);
-        int i2 = (longValue > 0L ? 1 : (longValue == 0L ? 0 : -1));
-        int[] iArr = e.a;
-        int ordinal = this.d.ordinal();
-        if (i2 >= 0) {
-            int i3 = iArr[ordinal];
-            if (i3 == 1 ? !((i = this.b) >= 19 || longValue < f[i]) : i3 == 2) {
-                c = b.d();
-                sb.append(c);
+        b.getClass();
+        int i2 = this.b;
+        y yVar = this.d;
+        if (longValue >= 0) {
+            int i3 = e.a[yVar.ordinal()];
+            if (i3 == 1 ? !(i2 >= 19 || longValue < f[i2]) : i3 == 2) {
+                sb.append('+');
             }
-            for (int i4 = 0; i4 < this.b - l.length(); i4++) {
-                sb.append(b.e());
+        } else {
+            int i4 = e.a[yVar.ordinal()];
+            if (i4 == 1 || i4 == 2 || i4 == 3) {
+                sb.append('-');
+            } else if (i4 == 4) {
+                throw new j$.time.d("Field " + lVar + " cannot be printed as the value " + longValue + " cannot be negative according to the SignStyle");
             }
-            sb.append(l);
-            return true;
         }
-        int i5 = iArr[ordinal];
-        if (i5 == 1 || i5 == 2 || i5 == 3) {
-            c = b.c();
-            sb.append(c);
-            while (i4 < this.b - l.length()) {
-            }
-            sb.append(l);
-            return true;
-        }
-        if (i5 == 4) {
-            throw new j$.time.c("Field " + this.a + " cannot be printed as the value " + longValue + " cannot be negative according to the SignStyle");
-        }
-        while (i4 < this.b - l.length()) {
+        for (int i5 = 0; i5 < i2 - l.length(); i5++) {
+            sb.append('0');
         }
         sb.append(l);
         return true;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public k c() {
+    public final k c() {
         return this.e == -1 ? this : new k(this.a, this.b, this.c, this.d, -1);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public k d(int i) {
+    public final k d(int i) {
         return new k(this.a, this.b, this.c, this.d, this.e + i);
     }
 
-    public String toString() {
-        StringBuilder sb;
-        Object obj;
-        int i = this.b;
-        if (i == 1 && this.c == 19 && this.d == y.NORMAL) {
-            sb = new StringBuilder();
-            sb.append("Value(");
-            obj = this.a;
-        } else if (i == this.c && this.d == y.NOT_NEGATIVE) {
-            sb = new StringBuilder();
-            sb.append("Value(");
-            sb.append(this.a);
-            sb.append(",");
-            sb.append(this.b);
-            sb.append(")");
-            return sb.toString();
+    public final String toString() {
+        y yVar = this.d;
+        j$.time.temporal.l lVar = this.a;
+        int i = this.c;
+        int i2 = this.b;
+        if (i2 == 1 && i == 19 && yVar == y.NORMAL) {
+            return "Value(" + lVar + ")";
+        } else if (i2 == i && yVar == y.NOT_NEGATIVE) {
+            return "Value(" + lVar + "," + i2 + ")";
         } else {
-            sb = new StringBuilder();
-            sb.append("Value(");
-            sb.append(this.a);
-            sb.append(",");
-            sb.append(this.b);
-            sb.append(",");
-            sb.append(this.c);
-            sb.append(",");
-            obj = this.d;
+            return "Value(" + lVar + "," + i2 + "," + i + "," + yVar + ")";
         }
-        sb.append(obj);
-        sb.append(")");
-        return sb.toString();
     }
 }

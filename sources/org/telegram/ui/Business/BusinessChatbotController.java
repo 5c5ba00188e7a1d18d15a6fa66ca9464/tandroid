@@ -66,7 +66,7 @@ public class BusinessChatbotController {
                 public void serializeToStream(AbstractSerializedData abstractSerializedData) {
                     abstractSerializedData.writeInt32(constructor);
                 }
-            }, new RequestDelegate() { // from class: org.telegram.ui.Business.BusinessChatbotController$$ExternalSyntheticLambda1
+            }, new RequestDelegate() { // from class: org.telegram.ui.Business.BusinessChatbotController$$ExternalSyntheticLambda0
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     BusinessChatbotController.this.lambda$load$1(tLObject, tLRPC$TL_error);
@@ -84,7 +84,7 @@ public class BusinessChatbotController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$load$1(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Business.BusinessChatbotController$$ExternalSyntheticLambda0
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Business.BusinessChatbotController$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 BusinessChatbotController.this.lambda$load$0(tLObject);

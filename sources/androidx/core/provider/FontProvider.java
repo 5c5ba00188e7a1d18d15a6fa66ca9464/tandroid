@@ -9,7 +9,6 @@ import android.content.pm.Signature;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.CancellationSignal;
 import androidx.core.content.res.FontResourcesParserCompat;
 import androidx.core.provider.FontsContractCompat;
@@ -18,9 +17,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class FontProvider {
+class FontProvider {
     private static final Comparator<byte[]> sByteArrayComparator = new Comparator() { // from class: androidx.core.provider.FontProvider$$ExternalSyntheticLambda0
         @Override // java.util.Comparator
         public final int compare(Object obj, Object obj2) {
@@ -71,13 +69,7 @@ public class FontProvider {
         Uri build2 = new Uri.Builder().scheme("content").authority(str).appendPath("file").build();
         Cursor cursor = null;
         try {
-            String[] strArr = {"_id", "file_id", "font_ttc_index", "font_variation_settings", "font_weight", "font_italic", "result_code"};
-            ContentResolver contentResolver = context.getContentResolver();
-            if (Build.VERSION.SDK_INT > 16) {
-                cursor = Api16Impl.query(contentResolver, build, strArr, "query = ?", new String[]{fontRequest.getQuery()}, null, cancellationSignal);
-            } else {
-                cursor = contentResolver.query(build, strArr, "query = ?", new String[]{fontRequest.getQuery()}, null);
-            }
+            cursor = Api16Impl.query(context.getContentResolver(), build, new String[]{"_id", "file_id", "font_ttc_index", "font_variation_settings", "font_weight", "font_italic", "result_code"}, "query = ?", new String[]{fontRequest.getQuery()}, null, cancellationSignal);
             if (cursor != null && cursor.getCount() > 0) {
                 int columnIndex = cursor.getColumnIndex("result_code");
                 ArrayList arrayList2 = new ArrayList();
@@ -124,23 +116,18 @@ public class FontProvider {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Multi-variable type inference failed */
     public static /* synthetic */ int lambda$static$0(byte[] bArr, byte[] bArr2) {
-        int i;
-        int i2;
         if (bArr.length != bArr2.length) {
-            i = bArr.length;
-            i2 = bArr2.length;
-        } else {
-            for (int i3 = 0; i3 < bArr.length; i3++) {
-                if (bArr[i3] != bArr2[i3]) {
-                    i = bArr[i3];
-                    i2 = bArr2[i3];
-                }
-            }
-            return 0;
+            return bArr.length - bArr2.length;
         }
-        return i - i2;
+        for (int i = 0; i < bArr.length; i++) {
+            byte b = bArr[i];
+            byte b2 = bArr2[i];
+            if (b != b2) {
+                return b - b2;
+            }
+        }
+        return 0;
     }
 
     private static boolean equalsByteArrayList(List<byte[]> list, List<byte[]> list2) {

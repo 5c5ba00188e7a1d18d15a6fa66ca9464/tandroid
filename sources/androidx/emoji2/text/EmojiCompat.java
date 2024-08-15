@@ -1,6 +1,5 @@
 package androidx.emoji2.text;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -20,7 +19,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class EmojiCompat {
-    private static final Object INSTANCE_LOCK = new Object();
     private static volatile EmojiCompat sInstance;
     final int[] mEmojiAsDefaultStyleExceptions;
     private final int mEmojiSpanIndicatorColor;
@@ -35,6 +33,8 @@ public class EmojiCompat {
     final MetadataRepoLoader mMetadataLoader;
     final boolean mReplaceAll;
     final boolean mUseEmojiAsDefaultStyle;
+    private static final Object INSTANCE_LOCK = new Object();
+    private static final Object CONFIG_LOCK = new Object();
 
     /* loaded from: classes.dex */
     public interface GlyphChecker {
@@ -77,7 +77,7 @@ public class EmojiCompat {
         if (set != null && !set.isEmpty()) {
             arraySet.addAll(config.mInitCallbacks);
         }
-        this.mHelper = Build.VERSION.SDK_INT < 19 ? new CompatInternal(this) : new CompatInternal19(this);
+        this.mHelper = new CompatInternal19(this);
         loadMetadata();
     }
 
@@ -217,17 +217,11 @@ public class EmojiCompat {
     }
 
     public static boolean handleOnKeyDown(Editable editable, int i, KeyEvent keyEvent) {
-        if (Build.VERSION.SDK_INT >= 19) {
-            return EmojiProcessor.handleOnKeyDown(editable, i, keyEvent);
-        }
-        return false;
+        return EmojiProcessor.handleOnKeyDown(editable, i, keyEvent);
     }
 
     public static boolean handleDeleteSurroundingText(InputConnection inputConnection, Editable editable, int i, int i2, boolean z) {
-        if (Build.VERSION.SDK_INT >= 19) {
-            return EmojiProcessor.handleDeleteSurroundingText(inputConnection, editable, i, i2, z);
-        }
-        return false;
+        return EmojiProcessor.handleDeleteSurroundingText(inputConnection, editable, i, i2, z);
     }
 
     public CharSequence process(CharSequence charSequence) {
@@ -361,19 +355,20 @@ public class EmojiCompat {
     public static class CompatInternal {
         final EmojiCompat mEmojiCompat;
 
+        void loadMetadata() {
+            throw null;
+        }
+
         CharSequence process(CharSequence charSequence, int i, int i2, int i3, boolean z) {
-            return charSequence;
+            throw null;
         }
 
         void updateEditorInfoAttrs(EditorInfo editorInfo) {
+            throw null;
         }
 
         CompatInternal(EmojiCompat emojiCompat) {
             this.mEmojiCompat = emojiCompat;
-        }
-
-        void loadMetadata() {
-            this.mEmojiCompat.onMetadataLoadSuccess();
         }
     }
 

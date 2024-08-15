@@ -10,18 +10,14 @@ import java.util.Arrays;
 /* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
 public final class LocationAvailability extends AbstractSafeParcelable implements ReflectedParcelable {
-    public static final Parcelable.Creator<LocationAvailability> CREATOR;
     int zzc;
     private final int zzd;
     private final int zze;
     private final long zzf;
     private final zzac[] zzg;
-
-    static {
-        new LocationAvailability(0, 1, 1, 0L, null, true);
-        new LocationAvailability(1000, 1, 1, 0L, null, false);
-        CREATOR = new zzw();
-    }
+    public static final LocationAvailability zza = new LocationAvailability(0, 1, 1, 0, null, true);
+    public static final LocationAvailability zzb = new LocationAvailability(1000, 1, 1, 0, null, false);
+    public static final Parcelable.Creator<LocationAvailability> CREATOR = new zzw();
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public LocationAvailability(int i, int i2, int i3, long j, zzac[] zzacVarArr, boolean z) {

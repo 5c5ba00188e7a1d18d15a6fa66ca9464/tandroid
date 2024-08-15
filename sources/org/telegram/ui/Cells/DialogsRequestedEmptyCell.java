@@ -42,7 +42,7 @@ public class DialogsRequestedEmptyCell extends LinearLayout implements Notificat
         this.currentAccount = UserConfig.selectedAccount;
         setOrientation(1);
         setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
-        LinearLayout linearLayout = new LinearLayout(this, context) { // from class: org.telegram.ui.Cells.DialogsRequestedEmptyCell.1
+        LinearLayout linearLayout = new LinearLayout(context) { // from class: org.telegram.ui.Cells.DialogsRequestedEmptyCell.1
             Paint paint;
             Path path = new Path();
 
@@ -73,7 +73,7 @@ public class DialogsRequestedEmptyCell extends LinearLayout implements Notificat
         linearLayout.setPadding(AndroidUtilities.dp(32.0f), AndroidUtilities.dp(16.0f), AndroidUtilities.dp(32.0f), AndroidUtilities.dp(32.0f));
         BackupImageView backupImageView = new BackupImageView(context);
         this.stickerView = backupImageView;
-        backupImageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.DialogsRequestedEmptyCell$$ExternalSyntheticLambda1
+        backupImageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.DialogsRequestedEmptyCell$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 DialogsRequestedEmptyCell.this.lambda$new$0(view);
@@ -102,7 +102,7 @@ public class DialogsRequestedEmptyCell extends LinearLayout implements Notificat
         this.buttonView.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
         this.buttonView.setTypeface(AndroidUtilities.bold());
         this.buttonView.setPadding(AndroidUtilities.dp(14.0f), AndroidUtilities.dp(14.0f), AndroidUtilities.dp(14.0f), AndroidUtilities.dp(14.0f));
-        this.buttonView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.DialogsRequestedEmptyCell$$ExternalSyntheticLambda0
+        this.buttonView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.DialogsRequestedEmptyCell$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 DialogsRequestedEmptyCell.this.lambda$new$1(view);

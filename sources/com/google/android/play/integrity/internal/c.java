@@ -6,9 +6,7 @@ import android.os.Parcelable;
 /* compiled from: com.google.android.play:integrity@@1.3.0 */
 /* loaded from: classes.dex */
 public final class c {
-    static {
-        c.class.getClassLoader();
-    }
+    private static final ClassLoader a = c.class.getClassLoader();
 
     private c() {
     }

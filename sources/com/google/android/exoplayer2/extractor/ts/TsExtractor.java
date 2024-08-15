@@ -26,6 +26,21 @@ import java.util.Map;
 import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public final class TsExtractor implements Extractor {
+    public static final ExtractorsFactory FACTORY = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.ts.TsExtractor$$ExternalSyntheticLambda0
+        @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+        public final Extractor[] createExtractors() {
+            Extractor[] lambda$static$0;
+            lambda$static$0 = TsExtractor.lambda$static$0();
+            return lambda$static$0;
+        }
+
+        @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+        public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
+            Extractor[] createExtractors;
+            createExtractors = createExtractors();
+            return createExtractors;
+        }
+    };
     private int bytesSinceLastSync;
     private final SparseIntArray continuityCounters;
     private final TsDurationReader durationReader;
@@ -54,24 +69,6 @@ public final class TsExtractor implements Extractor {
         int i = tsExtractor.remainingPmts;
         tsExtractor.remainingPmts = i + 1;
         return i;
-    }
-
-    static {
-        TsExtractor$$ExternalSyntheticLambda0 tsExtractor$$ExternalSyntheticLambda0 = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.ts.TsExtractor$$ExternalSyntheticLambda0
-            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
-            public final Extractor[] createExtractors() {
-                Extractor[] lambda$static$0;
-                lambda$static$0 = TsExtractor.lambda$static$0();
-                return lambda$static$0;
-            }
-
-            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
-            public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
-                Extractor[] createExtractors;
-                createExtractors = createExtractors();
-                return createExtractors;
-            }
-        };
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -464,9 +461,9 @@ public final class TsExtractor implements Extractor {
         private TsPayloadReader.EsInfo readEsInfo(ParsableByteArray parsableByteArray, int i) {
             int position = parsableByteArray.getPosition();
             int i2 = i + position;
+            int i3 = -1;
             String str = null;
             ArrayList arrayList = null;
-            int i3 = -1;
             while (parsableByteArray.getPosition() < i2) {
                 int readUnsignedByte = parsableByteArray.readUnsignedByte();
                 int position2 = parsableByteArray.getPosition() + parsableByteArray.readUnsignedByte();
@@ -499,14 +496,15 @@ public final class TsExtractor implements Extractor {
                             } else if (readUnsignedByte == 10) {
                                 str = parsableByteArray.readString(3).trim();
                             } else if (readUnsignedByte == 89) {
-                                arrayList = new ArrayList();
+                                ArrayList arrayList2 = new ArrayList();
                                 while (parsableByteArray.getPosition() < position2) {
                                     String trim = parsableByteArray.readString(3).trim();
                                     int readUnsignedByte2 = parsableByteArray.readUnsignedByte();
                                     byte[] bArr = new byte[4];
                                     parsableByteArray.readBytes(bArr, 0, 4);
-                                    arrayList.add(new TsPayloadReader.DvbSubtitleInfo(trim, readUnsignedByte2, bArr));
+                                    arrayList2.add(new TsPayloadReader.DvbSubtitleInfo(trim, readUnsignedByte2, bArr));
                                 }
+                                arrayList = arrayList2;
                                 i3 = 89;
                             } else if (readUnsignedByte == 111) {
                                 i3 = 257;

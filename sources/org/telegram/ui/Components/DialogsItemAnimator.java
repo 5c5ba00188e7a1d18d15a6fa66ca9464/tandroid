@@ -107,7 +107,7 @@ public class DialogsItemAnimator extends SimpleItemAnimator {
                 final ArrayList<MoveInfo> arrayList = new ArrayList<>(this.mPendingMoves);
                 this.mMovesList.add(arrayList);
                 this.mPendingMoves.clear();
-                new Runnable() { // from class: org.telegram.ui.Components.DialogsItemAnimator$$ExternalSyntheticLambda2
+                new Runnable() { // from class: org.telegram.ui.Components.DialogsItemAnimator$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         DialogsItemAnimator.this.lambda$runPendingAnimations$0(arrayList);
@@ -118,7 +118,7 @@ public class DialogsItemAnimator extends SimpleItemAnimator {
                 final ArrayList<ChangeInfo> arrayList2 = new ArrayList<>(this.mPendingChanges);
                 this.mChangesList.add(arrayList2);
                 this.mPendingChanges.clear();
-                new Runnable() { // from class: org.telegram.ui.Components.DialogsItemAnimator$$ExternalSyntheticLambda0
+                new Runnable() { // from class: org.telegram.ui.Components.DialogsItemAnimator$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         DialogsItemAnimator.this.lambda$runPendingAnimations$1(arrayList2);
@@ -129,7 +129,7 @@ public class DialogsItemAnimator extends SimpleItemAnimator {
                 final ArrayList<RecyclerView.ViewHolder> arrayList3 = new ArrayList<>(this.mPendingAdditions);
                 this.mAdditionsList.add(arrayList3);
                 this.mPendingAdditions.clear();
-                new Runnable() { // from class: org.telegram.ui.Components.DialogsItemAnimator$$ExternalSyntheticLambda1
+                new Runnable() { // from class: org.telegram.ui.Components.DialogsItemAnimator$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
                         DialogsItemAnimator.this.lambda$runPendingAnimations$2(arrayList3);

@@ -144,7 +144,6 @@ public class IconCompat extends CustomVersionedParcelable {
     }
 
     IconCompat(int i) {
-        this.mType = -1;
         this.mData = null;
         this.mParcelable = null;
         this.mInt1 = 0;
@@ -535,19 +534,27 @@ public class IconCompat extends CustomVersionedParcelable {
     /* loaded from: classes.dex */
     public static class Api28Impl {
         static String getResPackage(Object obj) {
-            return ((Icon) obj).getResPackage();
+            String resPackage;
+            resPackage = ((Icon) obj).getResPackage();
+            return resPackage;
         }
 
         static int getType(Object obj) {
-            return ((Icon) obj).getType();
+            int type;
+            type = ((Icon) obj).getType();
+            return type;
         }
 
         static int getResId(Object obj) {
-            return ((Icon) obj).getResId();
+            int resId;
+            resId = ((Icon) obj).getResId();
+            return resId;
         }
 
         static Uri getUri(Object obj) {
-            return ((Icon) obj).getUri();
+            Uri uri;
+            uri = ((Icon) obj).getUri();
+            return uri;
         }
     }
 
@@ -559,7 +566,9 @@ public class IconCompat extends CustomVersionedParcelable {
         }
 
         static Icon createWithAdaptiveBitmap(Bitmap bitmap) {
-            return Icon.createWithAdaptiveBitmap(bitmap);
+            Icon createWithAdaptiveBitmap;
+            createWithAdaptiveBitmap = Icon.createWithAdaptiveBitmap(bitmap);
+            return createWithAdaptiveBitmap;
         }
     }
 
@@ -567,7 +576,9 @@ public class IconCompat extends CustomVersionedParcelable {
     /* loaded from: classes.dex */
     public static class Api30Impl {
         static Icon createWithAdaptiveBitmapContentUri(Uri uri) {
-            return Icon.createWithAdaptiveBitmapContentUri(uri);
+            Icon createWithAdaptiveBitmapContentUri;
+            createWithAdaptiveBitmapContentUri = Icon.createWithAdaptiveBitmapContentUri(uri);
+            return createWithAdaptiveBitmapContentUri;
         }
     }
 
@@ -723,7 +734,9 @@ public class IconCompat extends CustomVersionedParcelable {
         }
 
         static Drawable loadDrawable(Icon icon, Context context) {
-            return icon.loadDrawable(context);
+            Drawable loadDrawable;
+            loadDrawable = icon.loadDrawable(context);
+            return loadDrawable;
         }
     }
 }

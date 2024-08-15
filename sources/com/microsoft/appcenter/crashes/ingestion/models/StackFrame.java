@@ -64,7 +64,7 @@ public class StackFrame implements Model {
         if (this == obj) {
             return true;
         }
-        if (obj == null || StackFrame.class != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         StackFrame stackFrame = (StackFrame) obj;

@@ -43,8 +43,9 @@ final class FixedSampleSizeRechunker {
             while (i9 > 0) {
                 int min = Math.min(i2, i9);
                 jArr2[i6] = j2;
-                iArr2[i6] = i * min;
-                i7 = Math.max(i7, iArr2[i6]);
+                int i10 = i * min;
+                iArr2[i6] = i10;
+                i7 = Math.max(i7, i10);
                 jArr3[i6] = i5 * j;
                 iArr3[i6] = 1;
                 j2 += iArr2[i6];

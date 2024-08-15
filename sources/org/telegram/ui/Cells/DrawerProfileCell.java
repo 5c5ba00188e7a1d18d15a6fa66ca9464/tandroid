@@ -65,8 +65,10 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
     private AnimatedStatusView animatedStatus;
     private ImageView arrowView;
     private BackupImageView avatarImageView;
+    private Paint backPaint;
     private Integer currentColor;
     private Integer currentMoonColor;
+    private int darkThemeBackgroundColor;
     private RLottieImageView darkThemeView;
     private Rect destRect;
     public boolean drawPremium;
@@ -94,7 +96,7 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         this.srcRect = new Rect();
         this.destRect = new Rect();
         this.paint = new Paint();
-        new Paint(1);
+        this.backPaint = new Paint(1);
         this.lastAccount = -1;
         this.lastUser = null;
         this.premiumStar = null;
@@ -196,7 +198,7 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
                 sunDrawable.setCustomEndFrame(36);
             }
         }
-        RLottieImageView rLottieImageView = new RLottieImageView(this, context) { // from class: org.telegram.ui.Cells.DrawerProfileCell.2
+        RLottieImageView rLottieImageView = new RLottieImageView(context) { // from class: org.telegram.ui.Cells.DrawerProfileCell.2
             @Override // android.view.View
             public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
                 super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
@@ -221,7 +223,10 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         this.darkThemeView.setScaleType(ImageView.ScaleType.CENTER);
         this.darkThemeView.setAnimation(sunDrawable);
         if (Build.VERSION.SDK_INT >= 21) {
-            this.darkThemeView.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector), 1, AndroidUtilities.dp(17.0f)));
+            RLottieImageView rLottieImageView2 = this.darkThemeView;
+            int color2 = Theme.getColor(Theme.key_listSelector);
+            this.darkThemeBackgroundColor = color2;
+            rLottieImageView2.setBackgroundDrawable(Theme.createSelectorDrawable(color2, 1, AndroidUtilities.dp(17.0f)));
             Theme.setRippleDrawableForceSoftware((RippleDrawable) this.darkThemeView.getBackground());
         }
         if (!z && sunDrawable.getCustomEndFrame() != sunDrawable.getCurrentFrame()) {
@@ -837,8 +842,8 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
     }
 
     private void setArrowState(boolean z) {
-        int i;
         String str;
+        int i;
         float f = this.accountsShown ? 180.0f : 0.0f;
         if (z) {
             this.arrowView.animate().rotation(f).setDuration(220L).setInterpolator(CubicBezierInterpolator.EASE_OUT).start();
@@ -848,11 +853,11 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         }
         ImageView imageView = this.arrowView;
         if (this.accountsShown) {
-            i = R.string.AccDescrHideAccounts;
             str = "AccDescrHideAccounts";
+            i = R.string.AccDescrHideAccounts;
         } else {
-            i = R.string.AccDescrShowAccounts;
             str = "AccDescrShowAccounts";
+            i = R.string.AccDescrShowAccounts;
         }
         imageView.setContentDescription(LocaleController.getString(str, i));
     }

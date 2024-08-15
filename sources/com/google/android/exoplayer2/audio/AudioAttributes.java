@@ -18,13 +18,27 @@ public final class AudioAttributes implements Bundleable {
     private static final String FIELD_USAGE = Util.intToStringMaxRadix(2);
     private static final String FIELD_ALLOWED_CAPTURE_POLICY = Util.intToStringMaxRadix(3);
     private static final String FIELD_SPATIALIZATION_BEHAVIOR = Util.intToStringMaxRadix(4);
+    public static final Bundleable.Creator<AudioAttributes> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.audio.AudioAttributes$$ExternalSyntheticLambda0
+        @Override // com.google.android.exoplayer2.Bundleable.Creator
+        public final Bundleable fromBundle(Bundle bundle) {
+            AudioAttributes lambda$static$0;
+            lambda$static$0 = AudioAttributes.lambda$static$0(bundle);
+            return lambda$static$0;
+        }
+    };
 
     /* loaded from: classes.dex */
     public static final class AudioAttributesV21 {
         public final android.media.AudioAttributes audioAttributes;
 
         private AudioAttributesV21(AudioAttributes audioAttributes) {
-            AudioAttributes.Builder usage = new AudioAttributes.Builder().setContentType(audioAttributes.contentType).setFlags(audioAttributes.flags).setUsage(audioAttributes.usage);
+            AudioAttributes.Builder contentType;
+            AudioAttributes.Builder flags;
+            AudioAttributes.Builder usage;
+            android.media.AudioAttributes build;
+            contentType = new AudioAttributes.Builder().setContentType(audioAttributes.contentType);
+            flags = contentType.setFlags(audioAttributes.flags);
+            usage = flags.setUsage(audioAttributes.usage);
             int i = Util.SDK_INT;
             if (i >= 29) {
                 Api29.setAllowedCapturePolicy(usage, audioAttributes.allowedCapturePolicy);
@@ -32,7 +46,8 @@ public final class AudioAttributes implements Bundleable {
             if (i >= 32) {
                 Api32.setSpatializationBehavior(usage, audioAttributes.spatializationBehavior);
             }
-            this.audioAttributes = usage.build();
+            build = usage.build();
+            this.audioAttributes = build;
         }
     }
 
@@ -44,8 +59,28 @@ public final class AudioAttributes implements Bundleable {
         private int allowedCapturePolicy = 1;
         private int spatializationBehavior = 0;
 
+        public Builder setContentType(int i) {
+            this.contentType = i;
+            return this;
+        }
+
+        public Builder setFlags(int i) {
+            this.flags = i;
+            return this;
+        }
+
         public Builder setUsage(int i) {
             this.usage = i;
+            return this;
+        }
+
+        public Builder setAllowedCapturePolicy(int i) {
+            this.allowedCapturePolicy = i;
+            return this;
+        }
+
+        public Builder setSpatializationBehavior(int i) {
+            this.spatializationBehavior = i;
             return this;
         }
 
@@ -93,6 +128,32 @@ public final class AudioAttributes implements Bundleable {
         bundle.putInt(FIELD_ALLOWED_CAPTURE_POLICY, this.allowedCapturePolicy);
         bundle.putInt(FIELD_SPATIALIZATION_BEHAVIOR, this.spatializationBehavior);
         return bundle;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ AudioAttributes lambda$static$0(Bundle bundle) {
+        Builder builder = new Builder();
+        String str = FIELD_CONTENT_TYPE;
+        if (bundle.containsKey(str)) {
+            builder.setContentType(bundle.getInt(str));
+        }
+        String str2 = FIELD_FLAGS;
+        if (bundle.containsKey(str2)) {
+            builder.setFlags(bundle.getInt(str2));
+        }
+        String str3 = FIELD_USAGE;
+        if (bundle.containsKey(str3)) {
+            builder.setUsage(bundle.getInt(str3));
+        }
+        String str4 = FIELD_ALLOWED_CAPTURE_POLICY;
+        if (bundle.containsKey(str4)) {
+            builder.setAllowedCapturePolicy(bundle.getInt(str4));
+        }
+        String str5 = FIELD_SPATIALIZATION_BEHAVIOR;
+        if (bundle.containsKey(str5)) {
+            builder.setSpatializationBehavior(bundle.getInt(str5));
+        }
+        return builder.build();
     }
 
     /* loaded from: classes.dex */

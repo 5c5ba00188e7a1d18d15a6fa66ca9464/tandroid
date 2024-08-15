@@ -12,8 +12,8 @@ final class RtspTrackTiming {
     public final int sequenceNumber;
     public final Uri uri;
 
-    /* JADX WARN: Removed duplicated region for block: B:25:0x006d  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x0084 A[Catch: Exception -> 0x0092, TRY_LEAVE, TryCatch #0 {Exception -> 0x0092, blocks: (B:7:0x0027, B:28:0x0072, B:29:0x0077, B:30:0x007c, B:31:0x007d, B:33:0x0084, B:14:0x004b, B:17:0x0055, B:20:0x0060), top: B:51:0x0027 }] */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x006b  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x0082 A[Catch: Exception -> 0x008e, TRY_LEAVE, TryCatch #0 {Exception -> 0x008e, blocks: (B:7:0x0027, B:28:0x0070, B:29:0x0075, B:30:0x007a, B:31:0x007b, B:33:0x0082, B:14:0x0049, B:17:0x0053, B:20:0x005e), top: B:51:0x0027 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -28,10 +28,10 @@ final class RtspTrackTiming {
             String str2 = split[i];
             String[] split2 = Util.split(str2, ";");
             int length2 = split2.length;
-            long j = -9223372036854775807L;
             int i2 = 0;
             Uri uri2 = null;
             int i3 = -1;
+            long j = -9223372036854775807L;
             while (i2 < length2) {
                 String str3 = split2[i2];
                 try {
@@ -40,7 +40,6 @@ final class RtspTrackTiming {
                     String str5 = splitAtFirst[1];
                     int hashCode = str4.hashCode();
                     String[] strArr = split;
-                    int i4 = length;
                     if (hashCode == 113759) {
                         if (str4.equals("seq")) {
                             c = 1;
@@ -48,7 +47,6 @@ final class RtspTrackTiming {
                             }
                             i2++;
                             split = strArr;
-                            length = i4;
                             c2 = 0;
                         }
                         c = 65535;
@@ -56,7 +54,6 @@ final class RtspTrackTiming {
                         }
                         i2++;
                         split = strArr;
-                        length = i4;
                         c2 = 0;
                     } else if (hashCode != 116079) {
                         if (hashCode == 1524180539 && str4.equals("rtptime")) {
@@ -72,7 +69,6 @@ final class RtspTrackTiming {
                             }
                             i2++;
                             split = strArr;
-                            length = i4;
                             c2 = 0;
                         }
                         c = 65535;
@@ -80,7 +76,6 @@ final class RtspTrackTiming {
                         }
                         i2++;
                         split = strArr;
-                        length = i4;
                         c2 = 0;
                     } else {
                         if (str4.equals("url")) {
@@ -89,7 +84,6 @@ final class RtspTrackTiming {
                             }
                             i2++;
                             split = strArr;
-                            length = i4;
                             c2 = 0;
                         }
                         c = 65535;
@@ -97,7 +91,6 @@ final class RtspTrackTiming {
                         }
                         i2++;
                         split = strArr;
-                        length = i4;
                         c2 = 0;
                     }
                 } catch (Exception e) {
@@ -106,15 +99,16 @@ final class RtspTrackTiming {
                 throw ParserException.createForMalformedManifest(str3, e);
             }
             String[] strArr2 = split;
-            int i5 = length;
-            if (uri2 == null || uri2.getScheme() == null || (i3 == -1 && j == -9223372036854775807L)) {
-                throw ParserException.createForMalformedManifest(str2, null);
+            if (uri2 != null && uri2.getScheme() != null) {
+                long j2 = j;
+                if (i3 != -1 || j2 != -9223372036854775807L) {
+                    builder.add((ImmutableList.Builder) new RtspTrackTiming(j2, i3, uri2));
+                    i++;
+                    split = strArr2;
+                    c2 = 0;
+                }
             }
-            builder.add((ImmutableList.Builder) new RtspTrackTiming(j, i3, uri2));
-            i++;
-            split = strArr2;
-            length = i5;
-            c2 = 0;
+            throw ParserException.createForMalformedManifest(str2, null);
         }
         return builder.build();
     }

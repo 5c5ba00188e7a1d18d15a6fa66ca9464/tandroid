@@ -77,9 +77,8 @@ public class CheckBoxCell extends FrameLayout {
         boolean z2 = true;
         if (z) {
             AnimatedTextView animatedTextView = new AnimatedTextView(context) { // from class: org.telegram.ui.Cells.CheckBoxCell.1
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.AnimatedTextView, android.view.View
-                public void onDraw(Canvas canvas) {
+                protected void onDraw(Canvas canvas) {
                     super.onDraw(canvas);
                     CheckBoxCell.this.updateCollapseArrowTranslation();
                 }
@@ -205,11 +204,11 @@ public class CheckBoxCell extends FrameLayout {
             }
         }
         if (i == 6) {
-            CollapseButton collapseButton = new CollapseButton(this, context, R.drawable.msg_folders_groups);
+            CollapseButton collapseButton = new CollapseButton(context, R.drawable.msg_folders_groups);
             this.collapseButton = collapseButton;
             addView(collapseButton, LayoutHelper.createFrameRelatively(-2.0f, -2.0f, 8388629, f, 0.0f, i2 - 11, 0.0f));
         } else if (i == 8) {
-            CollapseButton collapseButton2 = new CollapseButton(this, context, 0);
+            CollapseButton collapseButton2 = new CollapseButton(context, 0);
             this.collapseButton = collapseButton2;
             addView(collapseButton2, LayoutHelper.createFrameRelatively(-2.0f, -2.0f, 8388629, f, 0.0f, i2 - 11, 0.0f));
         } else if (i == 7) {
@@ -311,14 +310,15 @@ public class CheckBoxCell extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void updateCollapseArrowTranslation() {
+        float f;
         float left;
         if (this.collapsedArrow == null) {
             return;
         }
-        float f = 0.0f;
         try {
             f = this.textView.getMeasuredWidth();
         } catch (Exception unused) {
+            f = 0.0f;
         }
         if (LocaleController.isRTL) {
             left = (this.textView.getRight() - f) - AndroidUtilities.dp(20.0f);
@@ -610,9 +610,9 @@ public class CheckBoxCell extends FrameLayout {
         private final AnimatedTextView textView;
 
         @SuppressLint({"UseCompatLoadingForDrawables"})
-        public CollapseButton(CheckBoxCell checkBoxCell, Context context, int i) {
+        public CollapseButton(Context context, int i) {
             super(context);
-            int themedColor = checkBoxCell.getThemedColor(Theme.key_windowBackgroundWhiteBlackText);
+            int themedColor = CheckBoxCell.this.getThemedColor(Theme.key_windowBackgroundWhiteBlackText);
             if (i != 0) {
                 ImageView imageView = new ImageView(context);
                 this.iconView = imageView;
@@ -645,7 +645,7 @@ public class CheckBoxCell extends FrameLayout {
                 addView(animatedTextView, LayoutHelper.createLinear(-2, 16, 16, this.iconView == null ? 11 : 0, 0, 3, 0));
                 addView(view, LayoutHelper.createLinear(16, 16, 16, 0, 0, 11, 0));
             }
-            setBackground(Theme.createRadSelectorDrawable(checkBoxCell.getThemedColor(Theme.key_listSelector), 16, 16));
+            setBackground(Theme.createRadSelectorDrawable(CheckBoxCell.this.getThemedColor(Theme.key_listSelector), 16, 16));
             setClickable(true);
         }
 

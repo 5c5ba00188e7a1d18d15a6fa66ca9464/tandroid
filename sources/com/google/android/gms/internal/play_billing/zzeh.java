@@ -126,12 +126,12 @@ public final class zzeh {
                         ((Long) this.zzd[i4]).longValue();
                         i = zzbi.zzx(i6 << 3) + 8;
                     } else if (i7 == 2) {
-                        int i8 = zzbi.zzb;
+                        int i8 = zzbi.$r8$clinit;
                         int zzd = ((zzba) this.zzd[i4]).zzd();
                         i = zzbi.zzx(i6 << 3) + zzbi.zzx(zzd) + zzd;
                     } else if (i7 == 3) {
                         int i9 = i6 << 3;
-                        int i10 = zzbi.zzb;
+                        int i10 = zzbi.$r8$clinit;
                         zzy = ((zzeh) this.zzd[i4]).zza();
                         int zzx2 = zzbi.zzx(i9);
                         zzx = zzx2 + zzx2;
@@ -161,7 +161,7 @@ public final class zzeh {
         if (i == -1) {
             int i2 = 0;
             for (int i3 = 0; i3 < this.zzb; i3++) {
-                int i4 = zzbi.zzb;
+                int i4 = zzbi.$r8$clinit;
                 int zzd = ((zzba) this.zzd[i3]).zzd();
                 int zzx = zzbi.zzx(zzd) + zzd;
                 int zzx2 = zzbi.zzx(16);

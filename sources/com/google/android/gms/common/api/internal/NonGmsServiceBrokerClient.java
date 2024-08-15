@@ -32,6 +32,7 @@ public final class NonGmsServiceBrokerClient implements Api.Client, ServiceConne
     private IBinder zai;
     private boolean zaj;
     private String zak;
+    private String zal;
 
     private final void zad() {
         if (Thread.currentThread() != this.zag.getLooper().getThread()) {
@@ -193,6 +194,7 @@ public final class NonGmsServiceBrokerClient implements Api.Client, ServiceConne
     }
 
     public final void zac(String str) {
+        this.zal = str;
     }
 
     @Override // com.google.android.gms.common.api.Api.Client

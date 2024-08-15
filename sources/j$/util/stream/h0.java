@@ -1,24 +1,26 @@
 package j$.util.stream;
-
-import java.util.Objects;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-final class h0 extends j0 implements l3 {
-    @Override // j$.util.stream.j0, j$.util.stream.m3, j$.util.stream.l3, j$.util.function.q
-    public void accept(long j) {
-        accept(Long.valueOf(j));
+public abstract class h0 extends j0 {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public h0(c cVar, int i) {
+        super(cVar, i);
     }
 
-    @Override // j$.util.function.q
-    public j$.util.function.q f(j$.util.function.q qVar) {
-        Objects.requireNonNull(qVar);
-        return new j$.util.function.p(this, qVar);
+    @Override // j$.util.stream.c
+    final boolean k1() {
+        return true;
     }
 
-    @Override // j$.util.function.Supplier
-    public Object get() {
-        if (this.a) {
-            return j$.util.l.d(((Long) this.b).longValue());
-        }
-        return null;
+    @Override // j$.util.stream.c, j$.util.stream.BaseStream, j$.util.stream.F
+    public final /* bridge */ /* synthetic */ LongStream parallel() {
+        parallel();
+        return this;
+    }
+
+    @Override // j$.util.stream.c, j$.util.stream.BaseStream, j$.util.stream.F
+    public final /* bridge */ /* synthetic */ LongStream sequential() {
+        sequential();
+        return this;
     }
 }

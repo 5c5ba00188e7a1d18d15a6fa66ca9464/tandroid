@@ -39,18 +39,13 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean onFragmentCreate() {
         super.onFragmentCreate();
-        this.rowCount = 0;
         int i = 0 + 1;
-        this.rowCount = i;
         this.reply1Row = 0;
         int i2 = i + 1;
-        this.rowCount = i2;
         this.reply2Row = i;
         int i3 = i2 + 1;
-        this.rowCount = i3;
         this.reply3Row = i2;
         int i4 = i3 + 1;
-        this.rowCount = i4;
         this.reply4Row = i3;
         this.rowCount = i4 + 1;
         this.explanationRow = i4;
@@ -94,8 +89,9 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
         while (true) {
             EditTextSettingsCell[] editTextSettingsCellArr = this.textCells;
             if (i < editTextSettingsCellArr.length) {
-                if (editTextSettingsCellArr[i] != null) {
-                    String obj = editTextSettingsCellArr[i].getTextView().getText().toString();
+                EditTextSettingsCell editTextSettingsCell = editTextSettingsCellArr[i];
+                if (editTextSettingsCell != null) {
+                    String obj = editTextSettingsCell.getTextView().getText().toString();
                     if (!TextUtils.isEmpty(obj)) {
                         edit.putString("quick_reply_msg" + (i + 1), obj);
                     } else {
@@ -132,14 +128,9 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
             return QuickRepliesSettingsActivity.this.rowCount;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:27:0x0082  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
             String str;
-            String string;
             String str2;
             int itemViewType = viewHolder.getItemViewType();
             if (itemViewType == 0) {
@@ -157,33 +148,29 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
                     case 11:
                     case 12:
                         EditTextSettingsCell editTextSettingsCell = (EditTextSettingsCell) viewHolder.itemView;
-                        String str3 = null;
                         if (i != QuickRepliesSettingsActivity.this.reply1Row) {
                             if (i != QuickRepliesSettingsActivity.this.reply2Row) {
                                 if (i != QuickRepliesSettingsActivity.this.reply3Row) {
-                                    if (i != QuickRepliesSettingsActivity.this.reply4Row) {
+                                    if (i == QuickRepliesSettingsActivity.this.reply4Row) {
+                                        str = LocaleController.getString("QuickReplyDefault4", R.string.QuickReplyDefault4);
+                                        str2 = "quick_reply_msg4";
+                                    } else {
                                         str = null;
-                                        editTextSettingsCell.setTextAndHint(QuickRepliesSettingsActivity.this.getParentActivity().getSharedPreferences("mainconfig", 0).getString(str3, ""), str, i != QuickRepliesSettingsActivity.this.reply4Row);
-                                        return;
+                                        str2 = null;
                                     }
-                                    string = LocaleController.getString("QuickReplyDefault4", R.string.QuickReplyDefault4);
-                                    str2 = "quick_reply_msg4";
                                 } else {
-                                    string = LocaleController.getString("QuickReplyDefault3", R.string.QuickReplyDefault3);
+                                    str = LocaleController.getString("QuickReplyDefault3", R.string.QuickReplyDefault3);
                                     str2 = "quick_reply_msg3";
                                 }
                             } else {
-                                string = LocaleController.getString("QuickReplyDefault2", R.string.QuickReplyDefault2);
+                                str = LocaleController.getString("QuickReplyDefault2", R.string.QuickReplyDefault2);
                                 str2 = "quick_reply_msg2";
                             }
                         } else {
-                            string = LocaleController.getString("QuickReplyDefault1", R.string.QuickReplyDefault1);
+                            str = LocaleController.getString("QuickReplyDefault1", R.string.QuickReplyDefault1);
                             str2 = "quick_reply_msg1";
                         }
-                        String str4 = string;
-                        str3 = str2;
-                        str = str4;
-                        editTextSettingsCell.setTextAndHint(QuickRepliesSettingsActivity.this.getParentActivity().getSharedPreferences("mainconfig", 0).getString(str3, ""), str, i != QuickRepliesSettingsActivity.this.reply4Row);
+                        editTextSettingsCell.setTextAndHint(QuickRepliesSettingsActivity.this.getParentActivity().getSharedPreferences("mainconfig", 0).getString(str2, ""), str, i != QuickRepliesSettingsActivity.this.reply4Row);
                         return;
                     default:
                         return;

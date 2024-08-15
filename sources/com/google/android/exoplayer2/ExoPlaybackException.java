@@ -3,6 +3,7 @@ package com.google.android.exoplayer2;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.text.TextUtils;
+import com.google.android.exoplayer2.Bundleable;
 import com.google.android.exoplayer2.source.MediaPeriodId;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
@@ -16,12 +17,22 @@ public final class ExoPlaybackException extends PlaybackException {
     public final int rendererIndex;
     public final String rendererName;
     public final int type;
+    public static final Bundleable.Creator<ExoPlaybackException> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.ExoPlaybackException$$ExternalSyntheticLambda0
+        @Override // com.google.android.exoplayer2.Bundleable.Creator
+        public final Bundleable fromBundle(Bundle bundle) {
+            return ExoPlaybackException.$r8$lambda$mXbXdGG_PHMarv0ObcHmIhB4uIw(bundle);
+        }
+    };
     private static final String FIELD_TYPE = Util.intToStringMaxRadix(1001);
     private static final String FIELD_RENDERER_NAME = Util.intToStringMaxRadix(1002);
     private static final String FIELD_RENDERER_INDEX = Util.intToStringMaxRadix(1003);
     private static final String FIELD_RENDERER_FORMAT = Util.intToStringMaxRadix(1004);
     private static final String FIELD_RENDERER_FORMAT_SUPPORT = Util.intToStringMaxRadix(1005);
     private static final String FIELD_IS_RECOVERABLE = Util.intToStringMaxRadix(1006);
+
+    public static /* synthetic */ ExoPlaybackException $r8$lambda$mXbXdGG_PHMarv0ObcHmIhB4uIw(Bundle bundle) {
+        return new ExoPlaybackException(bundle);
+    }
 
     public static ExoPlaybackException createForSource(IOException iOException, int i) {
         return new ExoPlaybackException(0, iOException, i);
@@ -46,6 +57,18 @@ public final class ExoPlaybackException extends PlaybackException {
 
     private ExoPlaybackException(int i, Throwable th, String str, int i2, String str2, int i3, Format format, int i4, boolean z) {
         this(deriveMessage(i, str, str2, i3, format, i4), th, i2, i, str2, i3, format, i4, null, SystemClock.elapsedRealtime(), z);
+    }
+
+    private ExoPlaybackException(Bundle bundle) {
+        super(bundle);
+        this.type = bundle.getInt(FIELD_TYPE, 2);
+        this.rendererName = bundle.getString(FIELD_RENDERER_NAME);
+        this.rendererIndex = bundle.getInt(FIELD_RENDERER_INDEX, -1);
+        Bundle bundle2 = bundle.getBundle(FIELD_RENDERER_FORMAT);
+        this.rendererFormat = bundle2 == null ? null : Format.CREATOR.fromBundle(bundle2);
+        this.rendererFormatSupport = bundle.getInt(FIELD_RENDERER_FORMAT_SUPPORT, 4);
+        this.isRecoverable = bundle.getBoolean(FIELD_IS_RECOVERABLE, false);
+        this.mediaPeriodId = null;
     }
 
     private ExoPlaybackException(String str, Throwable th, int i, int i2, String str2, int i3, Format format, int i4, MediaPeriodId mediaPeriodId, long j, boolean z) {

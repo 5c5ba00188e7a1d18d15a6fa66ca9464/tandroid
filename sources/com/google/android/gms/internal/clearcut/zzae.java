@@ -14,6 +14,7 @@ import androidx.core.content.PermissionChecker;
 /* loaded from: classes.dex */
 public abstract class zzae<T> {
     private static final Object zzdn = new Object();
+    private static boolean zzdo = false;
     private static volatile Boolean zzdp;
     private static volatile Boolean zzdq;
     @SuppressLint({"StaticFieldLeak"})
@@ -22,6 +23,7 @@ public abstract class zzae<T> {
     final String zzds;
     private final String zzdt;
     private final T zzdu;
+    private T zzdv;
     private volatile zzab zzdw;
     private volatile SharedPreferences zzdx;
 
@@ -32,6 +34,7 @@ public abstract class zzae<T> {
         String str5;
         Uri uri;
         Uri uri2;
+        this.zzdv = null;
         this.zzdw = null;
         this.zzdx = null;
         str2 = zzaoVar.zzef;
@@ -64,18 +67,32 @@ public abstract class zzae<T> {
         this(zzaoVar, str, obj);
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:45:0x0020 A[Catch: all -> 0x002a, TryCatch #0 {, blocks: (B:34:0x0007, B:36:0x000d, B:43:0x001c, B:45:0x0020, B:46:0x0023, B:47:0x0025, B:39:0x0014), top: B:53:0x0007 }] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public static void maybeInit(Context context) {
-        Context applicationContext;
+        boolean isDeviceProtectedStorage;
         if (zzh == null) {
             synchronized (zzdn) {
-                if ((Build.VERSION.SDK_INT < 24 || !context.isDeviceProtectedStorage()) && (applicationContext = context.getApplicationContext()) != null) {
+                if (Build.VERSION.SDK_INT >= 24) {
+                    isDeviceProtectedStorage = context.isDeviceProtectedStorage();
+                    if (isDeviceProtectedStorage) {
+                        if (zzh != context) {
+                            zzdp = null;
+                        }
+                        zzh = context;
+                    }
+                }
+                Context applicationContext = context.getApplicationContext();
+                if (applicationContext != null) {
                     context = applicationContext;
                 }
                 if (zzh != context) {
-                    zzdp = null;
                 }
                 zzh = context;
             }
+            zzdo = false;
         }
     }
 
@@ -126,12 +143,20 @@ public abstract class zzae<T> {
         return false;
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:68:0x007c A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x007d  */
     @TargetApi(24)
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private final T zzl() {
         Uri uri;
         String str;
         boolean z;
         String str2;
+        boolean isDeviceProtectedStorage;
+        Object systemService;
+        boolean isUserUnlocked;
         Uri uri2;
         if (zza("gms:phenotype:phenotype_flag:debug_bypass_phenotype", false)) {
             String valueOf = String.valueOf(this.zzds);
@@ -165,25 +190,31 @@ public abstract class zzae<T> {
             } else {
                 str = this.zzdr.zzef;
                 if (str != null) {
-                    if (Build.VERSION.SDK_INT < 24 || zzh.isDeviceProtectedStorage()) {
-                        z = true;
-                    } else {
-                        if (zzdq == null || !zzdq.booleanValue()) {
-                            zzdq = Boolean.valueOf(((UserManager) zzh.getSystemService(UserManager.class)).isUserUnlocked());
+                    if (Build.VERSION.SDK_INT >= 24) {
+                        isDeviceProtectedStorage = zzh.isDeviceProtectedStorage();
+                        if (!isDeviceProtectedStorage) {
+                            if (zzdq == null || !zzdq.booleanValue()) {
+                                systemService = zzh.getSystemService(UserManager.class);
+                                isUserUnlocked = ((UserManager) systemService).isUserUnlocked();
+                                zzdq = Boolean.valueOf(isUserUnlocked);
+                            }
+                            z = zzdq.booleanValue();
+                            if (z) {
+                                return null;
+                            }
+                            if (this.zzdx == null) {
+                                Context context = zzh;
+                                str2 = this.zzdr.zzef;
+                                this.zzdx = context.getSharedPreferences(str2, 0);
+                            }
+                            SharedPreferences sharedPreferences = this.zzdx;
+                            if (sharedPreferences.contains(this.zzds)) {
+                                return zza(sharedPreferences);
+                            }
                         }
-                        z = zzdq.booleanValue();
                     }
-                    if (!z) {
-                        return null;
-                    }
-                    if (this.zzdx == null) {
-                        Context context = zzh;
-                        str2 = this.zzdr.zzef;
-                        this.zzdx = context.getSharedPreferences(str2, 0);
-                    }
-                    SharedPreferences sharedPreferences = this.zzdx;
-                    if (sharedPreferences.contains(this.zzds)) {
-                        return zza(sharedPreferences);
+                    z = true;
+                    if (z) {
                     }
                 }
             }

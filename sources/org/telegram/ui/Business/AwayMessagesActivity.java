@@ -89,7 +89,7 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
         checkDone(false);
         FrameLayout frameLayout = new FrameLayout(context);
         frameLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
-        BusinessRecipientsHelper businessRecipientsHelper = new BusinessRecipientsHelper(this, new Runnable() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda2
+        BusinessRecipientsHelper businessRecipientsHelper = new BusinessRecipientsHelper(this, new Runnable() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 AwayMessagesActivity.this.lambda$createView$0();
@@ -102,12 +102,12 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
             TLRPC$TL_businessAwayMessage tLRPC$TL_businessAwayMessage = this.currentValue;
             businessRecipientsHelper2.setValue(tLRPC$TL_businessAwayMessage == null ? null : tLRPC$TL_businessAwayMessage.recipients);
         }
-        UniversalRecyclerView universalRecyclerView = new UniversalRecyclerView(this, new Utilities.Callback2() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda4
+        UniversalRecyclerView universalRecyclerView = new UniversalRecyclerView(this, new Utilities.Callback2() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda1
             @Override // org.telegram.messenger.Utilities.Callback2
             public final void run(Object obj, Object obj2) {
                 AwayMessagesActivity.this.fillItems((ArrayList) obj, (UniversalAdapter) obj2);
             }
-        }, new Utilities.Callback5() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda5
+        }, new Utilities.Callback5() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda2
             @Override // org.telegram.messenger.Utilities.Callback5
             public final void run(Object obj, Object obj2, Object obj3, Object obj4, Object obj5) {
                 AwayMessagesActivity.this.onClick((UItem) obj, (View) obj2, ((Integer) obj3).intValue(), ((Float) obj4).floatValue(), ((Float) obj5).floatValue());
@@ -286,7 +286,7 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
                 userFull.flags2 &= -9;
                 userFull.business_away_message = null;
             }
-            getConnectionsManager().sendRequest(tLRPC$TL_account_updateBusinessAwayMessage, new RequestDelegate() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda6
+            getConnectionsManager().sendRequest(tLRPC$TL_account_updateBusinessAwayMessage, new RequestDelegate() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda7
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     AwayMessagesActivity.this.lambda$processDone$2(tLObject, tLRPC$TL_error);
@@ -298,7 +298,7 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processDone$2(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda3
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
                 AwayMessagesActivity.this.lambda$processDone$1(tLRPC$TL_error, tLObject);
@@ -329,13 +329,13 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
             builder.setTitle(LocaleController.getString(R.string.UnsavedChanges));
             builder.setMessage(LocaleController.getString(R.string.BusinessAwayUnsavedChanges));
-            builder.setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda1
+            builder.setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda3
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
                     AwayMessagesActivity.this.lambda$onBackPressed$3(dialogInterface, i);
                 }
             });
-            builder.setNegativeButton(LocaleController.getString("PassportDiscard", R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda0
+            builder.setNegativeButton(LocaleController.getString("PassportDiscard", R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda4
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
                     AwayMessagesActivity.this.lambda$onBackPressed$4(dialogInterface, i);
@@ -436,14 +436,14 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
             this.listView.adapter.update(true);
             checkDone(true);
         } else if (i2 == 8) {
-            AlertsCreator.createDatePickerDialog(getContext(), LocaleController.getString(R.string.BusinessAwayScheduleCustomStartTitle), LocaleController.getString(R.string.BusinessAwayScheduleCustomSetButton), this.scheduleCustomStart, new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda8
+            AlertsCreator.createDatePickerDialog(getContext(), LocaleController.getString(R.string.BusinessAwayScheduleCustomStartTitle), LocaleController.getString(R.string.BusinessAwayScheduleCustomSetButton), this.scheduleCustomStart, new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda5
                 @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
                 public final void didSelectDate(boolean z, int i3) {
                     AwayMessagesActivity.this.lambda$onClick$5(view, z, i3);
                 }
             });
         } else if (i2 == 9) {
-            AlertsCreator.createDatePickerDialog(getContext(), LocaleController.getString(R.string.BusinessAwayScheduleCustomEndTitle), LocaleController.getString(R.string.BusinessAwayScheduleCustomSetButton), this.scheduleCustomEnd, new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda7
+            AlertsCreator.createDatePickerDialog(getContext(), LocaleController.getString(R.string.BusinessAwayScheduleCustomEndTitle), LocaleController.getString(R.string.BusinessAwayScheduleCustomSetButton), this.scheduleCustomEnd, new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda6
                 @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
                 public final void didSelectDate(boolean z, int i3) {
                     AwayMessagesActivity.this.lambda$onClick$6(view, z, i3);

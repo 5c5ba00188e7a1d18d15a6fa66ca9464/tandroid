@@ -67,7 +67,7 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
 
     private void checkCreateReactionsLayout() {
         if (this.reactionsContainerLayout == null) {
-            ReactionsContainerLayout reactionsContainerLayout = new ReactionsContainerLayout(this, (this.parentFragment.getUserConfig().getClientUserId() > this.parentFragment.getDialogId() ? 1 : (this.parentFragment.getUserConfig().getClientUserId() == this.parentFragment.getDialogId() ? 0 : -1)) == 0 ? 3 : 0, this.parentFragment, getContext(), this.parentFragment.getCurrentAccount(), this.parentFragment.getResourceProvider()) { // from class: org.telegram.ui.Components.Reactions.ChatSelectionReactionMenuOverlay.2
+            ReactionsContainerLayout reactionsContainerLayout = new ReactionsContainerLayout((this.parentFragment.getUserConfig().getClientUserId() > this.parentFragment.getDialogId() ? 1 : (this.parentFragment.getUserConfig().getClientUserId() == this.parentFragment.getDialogId() ? 0 : -1)) == 0 ? 3 : 0, this.parentFragment, getContext(), this.parentFragment.getCurrentAccount(), this.parentFragment.getResourceProvider()) { // from class: org.telegram.ui.Components.Reactions.ChatSelectionReactionMenuOverlay.2
                 float enabledAlpha = 1.0f;
                 long lastUpdate;
 
@@ -207,7 +207,7 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
             } else if (f2 < f) {
                 this.currentOffsetY = Math.max(f - f3, f2);
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatSelectionReactionMenuOverlay$$ExternalSyntheticLambda1
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatSelectionReactionMenuOverlay$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatSelectionReactionMenuOverlay.this.invalidatePosition();
@@ -267,7 +267,7 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
                         }
                         if (z2 != reactionsContainerLayout.isFlippedVertically()) {
                             this.reactionsContainerLayout.setFlippedVertically(z2);
-                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatSelectionReactionMenuOverlay$$ExternalSyntheticLambda1
+                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatSelectionReactionMenuOverlay$$ExternalSyntheticLambda2
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     ChatSelectionReactionMenuOverlay.this.invalidatePosition();
@@ -363,47 +363,43 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
         return (messageObject == null || messageObject.needDrawBluredPreview() || ((!MessageObject.isPhoto(messageObject.messageOwner) || MessageObject.getMedia(messageObject.messageOwner).webpage != null) && (messageObject.getDocument() == null || (!MessageObject.isVideoDocument(messageObject.getDocument()) && !MessageObject.isGifDocument(messageObject.getDocument()))))) ? false : true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:26:0x005b  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0063  */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public void setSelectedMessages(List<MessageObject> list) {
+        boolean z;
         this.selectedMessages = list;
-        boolean z = true;
         if (!this.parentFragment.isSecretChat() && ((this.parentFragment.getCurrentChatInfo() == null || !(this.parentFragment.getCurrentChatInfo().available_reactions instanceof TLRPC$TL_chatReactionsNone)) && !list.isEmpty())) {
+            Iterator<MessageObject> it = list.iterator();
             long j = 0;
             boolean z2 = false;
-            for (MessageObject messageObject : list) {
-                if (isMessageTypeAllowed(messageObject)) {
-                    if (!z2) {
-                        j = messageObject.getGroupId();
-                        z2 = true;
-                    } else if (j == messageObject.getGroupId() && j != 0) {
-                    }
+            while (true) {
+                z = true;
+                if (!it.hasNext()) {
+                    break;
                 }
-            }
-            if (z == this.isVisible) {
-                this.isVisible = z;
-                this.hiddenByScroll = false;
-                animateVisible(z);
-                return;
-            } else if (z) {
-                this.currentPrimaryObject = findPrimaryObject();
-                return;
-            } else {
-                return;
+                MessageObject next = it.next();
+                if (!isMessageTypeAllowed(next)) {
+                    break;
+                } else if (!z2) {
+                    j = next.getGroupId();
+                    z2 = true;
+                } else if (j != next.getGroupId() || j == 0) {
+                    break;
+                }
             }
         }
         z = false;
-        if (z == this.isVisible) {
+        if (z != this.isVisible) {
+            this.isVisible = z;
+            this.hiddenByScroll = false;
+            animateVisible(z);
+        } else if (z) {
+            this.currentPrimaryObject = findPrimaryObject();
         }
     }
 
     private void animateVisible(boolean z) {
         if (z) {
             setVisibility(0);
-            post(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatSelectionReactionMenuOverlay$$ExternalSyntheticLambda2
+            post(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatSelectionReactionMenuOverlay$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatSelectionReactionMenuOverlay.this.lambda$animateVisible$0();
@@ -413,7 +409,7 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
         }
         this.messageSet = false;
         ValueAnimator duration = ValueAnimator.ofFloat(1.0f, 0.0f).setDuration(150L);
-        duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Reactions.ChatSelectionReactionMenuOverlay$$ExternalSyntheticLambda0
+        duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Reactions.ChatSelectionReactionMenuOverlay$$ExternalSyntheticLambda1
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 ChatSelectionReactionMenuOverlay.this.lambda$animateVisible$1(valueAnimator);

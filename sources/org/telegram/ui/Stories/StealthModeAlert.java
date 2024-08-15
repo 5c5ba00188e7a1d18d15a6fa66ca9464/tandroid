@@ -53,7 +53,7 @@ public class StealthModeAlert extends BottomSheet {
 
     public StealthModeAlert(Context context, final float f, final int i, final Theme.ResourcesProvider resourcesProvider) {
         super(context, false, resourcesProvider);
-        this.updateButtonRunnuble = new Runnable() { // from class: org.telegram.ui.Stories.StealthModeAlert$$ExternalSyntheticLambda2
+        this.updateButtonRunnuble = new Runnable() { // from class: org.telegram.ui.Stories.StealthModeAlert$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 StealthModeAlert.this.lambda$new$4();
@@ -138,12 +138,12 @@ public class StealthModeAlert extends BottomSheet {
             simpleTextView.setText(LocaleController.getString("StealthModePremiumHint", R.string.StealthModePremiumHint));
         }
         linearLayout.addView(simpleTextView, LayoutHelper.createLinear(-2, -2, 1, 36, 10, 36, 0));
-        ItemCell itemCell = new ItemCell(this, getContext());
+        ItemCell itemCell = new ItemCell(getContext());
         itemCell.imageView.setImageResource(R.drawable.msg_stealth_5min);
         itemCell.textView.setText(LocaleController.getString("HideRecentViews", R.string.HideRecentViews));
         itemCell.description.setText(LocaleController.getString("HideRecentViewsDescription", R.string.HideRecentViewsDescription));
         linearLayout.addView(itemCell, LayoutHelper.createLinear(-1, -2, 0, 0, 20, 0, 0));
-        ItemCell itemCell2 = new ItemCell(this, getContext());
+        ItemCell itemCell2 = new ItemCell(getContext());
         itemCell2.imageView.setImageResource(R.drawable.msg_stealth_25min);
         itemCell2.textView.setText(LocaleController.getString("HideNextViews", R.string.HideNextViews));
         itemCell2.description.setText(LocaleController.getString("HideNextViewsDescription", R.string.HideNextViewsDescription));
@@ -158,7 +158,7 @@ public class StealthModeAlert extends BottomSheet {
         final TLRPC$User currentUser = UserConfig.getInstance(this.currentAccount).getCurrentUser();
         if (!currentUser.premium) {
             premiumButtonView.setIcon(i2);
-            premiumButtonView.setButton(LocaleController.getString("UnlockStealthMode", R.string.UnlockStealthMode), new View.OnClickListener() { // from class: org.telegram.ui.Stories.StealthModeAlert$$ExternalSyntheticLambda0
+            premiumButtonView.setButton(LocaleController.getString("UnlockStealthMode", R.string.UnlockStealthMode), new View.OnClickListener() { // from class: org.telegram.ui.Stories.StealthModeAlert$$ExternalSyntheticLambda1
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     StealthModeAlert.this.lambda$new$0(view);
@@ -169,7 +169,7 @@ public class StealthModeAlert extends BottomSheet {
         }
         linearLayout.addView(premiumButtonView, LayoutHelper.createLinear(-1, 48, 80, 14, 24, 14, 16));
         setCustomView(frameLayout);
-        premiumButtonView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.StealthModeAlert$$ExternalSyntheticLambda1
+        premiumButtonView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.StealthModeAlert$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 StealthModeAlert.this.lambda$new$3(currentUser, i, resourcesProvider, view);
@@ -212,7 +212,7 @@ public class StealthModeAlert extends BottomSheet {
                 tL_stories$TL_storiesStealthMode.cooldown_until_date = ConnectionsManager.getInstance(this.currentAccount).getCurrentTime() + MessagesController.getInstance(this.currentAccount).stealthModeCooldown;
                 tL_stories$TL_storiesStealthMode.active_until_date = ConnectionsManager.getInstance(this.currentAccount).getCurrentTime() + MessagesController.getInstance(this.currentAccount).stealthModeFuture;
                 storiesController.setStealthMode(tL_stories$TL_storiesStealthMode);
-                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stories$TL_stories_activateStealthMode, new RequestDelegate() { // from class: org.telegram.ui.Stories.StealthModeAlert$$ExternalSyntheticLambda4
+                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stories$TL_stories_activateStealthMode, new RequestDelegate() { // from class: org.telegram.ui.Stories.StealthModeAlert$$ExternalSyntheticLambda3
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         StealthModeAlert.lambda$new$2(tLObject, tLRPC$TL_error);
@@ -244,7 +244,7 @@ public class StealthModeAlert extends BottomSheet {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$new$2(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StealthModeAlert$$ExternalSyntheticLambda3
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StealthModeAlert$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 StealthModeAlert.lambda$new$1();
@@ -319,7 +319,7 @@ public class StealthModeAlert extends BottomSheet {
         ImageView imageView;
         TextView textView;
 
-        public ItemCell(StealthModeAlert stealthModeAlert, Context context) {
+        public ItemCell(Context context) {
             super(context);
             ImageView imageView = new ImageView(context);
             this.imageView = imageView;
@@ -328,12 +328,12 @@ public class StealthModeAlert extends BottomSheet {
             TextView textView = new TextView(context);
             this.textView = textView;
             textView.setTypeface(AndroidUtilities.bold());
-            this.textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, ((BottomSheet) stealthModeAlert).resourcesProvider));
+            this.textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, ((BottomSheet) StealthModeAlert.this).resourcesProvider));
             this.textView.setTextSize(1, 14.0f);
             addView(this.textView, LayoutHelper.createFrame(-1, -2.0f, 0, 68.0f, 8.0f, 16.0f, 0.0f));
             TextView textView2 = new TextView(context);
             this.description = textView2;
-            textView2.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText, ((BottomSheet) stealthModeAlert).resourcesProvider));
+            textView2.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText, ((BottomSheet) StealthModeAlert.this).resourcesProvider));
             this.description.setTextSize(1, 14.0f);
             addView(this.description, LayoutHelper.createFrame(-1, -2.0f, 0, 68.0f, 28.0f, 16.0f, 8.0f));
         }

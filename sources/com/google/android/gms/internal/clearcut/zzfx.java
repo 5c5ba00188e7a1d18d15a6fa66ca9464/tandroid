@@ -8,7 +8,6 @@ import java.util.List;
 /* loaded from: classes.dex */
 final class zzfx implements Cloneable {
     private Object value;
-    private zzfv<?, ?> zzrp;
     private List<Object> zzrq = new ArrayList();
 
     private final byte[] toByteArray() throws IOException {
@@ -80,21 +79,18 @@ final class zzfx implements Cloneable {
         }
         if (obj instanceof zzfx) {
             zzfx zzfxVar = (zzfx) obj;
-            if (this.value != null && zzfxVar.value != null) {
-                if (this.zzrp != zzfxVar.zzrp) {
-                    return false;
+            if (this.value == null || zzfxVar.value == null) {
+                List<Object> list2 = this.zzrq;
+                if (list2 == null || (list = zzfxVar.zzrq) == null) {
+                    try {
+                        return Arrays.equals(toByteArray(), zzfxVar.toByteArray());
+                    } catch (IOException e) {
+                        throw new IllegalStateException(e);
+                    }
                 }
-                throw null;
+                return list2.equals(list);
             }
-            List<Object> list2 = this.zzrq;
-            if (list2 == null || (list = zzfxVar.zzrq) == null) {
-                try {
-                    return Arrays.equals(toByteArray(), zzfxVar.toByteArray());
-                } catch (IOException e) {
-                    throw new IllegalStateException(e);
-                }
-            }
-            return list2.equals(list);
+            throw null;
         }
         return false;
     }

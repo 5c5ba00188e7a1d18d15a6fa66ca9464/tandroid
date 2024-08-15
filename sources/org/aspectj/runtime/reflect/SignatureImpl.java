@@ -13,6 +13,8 @@ abstract class SignatureImpl implements Signature {
     String name;
     Cache stringCache;
     private String stringRep;
+    static String[] EMPTY_STRING_ARRAY = new String[0];
+    static Class[] EMPTY_CLASS_ARRAY = new Class[0];
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
@@ -26,7 +28,6 @@ abstract class SignatureImpl implements Signature {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public SignatureImpl(int i, String str, Class cls) {
-        this.modifiers = -1;
         this.modifiers = i;
         this.name = str;
         this.declaringType = cls;

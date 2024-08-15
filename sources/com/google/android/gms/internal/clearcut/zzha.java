@@ -15,14 +15,19 @@ public final class zzha extends zzfu<zzha> implements Cloneable {
     private zzgz zzbjv;
     public byte[] zzbjw;
     private String zzbjx;
+    private int zzbjy;
     private int[] zzbjz;
+    private long zzbka;
     private zzge$zzs zzbkb;
     public boolean zzbkc;
     public long zzbjf = 0;
     public long zzbjg = 0;
+    private long zzbjh = 0;
     private String tag = "";
     public int zzbji = 0;
     private String zzbjj = "";
+    private int zzbjk = 0;
+    private boolean zzbjl = false;
     private zzhb[] zzbjm = zzhb.zzge();
 
     public zzha() {
@@ -38,7 +43,9 @@ public final class zzha extends zzfu<zzha> implements Cloneable {
         this.zzbjv = null;
         this.zzbjw = bArr;
         this.zzbjx = "";
+        this.zzbjy = 0;
         this.zzbjz = zzgb.zzrx;
+        this.zzbka = 0L;
         this.zzbkb = null;
         this.zzbkc = false;
         this.zzrj = null;
@@ -60,8 +67,9 @@ public final class zzha extends zzfu<zzha> implements Cloneable {
                     if (i >= zzhbVarArr2.length) {
                         break;
                     }
-                    if (zzhbVarArr2[i] != null) {
-                        zzhaVar.zzbjm[i] = (zzhb) zzhbVarArr2[i].clone();
+                    zzhb zzhbVar = zzhbVarArr2[i];
+                    if (zzhbVar != null) {
+                        zzhaVar.zzbjm[i] = (zzhb) zzhbVar.clone();
                     }
                     i++;
                 }

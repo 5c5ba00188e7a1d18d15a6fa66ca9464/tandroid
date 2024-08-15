@@ -2,6 +2,8 @@ package com.google.android.gms.internal.mlkit_language_id;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public class zzfe {
+    private static final zzef zza = zzef.zza();
+    private zzdn zzb;
     private volatile zzfz zzc;
     private volatile zzdn zzd;
 
@@ -50,6 +52,7 @@ public class zzfe {
 
     public final zzfz zza(zzfz zzfzVar) {
         zzfz zzfzVar2 = this.zzc;
+        this.zzb = null;
         this.zzd = null;
         this.zzc = zzfzVar;
         return zzfzVar2;
@@ -80,9 +83,5 @@ public class zzfe {
             }
             return this.zzd;
         }
-    }
-
-    static {
-        zzef.zza();
     }
 }

@@ -185,7 +185,7 @@ public final class H262Reader implements ElementaryStreamReader {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:14:0x0076  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0074  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -194,6 +194,7 @@ public final class H262Reader implements ElementaryStreamReader {
         int i;
         float f2;
         int i2;
+        long j;
         byte[] copyOf = Arrays.copyOf(csdBuffer.data, csdBuffer.length);
         int i3 = copyOf[5] & 255;
         int i4 = ((copyOf[4] & 255) << 4) | (i3 >> 4);
@@ -208,25 +209,26 @@ public final class H262Reader implements ElementaryStreamReader {
         } else if (i6 != 4) {
             f2 = 1.0f;
             Format build = new Format.Builder().setId(str).setSampleMimeType("video/mpeg2").setWidth(i4).setHeight(i5).setPixelWidthHeightRatio(f2).setInitializationData(Collections.singletonList(copyOf)).build();
-            long j = 0;
             i2 = (copyOf[7] & 15) - 1;
             if (i2 >= 0) {
                 double[] dArr = FRAME_RATE_VALUES;
                 if (i2 < dArr.length) {
                     double d = dArr[i2];
-                    int i7 = csdBuffer.sequenceExtensionPosition + 9;
-                    int i8 = (copyOf[i7] & 96) >> 5;
-                    int i9 = copyOf[i7] & 31;
-                    if (i8 != i9) {
-                        double d2 = i8;
+                    byte b = copyOf[csdBuffer.sequenceExtensionPosition + 9];
+                    int i7 = (b & 96) >> 5;
+                    int i8 = b & 31;
+                    if (i7 != i8) {
+                        double d2 = i7;
                         Double.isNaN(d2);
-                        double d3 = i9 + 1;
+                        double d3 = i8 + 1;
                         Double.isNaN(d3);
                         d *= (d2 + 1.0d) / d3;
                     }
                     j = (long) (1000000.0d / d);
+                    return Pair.create(build, Long.valueOf(j));
                 }
             }
+            j = 0;
             return Pair.create(build, Long.valueOf(j));
         } else {
             f = i5 * 121;
@@ -234,11 +236,11 @@ public final class H262Reader implements ElementaryStreamReader {
         }
         f2 = f / i;
         Format build2 = new Format.Builder().setId(str).setSampleMimeType("video/mpeg2").setWidth(i4).setHeight(i5).setPixelWidthHeightRatio(f2).setInitializationData(Collections.singletonList(copyOf)).build();
-        long j2 = 0;
         i2 = (copyOf[7] & 15) - 1;
         if (i2 >= 0) {
         }
-        return Pair.create(build2, Long.valueOf(j2));
+        j = 0;
+        return Pair.create(build2, Long.valueOf(j));
     }
 
     /* JADX INFO: Access modifiers changed from: private */

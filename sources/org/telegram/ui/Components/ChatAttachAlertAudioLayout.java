@@ -215,13 +215,13 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         this.listAdapter = listAdapter;
         recyclerListView3.setAdapter(listAdapter);
         this.listView.setGlowColor(getThemedColor(Theme.key_dialogScrollGlow));
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.ChatAttachAlertAudioLayout$$ExternalSyntheticLambda3
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.ChatAttachAlertAudioLayout$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i2) {
                 ChatAttachAlertAudioLayout.this.lambda$new$1(view, i2);
             }
         });
-        this.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.Components.ChatAttachAlertAudioLayout$$ExternalSyntheticLambda4
+        this.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.Components.ChatAttachAlertAudioLayout$$ExternalSyntheticLambda2
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
             public final boolean onItemClick(View view, int i2) {
                 boolean lambda$new$2;
@@ -499,21 +499,23 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void onItemClick(View view) {
+        boolean z;
         if (view instanceof SharedAudioCell) {
             SharedAudioCell sharedAudioCell = (SharedAudioCell) view;
             MediaController.AudioEntry audioEntry = (MediaController.AudioEntry) sharedAudioCell.getTag();
-            boolean z = false;
             if (this.parentAlert.isStoryAudioPicker) {
                 this.sendPressed = true;
                 ArrayList<MessageObject> arrayList = new ArrayList<>();
                 arrayList.add(audioEntry.messageObject);
                 this.delegate.didSelectAudio(arrayList, this.parentAlert.commentTextView.getText(), false, 0, 0L, false);
-            } else if (this.selectedAudios.indexOfKey(audioEntry.id) >= 0) {
-                this.selectedAudios.remove(audioEntry.id);
-                this.selectedAudiosOrder.remove(audioEntry);
-                sharedAudioCell.setChecked(false, true);
-                this.parentAlert.updateCountButton(z ? 1 : 2);
             } else {
+                z = false;
+                if (this.selectedAudios.indexOfKey(audioEntry.id) >= 0) {
+                    this.selectedAudios.remove(audioEntry.id);
+                    this.selectedAudiosOrder.remove(audioEntry);
+                    sharedAudioCell.setChecked(false, true);
+                    this.parentAlert.updateCountButton(z ? 1 : 2);
+                }
                 if (this.maxSelectedFiles >= 0) {
                     int size = this.selectedAudios.size();
                     int i = this.maxSelectedFiles;
@@ -563,7 +565,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
 
     private void loadAudio() {
         this.loadingAudio = true;
-        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertAudioLayout$$ExternalSyntheticLambda1
+        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertAudioLayout$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 ChatAttachAlertAudioLayout.this.lambda$loadAudio$4();
@@ -637,7 +639,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         } catch (Exception e) {
             FileLog.e(e);
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertAudioLayout$$ExternalSyntheticLambda2
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertAudioLayout$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 ChatAttachAlertAudioLayout.this.lambda$loadAudio$3(arrayList);
@@ -731,8 +733,9 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
     public class SearchAdapter extends RecyclerListView.SelectionAdapter {
         private int lastSearchId;
         private Context mContext;
-        private ArrayList<MediaController.AudioEntry> searchResult = new ArrayList<>();
         private Runnable searchRunnable;
+        private ArrayList<MediaController.AudioEntry> searchResult = new ArrayList<>();
+        private int reqId = 0;
 
         public SearchAdapter(Context context) {
             this.mContext = context;
@@ -756,7 +759,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
             }
             final int i = this.lastSearchId + 1;
             this.lastSearchId = i;
-            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertAudioLayout$SearchAdapter$$ExternalSyntheticLambda1
+            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertAudioLayout$SearchAdapter$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatAttachAlertAudioLayout.SearchAdapter.this.lambda$search$1(str, i);
@@ -769,7 +772,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$search$1(final String str, final int i) {
             final ArrayList arrayList = new ArrayList(ChatAttachAlertAudioLayout.this.audioEntries);
-            Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertAudioLayout$SearchAdapter$$ExternalSyntheticLambda2
+            Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertAudioLayout$SearchAdapter$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatAttachAlertAudioLayout.SearchAdapter.this.lambda$search$0(str, arrayList, i);
@@ -817,7 +820,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         }
 
         private void updateSearchResults(final ArrayList<MediaController.AudioEntry> arrayList, final String str, final int i) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertAudioLayout$SearchAdapter$$ExternalSyntheticLambda0
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertAudioLayout$SearchAdapter$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatAttachAlertAudioLayout.SearchAdapter.this.lambda$updateSearchResults$2(i, str, arrayList);

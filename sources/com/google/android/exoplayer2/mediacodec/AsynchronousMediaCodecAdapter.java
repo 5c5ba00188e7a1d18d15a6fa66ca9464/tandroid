@@ -162,12 +162,16 @@ public final class AsynchronousMediaCodecAdapter implements MediaCodecAdapter {
 
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecAdapter
     public ByteBuffer getInputBuffer(int i) {
-        return this.codec.getInputBuffer(i);
+        ByteBuffer inputBuffer;
+        inputBuffer = this.codec.getInputBuffer(i);
+        return inputBuffer;
     }
 
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecAdapter
     public ByteBuffer getOutputBuffer(int i) {
-        return this.codec.getOutputBuffer(i);
+        ByteBuffer outputBuffer;
+        outputBuffer = this.codec.getOutputBuffer(i);
+        return outputBuffer;
     }
 
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecAdapter
@@ -197,7 +201,7 @@ public final class AsynchronousMediaCodecAdapter implements MediaCodecAdapter {
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecAdapter
     public void setOnFrameRenderedListener(final MediaCodecAdapter.OnFrameRenderedListener onFrameRenderedListener, Handler handler) {
         maybeBlockOnQueueing();
-        this.codec.setOnFrameRenderedListener(new MediaCodec.OnFrameRenderedListener() { // from class: com.google.android.exoplayer2.mediacodec.AsynchronousMediaCodecAdapter$$ExternalSyntheticLambda0
+        this.codec.setOnFrameRenderedListener(new MediaCodec.OnFrameRenderedListener() { // from class: com.google.android.exoplayer2.mediacodec.AsynchronousMediaCodecAdapter$$ExternalSyntheticLambda5
             @Override // android.media.MediaCodec.OnFrameRenderedListener
             public final void onFrameRendered(MediaCodec mediaCodec, long j, long j2) {
                 AsynchronousMediaCodecAdapter.this.lambda$setOnFrameRenderedListener$0(onFrameRenderedListener, mediaCodec, j, j2);

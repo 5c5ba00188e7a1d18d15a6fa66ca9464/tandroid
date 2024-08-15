@@ -2,23 +2,25 @@ package com.google.android.gms.internal.play_billing;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
-import java.util.Objects;
 /* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public final class zzcg {
-    static final Charset zzb;
+    static final Charset zza = Charset.forName("US-ASCII");
+    static final Charset zzb = Charset.forName("UTF-8");
+    static final Charset zzc = Charset.forName("ISO-8859-1");
     public static final byte[] zzd;
+    public static final ByteBuffer zze;
+    public static final zzbe zzf;
 
     static {
-        Charset.forName("US-ASCII");
-        zzb = Charset.forName("UTF-8");
-        Charset.forName("ISO-8859-1");
         byte[] bArr = new byte[0];
         zzd = bArr;
-        ByteBuffer.wrap(bArr);
-        int i = zzbe.zza;
+        zze = ByteBuffer.wrap(bArr);
+        int i = zzbe.$r8$clinit;
+        zzbc zzbcVar = new zzbc(bArr, 0, 0, false, null);
         try {
-            new zzbc(bArr, 0, 0, false, null).zza(0);
+            zzbcVar.zza(0);
+            zzf = zzbcVar;
         } catch (zzci e) {
             throw new IllegalArgumentException(e);
         }
@@ -38,8 +40,10 @@ public final class zzcg {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static Object zzc(Object obj, String str) {
-        Objects.requireNonNull(obj, "messageType");
-        return obj;
+        if (obj != null) {
+            return obj;
+        }
+        throw new NullPointerException("messageType");
     }
 
     public static String zzd(byte[] bArr) {

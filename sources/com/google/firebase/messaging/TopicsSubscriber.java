@@ -98,7 +98,10 @@ public class TopicsSubscriber {
     }
 
     static boolean isDebugLogEnabled() {
-        return Log.isLoggable("FirebaseMessaging", 3) || (Build.VERSION.SDK_INT == 23 && Log.isLoggable("FirebaseMessaging", 3));
+        if (Log.isLoggable("FirebaseMessaging", 3)) {
+            return true;
+        }
+        return Build.VERSION.SDK_INT == 23 && Log.isLoggable("FirebaseMessaging", 3);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

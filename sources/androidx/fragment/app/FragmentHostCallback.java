@@ -16,6 +16,7 @@ public abstract class FragmentHostCallback<E> extends FragmentContainer {
     private final Context mContext;
     final FragmentManager mFragmentManager;
     private final Handler mHandler;
+    private final int mWindowAnimations;
 
     @Override // androidx.fragment.app.FragmentContainer
     public View onFindViewById(int i) {
@@ -46,6 +47,7 @@ public abstract class FragmentHostCallback<E> extends FragmentContainer {
         this.mActivity = activity;
         this.mContext = (Context) Preconditions.checkNotNull(context, "context == null");
         this.mHandler = (Handler) Preconditions.checkNotNull(handler, "handler == null");
+        this.mWindowAnimations = i;
     }
 
     public LayoutInflater onGetLayoutInflater() {

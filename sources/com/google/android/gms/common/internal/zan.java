@@ -9,10 +9,10 @@ public final class zan implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
     public final /* bridge */ /* synthetic */ Object createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
-        String str = null;
-        String str2 = null;
         long j = 0;
         long j2 = 0;
+        String str = null;
+        String str2 = null;
         int i = 0;
         int i2 = 0;
         int i3 = 0;

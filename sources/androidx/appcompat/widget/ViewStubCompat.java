@@ -13,7 +13,6 @@ import androidx.appcompat.R$styleable;
 import java.lang.ref.WeakReference;
 /* loaded from: classes.dex */
 public final class ViewStubCompat extends View {
-    private OnInflateListener mInflateListener;
     private int mInflatedId;
     private WeakReference<View> mInflatedViewRef;
     private LayoutInflater mInflater;
@@ -21,7 +20,6 @@ public final class ViewStubCompat extends View {
 
     /* loaded from: classes.dex */
     public interface OnInflateListener {
-        void onInflate(ViewStubCompat viewStubCompat, View view);
     }
 
     @Override // android.view.View
@@ -31,6 +29,9 @@ public final class ViewStubCompat extends View {
     @Override // android.view.View
     @SuppressLint({"MissingSuperCall"})
     public void draw(Canvas canvas) {
+    }
+
+    public void setOnInflateListener(OnInflateListener onInflateListener) {
     }
 
     public ViewStubCompat(Context context, AttributeSet attributeSet) {
@@ -118,18 +119,10 @@ public final class ViewStubCompat extends View {
                     viewGroup.addView(inflate, indexOfChild);
                 }
                 this.mInflatedViewRef = new WeakReference<>(inflate);
-                OnInflateListener onInflateListener = this.mInflateListener;
-                if (onInflateListener != null) {
-                    onInflateListener.onInflate(this, inflate);
-                }
                 return inflate;
             }
             throw new IllegalArgumentException("ViewStub must have a valid layoutResource");
         }
         throw new IllegalStateException("ViewStub must have a non-null ViewGroup viewParent");
-    }
-
-    public void setOnInflateListener(OnInflateListener onInflateListener) {
-        this.mInflateListener = onInflateListener;
     }
 }

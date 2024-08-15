@@ -2,12 +2,14 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
-import java.util.Objects;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public final class zzeq {
-    static final Charset zza = Charset.forName("UTF-8");
     public static final byte[] zzb;
+    private static final ByteBuffer zzd;
+    private static final zzdz zze;
+    static final Charset zza = Charset.forName("UTF-8");
+    private static final Charset zzc = Charset.forName("ISO-8859-1");
 
     public static int zza(long j) {
         return (int) (j ^ (j >>> 32));
@@ -19,14 +21,16 @@ public final class zzeq {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static <T> T zza(T t) {
-        Objects.requireNonNull(t);
+        t.getClass();
         return t;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static <T> T zza(T t, String str) {
-        Objects.requireNonNull(t, str);
-        return t;
+        if (t != null) {
+            return t;
+        }
+        throw new NullPointerException(str);
     }
 
     public static boolean zza(byte[] bArr) {
@@ -69,10 +73,9 @@ public final class zzeq {
     }
 
     static {
-        Charset.forName("ISO-8859-1");
         byte[] bArr = new byte[0];
         zzb = bArr;
-        ByteBuffer.wrap(bArr);
-        zzdz.zza(bArr, 0, bArr.length, false);
+        zzd = ByteBuffer.wrap(bArr);
+        zze = zzdz.zza(bArr, 0, bArr.length, false);
     }
 }

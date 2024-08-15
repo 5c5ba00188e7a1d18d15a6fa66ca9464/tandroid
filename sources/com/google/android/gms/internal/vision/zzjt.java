@@ -2,6 +2,8 @@ package com.google.android.gms.internal.vision;
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public class zzjt {
+    private static final zzio zza = zzio.zzb();
+    private zzht zzb;
     private volatile zzkk zzc;
     private volatile zzht zzd;
 
@@ -50,6 +52,7 @@ public class zzjt {
 
     public final zzkk zza(zzkk zzkkVar) {
         zzkk zzkkVar2 = this.zzc;
+        this.zzb = null;
         this.zzd = null;
         this.zzc = zzkkVar;
         return zzkkVar2;
@@ -80,9 +83,5 @@ public class zzjt {
             }
             return this.zzd;
         }
-    }
-
-    static {
-        zzio.zzb();
     }
 }

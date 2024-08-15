@@ -71,7 +71,6 @@ public class Toolbar extends ViewGroup {
     ActionMenuView mMenuView;
     private final ActionMenuView.OnMenuItemClickListener mMenuViewItemClickListener;
     private ImageButton mNavButtonView;
-    OnMenuItemClickListener mOnMenuItemClickListener;
     private ActionMenuPresenter mOuterActionMenuPresenter;
     private Context mPopupContext;
     private int mPopupTheme;
@@ -95,7 +94,9 @@ public class Toolbar extends ViewGroup {
 
     /* loaded from: classes.dex */
     public interface OnMenuItemClickListener {
-        boolean onMenuItemClick(MenuItem menuItem);
+    }
+
+    public void setOnMenuItemClickListener(OnMenuItemClickListener onMenuItemClickListener) {
     }
 
     public Toolbar(Context context, AttributeSet attributeSet) {
@@ -108,7 +109,7 @@ public class Toolbar extends ViewGroup {
         this.mTempViews = new ArrayList<>();
         this.mHiddenViews = new ArrayList<>();
         this.mTempMargins = new int[2];
-        this.mMenuHostHelper = new MenuHostHelper(new Runnable() { // from class: androidx.appcompat.widget.Toolbar$$ExternalSyntheticLambda1
+        this.mMenuHostHelper = new MenuHostHelper(new Runnable() { // from class: androidx.appcompat.widget.Toolbar$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 Toolbar.this.invalidateMenu();
@@ -121,10 +122,7 @@ public class Toolbar extends ViewGroup {
                 if (Toolbar.this.mMenuHostHelper.onMenuItemSelected(menuItem)) {
                     return true;
                 }
-                OnMenuItemClickListener onMenuItemClickListener = Toolbar.this.mOnMenuItemClickListener;
-                if (onMenuItemClickListener != null) {
-                    return onMenuItemClickListener.onMenuItemClick(menuItem);
-                }
+                Toolbar.this.getClass();
                 return false;
             }
         };
@@ -280,9 +278,7 @@ public class Toolbar extends ViewGroup {
 
     @Override // android.view.View
     public void onRtlPropertiesChanged(int i) {
-        if (Build.VERSION.SDK_INT >= 17) {
-            super.onRtlPropertiesChanged(i);
-        }
+        super.onRtlPropertiesChanged(i);
         ensureContentInsets();
         this.mContentInsets.setDirection(i == 1);
     }
@@ -705,7 +701,7 @@ public class Toolbar extends ViewGroup {
                 }
             });
             LayoutParams generateDefaultLayoutParams = generateDefaultLayoutParams();
-            generateDefaultLayoutParams.gravity = 8388613 | (this.mButtonGravity & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle);
+            generateDefaultLayoutParams.gravity = (this.mButtonGravity & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle) | 8388613;
             this.mMenuView.setLayoutParams(generateDefaultLayoutParams);
             addSystemView(this.mMenuView, false);
         }
@@ -717,10 +713,6 @@ public class Toolbar extends ViewGroup {
 
     public void inflateMenu(int i) {
         getMenuInflater().inflate(i, getMenu());
-    }
-
-    public void setOnMenuItemClickListener(OnMenuItemClickListener onMenuItemClickListener) {
-        this.mOnMenuItemClickListener = onMenuItemClickListener;
     }
 
     public void setContentInsetsRelative(int i, int i2) {
@@ -828,7 +820,7 @@ public class Toolbar extends ViewGroup {
         if (this.mNavButtonView == null) {
             this.mNavButtonView = new AppCompatImageButton(getContext(), null, R$attr.toolbarNavigationButtonStyle);
             LayoutParams generateDefaultLayoutParams = generateDefaultLayoutParams();
-            generateDefaultLayoutParams.gravity = 8388611 | (this.mButtonGravity & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle);
+            generateDefaultLayoutParams.gravity = (this.mButtonGravity & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle) | 8388611;
             this.mNavButtonView.setLayoutParams(generateDefaultLayoutParams);
         }
     }
@@ -844,7 +836,7 @@ public class Toolbar extends ViewGroup {
             appCompatImageButton.setImageDrawable(this.mCollapseIcon);
             this.mCollapseButtonView.setContentDescription(this.mCollapseDescription);
             LayoutParams generateDefaultLayoutParams = generateDefaultLayoutParams();
-            generateDefaultLayoutParams.gravity = 8388611 | (this.mButtonGravity & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle);
+            generateDefaultLayoutParams.gravity = (this.mButtonGravity & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle) | 8388611;
             generateDefaultLayoutParams.mViewType = 2;
             this.mCollapseButtonView.setLayoutParams(generateDefaultLayoutParams);
             this.mCollapseButtonView.setOnClickListener(new View.OnClickListener() { // from class: androidx.appcompat.widget.Toolbar.4
@@ -1624,7 +1616,7 @@ public class Toolbar extends ViewGroup {
             boolean z = hasExpandedActionView() && findOnBackInvokedDispatcher != null && ViewCompat.isAttachedToWindow(this) && this.mBackInvokedCallbackEnabled;
             if (z && this.mBackInvokedDispatcher == null) {
                 if (this.mBackInvokedCallback == null) {
-                    this.mBackInvokedCallback = Api33Impl.newOnBackInvokedCallback(new Runnable() { // from class: androidx.appcompat.widget.Toolbar$$ExternalSyntheticLambda0
+                    this.mBackInvokedCallback = Api33Impl.newOnBackInvokedCallback(new Runnable() { // from class: androidx.appcompat.widget.Toolbar$$ExternalSyntheticLambda1
                         @Override // java.lang.Runnable
                         public final void run() {
                             Toolbar.this.collapseActionView();
@@ -1806,7 +1798,7 @@ public class Toolbar extends ViewGroup {
                 }
                 LayoutParams generateDefaultLayoutParams = Toolbar.this.generateDefaultLayoutParams();
                 Toolbar toolbar4 = Toolbar.this;
-                generateDefaultLayoutParams.gravity = 8388611 | (toolbar4.mButtonGravity & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle);
+                generateDefaultLayoutParams.gravity = (toolbar4.mButtonGravity & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle) | 8388611;
                 generateDefaultLayoutParams.mViewType = 2;
                 toolbar4.mExpandedActionView.setLayoutParams(generateDefaultLayoutParams);
                 Toolbar toolbar5 = Toolbar.this;

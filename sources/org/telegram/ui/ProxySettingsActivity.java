@@ -90,7 +90,7 @@ public class ProxySettingsActivity extends BaseFragment {
         this.shareDoneProgress = 1.0f;
         this.shareDoneProgressAnimValues = new float[2];
         this.shareDoneEnabled = true;
-        this.clipChangedListener = new ClipboardManager.OnPrimaryClipChangedListener() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda1
+        this.clipChangedListener = new ClipboardManager.OnPrimaryClipChangedListener() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda3
             @Override // android.content.ClipboardManager.OnPrimaryClipChangedListener
             public final void onPrimaryClipChanged() {
                 ProxySettingsActivity.this.updatePasteCell();
@@ -109,7 +109,7 @@ public class ProxySettingsActivity extends BaseFragment {
         this.shareDoneProgress = 1.0f;
         this.shareDoneProgressAnimValues = new float[2];
         this.shareDoneEnabled = true;
-        this.clipChangedListener = new ClipboardManager.OnPrimaryClipChangedListener() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda1
+        this.clipChangedListener = new ClipboardManager.OnPrimaryClipChangedListener() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda3
             @Override // android.content.ClipboardManager.OnPrimaryClipChangedListener
             public final void onPrimaryClipChanged() {
                 ProxySettingsActivity.this.updatePasteCell();
@@ -190,18 +190,17 @@ public class ProxySettingsActivity extends BaseFragment {
         addItemWithWidth.setContentDescription(LocaleController.getString("Done", R.string.Done));
         FrameLayout frameLayout = new FrameLayout(context);
         this.fragmentView = frameLayout;
-        FrameLayout frameLayout2 = frameLayout;
         frameLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
         ScrollView scrollView = new ScrollView(context);
         this.scrollView = scrollView;
         scrollView.setFillViewport(true);
         AndroidUtilities.setScrollViewEdgeEffectColor(this.scrollView, Theme.getColor(Theme.key_actionBarDefault));
-        frameLayout2.addView(this.scrollView, LayoutHelper.createFrame(-1, -1.0f));
+        frameLayout.addView(this.scrollView, LayoutHelper.createFrame(-1, -1.0f));
         LinearLayout linearLayout = new LinearLayout(context);
         this.linearLayout2 = linearLayout;
         linearLayout.setOrientation(1);
         this.scrollView.addView(this.linearLayout2, new FrameLayout.LayoutParams(-1, -2));
-        View.OnClickListener onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda2
+        View.OnClickListener onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda4
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ProxySettingsActivity.this.lambda$createView$0(view);
@@ -235,8 +234,8 @@ public class ProxySettingsActivity extends BaseFragment {
         this.inputFields = new EditTextBoldCursor[5];
         int i2 = 0;
         for (int i3 = 5; i2 < i3; i3 = 5) {
-            FrameLayout frameLayout3 = new FrameLayout(context);
-            this.inputFieldsContainer.addView(frameLayout3, LayoutHelper.createLinear(-1, 64));
+            FrameLayout frameLayout2 = new FrameLayout(context);
+            this.inputFieldsContainer.addView(frameLayout2, LayoutHelper.createLinear(-1, 64));
             this.inputFields[i2] = new EditTextBoldCursor(context);
             this.inputFields[i2].setTag(Integer.valueOf(i2));
             this.inputFields[i2].setTextSize(1, 16.0f);
@@ -340,10 +339,10 @@ public class ProxySettingsActivity extends BaseFragment {
                 this.inputFields[i2].setHintText(LocaleController.getString("UseProxySecret", R.string.UseProxySecret));
                 this.inputFields[i2].setText(this.currentProxyInfo.secret);
             }
-            EditTextBoldCursor[] editTextBoldCursorArr = this.inputFields;
-            editTextBoldCursorArr[i2].setSelection(editTextBoldCursorArr[i2].length());
+            EditTextBoldCursor editTextBoldCursor3 = this.inputFields[i2];
+            editTextBoldCursor3.setSelection(editTextBoldCursor3.length());
             this.inputFields[i2].setPadding(0, 0, 0, 0);
-            frameLayout3.addView(this.inputFields[i2], LayoutHelper.createFrame(-1, -1.0f, 51, 17.0f, i2 == 0 ? 12.0f : 0.0f, 17.0f, 0.0f));
+            frameLayout2.addView(this.inputFields[i2], LayoutHelper.createFrame(-1, -1.0f, 51, 17.0f, i2 == 0 ? 12.0f : 0.0f, 17.0f, 0.0f));
             this.inputFields[i2].setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda5
                 @Override // android.widget.TextView.OnEditorActionListener
                 public final boolean onEditorAction(TextView textView, int i5, KeyEvent keyEvent) {
@@ -373,7 +372,7 @@ public class ProxySettingsActivity extends BaseFragment {
         TextSettingsCell textSettingsCell2 = this.pasteCell;
         int i6 = Theme.key_windowBackgroundWhiteBlueText4;
         textSettingsCell2.setTextColor(Theme.getColor(i6));
-        this.pasteCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda3
+        this.pasteCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda6
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ProxySettingsActivity.this.lambda$createView$3(view);
@@ -395,7 +394,7 @@ public class ProxySettingsActivity extends BaseFragment {
         this.shareCell.setText(LocaleController.getString("ShareFile", R.string.ShareFile), false);
         this.shareCell.setTextColor(Theme.getColor(i6));
         this.linearLayout2.addView(this.shareCell, LayoutHelper.createLinear(-1, -2));
-        this.shareCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda4
+        this.shareCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda7
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ProxySettingsActivity.this.lambda$createView$4(context, view);
@@ -449,9 +448,10 @@ public class ProxySettingsActivity extends BaseFragment {
             if (i < strArr.length) {
                 int i2 = this.pasteType;
                 if ((i2 != 0 || i != 4) && (i2 != 1 || (i != 2 && i != 3))) {
-                    if (strArr[i] != null) {
+                    String str = strArr[i];
+                    if (str != null) {
                         try {
-                            this.inputFields[i].setText(URLDecoder.decode(strArr[i], "UTF-8"));
+                            this.inputFields[i].setText(URLDecoder.decode(str, "UTF-8"));
                         } catch (UnsupportedEncodingException unused) {
                             this.inputFields[i].setText(this.pasteFields[i]);
                         }
@@ -461,9 +461,9 @@ public class ProxySettingsActivity extends BaseFragment {
                 }
                 i++;
             } else {
-                EditTextBoldCursor[] editTextBoldCursorArr = this.inputFields;
-                editTextBoldCursorArr[0].setSelection(editTextBoldCursorArr[0].length());
-                setProxyType(this.pasteType, true, new Runnable() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda6
+                EditTextBoldCursor editTextBoldCursor = this.inputFields[0];
+                editTextBoldCursor.setSelection(editTextBoldCursor.length());
+                setProxyType(this.pasteType, true, new Runnable() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda8
                     @Override // java.lang.Runnable
                     public final void run() {
                         ProxySettingsActivity.this.lambda$createView$2();
@@ -542,8 +542,8 @@ public class ProxySettingsActivity extends BaseFragment {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Removed duplicated region for block: B:11:0x002c A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:12:0x002d  */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x002d A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x002e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -702,7 +702,7 @@ public class ProxySettingsActivity extends BaseFragment {
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
                 this.shareDoneAnimator = ofFloat;
                 ofFloat.setDuration(200L);
-                this.shareDoneAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda0
+                this.shareDoneAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda9
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                         ProxySettingsActivity.this.lambda$setShareDoneEnabled$5(valueAnimator2);
@@ -739,10 +739,11 @@ public class ProxySettingsActivity extends BaseFragment {
         }
         EditTextBoldCursor[] editTextBoldCursorArr = this.inputFields;
         boolean z2 = false;
-        if (editTextBoldCursorArr[0] == null || editTextBoldCursorArr[1] == null) {
+        EditTextBoldCursor editTextBoldCursor = editTextBoldCursorArr[0];
+        if (editTextBoldCursor == null || editTextBoldCursorArr[1] == null) {
             return;
         }
-        if (editTextBoldCursorArr[0].length() != 0 && Utilities.parseInt((CharSequence) this.inputFields[1].getText().toString()).intValue() != 0) {
+        if (editTextBoldCursor.length() != 0 && Utilities.parseInt((CharSequence) this.inputFields[1].getText().toString()).intValue() != 0) {
             z2 = true;
         }
         setShareDoneEnabled(z2, z);
@@ -762,7 +763,7 @@ public class ProxySettingsActivity extends BaseFragment {
             if (z && i2 >= 21) {
                 TransitionSet duration = new TransitionSet().addTransition(new Fade(2)).addTransition(new ChangeBounds()).addTransition(new Fade(1)).setInterpolator((TimeInterpolator) CubicBezierInterpolator.DEFAULT).setDuration(250L);
                 if (runnable != null) {
-                    duration.addListener(new Transition.TransitionListener(this) { // from class: org.telegram.ui.ProxySettingsActivity.4
+                    duration.addListener(new Transition.TransitionListener() { // from class: org.telegram.ui.ProxySettingsActivity.4
                         @Override // android.transition.Transition.TransitionListener
                         public void onTransitionCancel(Transition transition) {
                         }
@@ -816,7 +817,7 @@ public class ProxySettingsActivity extends BaseFragment {
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda7
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda2
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 ProxySettingsActivity.this.lambda$getThemeDescriptions$6();

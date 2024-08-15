@@ -93,22 +93,30 @@ public final class ICUCompat {
     /* loaded from: classes.dex */
     static class Api24Impl {
         static ULocale forLocale(Locale locale) {
-            return ULocale.forLocale(locale);
+            ULocale forLocale;
+            forLocale = ULocale.forLocale(locale);
+            return forLocale;
         }
 
         static ULocale addLikelySubtags(Object obj) {
-            return ULocale.addLikelySubtags((ULocale) obj);
+            ULocale addLikelySubtags;
+            addLikelySubtags = ULocale.addLikelySubtags((ULocale) obj);
+            return addLikelySubtags;
         }
 
         static String getScript(Object obj) {
-            return ((ULocale) obj).getScript();
+            String script;
+            script = ((ULocale) obj).getScript();
+            return script;
         }
     }
 
     /* loaded from: classes.dex */
     static class Api21Impl {
         static String getScript(Locale locale) {
-            return locale.getScript();
+            String script;
+            script = locale.getScript();
+            return script;
         }
     }
 }

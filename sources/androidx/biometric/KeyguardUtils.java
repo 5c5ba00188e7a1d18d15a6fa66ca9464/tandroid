@@ -23,25 +23,25 @@ class KeyguardUtils {
         if (keyguardManager == null) {
             return false;
         }
-        int i = Build.VERSION.SDK_INT;
-        if (i >= 23) {
+        if (Build.VERSION.SDK_INT >= 23) {
             return Api23Impl.isDeviceSecure(keyguardManager);
         }
-        if (i >= 16) {
-            return Api16Impl.isKeyguardSecure(keyguardManager);
-        }
-        return false;
+        return Api16Impl.isKeyguardSecure(keyguardManager);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class Api23Impl {
         static KeyguardManager getKeyguardManager(Context context) {
-            return (KeyguardManager) context.getSystemService(KeyguardManager.class);
+            Object systemService;
+            systemService = context.getSystemService(KeyguardManager.class);
+            return (KeyguardManager) systemService;
         }
 
         static boolean isDeviceSecure(KeyguardManager keyguardManager) {
-            return keyguardManager.isDeviceSecure();
+            boolean isDeviceSecure;
+            isDeviceSecure = keyguardManager.isDeviceSecure();
+            return isDeviceSecure;
         }
     }
 

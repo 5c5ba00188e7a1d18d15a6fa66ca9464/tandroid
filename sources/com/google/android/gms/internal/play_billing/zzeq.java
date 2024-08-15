@@ -20,9 +20,9 @@ final class zzeq {
     private static final boolean zzg;
     private static final boolean zzh;
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0076  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x0122  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0134  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x006c  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x011e  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0130  */
     static {
         boolean z;
         zzep zzepVar;
@@ -31,7 +31,7 @@ final class zzeq {
         zzep zzepVar2;
         Unsafe zzg2 = zzg();
         zzc = zzg2;
-        int i = zzam.zza;
+        int i = zzam.$r8$clinit;
         zzd = Memory.class;
         Class<?> cls = Long.TYPE;
         boolean zzv = zzv(cls);
@@ -154,7 +154,7 @@ final class zzeq {
     }
 
     private static Field zzB() {
-        int i = zzam.zza;
+        int i = zzam.$r8$clinit;
         Field zzC = zzC(Buffer.class, "effectiveDirectAddress");
         if (zzC == null) {
             Field zzC2 = zzC(Buffer.class, "address");
@@ -284,7 +284,7 @@ final class zzeq {
 
     /* JADX WARN: Multi-variable type inference failed */
     static boolean zzv(Class cls) {
-        int i = zzam.zza;
+        int i = zzam.$r8$clinit;
         try {
             Class cls2 = zzd;
             Class cls3 = Boolean.TYPE;

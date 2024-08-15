@@ -99,6 +99,11 @@ public class ConnectionTracker {
     }
 
     private static final boolean zze(Context context, Intent intent, ServiceConnection serviceConnection, int i, Executor executor) {
-        return (!PlatformVersion.isAtLeastQ() || executor == null) ? context.bindService(intent, serviceConnection, i) : context.bindService(intent, i, executor, serviceConnection);
+        boolean bindService;
+        if (!PlatformVersion.isAtLeastQ() || executor == null) {
+            return context.bindService(intent, serviceConnection, i);
+        }
+        bindService = context.bindService(intent, i, executor, serviceConnection);
+        return bindService;
     }
 }

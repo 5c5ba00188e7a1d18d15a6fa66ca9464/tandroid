@@ -72,40 +72,67 @@ public class Camera2Session {
     public static Camera2Session create(boolean z, int i, int i2) {
         android.util.Size size;
         String str;
+        String[] cameraIdList;
+        CameraCharacteristics cameraCharacteristics;
+        CameraCharacteristics.Key key;
+        Object obj;
+        CameraCharacteristics.Key key2;
+        Object obj2;
+        CameraCharacteristics.Key key3;
+        Object obj3;
+        int width;
+        int height;
+        float f;
         CameraManager cameraManager;
+        android.util.Size[] outputSizes;
         Context context = ApplicationLoader.applicationContext;
         CameraManager cameraManager2 = (CameraManager) context.getSystemService("camera");
         try {
-            String[] cameraIdList = cameraManager2.getCameraIdList();
+            cameraIdList = cameraManager2.getCameraIdList();
             int i3 = 0;
             size = null;
             str = null;
-            float f = 0.0f;
+            float f2 = 0.0f;
             while (i3 < cameraIdList.length) {
                 try {
                     String str2 = cameraIdList[i3];
-                    CameraCharacteristics cameraCharacteristics = cameraManager2.getCameraCharacteristics(str2);
-                    if (cameraCharacteristics != null && ((Integer) cameraCharacteristics.get(CameraCharacteristics.LENS_FACING)).intValue() == (!z)) {
-                        StreamConfigurationMap streamConfigurationMap = (StreamConfigurationMap) cameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
-                        android.util.Size size2 = (android.util.Size) cameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_PIXEL_ARRAY_SIZE);
-                        float width = size2 == null ? 0.0f : size2.getWidth() / size2.getHeight();
-                        float f2 = i / i2;
-                        cameraManager = cameraManager2;
-                        if ((f2 >= 1.0f) != (width >= 1.0f)) {
-                            width = 1.0f / width;
-                        }
-                        if ((f <= 0.0f || Math.abs(f2 - f) > Math.abs(f2 - width)) && streamConfigurationMap != null && Build.VERSION.SDK_INT >= 23) {
-                            android.util.Size chooseOptimalSize = chooseOptimalSize(streamConfigurationMap.getOutputSizes(SurfaceTexture.class), i, i2, false);
-                            if (chooseOptimalSize != null) {
-                                size = chooseOptimalSize;
-                                str = str2;
-                                f = width;
+                    cameraCharacteristics = cameraManager2.getCameraCharacteristics(str2);
+                    if (cameraCharacteristics != null) {
+                        key = CameraCharacteristics.LENS_FACING;
+                        obj = cameraCharacteristics.get(key);
+                        if (((Integer) obj).intValue() == (!z)) {
+                            key2 = CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP;
+                            obj2 = cameraCharacteristics.get(key2);
+                            StreamConfigurationMap streamConfigurationMap = (StreamConfigurationMap) obj2;
+                            key3 = CameraCharacteristics.SENSOR_INFO_PIXEL_ARRAY_SIZE;
+                            obj3 = cameraCharacteristics.get(key3);
+                            android.util.Size size2 = (android.util.Size) obj3;
+                            if (size2 == null) {
+                                f = 0.0f;
+                            } else {
+                                width = size2.getWidth();
+                                height = size2.getHeight();
+                                f = width / height;
+                            }
+                            float f3 = i / i2;
+                            cameraManager = cameraManager2;
+                            if ((f3 >= 1.0f) != (f >= 1.0f)) {
+                                f = 1.0f / f;
+                            }
+                            if ((f2 <= 0.0f || Math.abs(f3 - f2) > Math.abs(f3 - f)) && streamConfigurationMap != null && Build.VERSION.SDK_INT >= 23) {
+                                outputSizes = streamConfigurationMap.getOutputSizes(SurfaceTexture.class);
+                                android.util.Size chooseOptimalSize = chooseOptimalSize(outputSizes, i, i2, false);
+                                if (chooseOptimalSize != null) {
+                                    size = chooseOptimalSize;
+                                    str = str2;
+                                    f2 = f;
+                                }
+                                i3++;
+                                cameraManager2 = cameraManager;
                             }
                             i3++;
                             cameraManager2 = cameraManager;
                         }
-                        i3++;
-                        cameraManager2 = cameraManager;
                     }
                     cameraManager = cameraManager2;
                     i3++;
@@ -127,6 +154,13 @@ public class Camera2Session {
     }
 
     private Camera2Session(Context context, boolean z, String str, android.util.Size size) {
+        int width;
+        int height;
+        CameraCharacteristics cameraCharacteristics;
+        CameraCharacteristics.Key key;
+        Object obj;
+        CameraCharacteristics.Key key2;
+        Object obj2;
         float f = 1.0f;
         this.maxZoom = 1.0f;
         HandlerThread handlerThread = new HandlerThread("tg_camera2");
@@ -140,14 +174,21 @@ public class Camera2Session {
         this.cameraId = str;
         this.previewSize = size;
         this.lastTime = System.currentTimeMillis();
-        this.imageReader = ImageReader.newInstance(size.getWidth(), size.getHeight(), LiteMode.FLAG_CHAT_BLUR, 1);
+        width = size.getWidth();
+        height = size.getHeight();
+        this.imageReader = ImageReader.newInstance(width, height, LiteMode.FLAG_CHAT_BLUR, 1);
         CameraManager cameraManager = (CameraManager) context.getSystemService("camera");
         this.cameraManager = cameraManager;
         try {
-            CameraCharacteristics cameraCharacteristics = cameraManager.getCameraCharacteristics(str);
+            cameraCharacteristics = cameraManager.getCameraCharacteristics(str);
             this.cameraCharacteristics = cameraCharacteristics;
-            this.sensorSize = (Rect) cameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
-            Float f2 = (Float) this.cameraCharacteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM);
+            key = CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE;
+            obj = cameraCharacteristics.get(key);
+            this.sensorSize = (Rect) obj;
+            CameraCharacteristics cameraCharacteristics2 = this.cameraCharacteristics;
+            key2 = CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM;
+            obj2 = cameraCharacteristics2.get(key2);
+            Float f2 = (Float) obj2;
             if (f2 != null && f2.floatValue() >= 1.0f) {
                 f = f2.floatValue();
             }
@@ -155,7 +196,7 @@ public class Camera2Session {
             cameraManager.openCamera(str, r1, this.handler);
         } catch (Exception e) {
             FileLog.e(e);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.Camera2Session$$ExternalSyntheticLambda0
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.Camera2Session$$ExternalSyntheticLambda29
                 @Override // java.lang.Runnable
                 public final void run() {
                     Camera2Session.this.lambda$new$0();
@@ -221,7 +262,7 @@ public class Camera2Session {
             Camera2Session.this.lastTime = System.currentTimeMillis();
             try {
                 Camera2Session.this.updateCaptureRequest();
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.Camera2Session$2$$ExternalSyntheticLambda0
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.Camera2Session$2$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         Camera2Session.2.this.lambda$onConfigured$0();
@@ -245,7 +286,7 @@ public class Camera2Session {
         public void onConfigureFailed(CameraCaptureSession cameraCaptureSession) {
             Camera2Session.this.captureSession = cameraCaptureSession;
             FileLog.e("Camera2Session camera #" + this.val$cameraId + " capture session failed to configure");
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.Camera2Session$2$$ExternalSyntheticLambda1
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.Camera2Session$2$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     Camera2Session.2.this.lambda$onConfigureFailed$1();
@@ -274,7 +315,7 @@ public class Camera2Session {
     }
 
     public void open(final SurfaceTexture surfaceTexture) {
-        this.handler.post(new Runnable() { // from class: org.telegram.messenger.camera.Camera2Session$$ExternalSyntheticLambda2
+        this.handler.post(new Runnable() { // from class: org.telegram.messenger.camera.Camera2Session$$ExternalSyntheticLambda31
             @Override // java.lang.Runnable
             public final void run() {
                 Camera2Session.this.lambda$open$1(surfaceTexture);
@@ -305,7 +346,7 @@ public class Camera2Session {
             this.cameraDevice.createCaptureSession(arrayList, this.captureStateCallback, null);
         } catch (Exception e) {
             FileLog.e(e);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.Camera2Session$$ExternalSyntheticLambda1
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.Camera2Session$$ExternalSyntheticLambda32
                 @Override // java.lang.Runnable
                 public final void run() {
                     Camera2Session.this.lambda$checkOpen$2();
@@ -323,13 +364,15 @@ public class Camera2Session {
         return (this.isError || !this.isSuccess || this.isClosed) ? false : true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:20:0x003a A[Catch: Exception -> 0x0050, TryCatch #0 {Exception -> 0x0050, blocks: (B:3:0x0001, B:6:0x0006, B:18:0x002c, B:20:0x003a, B:21:0x0046), top: B:26:0x0001 }] */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0046 A[Catch: Exception -> 0x0050, TRY_LEAVE, TryCatch #0 {Exception -> 0x0050, blocks: (B:3:0x0001, B:6:0x0006, B:18:0x002c, B:20:0x003a, B:21:0x0046), top: B:26:0x0001 }] */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x003c A[Catch: Exception -> 0x0052, TryCatch #0 {Exception -> 0x0052, blocks: (B:3:0x0001, B:6:0x0006, B:18:0x002c, B:20:0x003c, B:21:0x0048), top: B:26:0x0001 }] */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0048 A[Catch: Exception -> 0x0052, TRY_LEAVE, TryCatch #0 {Exception -> 0x0052, blocks: (B:3:0x0001, B:6:0x0006, B:18:0x002c, B:20:0x003c, B:21:0x0048), top: B:26:0x0001 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public int getDisplayOrientation() {
         int i;
+        CameraCharacteristics.Key key;
+        Object obj;
         try {
             Context context = ApplicationLoader.applicationContext;
             if (context == null) {
@@ -344,14 +387,20 @@ public class Camera2Session {
                 } else if (rotation == 3) {
                     i = 270;
                 }
-                Integer num = (Integer) this.cameraCharacteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
+                CameraCharacteristics cameraCharacteristics = this.cameraCharacteristics;
+                key = CameraCharacteristics.SENSOR_ORIENTATION;
+                obj = cameraCharacteristics.get(key);
+                Integer num = (Integer) obj;
                 if (!this.isFront) {
                     return (360 - ((num.intValue() + i) % 360)) % 360;
                 }
                 return ((num.intValue() - i) + 360) % 360;
             }
             i = 0;
-            Integer num2 = (Integer) this.cameraCharacteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
+            CameraCharacteristics cameraCharacteristics2 = this.cameraCharacteristics;
+            key = CameraCharacteristics.SENSOR_ORIENTATION;
+            obj = cameraCharacteristics2.get(key);
+            Integer num2 = (Integer) obj;
             if (!this.isFront) {
             }
         } catch (Exception e) {
@@ -360,13 +409,15 @@ public class Camera2Session {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:20:0x003a A[Catch: Exception -> 0x0050, TryCatch #0 {Exception -> 0x0050, blocks: (B:3:0x0001, B:6:0x0006, B:18:0x002c, B:20:0x003a, B:21:0x0046), top: B:26:0x0001 }] */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0046 A[Catch: Exception -> 0x0050, TRY_LEAVE, TryCatch #0 {Exception -> 0x0050, blocks: (B:3:0x0001, B:6:0x0006, B:18:0x002c, B:20:0x003a, B:21:0x0046), top: B:26:0x0001 }] */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x003c A[Catch: Exception -> 0x0052, TryCatch #0 {Exception -> 0x0052, blocks: (B:3:0x0001, B:6:0x0006, B:18:0x002c, B:20:0x003c, B:21:0x0048), top: B:26:0x0001 }] */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0048 A[Catch: Exception -> 0x0052, TRY_LEAVE, TryCatch #0 {Exception -> 0x0052, blocks: (B:3:0x0001, B:6:0x0006, B:18:0x002c, B:20:0x003c, B:21:0x0048), top: B:26:0x0001 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private int getJpegOrientation() {
         int i;
+        CameraCharacteristics.Key key;
+        Object obj;
         try {
             Context context = ApplicationLoader.applicationContext;
             if (context == null) {
@@ -381,14 +432,20 @@ public class Camera2Session {
                 } else if (rotation == 3) {
                     i = 270;
                 }
-                Integer num = (Integer) this.cameraCharacteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
+                CameraCharacteristics cameraCharacteristics = this.cameraCharacteristics;
+                key = CameraCharacteristics.SENSOR_ORIENTATION;
+                obj = cameraCharacteristics.get(key);
+                Integer num = (Integer) obj;
                 if (!this.isFront) {
                     return (360 - ((num.intValue() + i) % 360)) % 360;
                 }
                 return ((num.intValue() - i) + 360) % 360;
             }
             i = 0;
-            Integer num2 = (Integer) this.cameraCharacteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
+            CameraCharacteristics cameraCharacteristics2 = this.cameraCharacteristics;
+            key = CameraCharacteristics.SENSOR_ORIENTATION;
+            obj = cameraCharacteristics2.get(key);
+            Integer num2 = (Integer) obj;
             if (!this.isFront) {
             }
         } catch (Exception e) {
@@ -407,13 +464,16 @@ public class Camera2Session {
     }
 
     public void setZoom(float f) {
+        CaptureRequest build;
         if (!isInitiated() || this.captureRequestBuilder == null || this.cameraDevice == null || this.sensorSize == null) {
             return;
         }
         this.currentZoom = Utilities.clamp(f, this.maxZoom, 1.0f);
         updateCaptureRequest();
         try {
-            this.captureSession.setRepeatingRequest(this.captureRequestBuilder.build(), null, this.handler);
+            CameraCaptureSession cameraCaptureSession = this.captureSession;
+            build = this.captureRequestBuilder.build();
+            cameraCaptureSession.setRepeatingRequest(build, null, this.handler);
         } catch (Exception e) {
             FileLog.e(e);
         }
@@ -439,11 +499,15 @@ public class Camera2Session {
     }
 
     public int getPreviewWidth() {
-        return this.previewSize.getWidth();
+        int width;
+        width = this.previewSize.getWidth();
+        return width;
     }
 
     public int getPreviewHeight() {
-        return this.previewSize.getHeight();
+        int height;
+        height = this.previewSize.getHeight();
+        return height;
     }
 
     public void destroy(boolean z) {
@@ -453,7 +517,7 @@ public class Camera2Session {
     public void destroy(boolean z, final Runnable runnable) {
         this.isClosed = true;
         if (z) {
-            this.handler.post(new Runnable() { // from class: org.telegram.messenger.camera.Camera2Session$$ExternalSyntheticLambda3
+            this.handler.post(new Runnable() { // from class: org.telegram.messenger.camera.Camera2Session$$ExternalSyntheticLambda30
                 @Override // java.lang.Runnable
                 public final void run() {
                     Camera2Session.this.lambda$destroy$4(runnable);
@@ -505,7 +569,7 @@ public class Camera2Session {
             this.imageReader = null;
         }
         this.thread.quitSafely();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.Camera2Session$$ExternalSyntheticLambda4
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.Camera2Session$$ExternalSyntheticLambda28
             @Override // java.lang.Runnable
             public final void run() {
                 Camera2Session.this.lambda$destroy$3(runnable);
@@ -549,6 +613,14 @@ public class Camera2Session {
     /* JADX INFO: Access modifiers changed from: private */
     public void updateCaptureRequest() {
         int i;
+        CaptureRequest.Builder createCaptureRequest;
+        CaptureRequest.Key key;
+        CaptureRequest.Key key2;
+        CaptureRequest build;
+        CaptureRequest.Key key3;
+        CaptureRequest.Key key4;
+        CaptureRequest.Key key5;
+        CaptureRequest.Key key6;
         CameraDevice cameraDevice = this.cameraDevice;
         if (cameraDevice == null || this.surface == null || this.captureSession == null) {
             return;
@@ -560,24 +632,30 @@ public class Camera2Session {
             } else {
                 i = this.scanningBarcode ? 2 : 1;
             }
-            CaptureRequest.Builder createCaptureRequest = cameraDevice.createCaptureRequest(i);
+            createCaptureRequest = cameraDevice.createCaptureRequest(i);
             this.captureRequestBuilder = createCaptureRequest;
             if (this.scanningBarcode) {
-                createCaptureRequest.set(CaptureRequest.CONTROL_SCENE_MODE, 16);
+                key6 = CaptureRequest.CONTROL_SCENE_MODE;
+                createCaptureRequest.set(key6, 16);
             } else if (this.nightMode) {
-                createCaptureRequest.set(CaptureRequest.CONTROL_SCENE_MODE, Integer.valueOf(this.isFront ? 6 : 5));
+                key = CaptureRequest.CONTROL_SCENE_MODE;
+                createCaptureRequest.set(key, Integer.valueOf(this.isFront ? 6 : 5));
             }
             CaptureRequest.Builder builder = this.captureRequestBuilder;
-            CaptureRequest.Key key = CaptureRequest.FLASH_MODE;
+            key2 = CaptureRequest.FLASH_MODE;
             if (!this.flashing) {
                 i2 = 0;
             } else if (this.recordingVideo) {
                 i2 = 2;
             }
-            builder.set(key, Integer.valueOf(i2));
+            builder.set(key2, Integer.valueOf(i2));
             if (this.recordingVideo) {
-                this.captureRequestBuilder.set(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, new Range(30, 60));
-                this.captureRequestBuilder.set(CaptureRequest.CONTROL_CAPTURE_INTENT, 3);
+                CaptureRequest.Builder builder2 = this.captureRequestBuilder;
+                key4 = CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE;
+                builder2.set(key4, new Range(30, 60));
+                CaptureRequest.Builder builder3 = this.captureRequestBuilder;
+                key5 = CaptureRequest.CONTROL_CAPTURE_INTENT;
+                builder3.set(key5, 3);
             }
             if (this.sensorSize != null && Math.abs(this.currentZoom - 1.0f) >= 0.01f) {
                 int width = this.sensorSize.width() / 2;
@@ -585,28 +663,40 @@ public class Camera2Session {
                 int width2 = (int) ((this.sensorSize.width() * 0.5f) / this.currentZoom);
                 int height2 = (int) ((this.sensorSize.height() * 0.5f) / this.currentZoom);
                 this.cropRegion.set(width - width2, height - height2, width + width2, height + height2);
-                this.captureRequestBuilder.set(CaptureRequest.SCALER_CROP_REGION, this.cropRegion);
+                CaptureRequest.Builder builder4 = this.captureRequestBuilder;
+                key3 = CaptureRequest.SCALER_CROP_REGION;
+                builder4.set(key3, this.cropRegion);
             }
             this.captureRequestBuilder.addTarget(this.surface);
-            this.captureSession.setRepeatingRequest(this.captureRequestBuilder.build(), null, this.handler);
+            CameraCaptureSession cameraCaptureSession = this.captureSession;
+            build = this.captureRequestBuilder.build();
+            cameraCaptureSession.setRepeatingRequest(build, null, this.handler);
         } catch (Exception e) {
             FileLog.e("Camera2Sessions setRepeatingRequest error in updateCaptureRequest", e);
         }
     }
 
     public boolean takePicture(File file, Utilities.Callback<Integer> callback) {
+        CaptureRequest.Builder createCaptureRequest;
+        CaptureRequest.Key key;
+        CaptureRequest build;
+        CaptureRequest.Key key2;
         CameraDevice cameraDevice = this.cameraDevice;
         if (cameraDevice != null && this.captureSession != null) {
             try {
-                CaptureRequest.Builder createCaptureRequest = cameraDevice.createCaptureRequest(2);
+                createCaptureRequest = cameraDevice.createCaptureRequest(2);
                 int jpegOrientation = getJpegOrientation();
-                createCaptureRequest.set(CaptureRequest.JPEG_ORIENTATION, Integer.valueOf(jpegOrientation));
+                key = CaptureRequest.JPEG_ORIENTATION;
+                createCaptureRequest.set(key, Integer.valueOf(jpegOrientation));
                 this.imageReader.setOnImageAvailableListener(new 3(file, callback, jpegOrientation), null);
                 if (this.scanningBarcode) {
-                    createCaptureRequest.set(CaptureRequest.CONTROL_SCENE_MODE, 16);
+                    key2 = CaptureRequest.CONTROL_SCENE_MODE;
+                    createCaptureRequest.set(key2, 16);
                 }
                 createCaptureRequest.addTarget(this.imageReader.getSurface());
-                this.captureSession.capture(createCaptureRequest.build(), new CameraCaptureSession.CaptureCallback() { // from class: org.telegram.messenger.camera.Camera2Session.4
+                CameraCaptureSession cameraCaptureSession = this.captureSession;
+                build = createCaptureRequest.build();
+                cameraCaptureSession.capture(build, new CameraCaptureSession.CaptureCallback() { // from class: org.telegram.messenger.camera.Camera2Session.4
                 }, null);
                 return true;
             } catch (Exception e) {
@@ -714,14 +804,47 @@ public class Camera2Session {
     }
 
     public static android.util.Size chooseOptimalSize(android.util.Size[] sizeArr, int i, int i2, boolean z) {
+        int height;
+        int width;
+        int height2;
+        int width2;
+        int width3;
+        int height3;
+        int width4;
+        int height4;
+        int height5;
+        int width5;
         ArrayList arrayList = new ArrayList(sizeArr.length);
         ArrayList arrayList2 = new ArrayList(sizeArr.length);
         for (android.util.Size size : sizeArr) {
-            if (!z || (size.getHeight() <= i2 && size.getWidth() <= i)) {
-                if (size.getHeight() == (size.getWidth() * i2) / i && size.getWidth() >= i && size.getHeight() >= i2) {
-                    arrayList.add(size);
-                } else if (size.getHeight() * size.getWidth() <= i * i2 * 4 && size.getWidth() >= i && size.getHeight() >= i2) {
-                    arrayList2.add(size);
+            if (z) {
+                height5 = size.getHeight();
+                if (height5 <= i2) {
+                    width5 = size.getWidth();
+                    if (width5 > i) {
+                    }
+                }
+            }
+            height = size.getHeight();
+            width = size.getWidth();
+            if (height == (width * i2) / i) {
+                width4 = size.getWidth();
+                if (width4 >= i) {
+                    height4 = size.getHeight();
+                    if (height4 >= i2) {
+                        arrayList.add(size);
+                    }
+                }
+            }
+            height2 = size.getHeight();
+            width2 = size.getWidth();
+            if (height2 * width2 <= i * i2 * 4) {
+                width3 = size.getWidth();
+                if (width3 >= i) {
+                    height3 = size.getHeight();
+                    if (height3 >= i2) {
+                        arrayList2.add(size);
+                    }
                 }
             }
         }
@@ -742,7 +865,17 @@ public class Camera2Session {
 
         @Override // java.util.Comparator
         public int compare(android.util.Size size, android.util.Size size2) {
-            return Long.signum((size.getWidth() * size.getHeight()) - (size2.getWidth() * size2.getHeight()));
+            int width;
+            int height;
+            int width2;
+            int height2;
+            width = size.getWidth();
+            height = size.getHeight();
+            long j = width * height;
+            width2 = size2.getWidth();
+            long j2 = width2;
+            height2 = size2.getHeight();
+            return Long.signum(j - (j2 * height2));
         }
     }
 }

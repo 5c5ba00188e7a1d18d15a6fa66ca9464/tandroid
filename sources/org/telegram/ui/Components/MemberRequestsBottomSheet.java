@@ -117,20 +117,22 @@ public class MemberRequestsBottomSheet extends UsersAlertBase {
 
     @Override // org.telegram.ui.Components.UsersAlertBase
     protected void onSearchViewTouched(MotionEvent motionEvent, final EditTextBoldCursor editTextBoldCursor) {
+        BaseFragment baseFragment;
         if (motionEvent.getAction() == 0) {
             this.yOffset = this.scrollOffsetY;
             this.delegate.setAdapterItemsEnabled(false);
         } else if (motionEvent.getAction() == 1 && Math.abs(this.scrollOffsetY - this.yOffset) < this.touchSlop && !this.enterEventSent) {
             Activity findActivity = AndroidUtilities.findActivity(getContext());
-            BaseFragment baseFragment = null;
             if (findActivity instanceof LaunchActivity) {
                 LaunchActivity launchActivity = (LaunchActivity) findActivity;
                 baseFragment = launchActivity.getActionBarLayout().getFragmentStack().get(launchActivity.getActionBarLayout().getFragmentStack().size() - 1);
+            } else {
+                baseFragment = null;
             }
             if (baseFragment instanceof ChatActivity) {
                 boolean needEnterText = ((ChatActivity) baseFragment).needEnterText();
                 this.enterEventSent = true;
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.MemberRequestsBottomSheet$$ExternalSyntheticLambda2
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.MemberRequestsBottomSheet$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         MemberRequestsBottomSheet.this.lambda$onSearchViewTouched$1(editTextBoldCursor);
@@ -140,7 +142,7 @@ public class MemberRequestsBottomSheet extends UsersAlertBase {
                 this.enterEventSent = true;
                 setFocusable(true);
                 editTextBoldCursor.requestFocus();
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.MemberRequestsBottomSheet$$ExternalSyntheticLambda0
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.MemberRequestsBottomSheet$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         AndroidUtilities.showKeyboard(EditTextBoldCursor.this);
@@ -157,7 +159,7 @@ public class MemberRequestsBottomSheet extends UsersAlertBase {
     public /* synthetic */ void lambda$onSearchViewTouched$1(final EditTextBoldCursor editTextBoldCursor) {
         setFocusable(true);
         editTextBoldCursor.requestFocus();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.MemberRequestsBottomSheet$$ExternalSyntheticLambda1
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.MemberRequestsBottomSheet$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 AndroidUtilities.showKeyboard(EditTextBoldCursor.this);

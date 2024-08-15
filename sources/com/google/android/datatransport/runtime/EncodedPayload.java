@@ -2,15 +2,18 @@ package com.google.android.datatransport.runtime;
 
 import com.google.android.datatransport.Encoding;
 import java.util.Arrays;
-import java.util.Objects;
 /* loaded from: classes.dex */
 public final class EncodedPayload {
     private final byte[] bytes;
     private final Encoding encoding;
 
     public EncodedPayload(Encoding encoding, byte[] bArr) {
-        Objects.requireNonNull(encoding, "encoding is null");
-        Objects.requireNonNull(bArr, "bytes is null");
+        if (encoding == null) {
+            throw new NullPointerException("encoding is null");
+        }
+        if (bArr == null) {
+            throw new NullPointerException("bytes is null");
+        }
         this.encoding = encoding;
         this.bytes = bArr;
     }

@@ -162,26 +162,26 @@ public class ISO8601Utils {
             throw new NumberFormatException(str);
         }
         if (i < i2) {
-            i3 = i + 1;
+            i4 = i + 1;
             int digit = Character.digit(str.charAt(i), 10);
             if (digit < 0) {
                 throw new NumberFormatException("Invalid number: " + str.substring(i, i2));
             }
-            i4 = -digit;
+            i3 = -digit;
         } else {
-            i3 = i;
-            i4 = 0;
+            i3 = 0;
+            i4 = i;
         }
-        while (i3 < i2) {
-            int i5 = i3 + 1;
-            int digit2 = Character.digit(str.charAt(i3), 10);
+        while (i4 < i2) {
+            int i5 = i4 + 1;
+            int digit2 = Character.digit(str.charAt(i4), 10);
             if (digit2 < 0) {
                 throw new NumberFormatException("Invalid number: " + str.substring(i, i2));
             }
-            i4 = (i4 * 10) - digit2;
-            i3 = i5;
+            i3 = (i3 * 10) - digit2;
+            i4 = i5;
         }
-        return -i4;
+        return -i3;
     }
 
     private static int indexOfNonDigit(String str, int i) {

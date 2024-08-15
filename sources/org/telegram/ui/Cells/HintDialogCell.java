@@ -51,6 +51,7 @@ public class HintDialogCell extends FrameLayout {
     private boolean premiumBlocked;
     private final AnimatedFloat premiumBlockedT;
     private PremiumGradient.PremiumGradientTools premiumGradient;
+    private RectF rect;
     private Theme.ResourcesProvider resourcesProvider;
     float showOnlineProgress;
     private boolean showPremiumBlocked;
@@ -63,7 +64,7 @@ public class HintDialogCell extends FrameLayout {
     public HintDialogCell(Context context, boolean z, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         this.avatarDrawable = new AvatarDrawable();
-        new RectF();
+        this.rect = new RectF();
         this.currentAccount = UserConfig.selectedAccount;
         this.premiumBlockedT = new AnimatedFloat(this, 0L, 350L, CubicBezierInterpolator.EASE_OUT_QUINT);
         this.backgroundColorKey = Theme.key_windowBackgroundWhite;
@@ -72,7 +73,7 @@ public class HintDialogCell extends FrameLayout {
         this.imageView = backupImageView;
         backupImageView.setRoundRadius(AndroidUtilities.dp(27.0f));
         addView(this.imageView, LayoutHelper.createFrame(54, 54.0f, 49, 0.0f, 7.0f, 0.0f, 0.0f));
-        TextView textView = new TextView(this, context) { // from class: org.telegram.ui.Cells.HintDialogCell.1
+        TextView textView = new TextView(context) { // from class: org.telegram.ui.Cells.HintDialogCell.1
             @Override // android.widget.TextView
             public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
                 super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), AndroidUtilities.dp(10.0f), false), bufferType);
@@ -98,7 +99,7 @@ public class HintDialogCell extends FrameLayout {
             checkBox2.setColor(Theme.key_dialogRoundCheckBox, Theme.key_dialogBackground, Theme.key_dialogRoundCheckBoxCheck);
             this.checkBox.setDrawUnchecked(false);
             this.checkBox.setDrawBackgroundAsArc(4);
-            this.checkBox.setProgressDelegate(new CheckBoxBase.ProgressDelegate() { // from class: org.telegram.ui.Cells.HintDialogCell$$ExternalSyntheticLambda1
+            this.checkBox.setProgressDelegate(new CheckBoxBase.ProgressDelegate() { // from class: org.telegram.ui.Cells.HintDialogCell$$ExternalSyntheticLambda0
                 @Override // org.telegram.ui.Components.CheckBoxBase.ProgressDelegate
                 public final void setProgress(float f) {
                     HintDialogCell.this.lambda$new$0(f);
@@ -123,7 +124,7 @@ public class HintDialogCell extends FrameLayout {
             return;
         }
         this.showPremiumBlocked = true;
-        NotificationCenter.getInstance(this.currentAccount).listen(this, NotificationCenter.userIsPremiumBlockedUpadted, new Utilities.Callback() { // from class: org.telegram.ui.Cells.HintDialogCell$$ExternalSyntheticLambda0
+        NotificationCenter.getInstance(this.currentAccount).listen(this, NotificationCenter.userIsPremiumBlockedUpadted, new Utilities.Callback() { // from class: org.telegram.ui.Cells.HintDialogCell$$ExternalSyntheticLambda1
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 HintDialogCell.this.lambda$showPremiumBlocked$1((Object[]) obj);

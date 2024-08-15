@@ -1,97 +1,144 @@
 package j$.util.stream;
 
-import j$.util.concurrent.ConcurrentHashMap;
-import j$.util.function.BiConsumer;
-import j$.util.function.Consumer;
-import j$.util.function.Predicate;
-import j$.util.function.Supplier;
-import java.util.concurrent.atomic.AtomicBoolean;
+import j$.util.function.Function;
+import java.util.HashSet;
+import java.util.Set;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class p implements Consumer, Supplier {
-    public final /* synthetic */ int a = 5;
-    public final /* synthetic */ Object b;
-    public final /* synthetic */ Object c;
+final class p extends b2 {
+    public final /* synthetic */ int b = 0;
+    Object c;
+    final /* synthetic */ c d;
 
-    public /* synthetic */ p(BiConsumer biConsumer, Object obj) {
-        this.b = biConsumer;
-        this.c = obj;
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public p(q qVar, f2 f2Var) {
+        super(f2Var);
+        this.d = qVar;
+    }
+
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public p(u uVar, f2 f2Var) {
+        super(f2Var);
+        this.d = uVar;
+        this.c = new s(0, f2Var);
+    }
+
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public p(w wVar, f2 f2Var) {
+        super(f2Var);
+        this.d = wVar;
+        this.c = new V(0, f2Var);
+    }
+
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public p(x xVar, f2 f2Var) {
+        super(f2Var);
+        this.d = xVar;
+        this.c = new e0(0, f2Var);
     }
 
     @Override // j$.util.function.Consumer
-    public void accept(Object obj) {
-        switch (this.a) {
+    public final void accept(Object obj) {
+        int i = this.b;
+        c cVar = this.d;
+        switch (i) {
             case 0:
-                AtomicBoolean atomicBoolean = (AtomicBoolean) this.b;
-                ConcurrentHashMap concurrentHashMap = (ConcurrentHashMap) this.c;
-                if (obj == null) {
-                    atomicBoolean.set(true);
-                    return;
-                } else {
-                    concurrentHashMap.putIfAbsent(obj, Boolean.TRUE);
+                if (((Set) this.c).contains(obj)) {
                     return;
                 }
-            case 5:
-                ((BiConsumer) this.b).accept(this.c, obj);
+                ((Set) this.c).add(obj);
+                this.a.accept((f2) obj);
                 return;
-            default:
-                ((m4) this.b).f((Consumer) this.c, obj);
-                return;
-        }
-    }
-
-    @Override // j$.util.function.Consumer
-    public /* synthetic */ Consumer andThen(Consumer consumer) {
-        switch (this.a) {
-            case 0:
-                return Consumer.-CC.$default$andThen(this, consumer);
-            case 5:
-                return Consumer.-CC.$default$andThen(this, consumer);
-            default:
-                return Consumer.-CC.$default$andThen(this, consumer);
-        }
-    }
-
-    @Override // j$.util.function.Supplier
-    public Object get() {
-        switch (this.a) {
             case 1:
-                return new i1((k1) this.b, (j$.wrappers.D) this.c);
+                LongStream longStream = (LongStream) ((Function) ((x) cVar).m).apply(obj);
+                if (longStream != null) {
+                    try {
+                        longStream.sequential().E((j$.util.function.h0) this.c);
+                    } catch (Throwable th) {
+                        try {
+                            longStream.close();
+                        } catch (Throwable th2) {
+                            th.addSuppressed(th2);
+                        }
+                        throw th;
+                    }
+                }
+                if (longStream != null) {
+                    longStream.close();
+                    return;
+                }
+                return;
             case 2:
-                return new g1((k1) this.b, (j$.wrappers.U) this.c);
-            case 3:
-                return new h1((k1) this.b, (j$.wrappers.i0) this.c);
+                IntStream intStream = (IntStream) ((Function) ((w) cVar).m).apply(obj);
+                if (intStream != null) {
+                    try {
+                        intStream.sequential().V((j$.util.function.K) this.c);
+                    } catch (Throwable th3) {
+                        try {
+                            intStream.close();
+                        } catch (Throwable th4) {
+                            th3.addSuppressed(th4);
+                        }
+                        throw th3;
+                    }
+                }
+                if (intStream != null) {
+                    intStream.close();
+                    return;
+                }
+                return;
             default:
-                return new f1((k1) this.b, (Predicate) this.c);
+                F f = (F) ((Function) ((u) cVar).m).apply(obj);
+                if (f != null) {
+                    try {
+                        f.sequential().H((j$.util.function.m) this.c);
+                    } catch (Throwable th5) {
+                        try {
+                            f.close();
+                        } catch (Throwable th6) {
+                            th5.addSuppressed(th6);
+                        }
+                        throw th5;
+                    }
+                }
+                if (f != null) {
+                    f.close();
+                    return;
+                }
+                return;
         }
     }
 
-    public /* synthetic */ p(k1 k1Var, Predicate predicate) {
-        this.b = k1Var;
-        this.c = predicate;
+    @Override // j$.util.stream.b2, j$.util.stream.f2
+    public final void end() {
+        switch (this.b) {
+            case 0:
+                this.c = null;
+                this.a.end();
+                return;
+            default:
+                super.end();
+                return;
+        }
     }
 
-    public /* synthetic */ p(k1 k1Var, j$.wrappers.D d) {
-        this.b = k1Var;
-        this.c = d;
-    }
-
-    public /* synthetic */ p(k1 k1Var, j$.wrappers.U u) {
-        this.b = k1Var;
-        this.c = u;
-    }
-
-    public /* synthetic */ p(k1 k1Var, j$.wrappers.i0 i0Var) {
-        this.b = k1Var;
-        this.c = i0Var;
-    }
-
-    public /* synthetic */ p(m4 m4Var, Consumer consumer) {
-        this.b = m4Var;
-        this.c = consumer;
-    }
-
-    public /* synthetic */ p(AtomicBoolean atomicBoolean, ConcurrentHashMap concurrentHashMap) {
-        this.b = atomicBoolean;
-        this.c = concurrentHashMap;
+    @Override // j$.util.stream.f2
+    public final void f(long j) {
+        int i = this.b;
+        f2 f2Var = this.a;
+        switch (i) {
+            case 0:
+                this.c = new HashSet();
+                f2Var.f(-1L);
+                return;
+            case 1:
+                f2Var.f(-1L);
+                return;
+            case 2:
+                f2Var.f(-1L);
+                return;
+            default:
+                f2Var.f(-1L);
+                return;
+        }
     }
 }

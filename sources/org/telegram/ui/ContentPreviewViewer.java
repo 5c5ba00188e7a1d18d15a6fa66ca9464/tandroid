@@ -405,17 +405,25 @@ public class ContentPreviewViewer {
             int i;
             int i2;
             int i3;
+            int stableInsetBottom;
+            int stableInsetTop;
             final boolean isStickerInFavorites;
             int i4;
             int i5;
             int i6;
+            int stableInsetBottom2;
+            int stableInsetTop2;
             int i7;
             int i8;
             int min;
+            int stableInsetBottom3;
+            int stableInsetTop3;
             TLRPC$TL_messages_stickerSet stickerSet;
             int i9;
             int i10;
             int i11;
+            int stableInsetBottom4;
+            int stableInsetTop4;
             if (ContentPreviewViewer.this.parentActivity == null || ContentPreviewViewer.this.isPhotoEditor) {
                 return;
             }
@@ -533,7 +541,9 @@ public class ContentPreviewViewer {
                         ContentPreviewViewer.this.popupWindow.setInputMethodMode(2);
                         ContentPreviewViewer.this.popupWindow.getContentView().setFocusableInTouchMode(true);
                         if (Build.VERSION.SDK_INT >= 21 && ContentPreviewViewer.this.lastInsets != null) {
-                            i8 = ContentPreviewViewer.this.lastInsets.getStableInsetBottom() + ContentPreviewViewer.this.lastInsets.getStableInsetTop();
+                            stableInsetBottom3 = ContentPreviewViewer.this.lastInsets.getStableInsetBottom();
+                            stableInsetTop3 = ContentPreviewViewer.this.lastInsets.getStableInsetTop();
+                            i8 = stableInsetBottom3 + stableInsetTop3;
                             i7 = ContentPreviewViewer.this.lastInsets.getStableInsetTop();
                         } else {
                             i7 = AndroidUtilities.statusBarHeight;
@@ -598,7 +608,7 @@ public class ContentPreviewViewer {
                             for (int i13 = 0; i13 < arrayList6.size(); i13++) {
                                 iArr[i13] = ((Integer) arrayList6.get(i13)).intValue();
                             }
-                            View.OnClickListener onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.ContentPreviewViewer$1$$ExternalSyntheticLambda3
+                            View.OnClickListener onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.ContentPreviewViewer$1$$ExternalSyntheticLambda2
                                 @Override // android.view.View.OnClickListener
                                 public final void onClick(View view) {
                                     ContentPreviewViewer.1.this.lambda$run$8(arrayList5, view);
@@ -639,7 +649,9 @@ public class ContentPreviewViewer {
                             ContentPreviewViewer.this.popupWindow.setInputMethodMode(2);
                             ContentPreviewViewer.this.popupWindow.getContentView().setFocusableInTouchMode(true);
                             if (Build.VERSION.SDK_INT >= 21 && ContentPreviewViewer.this.lastInsets != null) {
-                                i2 = ContentPreviewViewer.this.lastInsets.getStableInsetBottom() + ContentPreviewViewer.this.lastInsets.getStableInsetTop();
+                                stableInsetBottom = ContentPreviewViewer.this.lastInsets.getStableInsetBottom();
+                                stableInsetTop = ContentPreviewViewer.this.lastInsets.getStableInsetTop();
+                                i2 = stableInsetBottom + stableInsetTop;
                                 i = ContentPreviewViewer.this.lastInsets.getStableInsetTop();
                             } else {
                                 i = AndroidUtilities.statusBarHeight;
@@ -659,7 +671,7 @@ public class ContentPreviewViewer {
                                     contentPreviewViewer3.startMoveY = contentPreviewViewer3.moveY;
                                 }
                                 ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-                                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ContentPreviewViewer$1$$ExternalSyntheticLambda0
+                                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ContentPreviewViewer$1$$ExternalSyntheticLambda3
                                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                                         ContentPreviewViewer.1.this.lambda$run$9(valueAnimator);
@@ -722,7 +734,7 @@ public class ContentPreviewViewer {
                                 for (int i16 = 0; i16 < arrayList9.size(); i16++) {
                                     iArr2[i16] = ((Integer) arrayList9.get(i16)).intValue();
                                 }
-                                View.OnClickListener onClickListener2 = new View.OnClickListener() { // from class: org.telegram.ui.ContentPreviewViewer$1$$ExternalSyntheticLambda5
+                                View.OnClickListener onClickListener2 = new View.OnClickListener() { // from class: org.telegram.ui.ContentPreviewViewer$1$$ExternalSyntheticLambda6
                                     @Override // android.view.View.OnClickListener
                                     public final void onClick(View view) {
                                         ContentPreviewViewer.1.this.lambda$run$5(arrayList8, isStickerInFavorites, view);
@@ -773,7 +785,9 @@ public class ContentPreviewViewer {
                                 ContentPreviewViewer.this.popupWindow.setInputMethodMode(2);
                                 ContentPreviewViewer.this.popupWindow.getContentView().setFocusableInTouchMode(true);
                                 if (Build.VERSION.SDK_INT >= 21 && ContentPreviewViewer.this.lastInsets != null) {
-                                    i5 = ContentPreviewViewer.this.lastInsets.getStableInsetBottom() + ContentPreviewViewer.this.lastInsets.getStableInsetTop();
+                                    stableInsetBottom2 = ContentPreviewViewer.this.lastInsets.getStableInsetBottom();
+                                    stableInsetTop2 = ContentPreviewViewer.this.lastInsets.getStableInsetTop();
+                                    i5 = stableInsetBottom2 + stableInsetTop2;
                                     i4 = ContentPreviewViewer.this.lastInsets.getStableInsetTop();
                                 } else {
                                     i4 = AndroidUtilities.statusBarHeight;
@@ -855,7 +869,7 @@ public class ContentPreviewViewer {
                 linearLayout.setBackgroundColor(ContentPreviewViewer.this.getThemedColor(Theme.key_actionBarDefaultSubmenuBackground));
                 linearLayout.setOrientation(1);
                 final RecyclerListView createMyStickerPacksListView = ContentPreviewViewer.this.createMyStickerPacksListView();
-                createMyStickerPacksListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ContentPreviewViewer$1$$ExternalSyntheticLambda9
+                createMyStickerPacksListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ContentPreviewViewer$1$$ExternalSyntheticLambda0
                     @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
                     public final void onItemClick(View view, int i19) {
                         ContentPreviewViewer.1.this.lambda$run$2(view, i19);
@@ -878,14 +892,16 @@ public class ContentPreviewViewer {
                 actionBarPopupWindowLayout2.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000.0f), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000.0f), Integer.MIN_VALUE));
                 linearLayout.addView(createMyStickerPacksListView, new LinearLayout.LayoutParams(actionBarPopupWindowLayout2.getMeasuredWidth() - AndroidUtilities.dp(16.0f), (int) (actionBarPopupWindowLayout2.getMeasuredHeight() * 1.5f)));
                 actionBarPopupWindowLayout2.addViewToSwipeBack(linearLayout);
-                frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ContentPreviewViewer$1$$ExternalSyntheticLambda2
+                frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ContentPreviewViewer$1$$ExternalSyntheticLambda5
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         ContentPreviewViewer.1.lambda$run$4(ActionBarPopupWindow.ActionBarPopupWindowLayout.this, view);
                     }
                 });
                 if (Build.VERSION.SDK_INT >= 21 && ContentPreviewViewer.this.lastInsets != null) {
-                    i11 = ContentPreviewViewer.this.lastInsets.getStableInsetBottom() + ContentPreviewViewer.this.lastInsets.getStableInsetTop();
+                    stableInsetBottom4 = ContentPreviewViewer.this.lastInsets.getStableInsetBottom();
+                    stableInsetTop4 = ContentPreviewViewer.this.lastInsets.getStableInsetTop();
+                    i11 = stableInsetBottom4 + stableInsetTop4;
                     i10 = ContentPreviewViewer.this.lastInsets.getStableInsetTop();
                 } else {
                     i10 = AndroidUtilities.statusBarHeight;
@@ -918,7 +934,7 @@ public class ContentPreviewViewer {
                 reactionsWindow.dismiss();
             }
             if (cover instanceof TLRPC$TL_stickerSetNoCovered) {
-                StickersDialogs.showNameEditorDialog(null, ContentPreviewViewer.this.resourcesProvider, ContentPreviewViewer.this.containerView.getContext(), new Utilities.Callback2() { // from class: org.telegram.ui.ContentPreviewViewer$1$$ExternalSyntheticLambda6
+                StickersDialogs.showNameEditorDialog(null, ContentPreviewViewer.this.resourcesProvider, ContentPreviewViewer.this.containerView.getContext(), new Utilities.Callback2() { // from class: org.telegram.ui.ContentPreviewViewer$1$$ExternalSyntheticLambda7
                     @Override // org.telegram.messenger.Utilities.Callback2
                     public final void run(Object obj, Object obj2) {
                         ContentPreviewViewer.1.this.lambda$run$1((CharSequence) obj, (Utilities.Callback) obj2);
@@ -934,7 +950,7 @@ public class ContentPreviewViewer {
 
         public /* synthetic */ void lambda$run$1(CharSequence charSequence, final Utilities.Callback callback) {
             if (ContentPreviewViewer.this.delegate != null) {
-                ContentPreviewViewer.this.delegate.newStickerPackSelected(charSequence, TextUtils.join("", ContentPreviewViewer.this.selectedEmojis), callback != null ? new Utilities.Callback() { // from class: org.telegram.ui.ContentPreviewViewer$1$$ExternalSyntheticLambda7
+                ContentPreviewViewer.this.delegate.newStickerPackSelected(charSequence, TextUtils.join("", ContentPreviewViewer.this.selectedEmojis), callback != null ? new Utilities.Callback() { // from class: org.telegram.ui.ContentPreviewViewer$1$$ExternalSyntheticLambda9
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
                         ContentPreviewViewer.1.this.lambda$run$0(callback, (Boolean) obj);
@@ -1151,7 +1167,7 @@ public class ContentPreviewViewer {
             this.containerView.addView(this.reactionsLayoutContainer, LayoutHelper.createFrame(-2, -2.0f, 1, 0.0f, 100.0f, 0.0f, 0.0f));
         }
         this.reactionsLayout.setSelectedEmojis(this.selectedEmojis);
-        this.reactionsLayout.setDelegate(new ReactionsContainerLayout.ReactionsContainerDelegate() { // from class: org.telegram.ui.ContentPreviewViewer$$ExternalSyntheticLambda12
+        this.reactionsLayout.setDelegate(new ReactionsContainerLayout.ReactionsContainerDelegate() { // from class: org.telegram.ui.ContentPreviewViewer$$ExternalSyntheticLambda3
             @Override // org.telegram.ui.Components.ReactionsContainerLayout.ReactionsContainerDelegate
             public /* synthetic */ boolean drawBackground() {
                 return ReactionsContainerLayout.ReactionsContainerDelegate.-CC.$default$drawBackground(this);
@@ -1181,7 +1197,7 @@ public class ContentPreviewViewer {
         this.reactionsLayoutContainer.setScaleY(0.6f);
         this.reactionsLayoutContainer.setScaleX(0.6f);
         this.reactionsLayoutContainer.setAlpha(0.0f);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ContentPreviewViewer$$ExternalSyntheticLambda5
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ContentPreviewViewer$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 ContentPreviewViewer.this.lambda$showEmojiSelectorForStickers$1();
@@ -1225,13 +1241,13 @@ public class ContentPreviewViewer {
             UnlockPremiumView unlockPremiumView = new UnlockPremiumView(this.containerView.getContext(), 0, this.resourcesProvider);
             this.unlockPremiumView = unlockPremiumView;
             this.containerView.addView(unlockPremiumView, LayoutHelper.createFrame(-1, -1.0f));
-            this.unlockPremiumView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ContentPreviewViewer$$ExternalSyntheticLambda2
+            this.unlockPremiumView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ContentPreviewViewer$$ExternalSyntheticLambda5
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     ContentPreviewViewer.this.lambda$showUnlockPremiumView$2(view);
                 }
             });
-            this.unlockPremiumView.premiumButtonView.buttonLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ContentPreviewViewer$$ExternalSyntheticLambda1
+            this.unlockPremiumView.premiumButtonView.buttonLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ContentPreviewViewer$$ExternalSyntheticLambda6
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     ContentPreviewViewer.this.lambda$showUnlockPremiumView$3(view);
@@ -1324,7 +1340,7 @@ public class ContentPreviewViewer {
         if (contentPreviewViewerDelegate3 == null || contentPreviewViewerDelegate3.can()) {
             if (this.openPreviewRunnable != null || isVisible()) {
                 if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3 || motionEvent.getAction() == 6) {
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ContentPreviewViewer$$ExternalSyntheticLambda4
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ContentPreviewViewer$$ExternalSyntheticLambda2
                         @Override // java.lang.Runnable
                         public final void run() {
                             ContentPreviewViewer.lambda$onTouch$4(RecyclerListView.this, obj);
@@ -1547,10 +1563,12 @@ public class ContentPreviewViewer {
     }
 
     protected void runSmoothHaptic() {
+        VibrationEffect createWaveform;
         if (Build.VERSION.SDK_INT >= 26) {
             Vibrator vibrator = (Vibrator) this.containerView.getContext().getSystemService("vibrator");
             if (this.vibrationEffect == null) {
-                this.vibrationEffect = VibrationEffect.createWaveform(new long[]{0, 2}, -1);
+                createWaveform = VibrationEffect.createWaveform(new long[]{0, 2}, -1);
+                this.vibrationEffect = createWaveform;
             }
             vibrator.cancel();
             vibrator.vibrate(this.vibrationEffect);
@@ -1558,6 +1576,7 @@ public class ContentPreviewViewer {
     }
 
     public boolean onInterceptTouchEvent(MotionEvent motionEvent, final RecyclerListView recyclerListView, int i, ContentPreviewViewerDelegate contentPreviewViewerDelegate, final Theme.ResourcesProvider resourcesProvider) {
+        final int i2;
         this.delegate = contentPreviewViewerDelegate;
         if (contentPreviewViewerDelegate != null) {
             this.isPhotoEditor = contentPreviewViewerDelegate.isPhotoEditor();
@@ -1568,8 +1587,8 @@ public class ContentPreviewViewer {
             int x = (int) motionEvent.getX();
             int y = (int) motionEvent.getY();
             int childCount = recyclerListView.getChildCount();
-            for (int i2 = 0; i2 < childCount; i2++) {
-                View childAt = recyclerListView.getChildAt(i2);
+            for (int i3 = 0; i3 < childCount; i3++) {
+                View childAt = recyclerListView.getChildAt(i3);
                 if (childAt == null) {
                     return false;
                 }
@@ -1578,51 +1597,53 @@ public class ContentPreviewViewer {
                 int left = childAt.getLeft();
                 int right = childAt.getRight();
                 if (top <= y && bottom >= y && left <= x && right >= x) {
-                    final int i3 = 2;
                     if (childAt instanceof StickerEmojiCell) {
                         if (((StickerEmojiCell) childAt).showingBitmap()) {
                             this.centerImage.setRoundRadius(0);
-                            i3 = 0;
+                            i2 = 0;
                         }
-                        i3 = -1;
+                        i2 = -1;
                     } else if (childAt instanceof StickerCell) {
                         if (((StickerCell) childAt).showingBitmap()) {
                             this.centerImage.setRoundRadius(0);
-                            i3 = 0;
+                            i2 = 0;
                         }
-                        i3 = -1;
+                        i2 = -1;
                     } else if (childAt instanceof ContextLinkCell) {
                         ContextLinkCell contextLinkCell = (ContextLinkCell) childAt;
                         if (contextLinkCell.showingBitmap()) {
                             if (contextLinkCell.isSticker()) {
                                 this.centerImage.setRoundRadius(0);
-                                i3 = 0;
+                                i2 = 0;
                             } else if (contextLinkCell.isGif()) {
                                 this.centerImage.setRoundRadius(AndroidUtilities.dp(6.0f));
-                                i3 = 1;
+                                i2 = 1;
                             }
                         }
-                        i3 = -1;
-                    } else if (childAt instanceof EmojiPacksAlert.EmojiImageView) {
-                        this.centerImage.setRoundRadius(0);
-                    } else if ((childAt instanceof EmojiView.ImageViewEmoji) && ((EmojiView.ImageViewEmoji) childAt).getSpan() != null) {
-                        this.centerImage.setRoundRadius(0);
+                        i2 = -1;
                     } else {
-                        if ((childAt instanceof SuggestEmojiView.EmojiImageView) && (((SuggestEmojiView.EmojiImageView) childAt).drawable instanceof AnimatedEmojiDrawable)) {
+                        if (childAt instanceof EmojiPacksAlert.EmojiImageView) {
                             this.centerImage.setRoundRadius(0);
+                        } else if ((childAt instanceof EmojiView.ImageViewEmoji) && ((EmojiView.ImageViewEmoji) childAt).getSpan() != null) {
+                            this.centerImage.setRoundRadius(0);
+                        } else {
+                            if ((childAt instanceof SuggestEmojiView.EmojiImageView) && (((SuggestEmojiView.EmojiImageView) childAt).drawable instanceof AnimatedEmojiDrawable)) {
+                                this.centerImage.setRoundRadius(0);
+                            }
+                            i2 = -1;
                         }
-                        i3 = -1;
+                        i2 = 2;
                     }
-                    if (i3 == -1) {
+                    if (i2 == -1) {
                         return false;
                     }
                     this.startX = x;
                     this.startY = y;
                     this.currentPreviewCell = childAt;
-                    Runnable runnable = new Runnable() { // from class: org.telegram.ui.ContentPreviewViewer$$ExternalSyntheticLambda9
+                    Runnable runnable = new Runnable() { // from class: org.telegram.ui.ContentPreviewViewer$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
                         public final void run() {
-                            ContentPreviewViewer.this.lambda$onInterceptTouchEvent$5(recyclerListView, i3, resourcesProvider);
+                            ContentPreviewViewer.this.lambda$onInterceptTouchEvent$5(recyclerListView, i2, resourcesProvider);
                         }
                     };
                     this.openPreviewRunnable = runnable;
@@ -1752,7 +1773,7 @@ public class ContentPreviewViewer {
         int i2 = Build.VERSION.SDK_INT;
         if (i2 >= 21) {
             this.windowView.setFitsSystemWindows(true);
-            this.windowView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() { // from class: org.telegram.ui.ContentPreviewViewer$$ExternalSyntheticLambda0
+            this.windowView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() { // from class: org.telegram.ui.ContentPreviewViewer$$ExternalSyntheticLambda7
                 @Override // android.view.View.OnApplyWindowInsetsListener
                 public final WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
                     WindowInsets lambda$setParentActivity$6;
@@ -1783,7 +1804,7 @@ public class ContentPreviewViewer {
         this.containerView = frameLayoutDrawer;
         frameLayoutDrawer.setFocusable(false);
         this.windowView.addView(this.containerView, LayoutHelper.createFrame(-1, -1, 51));
-        this.containerView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ContentPreviewViewer$$ExternalSyntheticLambda3
+        this.containerView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ContentPreviewViewer$$ExternalSyntheticLambda8
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view, MotionEvent motionEvent) {
                 boolean lambda$setParentActivity$7;
@@ -2032,7 +2053,7 @@ public class ContentPreviewViewer {
         this.currentQuery = null;
         this.delegate = null;
         this.isVisible = false;
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ContentPreviewViewer$$ExternalSyntheticLambda7
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ContentPreviewViewer$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 ContentPreviewViewer.this.lambda$close$8();
@@ -2105,6 +2126,8 @@ public class ContentPreviewViewer {
         StaticLayout staticLayout;
         Drawable drawable;
         WindowInsets windowInsets;
+        int stableInsetBottom;
+        int stableInsetTop;
         float f;
         if (this.containerView == null || this.backgroundDrawable == null) {
             return;
@@ -2160,7 +2183,9 @@ public class ContentPreviewViewer {
         this.backgroundDrawable.draw(canvas);
         canvas.save();
         if (Build.VERSION.SDK_INT >= 21 && (windowInsets = this.lastInsets) != null) {
-            i2 = windowInsets.getStableInsetBottom() + this.lastInsets.getStableInsetTop();
+            stableInsetBottom = windowInsets.getStableInsetBottom();
+            stableInsetTop = this.lastInsets.getStableInsetTop();
+            i2 = stableInsetBottom + stableInsetTop;
             i = this.lastInsets.getStableInsetTop();
         } else {
             i = AndroidUtilities.statusBarHeight;
@@ -2262,7 +2287,7 @@ public class ContentPreviewViewer {
             if (this.showProgress == 0.0f) {
                 this.centerImage.setImageBitmap((Drawable) null);
                 AndroidUtilities.unlockOrientation(this.parentActivity);
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ContentPreviewViewer$$ExternalSyntheticLambda6
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ContentPreviewViewer$$ExternalSyntheticLambda10
                     @Override // java.lang.Runnable
                     public final void run() {
                         ContentPreviewViewer.this.lambda$onDraw$9();
@@ -2305,7 +2330,7 @@ public class ContentPreviewViewer {
             return;
         }
         this.preparingBitmap = true;
-        AndroidUtilities.makeGlobalBlurBitmap(new Utilities.Callback() { // from class: org.telegram.ui.ContentPreviewViewer$$ExternalSyntheticLambda10
+        AndroidUtilities.makeGlobalBlurBitmap(new Utilities.Callback() { // from class: org.telegram.ui.ContentPreviewViewer$$ExternalSyntheticLambda12
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 ContentPreviewViewer.this.lambda$prepareBlurBitmap$10((Bitmap) obj);
@@ -2369,7 +2394,7 @@ public class ContentPreviewViewer {
     }
 
     private void getMyStickersRemote(final TLRPC$TL_messages_getMyStickers tLRPC$TL_messages_getMyStickers, final List<TLRPC$StickerSetCovered> list) {
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getMyStickers, new RequestDelegate() { // from class: org.telegram.ui.ContentPreviewViewer$$ExternalSyntheticLambda11
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getMyStickers, new RequestDelegate() { // from class: org.telegram.ui.ContentPreviewViewer$$ExternalSyntheticLambda9
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 ContentPreviewViewer.this.lambda$getMyStickersRemote$12(list, tLRPC$TL_messages_getMyStickers, tLObject, tLRPC$TL_error);
@@ -2378,7 +2403,7 @@ public class ContentPreviewViewer {
     }
 
     public /* synthetic */ void lambda$getMyStickersRemote$12(final List list, final TLRPC$TL_messages_getMyStickers tLRPC$TL_messages_getMyStickers, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ContentPreviewViewer$$ExternalSyntheticLambda8
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ContentPreviewViewer$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
             public final void run() {
                 ContentPreviewViewer.this.lambda$getMyStickersRemote$11(tLRPC$TL_error, tLObject, list, tLRPC$TL_messages_getMyStickers);
@@ -2419,7 +2444,11 @@ public class ContentPreviewViewer {
         TLRPC$TL_messages_getMyStickers tLRPC$TL_messages_getMyStickers = new TLRPC$TL_messages_getMyStickers();
         tLRPC$TL_messages_getMyStickers.limit = 100;
         getMyStickersRemote(tLRPC$TL_messages_getMyStickers, arrayList);
-        RecyclerListView recyclerListView = new RecyclerListView(this, this.parentActivity) { // from class: org.telegram.ui.ContentPreviewViewer.5
+        RecyclerListView recyclerListView = new RecyclerListView(this.parentActivity) { // from class: org.telegram.ui.ContentPreviewViewer.5
+            {
+                ContentPreviewViewer.this = this;
+            }
+
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
             public void onMeasure(int i, int i2) {
                 int size = View.MeasureSpec.getSize(i2);
@@ -2431,7 +2460,11 @@ public class ContentPreviewViewer {
             }
         };
         recyclerListView.setLayoutManager(new LinearLayoutManager(this.parentActivity));
-        recyclerListView.addItemDecoration(new RecyclerView.ItemDecoration(this) { // from class: org.telegram.ui.ContentPreviewViewer.6
+        recyclerListView.addItemDecoration(new RecyclerView.ItemDecoration() { // from class: org.telegram.ui.ContentPreviewViewer.6
+            {
+                ContentPreviewViewer.this = this;
+            }
+
             @Override // androidx.recyclerview.widget.RecyclerView.ItemDecoration
             public void getItemOffsets(Rect rect, View view, RecyclerView recyclerView, RecyclerView.State state) {
                 if (recyclerView.getChildAdapterPosition(view) == arrayList.size() - 1) {

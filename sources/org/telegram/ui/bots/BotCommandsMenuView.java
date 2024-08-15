@@ -32,7 +32,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.StaticLayoutEx;
-/* loaded from: classes.dex */
+/* loaded from: classes4.dex */
 public class BotCommandsMenuView extends View {
     final MenuDrawable backDrawable;
     Drawable backgroundDrawable;
@@ -285,7 +285,7 @@ public class BotCommandsMenuView extends View {
         return this.isOpened;
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class BotCommandsAdapter extends RecyclerListView.SelectionAdapter {
         ArrayList<String> newResult = new ArrayList<>();
         ArrayList<String> newResultHelp = new ArrayList<>();
@@ -352,7 +352,7 @@ public class BotCommandsMenuView extends View {
         this.backDrawable.setRotation(z ? 1.0f : 0.0f, true);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes4.dex */
     public static class BotCommandView extends LinearLayout {
         TextView command;
         String commandStr;
@@ -362,7 +362,7 @@ public class BotCommandsMenuView extends View {
             super(context);
             setOrientation(0);
             setPadding(AndroidUtilities.dp(16.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(16.0f), AndroidUtilities.dp(8.0f));
-            TextView textView = new TextView(this, context) { // from class: org.telegram.ui.bots.BotCommandsMenuView.BotCommandView.1
+            TextView textView = new TextView(context) { // from class: org.telegram.ui.bots.BotCommandsMenuView.BotCommandView.1
                 @Override // android.widget.TextView
                 public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
                     super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), AndroidUtilities.dp(14.0f), false), bufferType);

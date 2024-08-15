@@ -21,6 +21,7 @@ public final class zzy$zzac extends zzeo<zzy$zzac, zza> implements zzgb {
         zzb(1),
         zzc(2);
         
+        private static final zzes<zzb> zzd = new zzan();
         private final int zze;
 
         @Override // com.google.android.gms.internal.mlkit_language_id.zzet
@@ -40,10 +41,6 @@ public final class zzy$zzac extends zzeo<zzy$zzac, zza> implements zzgb {
         zzb(int i) {
             this.zze = i;
         }
-
-        static {
-            new zzan();
-        }
     }
 
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
@@ -53,6 +50,7 @@ public final class zzy$zzac extends zzeo<zzy$zzac, zza> implements zzgb {
         zzb(1),
         zzc(2);
         
+        private static final zzes<zzc> zzd = new zzaq();
         private final int zze;
 
         @Override // com.google.android.gms.internal.mlkit_language_id.zzet
@@ -72,10 +70,6 @@ public final class zzy$zzac extends zzeo<zzy$zzac, zza> implements zzgb {
         zzc(int i) {
             this.zze = i;
         }
-
-        static {
-            new zzaq();
-        }
     }
 
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
@@ -85,6 +79,7 @@ public final class zzy$zzac extends zzeo<zzy$zzac, zza> implements zzgb {
         zzb(1),
         zzc(2);
         
+        private static final zzes<zzd> zzd = new zzar();
         private final int zze;
 
         @Override // com.google.android.gms.internal.mlkit_language_id.zzet
@@ -104,10 +99,6 @@ public final class zzy$zzac extends zzeo<zzy$zzac, zza> implements zzgb {
         zzd(int i) {
             this.zze = i;
         }
-
-        static {
-            new zzar();
-        }
     }
 
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
@@ -117,6 +108,7 @@ public final class zzy$zzac extends zzeo<zzy$zzac, zza> implements zzgb {
         zzb(1),
         zzc(2);
         
+        private static final zzes<zze> zzd = new zzau();
         private final int zze;
 
         @Override // com.google.android.gms.internal.mlkit_language_id.zzet
@@ -135,10 +127,6 @@ public final class zzy$zzac extends zzeo<zzy$zzac, zza> implements zzgb {
 
         zze(int i) {
             this.zze = i;
-        }
-
-        static {
-            new zzau();
         }
     }
 

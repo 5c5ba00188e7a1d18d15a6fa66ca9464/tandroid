@@ -12,6 +12,7 @@ import android.os.PowerManager;
 import android.util.Log;
 import com.google.android.gms.common.util.concurrent.NamedThreadFactory;
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -21,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 public class SyncTask implements Runnable {
     private final FirebaseMessaging firebaseMessaging;
     private final long nextDelaySeconds;
+    ExecutorService processorExecutor = new ThreadPoolExecutor(0, 1, 30, TimeUnit.SECONDS, new LinkedBlockingQueue(), new NamedThreadFactory("firebase-iid-executor"));
     private final PowerManager.WakeLock syncWakeLock;
 
     /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
@@ -55,7 +57,6 @@ public class SyncTask implements Runnable {
 
     @SuppressLint({"InvalidWakeLockTag"})
     public SyncTask(FirebaseMessaging firebaseMessaging, long j) {
-        new ThreadPoolExecutor(0, 1, 30L, TimeUnit.SECONDS, new LinkedBlockingQueue(), new NamedThreadFactory("firebase-iid-executor"));
         this.firebaseMessaging = firebaseMessaging;
         this.nextDelaySeconds = j;
         PowerManager.WakeLock newWakeLock = ((PowerManager) getContext().getSystemService("power")).newWakeLock(1, "fiid-sync");
@@ -64,7 +65,10 @@ public class SyncTask implements Runnable {
     }
 
     static boolean isDebugLogEnabled() {
-        return Log.isLoggable("FirebaseMessaging", 3) || (Build.VERSION.SDK_INT == 23 && Log.isLoggable("FirebaseMessaging", 3));
+        if (Log.isLoggable("FirebaseMessaging", 3)) {
+            return true;
+        }
+        return Build.VERSION.SDK_INT == 23 && Log.isLoggable("FirebaseMessaging", 3);
     }
 
     Context getContext() {

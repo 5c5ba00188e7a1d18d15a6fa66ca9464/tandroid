@@ -11,8 +11,11 @@ final class OggPageHeader {
     public int bodySize;
     public long granulePosition;
     public int headerSize;
+    public long pageChecksum;
     public int pageSegmentCount;
+    public long pageSequenceNumber;
     public int revision;
+    public long streamSerialNumber;
     public int type;
     public final int[] laces = new int[255];
     private final ParsableByteArray scratch = new ParsableByteArray(255);
@@ -21,6 +24,9 @@ final class OggPageHeader {
         this.revision = 0;
         this.type = 0;
         this.granulePosition = 0L;
+        this.streamSerialNumber = 0L;
+        this.pageSequenceNumber = 0L;
+        this.pageChecksum = 0L;
         this.pageSegmentCount = 0;
         this.headerSize = 0;
         this.bodySize = 0;
@@ -65,9 +71,9 @@ final class OggPageHeader {
             }
             this.type = this.scratch.readUnsignedByte();
             this.granulePosition = this.scratch.readLittleEndianLong();
-            this.scratch.readLittleEndianUnsignedInt();
-            this.scratch.readLittleEndianUnsignedInt();
-            this.scratch.readLittleEndianUnsignedInt();
+            this.streamSerialNumber = this.scratch.readLittleEndianUnsignedInt();
+            this.pageSequenceNumber = this.scratch.readLittleEndianUnsignedInt();
+            this.pageChecksum = this.scratch.readLittleEndianUnsignedInt();
             int readUnsignedByte2 = this.scratch.readUnsignedByte();
             this.pageSegmentCount = readUnsignedByte2;
             this.headerSize = readUnsignedByte2 + 27;

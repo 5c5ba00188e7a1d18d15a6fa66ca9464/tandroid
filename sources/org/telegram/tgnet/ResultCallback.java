@@ -3,7 +3,7 @@ package org.telegram.tgnet;
 public interface ResultCallback<T> {
 
     /* loaded from: classes3.dex */
-    public final /* synthetic */ class -CC {
+    public final /* synthetic */ class -CC<T> {
         public static void $default$onError(ResultCallback resultCallback, Throwable th) {
         }
 

@@ -68,7 +68,7 @@ public class PipettePickerView extends View {
     public void animateShow() {
         ValueAnimator duration = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(150L);
         duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
-        duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.PipettePickerView$$ExternalSyntheticLambda0
+        duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.PipettePickerView$$ExternalSyntheticLambda1
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 PipettePickerView.this.lambda$animateShow$0(valueAnimator);
@@ -91,7 +91,7 @@ public class PipettePickerView extends View {
         this.isDisappeared = true;
         ValueAnimator duration = ValueAnimator.ofFloat(1.0f, 0.0f).setDuration(150L);
         duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
-        duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.PipettePickerView$$ExternalSyntheticLambda1
+        duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.PipettePickerView$$ExternalSyntheticLambda0
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 PipettePickerView.this.lambda$animateDisappear$1(valueAnimator);

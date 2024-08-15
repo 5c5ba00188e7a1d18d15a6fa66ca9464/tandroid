@@ -1,11 +1,20 @@
 package androidx.core.os;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.ext.SdkExtensions;
 import java.util.Locale;
 import org.telegram.messenger.MediaController;
 /* loaded from: classes.dex */
 public class BuildCompat {
+    @SuppressLint({"CompileTimeConstant"})
+    public static final int AD_SERVICES_EXTENSION_INT;
+    @SuppressLint({"CompileTimeConstant"})
+    public static final int R_EXTENSION_INT;
+    @SuppressLint({"CompileTimeConstant"})
+    public static final int S_EXTENSION_INT;
+    @SuppressLint({"CompileTimeConstant"})
+    public static final int T_EXTENSION_INT;
 
     /* loaded from: classes.dex */
     private static final class Extensions30Impl {
@@ -40,17 +49,9 @@ public class BuildCompat {
 
     static {
         int i = Build.VERSION.SDK_INT;
-        if (i >= 30) {
-            int i2 = Extensions30Impl.R;
-        }
-        if (i >= 30) {
-            int i3 = Extensions30Impl.S;
-        }
-        if (i >= 30) {
-            int i4 = Extensions30Impl.TIRAMISU;
-        }
-        if (i >= 30) {
-            int i5 = Extensions30Impl.AD_SERVICES;
-        }
+        R_EXTENSION_INT = i >= 30 ? Extensions30Impl.R : 0;
+        S_EXTENSION_INT = i >= 30 ? Extensions30Impl.S : 0;
+        T_EXTENSION_INT = i >= 30 ? Extensions30Impl.TIRAMISU : 0;
+        AD_SERVICES_EXTENSION_INT = i >= 30 ? Extensions30Impl.AD_SERVICES : 0;
     }
 }

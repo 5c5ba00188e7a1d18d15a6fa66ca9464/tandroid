@@ -34,7 +34,7 @@ public final class QRCodeWriter {
     }
 
     /* JADX WARN: Removed duplicated region for block: B:17:0x0054  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x02b1  */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x02a9  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -53,9 +53,8 @@ public final class QRCodeWriter {
         int i8;
         GradientDrawable gradientDrawable2;
         boolean z;
-        boolean z2;
         float f3;
-        boolean z3;
+        boolean z2;
         Canvas canvas2;
         char c2;
         if (str.isEmpty()) {
@@ -131,7 +130,7 @@ public final class QRCodeWriter {
                     c = 1;
                     i8 = height;
                 }
-                boolean z4 = Color.alpha(i3) == 0;
+                boolean z3 = Color.alpha(i3) == 0;
                 float f5 = (f2 / 2.0f) * f;
                 int i17 = 0;
                 int i18 = 16;
@@ -175,11 +174,10 @@ public final class QRCodeWriter {
                             gradientDrawable2 = gradientDrawable;
                             gradientDrawable2.setColor(i4);
                             gradientDrawable2.setBounds(i20, i18, i20 + i6, i18 + i6);
-                            Canvas canvas4 = canvas;
-                            gradientDrawable2.draw(canvas4);
+                            canvas2 = canvas;
+                            gradientDrawable2.draw(canvas2);
                             f3 = f5;
-                            canvas2 = canvas4;
-                            z3 = z4;
+                            z2 = z3;
                         } else {
                             gradientDrawable2 = gradientDrawable;
                             Arrays.fill(this.radii, 0.0f);
@@ -211,19 +209,17 @@ public final class QRCodeWriter {
                                 float[] fArr8 = this.radii;
                                 fArr8[5] = f5;
                                 fArr8[4] = f5;
-                                z2 = true;
-                            } else {
-                                z2 = z;
+                                z = true;
                             }
-                            if (!z2 || z4) {
+                            if (!z || z3) {
                                 f3 = f5;
-                                z3 = z4;
+                                z2 = z3;
                                 canvas2 = canvas;
                             } else {
                                 int i25 = i20 + i6;
                                 f3 = f5;
                                 int i26 = i18 + i6;
-                                z3 = z4;
+                                z2 = z3;
                                 canvas.drawRect(i20, i18, i25, i26, paint);
                                 gradientDrawable2.setColor(i3);
                                 gradientDrawable2.setBounds(i20, i18, i25, i26);
@@ -235,22 +231,21 @@ public final class QRCodeWriter {
                         i20 += i6;
                         canvas = canvas2;
                         f5 = f3;
-                        z4 = z3;
+                        z3 = z2;
                         gradientDrawable = gradientDrawable2;
                     }
                     i17++;
                     i18 += i6;
-                    f5 = f5;
                     gradientDrawable = gradientDrawable;
                 }
-                Canvas canvas5 = canvas;
+                Canvas canvas4 = canvas;
                 String readRes = RLottieDrawable.readRes(null, R.raw.qr_logo);
                 int i27 = this.imageSize;
                 Bitmap bitmap3 = SvgHelper.getBitmap(readRes, i27, i27, false);
                 float f6 = i7;
-                canvas5.drawBitmap(bitmap3, f6, f6, (Paint) null);
+                canvas4.drawBitmap(bitmap3, f6, f6, (Paint) null);
                 bitmap3.recycle();
-                canvas5.setBitmap(null);
+                canvas4.setBitmap(null);
                 return bitmap2;
             }
         }

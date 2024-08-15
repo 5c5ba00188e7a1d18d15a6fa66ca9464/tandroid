@@ -2,21 +2,19 @@ package com.google.android.gms.internal.clearcut;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 /* loaded from: classes.dex */
 public final class zzbt {
-    static final zzbt zzgo;
-
-    static {
-        zzam();
-        zzgo = new zzbt(true);
-    }
+    private static final Class<?> zzgn = zzam();
+    static final zzbt zzgo = new zzbt(true);
+    private final Map<Object, Object> zzgp;
 
     zzbt() {
-        new HashMap();
+        this.zzgp = new HashMap();
     }
 
     private zzbt(boolean z) {
-        Collections.emptyMap();
+        this.zzgp = Collections.emptyMap();
     }
 
     private static Class<?> zzam() {

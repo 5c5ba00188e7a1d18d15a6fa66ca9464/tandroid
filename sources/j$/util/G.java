@@ -1,126 +1,104 @@
 package j$.util;
 
-import j$.util.Iterator;
 import j$.util.function.Consumer;
-import java.util.Collection;
 import java.util.Comparator;
-import java.util.Objects;
-import org.telegram.messenger.LiteMode;
-import org.telegram.tgnet.ConnectionsManager;
-/* JADX INFO: Access modifiers changed from: package-private */
+import java.util.Spliterator;
+import java.util.function.Consumer;
+import java.util.function.IntConsumer;
 /* loaded from: classes2.dex */
-public class G implements s {
-    private final Collection a;
-    private java.util.Iterator b = null;
-    private final int c;
-    private long d;
-    private int e;
+public final /* synthetic */ class G implements Spliterator.OfInt {
+    public final /* synthetic */ H a;
 
-    public G(Collection collection, int i) {
-        this.a = collection;
-        this.c = (i & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) == 0 ? i | 64 | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM : i;
+    private /* synthetic */ G(H h) {
+        this.a = h;
     }
 
-    @Override // j$.util.s
-    public boolean b(Consumer consumer) {
-        Objects.requireNonNull(consumer);
-        if (this.b == null) {
-            this.b = this.a.iterator();
-            this.d = this.a.size();
-        }
-        if (this.b.hasNext()) {
-            consumer.accept(this.b.next());
-            return true;
-        }
-        return false;
-    }
-
-    @Override // j$.util.s
-    public int characteristics() {
-        return this.c;
-    }
-
-    @Override // j$.util.s
-    public long estimateSize() {
-        if (this.b == null) {
-            this.b = this.a.iterator();
-            long size = this.a.size();
-            this.d = size;
-            return size;
-        }
-        return this.d;
-    }
-
-    @Override // j$.util.s
-    public void forEachRemaining(Consumer consumer) {
-        Objects.requireNonNull(consumer);
-        java.util.Iterator it = this.b;
-        if (it == null) {
-            it = this.a.iterator();
-            this.b = it;
-            this.d = this.a.size();
-        }
-        if (it instanceof Iterator) {
-            ((Iterator) it).forEachRemaining(consumer);
-        } else {
-            Iterator.-CC.$default$forEachRemaining(it, consumer);
-        }
-    }
-
-    @Override // j$.util.s
-    public Comparator getComparator() {
-        if (a.f(this, 4)) {
+    public static /* synthetic */ Spliterator.OfInt a(H h) {
+        if (h == null) {
             return null;
         }
-        throw new IllegalStateException();
+        return h instanceof F ? ((F) h).a : new G(h);
     }
 
-    @Override // j$.util.s
-    public /* synthetic */ long getExactSizeIfKnown() {
-        return a.e(this);
+    @Override // java.util.Spliterator
+    public final /* synthetic */ int characteristics() {
+        return this.a.characteristics();
     }
 
-    @Override // j$.util.s
-    public /* synthetic */ boolean hasCharacteristics(int i) {
-        return a.f(this, i);
+    public final /* synthetic */ boolean equals(Object obj) {
+        H h = this.a;
+        if (obj instanceof G) {
+            obj = ((G) obj).a;
+        }
+        return h.equals(obj);
     }
 
-    @Override // j$.util.s
-    public s trySplit() {
-        long j;
-        java.util.Iterator it = this.b;
-        if (it == null) {
-            it = this.a.iterator();
-            this.b = it;
-            j = this.a.size();
-            this.d = j;
-        } else {
-            j = this.d;
-        }
-        if (j <= 1 || !it.hasNext()) {
-            return null;
-        }
-        int i = this.e + 1024;
-        if (i > j) {
-            i = (int) j;
-        }
-        if (i > 33554432) {
-            i = ConnectionsManager.FileTypeVideo;
-        }
-        Object[] objArr = new Object[i];
-        int i2 = 0;
-        do {
-            objArr[i2] = it.next();
-            i2++;
-            if (i2 >= i) {
-                break;
-            }
-        } while (it.hasNext());
-        this.e = i2;
-        long j2 = this.d;
-        if (j2 != Long.MAX_VALUE) {
-            this.d = j2 - i2;
-        }
-        return new y(objArr, 0, i2, this.c);
+    @Override // java.util.Spliterator
+    public final /* synthetic */ long estimateSize() {
+        return this.a.estimateSize();
+    }
+
+    @Override // java.util.Spliterator.OfPrimitive
+    public final /* synthetic */ void forEachRemaining(IntConsumer intConsumer) {
+        this.a.forEachRemaining(intConsumer);
+    }
+
+    @Override // java.util.Spliterator.OfInt, java.util.Spliterator
+    public final /* synthetic */ void forEachRemaining(Consumer consumer) {
+        this.a.forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
+    }
+
+    @Override // java.util.Spliterator.OfInt
+    public final /* synthetic */ void forEachRemaining(IntConsumer intConsumer) {
+        this.a.c(j$.util.function.I.a(intConsumer));
+    }
+
+    @Override // java.util.Spliterator
+    public final /* synthetic */ Comparator getComparator() {
+        return this.a.getComparator();
+    }
+
+    @Override // java.util.Spliterator
+    public final /* synthetic */ long getExactSizeIfKnown() {
+        return this.a.getExactSizeIfKnown();
+    }
+
+    @Override // java.util.Spliterator
+    public final /* synthetic */ boolean hasCharacteristics(int i) {
+        return this.a.hasCharacteristics(i);
+    }
+
+    public final /* synthetic */ int hashCode() {
+        return this.a.hashCode();
+    }
+
+    @Override // java.util.Spliterator.OfPrimitive
+    public final /* synthetic */ boolean tryAdvance(IntConsumer intConsumer) {
+        return this.a.tryAdvance(intConsumer);
+    }
+
+    @Override // java.util.Spliterator.OfInt, java.util.Spliterator
+    public final /* synthetic */ boolean tryAdvance(java.util.function.Consumer consumer) {
+        return this.a.a(Consumer.VivifiedWrapper.convert(consumer));
+    }
+
+    @Override // java.util.Spliterator.OfInt
+    public final /* synthetic */ boolean tryAdvance(IntConsumer intConsumer) {
+        return this.a.j(j$.util.function.I.a(intConsumer));
+    }
+
+    @Override // java.util.Spliterator.OfInt, java.util.Spliterator.OfPrimitive, java.util.Spliterator
+    public final /* synthetic */ Spliterator.OfInt trySplit() {
+        return a(this.a.trySplit());
+    }
+
+    @Override // java.util.Spliterator.OfInt, java.util.Spliterator.OfPrimitive, java.util.Spliterator
+    public final /* synthetic */ Spliterator.OfPrimitive trySplit() {
+        return M.a(this.a.trySplit());
+    }
+
+    @Override // java.util.Spliterator.OfInt, java.util.Spliterator.OfPrimitive, java.util.Spliterator
+    public final /* synthetic */ Spliterator trySplit() {
+        return P.a(this.a.trySplit());
     }
 }

@@ -1,65 +1,52 @@
 package j$.util.stream;
 
-import j$.util.s;
-import org.telegram.messenger.LiteMode;
-/* JADX INFO: Access modifiers changed from: package-private */
+import j$.util.function.Consumer;
 /* loaded from: classes2.dex */
-public class s3 extends K0 {
-    final /* synthetic */ long l;
-    final /* synthetic */ long m;
+final class s3 extends v3 implements j$.util.E, j$.util.function.m {
+    double e;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public s3(c cVar, e4 e4Var, int i, long j, long j2) {
-        super(cVar, e4Var, i);
-        this.l = j;
-        this.m = j2;
+    public s3(j$.util.E e, long j, long j2) {
+        super(e, j, j2);
     }
 
-    @Override // j$.util.stream.c
-    j$.util.s A0(y2 y2Var, j$.util.s sVar) {
-        long d;
-        long l0 = y2Var.l0(sVar);
-        if (l0 > 0 && sVar.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
-            s.b bVar = (s.b) y2Var.r0(sVar);
-            long j = this.l;
-            d = B3.d(j, this.m);
-            return new w4(bVar, j, d);
-        }
-        return !d4.ORDERED.d(y2Var.n0()) ? I0((s.b) y2Var.r0(sVar), this.l, this.m, l0) : ((A1) new A3(this, y2Var, sVar, new j$.util.function.m() { // from class: j$.util.stream.q3
-            @Override // j$.util.function.m
-            public final Object apply(int i) {
-                return new Integer[i];
-            }
-        }, this.l, this.m).invoke()).spliterator();
+    s3(j$.util.E e, s3 s3Var) {
+        super(e, s3Var);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // j$.util.stream.c
-    public m3 C0(int i, m3 m3Var) {
-        return new r3(this, m3Var);
+    @Override // j$.util.Q
+    public final /* synthetic */ boolean a(Consumer consumer) {
+        return j$.util.a.n(this, consumer);
     }
 
-    s.b I0(s.b bVar, long j, long j2, long j3) {
-        long j4;
-        long j5;
-        if (j <= j3) {
-            long j6 = j3 - j;
-            j5 = j2 >= 0 ? Math.min(j2, j6) : j6;
-            j4 = 0;
-        } else {
-            j4 = j;
-            j5 = j2;
-        }
-        return new F4(bVar, j4, j5);
+    @Override // j$.util.function.m
+    public final void accept(double d) {
+        this.e = d;
     }
 
-    @Override // j$.util.stream.c
-    A1 z0(y2 y2Var, j$.util.s sVar, j$.util.function.m mVar) {
-        long l0 = y2Var.l0(sVar);
-        if (l0 > 0 && sVar.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
-            return x2.g(y2Var, B3.b(y2Var.m0(), sVar, this.l, this.m), true);
-        }
-        return !d4.ORDERED.d(y2Var.n0()) ? x2.g(this, I0((s.b) y2Var.r0(sVar), this.l, this.m, l0), true) : (A1) new A3(this, y2Var, sVar, mVar, this.l, this.m).invoke();
+    @Override // j$.util.Q
+    public final /* synthetic */ void forEachRemaining(Consumer consumer) {
+        j$.util.a.f(this, consumer);
+    }
+
+    @Override // j$.util.function.m
+    public final j$.util.function.m m(j$.util.function.m mVar) {
+        mVar.getClass();
+        return new j$.util.function.j(this, mVar);
+    }
+
+    @Override // j$.util.stream.y3
+    protected final j$.util.Q r(j$.util.Q q) {
+        return new s3((j$.util.E) q, this);
+    }
+
+    @Override // j$.util.stream.v3
+    protected final void t(Object obj) {
+        ((j$.util.function.m) obj).accept(this.e);
+    }
+
+    @Override // j$.util.stream.v3
+    protected final Z2 u() {
+        return new W2();
     }
 }

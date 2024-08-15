@@ -3,7 +3,6 @@ package com.google.android.datatransport.runtime.scheduling.persistence;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Build;
 import java.util.Arrays;
 import java.util.List;
 /* JADX INFO: Access modifiers changed from: package-private */
@@ -26,42 +25,42 @@ public final class SchemaManager extends SQLiteOpenHelper {
     }
 
     static {
-        SchemaManager$$ExternalSyntheticLambda3 schemaManager$$ExternalSyntheticLambda3 = new Migration() { // from class: com.google.android.datatransport.runtime.scheduling.persistence.SchemaManager$$ExternalSyntheticLambda3
+        Migration migration = new Migration() { // from class: com.google.android.datatransport.runtime.scheduling.persistence.SchemaManager$$ExternalSyntheticLambda0
             @Override // com.google.android.datatransport.runtime.scheduling.persistence.SchemaManager.Migration
             public final void upgrade(SQLiteDatabase sQLiteDatabase) {
                 SchemaManager.lambda$static$0(sQLiteDatabase);
             }
         };
-        MIGRATE_TO_V1 = schemaManager$$ExternalSyntheticLambda3;
-        SchemaManager$$ExternalSyntheticLambda0 schemaManager$$ExternalSyntheticLambda0 = new Migration() { // from class: com.google.android.datatransport.runtime.scheduling.persistence.SchemaManager$$ExternalSyntheticLambda0
+        MIGRATE_TO_V1 = migration;
+        Migration migration2 = new Migration() { // from class: com.google.android.datatransport.runtime.scheduling.persistence.SchemaManager$$ExternalSyntheticLambda1
             @Override // com.google.android.datatransport.runtime.scheduling.persistence.SchemaManager.Migration
             public final void upgrade(SQLiteDatabase sQLiteDatabase) {
                 SchemaManager.lambda$static$1(sQLiteDatabase);
             }
         };
-        MIGRATE_TO_V2 = schemaManager$$ExternalSyntheticLambda0;
-        SchemaManager$$ExternalSyntheticLambda1 schemaManager$$ExternalSyntheticLambda1 = new Migration() { // from class: com.google.android.datatransport.runtime.scheduling.persistence.SchemaManager$$ExternalSyntheticLambda1
+        MIGRATE_TO_V2 = migration2;
+        Migration migration3 = new Migration() { // from class: com.google.android.datatransport.runtime.scheduling.persistence.SchemaManager$$ExternalSyntheticLambda2
             @Override // com.google.android.datatransport.runtime.scheduling.persistence.SchemaManager.Migration
             public final void upgrade(SQLiteDatabase sQLiteDatabase) {
                 sQLiteDatabase.execSQL("ALTER TABLE events ADD COLUMN payload_encoding TEXT");
             }
         };
-        MIGRATE_TO_V3 = schemaManager$$ExternalSyntheticLambda1;
-        SchemaManager$$ExternalSyntheticLambda2 schemaManager$$ExternalSyntheticLambda2 = new Migration() { // from class: com.google.android.datatransport.runtime.scheduling.persistence.SchemaManager$$ExternalSyntheticLambda2
+        MIGRATE_TO_V3 = migration3;
+        Migration migration4 = new Migration() { // from class: com.google.android.datatransport.runtime.scheduling.persistence.SchemaManager$$ExternalSyntheticLambda3
             @Override // com.google.android.datatransport.runtime.scheduling.persistence.SchemaManager.Migration
             public final void upgrade(SQLiteDatabase sQLiteDatabase) {
                 SchemaManager.lambda$static$3(sQLiteDatabase);
             }
         };
-        MIGRATE_TO_V4 = schemaManager$$ExternalSyntheticLambda2;
-        SchemaManager$$ExternalSyntheticLambda4 schemaManager$$ExternalSyntheticLambda4 = new Migration() { // from class: com.google.android.datatransport.runtime.scheduling.persistence.SchemaManager$$ExternalSyntheticLambda4
+        MIGRATE_TO_V4 = migration4;
+        Migration migration5 = new Migration() { // from class: com.google.android.datatransport.runtime.scheduling.persistence.SchemaManager$$ExternalSyntheticLambda4
             @Override // com.google.android.datatransport.runtime.scheduling.persistence.SchemaManager.Migration
             public final void upgrade(SQLiteDatabase sQLiteDatabase) {
                 SchemaManager.lambda$static$4(sQLiteDatabase);
             }
         };
-        MIGRATION_TO_V5 = schemaManager$$ExternalSyntheticLambda4;
-        INCREMENTAL_MIGRATIONS = Arrays.asList(schemaManager$$ExternalSyntheticLambda3, schemaManager$$ExternalSyntheticLambda0, schemaManager$$ExternalSyntheticLambda1, schemaManager$$ExternalSyntheticLambda2, schemaManager$$ExternalSyntheticLambda4);
+        MIGRATION_TO_V5 = migration5;
+        INCREMENTAL_MIGRATIONS = Arrays.asList(migration, migration2, migration3, migration4, migration5);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -107,9 +106,7 @@ public final class SchemaManager extends SQLiteOpenHelper {
     public void onConfigure(SQLiteDatabase sQLiteDatabase) {
         this.configured = true;
         sQLiteDatabase.rawQuery("PRAGMA busy_timeout=0;", new String[0]).close();
-        if (Build.VERSION.SDK_INT >= 16) {
-            sQLiteDatabase.setForeignKeyConstraintsEnabled(true);
-        }
+        sQLiteDatabase.setForeignKeyConstraintsEnabled(true);
     }
 
     private void ensureConfigured(SQLiteDatabase sQLiteDatabase) {

@@ -14,6 +14,7 @@ import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
+import android.os.LocaleList;
 import android.os.Looper;
 import android.os.Parcel;
 import android.telephony.TelephonyManager;
@@ -62,6 +63,7 @@ public final class Util {
     public static final String DEVICE;
     public static final String DEVICE_DEBUG_INFO;
     public static final byte[] EMPTY_BYTE_ARRAY;
+    private static final Pattern ESCAPED_CHARACTER_PATTERN;
     private static final Pattern ISM_PATH_PATTERN;
     public static final String MANUFACTURER;
     public static final String MODEL;
@@ -233,7 +235,7 @@ public final class Util {
         EMPTY_BYTE_ARRAY = new byte[0];
         XS_DATE_TIME_PATTERN = Pattern.compile("(\\d\\d\\d\\d)\\-(\\d\\d)\\-(\\d\\d)[Tt](\\d\\d):(\\d\\d):(\\d\\d)([\\.,](\\d+))?([Zz]|((\\+|\\-)(\\d?\\d):?(\\d\\d)))?");
         XS_DURATION_PATTERN = Pattern.compile("^(-)?P(([0-9]*)Y)?(([0-9]*)M)?(([0-9]*)D)?(T(([0-9]*)H)?(([0-9]*)M)?(([0-9.]*)S)?)?$");
-        Pattern.compile("%([A-Fa-f0-9]{2})");
+        ESCAPED_CHARACTER_PATTERN = Pattern.compile("%([A-Fa-f0-9]{2})");
         ISM_PATH_PATTERN = Pattern.compile("(?:.*\\.)?isml?(?:/(manifest(.*))?)?", 2);
         additionalIsoLanguageReplacements = new String[]{"alb", "sq", "arm", "hy", "baq", "eu", "bur", "my", "tib", "bo", "chi", "zh", "cze", "cs", "dut", "nl", "ger", "de", "gre", "el", "fre", "fr", "geo", "ka", "ice", "is", "mac", "mk", "mao", "mi", "may", "ms", "per", "fa", "rum", "ro", "scc", "hbs-srp", "slo", "sk", "wel", "cy", "id", "ms-ind", "iw", "he", "heb", "he", "ji", "yi", "arb", "ar-arb", "in", "ms-ind", "ind", "ms-ind", "nb", "no-nob", "nob", "no-nob", "nn", "no-nno", "nno", "no-nno", "tw", "ak-twi", "twi", "ak-twi", "bs", "hbs-bos", "bos", "hbs-bos", "hr", "hbs-hrv", "hrv", "hbs-hrv", "sr", "hbs-srp", "srp", "hbs-srp", "cmn", "zh-cmn", "hak", "zh-hak", "nan", "zh-nan", "hsn", "zh-hsn"};
         isoLegacyTagReplacements = new String[]{"i-lux", "lb", "i-hak", "zh-hak", "i-navajo", "nv", "no-bok", "no-nob", "no-nyn", "no-nno", "zh-guoyu", "zh-cmn", "zh-hakka", "zh-hak", "zh-min-nan", "zh-nan", "zh-xiang", "zh-hsn"};
@@ -255,10 +257,12 @@ public final class Util {
     }
 
     public static Intent registerReceiverNotExported(Context context, BroadcastReceiver broadcastReceiver, IntentFilter intentFilter) {
+        Intent registerReceiver;
         if (SDK_INT < 33) {
             return context.registerReceiver(broadcastReceiver, intentFilter);
         }
-        return context.registerReceiver(broadcastReceiver, intentFilter, 4);
+        registerReceiver = context.registerReceiver(broadcastReceiver, intentFilter, 4);
+        return registerReceiver;
     }
 
     public static boolean isLocalFileUri(Uri uri) {
@@ -356,7 +360,7 @@ public final class Util {
     }
 
     public static ExecutorService newSingleThreadExecutor(final String str) {
-        return Executors.newSingleThreadExecutor(new ThreadFactory() { // from class: com.google.android.exoplayer2.util.Util$$ExternalSyntheticLambda0
+        return Executors.newSingleThreadExecutor(new ThreadFactory() { // from class: com.google.android.exoplayer2.util.Util$$ExternalSyntheticLambda4
             @Override // java.util.concurrent.ThreadFactory
             public final Thread newThread(Runnable runnable) {
                 Thread lambda$newSingleThreadExecutor$3;
@@ -811,11 +815,13 @@ public final class Util {
     }
 
     public static int generateAudioSessionIdV21(Context context) {
+        int generateAudioSessionId;
         AudioManager audioManager = (AudioManager) context.getSystemService(MediaStreamTrack.AUDIO_TRACK_KIND);
         if (audioManager == null) {
             return -1;
         }
-        return audioManager.generateAudioSessionId();
+        generateAudioSessionId = audioManager.generateAudioSessionId();
+        return generateAudioSessionId;
     }
 
     public static int inferContentType(Uri uri) {
@@ -1002,6 +1008,7 @@ public final class Util {
                 i += inflater.inflate(parsableByteArray2.getData(), i, parsableByteArray2.capacity() - i);
                 if (inflater.finished()) {
                     parsableByteArray2.setLimit(i);
+                    inflater.reset();
                     return true;
                 } else if (inflater.needsDictionary() || inflater.needsInput()) {
                     break;
@@ -1182,9 +1189,14 @@ public final class Util {
     }
 
     private static void getDisplaySizeV23(Display display, Point point) {
-        Display.Mode mode = display.getMode();
-        point.x = mode.getPhysicalWidth();
-        point.y = mode.getPhysicalHeight();
+        Display.Mode mode;
+        int physicalWidth;
+        int physicalHeight;
+        mode = display.getMode();
+        physicalWidth = mode.getPhysicalWidth();
+        point.x = physicalWidth;
+        physicalHeight = mode.getPhysicalHeight();
+        point.y = physicalHeight;
     }
 
     private static void getDisplaySizeV17(Display display, Point point) {
@@ -1201,11 +1213,17 @@ public final class Util {
     }
 
     private static String[] getSystemLocalesV24(Configuration configuration) {
-        return split(configuration.getLocales().toLanguageTags(), ",");
+        LocaleList locales;
+        String languageTags;
+        locales = configuration.getLocales();
+        languageTags = locales.toLanguageTags();
+        return split(languageTags, ",");
     }
 
     private static String getLocaleLanguageTagV21(Locale locale) {
-        return locale.toLanguageTag();
+        String languageTag;
+        languageTag = locale.toLanguageTag();
+        return languageTag;
     }
 
     private static HashMap<String, String> createIsoLanguageReplacementMap() {

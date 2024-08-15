@@ -62,7 +62,7 @@ public class NotificationPermissionDialog extends BottomSheet implements Notific
         this.counterView = counterView;
         frameLayout.addView(counterView, LayoutHelper.createFrame(64, 32.0f, 49, 29.0f, 16.0f, 0.0f, 0.0f));
         this.counterView.setCount(0);
-        frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.NotificationPermissionDialog$$ExternalSyntheticLambda1
+        frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.NotificationPermissionDialog$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 NotificationPermissionDialog.this.lambda$new$0(view);
@@ -97,7 +97,7 @@ public class NotificationPermissionDialog extends BottomSheet implements Notific
         textView3.setTextSize(1, 14.0f);
         textView3.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
         textView3.setBackground(Theme.AdaptiveRipple.filledRect(Theme.getColor(i), 8.0f));
-        textView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.NotificationPermissionDialog$$ExternalSyntheticLambda0
+        textView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.NotificationPermissionDialog$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 NotificationPermissionDialog.this.lambda$new$1(view);
@@ -324,7 +324,12 @@ public class NotificationPermissionDialog extends BottomSheet implements Notific
     }
 
     public static boolean shouldAsk(Activity activity) {
-        if (activity == null || Build.VERSION.SDK_INT < 23 || activity.checkSelfPermission("android.permission.POST_NOTIFICATIONS") == 0) {
+        int checkSelfPermission;
+        if (activity == null || Build.VERSION.SDK_INT < 23) {
+            return false;
+        }
+        checkSelfPermission = activity.checkSelfPermission("android.permission.POST_NOTIFICATIONS");
+        if (checkSelfPermission == 0) {
             return false;
         }
         long j = MessagesController.getGlobalMainSettings().getLong("askNotificationsAfter", -1L);
@@ -337,11 +342,12 @@ public class NotificationPermissionDialog extends BottomSheet implements Notific
     public static void askLater() {
         long j = MessagesController.getGlobalMainSettings().getLong("askNotificationsDuration", 86400000L);
         long currentTimeMillis = System.currentTimeMillis() + j;
-        long j2 = 604800000;
-        if (j < 259200000) {
-            j2 = 259200000;
-        } else if (j >= 604800000) {
-            j2 = 2592000000L;
+        long j2 = 259200000;
+        if (j >= 259200000) {
+            j2 = 604800000;
+            if (j >= 604800000) {
+                j2 = 2592000000L;
+            }
         }
         MessagesController.getGlobalMainSettings().edit().putLong("askNotificationsAfter", currentTimeMillis).putLong("askNotificationsDuration", j2).apply();
     }

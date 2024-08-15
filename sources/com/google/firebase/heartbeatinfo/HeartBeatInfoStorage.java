@@ -9,11 +9,12 @@ import java.util.Date;
 public class HeartBeatInfoStorage {
     private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("dd/MM/yyyy z");
     private static HeartBeatInfoStorage instance;
+    private final SharedPreferences heartBeatSharedPreferences;
     private final SharedPreferences sharedPreferences;
 
     private HeartBeatInfoStorage(Context context) {
         this.sharedPreferences = context.getSharedPreferences("FirebaseAppHeartBeat", 0);
-        context.getSharedPreferences("FirebaseAppHeartBeatStorage", 0);
+        this.heartBeatSharedPreferences = context.getSharedPreferences("FirebaseAppHeartBeatStorage", 0);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

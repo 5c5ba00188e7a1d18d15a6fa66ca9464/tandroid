@@ -191,7 +191,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
         textCheckCell2.setBackgroundColor(Theme.getColor(textCheckCell2.isChecked() ? Theme.key_windowBackgroundChecked : Theme.key_windowBackgroundUnchecked));
         this.enableReactionsCell.setTypeface(AndroidUtilities.bold());
         this.enableReactionsCell.setColors(Theme.key_windowBackgroundCheckText, Theme.key_switchTrackBlue, Theme.key_switchTrackBlueChecked, Theme.key_switchTrackBlueThumb, Theme.key_switchTrackBlueThumbChecked);
-        this.enableReactionsCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda4
+        this.enableReactionsCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ChatCustomReactionsEditActivity.this.lambda$createView$2(view);
@@ -236,7 +236,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
             }
         };
         this.editText = customReactionEditText;
-        customReactionEditText.setOnFocused(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda10
+        customReactionEditText.setOnFocused(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 ChatCustomReactionsEditActivity.this.showKeyboard();
@@ -249,7 +249,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
         this.switchLayout.setLayoutTransition(layoutTransition);
         TextInfoPrivacyCell textInfoPrivacyCell2 = new TextInfoPrivacyCell(context);
         textInfoPrivacyCell2.setTextColor(Theme.getColor(i));
-        textInfoPrivacyCell2.setText(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.ReactionCreateOwnPack), Theme.key_chat_messageLinkIn, 0, new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda13
+        textInfoPrivacyCell2.setText(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.ReactionCreateOwnPack), Theme.key_chat_messageLinkIn, 0, new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 ChatCustomReactionsEditActivity.this.lambda$createView$3();
@@ -273,7 +273,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
             this.reactionsCount = i4;
             this.currentReactionsCount = i4;
         }
-        this.slideView.set(this.reactionsCount, SlideIntChooseView.Options.make(0, "MaximumReactionsValue", 1, getMessagesController().reactionsUniqMax), new Utilities.Callback() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda19
+        this.slideView.set(this.reactionsCount, SlideIntChooseView.Options.make(0, "MaximumReactionsValue", 1, getMessagesController().reactionsUniqMax), new Utilities.Callback() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda3
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 ChatCustomReactionsEditActivity.this.lambda$createView$4((Integer) obj);
@@ -291,7 +291,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
             textCheckCell3.setBackgroundColor(getThemedColor(i2));
             this.paidCheckCell.setTextAndCheck(LocaleController.getString(R.string.ChannelEnablePaidReactions), false, false);
             this.switchLayout.addView(this.paidCheckCell, LayoutHelper.createLinear(-1, -2));
-            this.paidCheckCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda6
+            this.paidCheckCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda4
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     ChatCustomReactionsEditActivity.this.lambda$createView$5(view);
@@ -301,7 +301,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
             textInfoPrivacyCell4.setTextColor(Theme.getColor(i));
             textInfoPrivacyCell4.setTopPadding(12);
             textInfoPrivacyCell4.setBottomPadding(70);
-            textInfoPrivacyCell4.setText(AndroidUtilities.withLearnMore(LocaleController.getString(R.string.ChannelEnablePaidReactionsInfo), new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda12
+            textInfoPrivacyCell4.setText(AndroidUtilities.withLearnMore(LocaleController.getString(R.string.ChannelEnablePaidReactionsInfo), new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatCustomReactionsEditActivity.this.lambda$createView$6();
@@ -314,7 +314,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
         UpdateReactionsButton updateReactionsButton = new UpdateReactionsButton(context, getResourceProvider());
         this.actionButton = updateReactionsButton;
         updateReactionsButton.setDefaultState();
-        this.actionButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda5
+        this.actionButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda6
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ChatCustomReactionsEditActivity.this.lambda$createView$9(view);
@@ -454,11 +454,8 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
                 return;
             }
         }
-        Boolean bool = null;
         TextCheckCell textCheckCell = this.paidCheckCell;
-        if (textCheckCell != null && this.info.paid_media_allowed) {
-            bool = Boolean.valueOf(textCheckCell.isChecked());
-        }
+        Boolean valueOf = (textCheckCell == null || !this.info.paid_media_allowed) ? null : Boolean.valueOf(textCheckCell.isChecked());
         this.actionButton.setLoading(true);
         MessagesController messagesController = getMessagesController();
         long j = this.chatId;
@@ -466,12 +463,12 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
         List<TLRPC$Reaction> grabReactions = grabReactions(false);
         int i4 = this.reactionsCount;
         this.currentReactionsCount = i4;
-        messagesController.setCustomChatReactions(j, i3, grabReactions, i4, bool, new Utilities.Callback() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda20
+        messagesController.setCustomChatReactions(j, i3, grabReactions, i4, valueOf, new Utilities.Callback() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda17
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 ChatCustomReactionsEditActivity.this.lambda$createView$8((TLRPC$TL_error) obj);
             }
-        }, new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda8
+        }, new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda18
             @Override // java.lang.Runnable
             public final void run() {
                 ChatCustomReactionsEditActivity.this.finishFragment();
@@ -488,7 +485,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
         if (tLRPC$TL_error.text.equals("CHAT_NOT_MODIFIED")) {
             finishFragment();
         } else {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda14
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda20
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatCustomReactionsEditActivity.this.lambda$createView$7(tLRPC$TL_error);
@@ -522,7 +519,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
         this.bottomDialogLayout.addView(this.selectAnimatedEmojiDialog, LayoutHelper.createFrame(-1, -2, 80));
         BackSpaceButtonView backSpaceButtonView = new BackSpaceButtonView(getContext(), getResourceProvider());
         this.backSpaceButtonView = backSpaceButtonView;
-        backSpaceButtonView.setOnBackspace(new Utilities.Callback() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda18
+        backSpaceButtonView.setOnBackspace(new Utilities.Callback() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda16
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 ChatCustomReactionsEditActivity.this.lambda$initSelectAnimatedEmojiDialog$11((Boolean) obj);
@@ -638,7 +635,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
                     AndroidUtilities.runOnUIThread(this.checkAfterFastDeleteRunnable, 350L);
                     return;
                 }
-                animatedEmojiSpan.setRemoved(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda16
+                animatedEmojiSpan.setRemoved(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda19
                     @Override // java.lang.Runnable
                     public final void run() {
                         ChatCustomReactionsEditActivity.this.lambda$initSelectAnimatedEmojiDialog$10(animatedEmojiSpan, editTextSelectionEnd);
@@ -715,7 +712,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
             return;
         }
         initSelectAnimatedEmojiDialog();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda17
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
                 ChatCustomReactionsEditActivity.lambda$onTransitionAnimationEnd$12();
@@ -823,7 +820,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
             this.editText.setFocusableInTouchMode(true);
             if (this.emojiKeyboardVisible) {
                 this.editText.removeReactionsSpan(false);
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda9
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda13
                     @Override // java.lang.Runnable
                     public final void run() {
                         ChatCustomReactionsEditActivity.this.lambda$onResume$13();
@@ -865,13 +862,13 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), getResourceProvider());
             builder.setTitle(LocaleController.getString("UnsavedChanges", R.string.UnsavedChanges));
             builder.setMessage(LocaleController.getString("ReactionApplyChangesDialog", R.string.ReactionApplyChangesDialog));
-            builder.setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda3
+            builder.setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda8
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
                     ChatCustomReactionsEditActivity.this.lambda$checkChangesBeforeExit$14(dialogInterface, i);
                 }
             });
-            builder.setNegativeButton(LocaleController.getString(R.string.Discard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda2
+            builder.setNegativeButton(LocaleController.getString(R.string.Discard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda9
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
                     ChatCustomReactionsEditActivity.this.lambda$checkChangesBeforeExit$15(dialogInterface, i);
@@ -913,14 +910,15 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
     }
 
     private List<TLRPC$Reaction> grabReactions(boolean z) {
+        boolean z2;
         ArrayList arrayList = new ArrayList();
         ArrayList arrayList2 = new ArrayList();
         for (Long l : this.selectedEmojisIds) {
             if (l.longValue() != -1) {
-                boolean z2 = false;
                 Iterator<TLRPC$TL_availableReaction> it = this.allAvailableReactions.iterator();
                 while (true) {
                     if (!it.hasNext()) {
+                        z2 = false;
                         break;
                     }
                     TLRPC$TL_availableReaction next = it.next();
@@ -955,7 +953,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
         FrameLayout frameLayout = this.bottomDialogLayout;
         frameLayout.setTranslationY(frameLayout.getMeasuredHeight());
         this.bottomDialogLayout.animate().setListener(null).cancel();
-        this.bottomDialogLayout.animate().translationY(0.0f).withLayer().setDuration(350L).setInterpolator(CubicBezierInterpolator.DEFAULT).setUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda0
+        this.bottomDialogLayout.animate().translationY(0.0f).withLayer().setDuration(350L).setInterpolator(CubicBezierInterpolator.DEFAULT).setUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda15
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 ChatCustomReactionsEditActivity.this.lambda$showKeyboard$16(valueAnimator);
@@ -986,7 +984,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
             updateScrollViewMarginBottom(0);
             NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.stopAllHeavyOperations, Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS));
             this.bottomDialogLayout.animate().setListener(null).cancel();
-            this.bottomDialogLayout.animate().translationY(this.bottomDialogLayout.getMeasuredHeight()).setDuration(350L).withLayer().setInterpolator(CubicBezierInterpolator.DEFAULT).setUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda1
+            this.bottomDialogLayout.animate().translationY(this.bottomDialogLayout.getMeasuredHeight()).setDuration(350L).withLayer().setInterpolator(CubicBezierInterpolator.DEFAULT).setUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda12
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     ChatCustomReactionsEditActivity.this.lambda$closeKeyboard$17(valueAnimator);
@@ -1029,7 +1027,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
             this.selectedEmojisIds.remove((Object) (-1L));
             final AnimatedEmojiSpan remove = this.selectedEmojisMap.remove(-1L);
             if (remove != null) {
-                remove.setRemoved(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda15
+                remove.setRemoved(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda14
                     @Override // java.lang.Runnable
                     public final void run() {
                         ChatCustomReactionsEditActivity.this.lambda$toggleStarsEnabled$18(remove);

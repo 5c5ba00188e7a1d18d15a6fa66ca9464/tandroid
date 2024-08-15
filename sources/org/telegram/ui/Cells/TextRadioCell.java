@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.text.TextUtils;
+import android.util.Property;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -19,6 +20,18 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RadioButton;
 /* loaded from: classes4.dex */
 public class TextRadioCell extends FrameLayout {
+    public static final Property<TextRadioCell, Float> ANIMATION_PROGRESS = new AnimationProperties.FloatProperty<TextRadioCell>("animationProgress") { // from class: org.telegram.ui.Cells.TextRadioCell.1
+        @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
+        public void setValue(TextRadioCell textRadioCell, float f) {
+            textRadioCell.setAnimationProgress(f);
+            textRadioCell.invalidate();
+        }
+
+        @Override // android.util.Property
+        public Float get(TextRadioCell textRadioCell) {
+            return Float.valueOf(textRadioCell.animationProgress);
+        }
+    };
     private int animatedColorBackground;
     private Paint animationPaint;
     private float animationProgress;
@@ -31,21 +44,6 @@ public class TextRadioCell extends FrameLayout {
     private RadioButton radioButton;
     private TextView textView;
     private TextView valueTextView;
-
-    static {
-        new AnimationProperties.FloatProperty<TextRadioCell>("animationProgress") { // from class: org.telegram.ui.Cells.TextRadioCell.1
-            @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
-            public void setValue(TextRadioCell textRadioCell, float f) {
-                textRadioCell.setAnimationProgress(f);
-                textRadioCell.invalidate();
-            }
-
-            @Override // android.util.Property
-            public Float get(TextRadioCell textRadioCell) {
-                return Float.valueOf(textRadioCell.animationProgress);
-            }
-        };
-    }
 
     public TextRadioCell(Context context) {
         this(context, 21);
@@ -205,17 +203,17 @@ public class TextRadioCell extends FrameLayout {
 
     @Override // android.view.View
     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
-        int i;
         String str;
+        int i;
         super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
         accessibilityNodeInfo.setCheckable(true);
         accessibilityNodeInfo.setChecked(this.radioButton.isChecked());
         if (this.radioButton.isChecked()) {
-            i = R.string.NotificationsOn;
             str = "NotificationsOn";
+            i = R.string.NotificationsOn;
         } else {
-            i = R.string.NotificationsOff;
             str = "NotificationsOff";
+            i = R.string.NotificationsOff;
         }
         accessibilityNodeInfo.setContentDescription(LocaleController.getString(str, i));
         StringBuilder sb = new StringBuilder();

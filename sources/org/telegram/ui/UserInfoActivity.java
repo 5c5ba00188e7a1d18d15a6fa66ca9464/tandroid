@@ -144,7 +144,7 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
         this.bioEdit = editTextCell3;
         editTextCell3.setBackgroundColor(getThemedColor(i));
         this.bioEdit.setShowLimitWhenEmpty(true);
-        this.bioInfo = AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.EditProfileBioInfo), new Runnable() { // from class: org.telegram.ui.UserInfoActivity$$ExternalSyntheticLambda2
+        this.bioInfo = AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.EditProfileBioInfo), new Runnable() { // from class: org.telegram.ui.UserInfoActivity$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 UserInfoActivity.this.lambda$createView$0();
@@ -219,7 +219,7 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
                     }
                 }
             }
-            this.birthdayInfo = AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(string3, new Runnable() { // from class: org.telegram.ui.UserInfoActivity$$ExternalSyntheticLambda0
+            this.birthdayInfo = AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(string3, new Runnable() { // from class: org.telegram.ui.UserInfoActivity$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     UserInfoActivity.this.lambda$fillItems$1();
@@ -281,7 +281,7 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
         } else if (i2 == 3) {
             AdminedChannelsFetcher adminedChannelsFetcher = this.channels;
             TLRPC$Chat tLRPC$Chat = this.channel;
-            presentFragment(new ChooseChannelFragment(adminedChannelsFetcher, tLRPC$Chat == null ? 0L : tLRPC$Chat.id, new Utilities.Callback() { // from class: org.telegram.ui.UserInfoActivity$$ExternalSyntheticLambda4
+            presentFragment(new ChooseChannelFragment(adminedChannelsFetcher, tLRPC$Chat == null ? 0L : tLRPC$Chat.id, new Utilities.Callback() { // from class: org.telegram.ui.UserInfoActivity$$ExternalSyntheticLambda6
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     UserInfoActivity.this.lambda$onClick$3((TLRPC$Chat) obj);
@@ -335,7 +335,7 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
     public void onResume() {
         super.onResume();
         this.channels.invalidate();
-        this.channels.subscribe(new Runnable() { // from class: org.telegram.ui.UserInfoActivity$$ExternalSyntheticLambda1
+        this.channels.subscribe(new Runnable() { // from class: org.telegram.ui.UserInfoActivity$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 UserInfoActivity.this.lambda$onResume$4();
@@ -540,7 +540,7 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
         final int[] iArr = {0};
         for (int i2 = 0; i2 < arrayList.size(); i2++) {
             final TLObject tLObject = (TLObject) arrayList.get(i2);
-            getConnectionsManager().sendRequest(tLObject, new RequestDelegate() { // from class: org.telegram.ui.UserInfoActivity$$ExternalSyntheticLambda6
+            getConnectionsManager().sendRequest(tLObject, new RequestDelegate() { // from class: org.telegram.ui.UserInfoActivity$$ExternalSyntheticLambda1
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error) {
                     UserInfoActivity.this.lambda$processDone$6(tLObject, tLRPC$TL_birthday, userFull, iArr, arrayList, tLObject2, tLRPC$TL_error);
@@ -555,7 +555,7 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processDone$6(final TLObject tLObject, final TLRPC$TL_birthday tLRPC$TL_birthday, final TLRPC$UserFull tLRPC$UserFull, final int[] iArr, final ArrayList arrayList, final TLObject tLObject2, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.UserInfoActivity$$ExternalSyntheticLambda3
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.UserInfoActivity$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 UserInfoActivity.this.lambda$processDone$5(tLRPC$TL_error, tLObject, tLRPC$TL_birthday, tLRPC$UserFull, tLObject2, iArr, arrayList);
@@ -590,8 +590,9 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
             BulletinFactory.of(this).createErrorBulletin(LocaleController.getString(R.string.UnknownError)).show();
         } else {
             this.wasSaved = true;
-            iArr[0] = iArr[0] + 1;
-            if (iArr[0] == arrayList.size()) {
+            int i = iArr[0] + 1;
+            iArr[0] = i;
+            if (i == arrayList.size()) {
                 finishFragment();
             }
         }
@@ -622,7 +623,7 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
             this.loading = true;
             TLRPC$TL_channels_getAdminedPublicChannels tLRPC$TL_channels_getAdminedPublicChannels = new TLRPC$TL_channels_getAdminedPublicChannels();
             tLRPC$TL_channels_getAdminedPublicChannels.for_personal = this.for_personal;
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_getAdminedPublicChannels, new RequestDelegate() { // from class: org.telegram.ui.UserInfoActivity$AdminedChannelsFetcher$$ExternalSyntheticLambda1
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_getAdminedPublicChannels, new RequestDelegate() { // from class: org.telegram.ui.UserInfoActivity$AdminedChannelsFetcher$$ExternalSyntheticLambda0
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     UserInfoActivity.AdminedChannelsFetcher.this.lambda$fetch$1(tLObject, tLRPC$TL_error);
@@ -632,7 +633,7 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$fetch$1(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.UserInfoActivity$AdminedChannelsFetcher$$ExternalSyntheticLambda0
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.UserInfoActivity$AdminedChannelsFetcher$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     UserInfoActivity.AdminedChannelsFetcher.this.lambda$fetch$0(tLObject);

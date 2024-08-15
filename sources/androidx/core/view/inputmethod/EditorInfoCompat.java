@@ -30,8 +30,9 @@ public final class EditorInfoCompat {
     }
 
     public static String[] getContentMimeTypes(EditorInfo editorInfo) {
+        String[] strArr;
         if (Build.VERSION.SDK_INT >= 25) {
-            String[] strArr = editorInfo.contentMimeTypes;
+            strArr = editorInfo.contentMimeTypes;
             return strArr != null ? strArr : EMPTY_STRING_ARRAY;
         }
         Bundle bundle = editorInfo.extras;

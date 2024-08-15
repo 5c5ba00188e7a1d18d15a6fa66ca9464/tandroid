@@ -17,7 +17,7 @@ public class LogContainer {
         if (this == obj) {
             return true;
         }
-        if (obj == null || LogContainer.class != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         List<Log> list = this.logs;

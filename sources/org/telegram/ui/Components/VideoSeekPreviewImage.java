@@ -82,7 +82,7 @@ public class VideoSeekPreviewImage extends View {
         ImageReceiver imageReceiver = new ImageReceiver();
         this.youtubeBoardsReceiver = imageReceiver;
         imageReceiver.setParentView(this);
-        this.youtubeBoardsReceiver.setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.Components.VideoSeekPreviewImage$$ExternalSyntheticLambda5
+        this.youtubeBoardsReceiver.setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.Components.VideoSeekPreviewImage$$ExternalSyntheticLambda2
             @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
             public final void didSetImage(ImageReceiver imageReceiver2, boolean z, boolean z2, boolean z3) {
                 VideoSeekPreviewImage.this.lambda$new$0(imageReceiver2, z, z2, z3);
@@ -195,7 +195,7 @@ public class VideoSeekPreviewImage extends View {
             animatedFileDrawable.resetStream(false);
         }
         DispatchQueue dispatchQueue = Utilities.globalQueue;
-        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.VideoSeekPreviewImage$$ExternalSyntheticLambda2
+        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.VideoSeekPreviewImage$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 VideoSeekPreviewImage.this.lambda$setProgress$2(f, j);
@@ -235,7 +235,7 @@ public class VideoSeekPreviewImage extends View {
                 frameAtTime = null;
             }
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.VideoSeekPreviewImage$$ExternalSyntheticLambda3
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.VideoSeekPreviewImage$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 VideoSeekPreviewImage.this.lambda$setProgress$1(frameAtTime);
@@ -287,7 +287,7 @@ public class VideoSeekPreviewImage extends View {
         }
         this.videoUri = uri;
         DispatchQueue dispatchQueue = Utilities.globalQueue;
-        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.VideoSeekPreviewImage$$ExternalSyntheticLambda4
+        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.VideoSeekPreviewImage$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 VideoSeekPreviewImage.this.lambda$open$4(uri);
@@ -300,7 +300,6 @@ public class VideoSeekPreviewImage extends View {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$open$4(Uri uri) {
         String absolutePath;
-        final VideoSeekPreviewImage videoSeekPreviewImage = this;
         if ("tg".equals(uri.getScheme())) {
             int intValue = Utilities.parseInt((CharSequence) uri.getQueryParameter("account")).intValue();
             Object parentObject = FileLoader.getInstance(intValue).getParentObject(Utilities.parseInt((CharSequence) uri.getQueryParameter("rid")).intValue());
@@ -321,18 +320,17 @@ public class VideoSeekPreviewImage extends View {
             } else {
                 absolutePath = FileLoader.getInstance(intValue).getPathToAttach(tLRPC$TL_document, false).getAbsolutePath();
             }
-            videoSeekPreviewImage.fileDrawable = new AnimatedFileDrawable(new File(absolutePath), true, tLRPC$TL_document.size, 1, tLRPC$TL_document, null, parentObject, 0L, intValue, true, null);
+            this.fileDrawable = new AnimatedFileDrawable(new File(absolutePath), true, tLRPC$TL_document.size, 1, tLRPC$TL_document, null, parentObject, 0L, intValue, true, null);
         } else {
-            videoSeekPreviewImage = this;
-            videoSeekPreviewImage.fileDrawable = new AnimatedFileDrawable(new File(uri.getPath()), true, 0L, 0, null, null, null, 0L, 0, true, null);
+            this.fileDrawable = new AnimatedFileDrawable(new File(uri.getPath()), true, 0L, 0, null, null, null, 0L, 0, true, null);
         }
-        videoSeekPreviewImage.duration = videoSeekPreviewImage.fileDrawable.getDurationMs();
-        float f = videoSeekPreviewImage.pendingProgress;
+        this.duration = this.fileDrawable.getDurationMs();
+        float f = this.pendingProgress;
         if (f != 0.0f) {
-            videoSeekPreviewImage.setProgress(f, videoSeekPreviewImage.pixelWidth);
-            videoSeekPreviewImage.pendingProgress = 0.0f;
+            setProgress(f, this.pixelWidth);
+            this.pendingProgress = 0.0f;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.VideoSeekPreviewImage$$ExternalSyntheticLambda1
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.VideoSeekPreviewImage$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 VideoSeekPreviewImage.this.lambda$open$3();

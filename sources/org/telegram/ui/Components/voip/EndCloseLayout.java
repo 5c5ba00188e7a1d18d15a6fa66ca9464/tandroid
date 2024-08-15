@@ -46,14 +46,14 @@ public class EndCloseLayout extends FrameLayout {
         TransitionSet transitionSet = new TransitionSet();
         this.transitionSet = transitionSet;
         transitionSet.setOrdering(0);
-        transitionSet.addTransition(new 1(this));
+        transitionSet.addTransition(new 1());
         transitionSet.setDuration(500L);
         transitionSet.setInterpolator((TimeInterpolator) CubicBezierInterpolator.DEFAULT);
     }
 
     /* loaded from: classes3.dex */
     class 1 extends ChangeBounds {
-        1(EndCloseLayout endCloseLayout) {
+        1() {
         }
 
         @Override // android.transition.ChangeBounds, android.transition.Transition
@@ -110,7 +110,7 @@ public class EndCloseLayout extends FrameLayout {
                 });
                 animatorSet.playTogether(valueAnimator);
                 ValueAnimator ofInt = ValueAnimator.ofInt(((Integer) transitionValues.values.get("round_end_close")).intValue(), ((Integer) transitionValues2.values.get("round_end_close")).intValue());
-                ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.EndCloseLayout$1$$ExternalSyntheticLambda3
+                ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.EndCloseLayout$1$$ExternalSyntheticLambda1
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                         EndCloseLayout.1.lambda$createAnimator$1(transitionValues, valueAnimator2);
@@ -118,7 +118,7 @@ public class EndCloseLayout extends FrameLayout {
                 });
                 animatorSet.playTogether(ofInt);
                 ValueAnimator ofInt2 = ValueAnimator.ofInt(((Integer) transitionValues.values.get("decline_call_alpha_end_close")).intValue(), num.intValue(), num.intValue(), num.intValue(), num.intValue(), num.intValue(), num.intValue());
-                ofInt2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.EndCloseLayout$1$$ExternalSyntheticLambda1
+                ofInt2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.EndCloseLayout$1$$ExternalSyntheticLambda2
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                         EndCloseLayout.1.lambda$createAnimator$2(transitionValues, valueAnimator2);
@@ -126,14 +126,14 @@ public class EndCloseLayout extends FrameLayout {
                 });
                 animatorSet.playTogether(ofInt2);
                 ValueAnimator ofInt3 = ValueAnimator.ofInt(num2.intValue(), num2.intValue(), (int) (num3.intValue() * 0.25f), (int) (num3.intValue() * 0.5f), (int) (num3.intValue() * 0.75f), num3.intValue());
-                ofInt3.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.EndCloseLayout$1$$ExternalSyntheticLambda2
+                ofInt3.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.EndCloseLayout$1$$ExternalSyntheticLambda3
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                         EndCloseLayout.1.lambda$createAnimator$3(transitionValues, valueAnimator2);
                     }
                 });
                 animatorSet.playTogether(ofInt3);
-                animatorSet.addListener(new AnimatorListenerAdapter(this) { // from class: org.telegram.ui.Components.voip.EndCloseLayout.1.1
+                animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.EndCloseLayout.1.1
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationStart(Animator animator) {
                         super.onAnimationStart(animator);

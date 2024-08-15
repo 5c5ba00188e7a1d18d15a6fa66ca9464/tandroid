@@ -75,6 +75,7 @@ import org.telegram.ui.FilteredSearchView;
 public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
     private Runnable cancelShowMoreAnimation;
     private int currentItemCount;
+    private String currentMessagesQuery;
     public DialogsSearchAdapterDelegate delegate;
     private final DialogsActivity dialogsActivity;
     private int dialogsType;
@@ -106,6 +107,13 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
     private long selfUserId;
     public View showMoreHeader;
     int waitingResponseCount;
+    public final int VIEW_TYPE_DIALOG_CELL = 2;
+    public final int VIEW_TYPE_TOPIC_CELL = 3;
+    public final int VIEW_TYPE_LOADING = 4;
+    public final int VIEW_TYPE_HASHTAG_CELL = 5;
+    public final int VIEW_TYPE_CATEGORY_LIST = 6;
+    public final int VIEW_TYPE_ADD_BY_PHONE = 7;
+    public final int VIEW_TYPE_INVITE_CONTACT_CELL = 8;
     private ArrayList<Object> searchResult = new ArrayList<>();
     private final ArrayList<ContactsController.Contact> searchContacts = new ArrayList<>();
     private final ArrayList<TLRPC$TL_forumTopic> searchTopics = new ArrayList<>();
@@ -417,7 +425,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             this.lastMessagesSearchString = str;
             final int i2 = this.lastForumReqId + 1;
             this.lastForumReqId = i2;
-            this.reqForumId = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_search, new RequestDelegate() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda22
+            this.reqForumId = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_search, new RequestDelegate() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda12
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     DialogsSearchAdapter.this.lambda$searchForumMessagesInternal$1(str, i2, i, tLRPC$TL_messages_search, tLObject, tLRPC$TL_error);
@@ -447,7 +455,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 messageObject.setQuery(str);
             }
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda8
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda19
             @Override // java.lang.Runnable
             public final void run() {
                 DialogsSearchAdapter.this.lambda$searchForumMessagesInternal$0(i, i2, tLRPC$TL_error, str, tLObject, tLRPC$TL_messages_search, arrayList);
@@ -460,6 +468,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         if (i == this.lastForumReqId && (i2 <= 0 || i2 == this.lastSearchId)) {
             this.waitingResponseCount--;
             if (tLRPC$TL_error == null) {
+                this.currentMessagesQuery = str;
                 TLRPC$messages_Messages tLRPC$messages_Messages = (TLRPC$messages_Messages) tLObject;
                 MessagesStorage.getInstance(this.currentAccount).putUsersAndChats(tLRPC$messages_Messages.users, tLRPC$messages_Messages.chats, true, true);
                 MessagesController.getInstance(this.currentAccount).putUsers(tLRPC$messages_Messages.users, false);
@@ -569,7 +578,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             this.lastMessagesSearchString = str;
             final int i3 = this.lastReqId + 1;
             this.lastReqId = i3;
-            this.reqId = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_searchGlobal, new RequestDelegate() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda23
+            this.reqId = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_searchGlobal, new RequestDelegate() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda16
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     DialogsSearchAdapter.this.lambda$searchMessagesInternal$3(str, i3, i, tLRPC$TL_messages_searchGlobal, tLObject, tLRPC$TL_error);
@@ -599,7 +608,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 messageObject.setQuery(str);
             }
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda9
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda21
             @Override // java.lang.Runnable
             public final void run() {
                 DialogsSearchAdapter.this.lambda$searchMessagesInternal$2(i, i2, tLRPC$TL_error, str, tLObject, tLRPC$TL_messages_searchGlobal, arrayList);
@@ -613,6 +622,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         if (i == this.lastReqId && (i2 <= 0 || i2 == this.lastSearchId)) {
             this.waitingResponseCount--;
             if (tLRPC$TL_error == null) {
+                this.currentMessagesQuery = str;
                 TLRPC$messages_Messages tLRPC$messages_Messages = (TLRPC$messages_Messages) tLObject;
                 MessagesStorage.getInstance(this.currentAccount).putUsersAndChats(tLRPC$messages_Messages.users, tLRPC$messages_Messages.chats, true, true);
                 MessagesController.getInstance(this.currentAccount).putUsers(tLRPC$messages_Messages.users, false);
@@ -701,7 +711,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         if (i == 15) {
             return;
         }
-        loadRecentSearch(this.currentAccount, i, new OnRecentSearchLoaded() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda24
+        loadRecentSearch(this.currentAccount, i, new OnRecentSearchLoaded() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Adapters.DialogsSearchAdapter.OnRecentSearchLoaded
             public final void setRecentSearch(ArrayList arrayList, LongSparseArray longSparseArray) {
                 DialogsSearchAdapter.this.lambda$loadRecentSearch$4(arrayList, longSparseArray);
@@ -710,7 +720,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
     }
 
     public static void loadRecentSearch(final int i, final int i2, final OnRecentSearchLoaded onRecentSearchLoaded) {
-        MessagesStorage.getInstance(i).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda4
+        MessagesStorage.getInstance(i).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 DialogsSearchAdapter.lambda$loadRecentSearch$7(i, i2, onRecentSearchLoaded);
@@ -804,7 +814,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                     }
                 }
             }
-            Collections.sort(arrayList4, new Comparator() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda20
+            Collections.sort(arrayList4, new Comparator() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda14
                 @Override // java.util.Comparator
                 public final int compare(Object obj, Object obj2) {
                     int lambda$loadRecentSearch$5;
@@ -812,7 +822,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                     return lambda$loadRecentSearch$5;
                 }
             });
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda5
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda15
                 @Override // java.lang.Runnable
                 public final void run() {
                     DialogsSearchAdapter.OnRecentSearchLoaded.this.setRecentSearch(arrayList4, longSparseArray);
@@ -846,7 +856,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         recentSearchObject.object = tLObject;
         recentSearchObject.date = (int) (System.currentTimeMillis() / 1000);
         notifyDataSetChanged();
-        MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda13
+        MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 DialogsSearchAdapter.this.lambda$putRecentSearch$8(j);
@@ -898,7 +908,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             sb = new StringBuilder("1");
         }
         notifyDataSetChanged();
-        MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda17
+        MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda23
             @Override // java.lang.Runnable
             public final void run() {
                 DialogsSearchAdapter.this.lambda$clearRecentSearch$9(sb);
@@ -926,7 +936,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         this.filtered2RecentSearchObjects.remove(recentSearchObject);
         this.filteredRecentSearchObjects.remove(recentSearchObject);
         notifyDataSetChanged();
-        MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda12
+        MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda13
             @Override // java.lang.Runnable
             public final void run() {
                 DialogsSearchAdapter.this.lambda$removeRecentSearch$10(j);
@@ -978,7 +988,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             updateSearchResults(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), this.lastSearchId);
             return;
         }
-        MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda15
+        MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda22
             @Override // java.lang.Runnable
             public final void run() {
                 DialogsSearchAdapter.this.lambda$searchDialogsInternal$12(lowerCase, i, str);
@@ -999,7 +1009,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         if (str.length() >= 3 && (LocaleController.getString("ArchiveSearchFilter", R.string.ArchiveSearchFilter).toLowerCase().startsWith(str) || "archive".startsWith(str2))) {
             this.localTipArchive = true;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda6
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda24
             @Override // java.lang.Runnable
             public final void run() {
                 DialogsSearchAdapter.this.lambda$searchDialogsInternal$11();
@@ -1016,7 +1026,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
     }
 
     private void updateSearchResults(final ArrayList<Object> arrayList, final ArrayList<CharSequence> arrayList2, final ArrayList<TLRPC$User> arrayList3, ArrayList<ContactsController.Contact> arrayList4, final int i) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda11
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda25
             @Override // java.lang.Runnable
             public final void run() {
                 DialogsSearchAdapter.this.lambda$updateSearchResults$14(i, arrayList, arrayList2, arrayList3);
@@ -1066,7 +1076,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 j = 0;
             }
             if (j != 0 && MessagesController.getInstance(this.currentAccount).dialogs_dict.get(j) == null) {
-                MessagesStorage.getInstance(this.currentAccount).getDialogFolderId(j, new MessagesStorage.IntCallback() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda21
+                MessagesStorage.getInstance(this.currentAccount).getDialogFolderId(j, new MessagesStorage.IntCallback() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda26
                     @Override // org.telegram.messenger.MessagesStorage.IntCallback
                     public final void run(int i4) {
                         DialogsSearchAdapter.this.lambda$updateSearchResults$13(j, obj, i4);
@@ -1220,7 +1230,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             dialogsSearchAdapterDelegate4.searchStateChanged(true, false);
         }
         DispatchQueue dispatchQueue = Utilities.searchQueue;
-        Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda16
+        Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
             public final void run() {
                 DialogsSearchAdapter.this.lambda$searchDialogs$16(trim, i4, str);
@@ -1238,7 +1248,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             this.waitingResponseCount -= 2;
             return;
         }
-        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda10
+        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda20
             @Override // java.lang.Runnable
             public final void run() {
                 DialogsSearchAdapter.this.lambda$searchDialogs$15(i, str, str2);
@@ -1558,7 +1568,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 recyclerListView = new GraySectionCell(this.mContext);
                 break;
             case 2:
-                recyclerListView = new DialogCell(this, null, this.mContext, false, true) { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter.3
+                recyclerListView = new DialogCell(null, this.mContext, false, true) { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter.3
                     @Override // org.telegram.ui.Cells.DialogCell
                     public boolean isForumCell() {
                         return false;
@@ -1578,7 +1588,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 recyclerListView = new HashtagSearchCell(this.mContext);
                 break;
             case 6:
-                RecyclerListView recyclerListView2 = new RecyclerListView(this, this.mContext) { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter.4
+                RecyclerListView recyclerListView2 = new RecyclerListView(this.mContext) { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter.4
                     @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup
                     public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
                         if (getParent() != null && getParent().getParent() != null) {
@@ -1596,7 +1606,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 recyclerListView2.setTag(9);
                 recyclerListView2.setItemAnimator(null);
                 recyclerListView2.setLayoutAnimation(null);
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, this.mContext) { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter.5
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.mContext) { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter.5
                     @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
                     public boolean supportsPredictiveItemAnimations() {
                         return false;
@@ -1605,13 +1615,13 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 linearLayoutManager.setOrientation(0);
                 recyclerListView2.setLayoutManager(linearLayoutManager);
                 recyclerListView2.setAdapter(new CategoryAdapterRecycler(this.mContext, this.currentAccount, false, this.dialogsType == 3, this.resourcesProvider));
-                recyclerListView2.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda25
+                recyclerListView2.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda9
                     @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
                     public final void onItemClick(View view, int i2) {
                         DialogsSearchAdapter.this.lambda$onCreateViewHolder$17(view, i2);
                     }
                 });
-                recyclerListView2.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda26
+                recyclerListView2.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda10
                     @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
                     public final boolean onItemClick(View view, int i2) {
                         boolean lambda$onCreateViewHolder$18;
@@ -1692,8 +1702,8 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         int recentItemsCount;
         String str8;
         final Runnable runnable;
-        int i2;
         String str9;
+        int i2;
         final int i3 = i;
         int i4 = 4;
         switch (viewHolder.getItemViewType()) {
@@ -1942,7 +1952,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             case 1:
                 final GraySectionCell graySectionCell = (GraySectionCell) viewHolder.itemView;
                 if (!this.searchResultHashtags.isEmpty()) {
-                    graySectionCell.setText(LocaleController.getString("Hashtags", R.string.Hashtags), LocaleController.getString("ClearButton", R.string.ClearButton), new View.OnClickListener() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda1
+                    graySectionCell.setText(LocaleController.getString("Hashtags", R.string.Hashtags), LocaleController.getString("ClearButton", R.string.ClearButton), new View.OnClickListener() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda3
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
                             DialogsSearchAdapter.this.lambda$onBindViewHolder$19(view);
@@ -1959,7 +1969,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                         return;
                     } else if (i3 == hasHints && isRecentSearchDisplayed()) {
                         if (!this.searchWas) {
-                            graySectionCell.setText(LocaleController.getString("Recent", R.string.Recent), LocaleController.getString("ClearButton", R.string.ClearButton), new View.OnClickListener() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda2
+                            graySectionCell.setText(LocaleController.getString("Recent", R.string.Recent), LocaleController.getString("ClearButton", R.string.ClearButton), new View.OnClickListener() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda4
                                 @Override // android.view.View.OnClickListener
                                 public final void onClick(View view) {
                                     DialogsSearchAdapter.this.lambda$onBindViewHolder$20(view);
@@ -1967,7 +1977,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                             });
                             return;
                         } else {
-                            graySectionCell.setText(LocaleController.getString("Recent", R.string.Recent), LocaleController.getString("Clear", R.string.Clear), new View.OnClickListener() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda3
+                            graySectionCell.setText(LocaleController.getString("Recent", R.string.Recent), LocaleController.getString("Clear", R.string.Clear), new View.OnClickListener() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda5
                                 @Override // android.view.View.OnClickListener
                                 public final void onClick(View view) {
                                     DialogsSearchAdapter.this.lambda$onBindViewHolder$21(view);
@@ -2018,7 +2028,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                             str8 = LocaleController.getString("GlobalSearch", R.string.GlobalSearch);
                             if (this.searchAdapterHelper.getGlobalSearch().size() > 3) {
                                 r10 = this.globalSearchCollapsed;
-                                runnable = new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda18
+                                runnable = new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda7
                                     @Override // java.lang.Runnable
                                     public final void run() {
                                         DialogsSearchAdapter.this.lambda$onBindViewHolder$25(globalSearch3, i3, graySectionCell);
@@ -2038,7 +2048,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                         str8 = LocaleController.getString("PhoneNumberSearch", R.string.PhoneNumberSearch);
                         if (this.searchAdapterHelper.getPhoneSearch().size() > 3) {
                             r10 = this.phoneCollapsed;
-                            runnable = new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda19
+                            runnable = new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda6
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     DialogsSearchAdapter.this.lambda$onBindViewHolder$22(graySectionCell);
@@ -2051,13 +2061,13 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                         return;
                     }
                     if (r10) {
-                        i2 = R.string.ShowMore;
                         str9 = "ShowMore";
+                        i2 = R.string.ShowMore;
                     } else {
-                        i2 = R.string.ShowLess;
                         str9 = "ShowLess";
+                        i2 = R.string.ShowLess;
                     }
-                    graySectionCell.setText(str8, LocaleController.getString(str9, i2), new View.OnClickListener() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda0
+                    graySectionCell.setText(str8, LocaleController.getString(str9, i2), new View.OnClickListener() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda8
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
                             runnable.run();
@@ -2136,16 +2146,16 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onBindViewHolder$22(GraySectionCell graySectionCell) {
-        int i;
         String str;
+        int i;
         boolean z = !this.phoneCollapsed;
         this.phoneCollapsed = z;
         if (z) {
-            i = R.string.ShowMore;
             str = "ShowMore";
+            i = R.string.ShowMore;
         } else {
-            i = R.string.ShowLess;
             str = "ShowLess";
+            i = R.string.ShowLess;
         }
         graySectionCell.setRightText(LocaleController.getString(str, i));
         notifyDataSetChanged();
@@ -2153,8 +2163,8 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onBindViewHolder$25(ArrayList arrayList, final int i, GraySectionCell graySectionCell) {
-        int i2;
         String str;
+        int i2;
         long elapsedRealtime = SystemClock.elapsedRealtime();
         if (elapsedRealtime - this.lastShowMoreUpdate < 300) {
             return;
@@ -2171,11 +2181,11 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         boolean z2 = !this.globalSearchCollapsed;
         this.globalSearchCollapsed = z2;
         if (z2) {
-            i2 = R.string.ShowMore;
             str = "ShowMore";
+            i2 = R.string.ShowMore;
         } else {
-            i2 = R.string.ShowLess;
             str = "ShowLess";
+            i2 = R.string.ShowLess;
         }
         graySectionCell.setRightText(LocaleController.getString(str, i2), this.globalSearchCollapsed);
         this.showMoreHeader = null;
@@ -2202,7 +2212,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         } else {
             notifyItemRangeRemoved(i + 4, size - 3);
             if (z) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda7
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda17
                     @Override // java.lang.Runnable
                     public final void run() {
                         DialogsSearchAdapter.this.lambda$onBindViewHolder$23(i);
@@ -2218,7 +2228,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         }
         if (z) {
             this.showMoreAnimation = true;
-            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda14
+            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda18
                 @Override // java.lang.Runnable
                 public final void run() {
                     DialogsSearchAdapter.this.lambda$onBindViewHolder$24(view);
@@ -2371,6 +2381,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
     public void filterRecent(String str) {
         DialogsSearchAdapterDelegate dialogsSearchAdapterDelegate;
         String str2;
+        String str3;
         this.filteredRecentQuery = str;
         this.filtered2RecentSearchObjects.clear();
         int i = 0;
@@ -2392,7 +2403,6 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             RecentSearchObject recentSearchObject = this.recentSearchObjects.get(i);
             if (recentSearchObject != null && recentSearchObject.object != null && (((dialogsSearchAdapterDelegate = this.delegate) == null || dialogsSearchAdapterDelegate.getSearchForumDialogId() != recentSearchObject.did) && filter(this.recentSearchObjects.get(i).object))) {
                 TLObject tLObject = recentSearchObject.object;
-                String str3 = null;
                 if (tLObject instanceof TLRPC$Chat) {
                     str3 = ((TLRPC$Chat) tLObject).title;
                     str2 = ((TLRPC$Chat) tLObject).username;
@@ -2404,6 +2414,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                     str2 = null;
                 } else {
                     str2 = null;
+                    str3 = null;
                 }
                 if ((str3 != null && wordStartsWith(str3.toLowerCase(), lowerCase)) || (str2 != null && wordStartsWith(str2.toLowerCase(), lowerCase))) {
                     this.filtered2RecentSearchObjects.add(recentSearchObject);
@@ -2422,7 +2433,8 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         }
         String[] split = str.toLowerCase().split(" ");
         for (int i = 0; i < split.length; i++) {
-            if (split[i] != null && (split[i].startsWith(str2) || str2.startsWith(split[i]))) {
+            String str3 = split[i];
+            if (str3 != null && (str3.startsWith(str2) || str2.startsWith(split[i]))) {
                 return true;
             }
         }

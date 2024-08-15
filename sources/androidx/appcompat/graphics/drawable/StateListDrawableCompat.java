@@ -80,8 +80,8 @@ public class StateListDrawableCompat extends DrawableContainerCompat {
             int[][] iArr = this.mStateSets;
             int[][] iArr2 = new int[iArr.length];
             for (int length = iArr.length - 1; length >= 0; length--) {
-                int[][] iArr3 = this.mStateSets;
-                iArr2[length] = iArr3[length] != null ? (int[]) iArr3[length].clone() : null;
+                int[] iArr3 = this.mStateSets[length];
+                iArr2[length] = iArr3 != null ? (int[]) iArr3.clone() : null;
             }
             this.mStateSets = iArr2;
         }

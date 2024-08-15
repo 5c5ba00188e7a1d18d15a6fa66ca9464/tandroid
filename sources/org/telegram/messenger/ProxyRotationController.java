@@ -16,7 +16,7 @@ public class ProxyRotationController implements NotificationCenter.NotificationC
     public static final int DEFAULT_TIMEOUT_INDEX = 1;
     private static final ProxyRotationController INSTANCE = new ProxyRotationController();
     public static final List<Integer> ROTATION_TIMEOUTS = Arrays.asList(5, 10, 15, 30, 60);
-    private Runnable checkProxyAndSwitchRunnable = new Runnable() { // from class: org.telegram.messenger.ProxyRotationController$$ExternalSyntheticLambda0
+    private Runnable checkProxyAndSwitchRunnable = new Runnable() { // from class: org.telegram.messenger.ProxyRotationController$$ExternalSyntheticLambda1
         @Override // java.lang.Runnable
         public final void run() {
             ProxyRotationController.this.lambda$new$2();
@@ -33,7 +33,7 @@ public class ProxyRotationController implements NotificationCenter.NotificationC
             final SharedConfig.ProxyInfo proxyInfo = SharedConfig.proxyList.get(i2);
             if (!proxyInfo.checking && SystemClock.elapsedRealtime() - proxyInfo.availableCheckTime >= 120000) {
                 proxyInfo.checking = true;
-                proxyInfo.proxyCheckPingId = ConnectionsManager.getInstance(i).checkProxy(proxyInfo.address, proxyInfo.port, proxyInfo.username, proxyInfo.password, proxyInfo.secret, new RequestTimeDelegate() { // from class: org.telegram.messenger.ProxyRotationController$$ExternalSyntheticLambda3
+                proxyInfo.proxyCheckPingId = ConnectionsManager.getInstance(i).checkProxy(proxyInfo.address, proxyInfo.port, proxyInfo.username, proxyInfo.password, proxyInfo.secret, new RequestTimeDelegate() { // from class: org.telegram.messenger.ProxyRotationController$$ExternalSyntheticLambda2
                     @Override // org.telegram.tgnet.RequestTimeDelegate
                     public final void run(long j) {
                         ProxyRotationController.lambda$new$1(SharedConfig.ProxyInfo.this, j);
@@ -51,7 +51,7 @@ public class ProxyRotationController implements NotificationCenter.NotificationC
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$new$1(final SharedConfig.ProxyInfo proxyInfo, final long j) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ProxyRotationController$$ExternalSyntheticLambda1
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ProxyRotationController$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 ProxyRotationController.lambda$new$0(SharedConfig.ProxyInfo.this, j);
@@ -81,7 +81,7 @@ public class ProxyRotationController implements NotificationCenter.NotificationC
         this.isCurrentlyChecking = false;
         if (SharedConfig.proxyRotationEnabled) {
             ArrayList<SharedConfig.ProxyInfo> arrayList = new ArrayList(SharedConfig.proxyList);
-            Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.ProxyRotationController$$ExternalSyntheticLambda2
+            Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.ProxyRotationController$$ExternalSyntheticLambda3
                 @Override // java.util.Comparator
                 public final int compare(Object obj, Object obj2) {
                     int lambda$switchToAvailable$3;

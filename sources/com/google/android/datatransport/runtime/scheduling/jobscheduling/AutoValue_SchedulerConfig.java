@@ -4,27 +4,33 @@ import com.google.android.datatransport.Priority;
 import com.google.android.datatransport.runtime.scheduling.jobscheduling.SchedulerConfig;
 import com.google.android.datatransport.runtime.time.Clock;
 import java.util.Map;
-import java.util.Objects;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-final class AutoValue_SchedulerConfig extends SchedulerConfig {
+public final class AutoValue_SchedulerConfig extends SchedulerConfig {
     private final Clock clock;
     private final Map<Priority, SchedulerConfig.ConfigValue> values;
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public AutoValue_SchedulerConfig(Clock clock, Map<Priority, SchedulerConfig.ConfigValue> map) {
-        Objects.requireNonNull(clock, "Null clock");
+        if (clock == null) {
+            throw new NullPointerException("Null clock");
+        }
         this.clock = clock;
-        Objects.requireNonNull(map, "Null values");
+        if (map == null) {
+            throw new NullPointerException("Null values");
+        }
         this.values = map;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.datatransport.runtime.scheduling.jobscheduling.SchedulerConfig
-    Clock getClock() {
+    public Clock getClock() {
         return this.clock;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.datatransport.runtime.scheduling.jobscheduling.SchedulerConfig
-    Map<Priority, SchedulerConfig.ConfigValue> getValues() {
+    public Map<Priority, SchedulerConfig.ConfigValue> getValues() {
         return this.values;
     }
 

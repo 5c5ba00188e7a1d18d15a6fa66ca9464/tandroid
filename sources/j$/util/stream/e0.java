@@ -1,43 +1,37 @@
 package j$.util.stream;
-
-import j$.util.function.Predicate;
-import j$.util.function.Supplier;
-import java.util.Objects;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class e0 implements N4 {
-    private final e4 a;
-    final boolean b;
-    final Object c;
-    final Predicate d;
-    final Supplier e;
+public final /* synthetic */ class e0 implements j$.util.function.h0 {
+    public final /* synthetic */ int a;
+    public final /* synthetic */ f2 b;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public e0(boolean z, e4 e4Var, Object obj, Predicate predicate, Supplier supplier) {
-        this.b = z;
-        this.a = e4Var;
-        this.c = obj;
-        this.d = predicate;
-        this.e = supplier;
+    public /* synthetic */ e0(int i, f2 f2Var) {
+        this.a = i;
+        this.b = f2Var;
     }
 
-    @Override // j$.util.stream.N4
-    public int b() {
-        return d4.u | (this.b ? 0 : d4.r);
+    @Override // j$.util.function.h0
+    public final void accept(long j) {
+        int i = this.a;
+        f2 f2Var = this.b;
+        switch (i) {
+            case 0:
+                f2Var.accept(j);
+                return;
+            default:
+                ((f0) f2Var).a.accept(j);
+                return;
+        }
     }
 
-    @Override // j$.util.stream.N4
-    public Object c(y2 y2Var, j$.util.s sVar) {
-        return new k0(this, y2Var, sVar).invoke();
-    }
-
-    @Override // j$.util.stream.N4
-    public Object d(y2 y2Var, j$.util.s sVar) {
-        O4 o4 = (O4) this.e.get();
-        c cVar = (c) y2Var;
-        Objects.requireNonNull(o4);
-        cVar.i0(cVar.q0(o4), sVar);
-        Object obj = o4.get();
-        return obj != null ? obj : this.c;
+    @Override // j$.util.function.h0
+    public final j$.util.function.h0 i(j$.util.function.h0 h0Var) {
+        switch (this.a) {
+            case 0:
+                h0Var.getClass();
+                return new j$.util.function.e0(this, h0Var);
+            default:
+                h0Var.getClass();
+                return new j$.util.function.e0(this, h0Var);
+        }
     }
 }

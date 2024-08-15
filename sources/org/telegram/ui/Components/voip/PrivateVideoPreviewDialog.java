@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -190,8 +191,8 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
                 }
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:20:0x0042  */
-            /* JADX WARN: Removed duplicated region for block: B:21:0x005e  */
+            /* JADX WARN: Removed duplicated region for block: B:21:0x0042  */
+            /* JADX WARN: Removed duplicated region for block: B:22:0x005e  */
             @Override // android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -199,30 +200,33 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
             protected void onSizeChanged(int i, int i2, int i3, int i4) {
                 int i5;
                 int i6;
+                int i7;
                 LinearGradient linearGradient;
                 super.onSizeChanged(i, i2, i3, i4);
-                for (int i7 = 0; i7 < this.gradientPaint.length; i7++) {
-                    int i8 = -9015575;
-                    if (i7 == 0 && PrivateVideoPreviewDialog.this.needScreencast) {
-                        i8 = -8919716;
-                        i5 = -11089922;
-                    } else if (i7 == 0 || (i7 == 1 && PrivateVideoPreviewDialog.this.needScreencast)) {
-                        i8 = -11033346;
-                        i5 = -9015575;
+                for (int i8 = 0; i8 < this.gradientPaint.length; i8++) {
+                    if (i8 == 0 && PrivateVideoPreviewDialog.this.needScreencast) {
+                        i5 = -8919716;
+                        i6 = -11089922;
                     } else {
-                        i5 = -1026983;
-                        i6 = -1792170;
-                        if (i6 == 0) {
-                            linearGradient = new LinearGradient(0.0f, 0.0f, getMeasuredWidth(), 0.0f, new int[]{i8, i5, i6}, (float[]) null, Shader.TileMode.CLAMP);
+                        i5 = -9015575;
+                        if (i8 == 0 || (i8 == 1 && PrivateVideoPreviewDialog.this.needScreencast)) {
+                            i5 = -11033346;
+                            i6 = -9015575;
                         } else {
-                            linearGradient = new LinearGradient(0.0f, 0.0f, getMeasuredWidth(), 0.0f, new int[]{i8, i5}, (float[]) null, Shader.TileMode.CLAMP);
+                            i6 = -1026983;
+                            i7 = -1792170;
+                            if (i7 == 0) {
+                                linearGradient = new LinearGradient(0.0f, 0.0f, getMeasuredWidth(), 0.0f, new int[]{i5, i6, i7}, (float[]) null, Shader.TileMode.CLAMP);
+                            } else {
+                                linearGradient = new LinearGradient(0.0f, 0.0f, getMeasuredWidth(), 0.0f, new int[]{i5, i6}, (float[]) null, Shader.TileMode.CLAMP);
+                            }
+                            this.gradientPaint[i8].setShader(linearGradient);
                         }
-                        this.gradientPaint[i7].setShader(linearGradient);
                     }
-                    i6 = 0;
-                    if (i6 == 0) {
+                    i7 = 0;
+                    if (i7 == 0) {
                     }
-                    this.gradientPaint[i7].setShader(linearGradient);
+                    this.gradientPaint[i8].setShader(linearGradient);
                 }
             }
 
@@ -257,7 +261,7 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
             this.positiveButton.setForeground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), 0, ColorUtils.setAlphaComponent(Theme.getColor(i), 76)));
         }
         this.positiveButton.setPadding(0, AndroidUtilities.dp(12.0f), 0, AndroidUtilities.dp(12.0f));
-        this.positiveButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialog$$ExternalSyntheticLambda0
+        this.positiveButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialog$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 PrivateVideoPreviewDialog.this.lambda$new$0(view);
@@ -288,7 +292,7 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
             } else {
                 this.titles[i2].setText(LocaleController.getString("VoipBackCamera", R.string.VoipBackCamera));
             }
-            this.titles[i2].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialog$$ExternalSyntheticLambda1
+            this.titles[i2].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialog$$ExternalSyntheticLambda2
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     PrivateVideoPreviewDialog.this.lambda$new$1(i2, view);
@@ -303,7 +307,7 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
         VoIPService sharedInstance = VoIPService.getSharedInstance();
         if (sharedInstance != null) {
             this.textureView.renderer.setMirror(sharedInstance.isFrontFaceCamera());
-            this.textureView.renderer.init(VideoCapturerDevice.getEglBase().getEglBaseContext(), new RendererCommon.RendererEvents(this) { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialog.4
+            this.textureView.renderer.init(VideoCapturerDevice.getEglBase().getEglBaseContext(), new RendererCommon.RendererEvents() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialog.4
                 @Override // org.webrtc.RendererCommon.RendererEvents
                 public void onFirstFrameRendered() {
                 }
@@ -326,7 +330,7 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
             this.micIconView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             this.micEnabled = true;
             rLottieDrawable.setCurrentFrame(69);
-            this.micIconView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialog$$ExternalSyntheticLambda2
+            this.micIconView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialog$$ExternalSyntheticLambda3
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     PrivateVideoPreviewDialog.this.lambda$new$2(rLottieDrawable, view);
@@ -338,14 +342,16 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
+        Intent createScreenCaptureIntent;
         if (this.isDismissed) {
             return;
         }
         if (this.currentPage == 0 && this.needScreencast) {
-            ((Activity) getContext()).startActivityForResult(((MediaProjectionManager) getContext().getSystemService("media_projection")).createScreenCaptureIntent(), 520);
-        } else {
-            dismiss(false, true);
+            createScreenCaptureIntent = ((MediaProjectionManager) getContext().getSystemService("media_projection")).createScreenCaptureIntent();
+            ((Activity) getContext()).startActivityForResult(createScreenCaptureIntent, 520);
+            return;
         }
+        dismiss(false, true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -591,12 +597,14 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
         }
 
         /* JADX WARN: Multi-variable type inference failed */
+        /* JADX WARN: Type inference failed for: r12v13, types: [android.widget.FrameLayout, android.view.View, android.view.ViewGroup] */
         @Override // androidx.viewpager.widget.PagerAdapter
         public Object instantiateItem(ViewGroup viewGroup, int i) {
+            Bitmap bitmap;
             ImageView imageView;
             int i2 = 1;
             if (PrivateVideoPreviewDialog.this.needScreencast && i == 0) {
-                FrameLayout frameLayout = new FrameLayout(PrivateVideoPreviewDialog.this.getContext());
+                ?? frameLayout = new FrameLayout(PrivateVideoPreviewDialog.this.getContext());
                 frameLayout.setBackground(new MotionBackgroundDrawable(-14602694, -13935795, -14395293, -14203560, true));
                 ImageView imageView2 = new ImageView(PrivateVideoPreviewDialog.this.getContext());
                 imageView2.setScaleType(ImageView.ScaleType.CENTER);
@@ -614,7 +622,6 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
             } else {
                 ImageView imageView3 = new ImageView(PrivateVideoPreviewDialog.this.getContext());
                 imageView3.setTag(Integer.valueOf(i));
-                Bitmap bitmap = null;
                 try {
                     File filesDirFixed = ApplicationLoader.getFilesDirFixed();
                     StringBuilder sb = new StringBuilder();
@@ -626,6 +633,7 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
                     sb.append(".jpg");
                     bitmap = BitmapFactory.decodeFile(new File(filesDirFixed, sb.toString()).getAbsolutePath());
                 } catch (Throwable unused) {
+                    bitmap = null;
                 }
                 if (bitmap != null) {
                     imageView3.setImageBitmap(bitmap);

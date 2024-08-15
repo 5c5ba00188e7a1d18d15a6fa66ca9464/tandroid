@@ -21,7 +21,20 @@ public final class zzfd {
     private static final zzd zzpi;
     private static final boolean zzpj;
     private static final long zzpk;
+    private static final long zzpl;
+    private static final long zzpm;
+    private static final long zzpn;
+    private static final long zzpo;
+    private static final long zzpp;
+    private static final long zzpq;
+    private static final long zzpr;
+    private static final long zzps;
+    private static final long zzpt;
+    private static final long zzpu;
+    private static final long zzpv;
+    private static final long zzpw;
     private static final long zzpx;
+    private static final long zzpy;
     private static final boolean zzpz;
 
     /* loaded from: classes.dex */
@@ -261,8 +274,8 @@ public final class zzfd {
         public abstract byte zzx(Object obj, long j);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:19:0x00b8  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x00ba  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x00eb  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x00ed  */
     static {
         zzd zzcVar;
         Field zzb2;
@@ -286,24 +299,24 @@ public final class zzfd {
             zzpj = zzeh();
             zzfy = zzeg();
             zzpk = zzg(byte[].class);
-            zzg(boolean[].class);
-            zzh(boolean[].class);
-            zzg(int[].class);
-            zzh(int[].class);
-            zzg(long[].class);
-            zzh(long[].class);
-            zzg(float[].class);
-            zzh(float[].class);
-            zzg(double[].class);
-            zzh(double[].class);
-            zzg(Object[].class);
-            zzh(Object[].class);
+            zzpl = zzg(boolean[].class);
+            zzpm = zzh(boolean[].class);
+            zzpn = zzg(int[].class);
+            zzpo = zzh(int[].class);
+            zzpp = zzg(long[].class);
+            zzpq = zzh(long[].class);
+            zzpr = zzg(float[].class);
+            zzps = zzh(float[].class);
+            zzpt = zzg(double[].class);
+            zzpu = zzh(double[].class);
+            zzpv = zzg(Object[].class);
+            zzpw = zzh(Object[].class);
             zzpx = zzb(zzei());
             zzb2 = zzb(String.class, "value");
             if (zzb2 != null && zzb2.getType() == char[].class) {
                 field = zzb2;
             }
-            zzb(field);
+            zzpy = zzb(field);
             zzpz = ByteOrder.nativeOrder() != ByteOrder.BIG_ENDIAN;
         }
         zzcVar = null;
@@ -311,24 +324,24 @@ public final class zzfd {
         zzpj = zzeh();
         zzfy = zzeg();
         zzpk = zzg(byte[].class);
-        zzg(boolean[].class);
-        zzh(boolean[].class);
-        zzg(int[].class);
-        zzh(int[].class);
-        zzg(long[].class);
-        zzh(long[].class);
-        zzg(float[].class);
-        zzh(float[].class);
-        zzg(double[].class);
-        zzh(double[].class);
-        zzg(Object[].class);
-        zzh(Object[].class);
+        zzpl = zzg(boolean[].class);
+        zzpm = zzh(boolean[].class);
+        zzpn = zzg(int[].class);
+        zzpo = zzh(int[].class);
+        zzpp = zzg(long[].class);
+        zzpq = zzh(long[].class);
+        zzpr = zzg(float[].class);
+        zzps = zzh(float[].class);
+        zzpt = zzg(double[].class);
+        zzpu = zzh(double[].class);
+        zzpv = zzg(Object[].class);
+        zzpw = zzh(Object[].class);
         zzpx = zzb(zzei());
         zzb2 = zzb(String.class, "value");
         if (zzb2 != null) {
             field = zzb2;
         }
-        zzb(field);
+        zzpy = zzb(field);
         zzpz = ByteOrder.nativeOrder() != ByteOrder.BIG_ENDIAN;
     }
 

@@ -1,6 +1,7 @@
 package com.google.firebase.components;
 
 import android.util.Log;
+import com.google.android.exoplayer2.mediacodec.AsynchronousMediaCodecBufferEnqueuer$$ExternalSyntheticBackportWithForwarding0;
 import com.google.firebase.components.ComponentRuntime;
 import com.google.firebase.dynamicloading.ComponentLoader;
 import com.google.firebase.events.Publisher;
@@ -31,6 +32,16 @@ public class ComponentRuntime extends AbstractComponentContainer implements Comp
     private final Map<Class<?>, Provider<?>> lazyInstanceMap;
     private final Map<Class<?>, LazySet<?>> lazySetMap;
     private final List<Provider<ComponentRegistrar>> unprocessedRegistrarProviders;
+
+    @Override // com.google.firebase.components.AbstractComponentContainer, com.google.firebase.components.ComponentContainer
+    public /* bridge */ /* synthetic */ Object get(Class cls) {
+        return super.get(cls);
+    }
+
+    @Override // com.google.firebase.components.AbstractComponentContainer, com.google.firebase.components.ComponentContainer
+    public /* bridge */ /* synthetic */ Set setOf(Class cls) {
+        return super.setOf(cls);
+    }
 
     public static Builder builder(Executor executor) {
         return new Builder(executor);
@@ -128,7 +139,7 @@ public class ComponentRuntime extends AbstractComponentContainer implements Comp
                         this.lazyInstanceMap.put(cls, provider);
                     } else {
                         final OptionalProvider optionalProvider = (OptionalProvider) this.lazyInstanceMap.get(cls);
-                        arrayList.add(new Runnable() { // from class: com.google.firebase.components.ComponentRuntime$$ExternalSyntheticLambda3
+                        arrayList.add(new Runnable() { // from class: com.google.firebase.components.ComponentRuntime$$ExternalSyntheticLambda2
                             @Override // java.lang.Runnable
                             public final void run() {
                                 OptionalProvider.this.set(provider);
@@ -162,7 +173,7 @@ public class ComponentRuntime extends AbstractComponentContainer implements Comp
             } else {
                 final LazySet<?> lazySet = this.lazySetMap.get(entry2.getKey());
                 for (final Provider provider : (Set) entry2.getValue()) {
-                    arrayList.add(new Runnable() { // from class: com.google.firebase.components.ComponentRuntime$$ExternalSyntheticLambda2
+                    arrayList.add(new Runnable() { // from class: com.google.firebase.components.ComponentRuntime$$ExternalSyntheticLambda3
                         @Override // java.lang.Runnable
                         public final void run() {
                             LazySet.this.add(provider);
@@ -191,7 +202,7 @@ public class ComponentRuntime extends AbstractComponentContainer implements Comp
 
     public void initializeEagerComponents(boolean z) {
         HashMap hashMap;
-        if (this.eagerComponentsInitializedWith.compareAndSet(null, Boolean.valueOf(z))) {
+        if (AsynchronousMediaCodecBufferEnqueuer$$ExternalSyntheticBackportWithForwarding0.m(this.eagerComponentsInitializedWith, null, Boolean.valueOf(z))) {
             synchronized (this) {
                 hashMap = new HashMap(this.components);
             }

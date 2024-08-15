@@ -10,6 +10,7 @@ import android.view.ViewParent;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -25,6 +26,7 @@ import androidx.appcompat.view.ActionBarPolicy;
 import androidx.appcompat.widget.LinearLayoutCompat;
 /* loaded from: classes.dex */
 public class ScrollingTabContainerView extends HorizontalScrollView implements AdapterView.OnItemSelectedListener {
+    private static final Interpolator sAlphaInterpolator = new DecelerateInterpolator();
     private boolean mAllowCollapse;
     private int mContentHeight;
     int mMaxTabWidth;
@@ -37,10 +39,6 @@ public class ScrollingTabContainerView extends HorizontalScrollView implements A
 
     @Override // android.widget.AdapterView.OnItemSelectedListener
     public void onNothingSelected(AdapterView<?> adapterView) {
-    }
-
-    static {
-        new DecelerateInterpolator();
     }
 
     @Override // android.widget.HorizontalScrollView, android.widget.FrameLayout, android.view.View

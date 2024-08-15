@@ -55,14 +55,7 @@ public class VectorAvatarThumbDrawable extends Drawable implements AnimatedEmoji
         this.isPremium = z;
         gradientTools.setColors(ColorUtils.setAlphaComponent(tLRPC$VideoSize.background_colors.get(0).intValue(), 255), tLRPC$VideoSize.background_colors.size() > 1 ? ColorUtils.setAlphaComponent(tLRPC$VideoSize.background_colors.get(1).intValue(), 255) : 0, tLRPC$VideoSize.background_colors.size() > 2 ? ColorUtils.setAlphaComponent(tLRPC$VideoSize.background_colors.get(2).intValue(), 255) : 0, tLRPC$VideoSize.background_colors.size() > 3 ? ColorUtils.setAlphaComponent(tLRPC$VideoSize.background_colors.get(3).intValue(), 255) : 0);
         if (tLRPC$VideoSize instanceof TLRPC$TL_videoSizeEmojiMarkup) {
-            TLRPC$TL_videoSizeEmojiMarkup tLRPC$TL_videoSizeEmojiMarkup = (TLRPC$TL_videoSizeEmojiMarkup) tLRPC$VideoSize;
-            int i2 = 8;
-            if (i == 1 && z) {
-                i2 = 7;
-            } else if (i == 2) {
-                i2 = 15;
-            }
-            AnimatedEmojiDrawable animatedEmojiDrawable = new AnimatedEmojiDrawable(i2, UserConfig.selectedAccount, tLRPC$TL_videoSizeEmojiMarkup.emoji_id);
+            AnimatedEmojiDrawable animatedEmojiDrawable = new AnimatedEmojiDrawable((i == 1 && z) ? 7 : i == 2 ? 15 : 8, UserConfig.selectedAccount, ((TLRPC$TL_videoSizeEmojiMarkup) tLRPC$VideoSize).emoji_id);
             this.animatedEmojiDrawable = animatedEmojiDrawable;
             animatedEmojiDrawable.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN));
         } else if (tLRPC$VideoSize instanceof TLRPC$TL_videoSizeStickerMarkup) {
@@ -88,33 +81,35 @@ public class VectorAvatarThumbDrawable extends Drawable implements AnimatedEmoji
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void setImage() {
+        TLRPC$Document tLRPC$Document;
         String str;
         String str2;
+        String str3;
         TLRPC$TL_messages_stickerSet stickerSet = MediaDataController.getInstance(this.currentAccount).getStickerSet(this.sizeStickerMarkup.stickerset, false);
         if (stickerSet != null) {
             this.imageSeted = true;
             for (int i = 0; i < stickerSet.documents.size(); i++) {
                 if (stickerSet.documents.get(i).id == this.sizeStickerMarkup.sticker_id) {
-                    TLRPC$Document tLRPC$Document = stickerSet.documents.get(i);
-                    TLRPC$Document tLRPC$Document2 = null;
-                    String str3 = "50_50_firstframe";
+                    TLRPC$Document tLRPC$Document2 = stickerSet.documents.get(i);
                     if (this.isPremium && this.type == 1) {
-                        str2 = "50_50";
+                        str3 = "50_50";
                     } else if (this.type != 2) {
+                        tLRPC$Document = null;
                         str = null;
-                        this.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$Document), str3, ImageLocation.getForDocument(tLRPC$Document2), str, null, null, DocumentObject.getSvgThumb(tLRPC$Document, Theme.key_windowBackgroundWhiteGrayIcon, 0.2f), 0L, "tgs", tLRPC$Document, 0);
+                        str2 = "50_50_firstframe";
+                        this.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$Document2), str2, ImageLocation.getForDocument(tLRPC$Document), str, null, null, DocumentObject.getSvgThumb(tLRPC$Document2, Theme.key_windowBackgroundWhiteGrayIcon, 0.2f), 0L, "tgs", tLRPC$Document2, 0);
                         if (this.type != 3) {
-                            this.stickerPreloadImageReceiver.setImage(ImageLocation.getForDocument(tLRPC$Document), "100_100", null, null, null, 0L, "tgs", tLRPC$Document, 0);
+                            this.stickerPreloadImageReceiver.setImage(ImageLocation.getForDocument(tLRPC$Document2), "100_100", null, null, null, 0L, "tgs", tLRPC$Document2, 0);
                             return;
                         }
                         return;
                     } else {
-                        str2 = "100_100";
+                        str3 = "100_100";
                     }
-                    tLRPC$Document2 = tLRPC$Document;
+                    str2 = str3;
                     str = "50_50_firstframe";
-                    str3 = str2;
-                    this.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$Document), str3, ImageLocation.getForDocument(tLRPC$Document2), str, null, null, DocumentObject.getSvgThumb(tLRPC$Document, Theme.key_windowBackgroundWhiteGrayIcon, 0.2f), 0L, "tgs", tLRPC$Document, 0);
+                    tLRPC$Document = tLRPC$Document2;
+                    this.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$Document2), str2, ImageLocation.getForDocument(tLRPC$Document), str, null, null, DocumentObject.getSvgThumb(tLRPC$Document2, Theme.key_windowBackgroundWhiteGrayIcon, 0.2f), 0L, "tgs", tLRPC$Document2, 0);
                     if (this.type != 3) {
                     }
                 }
@@ -226,7 +221,7 @@ public class VectorAvatarThumbDrawable extends Drawable implements AnimatedEmoji
         if (this == obj) {
             return true;
         }
-        if (obj != null && VectorAvatarThumbDrawable.class == obj.getClass()) {
+        if (obj != null && getClass() == obj.getClass()) {
             VectorAvatarThumbDrawable vectorAvatarThumbDrawable = (VectorAvatarThumbDrawable) obj;
             if (this.type == vectorAvatarThumbDrawable.type) {
                 GradientTools gradientTools = this.gradientTools;

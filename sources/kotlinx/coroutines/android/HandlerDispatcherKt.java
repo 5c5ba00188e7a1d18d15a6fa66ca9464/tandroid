@@ -4,29 +4,30 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.Choreographer;
-import java.util.Objects;
 import kotlin.Result;
 import kotlin.ResultKt;
 /* compiled from: HandlerDispatcher.kt */
 /* loaded from: classes.dex */
 public final class HandlerDispatcherKt {
+    public static final HandlerDispatcher Main;
     private static volatile Choreographer choreographer;
 
     public static final Handler asHandler(Looper looper, boolean z) {
-        int i;
-        if (!z || (i = Build.VERSION.SDK_INT) < 16) {
-            return new Handler(looper);
+        if (z) {
+            if (Build.VERSION.SDK_INT >= 28) {
+                Object invoke = Handler.class.getDeclaredMethod("createAsync", Looper.class).invoke(null, looper);
+                if (invoke != null) {
+                    return (Handler) invoke;
+                }
+                throw new NullPointerException("null cannot be cast to non-null type android.os.Handler");
+            }
+            try {
+                return (Handler) Handler.class.getDeclaredConstructor(Looper.class, Handler.Callback.class, Boolean.TYPE).newInstance(looper, null, Boolean.TRUE);
+            } catch (NoSuchMethodException unused) {
+                return new Handler(looper);
+            }
         }
-        if (i >= 28) {
-            Object invoke = Handler.class.getDeclaredMethod("createAsync", Looper.class).invoke(null, looper);
-            Objects.requireNonNull(invoke, "null cannot be cast to non-null type android.os.Handler");
-            return (Handler) invoke;
-        }
-        try {
-            return (Handler) Handler.class.getDeclaredConstructor(Looper.class, Handler.Callback.class, Boolean.TYPE).newInstance(looper, null, Boolean.TRUE);
-        } catch (NoSuchMethodException unused) {
-            return new Handler(looper);
-        }
+        return new Handler(looper);
     }
 
     static {
@@ -38,6 +39,6 @@ public final class HandlerDispatcherKt {
             Result.Companion companion2 = Result.Companion;
             obj = Result.constructor-impl(ResultKt.createFailure(th));
         }
-        HandlerDispatcher handlerDispatcher = Result.isFailure-impl(obj) ? null : obj;
+        Main = Result.isFailure-impl(obj) ? null : obj;
     }
 }

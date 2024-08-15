@@ -18,6 +18,8 @@ public final class StreamKey implements Comparable<StreamKey>, Parcelable {
     public final int groupIndex;
     public final int periodIndex;
     public final int streamIndex;
+    @Deprecated
+    public final int trackIndex;
 
     @Override // android.os.Parcelable
     public int describeContents() {
@@ -28,12 +30,15 @@ public final class StreamKey implements Comparable<StreamKey>, Parcelable {
         this.periodIndex = i;
         this.groupIndex = i2;
         this.streamIndex = i3;
+        this.trackIndex = i3;
     }
 
     StreamKey(Parcel parcel) {
         this.periodIndex = parcel.readInt();
         this.groupIndex = parcel.readInt();
-        this.streamIndex = parcel.readInt();
+        int readInt = parcel.readInt();
+        this.streamIndex = readInt;
+        this.trackIndex = readInt;
     }
 
     public String toString() {

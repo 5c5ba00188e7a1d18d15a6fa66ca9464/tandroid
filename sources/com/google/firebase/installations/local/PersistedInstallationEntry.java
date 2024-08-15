@@ -6,6 +6,7 @@ import com.google.firebase.installations.local.PersistedInstallation;
 @AutoValue
 /* loaded from: classes.dex */
 public abstract class PersistedInstallationEntry {
+    public static PersistedInstallationEntry INSTANCE = builder().build();
 
     @AutoValue.Builder
     /* loaded from: classes.dex */
@@ -42,10 +43,6 @@ public abstract class PersistedInstallationEntry {
     public abstract long getTokenCreationEpochInSecs();
 
     public abstract Builder toBuilder();
-
-    static {
-        builder().build();
-    }
 
     public boolean isRegistered() {
         return getRegistrationStatus() == PersistedInstallation.RegistrationStatus.REGISTERED;

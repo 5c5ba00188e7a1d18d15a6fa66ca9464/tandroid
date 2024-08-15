@@ -1,4 +1,6 @@
 package com.google.android.gms.internal.clearcut;
+
+import java.lang.reflect.Type;
 /* JADX WARN: Enum visitor error
 jadx.core.utils.exceptions.JadxRuntimeException: Init of enum zzgy uses external variables
 	at jadx.core.dex.visitors.EnumVisitor.createEnumFieldByConstructor(EnumVisitor.java:444)
@@ -63,8 +65,13 @@ public final class zzcb {
     public static final zzcb zziv;
     public static final zzcb zziw;
     private static final zzcb[] zzjb;
+    private static final Type[] zzjc;
     private static final /* synthetic */ zzcb[] zzjd;
     private final int id;
+    private final zzcq zzix;
+    private final zzcd zziy;
+    private final Class<?> zziz;
+    private final boolean zzja;
 
     static {
         zzcd zzcdVar = zzcd.zzjg;
@@ -182,6 +189,7 @@ public final class zzcb {
         zzcb zzcbVar51 = new zzcb("MAP", 50, 50, zzcd.zzjj, zzcq.zzkx);
         zziw = zzcbVar51;
         zzjd = new zzcb[]{zzcbVar, zzcbVar2, zzcbVar3, zzcbVar4, zzcbVar5, zzcbVar6, zzcbVar7, zzcbVar8, zzcbVar9, zzcbVar10, zzcbVar11, zzcbVar12, zzcbVar13, zzcbVar14, zzcbVar15, zzcbVar16, zzcbVar17, zzcbVar18, zzcbVar19, zzcbVar20, zzcbVar21, zzcbVar22, zzcbVar23, zzcbVar24, zzcbVar25, zzcbVar26, zzcbVar27, zzcbVar28, zzcbVar29, zzcbVar30, zzcbVar31, zzcbVar32, zzcbVar33, zzcbVar34, zzcbVar35, zzcbVar36, zzcbVar37, zzcbVar38, zzcbVar39, zzcbVar40, zzcbVar41, zzcbVar42, zzcbVar43, zzcbVar44, zzcbVar45, zzcbVar46, zzcbVar47, zzcbVar48, zzcbVar49, zzcbVar50, zzcbVar51};
+        zzjc = new Type[0];
         zzcb[] values = values();
         zzjb = new zzcb[values.length];
         for (zzcb zzcbVar52 : values) {
@@ -190,14 +198,14 @@ public final class zzcb {
     }
 
     private zzcb(String str, int i, int i2, zzcd zzcdVar, zzcq zzcqVar) {
+        int i3;
         this.id = i2;
-        int i3 = zzcc.zzje[zzcdVar.ordinal()];
-        if (i3 == 1 || i3 == 2) {
-            zzcqVar.zzbq();
-        }
-        if (zzcdVar == zzcd.zzjg) {
-            int i4 = zzcc.zzjf[zzcqVar.ordinal()];
-        }
+        this.zziy = zzcdVar;
+        this.zzix = zzcqVar;
+        int i4 = zzcc.zzje[zzcdVar.ordinal()];
+        boolean z = true;
+        this.zziz = (i4 == 1 || i4 == 2) ? zzcqVar.zzbq() : null;
+        this.zzja = (zzcdVar != zzcd.zzjg || (i3 = zzcc.zzjf[zzcqVar.ordinal()]) == 1 || i3 == 2 || i3 == 3) ? false : false;
     }
 
     public static zzcb[] values() {

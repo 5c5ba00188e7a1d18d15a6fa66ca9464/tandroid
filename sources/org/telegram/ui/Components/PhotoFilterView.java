@@ -133,6 +133,11 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         public float midtonesLevel = 50.0f;
         public float highlightsLevel = 75.0f;
         public float whitesLevel = 100.0f;
+        public float previousBlacksLevel = 0.0f;
+        public float previousShadowsLevel = 25.0f;
+        public float previousMidtonesLevel = 50.0f;
+        public float previousHighlightsLevel = 75.0f;
+        public float previousWhitesLevel = 100.0f;
 
         public float[] getDataPoints() {
             if (this.cachedDataPoints == null) {
@@ -222,11 +227,21 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         }
 
         public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
-            this.blacksLevel = abstractSerializedData.readFloat(z);
-            this.shadowsLevel = abstractSerializedData.readFloat(z);
-            this.midtonesLevel = abstractSerializedData.readFloat(z);
-            this.highlightsLevel = abstractSerializedData.readFloat(z);
-            this.whitesLevel = abstractSerializedData.readFloat(z);
+            float readFloat = abstractSerializedData.readFloat(z);
+            this.previousBlacksLevel = readFloat;
+            this.blacksLevel = readFloat;
+            float readFloat2 = abstractSerializedData.readFloat(z);
+            this.previousShadowsLevel = readFloat2;
+            this.shadowsLevel = readFloat2;
+            float readFloat3 = abstractSerializedData.readFloat(z);
+            this.previousMidtonesLevel = readFloat3;
+            this.midtonesLevel = readFloat3;
+            float readFloat4 = abstractSerializedData.readFloat(z);
+            this.previousHighlightsLevel = readFloat4;
+            this.highlightsLevel = readFloat4;
+            float readFloat5 = abstractSerializedData.readFloat(z);
+            this.previousWhitesLevel = readFloat5;
+            this.whitesLevel = readFloat5;
         }
     }
 
@@ -283,8 +298,8 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         this(context, videoEditTextureView, bitmap, null, i, savedFilterState, paintingOverlay, i2, z, z2, blurManager, resourcesProvider);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:62:0x04ff  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0501  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x04eb  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x04ed  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -308,28 +323,20 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         }
         int i3 = this.rowsCount;
         int i4 = i3 + 1;
-        this.rowsCount = i4;
         this.enhanceTool = i3;
         int i5 = i4 + 1;
-        this.rowsCount = i5;
         this.exposureTool = i4;
         int i6 = i5 + 1;
-        this.rowsCount = i6;
         this.contrastTool = i5;
         int i7 = i6 + 1;
-        this.rowsCount = i7;
         this.saturationTool = i6;
         int i8 = i7 + 1;
-        this.rowsCount = i8;
         this.warmthTool = i7;
         int i9 = i8 + 1;
-        this.rowsCount = i9;
         this.fadeTool = i8;
         int i10 = i9 + 1;
-        this.rowsCount = i10;
         this.highlightsTool = i9;
         int i11 = i10 + 1;
-        this.rowsCount = i11;
         this.shadowsTool = i10;
         int i12 = i11 + 1;
         this.rowsCount = i12;
@@ -347,10 +354,8 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         }
         int i14 = this.rowsCount;
         int i15 = i14 + 1;
-        this.rowsCount = i15;
         this.sharpenTool = i14;
         int i16 = i15 + 1;
-        this.rowsCount = i16;
         this.tintShadowsTool = i15;
         this.rowsCount = i16 + 1;
         this.tintHighlightsTool = i16;
@@ -390,7 +395,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         this.orientation = i;
         if (videoEditTextureView != null) {
             this.textureView = videoEditTextureView;
-            videoEditTextureView.setDelegate(new VideoEditTextureView.VideoEditTextureViewDelegate() { // from class: org.telegram.ui.Components.PhotoFilterView$$ExternalSyntheticLambda9
+            videoEditTextureView.setDelegate(new VideoEditTextureView.VideoEditTextureViewDelegate() { // from class: org.telegram.ui.Components.PhotoFilterView$$ExternalSyntheticLambda0
                 @Override // org.telegram.ui.Components.VideoEditTextureView.VideoEditTextureViewDelegate
                 public final void onEGLThreadAvailable(FilterGLThread filterGLThread) {
                     PhotoFilterView.this.lambda$new$0(filterGLThread);
@@ -420,7 +425,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         if (z2) {
             addView(this.blurControl, LayoutHelper.createFrame(-1, -1, 51));
         }
-        this.blurControl.setDelegate(new PhotoFilterBlurControl.PhotoFilterLinearBlurControlDelegate() { // from class: org.telegram.ui.Components.PhotoFilterView$$ExternalSyntheticLambda7
+        this.blurControl.setDelegate(new PhotoFilterBlurControl.PhotoFilterLinearBlurControlDelegate() { // from class: org.telegram.ui.Components.PhotoFilterView$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.PhotoFilterBlurControl.PhotoFilterLinearBlurControlDelegate
             public final void valueChanged(Point point, float f, float f2, float f3) {
                 PhotoFilterView.this.lambda$new$1(point, f, f2, f3);
@@ -428,7 +433,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         });
         PhotoFilterCurvesControl photoFilterCurvesControl = new PhotoFilterCurvesControl(context, this.curvesToolValue);
         this.curvesControl = photoFilterCurvesControl;
-        photoFilterCurvesControl.setDelegate(new PhotoFilterCurvesControl.PhotoFilterCurvesControlDelegate() { // from class: org.telegram.ui.Components.PhotoFilterView$$ExternalSyntheticLambda8
+        photoFilterCurvesControl.setDelegate(new PhotoFilterCurvesControl.PhotoFilterCurvesControlDelegate() { // from class: org.telegram.ui.Components.PhotoFilterView$$ExternalSyntheticLambda2
             @Override // org.telegram.ui.Components.PhotoFilterCurvesControl.PhotoFilterCurvesControlDelegate
             public final void valueChanged() {
                 PhotoFilterView.this.lambda$new$2();
@@ -475,7 +480,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         this.tuneItem.setColorFilter(new PorterDuffColorFilter(getThemedColor(i17), PorterDuff.Mode.MULTIPLY));
         this.tuneItem.setBackgroundDrawable(Theme.createSelectorDrawable(1090519039));
         linearLayout.addView(this.tuneItem, LayoutHelper.createLinear(56, 48));
-        this.tuneItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoFilterView$$ExternalSyntheticLambda0
+        this.tuneItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoFilterView$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 PhotoFilterView.this.lambda$new$3(view);
@@ -487,7 +492,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         this.blurItem.setImageResource(R.drawable.msg_photo_blur);
         this.blurItem.setBackgroundDrawable(Theme.createSelectorDrawable(1090519039));
         linearLayout.addView(this.blurItem, LayoutHelper.createLinear(56, 48));
-        this.blurItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoFilterView$$ExternalSyntheticLambda3
+        this.blurItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoFilterView$$ExternalSyntheticLambda4
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 PhotoFilterView.this.lambda$new$4(view);
@@ -502,7 +507,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         this.curveItem.setImageResource(R.drawable.msg_photo_curve);
         this.curveItem.setBackgroundDrawable(Theme.createSelectorDrawable(1090519039));
         linearLayout.addView(this.curveItem, LayoutHelper.createLinear(56, 48));
-        this.curveItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoFilterView$$ExternalSyntheticLambda4
+        this.curveItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoFilterView$$ExternalSyntheticLambda5
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 PhotoFilterView.this.lambda$new$5(view);
@@ -557,7 +562,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
                 }
                 frameLayout4.addView(textView4, LayoutHelper.createFrame(-2, -2.0f, 49, 0.0f, 38.0f, 0.0f, 0.0f));
                 linearLayout2.addView(frameLayout4, LayoutHelper.createLinear(-2, -2, i18 != 0 ? 0.0f : 30.0f, 0.0f, 0.0f, 0.0f));
-                frameLayout4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoFilterView$$ExternalSyntheticLambda2
+                frameLayout4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoFilterView$$ExternalSyntheticLambda6
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         PhotoFilterView.this.lambda$new$6(view);
@@ -567,7 +572,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
             }
             frameLayout4.addView(textView4, LayoutHelper.createFrame(-2, -2.0f, 49, 0.0f, 38.0f, 0.0f, 0.0f));
             linearLayout2.addView(frameLayout4, LayoutHelper.createLinear(-2, -2, i18 != 0 ? 0.0f : 30.0f, 0.0f, 0.0f, 0.0f));
-            frameLayout4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoFilterView$$ExternalSyntheticLambda2
+            frameLayout4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoFilterView$$ExternalSyntheticLambda6
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     PhotoFilterView.this.lambda$new$6(view);
@@ -586,7 +591,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         this.blurOffButton.setGravity(1);
         this.blurOffButton.setText(LocaleController.getString("BlurOff", R.string.BlurOff));
         this.blurLayout.addView(this.blurOffButton, LayoutHelper.createFrame(80, 60.0f));
-        this.blurOffButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoFilterView$$ExternalSyntheticLambda1
+        this.blurOffButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoFilterView$$ExternalSyntheticLambda7
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 PhotoFilterView.this.lambda$new$7(view);
@@ -599,7 +604,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         this.blurRadialButton.setGravity(1);
         this.blurRadialButton.setText(LocaleController.getString("BlurRadial", R.string.BlurRadial));
         this.blurLayout.addView(this.blurRadialButton, LayoutHelper.createFrame(80, 80.0f, 51, 100.0f, 0.0f, 0.0f, 0.0f));
-        this.blurRadialButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoFilterView$$ExternalSyntheticLambda6
+        this.blurRadialButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoFilterView$$ExternalSyntheticLambda8
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 PhotoFilterView.this.lambda$new$8(view);
@@ -612,7 +617,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         this.blurLinearButton.setGravity(1);
         this.blurLinearButton.setText(LocaleController.getString("BlurLinear", R.string.BlurLinear));
         this.blurLayout.addView(this.blurLinearButton, LayoutHelper.createFrame(80, 80.0f, 51, 200.0f, 0.0f, 0.0f, 0.0f));
-        this.blurLinearButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoFilterView$$ExternalSyntheticLambda5
+        this.blurLinearButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoFilterView$$ExternalSyntheticLambda9
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 PhotoFilterView.this.lambda$new$9(view);
@@ -1337,7 +1342,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
             PhotoEditRadioCell photoEditRadioCell;
             if (i == 0) {
                 PhotoEditToolCell photoEditToolCell = new PhotoEditToolCell(this.mContext, PhotoFilterView.this.resourcesProvider);
-                photoEditToolCell.setSeekBarDelegate(new PhotoEditorSeekBar.PhotoEditorSeekBarDelegate() { // from class: org.telegram.ui.Components.PhotoFilterView$ToolsAdapter$$ExternalSyntheticLambda1
+                photoEditToolCell.setSeekBarDelegate(new PhotoEditorSeekBar.PhotoEditorSeekBarDelegate() { // from class: org.telegram.ui.Components.PhotoFilterView$ToolsAdapter$$ExternalSyntheticLambda0
                     @Override // org.telegram.ui.Components.PhotoEditorSeekBar.PhotoEditorSeekBarDelegate
                     public final void onProgressChanged(int i2, int i3) {
                         PhotoFilterView.ToolsAdapter.this.lambda$onCreateViewHolder$0(i2, i3);
@@ -1346,7 +1351,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
                 photoEditRadioCell = photoEditToolCell;
             } else {
                 PhotoEditRadioCell photoEditRadioCell2 = new PhotoEditRadioCell(this.mContext);
-                photoEditRadioCell2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoFilterView$ToolsAdapter$$ExternalSyntheticLambda0
+                photoEditRadioCell2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoFilterView$ToolsAdapter$$ExternalSyntheticLambda1
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         PhotoFilterView.ToolsAdapter.this.lambda$onCreateViewHolder$1(view);

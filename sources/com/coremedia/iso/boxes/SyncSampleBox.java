@@ -10,6 +10,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.runtime.reflect.Factory;
 /* loaded from: classes.dex */
 public class SyncSampleBox extends AbstractFullBox {
+    private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_0 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_1 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_2 = null;
     private long[] sampleNumber;
@@ -20,7 +21,7 @@ public class SyncSampleBox extends AbstractFullBox {
 
     private static /* synthetic */ void ajc$preClinit() {
         Factory factory = new Factory("SyncSampleBox.java", SyncSampleBox.class);
-        factory.makeSJP("method-execution", factory.makeMethodSig("1", "getSampleNumber", "com.coremedia.iso.boxes.SyncSampleBox", "", "", "", "[J"), 46);
+        ajc$tjp_0 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "getSampleNumber", "com.coremedia.iso.boxes.SyncSampleBox", "", "", "", "[J"), 46);
         ajc$tjp_1 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "toString", "com.coremedia.iso.boxes.SyncSampleBox", "", "", "", "java.lang.String"), 77);
         ajc$tjp_2 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setSampleNumber", "com.coremedia.iso.boxes.SyncSampleBox", "[J", "sampleNumber", "", "void"), 81);
     }

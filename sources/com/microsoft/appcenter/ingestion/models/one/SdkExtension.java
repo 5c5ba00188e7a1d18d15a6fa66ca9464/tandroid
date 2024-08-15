@@ -67,7 +67,7 @@ public class SdkExtension implements Model {
         if (this == obj) {
             return true;
         }
-        if (obj == null || SdkExtension.class != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         SdkExtension sdkExtension = (SdkExtension) obj;

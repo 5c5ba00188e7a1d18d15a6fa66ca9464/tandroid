@@ -209,9 +209,7 @@ public class AnimatedStateListDrawableCompat extends StateListDrawableCompat imp
             int i2 = z ? 0 : numberOfFrames - 1;
             FrameInterpolator frameInterpolator = new FrameInterpolator(animationDrawable, z);
             ObjectAnimator ofInt = ObjectAnimator.ofInt(animationDrawable, "currentIndex", i, i2);
-            if (Build.VERSION.SDK_INT >= 18) {
-                Compatibility$Api18Impl.setAutoCancel(ofInt, true);
-            }
+            Compatibility$Api18Impl.setAutoCancel(ofInt, true);
             ofInt.setDuration(frameInterpolator.getTotalDuration());
             ofInt.setInterpolator(frameInterpolator);
             this.mHasReversibleFlag = z2;
@@ -499,8 +497,12 @@ public class AnimatedStateListDrawableCompat extends StateListDrawableCompat imp
             int i2 = this.mFrames;
             int[] iArr = this.mFrameTimes;
             int i3 = 0;
-            while (i3 < i2 && i >= iArr[i3]) {
-                i -= iArr[i3];
+            while (i3 < i2) {
+                int i4 = iArr[i3];
+                if (i < i4) {
+                    break;
+                }
+                i -= i4;
                 i3++;
             }
             return (i3 / i2) + (i3 < i2 ? i / this.mTotalDuration : 0.0f);

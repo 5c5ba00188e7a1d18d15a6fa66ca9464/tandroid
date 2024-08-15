@@ -16,6 +16,7 @@ import org.telegram.ui.Components.RLottieImageView;
 /* loaded from: classes4.dex */
 public class DatabaseMigrationHint extends FrameLayout {
     LinearLayout container;
+    private final int currentAccount;
     TextView description1;
     TextView description2;
     RLottieImageView stickerView;
@@ -23,6 +24,7 @@ public class DatabaseMigrationHint extends FrameLayout {
 
     public DatabaseMigrationHint(Context context, int i) {
         super(context);
+        this.currentAccount = i;
         LinearLayout linearLayout = new LinearLayout(context);
         this.container = linearLayout;
         linearLayout.setOrientation(1);
@@ -58,7 +60,7 @@ public class DatabaseMigrationHint extends FrameLayout {
         this.container.addView(this.description2, LayoutHelper.createLinear(-1, -2, 0.0f, 0, 36, 24, 36, 0));
         addView(this.container, LayoutHelper.createFrame(-1, -2, 16));
         setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-        setOnTouchListener(new View.OnTouchListener(this) { // from class: org.telegram.ui.DatabaseMigrationHint.1
+        setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.DatabaseMigrationHint.1
             @Override // android.view.View.OnTouchListener
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 return true;

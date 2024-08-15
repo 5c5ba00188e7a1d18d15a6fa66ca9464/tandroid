@@ -40,14 +40,14 @@ public final class VoIPPendingCall {
     }
 
     private VoIPPendingCall(Activity activity, long j, boolean z, long j2, AccountInstance accountInstance) {
-        NotificationCenter.NotificationCenterDelegate notificationCenterDelegate = new NotificationCenter.NotificationCenterDelegate() { // from class: org.telegram.messenger.voip.VoIPPendingCall$$ExternalSyntheticLambda1
+        NotificationCenter.NotificationCenterDelegate notificationCenterDelegate = new NotificationCenter.NotificationCenterDelegate() { // from class: org.telegram.messenger.voip.VoIPPendingCall$$ExternalSyntheticLambda0
             @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
             public final void didReceivedNotification(int i, int i2, Object[] objArr) {
                 VoIPPendingCall.this.lambda$new$0(i, i2, objArr);
             }
         };
         this.observer = notificationCenterDelegate;
-        Runnable runnable = new Runnable() { // from class: org.telegram.messenger.voip.VoIPPendingCall$$ExternalSyntheticLambda0
+        Runnable runnable = new Runnable() { // from class: org.telegram.messenger.voip.VoIPPendingCall$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 VoIPPendingCall.this.lambda$new$1();

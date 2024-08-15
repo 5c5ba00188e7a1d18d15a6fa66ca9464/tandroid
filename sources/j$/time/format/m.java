@@ -8,12 +8,12 @@ public enum m implements h {
     LENIENT;
 
     @Override // j$.time.format.h
-    public boolean a(t tVar, StringBuilder sb) {
+    public final boolean a(t tVar, StringBuilder sb) {
         return true;
     }
 
     @Override // java.lang.Enum
-    public String toString() {
+    public final String toString() {
         int ordinal = ordinal();
         if (ordinal != 0) {
             if (ordinal != 1) {

@@ -56,6 +56,7 @@ import org.webrtc.TextureViewRenderer;
 @SuppressLint({"ViewConstructor"})
 /* loaded from: classes3.dex */
 public class GroupCallRenderersContainer extends FrameLayout {
+    private boolean animateSpeakingOnNextDraw;
     private LongSparseIntArray attachedPeerIds;
     private final ArrayList<GroupCallMiniTextureView> attachedRenderers;
     private final ImageView backButton;
@@ -147,6 +148,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
         this.attachedPeerIds = new LongSparseIntArray();
         this.notificationsLocker = new AnimationNotificationsLocker();
         this.speakingMembersToastChangeProgress = 1.0f;
+        this.animateSpeakingOnNextDraw = true;
         this.uiVisible = true;
         this.hideUiRunnable = new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer.1
             @Override // java.lang.Runnable
@@ -167,7 +169,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
         this.attachedRenderers = arrayList;
         this.call = call;
         this.groupCallActivity = groupCallActivity;
-        ImageView imageView = new ImageView(this, context) { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer.2
+        ImageView imageView = new ImageView(context) { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer.2
             @Override // android.widget.ImageView, android.view.View
             protected void onMeasure(int i, int i2) {
                 super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(ActionBar.getCurrentActionBarHeight(), 1073741824));
@@ -194,7 +196,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
         view2.setVisibility((call == null || !isRtmpStream()) ? 8 : 0);
         addView(view2, LayoutHelper.createFrame(160, -1, 5));
         addView(imageView, LayoutHelper.createFrame(56, -1, 51));
-        imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda5
+        imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda8
             @Override // android.view.View.OnClickListener
             public final void onClick(View view3) {
                 GroupCallRenderersContainer.this.lambda$new$0(view3);
@@ -243,7 +245,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
             }
         };
         this.pinContainer = view3;
-        view3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda4
+        view3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda9
             @Override // android.view.View.OnClickListener
             public final void onClick(View view4) {
                 GroupCallRenderersContainer.this.lambda$new$1(view4);
@@ -280,7 +282,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
         int dp = AndroidUtilities.dp(4.0f);
         this.pipView.setPadding(dp, dp, dp, dp);
         this.pipView.setBackground(Theme.createSelectorDrawable(ColorUtils.setAlphaComponent(-1, 55)));
-        this.pipView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda6
+        this.pipView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda10
             @Override // android.view.View.OnClickListener
             public final void onClick(View view4) {
                 GroupCallRenderersContainer.this.lambda$new$2(groupCallActivity, view4);
@@ -845,7 +847,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
                             groupCallMiniTextureView3.setScaleY(0.5f);
                             groupCallMiniTextureView3.animateEnter = true;
                         }
-                        groupCallMiniTextureView8.runOnFrameRendered(new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda9
+                        groupCallMiniTextureView8.runOnFrameRendered(new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda4
                             @Override // java.lang.Runnable
                             public final void run() {
                                 GroupCallRenderersContainer.this.lambda$requestFullscreen$3(groupCallMiniTextureView, groupCallMiniTextureView3);
@@ -870,7 +872,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
                             this.outFullscreenTextureView = this.fullscreenTextureView;
                             ValueAnimator ofFloat2 = ValueAnimator.ofFloat(0.0f, 1.0f);
                             this.replaceFullscreenViewAnimator = ofFloat2;
-                            ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda3
+                            ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda6
                                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                                 public final void onAnimationUpdate(ValueAnimator valueAnimator4) {
                                     GroupCallRenderersContainer.this.lambda$requestFullscreen$5(groupCallMiniTextureView10, valueAnimator4);
@@ -922,7 +924,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
                     groupCallMiniTextureView11.setScaleX(0.5f);
                     groupCallMiniTextureView11.setScaleY(0.5f);
                     groupCallMiniTextureView11.animateEnter = true;
-                    groupCallMiniTextureView11.runOnFrameRendered(new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda8
+                    groupCallMiniTextureView11.runOnFrameRendered(new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda5
                         @Override // java.lang.Runnable
                         public final void run() {
                             GroupCallRenderersContainer.this.lambda$requestFullscreen$4(groupCallMiniTextureView11);
@@ -937,7 +939,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
                     this.outFullscreenTextureView = this.fullscreenTextureView;
                     ValueAnimator ofFloat22 = ValueAnimator.ofFloat(0.0f, 1.0f);
                     this.replaceFullscreenViewAnimator = ofFloat22;
-                    ofFloat22.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda3
+                    ofFloat22.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda6
                         @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                         public final void onAnimationUpdate(ValueAnimator valueAnimator4) {
                             GroupCallRenderersContainer.this.lambda$requestFullscreen$5(groupCallMiniTextureView102, valueAnimator4);
@@ -1018,7 +1020,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
                 fArr[1] = this.inFullscreenMode ? 1.0f : 0.0f;
                 ValueAnimator ofFloat4 = ValueAnimator.ofFloat(fArr);
                 this.fullscreenAnimator = ofFloat4;
-                ofFloat4.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda0
+                ofFloat4.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda7
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator4) {
                         GroupCallRenderersContainer.this.lambda$requestFullscreen$6(valueAnimator4);
@@ -1080,7 +1082,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
             }
         }).setDuration(100L).start();
         if (groupCallMiniTextureView2 != null) {
-            groupCallMiniTextureView2.animate().alpha(1.0f).scaleX(1.0f).scaleY(1.0f).setDuration(100L).setListener(new AnimatorListenerAdapter(this) { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer.10
+            groupCallMiniTextureView2.animate().alpha(1.0f).scaleX(1.0f).scaleY(1.0f).setDuration(100L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer.10
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     groupCallMiniTextureView2.animateEnter = false;
@@ -1091,7 +1093,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$requestFullscreen$4(final GroupCallMiniTextureView groupCallMiniTextureView) {
-        groupCallMiniTextureView.animate().alpha(1.0f).scaleY(1.0f).scaleX(1.0f).setListener(new AnimatorListenerAdapter(this) { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer.11
+        groupCallMiniTextureView.animate().alpha(1.0f).scaleY(1.0f).scaleX(1.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer.11
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 groupCallMiniTextureView.animateEnter = false;
@@ -1359,7 +1361,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
                 ofFloat = ValueAnimator.ofFloat(fArr);
             }
             this.swipeToBackAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda1
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda3
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     GroupCallRenderersContainer.this.lambda$animateSwipeToBack$7(valueAnimator);
@@ -1405,7 +1407,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
             final float f = this.pinchScale;
             final float f2 = this.pinchTranslationX;
             final float f3 = this.pinchTranslationY;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda2
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda1
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     GroupCallRenderersContainer.this.lambda$finishZoom$8(f, f2, f3, valueAnimator);
@@ -1531,7 +1533,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
         long j = 500;
         if (System.currentTimeMillis() - this.lastUpdateTooltipTime < 500) {
             if (this.updateTooltipRunnbale == null) {
-                Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda7
+                Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
                         GroupCallRenderersContainer.this.lambda$setVisibleParticipant$9();

@@ -35,7 +35,7 @@ public class Matrix {
         if (this == obj) {
             return true;
         }
-        if (obj == null || Matrix.class != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         Matrix matrix = (Matrix) obj;

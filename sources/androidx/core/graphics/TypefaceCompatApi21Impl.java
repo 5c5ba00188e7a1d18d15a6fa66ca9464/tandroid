@@ -8,6 +8,7 @@ import android.os.ParcelFileDescriptor;
 import android.system.ErrnoException;
 import android.system.Os;
 import android.system.OsConstants;
+import android.system.StructStat;
 import android.util.Log;
 import androidx.core.content.res.FontResourcesParserCompat;
 import androidx.core.provider.FontsContractCompat;
@@ -27,24 +28,24 @@ class TypefaceCompatApi21Impl extends TypefaceCompatBaseImpl {
     private static boolean sHasInitBeenCalled = false;
 
     private static void init() {
-        Method method;
         Class<?> cls;
+        Method method;
+        Constructor<?> constructor;
         Method method2;
         if (sHasInitBeenCalled) {
             return;
         }
         sHasInitBeenCalled = true;
-        Constructor<?> constructor = null;
         try {
             cls = Class.forName("android.graphics.FontFamily");
-            Constructor<?> constructor2 = cls.getConstructor(new Class[0]);
+            constructor = cls.getConstructor(new Class[0]);
             method2 = cls.getMethod("addFontWeightStyle", String.class, Integer.TYPE, Boolean.TYPE);
             method = Typeface.class.getMethod("createFromFamiliesWithDefault", Array.newInstance(cls, 1).getClass());
-            constructor = constructor2;
         } catch (ClassNotFoundException | NoSuchMethodException e) {
             Log.e("TypefaceCompatApi21Impl", e.getClass().getName(), e);
-            method = null;
             cls = null;
+            method = null;
+            constructor = null;
             method2 = null;
         }
         sFontFamilyCtor = constructor;
@@ -54,9 +55,16 @@ class TypefaceCompatApi21Impl extends TypefaceCompatBaseImpl {
     }
 
     private File getFile(ParcelFileDescriptor parcelFileDescriptor) {
+        String readlink;
+        StructStat stat;
+        int i;
+        boolean S_ISREG;
         try {
-            String readlink = Os.readlink("/proc/self/fd/" + parcelFileDescriptor.getFd());
-            if (OsConstants.S_ISREG(Os.stat(readlink).st_mode)) {
+            readlink = Os.readlink("/proc/self/fd/" + parcelFileDescriptor.getFd());
+            stat = Os.stat(readlink);
+            i = stat.st_mode;
+            S_ISREG = OsConstants.S_ISREG(i);
+            if (S_ISREG) {
                 return new File(readlink);
             }
         } catch (ErrnoException unused) {

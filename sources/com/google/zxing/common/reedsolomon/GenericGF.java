@@ -4,7 +4,10 @@ import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public final class GenericGF {
     public static final GenericGF AZTEC_DATA_6;
+    public static final GenericGF AZTEC_DATA_8;
+    public static final GenericGF AZTEC_PARAM;
     public static final GenericGF DATA_MATRIX_FIELD_256;
+    public static final GenericGF MAXICODE_FIELD_64;
     public static final GenericGF QR_CODE_FIELD_256;
     private final int[] expTable;
     private final int generatorBase;
@@ -13,6 +16,8 @@ public final class GenericGF {
     private final int primitive;
     private final int size;
     private final GenericGFPoly zero;
+    public static final GenericGF AZTEC_DATA_12 = new GenericGF(4201, LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM, 1);
+    public static final GenericGF AZTEC_DATA_10 = new GenericGF(1033, 1024, 1);
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int addOrSubtract(int i, int i2) {
@@ -20,12 +25,14 @@ public final class GenericGF {
     }
 
     static {
-        new GenericGF(4201, LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM, 1);
-        new GenericGF(1033, 1024, 1);
-        AZTEC_DATA_6 = new GenericGF(67, 64, 1);
-        new GenericGF(19, 16, 1);
+        GenericGF genericGF = new GenericGF(67, 64, 1);
+        AZTEC_DATA_6 = genericGF;
+        AZTEC_PARAM = new GenericGF(19, 16, 1);
         QR_CODE_FIELD_256 = new GenericGF(285, LiteMode.FLAG_CHAT_BLUR, 0);
-        DATA_MATRIX_FIELD_256 = new GenericGF(301, LiteMode.FLAG_CHAT_BLUR, 1);
+        GenericGF genericGF2 = new GenericGF(301, LiteMode.FLAG_CHAT_BLUR, 1);
+        DATA_MATRIX_FIELD_256 = genericGF2;
+        AZTEC_DATA_8 = genericGF2;
+        MAXICODE_FIELD_64 = genericGF;
     }
 
     public GenericGF(int i, int i2, int i3) {

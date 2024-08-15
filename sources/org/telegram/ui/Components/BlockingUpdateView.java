@@ -103,7 +103,7 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
         this.textView.setGravity(49);
         this.textView.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
         frameLayout2.addView(this.textView, LayoutHelper.createFrame(-2, -2.0f, 51, 0.0f, 44.0f, 0.0f, 0.0f));
-        FrameLayout frameLayout3 = new FrameLayout(this, context) { // from class: org.telegram.ui.Components.BlockingUpdateView.1
+        FrameLayout frameLayout3 = new FrameLayout(context) { // from class: org.telegram.ui.Components.BlockingUpdateView.1
             CellFlickerDrawable cellFlickerDrawable;
 
             @Override // android.view.View
@@ -319,7 +319,7 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
             if (tLRPC$TL_help_getAppUpdate.source == null) {
                 tLRPC$TL_help_getAppUpdate.source = "";
             }
-            ConnectionsManager.getInstance(this.accountNum).sendRequest(tLRPC$TL_help_getAppUpdate, new RequestDelegate() { // from class: org.telegram.ui.Components.BlockingUpdateView$$ExternalSyntheticLambda3
+            ConnectionsManager.getInstance(this.accountNum).sendRequest(tLRPC$TL_help_getAppUpdate, new RequestDelegate() { // from class: org.telegram.ui.Components.BlockingUpdateView$$ExternalSyntheticLambda2
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     BlockingUpdateView.this.lambda$show$3(tLObject, tLRPC$TL_error);
@@ -330,7 +330,7 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$show$3(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.BlockingUpdateView$$ExternalSyntheticLambda2
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.BlockingUpdateView$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 BlockingUpdateView.this.lambda$show$2(tLObject);

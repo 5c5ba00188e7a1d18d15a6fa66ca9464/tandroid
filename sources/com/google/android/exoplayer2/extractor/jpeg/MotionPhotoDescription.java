@@ -12,9 +12,11 @@ final class MotionPhotoDescription {
         public final long length;
         public final String mime;
         public final long padding;
+        public final String semantic;
 
         public ContainerItem(String str, String str2, long j, long j2) {
             this.mime = str;
+            this.semantic = str2;
             this.length = j;
             this.padding = j2;
         }
@@ -40,23 +42,23 @@ final class MotionPhotoDescription {
             ContainerItem containerItem = this.items.get(size);
             boolean equals = "video/mp4".equals(containerItem.mime) | z;
             if (size == 0) {
-                j2 = j3 - containerItem.padding;
-                j3 = 0;
+                j3 -= containerItem.padding;
+                j2 = 0;
             } else {
-                long j8 = j3;
-                j3 -= containerItem.length;
-                j2 = j8;
+                j2 = j3 - containerItem.length;
             }
-            if (!equals || j3 == j2) {
+            long j8 = j3;
+            j3 = j2;
+            if (!equals || j3 == j8) {
                 z = equals;
             } else {
-                j7 = j2 - j3;
+                j7 = j8 - j3;
                 j6 = j3;
                 z = false;
             }
             if (size == 0) {
                 j4 = j3;
-                j5 = j2;
+                j5 = j8;
             }
         }
         if (j6 == -1 || j7 == -1 || j4 == -1 || j5 == -1) {

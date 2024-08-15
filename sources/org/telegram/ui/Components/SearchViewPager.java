@@ -416,7 +416,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
         this.botsSearchContainer.addView(this.botsSearchListView);
         this.botsSearchListView.setEmptyView(this.botsEmptyView);
         RecyclerListView recyclerListView5 = this.botsSearchListView;
-        DialogsBotsAdapter dialogsBotsAdapter = new DialogsBotsAdapter(recyclerListView5, context, this.currentAccount, i3, false, null, dialogsActivity) { // from class: org.telegram.ui.Components.SearchViewPager.12
+        DialogsBotsAdapter dialogsBotsAdapter = new DialogsBotsAdapter(recyclerListView5, context, this.currentAccount, i3, false, null) { // from class: org.telegram.ui.Components.SearchViewPager.12
             @Override // org.telegram.ui.Components.UniversalAdapter
             public void update(boolean z) {
                 ArrayList<MessageObject> arrayList2;
@@ -610,7 +610,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             int i = Theme.key_actionBarActionModeDefaultIcon;
             numberTextView2.setTextColor(Theme.getColor(i));
             this.actionMode.addView(this.selectedMessagesCountTextView, LayoutHelper.createLinear(0, -1, 1.0f, 72, 0, 0, 0));
-            this.selectedMessagesCountTextView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.SearchViewPager$$ExternalSyntheticLambda2
+            this.selectedMessagesCountTextView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.SearchViewPager$$ExternalSyntheticLambda3
                 @Override // android.view.View.OnTouchListener
                 public final boolean onTouch(View view, MotionEvent motionEvent) {
                     boolean lambda$showActionMode$0;
@@ -693,13 +693,13 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
             spannableStringBuilder.append((CharSequence) AndroidUtilities.replaceTags(LocaleController.formatPluralString("RemoveDocumentsMessage", this.selectedFiles.size(), new Object[0]))).append((CharSequence) "\n\n").append((CharSequence) LocaleController.getString("RemoveDocumentsAlertMessage", R.string.RemoveDocumentsAlertMessage));
             builder.setMessage(spannableStringBuilder);
-            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.SearchViewPager$$ExternalSyntheticLambda1
+            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.SearchViewPager$$ExternalSyntheticLambda5
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i2) {
                     dialogInterface.dismiss();
                 }
             });
-            builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.SearchViewPager$$ExternalSyntheticLambda0
+            builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.SearchViewPager$$ExternalSyntheticLambda6
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i2) {
                     SearchViewPager.this.lambda$onActionBarItemClick$2(arrayList, dialogInterface, i2);
@@ -723,7 +723,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             bundle.putBoolean("onlySelect", true);
             bundle.putInt("dialogsType", 3);
             DialogsActivity dialogsActivity = new DialogsActivity(bundle);
-            dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.Components.SearchViewPager$$ExternalSyntheticLambda4
+            dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.Components.SearchViewPager$$ExternalSyntheticLambda7
                 @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
                 public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList2, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
                     boolean lambda$onActionBarItemClick$3;
@@ -941,7 +941,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
         }
         arrayList.add(new ThemeDescription(this.emptyView.title, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, Theme.key_windowBackgroundWhiteBlackText));
         arrayList.add(new ThemeDescription(this.emptyView.subtitle, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, Theme.key_windowBackgroundWhiteGrayText));
-        arrayList.addAll(SimpleThemeDescription.createThemeDescriptions(new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.Components.SearchViewPager$$ExternalSyntheticLambda3
+        arrayList.addAll(SimpleThemeDescription.createThemeDescriptions(new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.Components.SearchViewPager$$ExternalSyntheticLambda4
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 SearchViewPager.this.lambda$getThemeDescriptions$4();
@@ -1077,10 +1077,10 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
         if (this.selectedFiles.isEmpty()) {
             return;
         }
-        ArrayList arrayList2 = null;
-        ArrayList arrayList3 = new ArrayList(this.selectedFiles.keySet());
-        for (int i4 = 0; i4 < arrayList3.size(); i4++) {
-            FilteredSearchView.MessageHashId messageHashId = (FilteredSearchView.MessageHashId) arrayList3.get(i4);
+        ArrayList arrayList2 = new ArrayList(this.selectedFiles.keySet());
+        ArrayList arrayList3 = null;
+        for (int i4 = 0; i4 < arrayList2.size(); i4++) {
+            FilteredSearchView.MessageHashId messageHashId = (FilteredSearchView.MessageHashId) arrayList2.get(i4);
             MessageObject messageObject = this.selectedFiles.get(messageHashId);
             if (messageObject != null) {
                 long dialogId = messageObject.getDialogId();
@@ -1091,17 +1091,17 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
                 if (i == j) {
                     for (int i5 = 0; i5 < arrayList.size(); i5++) {
                         if (messageObject.getId() == arrayList.get(i5).intValue()) {
-                            arrayList2 = new ArrayList();
-                            arrayList2.add(messageHashId);
+                            arrayList3 = new ArrayList();
+                            arrayList3.add(messageHashId);
                         }
                     }
                 }
             }
         }
-        if (arrayList2 != null) {
-            int size2 = arrayList2.size();
+        if (arrayList3 != null) {
+            int size2 = arrayList3.size();
             for (int i6 = 0; i6 < size2; i6++) {
-                this.selectedFiles.remove(arrayList2.get(i6));
+                this.selectedFiles.remove(arrayList3.get(i6));
             }
             this.selectedMessagesCountTextView.setNumber(this.selectedFiles.size(), true);
             ActionBarMenuItem actionBarMenuItem = this.gotoItem;
@@ -1314,7 +1314,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             int filterIndex;
             private final int type;
 
-            private Item(ViewPagerAdapter viewPagerAdapter, int i) {
+            private Item(int i) {
                 this.type = i;
             }
         }

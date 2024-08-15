@@ -52,7 +52,7 @@ public class VoIPNotificationsLayout extends LinearLayout {
         this.backgroundProvider = voIPBackgroundProvider;
         TransitionSet transitionSet = new TransitionSet();
         this.transitionSet = transitionSet;
-        transitionSet.addTransition(new Fade(2).setDuration(150L)).addTransition(new ChangeBounds().setDuration(200L)).addTransition(new Visibility(this) { // from class: org.telegram.ui.Components.voip.VoIPNotificationsLayout.1
+        transitionSet.addTransition(new Fade(2).setDuration(150L)).addTransition(new ChangeBounds().setDuration(200L)).addTransition(new Visibility() { // from class: org.telegram.ui.Components.voip.VoIPNotificationsLayout.1
             @Override // android.transition.Visibility
             public Animator onAppear(ViewGroup viewGroup, View view, TransitionValues transitionValues, TransitionValues transitionValues2) {
                 AnimatorSet animatorSet = new AnimatorSet();

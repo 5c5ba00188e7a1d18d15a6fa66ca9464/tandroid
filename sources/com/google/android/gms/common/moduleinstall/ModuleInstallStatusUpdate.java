@@ -14,12 +14,18 @@ public class ModuleInstallStatusUpdate extends AbstractSafeParcelable {
     private final Long zac;
     private final Long zad;
     private final int zae;
+    private final ProgressInfo zaf;
 
     /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
     /* loaded from: classes.dex */
     public static class ProgressInfo {
+        private final long zaa;
+        private final long zab;
+
         ProgressInfo(long j, long j2) {
             Preconditions.checkNotZero(j2);
+            this.zaa = j;
+            this.zab = j2;
         }
     }
 
@@ -29,10 +35,7 @@ public class ModuleInstallStatusUpdate extends AbstractSafeParcelable {
         this.zac = l;
         this.zad = l2;
         this.zae = i3;
-        if (l == null || l2 == null || l2.longValue() == 0) {
-            return;
-        }
-        new ProgressInfo(l.longValue(), l2.longValue());
+        this.zaf = (l == null || l2 == null || l2.longValue() == 0) ? null : new ProgressInfo(l.longValue(), l2.longValue());
     }
 
     public int getErrorCode() {

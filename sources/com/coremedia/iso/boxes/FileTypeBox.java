@@ -15,7 +15,11 @@ import org.telegram.messenger.R;
 /* loaded from: classes.dex */
 public class FileTypeBox extends AbstractBox {
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_0 = null;
+    private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_1 = null;
+    private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_2 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_3 = null;
+    private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_4 = null;
+    private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_5 = null;
     private List<String> compatibleBrands;
     private String majorBrand;
     private long minorVersion;
@@ -27,11 +31,11 @@ public class FileTypeBox extends AbstractBox {
     private static /* synthetic */ void ajc$preClinit() {
         Factory factory = new Factory("FileTypeBox.java", FileTypeBox.class);
         ajc$tjp_0 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "getMajorBrand", "com.coremedia.iso.boxes.FileTypeBox", "", "", "", "java.lang.String"), 85);
-        factory.makeSJP("method-execution", factory.makeMethodSig("1", "setMajorBrand", "com.coremedia.iso.boxes.FileTypeBox", "java.lang.String", "majorBrand", "", "void"), 94);
-        factory.makeSJP("method-execution", factory.makeMethodSig("1", "setMinorVersion", "com.coremedia.iso.boxes.FileTypeBox", "long", "minorVersion", "", "void"), R.styleable.AppCompatTheme_textAppearanceListItem);
+        ajc$tjp_1 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setMajorBrand", "com.coremedia.iso.boxes.FileTypeBox", "java.lang.String", "majorBrand", "", "void"), 94);
+        ajc$tjp_2 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setMinorVersion", "com.coremedia.iso.boxes.FileTypeBox", "long", "minorVersion", "", "void"), R.styleable.AppCompatTheme_textAppearanceListItem);
         ajc$tjp_3 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "getMinorVersion", "com.coremedia.iso.boxes.FileTypeBox", "", "", "", "long"), R.styleable.AppCompatTheme_toolbarStyle);
-        factory.makeSJP("method-execution", factory.makeMethodSig("1", "getCompatibleBrands", "com.coremedia.iso.boxes.FileTypeBox", "", "", "", "java.util.List"), 122);
-        factory.makeSJP("method-execution", factory.makeMethodSig("1", "setCompatibleBrands", "com.coremedia.iso.boxes.FileTypeBox", "java.util.List", "compatibleBrands", "", "void"), 126);
+        ajc$tjp_4 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "getCompatibleBrands", "com.coremedia.iso.boxes.FileTypeBox", "", "", "", "java.util.List"), 122);
+        ajc$tjp_5 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setCompatibleBrands", "com.coremedia.iso.boxes.FileTypeBox", "java.util.List", "compatibleBrands", "", "void"), 126);
     }
 
     public FileTypeBox() {
@@ -41,7 +45,7 @@ public class FileTypeBox extends AbstractBox {
 
     public FileTypeBox(String str, long j, List<String> list) {
         super("ftyp");
-        this.compatibleBrands = Collections.emptyList();
+        Collections.emptyList();
         this.majorBrand = str;
         this.minorVersion = j;
         this.compatibleBrands = list;

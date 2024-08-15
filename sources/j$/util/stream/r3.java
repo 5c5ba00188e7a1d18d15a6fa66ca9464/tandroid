@@ -1,41 +1,81 @@
 package j$.util.stream;
 /* loaded from: classes2.dex */
-class r3 extends g3 {
-    long b;
-    long c;
-    final /* synthetic */ s3 d;
+abstract class r3 {
+    final long a;
+    final long b;
+    j$.util.Q c;
+    long d;
+    long e;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public r3(s3 s3Var, m3 m3Var) {
-        super(m3Var);
-        this.d = s3Var;
-        this.b = s3Var.l;
-        long j = s3Var.m;
-        this.c = j < 0 ? Long.MAX_VALUE : j;
+    public r3(j$.util.Q q, long j, long j2, long j3, long j4) {
+        this.c = q;
+        this.a = j;
+        this.b = j2;
+        this.d = j3;
+        this.e = j4;
     }
 
-    @Override // j$.util.stream.k3, j$.util.stream.m3
-    public void accept(int i) {
-        long j = this.b;
-        if (j != 0) {
-            this.b = j - 1;
-            return;
+    public final int characteristics() {
+        return this.c.characteristics();
+    }
+
+    public final long estimateSize() {
+        long j = this.e;
+        long j2 = this.a;
+        if (j2 < j) {
+            return j - Math.max(j2, this.d);
         }
-        long j2 = this.c;
-        if (j2 > 0) {
-            this.c = j2 - 1;
-            this.a.accept(i);
+        return 0L;
+    }
+
+    protected abstract j$.util.Q f(j$.util.Q q, long j, long j2, long j3, long j4);
+
+    public /* bridge */ /* synthetic */ j$.util.E trySplit() {
+        return (j$.util.E) trySplit();
+    }
+
+    public /* bridge */ /* synthetic */ j$.util.H trySplit() {
+        return (j$.util.H) trySplit();
+    }
+
+    public /* bridge */ /* synthetic */ j$.util.K trySplit() {
+        return (j$.util.K) trySplit();
+    }
+
+    public /* bridge */ /* synthetic */ j$.util.N trySplit() {
+        return (j$.util.N) trySplit();
+    }
+
+    public final j$.util.Q trySplit() {
+        long j = this.e;
+        if (this.a >= j || this.d >= j) {
+            return null;
         }
-    }
-
-    @Override // j$.util.stream.m3
-    public void n(long j) {
-        this.a.n(B3.c(j, this.d.l, this.c));
-    }
-
-    @Override // j$.util.stream.g3, j$.util.stream.m3
-    public boolean o() {
-        return this.c == 0 || this.a.o();
+        while (true) {
+            j$.util.Q trySplit = this.c.trySplit();
+            if (trySplit == null) {
+                return null;
+            }
+            long estimateSize = trySplit.estimateSize() + this.d;
+            long min = Math.min(estimateSize, this.b);
+            long j2 = this.a;
+            if (j2 >= min) {
+                this.d = min;
+            } else {
+                long j3 = this.b;
+                if (min < j3) {
+                    long j4 = this.d;
+                    if (j4 < j2 || estimateSize > j3) {
+                        this.d = min;
+                        return f(trySplit, j2, j3, j4, min);
+                    }
+                    this.d = min;
+                    return trySplit;
+                }
+                this.c = trySplit;
+                this.e = min;
+            }
+        }
     }
 }

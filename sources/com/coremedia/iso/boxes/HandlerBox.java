@@ -9,6 +9,7 @@ import com.googlecode.mp4parser.RequiresParseDetailAspect;
 import java.nio.ByteBuffer;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.runtime.reflect.Factory;
 /* loaded from: classes.dex */
@@ -17,7 +18,9 @@ public class HandlerBox extends AbstractFullBox {
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_1 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_2 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_3 = null;
+    private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_4 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_5 = null;
+    public static final Map<String, String> readableTypes;
     private long a;
     private long b;
     private long c;
@@ -32,7 +35,7 @@ public class HandlerBox extends AbstractFullBox {
         ajc$tjp_1 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setName", "com.coremedia.iso.boxes.HandlerBox", "java.lang.String", "name", "", "void"), 87);
         ajc$tjp_2 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setHandlerType", "com.coremedia.iso.boxes.HandlerBox", "java.lang.String", "handlerType", "", "void"), 91);
         ajc$tjp_3 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "getName", "com.coremedia.iso.boxes.HandlerBox", "", "", "", "java.lang.String"), 95);
-        factory.makeSJP("method-execution", factory.makeMethodSig("1", "getHumanReadableTrackType", "com.coremedia.iso.boxes.HandlerBox", "", "", "", "java.lang.String"), 99);
+        ajc$tjp_4 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "getHumanReadableTrackType", "com.coremedia.iso.boxes.HandlerBox", "", "", "", "java.lang.String"), 99);
         ajc$tjp_5 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "toString", "com.coremedia.iso.boxes.HandlerBox", "", "", "", "java.lang.String"), 149);
     }
 
@@ -54,7 +57,7 @@ public class HandlerBox extends AbstractFullBox {
         hashMap.put("hint", "Hint Track");
         hashMap.put("appl", "Apple specific");
         hashMap.put("meta", "Timed Metadata track - defined in ISO/IEC JTC1/SC29/WG11 - CODING OF MOVING PICTURES AND AUDIO");
-        Collections.unmodifiableMap(hashMap);
+        readableTypes = Collections.unmodifiableMap(hashMap);
     }
 
     public HandlerBox() {

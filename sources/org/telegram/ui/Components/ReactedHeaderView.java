@@ -48,6 +48,7 @@ import org.telegram.ui.ActionBar.Theme;
 public class ReactedHeaderView extends FrameLayout {
     private AvatarsImageView avatarsImageView;
     private int currentAccount;
+    private long dialogId;
     private int fixedWidth;
     private FlickerLoadingView flickerLoadingView;
     private ImageView iconView;
@@ -66,6 +67,7 @@ public class ReactedHeaderView extends FrameLayout {
         this.users = new ArrayList();
         this.currentAccount = i;
         this.message = messageObject;
+        this.dialogId = j;
         FlickerLoadingView flickerLoadingView = new FlickerLoadingView(context);
         this.flickerLoadingView = flickerLoadingView;
         flickerLoadingView.setColors(Theme.key_actionBarDefaultSubmenuBackground, Theme.key_listSelector, -1);
@@ -110,7 +112,6 @@ public class ReactedHeaderView extends FrameLayout {
         public TLObject user;
 
         public UserSeen(TLObject tLObject, int i) {
-            this.date = 0;
             this.user = tLObject;
             this.date = i;
             if (tLObject instanceof TLRPC$User) {
@@ -136,7 +137,7 @@ public class ReactedHeaderView extends FrameLayout {
             tLRPC$TL_messages_getMessageReadParticipants.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.message.getDialogId());
             TLRPC$Peer tLRPC$Peer = this.message.messageOwner.from_id;
             final long j = tLRPC$Peer != null ? tLRPC$Peer.user_id : 0L;
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getMessageReadParticipants, new RequestDelegate() { // from class: org.telegram.ui.Components.ReactedHeaderView$$ExternalSyntheticLambda5
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getMessageReadParticipants, new RequestDelegate() { // from class: org.telegram.ui.Components.ReactedHeaderView$$ExternalSyntheticLambda0
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     ReactedHeaderView.this.lambda$onAttachedToWindow$5(j, chat, tLObject, tLRPC$TL_error);
@@ -174,7 +175,7 @@ public class ReactedHeaderView extends FrameLayout {
             arrayList.add(Long.valueOf(j));
             arrayList2.add(0);
             final ArrayList arrayList3 = new ArrayList();
-            final Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.ReactedHeaderView$$ExternalSyntheticLambda1
+            final Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.ReactedHeaderView$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     ReactedHeaderView.this.lambda$onAttachedToWindow$0(arrayList3);
@@ -186,7 +187,7 @@ public class ReactedHeaderView extends FrameLayout {
                 tLRPC$TL_channels_getParticipants.offset = 0;
                 tLRPC$TL_channels_getParticipants.filter = new TLRPC$TL_channelParticipantsRecent();
                 tLRPC$TL_channels_getParticipants.channel = MessagesController.getInstance(this.currentAccount).getInputChannel(tLRPC$Chat.id);
-                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_getParticipants, new RequestDelegate() { // from class: org.telegram.ui.Components.ReactedHeaderView$$ExternalSyntheticLambda6
+                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_getParticipants, new RequestDelegate() { // from class: org.telegram.ui.Components.ReactedHeaderView$$ExternalSyntheticLambda3
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error2) {
                         ReactedHeaderView.this.lambda$onAttachedToWindow$2(arrayList, arrayList3, arrayList2, runnable, tLObject2, tLRPC$TL_error2);
@@ -196,7 +197,7 @@ public class ReactedHeaderView extends FrameLayout {
             }
             TLRPC$TL_messages_getFullChat tLRPC$TL_messages_getFullChat = new TLRPC$TL_messages_getFullChat();
             tLRPC$TL_messages_getFullChat.chat_id = tLRPC$Chat.id;
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getFullChat, new RequestDelegate() { // from class: org.telegram.ui.Components.ReactedHeaderView$$ExternalSyntheticLambda7
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getFullChat, new RequestDelegate() { // from class: org.telegram.ui.Components.ReactedHeaderView$$ExternalSyntheticLambda4
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error2) {
                     ReactedHeaderView.this.lambda$onAttachedToWindow$4(arrayList, arrayList3, arrayList2, runnable, tLObject2, tLRPC$TL_error2);
@@ -238,7 +239,7 @@ public class ReactedHeaderView extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onAttachedToWindow$2(final List list, final List list2, final List list3, final Runnable runnable, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ReactedHeaderView$$ExternalSyntheticLambda3
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ReactedHeaderView$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 ReactedHeaderView.this.lambda$onAttachedToWindow$1(tLObject, list, list2, list3, runnable);
@@ -264,7 +265,7 @@ public class ReactedHeaderView extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onAttachedToWindow$4(final List list, final List list2, final List list3, final Runnable runnable, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ReactedHeaderView$$ExternalSyntheticLambda2
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ReactedHeaderView$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 ReactedHeaderView.this.lambda$onAttachedToWindow$3(tLObject, list, list2, list3, runnable);
@@ -296,7 +297,7 @@ public class ReactedHeaderView extends FrameLayout {
         tLRPC$TL_messages_getMessageReactionsList.limit = 3;
         tLRPC$TL_messages_getMessageReactionsList.reaction = null;
         tLRPC$TL_messages_getMessageReactionsList.offset = null;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getMessageReactionsList, new RequestDelegate() { // from class: org.telegram.ui.Components.ReactedHeaderView$$ExternalSyntheticLambda4
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getMessageReactionsList, new RequestDelegate() { // from class: org.telegram.ui.Components.ReactedHeaderView$$ExternalSyntheticLambda1
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 ReactedHeaderView.this.lambda$loadReactions$7(tLObject, tLRPC$TL_error);
@@ -310,7 +311,7 @@ public class ReactedHeaderView extends FrameLayout {
             final TLRPC$TL_messages_messageReactionsList tLRPC$TL_messages_messageReactionsList = (TLRPC$TL_messages_messageReactionsList) tLObject;
             final int i = tLRPC$TL_messages_messageReactionsList.count;
             tLRPC$TL_messages_messageReactionsList.users.size();
-            post(new Runnable() { // from class: org.telegram.ui.Components.ReactedHeaderView$$ExternalSyntheticLambda0
+            post(new Runnable() { // from class: org.telegram.ui.Components.ReactedHeaderView$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
                     ReactedHeaderView.this.lambda$loadReactions$6(i, tLRPC$TL_messages_messageReactionsList);

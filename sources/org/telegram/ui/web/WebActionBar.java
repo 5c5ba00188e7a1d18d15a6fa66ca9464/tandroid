@@ -73,6 +73,7 @@ public class WebActionBar extends FrameLayout {
     private int fromBackgroundColor;
     public boolean hasForward;
     public int height;
+    public int iconColor;
     public boolean isTonsite;
     public final LinearLayout leftmenu;
     public final LineProgressView lineProgressView;
@@ -88,6 +89,7 @@ public class WebActionBar extends FrameLayout {
     private boolean occupyStatusBar;
     private long pressTime;
     private float pressX;
+    private float pressY;
     public final float[] progress;
     public final Paint[] progressBackgroundPaint;
     public final RectF rect;
@@ -145,7 +147,7 @@ public class WebActionBar extends FrameLayout {
         this.addressingProgress = 0.0f;
         this.menuType = -1;
         this.clip = new GradientClip();
-        this.longPressRunnable = new Runnable() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda8
+        this.longPressRunnable = new Runnable() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 WebActionBar.this.lambda$new$9();
@@ -164,7 +166,7 @@ public class WebActionBar extends FrameLayout {
         FrameLayout frameLayout2 = new FrameLayout(context);
         this.addressContainer = frameLayout2;
         addView(frameLayout2, LayoutHelper.createFrame(-1, 56, 87));
-        LinearLayout linearLayout = new LinearLayout(this, context) { // from class: org.telegram.ui.web.WebActionBar.1
+        LinearLayout linearLayout = new LinearLayout(context) { // from class: org.telegram.ui.web.WebActionBar.1
             @Override // android.widget.LinearLayout, android.view.View
             protected void onMeasure(int i2, int i3) {
                 super.onMeasure(i2, i3);
@@ -187,7 +189,7 @@ public class WebActionBar extends FrameLayout {
         this.backButtonSelector = createSelectorDrawable;
         imageView.setBackground(createSelectorDrawable);
         linearLayout.addView(imageView, LayoutHelper.createLinear(54, 56));
-        LinearLayout linearLayout2 = new LinearLayout(this, context) { // from class: org.telegram.ui.web.WebActionBar.2
+        LinearLayout linearLayout2 = new LinearLayout(context) { // from class: org.telegram.ui.web.WebActionBar.2
             @Override // android.widget.LinearLayout, android.view.View
             protected void onMeasure(int i2, int i3) {
                 super.onMeasure(i2, i3);
@@ -201,7 +203,7 @@ public class WebActionBar extends FrameLayout {
         ImageView imageView2 = new ImageView(context);
         this.forwardButton = imageView2;
         imageView2.setScaleType(ImageView.ScaleType.CENTER);
-        ForwardDrawable forwardDrawable = new ForwardDrawable(this);
+        ForwardDrawable forwardDrawable = new ForwardDrawable();
         this.forwardButtonDrawable = forwardDrawable;
         imageView2.setImageDrawable(forwardDrawable);
         forwardDrawable.setState(false);
@@ -214,7 +216,7 @@ public class WebActionBar extends FrameLayout {
         imageView3.setScaleType(ImageView.ScaleType.CENTER);
         imageView3.setImageResource(R.drawable.ic_ab_other);
         imageView3.setColorFilter(new PorterDuffColorFilter(0, PorterDuff.Mode.SRC_IN));
-        imageView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda4
+        imageView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda5
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 WebActionBar.this.lambda$new$2(view);
@@ -225,7 +227,7 @@ public class WebActionBar extends FrameLayout {
         imageView3.setBackground(createSelectorDrawable3);
         imageView3.setContentDescription(LocaleController.getString("AccDescrMoreOptions", R.string.AccDescrMoreOptions));
         linearLayout2.addView(imageView3, LayoutHelper.createLinear(54, 56));
-        EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(this, context) { // from class: org.telegram.ui.web.WebActionBar.3
+        EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context) { // from class: org.telegram.ui.web.WebActionBar.3
             @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
             public boolean onTouchEvent(MotionEvent motionEvent) {
                 if (motionEvent.getAction() == 0 && !AndroidUtilities.showKeyboard(this)) {
@@ -274,7 +276,7 @@ public class WebActionBar extends FrameLayout {
             }
         });
         frameLayout.addView(editTextBoldCursor, LayoutHelper.createFrame(-1, -1, 119));
-        EditTextBoldCursor editTextBoldCursor2 = new EditTextBoldCursor(this, context) { // from class: org.telegram.ui.web.WebActionBar.5
+        EditTextBoldCursor editTextBoldCursor2 = new EditTextBoldCursor(context) { // from class: org.telegram.ui.web.WebActionBar.5
             @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
             public boolean onTouchEvent(MotionEvent motionEvent) {
                 if (motionEvent.getAction() == 0 && !AndroidUtilities.showKeyboard(this)) {
@@ -297,7 +299,7 @@ public class WebActionBar extends FrameLayout {
         editTextBoldCursor2.setInputType(editTextBoldCursor2.getInputType() | 524288);
         editTextBoldCursor2.setImeOptions(33554434);
         editTextBoldCursor2.setTextIsSelectable(false);
-        editTextBoldCursor2.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda5
+        editTextBoldCursor2.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda7
             @Override // android.widget.TextView.OnEditorActionListener
             public final boolean onEditorAction(TextView textView, int i2, KeyEvent keyEvent) {
                 boolean lambda$new$4;
@@ -315,7 +317,7 @@ public class WebActionBar extends FrameLayout {
         imageView4.setBackground(createSelectorDrawable4);
         imageView4.setVisibility(8);
         imageView4.setAlpha(0.0f);
-        imageView4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda3
+        imageView4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda8
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 WebActionBar.this.lambda$new$5(view);
@@ -338,7 +340,7 @@ public class WebActionBar extends FrameLayout {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(View view) {
         if (getParent() instanceof ViewGroup) {
-            Utilities.CallbackReturn callbackReturn = new Utilities.CallbackReturn() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda10
+            Utilities.CallbackReturn callbackReturn = new Utilities.CallbackReturn() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda9
                 @Override // org.telegram.messenger.Utilities.CallbackReturn
                 public final Object run(Object obj) {
                     Runnable lambda$new$1;
@@ -395,7 +397,7 @@ public class WebActionBar extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Runnable lambda$new$1(final Integer num) {
-        return new Runnable() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda9
+        return new Runnable() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
                 WebActionBar.this.lambda$new$0(num);
@@ -451,11 +453,11 @@ public class WebActionBar extends FrameLayout {
     }
 
     public void setIsDangerous(int i, boolean z, boolean z2) {
-        Title[] titleArr = this.titles;
-        if (titleArr[i].isDangerous != z) {
-            titleArr[i].isDangerous = z;
+        Title title = this.titles[i];
+        if (title.isDangerous != z) {
+            title.isDangerous = z;
             if (!z2) {
-                titleArr[i].animatedDangerous.set(z ? 1.0f : 0.0f, true);
+                title.animatedDangerous.set(z ? 1.0f : 0.0f, true);
             }
             invalidate();
         }
@@ -528,8 +530,8 @@ public class WebActionBar extends FrameLayout {
         this.shadowPaint[i].setColor(Theme.blendOver(i2, Theme.multAlpha(blendARGB, AndroidUtilities.lerp(0.14f, 0.24f, f))));
         this.titles[i].title.setTextColor(blendARGB);
         this.titles[i].subtitleColor = Theme.blendOver(i2, Theme.multAlpha(blendARGB, 0.6f));
-        Title[] titleArr = this.titles;
-        titleArr[i].subtitle.setTextColor(ColorUtils.blendARGB(titleArr[i].subtitleColor, Theme.getColor(Theme.key_text_RedBold), this.titles[i].animatedDangerous.get()));
+        Title title = this.titles[i];
+        title.subtitle.setTextColor(ColorUtils.blendARGB(title.subtitleColor, Theme.getColor(Theme.key_text_RedBold), this.titles[i].animatedDangerous.get()));
         invalidate();
     }
 
@@ -569,7 +571,7 @@ public class WebActionBar extends FrameLayout {
             }
             int blendARGB = ColorUtils.blendARGB(-16777216, -1, f);
             this.textColor = blendARGB;
-            Theme.multAlpha(blendARGB, 0.55f);
+            this.iconColor = Theme.multAlpha(blendARGB, 0.55f);
             this.backgroundColor = i;
             this.addressBackgroundColor = ColorUtils.blendARGB(-1, -16777216, f);
             int blendARGB2 = ColorUtils.blendARGB(-1, -16777216, 1.0f - f);
@@ -612,7 +614,7 @@ public class WebActionBar extends FrameLayout {
         final float f3 = AndroidUtilities.computePerceivedBrightness(i) > 0.721f ? 0.0f : 1.0f;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.colorAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda2
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda0
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                 WebActionBar.this.lambda$setColors$6(i, f2, f3, valueAnimator2);
@@ -975,7 +977,7 @@ public class WebActionBar extends FrameLayout {
             fArr[1] = z ? 1.0f : 0.0f;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
             this.addressAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda0
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda2
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                     WebActionBar.this.lambda$showAddress$8(valueAnimator2);
@@ -1014,13 +1016,13 @@ public class WebActionBar extends FrameLayout {
             this.forwardButton.setTranslationX(AndroidUtilities.dp(112.0f) * this.addressingProgress);
             this.backButtonDrawable.setRotation((this.backButtonShown || z) ? 0.0f : 0.0f, true);
         }
-        AndroidUtilities.cancelRunOnUIThread(new Runnable() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda7
+        AndroidUtilities.cancelRunOnUIThread(new Runnable() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 WebActionBar.this.showAddressKeyboard();
             }
         });
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda7
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.WebActionBar$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 WebActionBar.this.showAddressKeyboard();
@@ -1066,7 +1068,7 @@ public class WebActionBar extends FrameLayout {
             AndroidUtilities.cancelRunOnUIThread(this.longPressRunnable);
             if (motionEvent.getX() > this.leftmenu.getRight() && motionEvent.getX() < this.rightmenu.getLeft() && !isSearching() && !isAddressing()) {
                 this.pressX = motionEvent.getX();
-                motionEvent.getY();
+                this.pressY = motionEvent.getY();
                 this.pressTime = System.currentTimeMillis();
                 AndroidUtilities.runOnUIThread(this.longPressRunnable, ViewConfiguration.getLongPressTimeout() * 0.8f);
             }
@@ -1103,7 +1105,7 @@ public class WebActionBar extends FrameLayout {
         public void setColorFilter(ColorFilter colorFilter) {
         }
 
-        public ForwardDrawable(WebActionBar webActionBar) {
+        public ForwardDrawable() {
             Paint paint = new Paint(1);
             this.paint = paint;
             paint.setStyle(Paint.Style.STROKE);

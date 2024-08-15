@@ -15,9 +15,9 @@ import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.Util;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.UnmodifiableIterator;
 import com.google.common.primitives.Ints;
 import java.util.Arrays;
-import java.util.Iterator;
 /* loaded from: classes.dex */
 public final class AudioCapabilities {
     private final int maxChannelCount;
@@ -147,14 +147,36 @@ public final class AudioCapabilities {
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class Api29 {
-        private static final android.media.AudioAttributes DEFAULT_AUDIO_ATTRIBUTES = new AudioAttributes.Builder().setUsage(1).setContentType(3).setFlags(0).build();
+        private static final android.media.AudioAttributes DEFAULT_AUDIO_ATTRIBUTES;
+
+        static {
+            AudioAttributes.Builder usage;
+            AudioAttributes.Builder contentType;
+            AudioAttributes.Builder flags;
+            android.media.AudioAttributes build;
+            usage = new AudioAttributes.Builder().setUsage(1);
+            contentType = usage.setContentType(3);
+            flags = contentType.setFlags(0);
+            build = flags.build();
+            DEFAULT_AUDIO_ATTRIBUTES = build;
+        }
 
         public static int[] getDirectPlaybackSupportedEncodings() {
+            AudioFormat.Builder channelMask;
+            AudioFormat.Builder encoding;
+            AudioFormat.Builder sampleRate;
+            AudioFormat build;
+            boolean isDirectPlaybackSupported;
             ImmutableList.Builder builder = ImmutableList.builder();
-            Iterator it = AudioCapabilities.ALL_SURROUND_ENCODINGS_AND_MAX_CHANNELS.keySet().iterator();
+            UnmodifiableIterator it = AudioCapabilities.ALL_SURROUND_ENCODINGS_AND_MAX_CHANNELS.keySet().iterator();
             while (it.hasNext()) {
                 int intValue = ((Integer) it.next()).intValue();
-                if (AudioTrack.isDirectPlaybackSupported(new AudioFormat.Builder().setChannelMask(12).setEncoding(intValue).setSampleRate(48000).build(), DEFAULT_AUDIO_ATTRIBUTES)) {
+                channelMask = new AudioFormat.Builder().setChannelMask(12);
+                encoding = channelMask.setEncoding(intValue);
+                sampleRate = encoding.setSampleRate(48000);
+                build = sampleRate.build();
+                isDirectPlaybackSupported = AudioTrack.isDirectPlaybackSupported(build, DEFAULT_AUDIO_ATTRIBUTES);
+                if (isDirectPlaybackSupported) {
                     builder.add((ImmutableList.Builder) Integer.valueOf(intValue));
                 }
             }
@@ -163,8 +185,18 @@ public final class AudioCapabilities {
         }
 
         public static int getMaxSupportedChannelCountForPassthrough(int i, int i2) {
+            AudioFormat.Builder encoding;
+            AudioFormat.Builder sampleRate;
+            AudioFormat.Builder channelMask;
+            AudioFormat build;
+            boolean isDirectPlaybackSupported;
             for (int i3 = 8; i3 > 0; i3--) {
-                if (AudioTrack.isDirectPlaybackSupported(new AudioFormat.Builder().setEncoding(i).setSampleRate(i2).setChannelMask(Util.getAudioTrackChannelConfig(i3)).build(), DEFAULT_AUDIO_ATTRIBUTES)) {
+                encoding = new AudioFormat.Builder().setEncoding(i);
+                sampleRate = encoding.setSampleRate(i2);
+                channelMask = sampleRate.setChannelMask(Util.getAudioTrackChannelConfig(i3));
+                build = channelMask.build();
+                isDirectPlaybackSupported = AudioTrack.isDirectPlaybackSupported(build, DEFAULT_AUDIO_ATTRIBUTES);
+                if (isDirectPlaybackSupported) {
                     return i3;
                 }
             }

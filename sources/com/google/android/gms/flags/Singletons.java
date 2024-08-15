@@ -3,9 +3,9 @@ package com.google.android.gms.flags;
 public final class Singletons {
     private static Singletons zzl;
     private final FlagRegistry zzm = new FlagRegistry();
+    private final zzb zzn = new zzb();
 
     private Singletons() {
-        new zzb();
     }
 
     private static Singletons zzc() {

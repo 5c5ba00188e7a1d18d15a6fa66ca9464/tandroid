@@ -43,7 +43,7 @@ public abstract class zzy extends zzr implements Set {
 
     zzu zzh() {
         Object[] array = toArray();
-        int i = zzu.zzd;
+        int i = zzu.$r8$clinit;
         return zzu.zzi(array, array.length);
     }
 }

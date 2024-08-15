@@ -365,6 +365,11 @@ public class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializa
             Iterator.-CC.$default$forEachRemaining(this, consumer);
         }
 
+        @Override // java.util.Iterator
+        public /* synthetic */ void forEachRemaining(java.util.function.Consumer consumer) {
+            forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
+        }
+
         abstract T getOutput(int i);
 
         private Itr() {

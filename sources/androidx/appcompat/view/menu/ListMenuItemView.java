@@ -134,7 +134,7 @@ public class ListMenuItemView extends LinearLayout implements MenuView.ItemView,
 
     public void setCheckable(boolean z) {
         CompoundButton compoundButton;
-        CompoundButton compoundButton2;
+        View view;
         if (!z && this.mRadioButton == null && this.mCheckBox == null) {
             return;
         }
@@ -143,23 +143,23 @@ public class ListMenuItemView extends LinearLayout implements MenuView.ItemView,
                 insertRadioButton();
             }
             compoundButton = this.mRadioButton;
-            compoundButton2 = this.mCheckBox;
+            view = this.mCheckBox;
         } else {
             if (this.mCheckBox == null) {
                 insertCheckBox();
             }
             compoundButton = this.mCheckBox;
-            compoundButton2 = this.mRadioButton;
+            view = this.mRadioButton;
         }
         if (z) {
             compoundButton.setChecked(this.mItemData.isChecked());
             if (compoundButton.getVisibility() != 0) {
                 compoundButton.setVisibility(0);
             }
-            if (compoundButton2 == null || compoundButton2.getVisibility() == 8) {
+            if (view == null || view.getVisibility() == 8) {
                 return;
             }
-            compoundButton2.setVisibility(8);
+            view.setVisibility(8);
             return;
         }
         CheckBox checkBox = this.mCheckBox;

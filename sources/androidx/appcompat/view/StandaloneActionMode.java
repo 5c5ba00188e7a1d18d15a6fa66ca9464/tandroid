@@ -16,6 +16,7 @@ public class StandaloneActionMode extends ActionMode implements MenuBuilder.Call
     private ActionBarContextView mContextView;
     private WeakReference<View> mCustomView;
     private boolean mFinished;
+    private boolean mFocusable;
     private MenuBuilder mMenu;
 
     public StandaloneActionMode(Context context, ActionBarContextView actionBarContextView, ActionMode.Callback callback, boolean z) {
@@ -25,6 +26,7 @@ public class StandaloneActionMode extends ActionMode implements MenuBuilder.Call
         MenuBuilder defaultShowAsAction = new MenuBuilder(actionBarContextView.getContext()).setDefaultShowAsAction(1);
         this.mMenu = defaultShowAsAction;
         defaultShowAsAction.setCallback(this);
+        this.mFocusable = z;
     }
 
     @Override // androidx.appcompat.view.ActionMode

@@ -30,6 +30,7 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 public abstract class RightSlidingDialogContainer extends FrameLayout {
     public static long fragmentDialogId;
     private Paint actionModePaint;
+    private int currentAccount;
     ActionBar currentActionBarView;
     BaseFragment currentFragment;
     View currentFragmentFullscreenView;
@@ -77,7 +78,7 @@ public abstract class RightSlidingDialogContainer extends FrameLayout {
         super(context);
         this.openedProgress = 0.0f;
         this.notificationsLocker = new AnimationNotificationsLocker();
-        int i = UserConfig.selectedAccount;
+        this.currentAccount = UserConfig.selectedAccount;
         this.enabled = true;
     }
 
@@ -108,7 +109,7 @@ public abstract class RightSlidingDialogContainer extends FrameLayout {
                 ActionBar actionBar = baseFragment.getActionBar();
                 this.currentActionBarView = actionBar;
                 addView(actionBar);
-                this.currentActionBarView.listenToBackgroundUpdate(new Runnable() { // from class: org.telegram.ui.RightSlidingDialogContainer$$ExternalSyntheticLambda5
+                this.currentActionBarView.listenToBackgroundUpdate(new Runnable() { // from class: org.telegram.ui.RightSlidingDialogContainer$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
                         RightSlidingDialogContainer.this.invalidate();
@@ -134,7 +135,7 @@ public abstract class RightSlidingDialogContainer extends FrameLayout {
                 openAnimationStarted(true);
                 updateOpenAnimationProgress();
                 baseFragment.onTransitionAnimationStart(true, false);
-                this.openAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.RightSlidingDialogContainer$$ExternalSyntheticLambda0
+                this.openAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.RightSlidingDialogContainer$$ExternalSyntheticLambda3
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                         RightSlidingDialogContainer.this.lambda$presentFragment$0(valueAnimator);
@@ -161,7 +162,7 @@ public abstract class RightSlidingDialogContainer extends FrameLayout {
                 this.openAnimator.setStartDelay(SharedConfig.getDevicePerformanceClass() >= 2 ? 50L : 150L);
                 this.openAnimator.start();
             }
-            baseFragment.setPreviewDelegate(new BaseFragment.PreviewDelegate() { // from class: org.telegram.ui.RightSlidingDialogContainer$$ExternalSyntheticLambda6
+            baseFragment.setPreviewDelegate(new BaseFragment.PreviewDelegate() { // from class: org.telegram.ui.RightSlidingDialogContainer$$ExternalSyntheticLambda4
                 @Override // org.telegram.ui.ActionBar.BaseFragment.PreviewDelegate
                 public final void finishFragment() {
                     RightSlidingDialogContainer.this.lambda$presentFragment$1();
@@ -203,13 +204,13 @@ public abstract class RightSlidingDialogContainer extends FrameLayout {
         this.replaceAnimation = springAnimation2;
         springAnimation2.setSpring(new SpringForce(1000.0f).setStiffness(400.0f).setDampingRatio(1.0f));
         setReplaceProgress(baseFragment, baseFragment2, 0.0f);
-        this.replaceAnimation.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.RightSlidingDialogContainer$$ExternalSyntheticLambda4
+        this.replaceAnimation.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.RightSlidingDialogContainer$$ExternalSyntheticLambda5
             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
             public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f, float f2) {
                 RightSlidingDialogContainer.this.lambda$animateReplace$2(dynamicAnimation, f, f2);
             }
         });
-        this.replaceAnimation.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.RightSlidingDialogContainer$$ExternalSyntheticLambda3
+        this.replaceAnimation.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.RightSlidingDialogContainer$$ExternalSyntheticLambda6
             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
             public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
                 RightSlidingDialogContainer.this.lambda$animateReplace$3(baseFragment2, baseFragment, dynamicAnimation, z, f, f2);
@@ -339,7 +340,7 @@ public abstract class RightSlidingDialogContainer extends FrameLayout {
         this.notificationsLocker.lock();
         ValueAnimator ofFloat = ValueAnimator.ofFloat(this.openedProgress, 0.0f);
         this.openAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.RightSlidingDialogContainer$$ExternalSyntheticLambda1
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.RightSlidingDialogContainer$$ExternalSyntheticLambda0
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 RightSlidingDialogContainer.this.lambda$finishPreviewInernal$4(valueAnimator);
@@ -428,7 +429,7 @@ public abstract class RightSlidingDialogContainer extends FrameLayout {
                     } else {
                         ValueAnimator ofFloat = ValueAnimator.ofFloat(this.openedProgress, 1.0f);
                         this.openAnimator = ofFloat;
-                        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.RightSlidingDialogContainer$$ExternalSyntheticLambda2
+                        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.RightSlidingDialogContainer$$ExternalSyntheticLambda1
                             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                                 RightSlidingDialogContainer.this.lambda$onTouchEvent$5(valueAnimator);

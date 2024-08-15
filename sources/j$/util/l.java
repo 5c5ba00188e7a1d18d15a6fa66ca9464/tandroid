@@ -5,38 +5,38 @@ import java.util.NoSuchElementException;
 public final class l {
     private static final l c = new l();
     private final boolean a;
-    private final long b;
+    private final double b;
 
     private l() {
         this.a = false;
-        this.b = 0L;
+        this.b = Double.NaN;
     }
 
-    private l(long j) {
+    private l(double d) {
         this.a = true;
-        this.b = j;
+        this.b = d;
     }
 
     public static l a() {
         return c;
     }
 
-    public static l d(long j) {
-        return new l(j);
+    public static l d(double d) {
+        return new l(d);
     }
 
-    public long b() {
+    public final double b() {
         if (this.a) {
             return this.b;
         }
         throw new NoSuchElementException("No value present");
     }
 
-    public boolean c() {
+    public final boolean c() {
         return this.a;
     }
 
-    public boolean equals(Object obj) {
+    public final boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
@@ -44,7 +44,7 @@ public final class l {
             l lVar = (l) obj;
             boolean z = this.a;
             if (z && lVar.a) {
-                if (this.b == lVar.b) {
+                if (Double.compare(this.b, lVar.b) == 0) {
                     return true;
                 }
             } else if (z == lVar.a) {
@@ -55,15 +55,15 @@ public final class l {
         return false;
     }
 
-    public int hashCode() {
+    public final int hashCode() {
         if (this.a) {
-            long j = this.b;
-            return (int) (j ^ (j >>> 32));
+            long doubleToLongBits = Double.doubleToLongBits(this.b);
+            return (int) (doubleToLongBits ^ (doubleToLongBits >>> 32));
         }
         return 0;
     }
 
-    public String toString() {
-        return this.a ? String.format("OptionalLong[%s]", Long.valueOf(this.b)) : "OptionalLong.empty";
+    public final String toString() {
+        return this.a ? String.format("OptionalDouble[%s]", Double.valueOf(this.b)) : "OptionalDouble.empty";
     }
 }

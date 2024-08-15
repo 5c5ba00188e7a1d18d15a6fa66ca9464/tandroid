@@ -74,6 +74,8 @@ public class TimelineView extends View {
     private float audioVolume;
     private final BlurringShader.StoryBlurDrawer audioWaveformBlur;
     private final BlurringShader.StoryBlurDrawer backgroundBlur;
+    private final BlurringShader.BlurManager blurManager;
+    private final ViewGroup container;
     private long coverEnd;
     private long coverStart;
     private TimelineDelegate delegate;
@@ -98,6 +100,7 @@ public class TimelineView extends View {
     private int pressHandle;
     private long pressTime;
     private int pressType;
+    private final View previewContainer;
     private long progress;
     private final Paint progressShadowPaint;
     private final Paint progressWhitePaint;
@@ -306,6 +309,8 @@ public class TimelineView extends View {
         this.scrolling = false;
         this.selectedVideoRadii = new float[8];
         this.waveformRadii = new float[8];
+        this.container = viewGroup;
+        this.previewContainer = view;
         this.resourcesProvider = resourcesProvider;
         paint7.setColor(ConnectionsManager.DEFAULT_DATACENTER_ID);
         textPaint.setTextSize(AndroidUtilities.dp(12.0f));
@@ -325,10 +330,11 @@ public class TimelineView extends View {
         Drawable mutate = getContext().getResources().getDrawable(R.drawable.filled_widget_music).mutate();
         this.audioIcon = mutate;
         mutate.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN));
+        this.blurManager = blurManager;
         this.backgroundBlur = new BlurringShader.StoryBlurDrawer(blurManager, this, 0);
         this.audioBlur = new BlurringShader.StoryBlurDrawer(blurManager, this, 3);
         this.audioWaveformBlur = new BlurringShader.StoryBlurDrawer(blurManager, this, 4);
-        this.onLongPress = new Runnable() { // from class: org.telegram.ui.Stories.recorder.TimelineView$$ExternalSyntheticLambda3
+        this.onLongPress = new Runnable() { // from class: org.telegram.ui.Stories.recorder.TimelineView$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 TimelineView.this.lambda$new$5(viewGroup, resourcesProvider, blurManager, view);
@@ -337,10 +343,12 @@ public class TimelineView extends View {
     }
 
     public /* synthetic */ void lambda$new$5(ViewGroup viewGroup, Theme.ResourcesProvider resourcesProvider, BlurringShader.BlurManager blurManager, View view) {
+        float f;
+        float f2;
         int i = this.pressType;
         try {
             if (i == 2 && this.hasAudio) {
-                SliderView onValueChange = new SliderView(getContext(), 0).setMinMax(0.0f, 1.5f).setValue(this.audioVolume).setOnValueChange(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.TimelineView$$ExternalSyntheticLambda4
+                SliderView onValueChange = new SliderView(getContext(), 0).setMinMax(0.0f, 1.5f).setValue(this.audioVolume).setOnValueChange(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.TimelineView$$ExternalSyntheticLambda2
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
                         TimelineView.this.lambda$new$0((Float) obj);
@@ -350,7 +358,7 @@ public class TimelineView extends View {
                 int i2 = this.w;
                 int i3 = this.px;
                 int i4 = this.ph;
-                ItemOptions.makeOptions(viewGroup, resourcesProvider, this).addView(onValueChange).addSpaceGap().add(R.drawable.msg_delete, LocaleController.getString(R.string.StoryAudioRemove), new Runnable() { // from class: org.telegram.ui.Stories.recorder.TimelineView$$ExternalSyntheticLambda0
+                ItemOptions.makeOptions(viewGroup, resourcesProvider, this).addView(onValueChange).addSpaceGap().add(R.drawable.msg_delete, LocaleController.getString(R.string.StoryAudioRemove), new Runnable() { // from class: org.telegram.ui.Stories.recorder.TimelineView$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
                         TimelineView.this.lambda$new$1();
@@ -358,7 +366,7 @@ public class TimelineView extends View {
                 }).setGravity(5).forceTop(true).translate((-(this.w - Math.min((i2 - i3) - i4, (i3 + i4) + (((((float) (this.audioOffset - this.scroll)) + (AndroidUtilities.lerp(this.audioRight, 1.0f, this.audioSelectedT.get()) * ((float) this.audioDuration))) / ((float) min)) * this.sw)))) + AndroidUtilities.dp(18.0f), (((this.h - this.py) - (this.hasVideo ? getVideoHeight() + AndroidUtilities.dp(4.0f) : 0.0f)) - (this.hasRound ? getRoundHeight() + AndroidUtilities.dp(4.0f) : 0.0f)) - (this.hasAudio ? getAudioHeight() + AndroidUtilities.dp(4.0f) : 0.0f)).show().setBlurBackground(blurManager, -view.getX(), -view.getY());
                 performHapticFeedback(0, 1);
             } else if (i == 1 && this.hasRound) {
-                SliderView onValueChange2 = new SliderView(getContext(), 0).setMinMax(0.0f, 1.5f).setValue(this.roundVolume).setOnValueChange(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.TimelineView$$ExternalSyntheticLambda5
+                SliderView onValueChange2 = new SliderView(getContext(), 0).setMinMax(0.0f, 1.5f).setValue(this.roundVolume).setOnValueChange(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.TimelineView$$ExternalSyntheticLambda4
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
                         TimelineView.this.lambda$new$2((Float) obj);
@@ -368,12 +376,21 @@ public class TimelineView extends View {
                 int i5 = this.w;
                 int i6 = this.px;
                 int i7 = this.ph;
-                ItemOptions.makeOptions(viewGroup, resourcesProvider, this).addView(onValueChange2).addSpaceGap().add(R.drawable.msg_delete, LocaleController.getString(R.string.StoryRoundRemove), new Runnable() { // from class: org.telegram.ui.Stories.recorder.TimelineView$$ExternalSyntheticLambda1
+                float min3 = Math.min((i5 - i6) - i7, i6 + i7 + (((((float) (this.roundOffset - this.scroll)) + (AndroidUtilities.lerp(this.roundRight, 1.0f, this.roundSelectedT.get()) * ((float) this.roundDuration))) / ((float) min2)) * this.sw));
+                float f3 = this.h - this.py;
+                if (this.hasVideo) {
+                    f = 4.0f;
+                    f2 = getVideoHeight() + AndroidUtilities.dp(4.0f);
+                } else {
+                    f = 4.0f;
+                    f2 = 0.0f;
+                }
+                ItemOptions.makeOptions(viewGroup, resourcesProvider, this).addView(onValueChange2).addSpaceGap().add(R.drawable.msg_delete, LocaleController.getString(R.string.StoryRoundRemove), new Runnable() { // from class: org.telegram.ui.Stories.recorder.TimelineView$$ExternalSyntheticLambda5
                     @Override // java.lang.Runnable
                     public final void run() {
                         TimelineView.this.lambda$new$3();
                     }
-                }).setGravity(5).forceTop(true).translate((-(this.w - Math.min((i5 - i6) - i7, (i6 + i7) + (((((float) (this.roundOffset - this.scroll)) + (AndroidUtilities.lerp(this.roundRight, 1.0f, this.roundSelectedT.get()) * ((float) this.roundDuration))) / ((float) min2)) * this.sw)))) + AndroidUtilities.dp(18.0f), ((this.h - this.py) - (this.hasVideo ? AndroidUtilities.dp(4.0f) + getVideoHeight() : 0.0f)) - (this.hasRound ? getRoundHeight() + AndroidUtilities.dp(4.0f) : 0.0f)).show().setBlurBackground(blurManager, -view.getX(), -view.getY());
+                }).setGravity(5).forceTop(true).translate((-(this.w - min3)) + AndroidUtilities.dp(18.0f), (f3 - f2) - (this.hasRound ? getRoundHeight() + AndroidUtilities.dp(f) : 0.0f)).show().setBlurBackground(blurManager, -view.getX(), -view.getY());
                 performHapticFeedback(0, 1);
             } else if (i != 0 || !this.hasVideo) {
             } else {
@@ -864,7 +881,7 @@ public class TimelineView extends View {
                 this.askExactSeek = null;
             }
             if (z) {
-                Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Stories.recorder.TimelineView$$ExternalSyntheticLambda2
+                Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Stories.recorder.TimelineView$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         TimelineView.this.lambda$setProgressAt$6(clamp);
@@ -2636,14 +2653,13 @@ public class TimelineView extends View {
          */
         /* JADX WARN: Removed duplicated region for block: B:77:0x0085  */
         /* JADX WARN: Removed duplicated region for block: B:80:0x0091  */
-        /* JADX WARN: Removed duplicated region for block: B:85:0x009b A[ADDED_TO_REGION] */
-        /* JADX WARN: Removed duplicated region for block: B:89:0x00e2  */
+        /* JADX WARN: Removed duplicated region for block: B:84:0x0099 A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:89:0x00e3  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public VideoThumbsLoader(boolean z, String str, int i, int i2, Long l, long j, long j2, long j3) {
             int i3;
-            float f;
             int max;
             String extractMetadata;
             TimelineView.this = r15;
@@ -2679,10 +2695,7 @@ public class TimelineView extends View {
                 }
                 if (j2 != -1) {
                 }
-                f = 1.0f;
-                if (r5 != 0) {
-                }
-                float clamp = Utilities.clamp(f, 1.3333334f, 0.5625f);
+                float clamp = Utilities.clamp((r5 != 0 || i3 == 0) ? 1.0f : r5 / i3, 1.3333334f, 0.5625f);
                 this.frameHeight = Math.max(1, i2);
                 this.frameWidth = Math.max(1, (int) Math.ceil(i2 * clamp));
                 int ceil = (int) Math.ceil(((((float) Math.max(j4, j)) / ((float) j)) * i) / max);
@@ -2705,11 +2718,7 @@ public class TimelineView extends View {
                 if (j2 != -1 && j3 != -1) {
                     j4 = j3 - j2;
                 }
-                f = 1.0f;
-                if (r5 != 0 && i3 != 0) {
-                    f = r5 / i3;
-                }
-                float clamp2 = Utilities.clamp(f, 1.3333334f, 0.5625f);
+                float clamp2 = Utilities.clamp((r5 != 0 || i3 == 0) ? 1.0f : r5 / i3, 1.3333334f, 0.5625f);
                 this.frameHeight = Math.max(1, i2);
                 this.frameWidth = Math.max(1, (int) Math.ceil(i2 * clamp2));
                 int ceil2 = (int) Math.ceil(((((float) Math.max(j4, j)) / ((float) j)) * i) / max);
@@ -2730,11 +2739,7 @@ public class TimelineView extends View {
             if (j2 != -1) {
                 j4 = j3 - j2;
             }
-            f = 1.0f;
-            if (r5 != 0) {
-                f = r5 / i3;
-            }
-            float clamp22 = Utilities.clamp(f, 1.3333334f, 0.5625f);
+            float clamp22 = Utilities.clamp((r5 != 0 || i3 == 0) ? 1.0f : r5 / i3, 1.3333334f, 0.5625f);
             this.frameHeight = Math.max(1, i2);
             this.frameWidth = Math.max(1, (int) Math.ceil(i2 * clamp22));
             int ceil22 = (int) Math.ceil(((((float) Math.max(j4, j)) / ((float) j)) * i) / max);
@@ -2904,14 +2909,14 @@ public class TimelineView extends View {
                 return;
             }
             if ("audio/mpeg".equals(str2) || "audio/mp3".equals(str2)) {
-                this.waveformLoader = new FfmpegAudioWaveformLoader(str, round, new Utilities.Callback2() { // from class: org.telegram.ui.Stories.recorder.TimelineView$AudioWaveformLoader$$ExternalSyntheticLambda2
+                this.waveformLoader = new FfmpegAudioWaveformLoader(str, round, new Utilities.Callback2() { // from class: org.telegram.ui.Stories.recorder.TimelineView$AudioWaveformLoader$$ExternalSyntheticLambda0
                     @Override // org.telegram.messenger.Utilities.Callback2
                     public final void run(Object obj, Object obj2) {
                         TimelineView.AudioWaveformLoader.this.lambda$run$0((short[]) obj, ((Integer) obj2).intValue());
                     }
                 });
             } else {
-                Utilities.phoneBookQueue.postRunnable(new TimelineView$AudioWaveformLoader$$ExternalSyntheticLambda0(this));
+                Utilities.phoneBookQueue.postRunnable(new TimelineView$AudioWaveformLoader$$ExternalSyntheticLambda1(this));
             }
         }
 
@@ -2995,7 +3000,7 @@ public class TimelineView extends View {
                                         int i10 = i6 + 1;
                                         final int i11 = i10 - i7;
                                         if (i11 >= sArr.length || i10 >= this.count) {
-                                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.TimelineView$AudioWaveformLoader$$ExternalSyntheticLambda1
+                                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.TimelineView$AudioWaveformLoader$$ExternalSyntheticLambda2
                                                 @Override // java.lang.Runnable
                                                 public final void run() {
                                                     TimelineView.AudioWaveformLoader.this.lambda$run$0(sArr, i11);
@@ -3070,8 +3075,10 @@ public class TimelineView extends View {
                     break;
                 }
                 sArr2[i3 + i2] = sArr[i2];
-                if (this.max < sArr[i2]) {
-                    this.max = sArr[i2];
+                short s = this.max;
+                short s2 = sArr[i2];
+                if (s < s2) {
+                    this.max = s2;
                 }
             }
             this.loaded += i;
@@ -3083,7 +3090,7 @@ public class TimelineView extends View {
             if (ffmpegAudioWaveformLoader != null) {
                 ffmpegAudioWaveformLoader.destroy();
             }
-            Utilities.phoneBookQueue.cancelRunnable(new TimelineView$AudioWaveformLoader$$ExternalSyntheticLambda0(this));
+            Utilities.phoneBookQueue.cancelRunnable(new TimelineView$AudioWaveformLoader$$ExternalSyntheticLambda1(this));
             synchronized (this.lock) {
                 this.stop = true;
             }

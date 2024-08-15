@@ -137,6 +137,7 @@ public class ShortcutInfoCompatSaverImpl extends ShortcutInfoCompatSaver<Listena
     }
 
     public IconCompat getShortcutIcon(final String str) throws Exception {
+        int i;
         Bitmap bitmap;
         final ShortcutsInfoSerialization.ShortcutContainer shortcutContainer = (ShortcutsInfoSerialization.ShortcutContainer) this.mCacheUpdateService.submit(new Callable<ShortcutsInfoSerialization.ShortcutContainer>() { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.5
             @Override // java.util.concurrent.Callable
@@ -148,16 +149,16 @@ public class ShortcutInfoCompatSaverImpl extends ShortcutInfoCompatSaver<Listena
             return null;
         }
         if (!TextUtils.isEmpty(shortcutContainer.mResourceName)) {
-            int i = 0;
             try {
                 i = this.mContext.getResources().getIdentifier(shortcutContainer.mResourceName, null, null);
             } catch (Exception unused) {
+                i = 0;
             }
             if (i != 0) {
                 return IconCompat.createWithResource(this.mContext, i);
             }
         }
-        if (TextUtils.isEmpty(shortcutContainer.mBitmapPath) || (bitmap = (Bitmap) this.mDiskIoService.submit(new Callable<Bitmap>(this) { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.6
+        if (TextUtils.isEmpty(shortcutContainer.mBitmapPath) || (bitmap = (Bitmap) this.mDiskIoService.submit(new Callable<Bitmap>() { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.6
             @Override // java.util.concurrent.Callable
             public Bitmap call() {
                 return BitmapFactory.decodeFile(shortcutContainer.mBitmapPath);
@@ -240,7 +241,7 @@ public class ShortcutInfoCompatSaverImpl extends ShortcutInfoCompatSaver<Listena
 
     private ListenableFuture<Void> submitDiskOperation(final Runnable runnable) {
         final ResolvableFuture create = ResolvableFuture.create();
-        this.mDiskIoService.submit(new Runnable(this) { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.9
+        this.mDiskIoService.submit(new Runnable() { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.9
             @Override // java.lang.Runnable
             public void run() {
                 if (create.isCancelled()) {
@@ -266,7 +267,7 @@ public class ShortcutInfoCompatSaverImpl extends ShortcutInfoCompatSaver<Listena
                 ShortcutsInfoSerialization.saveAsXml(arrayList, ShortcutInfoCompatSaverImpl.this.mTargetsXmlFile);
             }
         });
-        submitDiskOperation.addListener(new Runnable(this) { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.11
+        submitDiskOperation.addListener(new Runnable() { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.11
             @Override // java.lang.Runnable
             public void run() {
                 try {

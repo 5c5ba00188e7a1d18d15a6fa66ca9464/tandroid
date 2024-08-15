@@ -47,7 +47,7 @@ public class RingtoneDataStore {
         } catch (Exception e) {
             FileLog.e(e);
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ringtone.RingtoneDataStore$$ExternalSyntheticLambda1
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ringtone.RingtoneDataStore$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 RingtoneDataStore.this.lambda$new$0();
@@ -65,7 +65,7 @@ public class RingtoneDataStore {
         TLRPC$TL_account_getSavedRingtones tLRPC$TL_account_getSavedRingtones = new TLRPC$TL_account_getSavedRingtones();
         tLRPC$TL_account_getSavedRingtones.hash = queryHash;
         if (z2) {
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_getSavedRingtones, new RequestDelegate() { // from class: org.telegram.messenger.ringtone.RingtoneDataStore$$ExternalSyntheticLambda5
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_getSavedRingtones, new RequestDelegate() { // from class: org.telegram.messenger.ringtone.RingtoneDataStore$$ExternalSyntheticLambda0
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     RingtoneDataStore.this.lambda$loadUserRingtones$2(tLObject, tLRPC$TL_error);
@@ -121,7 +121,7 @@ public class RingtoneDataStore {
             SerializedData serializedData = new SerializedData(Utilities.hexToBytes(string));
             try {
                 TLRPC$Document TLdeserialize = TLRPC$Document.TLdeserialize(serializedData, serializedData.readInt32(true), true);
-                CachedTone cachedTone = new CachedTone(this);
+                CachedTone cachedTone = new CachedTone();
                 cachedTone.document = TLdeserialize;
                 cachedTone.localUri = string2;
                 int i3 = this.localIds;
@@ -134,7 +134,7 @@ public class RingtoneDataStore {
             }
         }
         if (z) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ringtone.RingtoneDataStore$$ExternalSyntheticLambda0
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ringtone.RingtoneDataStore$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     RingtoneDataStore.this.lambda$loadFromPrefs$3();
@@ -176,7 +176,7 @@ public class RingtoneDataStore {
             if (str != null) {
                 edit.putString("tone_local_path" + i, str);
             }
-            CachedTone cachedTone = new CachedTone(this);
+            CachedTone cachedTone = new CachedTone();
             cachedTone.document = tLRPC$Document2;
             cachedTone.localUri = str;
             int i2 = this.localIds;
@@ -219,7 +219,7 @@ public class RingtoneDataStore {
     }
 
     public void addUploadingTone(String str) {
-        CachedTone cachedTone = new CachedTone(this);
+        CachedTone cachedTone = new CachedTone();
         cachedTone.localUri = str;
         int i = this.localIds;
         this.localIds = i + 1;
@@ -288,7 +288,7 @@ public class RingtoneDataStore {
             this.loaded = true;
         }
         final ArrayList arrayList = new ArrayList(this.userRingtones);
-        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ringtone.RingtoneDataStore$$ExternalSyntheticLambda2
+        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ringtone.RingtoneDataStore$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 RingtoneDataStore.this.lambda$checkRingtoneSoundsLoaded$5(arrayList);
@@ -303,7 +303,7 @@ public class RingtoneDataStore {
         for (int i = 0; i < arrayList.size(); i++) {
             CachedTone cachedTone = (CachedTone) arrayList.get(i);
             if (cachedTone != null && ((TextUtils.isEmpty(cachedTone.localUri) || !new File(cachedTone.localUri).exists()) && (tLRPC$Document = cachedTone.document) != null && ((pathToAttach = FileLoader.getInstance(this.currentAccount).getPathToAttach(tLRPC$Document)) == null || !pathToAttach.exists()))) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ringtone.RingtoneDataStore$$ExternalSyntheticLambda4
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ringtone.RingtoneDataStore$$ExternalSyntheticLambda5
                     @Override // java.lang.Runnable
                     public final void run() {
                         RingtoneDataStore.this.lambda$checkRingtoneSoundsLoaded$4(tLRPC$Document);
@@ -346,7 +346,7 @@ public class RingtoneDataStore {
         if (tLRPC$Document == null || contains(tLRPC$Document.id)) {
             return;
         }
-        CachedTone cachedTone = new CachedTone(this);
+        CachedTone cachedTone = new CachedTone();
         cachedTone.document = tLRPC$Document;
         int i = this.localIds;
         this.localIds = i + 1;
@@ -381,7 +381,7 @@ public class RingtoneDataStore {
         public String localUri;
         public boolean uploading;
 
-        public CachedTone(RingtoneDataStore ringtoneDataStore) {
+        public CachedTone() {
         }
     }
 }

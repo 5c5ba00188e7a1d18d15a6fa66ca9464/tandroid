@@ -60,7 +60,7 @@ class RequestExecutor {
                 t = null;
             }
             final Consumer<T> consumer = this.mConsumer;
-            this.mHandler.post(new Runnable(this) { // from class: androidx.core.provider.RequestExecutor.ReplyRunnable.1
+            this.mHandler.post(new Runnable() { // from class: androidx.core.provider.RequestExecutor.ReplyRunnable.1
                 /* JADX WARN: Multi-variable type inference failed */
                 @Override // java.lang.Runnable
                 public void run() {

@@ -51,7 +51,15 @@ public final class Insets {
     }
 
     public static Insets toCompatInsets(android.graphics.Insets insets) {
-        return of(insets.left, insets.top, insets.right, insets.bottom);
+        int i;
+        int i2;
+        int i3;
+        int i4;
+        i = insets.left;
+        i2 = insets.top;
+        i3 = insets.right;
+        i4 = insets.bottom;
+        return of(i, i2, i3, i4);
     }
 
     public android.graphics.Insets toPlatformInsets() {
@@ -61,7 +69,9 @@ public final class Insets {
     /* loaded from: classes.dex */
     static class Api29Impl {
         static android.graphics.Insets of(int i, int i2, int i3, int i4) {
-            return android.graphics.Insets.of(i, i2, i3, i4);
+            android.graphics.Insets of;
+            of = android.graphics.Insets.of(i, i2, i3, i4);
+            return of;
         }
     }
 }

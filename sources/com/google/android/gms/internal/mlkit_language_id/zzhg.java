@@ -10,12 +10,10 @@ public final class zzhg {
     private int[] zzc;
     private Object[] zzd;
     private int zze;
+    private boolean zzf;
 
     public static zzhg zza() {
         return zza;
-    }
-
-    public final void zzb() {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -37,6 +35,11 @@ public final class zzhg {
         this.zzb = i;
         this.zzc = iArr;
         this.zzd = objArr;
+        this.zzf = z;
+    }
+
+    public final void zzb() {
+        this.zzf = false;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

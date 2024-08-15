@@ -1,6 +1,5 @@
 package androidx.core.view;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.text.style.ClickableSpan;
 import android.util.SparseArray;
@@ -133,11 +132,11 @@ public class AccessibilityDelegateCompat {
     }
 
     public AccessibilityNodeProviderCompat getAccessibilityNodeProvider(View view) {
-        AccessibilityNodeProvider accessibilityNodeProvider;
-        if (Build.VERSION.SDK_INT < 16 || (accessibilityNodeProvider = Api16Impl.getAccessibilityNodeProvider(this.mOriginalDelegate, view)) == null) {
-            return null;
+        AccessibilityNodeProvider accessibilityNodeProvider = Api16Impl.getAccessibilityNodeProvider(this.mOriginalDelegate, view);
+        if (accessibilityNodeProvider != null) {
+            return new AccessibilityNodeProviderCompat(accessibilityNodeProvider);
         }
-        return new AccessibilityNodeProviderCompat(accessibilityNodeProvider);
+        return null;
     }
 
     public boolean performAccessibilityAction(View view, int i, Bundle bundle) {
@@ -155,7 +154,7 @@ public class AccessibilityDelegateCompat {
             }
             i2++;
         }
-        if (!z && Build.VERSION.SDK_INT >= 16) {
+        if (!z) {
             z = Api16Impl.performAccessibilityAction(this.mOriginalDelegate, view, i, bundle);
         }
         return (z || i != R$id.accessibility_action_clickable_span || bundle == null) ? z : performClickableSpanAction(bundle.getInt("ACCESSIBILITY_CLICKABLE_SPAN_ID", -1), view);

@@ -176,7 +176,7 @@ public class SearchAdapterHelper {
                 tLRPC$TL_channels_getParticipants.limit = 50;
                 tLRPC$TL_channels_getParticipants.offset = 0;
                 tLRPC$TL_channels_getParticipants.channel = MessagesController.getInstance(this.currentAccount).getInputChannel(j);
-                arrayList.add(new Pair(tLRPC$TL_channels_getParticipants, new RequestDelegate() { // from class: org.telegram.ui.Adapters.SearchAdapterHelper$$ExternalSyntheticLambda7
+                arrayList.add(new Pair(tLRPC$TL_channels_getParticipants, new RequestDelegate() { // from class: org.telegram.ui.Adapters.SearchAdapterHelper$$ExternalSyntheticLambda1
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         SearchAdapterHelper.this.lambda$queryServerSearch$0(str, z4, tLObject, tLRPC$TL_error);
@@ -196,7 +196,7 @@ public class SearchAdapterHelper {
                 TLRPC$TL_contacts_search tLRPC$TL_contacts_search = new TLRPC$TL_contacts_search();
                 tLRPC$TL_contacts_search.q = str;
                 tLRPC$TL_contacts_search.limit = 20;
-                arrayList.add(new Pair(tLRPC$TL_contacts_search, new RequestDelegate() { // from class: org.telegram.ui.Adapters.SearchAdapterHelper$$ExternalSyntheticLambda6
+                arrayList.add(new Pair(tLRPC$TL_contacts_search, new RequestDelegate() { // from class: org.telegram.ui.Adapters.SearchAdapterHelper$$ExternalSyntheticLambda2
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         SearchAdapterHelper.this.lambda$queryServerSearch$1(i2, z2, z5, z3, z4, j2, str, tLObject, tLRPC$TL_error);
@@ -239,7 +239,7 @@ public class SearchAdapterHelper {
                     arrayList3.add(null);
                     final AtomicInteger atomicInteger2 = new AtomicInteger();
                     final int i5 = i3;
-                    atomicInteger2.set(ConnectionsManager.getInstance(this.currentAccount).sendRequest((TLObject) ((Pair) arrayList.get(i3)).first, new RequestDelegate() { // from class: org.telegram.ui.Adapters.SearchAdapterHelper$$ExternalSyntheticLambda8
+                    atomicInteger2.set(ConnectionsManager.getInstance(this.currentAccount).sendRequest((TLObject) ((Pair) arrayList.get(i3)).first, new RequestDelegate() { // from class: org.telegram.ui.Adapters.SearchAdapterHelper$$ExternalSyntheticLambda3
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                             SearchAdapterHelper.this.lambda$queryServerSearch$3(arrayList3, i5, atomicInteger2, atomicInteger, arrayList, i2, runnable, tLObject, tLRPC$TL_error);
@@ -396,7 +396,7 @@ public class SearchAdapterHelper {
     }
 
     public /* synthetic */ void lambda$queryServerSearch$3(final ArrayList arrayList, final int i, final AtomicInteger atomicInteger, final AtomicInteger atomicInteger2, final ArrayList arrayList2, final int i2, final Runnable runnable, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.SearchAdapterHelper$$ExternalSyntheticLambda3
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.SearchAdapterHelper$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 SearchAdapterHelper.this.lambda$queryServerSearch$2(arrayList, i, tLObject, tLRPC$TL_error, atomicInteger, atomicInteger2, arrayList2, i2, runnable);
@@ -460,7 +460,7 @@ public class SearchAdapterHelper {
         if (this.hashtagsLoadedFromDb) {
             return true;
         }
-        MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.SearchAdapterHelper$$ExternalSyntheticLambda0
+        MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.SearchAdapterHelper$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 SearchAdapterHelper.this.lambda$loadRecentHashtags$6();
@@ -482,7 +482,7 @@ public class SearchAdapterHelper {
                 hashMap.put(hashtagObject.hashtag, hashtagObject);
             }
             queryFinalized.dispose();
-            Collections.sort(arrayList, new Comparator() { // from class: org.telegram.ui.Adapters.SearchAdapterHelper$$ExternalSyntheticLambda5
+            Collections.sort(arrayList, new Comparator() { // from class: org.telegram.ui.Adapters.SearchAdapterHelper$$ExternalSyntheticLambda7
                 @Override // java.util.Comparator
                 public final int compare(Object obj, Object obj2) {
                     int lambda$loadRecentHashtags$4;
@@ -490,7 +490,7 @@ public class SearchAdapterHelper {
                     return lambda$loadRecentHashtags$4;
                 }
             });
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.SearchAdapterHelper$$ExternalSyntheticLambda4
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.SearchAdapterHelper$$ExternalSyntheticLambda8
                 @Override // java.lang.Runnable
                 public final void run() {
                     SearchAdapterHelper.this.lambda$loadRecentHashtags$5(arrayList, hashMap);
@@ -646,7 +646,7 @@ public class SearchAdapterHelper {
     }
 
     private void putRecentHashtags(final ArrayList<HashtagObject> arrayList) {
-        MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.SearchAdapterHelper$$ExternalSyntheticLambda2
+        MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.SearchAdapterHelper$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 SearchAdapterHelper.this.lambda$putRecentHashtags$7(arrayList);
@@ -729,7 +729,7 @@ public class SearchAdapterHelper {
     public void clearRecentHashtags() {
         this.hashtags = new ArrayList<>();
         this.hashtagsByText = new HashMap<>();
-        MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.SearchAdapterHelper$$ExternalSyntheticLambda1
+        MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.SearchAdapterHelper$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 SearchAdapterHelper.this.lambda$clearRecentHashtags$8();

@@ -21,8 +21,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.telegram.messenger.AndroidUtilities;
@@ -96,6 +94,7 @@ public class WebMetadataCache {
 
         @Override // org.telegram.tgnet.TLObject
         public void serializeToStream(AbstractSerializedData abstractSerializedData) {
+            Bitmap.CompressFormat compressFormat;
             abstractSerializedData.writeInt64(this.time);
             String str = this.domain;
             if (str == null) {
@@ -123,7 +122,9 @@ public class WebMetadataCache {
             }
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             if (Build.VERSION.SDK_INT >= 30) {
-                this.favicon.compress(Bitmap.CompressFormat.WEBP_LOSSY, 80, byteArrayOutputStream);
+                Bitmap bitmap = this.favicon;
+                compressFormat = Bitmap.CompressFormat.WEBP_LOSSY;
+                bitmap.compress(compressFormat, 80, byteArrayOutputStream);
             } else {
                 this.favicon.compress(Bitmap.CompressFormat.WEBP, 80, byteArrayOutputStream);
             }
@@ -223,7 +224,7 @@ public class WebMetadataCache {
         if (this.cache == null) {
             this.cache = new HashMap<>();
         }
-        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.web.WebMetadataCache$$ExternalSyntheticLambda5
+        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.web.WebMetadataCache$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 WebMetadataCache.this.lambda$load$1();
@@ -247,7 +248,7 @@ public class WebMetadataCache {
         } catch (Exception e) {
             FileLog.e(e);
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.WebMetadataCache$$ExternalSyntheticLambda7
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.WebMetadataCache$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 WebMetadataCache.this.lambda$load$0(arrayList);
@@ -266,7 +267,7 @@ public class WebMetadataCache {
     }
 
     public void scheduleSave() {
-        AndroidUtilities.cancelRunOnUIThread(new Runnable() { // from class: org.telegram.ui.web.WebMetadataCache$$ExternalSyntheticLambda3
+        AndroidUtilities.cancelRunOnUIThread(new Runnable() { // from class: org.telegram.ui.web.WebMetadataCache$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 WebMetadataCache.this.save();
@@ -275,7 +276,7 @@ public class WebMetadataCache {
         if (this.saving) {
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.WebMetadataCache$$ExternalSyntheticLambda3
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.WebMetadataCache$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 WebMetadataCache.this.save();
@@ -298,7 +299,7 @@ public class WebMetadataCache {
                 }
             }
         }
-        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.web.WebMetadataCache$$ExternalSyntheticLambda6
+        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.web.WebMetadataCache$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 WebMetadataCache.this.lambda$save$3(arrayList);
@@ -445,7 +446,7 @@ public class WebMetadataCache {
         final boolean[] zArr = {false};
         final String[] strArr = {null};
         final Bitmap[] bitmapArr = {null};
-        final Utilities.Callback callback = new Utilities.Callback() { // from class: org.telegram.ui.web.WebMetadataCache$$ExternalSyntheticLambda9
+        final Utilities.Callback callback = new Utilities.Callback() { // from class: org.telegram.ui.web.WebMetadataCache$$ExternalSyntheticLambda5
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 WebMetadataCache.lambda$retrieveFaviconAndSitename$4(zArr, strArr, bitmapArr, str, webView, frameLayout, callback2, (Boolean) obj);
@@ -457,14 +458,14 @@ public class WebMetadataCache {
                 if (bitmap == null) {
                     return;
                 }
-                Bitmap[] bitmapArr2 = bitmapArr;
-                if (bitmapArr2[0] == null || (bitmapArr2[0].getWidth() < bitmap.getWidth() && bitmapArr[0].getHeight() < bitmap.getHeight())) {
+                Bitmap bitmap2 = bitmapArr[0];
+                if (bitmap2 == null || (bitmap2.getWidth() < bitmap.getWidth() && bitmapArr[0].getHeight() < bitmap.getHeight())) {
                     bitmapArr[0] = bitmap;
                     callback.run(Boolean.FALSE);
                 }
             }
         });
-        final Runnable runnable = new Runnable() { // from class: org.telegram.ui.web.WebMetadataCache$$ExternalSyntheticLambda1
+        final Runnable runnable = new Runnable() { // from class: org.telegram.ui.web.WebMetadataCache$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 WebMetadataCache.lambda$retrieveFaviconAndSitename$6(webView);
@@ -477,7 +478,7 @@ public class WebMetadataCache {
                 runnable.run();
             }
         });
-        webView.addJavascriptInterface(new SitenameProxy(new Utilities.Callback() { // from class: org.telegram.ui.web.WebMetadataCache$$ExternalSyntheticLambda8
+        webView.addJavascriptInterface(new SitenameProxy(new Utilities.Callback() { // from class: org.telegram.ui.web.WebMetadataCache$$ExternalSyntheticLambda7
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 WebMetadataCache.lambda$retrieveFaviconAndSitename$7(strArr, callback, (String) obj);
@@ -486,7 +487,7 @@ public class WebMetadataCache {
         frameLayout.addView(webView, LayoutHelper.createFrame(-1, -1.0f));
         webView.loadUrl(str);
         runnable.run();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.WebMetadataCache$$ExternalSyntheticLambda2
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.WebMetadataCache$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
                 WebMetadataCache.lambda$retrieveFaviconAndSitename$8(Utilities.Callback.this);
@@ -496,16 +497,18 @@ public class WebMetadataCache {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$retrieveFaviconAndSitename$4(boolean[] zArr, String[] strArr, Bitmap[] bitmapArr, String str, WebView webView, FrameLayout frameLayout, Utilities.Callback2 callback2, Boolean bool) {
+        Bitmap bitmap;
         if (zArr[0]) {
             return;
         }
-        if (bool.booleanValue() || (!TextUtils.isEmpty(strArr[0]) && bitmapArr[0] != null && bitmapArr[0].getWidth() > AndroidUtilities.dp(28.0f) && bitmapArr[0].getHeight() > AndroidUtilities.dp(28.0f))) {
+        if (bool.booleanValue() || (!TextUtils.isEmpty(strArr[0]) && (bitmap = bitmapArr[0]) != null && bitmap.getWidth() > AndroidUtilities.dp(28.0f) && bitmapArr[0].getHeight() > AndroidUtilities.dp(28.0f))) {
             zArr[0] = true;
             WebMetadata webMetadata = new WebMetadata();
             webMetadata.domain = AndroidUtilities.getHostAuthority(str, true);
             webMetadata.sitename = strArr[0];
-            if (bitmapArr[0] != null) {
-                webMetadata.favicon = Bitmap.createBitmap(bitmapArr[0]);
+            Bitmap bitmap2 = bitmapArr[0];
+            if (bitmap2 != null) {
+                webMetadata.favicon = Bitmap.createBitmap(bitmap2);
             }
             getInstance().save(webMetadata);
             webView.destroy();
@@ -519,21 +522,12 @@ public class WebMetadataCache {
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$retrieveFaviconAndSitename$6(WebView webView) {
         String readRes = RLottieDrawable.readRes(null, R.raw.webview_ext);
-        String replace = readRes.replace("$DEBUG$", "" + BuildVars.DEBUG_VERSION);
-        if (Build.VERSION.SDK_INT >= 19) {
-            webView.evaluateJavascript(replace, new ValueCallback() { // from class: org.telegram.ui.web.WebMetadataCache$$ExternalSyntheticLambda0
-                @Override // android.webkit.ValueCallback
-                public final void onReceiveValue(Object obj) {
-                    WebMetadataCache.lambda$retrieveFaviconAndSitename$5((String) obj);
-                }
-            });
-            return;
-        }
-        try {
-            webView.loadUrl("javascript:" + URLEncoder.encode(replace, "UTF-8"));
-        } catch (UnsupportedEncodingException unused) {
-            webView.loadUrl("javascript:" + URLEncoder.encode(replace));
-        }
+        webView.evaluateJavascript(readRes.replace("$DEBUG$", "" + BuildVars.DEBUG_VERSION), new ValueCallback() { // from class: org.telegram.ui.web.WebMetadataCache$$ExternalSyntheticLambda9
+            @Override // android.webkit.ValueCallback
+            public final void onReceiveValue(Object obj) {
+                WebMetadataCache.lambda$retrieveFaviconAndSitename$5((String) obj);
+            }
+        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */

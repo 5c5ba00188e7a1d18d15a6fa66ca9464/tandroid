@@ -355,7 +355,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
         this.emptyView.setVisibility(8);
         this.emptyView.setText(LocaleController.getString("NoPhotos", R.string.NoPhotos));
         this.sizeNotifierFrameLayout.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, 0.0f, 0.0f, 48.0f));
-        this.emptyView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.PhotoAlbumPickerActivity$$ExternalSyntheticLambda3
+        this.emptyView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.PhotoAlbumPickerActivity$$ExternalSyntheticLambda0
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view, MotionEvent motionEvent) {
                 boolean lambda$createView$0;
@@ -381,7 +381,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
         this.frameLayout2.setVisibility(4);
         this.frameLayout2.setTranslationY(AndroidUtilities.dp(48.0f));
         this.sizeNotifierFrameLayout.addView(this.frameLayout2, LayoutHelper.createFrame(-1, 48, 83));
-        this.frameLayout2.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.PhotoAlbumPickerActivity$$ExternalSyntheticLambda4
+        this.frameLayout2.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.PhotoAlbumPickerActivity$$ExternalSyntheticLambda1
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view2, MotionEvent motionEvent) {
                 boolean lambda$createView$1;
@@ -444,7 +444,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
         this.writeButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_dialogFloatingIcon), PorterDuff.Mode.MULTIPLY));
         this.writeButton.setScaleType(ImageView.ScaleType.CENTER);
         if (i4 >= 21) {
-            this.writeButton.setOutlineProvider(new ViewOutlineProvider(this) { // from class: org.telegram.ui.PhotoAlbumPickerActivity.4
+            this.writeButton.setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.PhotoAlbumPickerActivity.4
                 @Override // android.view.ViewOutlineProvider
                 @SuppressLint({"NewApi"})
                 public void getOutline(View view2, Outline outline) {
@@ -453,13 +453,13 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
             });
         }
         this.writeButtonContainer.addView(this.writeButton, LayoutHelper.createFrame(i4 >= 21 ? 56 : 60, i4 >= 21 ? 56.0f : 60.0f, 51, i4 >= 21 ? 2.0f : 0.0f, 0.0f, 0.0f, 0.0f));
-        this.writeButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PhotoAlbumPickerActivity$$ExternalSyntheticLambda0
+        this.writeButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PhotoAlbumPickerActivity$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 PhotoAlbumPickerActivity.this.lambda$createView$3(view2);
             }
         });
-        this.writeButton.setOnLongClickListener(new View.OnLongClickListener() { // from class: org.telegram.ui.PhotoAlbumPickerActivity$$ExternalSyntheticLambda2
+        this.writeButton.setOnLongClickListener(new View.OnLongClickListener() { // from class: org.telegram.ui.PhotoAlbumPickerActivity$$ExternalSyntheticLambda3
             @Override // android.view.View.OnLongClickListener
             public final boolean onLongClick(View view2) {
                 boolean lambda$createView$7;
@@ -512,7 +512,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
     public /* synthetic */ void lambda$createView$3(View view) {
         ChatActivity chatActivity = this.chatActivity;
         if (chatActivity != null && chatActivity.isInScheduleMode()) {
-            AlertsCreator.createScheduleDatePickerDialog(getParentActivity(), this.chatActivity.getDialogId(), new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.PhotoAlbumPickerActivity$$ExternalSyntheticLambda7
+            AlertsCreator.createScheduleDatePickerDialog(getParentActivity(), this.chatActivity.getDialogId(), new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.PhotoAlbumPickerActivity$$ExternalSyntheticLambda4
                 @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
                 public final void didSelectDate(boolean z, int i) {
                     PhotoAlbumPickerActivity.this.lambda$createView$2(z, i);
@@ -579,7 +579,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
                         }
                         this.itemCells[i].setMinimumWidth(AndroidUtilities.dp(196.0f));
                         this.sendPopupLayout.addView((View) this.itemCells[i], LayoutHelper.createLinear(-1, 48));
-                        this.itemCells[i].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PhotoAlbumPickerActivity$$ExternalSyntheticLambda1
+                        this.itemCells[i].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PhotoAlbumPickerActivity$$ExternalSyntheticLambda6
                             @Override // android.view.View.OnClickListener
                             public final void onClick(View view2) {
                                 PhotoAlbumPickerActivity.this.lambda$createView$6(i, view2);
@@ -625,7 +625,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
             this.sendPopupWindow.dismiss();
         }
         if (i == 0) {
-            AlertsCreator.createScheduleDatePickerDialog(getParentActivity(), this.chatActivity.getDialogId(), new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.PhotoAlbumPickerActivity$$ExternalSyntheticLambda6
+            AlertsCreator.createScheduleDatePickerDialog(getParentActivity(), this.chatActivity.getDialogId(), new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.PhotoAlbumPickerActivity$$ExternalSyntheticLambda7
                 @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
                 public final void didSelectDate(boolean z, int i2) {
                     PhotoAlbumPickerActivity.this.lambda$createView$5(z, i2);

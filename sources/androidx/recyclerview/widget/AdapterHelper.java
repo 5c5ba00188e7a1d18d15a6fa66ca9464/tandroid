@@ -547,7 +547,7 @@ public class AdapterHelper implements OpReorderer.Callback {
             if (this == obj) {
                 return true;
             }
-            if (obj == null || UpdateOp.class != obj.getClass()) {
+            if (obj == null || getClass() != obj.getClass()) {
                 return false;
             }
             UpdateOp updateOp = (UpdateOp) obj;

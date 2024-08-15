@@ -75,7 +75,7 @@ public class JavaI420Buffer implements VideoFrame.I420Buffer {
         ByteBuffer slice2 = nativeAllocateByteBuffer.slice();
         nativeAllocateByteBuffer.position(i8);
         nativeAllocateByteBuffer.limit(i8 + i7);
-        return new JavaI420Buffer(i, i2, slice, i, slice2, i4, nativeAllocateByteBuffer.slice(), i4, new Runnable() { // from class: org.webrtc.JavaI420Buffer$$ExternalSyntheticLambda0
+        return new JavaI420Buffer(i, i2, slice, i, slice2, i4, nativeAllocateByteBuffer.slice(), i4, new Runnable() { // from class: org.webrtc.JavaI420Buffer$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 JniCommon.nativeFreeByteBuffer(nativeAllocateByteBuffer);
@@ -155,7 +155,7 @@ public class JavaI420Buffer implements VideoFrame.I420Buffer {
             dataU.position((i420Buffer.getStrideU() * i8) + i7);
             dataV.position(i7 + (i8 * i420Buffer.getStrideV()));
             i420Buffer.retain();
-            return wrap(i5, i6, dataY.slice(), i420Buffer.getStrideY(), dataU.slice(), i420Buffer.getStrideU(), dataV.slice(), i420Buffer.getStrideV(), new Runnable() { // from class: org.webrtc.JavaI420Buffer$$ExternalSyntheticLambda1
+            return wrap(i5, i6, dataY.slice(), i420Buffer.getStrideY(), dataU.slice(), i420Buffer.getStrideU(), dataV.slice(), i420Buffer.getStrideV(), new Runnable() { // from class: org.webrtc.JavaI420Buffer$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     VideoFrame.I420Buffer.this.release();

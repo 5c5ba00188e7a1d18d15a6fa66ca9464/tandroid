@@ -248,8 +248,9 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
     private int[] getStreamIndexToTrackGroupIndex(ExoTrackSelection[] exoTrackSelectionArr) {
         int[] iArr = new int[exoTrackSelectionArr.length];
         for (int i = 0; i < exoTrackSelectionArr.length; i++) {
-            if (exoTrackSelectionArr[i] != null) {
-                iArr[i] = this.trackGroups.indexOf(exoTrackSelectionArr[i].getTrackGroup());
+            ExoTrackSelection exoTrackSelection = exoTrackSelectionArr[i];
+            if (exoTrackSelection != null) {
+                iArr[i] = this.trackGroups.indexOf(exoTrackSelection.getTrackGroup());
             } else {
                 iArr[i] = -1;
             }
@@ -260,10 +261,11 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
     private void releaseDisabledStreams(ExoTrackSelection[] exoTrackSelectionArr, boolean[] zArr, SampleStream[] sampleStreamArr) {
         for (int i = 0; i < exoTrackSelectionArr.length; i++) {
             if (exoTrackSelectionArr[i] == null || !zArr[i]) {
-                if (sampleStreamArr[i] instanceof ChunkSampleStream) {
-                    ((ChunkSampleStream) sampleStreamArr[i]).release(this);
-                } else if (sampleStreamArr[i] instanceof ChunkSampleStream.EmbeddedSampleStream) {
-                    ((ChunkSampleStream.EmbeddedSampleStream) sampleStreamArr[i]).release();
+                SampleStream sampleStream = sampleStreamArr[i];
+                if (sampleStream instanceof ChunkSampleStream) {
+                    ((ChunkSampleStream) sampleStream).release(this);
+                } else if (sampleStream instanceof ChunkSampleStream.EmbeddedSampleStream) {
+                    ((ChunkSampleStream.EmbeddedSampleStream) sampleStream).release();
                 }
                 sampleStreamArr[i] = null;
             }
@@ -273,16 +275,19 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
     private void releaseOrphanEmbeddedStreams(ExoTrackSelection[] exoTrackSelectionArr, SampleStream[] sampleStreamArr, int[] iArr) {
         boolean z;
         for (int i = 0; i < exoTrackSelectionArr.length; i++) {
-            if ((sampleStreamArr[i] instanceof EmptySampleStream) || (sampleStreamArr[i] instanceof ChunkSampleStream.EmbeddedSampleStream)) {
+            SampleStream sampleStream = sampleStreamArr[i];
+            if ((sampleStream instanceof EmptySampleStream) || (sampleStream instanceof ChunkSampleStream.EmbeddedSampleStream)) {
                 int primaryStreamIndex = getPrimaryStreamIndex(i, iArr);
                 if (primaryStreamIndex == -1) {
                     z = sampleStreamArr[i] instanceof EmptySampleStream;
                 } else {
-                    z = (sampleStreamArr[i] instanceof ChunkSampleStream.EmbeddedSampleStream) && ((ChunkSampleStream.EmbeddedSampleStream) sampleStreamArr[i]).parent == sampleStreamArr[primaryStreamIndex];
+                    SampleStream sampleStream2 = sampleStreamArr[i];
+                    z = (sampleStream2 instanceof ChunkSampleStream.EmbeddedSampleStream) && ((ChunkSampleStream.EmbeddedSampleStream) sampleStream2).parent == sampleStreamArr[primaryStreamIndex];
                 }
                 if (!z) {
-                    if (sampleStreamArr[i] instanceof ChunkSampleStream.EmbeddedSampleStream) {
-                        ((ChunkSampleStream.EmbeddedSampleStream) sampleStreamArr[i]).release();
+                    SampleStream sampleStream3 = sampleStreamArr[i];
+                    if (sampleStream3 instanceof ChunkSampleStream.EmbeddedSampleStream) {
+                        ((ChunkSampleStream.EmbeddedSampleStream) sampleStream3).release();
                     }
                     sampleStreamArr[i] = null;
                 }
@@ -294,7 +299,8 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
         for (int i = 0; i < exoTrackSelectionArr.length; i++) {
             ExoTrackSelection exoTrackSelection = exoTrackSelectionArr[i];
             if (exoTrackSelection != null) {
-                if (sampleStreamArr[i] == null) {
+                SampleStream sampleStream = sampleStreamArr[i];
+                if (sampleStream == null) {
                     zArr[i] = true;
                     TrackGroupInfo trackGroupInfo = this.trackGroupInfos[iArr[i]];
                     int i2 = trackGroupInfo.trackGroupCategory;
@@ -303,8 +309,8 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
                     } else if (i2 == 2) {
                         sampleStreamArr[i] = new EventSampleStream(this.eventStreams.get(trackGroupInfo.eventStreamGroupIndex), exoTrackSelection.getTrackGroup().getFormat(0), this.manifest.dynamic);
                     }
-                } else if (sampleStreamArr[i] instanceof ChunkSampleStream) {
-                    ((DashChunkSource) ((ChunkSampleStream) sampleStreamArr[i]).getChunkSource()).updateTrackSelection(exoTrackSelection);
+                } else if (sampleStream instanceof ChunkSampleStream) {
+                    ((DashChunkSource) ((ChunkSampleStream) sampleStream).getChunkSource()).updateTrackSelection(exoTrackSelection);
                 }
             }
         }
@@ -392,8 +398,9 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
         int size2 = arrayList.size();
         int[][] iArr = new int[size2];
         for (int i5 = 0; i5 < size2; i5++) {
-            iArr[i5] = Ints.toArray((Collection) arrayList.get(i5));
-            Arrays.sort(iArr[i5]);
+            int[] array = Ints.toArray((Collection) arrayList.get(i5));
+            iArr[i5] = array;
+            Arrays.sort(array);
         }
         return iArr;
     }
@@ -405,8 +412,9 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
                 zArr[i3] = true;
                 i2++;
             }
-            formatArr[i3] = getClosedCaptionTrackFormats(list, iArr[i3]);
-            if (formatArr[i3].length != 0) {
+            Format[] closedCaptionTrackFormats = getClosedCaptionTrackFormats(list, iArr[i3]);
+            formatArr[i3] = closedCaptionTrackFormats;
+            if (closedCaptionTrackFormats.length != 0) {
                 i2++;
             }
         }
@@ -510,9 +518,10 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
         ArrayList arrayList = new ArrayList();
         if (z2) {
             for (int i5 = 0; i5 < trackGroup2.length; i5++) {
-                formatArr[i2] = trackGroup2.getFormat(i5);
+                Format format = trackGroup2.getFormat(i5);
+                formatArr[i2] = format;
                 iArr[i2] = 3;
-                arrayList.add(formatArr[i2]);
+                arrayList.add(format);
                 i2++;
             }
         }

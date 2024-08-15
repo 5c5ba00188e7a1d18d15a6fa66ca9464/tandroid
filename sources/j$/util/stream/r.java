@@ -1,45 +1,47 @@
 package j$.util.stream;
+
+import j$.util.function.BiConsumer;
+import j$.util.function.BiFunction;
+import j$.util.function.Function;
 /* loaded from: classes2.dex */
-class r extends i3 {
-    boolean b;
-    Object c;
+public final /* synthetic */ class r implements j$.util.function.f {
+    public final /* synthetic */ int a;
+    public final /* synthetic */ BiConsumer b;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public r(t tVar, m3 m3Var) {
-        super(m3Var);
+    public /* synthetic */ r(BiConsumer biConsumer, int i) {
+        this.a = i;
+        this.b = biConsumer;
     }
 
-    @Override // j$.util.function.Consumer
-    public void accept(Object obj) {
-        if (obj == null) {
-            if (this.b) {
-                return;
-            }
-            this.b = true;
-            m3 m3Var = this.a;
-            this.c = null;
-            m3Var.accept((m3) null);
-            return;
-        }
-        Object obj2 = this.c;
-        if (obj2 == null || !obj.equals(obj2)) {
-            m3 m3Var2 = this.a;
-            this.c = obj;
-            m3Var2.accept((m3) obj);
+    @Override // j$.util.function.BiFunction
+    public final BiFunction andThen(Function function) {
+        switch (this.a) {
+            case 0:
+                function.getClass();
+                return new j$.util.concurrent.u(this, function);
+            case 1:
+                function.getClass();
+                return new j$.util.concurrent.u(this, function);
+            default:
+                function.getClass();
+                return new j$.util.concurrent.u(this, function);
         }
     }
 
-    @Override // j$.util.stream.i3, j$.util.stream.m3
-    public void m() {
-        this.b = false;
-        this.c = null;
-        this.a.m();
-    }
-
-    @Override // j$.util.stream.m3
-    public void n(long j) {
-        this.b = false;
-        this.c = null;
-        this.a.n(-1L);
+    @Override // j$.util.function.BiFunction
+    public final Object apply(Object obj, Object obj2) {
+        int i = this.a;
+        BiConsumer biConsumer = this.b;
+        switch (i) {
+            case 0:
+                biConsumer.accept(obj, obj2);
+                return obj;
+            case 1:
+                biConsumer.accept(obj, obj2);
+                return obj;
+            default:
+                biConsumer.accept(obj, obj2);
+                return obj;
+        }
     }
 }

@@ -9,6 +9,13 @@ import java.util.concurrent.atomic.AtomicLong;
 /* loaded from: classes.dex */
 public final class LoadEventInfo {
     private static final AtomicLong idSource = new AtomicLong();
+    public final long bytesLoaded;
+    public final DataSpec dataSpec;
+    public final long elapsedRealtimeMs;
+    public final long loadDurationMs;
+    public final long loadTaskId;
+    public final Map<String, List<String>> responseHeaders;
+    public final Uri uri;
 
     public static long getNewId() {
         return idSource.getAndIncrement();
@@ -19,5 +26,12 @@ public final class LoadEventInfo {
     }
 
     public LoadEventInfo(long j, DataSpec dataSpec, Uri uri, Map<String, List<String>> map, long j2, long j3, long j4) {
+        this.loadTaskId = j;
+        this.dataSpec = dataSpec;
+        this.uri = uri;
+        this.responseHeaders = map;
+        this.elapsedRealtimeMs = j2;
+        this.loadDurationMs = j3;
+        this.bytesLoaded = j4;
     }
 }

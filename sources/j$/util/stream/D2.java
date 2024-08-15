@@ -1,44 +1,50 @@
 package j$.util.stream;
+
+import java.util.Arrays;
 /* loaded from: classes2.dex */
-class D2 extends U2 {
-    public final /* synthetic */ int b = 1;
-    final /* synthetic */ Object c;
+final class D2 extends r2 {
+    private int[] c;
+    private int d;
 
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public D2(e4 e4Var, j$.util.function.b bVar) {
-        super(e4Var);
-        this.c = bVar;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public D2(f2 f2Var) {
+        super(f2Var);
     }
 
-    @Override // j$.util.stream.U2
-    public S2 a() {
-        switch (this.b) {
-            case 0:
-                return new E2((j$.util.function.d) this.c);
-            case 1:
-                return new H2((j$.util.function.b) this.c);
-            case 2:
-                return new N2((j$.util.function.j) this.c);
-            default:
-                return new R2((j$.util.function.o) this.c);
+    @Override // j$.util.stream.d2, j$.util.stream.f2
+    public final void accept(int i) {
+        int[] iArr = this.c;
+        int i2 = this.d;
+        this.d = i2 + 1;
+        iArr[i2] = i;
+    }
+
+    @Override // j$.util.stream.Z1, j$.util.stream.f2
+    public final void end() {
+        int i = 0;
+        Arrays.sort(this.c, 0, this.d);
+        f2 f2Var = this.a;
+        f2Var.f(this.d);
+        if (this.b) {
+            while (i < this.d && !f2Var.h()) {
+                f2Var.accept(this.c[i]);
+                i++;
+            }
+        } else {
+            while (i < this.d) {
+                f2Var.accept(this.c[i]);
+                i++;
+            }
         }
+        f2Var.end();
+        this.c = null;
     }
 
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public D2(e4 e4Var, j$.util.function.d dVar) {
-        super(e4Var);
-        this.c = dVar;
-    }
-
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public D2(e4 e4Var, j$.util.function.j jVar) {
-        super(e4Var);
-        this.c = jVar;
-    }
-
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public D2(e4 e4Var, j$.util.function.o oVar) {
-        super(e4Var);
-        this.c = oVar;
+    @Override // j$.util.stream.f2
+    public final void f(long j) {
+        if (j >= 2147483639) {
+            throw new IllegalArgumentException("Stream size exceeds max array size");
+        }
+        this.c = new int[(int) j];
     }
 }

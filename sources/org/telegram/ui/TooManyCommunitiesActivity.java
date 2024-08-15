@@ -77,13 +77,13 @@ public class TooManyCommunitiesActivity extends BaseFragment {
             TooManyCommunitiesActivity.this.progressBar.animate().alpha(1.0f).start();
         }
     };
-    RecyclerListView.OnItemClickListener onItemClickListener = new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.TooManyCommunitiesActivity$$ExternalSyntheticLambda5
+    RecyclerListView.OnItemClickListener onItemClickListener = new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.TooManyCommunitiesActivity$$ExternalSyntheticLambda1
         @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
         public final void onItemClick(View view, int i) {
             TooManyCommunitiesActivity.this.lambda$new$0(view, i);
         }
     };
-    RecyclerListView.OnItemLongClickListener onItemLongClickListener = new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.TooManyCommunitiesActivity$$ExternalSyntheticLambda6
+    RecyclerListView.OnItemLongClickListener onItemLongClickListener = new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.TooManyCommunitiesActivity$$ExternalSyntheticLambda2
         @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
         public final boolean onItemClick(View view, int i) {
             boolean lambda$new$1;
@@ -243,7 +243,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         View view = this.fragmentView;
         int i2 = Theme.key_windowBackgroundWhite;
         view.setBackgroundColor(Theme.getColor(i2));
-        FrameLayout frameLayout3 = new FrameLayout(this, context) { // from class: org.telegram.ui.TooManyCommunitiesActivity.5
+        FrameLayout frameLayout3 = new FrameLayout(context) { // from class: org.telegram.ui.TooManyCommunitiesActivity.5
             @Override // android.view.View
             protected void onDraw(Canvas canvas) {
                 super.onDraw(canvas);
@@ -263,7 +263,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         this.buttonLayout.setBackgroundColor(Theme.getColor(i2));
         this.buttonLayout.addView(this.buttonTextView, LayoutHelper.createFrame(-1, -1.0f, 0, 16.0f, 12.0f, 16.0f, 12.0f));
         this.buttonLayout.setVisibility(8);
-        this.buttonTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.TooManyCommunitiesActivity$$ExternalSyntheticLambda1
+        this.buttonTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.TooManyCommunitiesActivity$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 TooManyCommunitiesActivity.this.lambda$createView$2(view2);
@@ -344,7 +344,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         this.adapter.notifyDataSetChanged();
         this.enterProgress = 0.0f;
         AndroidUtilities.runOnUIThread(this.showProgressRunnable, 500L);
-        getConnectionsManager().sendRequest(new TLRPC$TL_channels_getInactiveChannels(), new RequestDelegate() { // from class: org.telegram.ui.TooManyCommunitiesActivity$$ExternalSyntheticLambda3
+        getConnectionsManager().sendRequest(new TLRPC$TL_channels_getInactiveChannels(), new RequestDelegate() { // from class: org.telegram.ui.TooManyCommunitiesActivity$$ExternalSyntheticLambda4
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 TooManyCommunitiesActivity.this.lambda$loadInactiveChannels$5(tLObject, tLRPC$TL_error);
@@ -376,7 +376,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
                     arrayList.add(LocaleController.formatString("InactiveChatSignature", R.string.InactiveChatSignature, LocaleController.formatPluralString("Members", tLRPC$Chat.participants_count, new Object[0]), formatPluralString));
                 }
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TooManyCommunitiesActivity$$ExternalSyntheticLambda2
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TooManyCommunitiesActivity$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
                 public final void run() {
                     TooManyCommunitiesActivity.this.lambda$loadInactiveChannels$4(arrayList, tLRPC$TL_messages_inactiveChats);
@@ -395,7 +395,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         if (this.listView.getMeasuredHeight() > 0) {
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
             this.enterAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.TooManyCommunitiesActivity$$ExternalSyntheticLambda0
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.TooManyCommunitiesActivity$$ExternalSyntheticLambda6
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     TooManyCommunitiesActivity.this.lambda$loadInactiveChannels$3(valueAnimator);
@@ -454,15 +454,11 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         }
 
         public void updateRows() {
-            this.hintPosition = -1;
-            this.shadowPosition = -1;
             this.headerPosition = -1;
             this.inactiveChatsStartRow = -1;
             this.inactiveChatsEndRow = -1;
             this.endPaddingPosition = -1;
-            this.rowCount = 0;
             int i = 0 + 1;
-            this.rowCount = i;
             this.hintPosition = 0;
             this.rowCount = i + 1;
             this.shadowPosition = i;
@@ -471,13 +467,11 @@ public class TooManyCommunitiesActivity extends BaseFragment {
             }
             int i2 = this.rowCount;
             int i3 = i2 + 1;
-            this.rowCount = i3;
             this.headerPosition = i2;
             int i4 = i3 + 1;
             this.rowCount = i4;
             this.inactiveChatsStartRow = i3;
             int size = i4 + (TooManyCommunitiesActivity.this.inactiveChats.size() - 1);
-            this.rowCount = size;
             this.inactiveChatsEndRow = size;
             this.rowCount = size + 1;
             this.endPaddingPosition = size;
@@ -614,7 +608,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
             final int i = this.lastSearchId + 1;
             this.lastSearchId = i;
             DispatchQueue dispatchQueue = Utilities.searchQueue;
-            Runnable runnable = new Runnable() { // from class: org.telegram.ui.TooManyCommunitiesActivity$SearchAdapter$$ExternalSyntheticLambda1
+            Runnable runnable = new Runnable() { // from class: org.telegram.ui.TooManyCommunitiesActivity$SearchAdapter$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     TooManyCommunitiesActivity.SearchAdapter.this.lambda$search$0(str, i);
@@ -626,7 +620,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
 
         /* renamed from: processSearch */
         public void lambda$search$0(final String str, final int i) {
-            Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.TooManyCommunitiesActivity$SearchAdapter$$ExternalSyntheticLambda2
+            Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.TooManyCommunitiesActivity$SearchAdapter$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     TooManyCommunitiesActivity.SearchAdapter.this.lambda$processSearch$1(str, i);
@@ -687,7 +681,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         }
 
         private void updateSearchResults(final ArrayList<TLRPC$Chat> arrayList, final ArrayList<String> arrayList2, final int i) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TooManyCommunitiesActivity$SearchAdapter$$ExternalSyntheticLambda0
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TooManyCommunitiesActivity$SearchAdapter$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     TooManyCommunitiesActivity.SearchAdapter.this.lambda$updateSearchResults$2(i, arrayList, arrayList2);
@@ -718,7 +712,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.TooManyCommunitiesActivity$$ExternalSyntheticLambda4
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.TooManyCommunitiesActivity$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 TooManyCommunitiesActivity.this.lambda$getThemeDescriptions$6();

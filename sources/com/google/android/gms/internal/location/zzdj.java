@@ -5,12 +5,14 @@ import java.util.Locale;
 /* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
 public final class zzdj {
+    private static final SimpleDateFormat zza;
+    private static final SimpleDateFormat zzb;
     private static final StringBuilder zzc;
 
     static {
         Locale locale = Locale.ROOT;
-        new SimpleDateFormat("MM-dd HH:mm:ss.SSS", locale);
-        new SimpleDateFormat("MM-dd HH:mm:ss", locale);
+        zza = new SimpleDateFormat("MM-dd HH:mm:ss.SSS", locale);
+        zzb = new SimpleDateFormat("MM-dd HH:mm:ss", locale);
         zzc = new StringBuilder(33);
     }
 

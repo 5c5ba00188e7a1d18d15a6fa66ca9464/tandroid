@@ -36,7 +36,7 @@ public final class u {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public String a(long j, TextStyle textStyle) {
+    public final String a(long j, TextStyle textStyle) {
         Map map = (Map) this.a.get(textStyle);
         if (map != null) {
             return (String) map.get(Long.valueOf(j));

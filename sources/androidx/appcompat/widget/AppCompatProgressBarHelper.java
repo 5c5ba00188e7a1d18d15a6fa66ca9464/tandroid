@@ -107,15 +107,33 @@ class AppCompatProgressBarHelper {
     /* loaded from: classes.dex */
     public static class Api23Impl {
         public static void transferLayerProperties(LayerDrawable layerDrawable, LayerDrawable layerDrawable2, int i) {
-            layerDrawable2.setLayerGravity(i, layerDrawable.getLayerGravity(i));
-            layerDrawable2.setLayerWidth(i, layerDrawable.getLayerWidth(i));
-            layerDrawable2.setLayerHeight(i, layerDrawable.getLayerHeight(i));
-            layerDrawable2.setLayerInsetLeft(i, layerDrawable.getLayerInsetLeft(i));
-            layerDrawable2.setLayerInsetRight(i, layerDrawable.getLayerInsetRight(i));
-            layerDrawable2.setLayerInsetTop(i, layerDrawable.getLayerInsetTop(i));
-            layerDrawable2.setLayerInsetBottom(i, layerDrawable.getLayerInsetBottom(i));
-            layerDrawable2.setLayerInsetStart(i, layerDrawable.getLayerInsetStart(i));
-            layerDrawable2.setLayerInsetEnd(i, layerDrawable.getLayerInsetEnd(i));
+            int layerGravity;
+            int layerWidth;
+            int layerHeight;
+            int layerInsetLeft;
+            int layerInsetRight;
+            int layerInsetTop;
+            int layerInsetBottom;
+            int layerInsetStart;
+            int layerInsetEnd;
+            layerGravity = layerDrawable.getLayerGravity(i);
+            layerDrawable2.setLayerGravity(i, layerGravity);
+            layerWidth = layerDrawable.getLayerWidth(i);
+            layerDrawable2.setLayerWidth(i, layerWidth);
+            layerHeight = layerDrawable.getLayerHeight(i);
+            layerDrawable2.setLayerHeight(i, layerHeight);
+            layerInsetLeft = layerDrawable.getLayerInsetLeft(i);
+            layerDrawable2.setLayerInsetLeft(i, layerInsetLeft);
+            layerInsetRight = layerDrawable.getLayerInsetRight(i);
+            layerDrawable2.setLayerInsetRight(i, layerInsetRight);
+            layerInsetTop = layerDrawable.getLayerInsetTop(i);
+            layerDrawable2.setLayerInsetTop(i, layerInsetTop);
+            layerInsetBottom = layerDrawable.getLayerInsetBottom(i);
+            layerDrawable2.setLayerInsetBottom(i, layerInsetBottom);
+            layerInsetStart = layerDrawable.getLayerInsetStart(i);
+            layerDrawable2.setLayerInsetStart(i, layerInsetStart);
+            layerInsetEnd = layerDrawable.getLayerInsetEnd(i);
+            layerDrawable2.setLayerInsetEnd(i, layerInsetEnd);
         }
     }
 }

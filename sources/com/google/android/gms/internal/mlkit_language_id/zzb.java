@@ -4,14 +4,10 @@ import java.nio.charset.Charset;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public final class zzb {
-    public static final Charset zza;
-
-    static {
-        Charset.forName("US-ASCII");
-        Charset.forName("ISO-8859-1");
-        zza = Charset.forName("UTF-8");
-        Charset.forName("UTF-16BE");
-        Charset.forName("UTF-16LE");
-        Charset.forName("UTF-16");
-    }
+    private static final Charset zzb = Charset.forName("US-ASCII");
+    private static final Charset zzc = Charset.forName("ISO-8859-1");
+    public static final Charset zza = Charset.forName("UTF-8");
+    private static final Charset zzd = Charset.forName("UTF-16BE");
+    private static final Charset zze = Charset.forName("UTF-16LE");
+    private static final Charset zzf = Charset.forName("UTF-16");
 }

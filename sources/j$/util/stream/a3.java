@@ -1,31 +1,19 @@
 package j$.util.stream;
 
-import j$.util.function.Function;
+import j$.util.function.Consumer;
 /* loaded from: classes2.dex */
-class a3 extends d3 {
-    public final /* synthetic */ int l;
-    final /* synthetic */ Function m;
+final class a3 extends b3 implements Consumer {
+    final Object[] b = new Object[128];
 
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public a3(e3 e3Var, c cVar, e4 e4Var, int i, Function function, int i2) {
-        super(cVar, e4Var, i);
-        this.l = i2;
-        if (i2 != 1) {
-            this.m = function;
-            return;
-        }
-        this.m = function;
-        super(cVar, e4Var, i);
+    @Override // j$.util.function.Consumer
+    public final void accept(Object obj) {
+        int i = this.a;
+        this.a = i + 1;
+        this.b[i] = obj;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // j$.util.stream.c
-    public m3 C0(int i, m3 m3Var) {
-        switch (this.l) {
-            case 0:
-                return new Y2(this, m3Var);
-            default:
-                return new Y2(this, m3Var, (j$.lang.a) null);
-        }
+    @Override // j$.util.function.Consumer
+    public final /* synthetic */ Consumer andThen(Consumer consumer) {
+        return Consumer.-CC.$default$andThen(this, consumer);
     }
 }

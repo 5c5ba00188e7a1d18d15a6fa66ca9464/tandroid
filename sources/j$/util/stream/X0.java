@@ -1,32 +1,34 @@
 package j$.util.stream;
-
-import java.util.Objects;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class X0 implements j$.util.function.q {
-    public final /* synthetic */ int a = 1;
-    public final /* synthetic */ Object b;
-
-    @Override // j$.util.function.q
-    public final void accept(long j) {
-        switch (this.a) {
-            case 0:
-                ((m3) this.b).accept(j);
-                return;
-            default:
-                ((a1) this.b).a.accept(j);
-                return;
-        }
+abstract class X0 implements D0 {
+    @Override // j$.util.stream.D0
+    public D0 a(int i) {
+        throw new IndexOutOfBoundsException();
     }
 
-    @Override // j$.util.function.q
-    public j$.util.function.q f(j$.util.function.q qVar) {
-        switch (this.a) {
-            case 0:
-                Objects.requireNonNull(qVar);
-                return new j$.util.function.p(this, qVar);
-            default:
-                Objects.requireNonNull(qVar);
-                return new j$.util.function.p(this, qVar);
-        }
+    public final void c(Object obj, int i) {
+    }
+
+    @Override // j$.util.stream.D0
+    public final long count() {
+        return 0L;
+    }
+
+    public final void d(Object obj) {
+    }
+
+    @Override // j$.util.stream.D0
+    public final /* synthetic */ int j() {
+        return 0;
+    }
+
+    @Override // j$.util.stream.D0
+    public final Object[] o(j$.util.function.N n) {
+        return (Object[]) n.apply(0);
+    }
+
+    @Override // j$.util.stream.D0
+    public /* synthetic */ D0 q(long j, long j2, j$.util.function.N n) {
+        return u0.B0(this, j, j2, n);
     }
 }

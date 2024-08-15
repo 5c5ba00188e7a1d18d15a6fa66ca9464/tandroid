@@ -66,9 +66,13 @@ public class AbtExperimentInfo {
     /* JADX INFO: Access modifiers changed from: package-private */
     public AnalyticsConnector.ConditionalUserProperty toConditionalUserProperty(String str) {
         AnalyticsConnector.ConditionalUserProperty conditionalUserProperty = new AnalyticsConnector.ConditionalUserProperty();
-        getStartTimeInMillisSinceEpoch();
+        conditionalUserProperty.origin = str;
+        conditionalUserProperty.creationTimestamp = getStartTimeInMillisSinceEpoch();
         conditionalUserProperty.name = this.experimentId;
-        TextUtils.isEmpty(this.triggerEventName);
+        conditionalUserProperty.value = this.variantId;
+        conditionalUserProperty.triggerEventName = TextUtils.isEmpty(this.triggerEventName) ? null : this.triggerEventName;
+        conditionalUserProperty.triggerTimeout = this.triggerTimeoutInMillis;
+        conditionalUserProperty.timeToLive = this.timeToLiveInMillis;
         return conditionalUserProperty;
     }
 }

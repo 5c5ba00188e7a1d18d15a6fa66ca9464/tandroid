@@ -3,7 +3,6 @@ package com.google.android.gms.vision.face;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.Image;
-import android.os.Build;
 import android.util.Log;
 import android.util.SparseArray;
 import androidx.annotation.RecentlyNonNull;
@@ -117,7 +116,7 @@ public final class FaceDetector extends Detector<Face> {
         if (frame == null) {
             throw new IllegalArgumentException("No frame supplied.");
         }
-        if (Build.VERSION.SDK_INT >= 19 && frame.getPlanes() != null && ((Image.Plane[]) Preconditions.checkNotNull(frame.getPlanes())).length == 3) {
+        if (frame.getPlanes() != null && ((Image.Plane[]) Preconditions.checkNotNull(frame.getPlanes())).length == 3) {
             synchronized (this.zzc) {
                 if (!this.zzd) {
                     throw new IllegalStateException("Cannot use detector after release()");

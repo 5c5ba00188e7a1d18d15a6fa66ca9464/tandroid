@@ -13,7 +13,7 @@ import android.widget.ListView;
 import androidx.appcompat.R$attr;
 import androidx.appcompat.app.AlertController;
 /* loaded from: classes.dex */
-public class AlertDialog extends AppCompatDialog {
+public class AlertDialog extends AppCompatDialog implements DialogInterface {
     final AlertController mAlert;
 
     protected AlertDialog(Context context, int i) {

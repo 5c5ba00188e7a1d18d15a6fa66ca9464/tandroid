@@ -64,7 +64,7 @@ public class TypefaceCompatBaseImpl {
 
     /* JADX INFO: Access modifiers changed from: protected */
     public FontsContractCompat.FontInfo findBestInfo(FontsContractCompat.FontInfo[] fontInfoArr, int i) {
-        return (FontsContractCompat.FontInfo) findBestFont(fontInfoArr, i, new StyleExtractor<FontsContractCompat.FontInfo>(this) { // from class: androidx.core.graphics.TypefaceCompatBaseImpl.1
+        return (FontsContractCompat.FontInfo) findBestFont(fontInfoArr, i, new StyleExtractor<FontsContractCompat.FontInfo>() { // from class: androidx.core.graphics.TypefaceCompatBaseImpl.1
             @Override // androidx.core.graphics.TypefaceCompatBaseImpl.StyleExtractor
             public int getWeight(FontsContractCompat.FontInfo fontInfo) {
                 return fontInfo.getWeight();
@@ -124,7 +124,7 @@ public class TypefaceCompatBaseImpl {
     }
 
     private FontResourcesParserCompat.FontFileResourceEntry findBestEntry(FontResourcesParserCompat.FontFamilyFilesResourceEntry fontFamilyFilesResourceEntry, int i) {
-        return (FontResourcesParserCompat.FontFileResourceEntry) findBestFont(fontFamilyFilesResourceEntry.getEntries(), i, new StyleExtractor<FontResourcesParserCompat.FontFileResourceEntry>(this) { // from class: androidx.core.graphics.TypefaceCompatBaseImpl.2
+        return (FontResourcesParserCompat.FontFileResourceEntry) findBestFont(fontFamilyFilesResourceEntry.getEntries(), i, new StyleExtractor<FontResourcesParserCompat.FontFileResourceEntry>() { // from class: androidx.core.graphics.TypefaceCompatBaseImpl.2
             @Override // androidx.core.graphics.TypefaceCompatBaseImpl.StyleExtractor
             public int getWeight(FontResourcesParserCompat.FontFileResourceEntry fontFileResourceEntry) {
                 return fontFileResourceEntry.getWeight();

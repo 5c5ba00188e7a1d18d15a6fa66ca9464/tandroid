@@ -49,6 +49,7 @@ public class DefaultThemesPreviewCell extends LinearLayout {
     private LinearLayoutManager layoutManager;
     private ValueAnimator navBarAnimator;
     private int navBarColor;
+    BaseFragment parentFragment;
     private final FlickerLoadingView progressView;
     private final RecyclerListView recyclerView;
     private int selectedPosition;
@@ -62,6 +63,7 @@ public class DefaultThemesPreviewCell extends LinearLayout {
         this.selectedPosition = -1;
         this.wasPortrait = null;
         this.currentType = i;
+        this.parentFragment = baseFragment;
         setOrientation(1);
         FrameLayout frameLayout = new FrameLayout(context);
         addView(frameLayout, LayoutHelper.createFrame(-1, -2.0f));
@@ -69,7 +71,7 @@ public class DefaultThemesPreviewCell extends LinearLayout {
         int i2 = this.currentType;
         ChatThemeBottomSheet.Adapter adapter = new ChatThemeBottomSheet.Adapter(currentAccount, null, (i2 == 0 || i2 == -1) ? 0 : 1);
         this.adapter = adapter;
-        RecyclerListView recyclerListView = new RecyclerListView(this, getContext()) { // from class: org.telegram.ui.DefaultThemesPreviewCell.1
+        RecyclerListView recyclerListView = new RecyclerListView(getContext()) { // from class: org.telegram.ui.DefaultThemesPreviewCell.1
             @Override // org.telegram.ui.Components.RecyclerListView
             public Integer getSelectorColor(int i3) {
                 return 0;
@@ -86,7 +88,7 @@ public class DefaultThemesPreviewCell extends LinearLayout {
         updateLayoutManager();
         recyclerListView.setFocusable(false);
         recyclerListView.setPadding(AndroidUtilities.dp(12.0f), 0, AndroidUtilities.dp(12.0f), 0);
-        recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.DefaultThemesPreviewCell$$ExternalSyntheticLambda1
+        recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.DefaultThemesPreviewCell$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i3) {
                 DefaultThemesPreviewCell.this.lambda$new$0(baseFragment, view, i3);
@@ -125,7 +127,7 @@ public class DefaultThemesPreviewCell extends LinearLayout {
             addView(this.browseThemesCell, LayoutHelper.createFrame(-1, -2.0f));
             this.dayNightCell.setOnClickListener(new 2(context, baseFragment));
             this.darkThemeDrawable.setPlayInDirectionOfCustomEndFrame(true);
-            this.browseThemesCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DefaultThemesPreviewCell$$ExternalSyntheticLambda0
+            this.browseThemesCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DefaultThemesPreviewCell$$ExternalSyntheticLambda1
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     DefaultThemesPreviewCell.lambda$new$1(BaseFragment.this, view);
@@ -322,7 +324,7 @@ public class DefaultThemesPreviewCell extends LinearLayout {
                         AndroidUtilities.setLightNavigationBar(window, AndroidUtilities.computePerceivedBrightness(DefaultThemesPreviewCell.this.navBarColor) >= 0.721f);
                     }
                 });
-                DefaultThemesPreviewCell.this.navBarAnimator.addListener(new AnimatorListenerAdapter(this) { // from class: org.telegram.ui.DefaultThemesPreviewCell.2.4
+                DefaultThemesPreviewCell.this.navBarAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.DefaultThemesPreviewCell.2.4
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
                         AndroidUtilities.setNavigationBarColor(window, color2, false);
@@ -367,7 +369,7 @@ public class DefaultThemesPreviewCell extends LinearLayout {
                 } else {
                     this.recyclerView.setHasFixedSize(false);
                     GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), i2);
-                    gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup(this) { // from class: org.telegram.ui.DefaultThemesPreviewCell.3
+                    gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() { // from class: org.telegram.ui.DefaultThemesPreviewCell.3
                         @Override // androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
                         public int getSpanSize(int i3) {
                             return 1;

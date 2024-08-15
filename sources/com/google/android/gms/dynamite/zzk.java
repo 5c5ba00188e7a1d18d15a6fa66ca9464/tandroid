@@ -13,11 +13,11 @@ final class zzk implements DynamiteModule.VersionPolicy {
         selectionResult.remoteVersion = zzb;
         int i = selectionResult.localVersion;
         if (i == 0) {
+            i = 0;
             if (zzb == 0) {
                 selectionResult.selection = 0;
                 return selectionResult;
             }
-            i = 0;
         }
         if (zzb >= i) {
             selectionResult.selection = 1;

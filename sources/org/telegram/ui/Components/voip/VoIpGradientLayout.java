@@ -109,7 +109,7 @@ public class VoIpGradientLayout extends FrameLayout {
         AnimatorSet animatorSet = new AnimatorSet();
         this.defaultAnimatorSet = animatorSet;
         ValueAnimator ofInt = ValueAnimator.ofInt(0, 360);
-        ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIpGradientLayout$$ExternalSyntheticLambda6
+        ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIpGradientLayout$$ExternalSyntheticLambda2
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 VoIpGradientLayout.this.lambda$new$0(voIPBackgroundProvider, valueAnimator);
@@ -167,7 +167,7 @@ public class VoIpGradientLayout extends FrameLayout {
         this.alphaBlueGreen = 255;
         ValueAnimator ofInt = ValueAnimator.ofInt(255, 0, 255);
         this.callingAnimator = ofInt;
-        ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIpGradientLayout$$ExternalSyntheticLambda3
+        ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIpGradientLayout$$ExternalSyntheticLambda4
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 VoIpGradientLayout.this.lambda$switchToCalling$1(valueAnimator);
@@ -219,7 +219,7 @@ public class VoIpGradientLayout extends FrameLayout {
         this.showClip = true;
         this.backgroundProvider.setReveal(true);
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, (float) max);
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIpGradientLayout$$ExternalSyntheticLambda4
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIpGradientLayout$$ExternalSyntheticLambda1
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                 VoIpGradientLayout.this.lambda$switchToCallConnected$2(valueAnimator2);
@@ -262,7 +262,7 @@ public class VoIpGradientLayout extends FrameLayout {
         this.alphaGreen = 255;
         this.connectedAnimatorSet = new AnimatorSet();
         ValueAnimator ofInt = ValueAnimator.ofInt(0, 255, 255, 255, 0);
-        ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIpGradientLayout$$ExternalSyntheticLambda0
+        ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIpGradientLayout$$ExternalSyntheticLambda5
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                 VoIpGradientLayout.this.lambda$switchToConnectedAnimator$3(valueAnimator2);
@@ -271,7 +271,7 @@ public class VoIpGradientLayout extends FrameLayout {
         ofInt.setRepeatCount(-1);
         ofInt.setRepeatMode(1);
         ValueAnimator ofInt2 = ValueAnimator.ofInt(0, 0, 255, 0, 0);
-        ofInt2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIpGradientLayout$$ExternalSyntheticLambda2
+        ofInt2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIpGradientLayout$$ExternalSyntheticLambda6
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                 VoIpGradientLayout.this.lambda$switchToConnectedAnimator$4(valueAnimator2);
@@ -312,7 +312,7 @@ public class VoIpGradientLayout extends FrameLayout {
         this.state = gradientState2;
         ValueAnimator ofInt = ValueAnimator.ofInt(this.alphaOrangeRed, 255);
         this.badConnectionAnimator = ofInt;
-        ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIpGradientLayout$$ExternalSyntheticLambda5
+        ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIpGradientLayout$$ExternalSyntheticLambda0
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 VoIpGradientLayout.this.lambda$showToBadConnection$5(valueAnimator);
@@ -344,7 +344,7 @@ public class VoIpGradientLayout extends FrameLayout {
         }
         ValueAnimator ofInt = ValueAnimator.ofInt(this.alphaOrangeRed, 0);
         this.badConnectionAnimator = ofInt;
-        ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIpGradientLayout$$ExternalSyntheticLambda1
+        ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIpGradientLayout$$ExternalSyntheticLambda3
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                 VoIpGradientLayout.this.lambda$hideBadConnection$6(valueAnimator2);

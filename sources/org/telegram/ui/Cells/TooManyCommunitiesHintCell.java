@@ -46,7 +46,7 @@ public class TooManyCommunitiesHintCell extends FrameLayout {
         textPaint.setTextSize(AndroidUtilities.dp(12.0f));
         textPaint.setTypeface(AndroidUtilities.bold());
         final Paint paint = new Paint(1);
-        FrameLayout frameLayout = new FrameLayout(this, context) { // from class: org.telegram.ui.Cells.TooManyCommunitiesHintCell.1
+        FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Cells.TooManyCommunitiesHintCell.1
             RectF rect = new RectF();
 
             @Override // android.view.View

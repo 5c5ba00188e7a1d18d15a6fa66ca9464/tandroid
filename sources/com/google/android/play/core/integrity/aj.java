@@ -17,12 +17,14 @@ final class aj {
     final com.google.android.play.integrity.internal.ae a;
     private final com.google.android.play.integrity.internal.s b;
     private final String c;
+    private final at d;
     private final k e;
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public aj(Context context, com.google.android.play.integrity.internal.s sVar, at atVar, k kVar) {
         this.c = context.getPackageName();
         this.b = sVar;
+        this.d = atVar;
         this.e = kVar;
         if (!com.google.android.play.integrity.internal.ai.b(context)) {
             sVar.b("Phonesky is not installed.", new Object[0]);

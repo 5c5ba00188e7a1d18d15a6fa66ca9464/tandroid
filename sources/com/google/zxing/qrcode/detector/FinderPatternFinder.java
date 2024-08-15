@@ -54,8 +54,9 @@ public class FinderPatternFinder {
                                 z2 = haveMultiplyConfirmedCenters();
                             } else {
                                 int findRowSkip = findRowSkip();
-                                if (findRowSkip > iArr[2]) {
-                                    i2 += (findRowSkip - iArr[2]) - 2;
+                                int i5 = iArr[2];
+                                if (findRowSkip > i5) {
+                                    i2 += (findRowSkip - i5) - 2;
                                     i3 = width - 1;
                                 }
                             }
@@ -206,104 +207,47 @@ public class FinderPatternFinder {
         return foundPatternDiagonal(crossCheckStateCount);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:19:0x003a, code lost:
-        if (r2[1] <= r13) goto L22;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:22:0x003f, code lost:
-        if (r3 < 0) goto L79;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:24:0x0045, code lost:
-        if (r0.get(r12, r3) == false) goto L78;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:26:0x0049, code lost:
-        if (r2[0] > r13) goto L29;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:27:0x004b, code lost:
-        r2[0] = r2[0] + 1;
-        r3 = r3 - 1;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:29:0x0055, code lost:
-        if (r2[0] <= r13) goto L33;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:30:0x0057, code lost:
-        return Float.NaN;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x0058, code lost:
-        r11 = r11 + 1;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x0059, code lost:
-        if (r11 >= r1) goto L77;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:34:0x005f, code lost:
-        if (r0.get(r12, r11) == false) goto L38;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x0061, code lost:
-        r2[2] = r2[2] + 1;
-        r11 = r11 + 1;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x0069, code lost:
-        if (r11 != r1) goto L41;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x006b, code lost:
-        return Float.NaN;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:39:0x006d, code lost:
-        if (r11 >= r1) goto L76;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x0073, code lost:
-        if (r0.get(r12, r11) != false) goto L75;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x0077, code lost:
-        if (r2[3] >= r13) goto L48;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:44:0x0079, code lost:
-        r2[3] = r2[3] + 1;
-        r11 = r11 + 1;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:45:0x0081, code lost:
-        if (r11 == r1) goto L74;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:47:0x0085, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:47:0x0082, code lost:
         if (r2[3] < r13) goto L52;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:50:0x0089, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:50:0x0086, code lost:
         if (r11 >= r1) goto L72;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:52:0x008f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:52:0x008c, code lost:
         if (r0.get(r12, r11) == false) goto L71;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:54:0x0093, code lost:
-        if (r2[4] >= r13) goto L59;
+    /* JADX WARN: Code restructure failed: missing block: B:53:0x008e, code lost:
+        r9 = r2[4];
      */
-    /* JADX WARN: Code restructure failed: missing block: B:55:0x0095, code lost:
-        r2[4] = r2[4] + 1;
+    /* JADX WARN: Code restructure failed: missing block: B:54:0x0090, code lost:
+        if (r9 >= r13) goto L59;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:55:0x0092, code lost:
+        r2[4] = r9 + 1;
         r11 = r11 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:57:0x009f, code lost:
-        if (r2[4] < r13) goto L63;
+    /* JADX WARN: Code restructure failed: missing block: B:56:0x0099, code lost:
+        r12 = r2[4];
      */
-    /* JADX WARN: Code restructure failed: missing block: B:58:0x00a1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:57:0x009b, code lost:
+        if (r12 < r13) goto L63;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:58:0x009d, code lost:
         return Float.NaN;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:60:0x00b9, code lost:
-        if ((java.lang.Math.abs(((((r2[0] + r2[1]) + r2[2]) + r2[3]) + r2[4]) - r14) * 5) < (r14 * 2)) goto L66;
+    /* JADX WARN: Code restructure failed: missing block: B:60:0x00b3, code lost:
+        if ((java.lang.Math.abs(((((r2[0] + r2[1]) + r2[2]) + r2[3]) + r12) - r14) * 5) < (r14 * 2)) goto L66;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:61:0x00bb, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:61:0x00b5, code lost:
         return Float.NaN;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:63:0x00c0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:63:0x00ba, code lost:
         if (foundPatternCross(r2) == false) goto L70;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:65:0x00c6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:65:0x00c0, code lost:
         return centerFromEnd(r2, r11);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:83:?, code lost:
-        return Float.NaN;
-     */
     /* JADX WARN: Code restructure failed: missing block: B:84:?, code lost:
-        return Float.NaN;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:85:?, code lost:
         return Float.NaN;
      */
     /* JADX WARN: Code restructure failed: missing block: B:86:?, code lost:
@@ -313,122 +257,93 @@ public class FinderPatternFinder {
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private float crossCheckVertical(int i, int i2, int i3, int i4) {
+        int i5;
+        int i6;
         BitMatrix bitMatrix = this.image;
         int height = bitMatrix.getHeight();
         int[] crossCheckStateCount = getCrossCheckStateCount();
-        int i5 = i;
-        while (i5 >= 0 && bitMatrix.get(i2, i5)) {
+        int i7 = i;
+        while (i7 >= 0 && bitMatrix.get(i2, i7)) {
             crossCheckStateCount[2] = crossCheckStateCount[2] + 1;
-            i5--;
+            i7--;
         }
-        if (i5 < 0) {
+        if (i7 < 0) {
             return Float.NaN;
         }
-        while (i5 >= 0 && !bitMatrix.get(i2, i5) && crossCheckStateCount[1] <= i3) {
-            crossCheckStateCount[1] = crossCheckStateCount[1] + 1;
-            i5--;
+        while (i7 >= 0 && !bitMatrix.get(i2, i7)) {
+            int i8 = crossCheckStateCount[1];
+            if (i8 > i3) {
+                break;
+            }
+            crossCheckStateCount[1] = i8 + 1;
+            i7--;
+        }
+        if (i7 < 0 || crossCheckStateCount[1] > i3) {
+            return Float.NaN;
+        }
+        while (i7 >= 0 && bitMatrix.get(i2, i7) && (i6 = crossCheckStateCount[0]) <= i3) {
+            crossCheckStateCount[0] = i6 + 1;
+            i7--;
+        }
+        if (crossCheckStateCount[0] > i3) {
+            return Float.NaN;
+        }
+        int i9 = i + 1;
+        while (i9 < height && bitMatrix.get(i2, i9)) {
+            crossCheckStateCount[2] = crossCheckStateCount[2] + 1;
+            i9++;
+        }
+        if (i9 == height) {
+            return Float.NaN;
+        }
+        while (i9 < height && !bitMatrix.get(i2, i9) && (i5 = crossCheckStateCount[3]) < i3) {
+            crossCheckStateCount[3] = i5 + 1;
+            i9++;
         }
         return Float.NaN;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:19:0x003a, code lost:
-        if (r2[1] <= r13) goto L22;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:22:0x003f, code lost:
-        if (r3 < 0) goto L79;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:24:0x0045, code lost:
-        if (r0.get(r3, r12) == false) goto L78;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:26:0x0049, code lost:
-        if (r2[0] > r13) goto L29;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:27:0x004b, code lost:
-        r2[0] = r2[0] + 1;
-        r3 = r3 - 1;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:29:0x0055, code lost:
-        if (r2[0] <= r13) goto L33;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:30:0x0057, code lost:
-        return Float.NaN;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x0058, code lost:
-        r11 = r11 + 1;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x0059, code lost:
-        if (r11 >= r1) goto L77;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:34:0x005f, code lost:
-        if (r0.get(r11, r12) == false) goto L38;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x0061, code lost:
-        r2[2] = r2[2] + 1;
-        r11 = r11 + 1;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x0069, code lost:
-        if (r11 != r1) goto L41;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x006b, code lost:
-        return Float.NaN;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:39:0x006d, code lost:
-        if (r11 >= r1) goto L76;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x0073, code lost:
-        if (r0.get(r11, r12) != false) goto L75;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x0077, code lost:
-        if (r2[3] >= r13) goto L48;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:44:0x0079, code lost:
-        r2[3] = r2[3] + 1;
-        r11 = r11 + 1;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:45:0x0081, code lost:
-        if (r11 == r1) goto L74;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:47:0x0085, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:47:0x0082, code lost:
         if (r2[3] < r13) goto L52;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:50:0x0089, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:50:0x0086, code lost:
         if (r11 >= r1) goto L72;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:52:0x008f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:52:0x008c, code lost:
         if (r0.get(r11, r12) == false) goto L71;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:54:0x0093, code lost:
-        if (r2[4] >= r13) goto L59;
+    /* JADX WARN: Code restructure failed: missing block: B:53:0x008e, code lost:
+        r9 = r2[4];
      */
-    /* JADX WARN: Code restructure failed: missing block: B:55:0x0095, code lost:
-        r2[4] = r2[4] + 1;
+    /* JADX WARN: Code restructure failed: missing block: B:54:0x0090, code lost:
+        if (r9 >= r13) goto L59;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:55:0x0092, code lost:
+        r2[4] = r9 + 1;
         r11 = r11 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:57:0x009f, code lost:
-        if (r2[4] < r13) goto L63;
+    /* JADX WARN: Code restructure failed: missing block: B:56:0x0099, code lost:
+        r12 = r2[4];
      */
-    /* JADX WARN: Code restructure failed: missing block: B:58:0x00a1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:57:0x009b, code lost:
+        if (r12 < r13) goto L63;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:58:0x009d, code lost:
         return Float.NaN;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:60:0x00b7, code lost:
-        if ((java.lang.Math.abs(((((r2[0] + r2[1]) + r2[2]) + r2[3]) + r2[4]) - r14) * 5) < r14) goto L66;
+    /* JADX WARN: Code restructure failed: missing block: B:60:0x00b1, code lost:
+        if ((java.lang.Math.abs(((((r2[0] + r2[1]) + r2[2]) + r2[3]) + r12) - r14) * 5) < r14) goto L66;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:61:0x00b9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:61:0x00b3, code lost:
         return Float.NaN;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:63:0x00be, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:63:0x00b8, code lost:
         if (foundPatternCross(r2) == false) goto L70;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:65:0x00c4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:65:0x00be, code lost:
         return centerFromEnd(r2, r11);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:83:?, code lost:
-        return Float.NaN;
-     */
     /* JADX WARN: Code restructure failed: missing block: B:84:?, code lost:
-        return Float.NaN;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:85:?, code lost:
         return Float.NaN;
      */
     /* JADX WARN: Code restructure failed: missing block: B:86:?, code lost:
@@ -438,20 +353,48 @@ public class FinderPatternFinder {
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private float crossCheckHorizontal(int i, int i2, int i3, int i4) {
+        int i5;
+        int i6;
         BitMatrix bitMatrix = this.image;
         int width = bitMatrix.getWidth();
         int[] crossCheckStateCount = getCrossCheckStateCount();
-        int i5 = i;
-        while (i5 >= 0 && bitMatrix.get(i5, i2)) {
+        int i7 = i;
+        while (i7 >= 0 && bitMatrix.get(i7, i2)) {
             crossCheckStateCount[2] = crossCheckStateCount[2] + 1;
-            i5--;
+            i7--;
         }
-        if (i5 < 0) {
+        if (i7 < 0) {
             return Float.NaN;
         }
-        while (i5 >= 0 && !bitMatrix.get(i5, i2) && crossCheckStateCount[1] <= i3) {
-            crossCheckStateCount[1] = crossCheckStateCount[1] + 1;
-            i5--;
+        while (i7 >= 0 && !bitMatrix.get(i7, i2)) {
+            int i8 = crossCheckStateCount[1];
+            if (i8 > i3) {
+                break;
+            }
+            crossCheckStateCount[1] = i8 + 1;
+            i7--;
+        }
+        if (i7 < 0 || crossCheckStateCount[1] > i3) {
+            return Float.NaN;
+        }
+        while (i7 >= 0 && bitMatrix.get(i7, i2) && (i6 = crossCheckStateCount[0]) <= i3) {
+            crossCheckStateCount[0] = i6 + 1;
+            i7--;
+        }
+        if (crossCheckStateCount[0] > i3) {
+            return Float.NaN;
+        }
+        int i9 = i + 1;
+        while (i9 < width && bitMatrix.get(i9, i2)) {
+            crossCheckStateCount[2] = crossCheckStateCount[2] + 1;
+            i9++;
+        }
+        if (i9 == width) {
+            return Float.NaN;
+        }
+        while (i9 < width && !bitMatrix.get(i9, i2) && (i5 = crossCheckStateCount[3]) < i3) {
+            crossCheckStateCount[3] = i5 + 1;
+            i9++;
         }
         return Float.NaN;
     }

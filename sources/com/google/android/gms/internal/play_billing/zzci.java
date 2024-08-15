@@ -8,6 +8,7 @@ public class zzci extends IOException {
 
     public zzci(IOException iOException) {
         super(iOException.getMessage(), iOException);
+        this.zza = null;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -47,5 +48,6 @@ public class zzci extends IOException {
 
     public zzci(String str) {
         super(str);
+        this.zza = null;
     }
 }

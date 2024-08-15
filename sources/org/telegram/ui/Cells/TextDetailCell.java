@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.ui.ActionBar.Theme;
@@ -23,6 +24,7 @@ public class TextDetailCell extends FrameLayout {
     private boolean multiline;
     private boolean needDivider;
     private Theme.ResourcesProvider resourcesProvider;
+    private final TextView showMoreTextView;
     public final LinkSpanDrawable.LinksTextView textView;
     public final LinkSpanDrawable.LinksTextView valueTextView;
 
@@ -40,6 +42,7 @@ public class TextDetailCell extends FrameLayout {
 
     public TextDetailCell(Context context, Theme.ResourcesProvider resourcesProvider, boolean z) {
         super(context);
+        this.showMoreTextView = null;
         this.resourcesProvider = resourcesProvider;
         LinkSpanDrawable.LinksTextView linksTextView = new LinkSpanDrawable.LinksTextView(context, resourcesProvider) { // from class: org.telegram.ui.Cells.TextDetailCell.1
             @Override // org.telegram.ui.Components.LinkSpanDrawable.LinksTextView
@@ -53,7 +56,7 @@ public class TextDetailCell extends FrameLayout {
             }
         };
         this.textView = linksTextView;
-        linksTextView.setOnLinkLongPressListener(new LinkSpanDrawable.LinksTextView.OnLinkPress() { // from class: org.telegram.ui.Cells.TextDetailCell$$ExternalSyntheticLambda1
+        linksTextView.setOnLinkLongPressListener(new LinkSpanDrawable.LinksTextView.OnLinkPress() { // from class: org.telegram.ui.Cells.TextDetailCell$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.Components.LinkSpanDrawable.LinksTextView.OnLinkPress
             public final void run(ClickableSpan clickableSpan) {
                 TextDetailCell.this.lambda$new$0(clickableSpan);
@@ -80,7 +83,7 @@ public class TextDetailCell extends FrameLayout {
             }
         };
         this.valueTextView = linksTextView2;
-        linksTextView2.setOnLinkLongPressListener(new LinkSpanDrawable.LinksTextView.OnLinkPress() { // from class: org.telegram.ui.Cells.TextDetailCell$$ExternalSyntheticLambda0
+        linksTextView2.setOnLinkLongPressListener(new LinkSpanDrawable.LinksTextView.OnLinkPress() { // from class: org.telegram.ui.Cells.TextDetailCell$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.LinkSpanDrawable.LinksTextView.OnLinkPress
             public final void run(ClickableSpan clickableSpan) {
                 TextDetailCell.this.lambda$new$1(clickableSpan);

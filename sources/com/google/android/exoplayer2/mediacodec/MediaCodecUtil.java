@@ -362,7 +362,7 @@ public final class MediaCodecUtil {
 
     public static List<MediaCodecInfo> getDecoderInfosSortedByFormatSupport(List<MediaCodecInfo> list, final Format format) {
         ArrayList arrayList = new ArrayList(list);
-        sortByScore(arrayList, new ScoreProvider() { // from class: com.google.android.exoplayer2.mediacodec.MediaCodecUtil$$ExternalSyntheticLambda0
+        sortByScore(arrayList, new ScoreProvider() { // from class: com.google.android.exoplayer2.mediacodec.MediaCodecUtil$$ExternalSyntheticLambda6
             @Override // com.google.android.exoplayer2.mediacodec.MediaCodecUtil.ScoreProvider
             public final int getScore(Object obj) {
                 int lambda$getDecoderInfosSortedByFormatSupport$0;
@@ -716,7 +716,7 @@ public final class MediaCodecUtil {
             if (Util.SDK_INT < 26 && Util.DEVICE.equals("R9") && list.size() == 1 && list.get(0).name.equals("OMX.MTK.AUDIO.DECODER.RAW")) {
                 list.add(MediaCodecInfo.newInstance("OMX.google.raw.decoder", "audio/raw", "audio/raw", null, false, true, false, false, false));
             }
-            sortByScore(list, new ScoreProvider() { // from class: com.google.android.exoplayer2.mediacodec.MediaCodecUtil$$ExternalSyntheticLambda1
+            sortByScore(list, new ScoreProvider() { // from class: com.google.android.exoplayer2.mediacodec.MediaCodecUtil$$ExternalSyntheticLambda4
                 @Override // com.google.android.exoplayer2.mediacodec.MediaCodecUtil.ScoreProvider
                 public final int getScore(Object obj) {
                     int lambda$applyWorkarounds$1;
@@ -729,7 +729,7 @@ public final class MediaCodecUtil {
         if (i < 21 && list.size() > 1) {
             String str2 = list.get(0).name;
             if ("OMX.SEC.mp3.dec".equals(str2) || "OMX.SEC.MP3.Decoder".equals(str2) || "OMX.brcm.audio.mp3.decoder".equals(str2)) {
-                sortByScore(list, new ScoreProvider() { // from class: com.google.android.exoplayer2.mediacodec.MediaCodecUtil$$ExternalSyntheticLambda2
+                sortByScore(list, new ScoreProvider() { // from class: com.google.android.exoplayer2.mediacodec.MediaCodecUtil$$ExternalSyntheticLambda5
                     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecUtil.ScoreProvider
                     public final int getScore(Object obj) {
                         int lambda$applyWorkarounds$2;
@@ -764,7 +764,9 @@ public final class MediaCodecUtil {
     }
 
     private static boolean isAliasV29(android.media.MediaCodecInfo mediaCodecInfo) {
-        return mediaCodecInfo.isAlias();
+        boolean isAlias;
+        isAlias = mediaCodecInfo.isAlias();
+        return isAlias;
     }
 
     private static boolean isHardwareAccelerated(android.media.MediaCodecInfo mediaCodecInfo, String str) {
@@ -775,7 +777,9 @@ public final class MediaCodecUtil {
     }
 
     private static boolean isHardwareAcceleratedV29(android.media.MediaCodecInfo mediaCodecInfo) {
-        return mediaCodecInfo.isHardwareAccelerated();
+        boolean isHardwareAccelerated;
+        isHardwareAccelerated = mediaCodecInfo.isHardwareAccelerated();
+        return isHardwareAccelerated;
     }
 
     private static boolean isSoftwareOnly(android.media.MediaCodecInfo mediaCodecInfo, String str) {
@@ -799,7 +803,9 @@ public final class MediaCodecUtil {
     }
 
     private static boolean isSoftwareOnlyV29(android.media.MediaCodecInfo mediaCodecInfo) {
-        return mediaCodecInfo.isSoftwareOnly();
+        boolean isSoftwareOnly;
+        isSoftwareOnly = mediaCodecInfo.isSoftwareOnly();
+        return isSoftwareOnly;
     }
 
     private static boolean isVendor(android.media.MediaCodecInfo mediaCodecInfo) {
@@ -811,7 +817,9 @@ public final class MediaCodecUtil {
     }
 
     private static boolean isVendorV29(android.media.MediaCodecInfo mediaCodecInfo) {
-        return mediaCodecInfo.isVendor();
+        boolean isVendor;
+        isVendor = mediaCodecInfo.isVendor();
+        return isVendor;
     }
 
     private static Pair<Integer, Integer> getDolbyVisionProfileAndLevel(String str, String[] strArr) {
@@ -984,7 +992,7 @@ public final class MediaCodecUtil {
     }
 
     private static <T> void sortByScore(List<T> list, final ScoreProvider<T> scoreProvider) {
-        Collections.sort(list, new Comparator() { // from class: com.google.android.exoplayer2.mediacodec.MediaCodecUtil$$ExternalSyntheticLambda3
+        Collections.sort(list, new Comparator() { // from class: com.google.android.exoplayer2.mediacodec.MediaCodecUtil$$ExternalSyntheticLambda7
             @Override // java.util.Comparator
             public final int compare(Object obj, Object obj2) {
                 int lambda$sortByScore$3;
@@ -1028,12 +1036,16 @@ public final class MediaCodecUtil {
 
         @Override // com.google.android.exoplayer2.mediacodec.MediaCodecUtil.MediaCodecListCompat
         public boolean isFeatureRequired(String str, String str2, MediaCodecInfo.CodecCapabilities codecCapabilities) {
-            return codecCapabilities.isFeatureRequired(str);
+            boolean isFeatureRequired;
+            isFeatureRequired = codecCapabilities.isFeatureRequired(str);
+            return isFeatureRequired;
         }
 
         private void ensureMediaCodecInfosInitialized() {
+            android.media.MediaCodecInfo[] codecInfos;
             if (this.mediaCodecInfos == null) {
-                this.mediaCodecInfos = new MediaCodecList(this.codecKind).getCodecInfos();
+                codecInfos = new MediaCodecList(this.codecKind).getCodecInfos();
+                this.mediaCodecInfos = codecInfos;
             }
         }
     }

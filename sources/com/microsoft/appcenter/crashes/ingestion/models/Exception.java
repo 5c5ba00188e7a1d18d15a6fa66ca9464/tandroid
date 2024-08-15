@@ -100,7 +100,7 @@ public class Exception implements Model {
         if (this == obj) {
             return true;
         }
-        if (obj == null || Exception.class != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         Exception exception = (Exception) obj;

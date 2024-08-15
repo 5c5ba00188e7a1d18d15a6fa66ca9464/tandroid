@@ -5,6 +5,8 @@ import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public final class zzeb extends zzdz {
+    private final byte[] zza;
+    private final boolean zzb;
     private int zzc;
     private int zzd;
     private int zze;
@@ -14,9 +16,11 @@ public final class zzeb extends zzdz {
     private zzeb(byte[] bArr, int i, int i2, boolean z) {
         super();
         this.zzg = ConnectionsManager.DEFAULT_DATACENTER_ID;
+        this.zza = bArr;
         this.zzc = i2 + i;
         this.zze = i;
         this.zzf = i;
+        this.zzb = z;
     }
 
     @Override // com.google.android.gms.internal.mlkit_language_id.zzdz

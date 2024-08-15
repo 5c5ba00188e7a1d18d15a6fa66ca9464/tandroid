@@ -1,6 +1,7 @@
 package androidx.core.app;
 
 import android.app.Person;
+import android.graphics.drawable.Icon;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import androidx.core.graphics.drawable.IconCompat;
@@ -128,7 +129,22 @@ public class Person {
     /* loaded from: classes.dex */
     static class Api22Impl {
         static Person fromPersistableBundle(PersistableBundle persistableBundle) {
-            return new Builder().setName(persistableBundle.getString("name")).setUri(persistableBundle.getString("uri")).setKey(persistableBundle.getString("key")).setBot(persistableBundle.getBoolean("isBot")).setImportant(persistableBundle.getBoolean("isImportant")).build();
+            String string;
+            String string2;
+            String string3;
+            boolean z;
+            boolean z2;
+            Builder builder = new Builder();
+            string = persistableBundle.getString("name");
+            Builder name = builder.setName(string);
+            string2 = persistableBundle.getString("uri");
+            Builder uri = name.setUri(string2);
+            string3 = persistableBundle.getString("key");
+            Builder key = uri.setKey(string3);
+            z = persistableBundle.getBoolean("isBot");
+            Builder bot = key.setBot(z);
+            z2 = persistableBundle.getBoolean("isImportant");
+            return bot.setImportant(z2).build();
         }
 
         static PersistableBundle toPersistableBundle(Person person) {
@@ -143,14 +159,55 @@ public class Person {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    static class Api28Impl {
+    public static class Api28Impl {
         static Person fromAndroidPerson(android.app.Person person) {
-            return new Builder().setName(person.getName()).setIcon(person.getIcon() != null ? IconCompat.createFromIcon(person.getIcon()) : null).setUri(person.getUri()).setKey(person.getKey()).setBot(person.isBot()).setImportant(person.isImportant()).build();
+            CharSequence name;
+            Icon icon;
+            IconCompat iconCompat;
+            String uri;
+            String key;
+            boolean isBot;
+            boolean isImportant;
+            Icon icon2;
+            Builder builder = new Builder();
+            name = person.getName();
+            Builder name2 = builder.setName(name);
+            icon = person.getIcon();
+            if (icon != null) {
+                icon2 = person.getIcon();
+                iconCompat = IconCompat.createFromIcon(icon2);
+            } else {
+                iconCompat = null;
+            }
+            Builder icon3 = name2.setIcon(iconCompat);
+            uri = person.getUri();
+            Builder uri2 = icon3.setUri(uri);
+            key = person.getKey();
+            Builder key2 = uri2.setKey(key);
+            isBot = person.isBot();
+            Builder bot = key2.setBot(isBot);
+            isImportant = person.isImportant();
+            return bot.setImportant(isImportant).build();
         }
 
         static android.app.Person toAndroidPerson(Person person) {
-            return new Person.Builder().setName(person.getName()).setIcon(person.getIcon() != null ? person.getIcon().toIcon() : null).setUri(person.getUri()).setKey(person.getKey()).setBot(person.isBot()).setImportant(person.isImportant()).build();
+            Person.Builder name;
+            Person.Builder icon;
+            Person.Builder uri;
+            Person.Builder key;
+            Person.Builder bot;
+            Person.Builder important;
+            android.app.Person build;
+            name = new Person.Builder().setName(person.getName());
+            icon = name.setIcon(person.getIcon() != null ? person.getIcon().toIcon() : null);
+            uri = icon.setUri(person.getUri());
+            key = uri.setKey(person.getKey());
+            bot = key.setBot(person.isBot());
+            important = bot.setImportant(person.isImportant());
+            build = important.build();
+            return build;
         }
     }
 }

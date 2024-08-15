@@ -27,16 +27,11 @@ public final class DrawableCompat {
     }
 
     public static void setAutoMirrored(Drawable drawable, boolean z) {
-        if (Build.VERSION.SDK_INT >= 19) {
-            Api19Impl.setAutoMirrored(drawable, z);
-        }
+        Api19Impl.setAutoMirrored(drawable, z);
     }
 
     public static boolean isAutoMirrored(Drawable drawable) {
-        if (Build.VERSION.SDK_INT >= 19) {
-            return Api19Impl.isAutoMirrored(drawable);
-        }
-        return false;
+        return Api19Impl.isAutoMirrored(drawable);
     }
 
     public static void setHotspot(Drawable drawable, float f, float f2) {
@@ -76,10 +71,7 @@ public final class DrawableCompat {
     }
 
     public static int getAlpha(Drawable drawable) {
-        if (Build.VERSION.SDK_INT >= 19) {
-            return Api19Impl.getAlpha(drawable);
-        }
-        return 0;
+        return Api19Impl.getAlpha(drawable);
     }
 
     public static void applyTheme(Drawable drawable, Resources.Theme theme) {
@@ -116,59 +108,53 @@ public final class DrawableCompat {
     }
 
     public static boolean setLayoutDirection(Drawable drawable, int i) {
-        int i2 = Build.VERSION.SDK_INT;
-        if (i2 >= 23) {
+        if (Build.VERSION.SDK_INT >= 23) {
             return Api23Impl.setLayoutDirection(drawable, i);
         }
-        if (i2 >= 17) {
-            if (!sSetLayoutDirectionMethodFetched) {
-                try {
-                    Method declaredMethod = Drawable.class.getDeclaredMethod("setLayoutDirection", Integer.TYPE);
-                    sSetLayoutDirectionMethod = declaredMethod;
-                    declaredMethod.setAccessible(true);
-                } catch (NoSuchMethodException e) {
-                    Log.i("DrawableCompat", "Failed to retrieve setLayoutDirection(int) method", e);
-                }
-                sSetLayoutDirectionMethodFetched = true;
+        if (!sSetLayoutDirectionMethodFetched) {
+            try {
+                Method declaredMethod = Drawable.class.getDeclaredMethod("setLayoutDirection", Integer.TYPE);
+                sSetLayoutDirectionMethod = declaredMethod;
+                declaredMethod.setAccessible(true);
+            } catch (NoSuchMethodException e) {
+                Log.i("DrawableCompat", "Failed to retrieve setLayoutDirection(int) method", e);
             }
-            Method method = sSetLayoutDirectionMethod;
-            if (method != null) {
-                try {
-                    method.invoke(drawable, Integer.valueOf(i));
-                    return true;
-                } catch (Exception e2) {
-                    Log.i("DrawableCompat", "Failed to invoke setLayoutDirection(int) via reflection", e2);
-                    sSetLayoutDirectionMethod = null;
-                }
+            sSetLayoutDirectionMethodFetched = true;
+        }
+        Method method = sSetLayoutDirectionMethod;
+        if (method != null) {
+            try {
+                method.invoke(drawable, Integer.valueOf(i));
+                return true;
+            } catch (Exception e2) {
+                Log.i("DrawableCompat", "Failed to invoke setLayoutDirection(int) via reflection", e2);
+                sSetLayoutDirectionMethod = null;
             }
         }
         return false;
     }
 
     public static int getLayoutDirection(Drawable drawable) {
-        int i = Build.VERSION.SDK_INT;
-        if (i >= 23) {
+        if (Build.VERSION.SDK_INT >= 23) {
             return Api23Impl.getLayoutDirection(drawable);
         }
-        if (i >= 17) {
-            if (!sGetLayoutDirectionMethodFetched) {
-                try {
-                    Method declaredMethod = Drawable.class.getDeclaredMethod("getLayoutDirection", new Class[0]);
-                    sGetLayoutDirectionMethod = declaredMethod;
-                    declaredMethod.setAccessible(true);
-                } catch (NoSuchMethodException e) {
-                    Log.i("DrawableCompat", "Failed to retrieve getLayoutDirection() method", e);
-                }
-                sGetLayoutDirectionMethodFetched = true;
+        if (!sGetLayoutDirectionMethodFetched) {
+            try {
+                Method declaredMethod = Drawable.class.getDeclaredMethod("getLayoutDirection", new Class[0]);
+                sGetLayoutDirectionMethod = declaredMethod;
+                declaredMethod.setAccessible(true);
+            } catch (NoSuchMethodException e) {
+                Log.i("DrawableCompat", "Failed to retrieve getLayoutDirection() method", e);
             }
-            Method method = sGetLayoutDirectionMethod;
-            if (method != null) {
-                try {
-                    return ((Integer) method.invoke(drawable, new Object[0])).intValue();
-                } catch (Exception e2) {
-                    Log.i("DrawableCompat", "Failed to invoke getLayoutDirection() via reflection", e2);
-                    sGetLayoutDirectionMethod = null;
-                }
+            sGetLayoutDirectionMethodFetched = true;
+        }
+        Method method = sGetLayoutDirectionMethod;
+        if (method != null) {
+            try {
+                return ((Integer) method.invoke(drawable, new Object[0])).intValue();
+            } catch (Exception e2) {
+                Log.i("DrawableCompat", "Failed to invoke getLayoutDirection() via reflection", e2);
+                sGetLayoutDirectionMethod = null;
             }
         }
         return 0;
@@ -197,8 +183,9 @@ public final class DrawableCompat {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    static class Api21Impl {
+    public static class Api21Impl {
         static void setHotspot(Drawable drawable, float f, float f2) {
             drawable.setHotspot(f, f2);
         }
@@ -220,11 +207,15 @@ public final class DrawableCompat {
         }
 
         static boolean canApplyTheme(Drawable drawable) {
-            return drawable.canApplyTheme();
+            boolean canApplyTheme;
+            canApplyTheme = drawable.canApplyTheme();
+            return canApplyTheme;
         }
 
         static ColorFilter getColorFilter(Drawable drawable) {
-            return drawable.getColorFilter();
+            ColorFilter colorFilter;
+            colorFilter = drawable.getColorFilter();
+            return colorFilter;
         }
 
         static void inflate(Drawable drawable, Resources resources, XmlPullParser xmlPullParser, AttributeSet attributeSet, Resources.Theme theme) throws XmlPullParserException, IOException {
@@ -239,11 +230,15 @@ public final class DrawableCompat {
     /* loaded from: classes.dex */
     static class Api23Impl {
         static boolean setLayoutDirection(Drawable drawable, int i) {
-            return drawable.setLayoutDirection(i);
+            boolean layoutDirection;
+            layoutDirection = drawable.setLayoutDirection(i);
+            return layoutDirection;
         }
 
         static int getLayoutDirection(Drawable drawable) {
-            return drawable.getLayoutDirection();
+            int layoutDirection;
+            layoutDirection = drawable.getLayoutDirection();
+            return layoutDirection;
         }
     }
 }

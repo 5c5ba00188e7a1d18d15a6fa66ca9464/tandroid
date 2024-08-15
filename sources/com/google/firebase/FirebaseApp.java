@@ -11,6 +11,7 @@ import android.os.Looper;
 import android.util.Log;
 import androidx.collection.ArrayMap;
 import androidx.core.os.UserManagerCompat;
+import com.google.android.exoplayer2.mediacodec.AsynchronousMediaCodecBufferEnqueuer$$ExternalSyntheticBackportWithForwarding0;
 import com.google.android.gms.common.api.internal.BackgroundDetector;
 import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.common.internal.Preconditions;
@@ -47,6 +48,7 @@ public class FirebaseApp {
     private final AtomicBoolean automaticResourceManagementEnabled = new AtomicBoolean(false);
     private final AtomicBoolean deleted = new AtomicBoolean();
     private final List<BackgroundStateChangeListener> backgroundStateChangeListeners = new CopyOnWriteArrayList();
+    private final List<Object> lifecycleListeners = new CopyOnWriteArrayList();
 
     /* loaded from: classes.dex */
     public interface BackgroundStateChangeListener {
@@ -142,7 +144,6 @@ public class FirebaseApp {
     }
 
     protected FirebaseApp(final Context context, String str, FirebaseOptions firebaseOptions) {
-        new CopyOnWriteArrayList();
         this.applicationContext = (Context) Preconditions.checkNotNull(context);
         this.name = Preconditions.checkNotEmpty(str);
         this.options = (FirebaseOptions) Preconditions.checkNotNull(firebaseOptions);
@@ -212,7 +213,7 @@ public class FirebaseApp {
         public static void ensureReceiverRegistered(Context context) {
             if (INSTANCE.get() == null) {
                 UserUnlockReceiver userUnlockReceiver = new UserUnlockReceiver(context);
-                if (INSTANCE.compareAndSet(null, userUnlockReceiver)) {
+                if (AsynchronousMediaCodecBufferEnqueuer$$ExternalSyntheticBackportWithForwarding0.m(INSTANCE, null, userUnlockReceiver)) {
                     context.registerReceiver(userUnlockReceiver, new IntentFilter("android.intent.action.USER_UNLOCKED"));
                 }
             }
@@ -248,7 +249,7 @@ public class FirebaseApp {
                 Application application = (Application) context.getApplicationContext();
                 if (INSTANCE.get() == null) {
                     GlobalBackgroundStateListener globalBackgroundStateListener = new GlobalBackgroundStateListener();
-                    if (INSTANCE.compareAndSet(null, globalBackgroundStateListener)) {
+                    if (AsynchronousMediaCodecBufferEnqueuer$$ExternalSyntheticBackportWithForwarding0.m(INSTANCE, null, globalBackgroundStateListener)) {
                         BackgroundDetector.initialize(application);
                         BackgroundDetector.getInstance().addListener(globalBackgroundStateListener);
                     }

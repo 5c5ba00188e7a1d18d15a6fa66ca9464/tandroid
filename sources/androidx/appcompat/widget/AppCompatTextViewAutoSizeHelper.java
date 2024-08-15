@@ -80,12 +80,16 @@ public class AppCompatTextViewAutoSizeHelper {
 
         @Override // androidx.appcompat.widget.AppCompatTextViewAutoSizeHelper.Impl
         boolean isHorizontallyScrollable(TextView textView) {
-            return textView.isHorizontallyScrollable();
+            boolean isHorizontallyScrollable;
+            isHorizontallyScrollable = textView.isHorizontallyScrollable();
+            return isHorizontallyScrollable;
         }
 
         @Override // androidx.appcompat.widget.AppCompatTextViewAutoSizeHelper.Impl23, androidx.appcompat.widget.AppCompatTextViewAutoSizeHelper.Impl
         void computeAndSetTextDirection(StaticLayout.Builder builder, TextView textView) {
-            builder.setTextDirection(textView.getTextDirectionHeuristic());
+            TextDirectionHeuristic textDirectionHeuristic;
+            textDirectionHeuristic = textView.getTextDirectionHeuristic();
+            builder.setTextDirection(textDirectionHeuristic);
         }
     }
 
@@ -364,7 +368,7 @@ public class AppCompatTextViewAutoSizeHelper {
     private void setRawTextSize(float f) {
         if (f != this.mTextView.getPaint().getTextSize()) {
             this.mTextView.getPaint().setTextSize(f);
-            boolean isInLayout = Build.VERSION.SDK_INT >= 18 ? Api18Impl.isInLayout(this.mTextView) : false;
+            boolean isInLayout = Api18Impl.isInLayout(this.mTextView);
             if (this.mTextView.getLayout() != null) {
                 this.mNeedsAutoSizeText = false;
                 try {
@@ -390,18 +394,18 @@ public class AppCompatTextViewAutoSizeHelper {
         if (length == 0) {
             throw new IllegalStateException("No available text sizes to choose from.");
         }
-        int i = length - 1;
-        int i2 = 1;
+        int i = 1;
+        int i2 = length - 1;
         int i3 = 0;
-        while (i2 <= i) {
-            int i4 = (i2 + i) / 2;
+        while (i <= i2) {
+            int i4 = (i + i2) / 2;
             if (suggestedSizeFitsInSpace(this.mAutoSizeTextSizesInPx[i4], rectF)) {
                 int i5 = i4 + 1;
-                i3 = i2;
-                i2 = i5;
+                i3 = i;
+                i = i5;
             } else {
                 i3 = i4 - 1;
-                i = i3;
+                i2 = i3;
             }
         }
         return this.mAutoSizeTextSizesInPx[i3];
@@ -419,14 +423,10 @@ public class AppCompatTextViewAutoSizeHelper {
     }
 
     StaticLayout createLayout(CharSequence charSequence, Layout.Alignment alignment, int i, int i2) {
-        int i3 = Build.VERSION.SDK_INT;
-        if (i3 >= 23) {
+        if (Build.VERSION.SDK_INT >= 23) {
             return Api23Impl.createStaticLayoutForMeasuring(charSequence, alignment, i, i2, this.mTextView, this.mTempTextPaint, this.mImpl);
         }
-        if (i3 >= 16) {
-            return Api16Impl.createStaticLayoutForMeasuring(charSequence, alignment, i, this.mTextView, this.mTempTextPaint);
-        }
-        return createStaticLayoutForMeasuringPre16(charSequence, alignment, i);
+        return Api16Impl.createStaticLayoutForMeasuring(charSequence, alignment, i, this.mTextView, this.mTempTextPaint);
     }
 
     private boolean suggestedSizeFitsInSpace(int i, RectF rectF) {
@@ -436,14 +436,10 @@ public class AppCompatTextViewAutoSizeHelper {
         if (transformationMethod != null && (transformation = transformationMethod.getTransformation(text, this.mTextView)) != null) {
             text = transformation;
         }
-        int maxLines = Build.VERSION.SDK_INT >= 16 ? Api16Impl.getMaxLines(this.mTextView) : -1;
+        int maxLines = Api16Impl.getMaxLines(this.mTextView);
         initTempTextPaint(i);
         StaticLayout createLayout = createLayout(text, (Layout.Alignment) invokeAndReturnWithDefault(this.mTextView, "getLayoutAlignment", Layout.Alignment.ALIGN_NORMAL), Math.round(rectF.right), maxLines);
         return (maxLines == -1 || (createLayout.getLineCount() <= maxLines && createLayout.getLineEnd(createLayout.getLineCount() - 1) == text.length())) && ((float) createLayout.getHeight()) <= rectF.bottom;
-    }
-
-    private StaticLayout createStaticLayoutForMeasuringPre16(CharSequence charSequence, Layout.Alignment alignment, int i) {
-        return new StaticLayout(charSequence, this.mTempTextPaint, i, alignment, ((Float) accessAndReturnWithDefault(this.mTextView, "mSpacingMult", Float.valueOf(1.0f))).floatValue(), ((Float) accessAndReturnWithDefault(this.mTextView, "mSpacingAdd", Float.valueOf(0.0f))).floatValue(), ((Boolean) accessAndReturnWithDefault(this.mTextView, "mIncludePad", Boolean.TRUE)).booleanValue());
     }
 
     static <T> T invokeAndReturnWithDefault(Object obj, String str, T t) {
@@ -451,16 +447,6 @@ public class AppCompatTextViewAutoSizeHelper {
             return (T) getTextViewMethod(str).invoke(obj, new Object[0]);
         } catch (Exception e) {
             Log.w("ACTVAutoSizeHelper", "Failed to invoke TextView#" + str + "() method", e);
-            return t;
-        }
-    }
-
-    private static <T> T accessAndReturnWithDefault(Object obj, String str, T t) {
-        try {
-            Field textViewField = getTextViewField(str);
-            return textViewField == null ? t : (T) textViewField.get(obj);
-        } catch (IllegalAccessException e) {
-            Log.w("ACTVAutoSizeHelper", "Failed to access TextView#" + str + " member", e);
             return t;
         }
     }
@@ -479,20 +465,6 @@ public class AppCompatTextViewAutoSizeHelper {
         }
     }
 
-    private static Field getTextViewField(String str) {
-        try {
-            Field field = sTextViewFieldByNameCache.get(str);
-            if (field == null && (field = TextView.class.getDeclaredField(str)) != null) {
-                field.setAccessible(true);
-                sTextViewFieldByNameCache.put(str, field);
-            }
-            return field;
-        } catch (NoSuchFieldException e) {
-            Log.w("ACTVAutoSizeHelper", "Failed to access TextView#" + str + " member", e);
-            return null;
-        }
-    }
-
     /* JADX INFO: Access modifiers changed from: package-private */
     public boolean isAutoSizeEnabled() {
         return supportsAutoSizeText() && this.mAutoSizeTextType != 0;
@@ -506,18 +478,34 @@ public class AppCompatTextViewAutoSizeHelper {
     /* loaded from: classes.dex */
     public static final class Api23Impl {
         static StaticLayout createStaticLayoutForMeasuring(CharSequence charSequence, Layout.Alignment alignment, int i, int i2, TextView textView, TextPaint textPaint, Impl impl) {
-            StaticLayout.Builder obtain = StaticLayout.Builder.obtain(charSequence, 0, charSequence.length(), textPaint, i);
-            StaticLayout.Builder hyphenationFrequency = obtain.setAlignment(alignment).setLineSpacing(textView.getLineSpacingExtra(), textView.getLineSpacingMultiplier()).setIncludePad(textView.getIncludeFontPadding()).setBreakStrategy(textView.getBreakStrategy()).setHyphenationFrequency(textView.getHyphenationFrequency());
+            StaticLayout.Builder obtain;
+            StaticLayout.Builder alignment2;
+            StaticLayout.Builder lineSpacing;
+            StaticLayout.Builder includePad;
+            int breakStrategy;
+            StaticLayout.Builder breakStrategy2;
+            int hyphenationFrequency;
+            StaticLayout.Builder hyphenationFrequency2;
+            StaticLayout build;
+            obtain = StaticLayout.Builder.obtain(charSequence, 0, charSequence.length(), textPaint, i);
+            alignment2 = obtain.setAlignment(alignment);
+            lineSpacing = alignment2.setLineSpacing(textView.getLineSpacingExtra(), textView.getLineSpacingMultiplier());
+            includePad = lineSpacing.setIncludePad(textView.getIncludeFontPadding());
+            breakStrategy = textView.getBreakStrategy();
+            breakStrategy2 = includePad.setBreakStrategy(breakStrategy);
+            hyphenationFrequency = textView.getHyphenationFrequency();
+            hyphenationFrequency2 = breakStrategy2.setHyphenationFrequency(hyphenationFrequency);
             if (i2 == -1) {
                 i2 = ConnectionsManager.DEFAULT_DATACENTER_ID;
             }
-            hyphenationFrequency.setMaxLines(i2);
+            hyphenationFrequency2.setMaxLines(i2);
             try {
                 impl.computeAndSetTextDirection(obtain, textView);
             } catch (ClassCastException unused) {
                 Log.w("ACTVAutoSizeHelper", "Failed to obtain TextDirectionHeuristic, auto size may be incorrect");
             }
-            return obtain.build();
+            build = obtain.build();
+            return build;
         }
     }
 

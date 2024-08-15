@@ -58,6 +58,7 @@ public class PhotoView extends EntityView {
     private Matrix highlightGradientMatrix;
     private Paint highlightPaint;
     private long highlightStart;
+    private int invert;
     private final AnimatedFloat mirrorT;
     private boolean mirrored;
     private boolean needHighlight;
@@ -143,6 +144,7 @@ public class PhotoView extends EntityView {
         this.mirrorT = new AnimatedFloat(frameLayoutDrawer, 0L, 500L, cubicBezierInterpolator);
         this.segmentedT = new AnimatedFloat(frameLayoutDrawer, 0L, 350L, cubicBezierInterpolator);
         this.orientation = i;
+        this.invert = i2;
         imageReceiver.setAspectFit(true);
         imageReceiver.setInvalidateAll(true);
         imageReceiver.setParentView(frameLayoutDrawer);
@@ -208,12 +210,12 @@ public class PhotoView extends EntityView {
         }
         SubjectSegmenter client = SubjectSegmentation.getClient(new SubjectSegmenterOptions.Builder().enableForegroundBitmap().build());
         this.segmentingLoading = true;
-        client.process(InputImage.fromBitmap(bitmap, this.orientation)).addOnSuccessListener(new OnSuccessListener() { // from class: org.telegram.ui.Components.Paint.Views.PhotoView$$ExternalSyntheticLambda1
+        client.process(InputImage.fromBitmap(bitmap, this.orientation)).addOnSuccessListener(new OnSuccessListener() { // from class: org.telegram.ui.Components.Paint.Views.PhotoView$$ExternalSyntheticLambda0
             @Override // com.google.android.gms.tasks.OnSuccessListener
             public final void onSuccess(Object obj) {
                 PhotoView.this.lambda$segmentImage$0((SubjectSegmentationResult) obj);
             }
-        }).addOnFailureListener(new OnFailureListener() { // from class: org.telegram.ui.Components.Paint.Views.PhotoView$$ExternalSyntheticLambda0
+        }).addOnFailureListener(new OnFailureListener() { // from class: org.telegram.ui.Components.Paint.Views.PhotoView$$ExternalSyntheticLambda1
             @Override // com.google.android.gms.tasks.OnFailureListener
             public final void onFailure(Exception exc) {
                 PhotoView.this.lambda$segmentImage$2(bitmap, exc);
@@ -543,7 +545,7 @@ public class PhotoView extends EntityView {
 
     @Override // org.telegram.ui.Components.Paint.Views.EntityView
     protected EntityView.SelectionView createSelectionView() {
-        return new PhotoViewSelectionView(this, getContext());
+        return new PhotoViewSelectionView(getContext());
     }
 
     public String getPath(int i) {
@@ -566,7 +568,7 @@ public class PhotoView extends EntityView {
         private final Paint clearPaint;
         private Path path;
 
-        public PhotoViewSelectionView(PhotoView photoView, Context context) {
+        public PhotoViewSelectionView(Context context) {
             super(context);
             Paint paint = new Paint(1);
             this.clearPaint = paint;

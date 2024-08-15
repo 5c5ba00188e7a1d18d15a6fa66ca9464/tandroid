@@ -52,8 +52,9 @@ import org.telegram.ui.Components.StaticLayoutEx;
 import org.telegram.ui.Components.URLSpanNoUnderline;
 /* loaded from: classes4.dex */
 public class AboutLinkCell extends FrameLayout {
-    private static final int COLLAPSED_HEIGHT = AndroidUtilities.dp(76.0f);
-    private static final int MOST_SPEC = View.MeasureSpec.makeMeasureSpec(999999, Integer.MIN_VALUE);
+    private static final int COLLAPSED_HEIGHT;
+    private static final int MAX_OPEN_HEIGHT;
+    private static final int MOST_SPEC;
     final float SPACE;
     private Paint backgroundPaint;
     private FrameLayout bottomShadow;
@@ -77,6 +78,7 @@ public class AboutLinkCell extends FrameLayout {
     private LinkSpanDrawable pressedLink;
     private Layout pressedLinkLayout;
     private float pressedLinkYOffset;
+    private float rawCollapseT;
     private Theme.ResourcesProvider resourcesProvider;
     private Drawable rippleBackground;
     private boolean shouldExpand;
@@ -87,6 +89,8 @@ public class AboutLinkCell extends FrameLayout {
     private StaticLayout textLayout;
     private int textX;
     private int textY;
+    private LinkPath urlPath;
+    private Point urlPathOffset;
     private TextView valueTextView;
 
     protected void didExtend() {
@@ -112,8 +116,8 @@ public class AboutLinkCell extends FrameLayout {
 
     public AboutLinkCell(Context context, BaseFragment baseFragment, Theme.ResourcesProvider resourcesProvider) {
         super(context);
-        new Point();
-        new LinkPath(true);
+        this.urlPathOffset = new Point();
+        this.urlPath = new LinkPath(true);
         this.nextLinesLayouts = null;
         this.lastInlineLine = -1;
         this.needSpace = false;
@@ -121,6 +125,8 @@ public class AboutLinkCell extends FrameLayout {
         this.SPACE = AndroidUtilities.dp(3.0f);
         this.longPressedRunnable = new 2();
         this.expandT = 0.0f;
+        this.rawCollapseT = 0.0f;
+        this.expanded = false;
         this.lastMaxWidth = 0;
         this.shouldExpand = false;
         this.resourcesProvider = resourcesProvider;
@@ -149,7 +155,7 @@ public class AboutLinkCell extends FrameLayout {
         this.bottomShadow.setBackground(mutate);
         addView(this.bottomShadow, LayoutHelper.createFrame(-1, 12.0f, 87, 0.0f, 0.0f, 0.0f, 0.0f));
         addView(this.container, LayoutHelper.createFrame(-1, -1, 55));
-        TextView textView2 = new TextView(this, context) { // from class: org.telegram.ui.Cells.AboutLinkCell.1
+        TextView textView2 = new TextView(context) { // from class: org.telegram.ui.Cells.AboutLinkCell.1
             private boolean pressed = false;
 
             @Override // android.widget.TextView, android.view.View
@@ -183,7 +189,7 @@ public class AboutLinkCell extends FrameLayout {
         this.showMoreTextView.setMaxLines(1);
         this.showMoreTextView.setSingleLine(true);
         this.showMoreTextView.setText(LocaleController.getString("DescriptionMore", R.string.DescriptionMore));
-        this.showMoreTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.AboutLinkCell$$ExternalSyntheticLambda1
+        this.showMoreTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.AboutLinkCell$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 AboutLinkCell.this.lambda$new$0(view);
@@ -332,9 +338,9 @@ public class AboutLinkCell extends FrameLayout {
                     StaticLayout staticLayout3 = staticLayoutArr[i3];
                     if (staticLayout3 != null) {
                         int save = canvas.save();
-                        Point[] pointArr = this.nextLinesLayoutsPositions;
-                        if (pointArr[i3] != null) {
-                            pointArr[i3].set((int) (this.textX + (f2 * easeInOutCubic)), (int) (this.textY + lineTop + ((1.0f - easeInOutCubic) * lineBottom)));
+                        Point point = this.nextLinesLayoutsPositions[i3];
+                        if (point != null) {
+                            point.set((int) (this.textX + (f2 * easeInOutCubic)), (int) (this.textY + lineTop + ((1.0f - easeInOutCubic) * lineBottom)));
                         }
                         int i4 = this.lastInlineLine;
                         if (i4 != -1 && i4 <= i3) {
@@ -490,8 +496,8 @@ public class AboutLinkCell extends FrameLayout {
                                 break;
                             }
                             StaticLayout staticLayout2 = staticLayoutArr[i3];
-                            Point[] pointArr = this.nextLinesLayoutsPositions;
-                            LinkSpanDrawable checkTouchTextLayout2 = checkTouchTextLayout(staticLayout2, pointArr[i3].x, pointArr[i3].y, i, i2);
+                            Point point = this.nextLinesLayoutsPositions[i3];
+                            LinkSpanDrawable checkTouchTextLayout2 = checkTouchTextLayout(staticLayout2, point.x, point.y, i, i2);
                             if (checkTouchTextLayout2 != null) {
                                 return checkTouchTextLayout2;
                             }
@@ -619,14 +625,22 @@ public class AboutLinkCell extends FrameLayout {
         }
     }
 
+    static {
+        int dp = AndroidUtilities.dp(76.0f);
+        COLLAPSED_HEIGHT = dp;
+        MAX_OPEN_HEIGHT = dp;
+        MOST_SPEC = View.MeasureSpec.makeMeasureSpec(999999, Integer.MIN_VALUE);
+    }
+
     /* loaded from: classes4.dex */
     public class SpringInterpolator {
         public float friction;
         public float tension;
+        private final float mass = 1.0f;
         private float position = 0.0f;
         private float velocity = 0.0f;
 
-        public SpringInterpolator(AboutLinkCell aboutLinkCell, float f, float f2) {
+        public SpringInterpolator(float f, float f2) {
             this.tension = f;
             this.friction = f2;
         }
@@ -666,9 +680,9 @@ public class AboutLinkCell extends FrameLayout {
             float min = Math.min(COLLAPSED_HEIGHT, textHeight);
             Math.abs(AndroidUtilities.lerp(min, textHeight, f2) - AndroidUtilities.lerp(min, textHeight, f));
             this.collapseAnimator = ValueAnimator.ofFloat(0.0f, 1.0f);
-            final SpringInterpolator springInterpolator = new SpringInterpolator(this, 380.0f, 20.17f);
+            final SpringInterpolator springInterpolator = new SpringInterpolator(380.0f, 20.17f);
             final AtomicReference atomicReference = new AtomicReference(Float.valueOf(f));
-            this.collapseAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.AboutLinkCell$$ExternalSyntheticLambda0
+            this.collapseAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.AboutLinkCell$$ExternalSyntheticLambda1
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                     AboutLinkCell.this.lambda$updateCollapse$1(atomicReference, f, f2, springInterpolator, valueAnimator2);
@@ -700,7 +714,7 @@ public class AboutLinkCell extends FrameLayout {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateCollapse$1(AtomicReference atomicReference, float f, float f2, SpringInterpolator springInterpolator, ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-        AndroidUtilities.lerp(f, f2, ((Float) valueAnimator.getAnimatedValue()).floatValue());
+        this.rawCollapseT = AndroidUtilities.lerp(f, f2, ((Float) valueAnimator.getAnimatedValue()).floatValue());
         float lerp = AndroidUtilities.lerp(f, f2, springInterpolator.getValue((floatValue - ((Float) atomicReference.getAndSet(Float.valueOf(floatValue))).floatValue()) * 1000.0f * 8.0f));
         this.expandT = lerp;
         if (lerp > 0.8f && this.container.getBackground() == null) {
@@ -752,8 +766,18 @@ public class AboutLinkCell extends FrameLayout {
     }
 
     private StaticLayout makeTextLayout(CharSequence charSequence, int i) {
+        StaticLayout.Builder obtain;
+        StaticLayout.Builder breakStrategy;
+        StaticLayout.Builder hyphenationFrequency;
+        StaticLayout.Builder alignment;
+        StaticLayout build;
         if (Build.VERSION.SDK_INT >= 24) {
-            return StaticLayout.Builder.obtain(charSequence, 0, charSequence.length(), Theme.profile_aboutTextPaint, Math.max(1, i)).setBreakStrategy(0).setHyphenationFrequency(0).setAlignment(LocaleController.isRTL ? StaticLayoutEx.ALIGN_RIGHT() : StaticLayoutEx.ALIGN_LEFT()).build();
+            obtain = StaticLayout.Builder.obtain(charSequence, 0, charSequence.length(), Theme.profile_aboutTextPaint, Math.max(1, i));
+            breakStrategy = obtain.setBreakStrategy(0);
+            hyphenationFrequency = breakStrategy.setHyphenationFrequency(0);
+            alignment = hyphenationFrequency.setAlignment(LocaleController.isRTL ? StaticLayoutEx.ALIGN_RIGHT() : StaticLayoutEx.ALIGN_LEFT());
+            build = alignment.build();
+            return build;
         }
         return new StaticLayout(charSequence, Theme.profile_aboutTextPaint, i, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
     }

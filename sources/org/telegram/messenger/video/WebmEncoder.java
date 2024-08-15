@@ -17,22 +17,17 @@ import android.text.TextUtils;
 import android.util.Pair;
 import android.view.View;
 import java.io.File;
-import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Iterator;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
-import org.telegram.messenger.Bitmaps;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.UserConfig;
-import org.telegram.messenger.Utilities;
 import org.telegram.messenger.VideoEditedInfo;
 import org.telegram.messenger.video.MediaCodecVideoConvertor;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
@@ -48,7 +43,7 @@ public class WebmEncoder {
 
     private static native boolean writeFrame(long j, ByteBuffer byteBuffer, int i, int i2);
 
-    /* JADX WARN: Removed duplicated region for block: B:53:0x0141  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x0143  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -57,11 +52,12 @@ public class WebmEncoder {
         long length;
         MediaController.VideoConvertorListener videoConvertorListener;
         Bitmap bitmap;
+        int i2;
         ByteBuffer byteBuffer;
         MediaController.VideoConvertorListener videoConvertorListener2;
-        int i2 = convertVideoParams.resultWidth;
-        int i3 = convertVideoParams.resultHeight;
-        long createEncoder = createEncoder(convertVideoParams.cacheFile.getAbsolutePath(), i2, i3, convertVideoParams.framerate, convertVideoParams.bitrate);
+        int i3 = convertVideoParams.resultWidth;
+        int i4 = convertVideoParams.resultHeight;
+        long createEncoder = createEncoder(convertVideoParams.cacheFile.getAbsolutePath(), i3, i4, convertVideoParams.framerate, convertVideoParams.bitrate);
         boolean z2 = true;
         if (createEncoder == 0) {
             return true;
@@ -69,7 +65,7 @@ public class WebmEncoder {
         Bitmap bitmap2 = null;
         try {
             try {
-                bitmap2 = Bitmap.createBitmap(i2, i3, Bitmap.Config.ARGB_8888);
+                bitmap2 = Bitmap.createBitmap(i3, i4, Bitmap.Config.ARGB_8888);
                 try {
                     ByteBuffer allocateDirect = ByteBuffer.allocateDirect(bitmap2.getByteCount());
                     Canvas canvas = new Canvas(bitmap2);
@@ -79,23 +75,24 @@ public class WebmEncoder {
                     Double.isNaN(d2);
                     Double.isNaN(d);
                     int ceil = (int) Math.ceil(d * (d2 / 1000.0d));
-                    int i4 = 0;
-                    while (i4 < ceil) {
-                        frameDrawer.draw(canvas, i4);
+                    int i5 = 0;
+                    while (i5 < ceil) {
+                        frameDrawer.draw(canvas, i5);
                         bitmap2.copyPixelsToBuffer(allocateDirect);
                         allocateDirect.flip();
-                        if (!writeFrame(createEncoder, allocateDirect, i2, i3)) {
-                            FileLog.d("webm writeFile error at " + i4 + "/" + ceil);
+                        if (!writeFrame(createEncoder, allocateDirect, i3, i4)) {
+                            FileLog.d("webm writeFile error at " + i5 + "/" + ceil);
                             stop(createEncoder);
                             bitmap2.recycle();
                             return z2;
                         }
                         MediaController.VideoConvertorListener videoConvertorListener3 = convertVideoParams.callback;
                         if (videoConvertorListener3 != null) {
-                            byteBuffer = allocateDirect;
                             bitmap = bitmap2;
                             try {
-                                videoConvertorListener3.didWriteData(Math.min(261120L, convertVideoParams.cacheFile.length()), i4 / ceil);
+                                i2 = i4;
+                                byteBuffer = allocateDirect;
+                                videoConvertorListener3.didWriteData(Math.min(261120L, convertVideoParams.cacheFile.length()), i5 / ceil);
                             } catch (Exception e) {
                                 e = e;
                                 bitmap2 = bitmap;
@@ -124,14 +121,16 @@ public class WebmEncoder {
                             }
                         } else {
                             bitmap = bitmap2;
+                            i2 = i4;
                             byteBuffer = allocateDirect;
                         }
-                        if (i4 % 3 == 0 && (videoConvertorListener2 = convertVideoParams.callback) != null) {
+                        if (i5 % 3 == 0 && (videoConvertorListener2 = convertVideoParams.callback) != null) {
                             videoConvertorListener2.checkConversionCanceled();
                         }
-                        i4++;
-                        allocateDirect = byteBuffer;
+                        i5++;
+                        i4 = i2;
                         bitmap2 = bitmap;
+                        allocateDirect = byteBuffer;
                         z2 = true;
                     }
                     stop(createEncoder);
@@ -154,10 +153,10 @@ public class WebmEncoder {
                 FileLog.d("webm encoded to " + convertVideoParams.cacheFile + " with size=" + length + " triesLeft=" + i);
                 return z;
             }
-            int i5 = convertVideoParams.bitrate;
-            convertVideoParams.bitrate = (int) (i5 * (261120.0f / ((float) length)) * 0.9f);
+            int i6 = convertVideoParams.bitrate;
+            convertVideoParams.bitrate = (int) (i6 * (261120.0f / ((float) length)) * 0.9f);
             convertVideoParams.cacheFile.delete();
-            FileLog.d("webm encoded too much, got " + length + ", old bitrate = " + i5 + " new bitrate = " + convertVideoParams.bitrate);
+            FileLog.d("webm encoded too much, got " + length + ", old bitrate = " + i6 + " new bitrate = " + convertVideoParams.bitrate);
             return convert(convertVideoParams, i - 1);
         } catch (Throwable th3) {
             th = th3;
@@ -354,15 +353,13 @@ public class WebmEncoder {
             int i3 = mediaEntity.textAlign;
             editTextOutline.setGravity(i3 != 1 ? i3 != 2 ? 19 : 21 : 17);
             int i4 = Build.VERSION.SDK_INT;
-            if (i4 >= 17) {
-                int i5 = mediaEntity.textAlign;
-                if (i5 != 1) {
-                    i = (i5 == 2 ? !LocaleController.isRTL : LocaleController.isRTL) ? 3 : 2;
-                } else {
-                    i = 4;
-                }
-                editTextOutline.setTextAlignment(i);
+            int i5 = mediaEntity.textAlign;
+            if (i5 != 1) {
+                i = (i5 == 2 ? !LocaleController.isRTL : LocaleController.isRTL) ? 3 : 2;
+            } else {
+                i = 4;
             }
+            editTextOutline.setTextAlignment(i);
             editTextOutline.setHorizontallyScrolling(false);
             editTextOutline.setImeOptions(268435456);
             editTextOutline.setFocusableInTouchMode(true);
@@ -397,7 +394,6 @@ public class WebmEncoder {
 
         /* JADX INFO: Access modifiers changed from: private */
         public void initStickerEntity(VideoEditedInfo.MediaEntity mediaEntity) {
-            Bitmap bitmap;
             AnimatedFileDrawable animatedFileDrawable;
             int i;
             int i2 = (int) (mediaEntity.width * this.W);
@@ -438,32 +434,13 @@ public class WebmEncoder {
                 if (!TextUtils.isEmpty(mediaEntity.segmentedPath) && (mediaEntity.subType & 16) != 0) {
                     str = mediaEntity.segmentedPath;
                 }
-                if (Build.VERSION.SDK_INT >= 19) {
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-                    if (mediaEntity.type == 2) {
-                        options.inMutable = true;
-                    }
-                    mediaEntity.bitmap = BitmapFactory.decodeFile(str, options);
-                } else {
-                    try {
-                        File file = new File(str);
-                        RandomAccessFile randomAccessFile = new RandomAccessFile(file, "r");
-                        MappedByteBuffer map = randomAccessFile.getChannel().map(FileChannel.MapMode.READ_ONLY, 0L, file.length());
-                        BitmapFactory.Options options2 = new BitmapFactory.Options();
-                        options2.inJustDecodeBounds = true;
-                        Utilities.loadWebpImage(null, map, map.limit(), options2, true);
-                        if (mediaEntity.type == 2) {
-                            options2.inMutable = true;
-                        }
-                        Bitmap createBitmap = Bitmaps.createBitmap(options2.outWidth, options2.outHeight, Bitmap.Config.ARGB_8888);
-                        mediaEntity.bitmap = createBitmap;
-                        Utilities.loadWebpImage(createBitmap, map, map.limit(), null, true);
-                        randomAccessFile.close();
-                    } catch (Throwable th) {
-                        FileLog.e(th);
-                    }
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                if (mediaEntity.type == 2) {
+                    options.inMutable = true;
                 }
-                if (mediaEntity.type == 2 && mediaEntity.bitmap != null) {
+                Bitmap decodeFile = BitmapFactory.decodeFile(str, options);
+                mediaEntity.bitmap = decodeFile;
+                if (mediaEntity.type == 2 && decodeFile != null) {
                     mediaEntity.roundRadius = AndroidUtilities.dp(12.0f) / Math.min(mediaEntity.viewWidth, mediaEntity.viewHeight);
                     Pair<Integer, Integer> imageOrientation = AndroidUtilities.getImageOrientation(mediaEntity.text);
                     double d = mediaEntity.rotation;
@@ -487,20 +464,18 @@ public class WebmEncoder {
                         mediaEntity.y = f6 - (f7 / 2.0f);
                     }
                     applyRoundRadius(mediaEntity, mediaEntity.bitmap, 0);
-                } else {
-                    if (mediaEntity.bitmap != null) {
-                        float width = bitmap.getWidth() / mediaEntity.bitmap.getHeight();
-                        if (width > 1.0f) {
-                            float f9 = mediaEntity.height;
-                            float f10 = f9 / width;
-                            mediaEntity.y += (f9 - f10) / 2.0f;
-                            mediaEntity.height = f10;
-                        } else if (width < 1.0f) {
-                            float f11 = mediaEntity.width;
-                            float f12 = width * f11;
-                            mediaEntity.x += (f11 - f12) / 2.0f;
-                            mediaEntity.width = f12;
-                        }
+                } else if (decodeFile != null) {
+                    float width = decodeFile.getWidth() / mediaEntity.bitmap.getHeight();
+                    if (width > 1.0f) {
+                        float f9 = mediaEntity.height;
+                        float f10 = f9 / width;
+                        mediaEntity.y += (f9 - f10) / 2.0f;
+                        mediaEntity.height = f10;
+                    } else if (width < 1.0f) {
+                        float f11 = mediaEntity.width;
+                        float f12 = width * f11;
+                        mediaEntity.x += (f11 - f12) / 2.0f;
+                        mediaEntity.width = f12;
                     }
                 }
             }

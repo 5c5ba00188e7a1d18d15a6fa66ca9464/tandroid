@@ -52,18 +52,12 @@ public class ContextThemeWrapper extends ContextWrapper {
     }
 
     private Resources getResourcesInternal() {
-        int i;
         if (this.mResources == null) {
             Configuration configuration = this.mOverrideConfiguration;
-            if (configuration == null || ((i = Build.VERSION.SDK_INT) >= 26 && isEmptyConfiguration(configuration))) {
+            if (configuration == null || (Build.VERSION.SDK_INT >= 26 && isEmptyConfiguration(configuration))) {
                 this.mResources = super.getResources();
-            } else if (i >= 17) {
-                this.mResources = Api17Impl.createConfigurationContext(this, this.mOverrideConfiguration).getResources();
             } else {
-                Resources resources = super.getResources();
-                Configuration configuration2 = new Configuration(resources.getConfiguration());
-                configuration2.updateFrom(this.mOverrideConfiguration);
-                this.mResources = new Resources(resources.getAssets(), resources.getDisplayMetrics(), configuration2);
+                this.mResources = Api17Impl.createConfigurationContext(this, this.mOverrideConfiguration).getResources();
             }
         }
         return this.mResources;

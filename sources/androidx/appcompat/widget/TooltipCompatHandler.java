@@ -21,13 +21,13 @@ public class TooltipCompatHandler implements View.OnLongClickListener, View.OnHo
     private final int mHoverSlop;
     private TooltipPopup mPopup;
     private final CharSequence mTooltipText;
-    private final Runnable mShowRunnable = new Runnable() { // from class: androidx.appcompat.widget.TooltipCompatHandler$$ExternalSyntheticLambda1
+    private final Runnable mShowRunnable = new Runnable() { // from class: androidx.appcompat.widget.TooltipCompatHandler$$ExternalSyntheticLambda0
         @Override // java.lang.Runnable
         public final void run() {
             TooltipCompatHandler.this.lambda$new$0();
         }
     };
-    private final Runnable mHideRunnable = new Runnable() { // from class: androidx.appcompat.widget.TooltipCompatHandler$$ExternalSyntheticLambda0
+    private final Runnable mHideRunnable = new Runnable() { // from class: androidx.appcompat.widget.TooltipCompatHandler$$ExternalSyntheticLambda1
         @Override // java.lang.Runnable
         public final void run() {
             TooltipCompatHandler.this.hide();
@@ -105,8 +105,8 @@ public class TooltipCompatHandler implements View.OnLongClickListener, View.OnHo
     }
 
     void show(boolean z) {
+        long longPressTimeout;
         long j;
-        int longPressTimeout;
         long j2;
         if (ViewCompat.isAttachedToWindow(this.mAnchor)) {
             setPendingHandler(null);
@@ -124,11 +124,11 @@ public class TooltipCompatHandler implements View.OnLongClickListener, View.OnHo
                 j2 = 2500;
             } else {
                 if ((ViewCompat.getWindowSystemUiVisibility(this.mAnchor) & 1) == 1) {
+                    longPressTimeout = ViewConfiguration.getLongPressTimeout();
                     j = 3000;
-                    longPressTimeout = ViewConfiguration.getLongPressTimeout();
                 } else {
-                    j = 15000;
                     longPressTimeout = ViewConfiguration.getLongPressTimeout();
+                    j = 15000;
                 }
                 j2 = j - longPressTimeout;
             }

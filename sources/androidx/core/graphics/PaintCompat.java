@@ -62,7 +62,9 @@ public final class PaintCompat {
     /* loaded from: classes.dex */
     static class Api23Impl {
         static boolean hasGlyph(Paint paint, String str) {
-            return paint.hasGlyph(str);
+            boolean hasGlyph;
+            hasGlyph = paint.hasGlyph(str);
+            return hasGlyph;
         }
     }
 }

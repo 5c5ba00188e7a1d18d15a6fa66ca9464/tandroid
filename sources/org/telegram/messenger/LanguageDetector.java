@@ -54,12 +54,12 @@ public class LanguageDetector {
                 return;
             }
         }
-        LanguageIdentification.getClient().identifyLanguage(str).addOnSuccessListener(new OnSuccessListener() { // from class: org.telegram.messenger.LanguageDetector$$ExternalSyntheticLambda1
+        LanguageIdentification.getClient().identifyLanguage(str).addOnSuccessListener(new OnSuccessListener() { // from class: org.telegram.messenger.LanguageDetector$$ExternalSyntheticLambda0
             @Override // com.google.android.gms.tasks.OnSuccessListener
             public final void onSuccess(Object obj) {
                 LanguageDetector.lambda$detectLanguage$0(LanguageDetector.StringCallback.this, (String) obj);
             }
-        }).addOnFailureListener(new OnFailureListener() { // from class: org.telegram.messenger.LanguageDetector$$ExternalSyntheticLambda0
+        }).addOnFailureListener(new OnFailureListener() { // from class: org.telegram.messenger.LanguageDetector$$ExternalSyntheticLambda1
             @Override // com.google.android.gms.tasks.OnFailureListener
             public final void onFailure(Exception exc) {
                 LanguageDetector.lambda$detectLanguage$1(LanguageDetector.ExceptionCallback.this, exc);

@@ -2,24 +2,21 @@ package com.google.android.gms.internal.clearcut;
 
 import java.util.Map;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* JADX INFO: Add missing generic type declarations: [V, K] */
-/* JADX WARN: Incorrect field signature: TK; */
 /* loaded from: classes.dex */
-public final class zzep<K, V> implements Comparable<zzep>, Map.Entry<K, V> {
-    private V value;
+public final class zzep implements Comparable, Map.Entry {
+    private Object value;
     private final /* synthetic */ zzei zzos;
     private final Comparable zzov;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Multi-variable type inference failed */
-    public zzep(zzei zzeiVar, K k, V v) {
+    public zzep(zzei zzeiVar, Comparable comparable, Object obj) {
         this.zzos = zzeiVar;
-        this.zzov = k;
-        this.value = v;
+        this.zzov = comparable;
+        this.value = obj;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public zzep(zzei zzeiVar, Map.Entry<K, V> entry) {
+    public zzep(zzei zzeiVar, Map.Entry entry) {
         this(zzeiVar, (Comparable) entry.getKey(), entry.getValue());
     }
 
@@ -28,8 +25,8 @@ public final class zzep<K, V> implements Comparable<zzep>, Map.Entry<K, V> {
     }
 
     @Override // java.lang.Comparable
-    public final /* synthetic */ int compareTo(zzep zzepVar) {
-        return ((Comparable) getKey()).compareTo((Comparable) zzepVar.getKey());
+    public final /* synthetic */ int compareTo(Object obj) {
+        return ((Comparable) getKey()).compareTo((Comparable) ((zzep) obj).getKey());
     }
 
     @Override // java.util.Map.Entry
@@ -50,7 +47,7 @@ public final class zzep<K, V> implements Comparable<zzep>, Map.Entry<K, V> {
     }
 
     @Override // java.util.Map.Entry
-    public final V getValue() {
+    public final Object getValue() {
         return this.value;
     }
 
@@ -58,16 +55,16 @@ public final class zzep<K, V> implements Comparable<zzep>, Map.Entry<K, V> {
     public final int hashCode() {
         Comparable comparable = this.zzov;
         int hashCode = comparable == null ? 0 : comparable.hashCode();
-        V v = this.value;
-        return hashCode ^ (v != null ? v.hashCode() : 0);
+        Object obj = this.value;
+        return hashCode ^ (obj != null ? obj.hashCode() : 0);
     }
 
     @Override // java.util.Map.Entry
-    public final V setValue(V v) {
+    public final Object setValue(Object obj) {
         this.zzos.zzdu();
-        V v2 = this.value;
-        this.value = v;
-        return v2;
+        Object obj2 = this.value;
+        this.value = obj;
+        return obj2;
     }
 
     public final String toString() {

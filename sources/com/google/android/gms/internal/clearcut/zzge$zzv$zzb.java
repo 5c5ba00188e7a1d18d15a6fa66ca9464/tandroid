@@ -7,16 +7,13 @@ public enum zzge$zzv$zzb implements zzcj {
     zzbhn(3),
     zzbho(4);
     
+    private static final zzck<zzge$zzv$zzb> zzbq = new zzck<zzge$zzv$zzb>() { // from class: com.google.android.gms.internal.clearcut.zzgr
+        @Override // com.google.android.gms.internal.clearcut.zzck
+        public final /* synthetic */ zzge$zzv$zzb zzb(int i) {
+            return zzge$zzv$zzb.zzbc(i);
+        }
+    };
     private final int value;
-
-    static {
-        new zzck<zzge$zzv$zzb>() { // from class: com.google.android.gms.internal.clearcut.zzgr
-            @Override // com.google.android.gms.internal.clearcut.zzck
-            public final /* synthetic */ zzge$zzv$zzb zzb(int i) {
-                return zzge$zzv$zzb.zzbc(i);
-            }
-        };
-    }
 
     zzge$zzv$zzb(int i) {
         this.value = i;

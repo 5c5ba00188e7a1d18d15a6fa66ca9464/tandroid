@@ -58,6 +58,7 @@ import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.SelectAnimatedEmojiDialog;
 /* loaded from: classes3.dex */
 public class CustomEmojiReactionsWindow {
+    private int account;
     boolean attachToParent;
     BaseFragment baseFragment;
     private boolean cascadeAnimation;
@@ -197,7 +198,7 @@ public class CustomEmojiReactionsWindow {
             }
         };
         this.windowView = frameLayout;
-        frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow$$ExternalSyntheticLambda4
+        frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 CustomEmojiReactionsWindow.this.lambda$new$0(view);
@@ -229,7 +230,7 @@ public class CustomEmojiReactionsWindow {
             i2 = 1;
         }
         this.selectAnimatedEmojiDialog.setPaused(reactionsContainerLayout.paused, reactionsContainerLayout.pausedExceptSelected);
-        this.selectAnimatedEmojiDialog.setOnLongPressedListener(new SelectAnimatedEmojiDialog.onLongPressedListener(this) { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow.4
+        this.selectAnimatedEmojiDialog.setOnLongPressedListener(new SelectAnimatedEmojiDialog.onLongPressedListener() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow.4
             @Override // org.telegram.ui.SelectAnimatedEmojiDialog.onLongPressedListener
             public void onLongPressed(SelectAnimatedEmojiDialog.ImageViewEmoji imageViewEmoji) {
                 if (imageViewEmoji.isDefaultReaction) {
@@ -239,7 +240,7 @@ public class CustomEmojiReactionsWindow {
                 }
             }
         });
-        this.selectAnimatedEmojiDialog.setOnRecentClearedListener(new SelectAnimatedEmojiDialog.onRecentClearedListener(this, reactionsContainerLayout) { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow.5
+        this.selectAnimatedEmojiDialog.setOnRecentClearedListener(new SelectAnimatedEmojiDialog.onRecentClearedListener() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow.5
         });
         this.selectAnimatedEmojiDialog.setRecentReactions(list);
         this.selectAnimatedEmojiDialog.setSelectedReactions(hashSet);
@@ -257,7 +258,7 @@ public class CustomEmojiReactionsWindow {
         this.windowView.addView(this.containerView, LayoutHelper.createFrame(-1, -1.0f, i == 5 ? 85 : 48, f, f, f, 16.0f));
         this.windowView.setClipChildren(false);
         if (i == i2 || (reactionsContainerLayout.getDelegate() != null && reactionsContainerLayout.getDelegate().drawBackground())) {
-            this.selectAnimatedEmojiDialog.setBackgroundDelegate(new SelectAnimatedEmojiDialog.BackgroundDelegate() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow$$ExternalSyntheticLambda9
+            this.selectAnimatedEmojiDialog.setBackgroundDelegate(new SelectAnimatedEmojiDialog.BackgroundDelegate() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow$$ExternalSyntheticLambda1
                 @Override // org.telegram.ui.SelectAnimatedEmojiDialog.BackgroundDelegate
                 public final void drawRect(Canvas canvas, int i4, int i5, int i6, int i7, float f2, float f3) {
                     CustomEmojiReactionsWindow.this.lambda$new$1(reactionsContainerLayout, canvas, i4, i5, i6, i7, f2, f3);
@@ -273,14 +274,14 @@ public class CustomEmojiReactionsWindow {
             windowManager.addView(this.windowView, createLayoutParams);
         }
         this.reactionsContainerLayout = reactionsContainerLayout;
-        reactionsContainerLayout.setOnSwitchedToLoopView(new Runnable() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow$$ExternalSyntheticLambda6
+        reactionsContainerLayout.setOnSwitchedToLoopView(new Runnable() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 CustomEmojiReactionsWindow.this.lambda$new$2();
             }
         });
         reactionsContainerLayout.prepareAnimation(i2);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow$$ExternalSyntheticLambda8
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 CustomEmojiReactionsWindow.this.lambda$new$3(reactionsContainerLayout);
@@ -417,7 +418,7 @@ public class CustomEmojiReactionsWindow {
         if (f < 0.0f) {
             f = 0.0f;
         }
-        this.containerView.animate().translationY(f).setDuration(250L).setUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow$$ExternalSyntheticLambda0
+        this.containerView.animate().translationY(f).setDuration(250L).setUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow$$ExternalSyntheticLambda9
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 CustomEmojiReactionsWindow.this.lambda$updateWindowPosition$4(valueAnimator);
@@ -516,7 +517,7 @@ public class CustomEmojiReactionsWindow {
         updateContainersAlpha();
         this.selectAnimatedEmojiDialog.setEnterAnimationInProgress(true);
         this.selectAnimatedEmojiDialog.emojiTabs.showRecentTabStub(z && this.cascadeAnimation);
-        int i2 = UserConfig.selectedAccount;
+        this.account = UserConfig.selectedAccount;
         this.notificationsLocker.lock();
         ValueAnimator valueAnimator = this.valueAnimator;
         if (valueAnimator != null) {
@@ -535,7 +536,7 @@ public class CustomEmojiReactionsWindow {
             ofFloat = StableAnimator.ofFloat(fArr2);
         }
         this.valueAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow$$ExternalSyntheticLambda3
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow$$ExternalSyntheticLambda5
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                 CustomEmojiReactionsWindow.this.lambda$createTransition$5(z, valueAnimator2);
@@ -595,7 +596,7 @@ public class CustomEmojiReactionsWindow {
             this.reactionsContainerLayout.setCustomEmojiReactionsBackground(false);
             final ValueAnimator valueAnimator2 = this.valueAnimator;
             Objects.requireNonNull(valueAnimator2);
-            HwEmojis.prepare(new Runnable() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow$$ExternalSyntheticLambda5
+            HwEmojis.prepare(new Runnable() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
                     valueAnimator2.start();
@@ -711,7 +712,7 @@ public class CustomEmojiReactionsWindow {
         }
         if (arrayList != null) {
             final ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow$$ExternalSyntheticLambda2
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow$$ExternalSyntheticLambda8
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     CustomEmojiReactionsWindow.this.lambda$updateCascadeEnter$6(arrayList, valueAnimator);
@@ -790,7 +791,7 @@ public class CustomEmojiReactionsWindow {
         if (this.type != 5) {
             NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.startAllHeavyOperations, 7);
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow$$ExternalSyntheticLambda7
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 CustomEmojiReactionsWindow.this.lambda$removeView$7();
@@ -851,7 +852,7 @@ public class CustomEmojiReactionsWindow {
             return;
         }
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow$$ExternalSyntheticLambda1
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow$$ExternalSyntheticLambda7
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 CustomEmojiReactionsWindow.this.lambda$dismiss$8(valueAnimator);

@@ -81,7 +81,7 @@ public class MsgClockDrawable extends Drawable {
     @Override // android.graphics.drawable.Drawable
     public Drawable.ConstantState getConstantState() {
         if (this.constantState == null) {
-            this.constantState = new Drawable.ConstantState(this) { // from class: org.telegram.ui.Components.MsgClockDrawable.1
+            this.constantState = new Drawable.ConstantState() { // from class: org.telegram.ui.Components.MsgClockDrawable.1
                 @Override // android.graphics.drawable.Drawable.ConstantState
                 public int getChangingConfigurations() {
                     return 0;

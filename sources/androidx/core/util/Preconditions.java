@@ -2,7 +2,6 @@ package androidx.core.util;
 
 import android.text.TextUtils;
 import java.util.Locale;
-import java.util.Objects;
 /* loaded from: classes.dex */
 public final class Preconditions {
     public static void checkArgument(boolean z, Object obj) {
@@ -19,7 +18,7 @@ public final class Preconditions {
     }
 
     public static <T> T checkNotNull(T t) {
-        Objects.requireNonNull(t);
+        t.getClass();
         return t;
     }
 

@@ -70,22 +70,31 @@ public final class ViewConfigurationCompat {
     /* loaded from: classes.dex */
     static class Api26Impl {
         static float getScaledHorizontalScrollFactor(ViewConfiguration viewConfiguration) {
-            return viewConfiguration.getScaledHorizontalScrollFactor();
+            float scaledHorizontalScrollFactor;
+            scaledHorizontalScrollFactor = viewConfiguration.getScaledHorizontalScrollFactor();
+            return scaledHorizontalScrollFactor;
         }
 
         static float getScaledVerticalScrollFactor(ViewConfiguration viewConfiguration) {
-            return viewConfiguration.getScaledVerticalScrollFactor();
+            float scaledVerticalScrollFactor;
+            scaledVerticalScrollFactor = viewConfiguration.getScaledVerticalScrollFactor();
+            return scaledVerticalScrollFactor;
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    static class Api28Impl {
+    public static class Api28Impl {
         static int getScaledHoverSlop(ViewConfiguration viewConfiguration) {
-            return viewConfiguration.getScaledHoverSlop();
+            int scaledHoverSlop;
+            scaledHoverSlop = viewConfiguration.getScaledHoverSlop();
+            return scaledHoverSlop;
         }
 
         static boolean shouldShowMenuShortcutsWhenKeyboardPresent(ViewConfiguration viewConfiguration) {
-            return viewConfiguration.shouldShowMenuShortcutsWhenKeyboardPresent();
+            boolean shouldShowMenuShortcutsWhenKeyboardPresent;
+            shouldShowMenuShortcutsWhenKeyboardPresent = viewConfiguration.shouldShowMenuShortcutsWhenKeyboardPresent();
+            return shouldShowMenuShortcutsWhenKeyboardPresent;
         }
     }
 }

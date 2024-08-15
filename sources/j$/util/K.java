@@ -1,19 +1,18 @@
 package j$.util;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import j$.util.function.Consumer;
 /* loaded from: classes2.dex */
-abstract class K {
-    static final boolean a = ((Boolean) AccessController.doPrivileged(new PrivilegedAction() { // from class: j$.util.J
-        @Override // java.security.PrivilegedAction
-        public final Object run() {
-            boolean z = K.a;
-            return Boolean.valueOf(Boolean.getBoolean("org.openjdk.java.util.stream.tripwire"));
-        }
-    })).booleanValue();
+public interface K extends N {
+    @Override // j$.util.Q
+    boolean a(Consumer consumer);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void a(Class cls, String str) {
-        throw new UnsupportedOperationException(cls + " tripwire tripped but logging not supported: " + str);
-    }
+    void b(j$.util.function.h0 h0Var);
+
+    boolean e(j$.util.function.h0 h0Var);
+
+    @Override // j$.util.Q
+    void forEachRemaining(Consumer consumer);
+
+    @Override // j$.util.N, j$.util.Q
+    K trySplit();
 }

@@ -67,27 +67,27 @@ public final class Version {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static Version decodeVersionInformation(int i) {
-        int i2 = 0;
+        int i2 = ConnectionsManager.DEFAULT_DATACENTER_ID;
         int i3 = 0;
-        int i4 = ConnectionsManager.DEFAULT_DATACENTER_ID;
+        int i4 = 0;
         while (true) {
             int[] iArr = VERSION_DECODE_INFO;
-            if (i2 >= iArr.length) {
-                if (i4 <= 3) {
-                    return getVersionForNumber(i3);
+            if (i3 >= iArr.length) {
+                if (i2 <= 3) {
+                    return getVersionForNumber(i4);
                 }
                 return null;
             }
-            int i5 = iArr[i2];
+            int i5 = iArr[i3];
             if (i5 == i) {
-                return getVersionForNumber(i2 + 7);
+                return getVersionForNumber(i3 + 7);
             }
             int numBitsDiffering = FormatInformation.numBitsDiffering(i, i5);
-            if (numBitsDiffering < i4) {
-                i3 = i2 + 7;
-                i4 = numBitsDiffering;
+            if (numBitsDiffering < i2) {
+                i4 = i3 + 7;
+                i2 = numBitsDiffering;
             }
-            i2++;
+            i3++;
         }
     }
 

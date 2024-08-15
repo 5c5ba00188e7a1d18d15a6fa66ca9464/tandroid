@@ -132,32 +132,33 @@ public final class ParsableBitArray {
             this.byteOffset = i5;
             byte b = bArr2[i4];
             int i6 = this.bitOffset;
-            bArr[i] = (byte) (b << i6);
-            bArr[i] = (byte) (((255 & bArr2[i5]) >> (8 - i6)) | bArr[i]);
+            byte b2 = (byte) (b << i6);
+            bArr[i] = b2;
+            bArr[i] = (byte) (((255 & bArr2[i5]) >> (8 - i6)) | b2);
             i++;
         }
         int i7 = i2 & 7;
         if (i7 == 0) {
             return;
         }
-        bArr[i3] = (byte) (bArr[i3] & (255 >> i7));
+        byte b3 = (byte) (bArr[i3] & (255 >> i7));
+        bArr[i3] = b3;
         int i8 = this.bitOffset;
         if (i8 + i7 > 8) {
-            int i9 = bArr[i3];
             byte[] bArr3 = this.data;
-            int i10 = this.byteOffset;
-            this.byteOffset = i10 + 1;
-            bArr[i3] = (byte) (i9 | ((bArr3[i10] & 255) << i8));
+            int i9 = this.byteOffset;
+            this.byteOffset = i9 + 1;
+            bArr[i3] = (byte) (b3 | ((bArr3[i9] & 255) << i8));
             this.bitOffset = i8 - 8;
         }
-        int i11 = this.bitOffset + i7;
-        this.bitOffset = i11;
+        int i10 = this.bitOffset + i7;
+        this.bitOffset = i10;
         byte[] bArr4 = this.data;
-        int i12 = this.byteOffset;
-        bArr[i3] = (byte) (((byte) (((255 & bArr4[i12]) >> (8 - i11)) << (8 - i7))) | bArr[i3]);
-        if (i11 == 8) {
+        int i11 = this.byteOffset;
+        bArr[i3] = (byte) (((byte) (((255 & bArr4[i11]) >> (8 - i10)) << (8 - i7))) | bArr[i3]);
+        if (i10 == 8) {
             this.bitOffset = 0;
-            this.byteOffset = i12 + 1;
+            this.byteOffset = i11 + 1;
         }
         assertValidOffset();
     }
@@ -199,9 +200,10 @@ public final class ParsableBitArray {
         int i4 = (8 - i3) - min;
         byte[] bArr = this.data;
         int i5 = this.byteOffset;
-        bArr[i5] = (byte) (((65280 >> i3) | ((1 << i4) - 1)) & bArr[i5]);
+        byte b = (byte) (((65280 >> i3) | ((1 << i4) - 1)) & bArr[i5]);
+        bArr[i5] = b;
         int i6 = i2 - min;
-        bArr[i5] = (byte) (((i >>> i6) << i4) | bArr[i5]);
+        bArr[i5] = (byte) (b | ((i >>> i6) << i4));
         int i7 = i5 + 1;
         while (i6 > 8) {
             this.data[i7] = (byte) (i >>> (i6 - 8));
@@ -210,8 +212,9 @@ public final class ParsableBitArray {
         }
         int i8 = 8 - i6;
         byte[] bArr2 = this.data;
-        bArr2[i7] = (byte) (bArr2[i7] & ((1 << i8) - 1));
-        bArr2[i7] = (byte) (((i & ((1 << i6) - 1)) << i8) | bArr2[i7]);
+        byte b2 = (byte) (bArr2[i7] & ((1 << i8) - 1));
+        bArr2[i7] = b2;
+        bArr2[i7] = (byte) (((i & ((1 << i6) - 1)) << i8) | b2);
         skipBits(i2);
         assertValidOffset();
     }

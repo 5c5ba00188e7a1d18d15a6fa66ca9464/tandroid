@@ -1,103 +1,53 @@
 package j$.util.stream;
 
-import j$.util.function.Consumer;
-import java.util.Arrays;
+import org.telegram.messenger.LiteMode;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public class l2 implements y1 {
-    final long[] a;
-    int b;
+public final class l2 extends h0 {
+    final /* synthetic */ long l;
+    final /* synthetic */ long m;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public l2(long j) {
-        if (j >= 2147483639) {
-            throw new IllegalArgumentException("Stream size exceeds max array size");
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public l2(c cVar, int i, long j, long j2) {
+        super(cVar, i);
+        this.l = j;
+        this.m = j2;
+    }
+
+    static j$.util.K s1(j$.util.K k, long j, long j2, long j3) {
+        long j4;
+        long j5;
+        if (j <= j3) {
+            long j6 = j3 - j;
+            j5 = j2 >= 0 ? Math.min(j2, j6) : j6;
+            j4 = 0;
+        } else {
+            j4 = j;
+            j5 = j2;
         }
-        this.a = new long[(int) j];
-        this.b = 0;
+        return new u3(k, j4, j5);
+    }
+
+    @Override // j$.util.stream.c
+    final D0 i1(j$.util.Q q, j$.util.function.N n, c cVar) {
+        long I0 = cVar.I0(q);
+        return (I0 <= 0 || !q.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) ? !T2.ORDERED.d(cVar.K0()) ? u1.k(this, s1((j$.util.K) cVar.p1(q), this.l, this.m, I0), true) : (D0) new p2(this, cVar, q, n, this.l, this.m).invoke() : u1.k(cVar, u0.D0(cVar.f1(), q, this.l, this.m), true);
+    }
+
+    @Override // j$.util.stream.c
+    final j$.util.Q j1(c cVar, j$.util.Q q) {
+        long I0 = cVar.I0(q);
+        if (I0 <= 0 || !q.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
+            return !T2.ORDERED.d(cVar.K0()) ? s1((j$.util.K) cVar.p1(q), this.l, this.m, I0) : ((D0) new p2(this, cVar, q, new J0(5), this.l, this.m).invoke()).spliterator();
+        }
+        long j = this.l;
+        return new o3((j$.util.K) cVar.p1(q), j, u0.C0(j, this.m));
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public l2(long[] jArr) {
-        this.a = jArr;
-        this.b = jArr.length;
-    }
-
-    @Override // j$.util.stream.z1, j$.util.stream.A1
-    public z1 b(int i) {
-        throw new IndexOutOfBoundsException();
-    }
-
-    @Override // j$.util.stream.A1
-    public long count() {
-        return this.b;
-    }
-
-    @Override // j$.util.stream.z1
-    public void d(Object obj, int i) {
-        System.arraycopy(this.a, 0, (long[]) obj, i, this.b);
-    }
-
-    @Override // j$.util.stream.z1
-    public Object e() {
-        long[] jArr = this.a;
-        int length = jArr.length;
-        int i = this.b;
-        return length == i ? jArr : Arrays.copyOf(jArr, i);
-    }
-
-    @Override // j$.util.stream.A1
-    public /* synthetic */ void forEach(Consumer consumer) {
-        o1.m(this, consumer);
-    }
-
-    @Override // j$.util.stream.z1
-    public void g(Object obj) {
-        j$.util.function.q qVar = (j$.util.function.q) obj;
-        for (int i = 0; i < this.b; i++) {
-            qVar.accept(this.a[i]);
-        }
-    }
-
-    @Override // j$.util.stream.A1
-    /* renamed from: j */
-    public /* synthetic */ void i(Long[] lArr, int i) {
-        o1.j(this, lArr, i);
-    }
-
-    @Override // j$.util.stream.A1
-    /* renamed from: k */
-    public /* synthetic */ y1 r(long j, long j2, j$.util.function.m mVar) {
-        return o1.p(this, j, j2, mVar);
-    }
-
-    @Override // j$.util.stream.A1
-    public /* synthetic */ int p() {
-        return 0;
-    }
-
-    @Override // j$.util.stream.A1
-    public /* synthetic */ Object[] q(j$.util.function.m mVar) {
-        return o1.g(this, mVar);
-    }
-
-    @Override // j$.util.stream.z1, j$.util.stream.A1
-    public j$.util.t spliterator() {
-        return j$.util.I.l(this.a, 0, this.b, 1040);
-    }
-
-    public String toString() {
-        return String.format("LongArrayNode[%d][%s]", Integer.valueOf(this.a.length - this.b), Arrays.toString(this.a));
-    }
-
-    @Override // j$.util.stream.A1
-    public /* bridge */ /* synthetic */ A1 b(int i) {
-        b(i);
-        throw null;
-    }
-
-    @Override // j$.util.stream.A1
-    public j$.util.s spliterator() {
-        return j$.util.I.l(this.a, 0, this.b, 1040);
+    @Override // j$.util.stream.c
+    public final f2 l1(int i, f2 f2Var) {
+        return new k2(this, f2Var);
     }
 }

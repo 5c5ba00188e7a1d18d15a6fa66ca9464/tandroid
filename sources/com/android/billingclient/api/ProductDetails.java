@@ -14,7 +14,11 @@ public final class ProductDetails {
     private final String zzc;
     private final String zzd;
     private final String zze;
+    private final String zzf;
+    private final String zzg;
     private final String zzh;
+    private final String zzi;
+    private final String zzj;
     private final String zzk;
     private final List zzl;
     private final List zzm;
@@ -22,16 +26,23 @@ public final class ProductDetails {
     /* compiled from: com.android.billingclient:billing@@6.0.1 */
     /* loaded from: classes.dex */
     public static final class OneTimePurchaseOfferDetails {
+        private final String zza;
         private final long zzb;
         private final String zzc;
         private final String zzd;
+        private final String zze;
+        private final com.google.android.gms.internal.play_billing.zzu zzf;
+        private final Long zzg;
+        private final zzbg zzh;
+        private final zzbi zzi;
+        private final zzbh zzj;
 
         OneTimePurchaseOfferDetails(JSONObject jSONObject) throws JSONException {
-            jSONObject.optString("formattedPrice");
+            this.zza = jSONObject.optString("formattedPrice");
             this.zzb = jSONObject.optLong("priceAmountMicros");
             this.zzc = jSONObject.optString("priceCurrencyCode");
             this.zzd = jSONObject.optString("offerIdToken");
-            jSONObject.optString("offerId");
+            this.zze = jSONObject.optString("offerId");
             jSONObject.optInt("offerType");
             JSONArray optJSONArray = jSONObject.optJSONArray("offerTags");
             ArrayList arrayList = new ArrayList();
@@ -40,23 +51,14 @@ public final class ProductDetails {
                     arrayList.add(optJSONArray.getString(i));
                 }
             }
-            com.google.android.gms.internal.play_billing.zzu.zzj(arrayList);
-            if (jSONObject.has("fullPriceMicros")) {
-                jSONObject.optLong("fullPriceMicros");
-            }
+            this.zzf = com.google.android.gms.internal.play_billing.zzu.zzj(arrayList);
+            this.zzg = jSONObject.has("fullPriceMicros") ? Long.valueOf(jSONObject.optLong("fullPriceMicros")) : null;
             JSONObject optJSONObject = jSONObject.optJSONObject("discountDisplayInfo");
-            if (optJSONObject != null) {
-                new zzbg(optJSONObject);
-            }
+            this.zzh = optJSONObject == null ? null : new zzbg(optJSONObject);
             JSONObject optJSONObject2 = jSONObject.optJSONObject("validTimeWindow");
-            if (optJSONObject2 != null) {
-                new zzbi(optJSONObject2);
-            }
+            this.zzi = optJSONObject2 == null ? null : new zzbi(optJSONObject2);
             JSONObject optJSONObject3 = jSONObject.optJSONObject("limitedQuantityInfo");
-            if (optJSONObject3 == null) {
-                return;
-            }
-            new zzbh(optJSONObject3);
+            this.zzj = optJSONObject3 != null ? new zzbh(optJSONObject3) : null;
         }
 
         public long getPriceAmountMicros() {
@@ -79,14 +81,16 @@ public final class ProductDetails {
         private final long zzb;
         private final String zzc;
         private final String zzd;
+        private final int zze;
+        private final int zzf;
 
         PricingPhase(JSONObject jSONObject) {
             this.zzd = jSONObject.optString("billingPeriod");
             this.zzc = jSONObject.optString("priceCurrencyCode");
             this.zza = jSONObject.optString("formattedPrice");
             this.zzb = jSONObject.optLong("priceAmountMicros");
-            jSONObject.optInt("recurrenceMode");
-            jSONObject.optInt("billingCycleCount");
+            this.zzf = jSONObject.optInt("recurrenceMode");
+            this.zze = jSONObject.optInt("billingCycleCount");
         }
 
         public String getBillingPeriod() {
@@ -132,18 +136,21 @@ public final class ProductDetails {
     /* compiled from: com.android.billingclient:billing@@6.0.1 */
     /* loaded from: classes.dex */
     public static final class SubscriptionOfferDetails {
+        private final String zza;
+        private final String zzb;
         private final String zzc;
         private final PricingPhases zzd;
+        private final List zze;
+        private final zzbf zzf;
 
         SubscriptionOfferDetails(JSONObject jSONObject) throws JSONException {
-            jSONObject.optString("basePlanId");
-            jSONObject.optString("offerId").isEmpty();
+            this.zza = jSONObject.optString("basePlanId");
+            String optString = jSONObject.optString("offerId");
+            this.zzb = true == optString.isEmpty() ? null : optString;
             this.zzc = jSONObject.getString("offerIdToken");
             this.zzd = new PricingPhases(jSONObject.getJSONArray("pricingPhases"));
             JSONObject optJSONObject = jSONObject.optJSONObject("installmentPlanDetails");
-            if (optJSONObject != null) {
-                new zzbf(optJSONObject);
-            }
+            this.zzf = optJSONObject != null ? new zzbf(optJSONObject) : null;
             ArrayList arrayList = new ArrayList();
             JSONArray optJSONArray = jSONObject.optJSONArray("offerTags");
             if (optJSONArray != null) {
@@ -151,6 +158,7 @@ public final class ProductDetails {
                     arrayList.add(optJSONArray.getString(i));
                 }
             }
+            this.zze = arrayList;
         }
 
         public String getOfferToken() {
@@ -178,10 +186,10 @@ public final class ProductDetails {
             throw new IllegalArgumentException("Product type cannot be empty.");
         }
         this.zze = jSONObject.optString("title");
-        jSONObject.optString("name");
-        jSONObject.optString("description");
-        jSONObject.optString("packageDisplayName");
-        jSONObject.optString("iconUrl");
+        this.zzf = jSONObject.optString("name");
+        this.zzg = jSONObject.optString("description");
+        this.zzi = jSONObject.optString("packageDisplayName");
+        this.zzj = jSONObject.optString("iconUrl");
         this.zzh = jSONObject.optString("skuDetailsToken");
         this.zzk = jSONObject.optString("serializedDocid");
         JSONArray optJSONArray = jSONObject.optJSONArray("subscriptionOfferDetails");

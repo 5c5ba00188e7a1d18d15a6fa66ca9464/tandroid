@@ -88,10 +88,12 @@ public class LiteMode {
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static int getBatteryLevel() {
+        int intProperty;
         long currentTimeMillis = lastBatteryLevelCached >= 0 ? System.currentTimeMillis() : 0L;
         BatteryManager batteryManager = (BatteryManager) ApplicationLoader.applicationContext.getSystemService("batterymanager");
         if (batteryManager != null) {
-            lastBatteryLevelCached = batteryManager.getIntProperty(4);
+            intProperty = batteryManager.getIntProperty(4);
+            lastBatteryLevelCached = intProperty;
             lastBatteryLevelChecked = currentTimeMillis;
         }
         return lastBatteryLevelCached;
@@ -255,7 +257,7 @@ public class LiteMode {
             onFlagsUpdate(PRESET_POWER_SAVER, getValue(true));
         }
         if (onPowerSaverAppliedListeners != null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LiteMode$$ExternalSyntheticLambda0
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.LiteMode$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     LiteMode.lambda$onPowerSaverApplied$0(z);

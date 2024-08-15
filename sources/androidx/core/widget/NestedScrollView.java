@@ -389,7 +389,7 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
             int measuredHeight = childAt.getMeasuredHeight();
             int measuredHeight2 = (((getMeasuredHeight() - getPaddingTop()) - getPaddingBottom()) - layoutParams.topMargin) - layoutParams.bottomMargin;
             if (measuredHeight < measuredHeight2) {
-                childAt.measure(FrameLayout.getChildMeasureSpec(i, getPaddingLeft() + getPaddingRight() + layoutParams.leftMargin + layoutParams.rightMargin, layoutParams.width), View.MeasureSpec.makeMeasureSpec(measuredHeight2, 1073741824));
+                childAt.measure(ViewGroup.getChildMeasureSpec(i, getPaddingLeft() + getPaddingRight() + layoutParams.leftMargin + layoutParams.rightMargin, layoutParams.width), View.MeasureSpec.makeMeasureSpec(measuredHeight2, 1073741824));
             }
         }
     }
@@ -901,12 +901,12 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
     }
 
     private View findFocusableViewInBounds(boolean z, int i, int i2) {
-        ArrayList focusables = getFocusables(2);
+        ArrayList<View> focusables = getFocusables(2);
         int size = focusables.size();
         View view = null;
         boolean z2 = false;
         for (int i3 = 0; i3 < size; i3++) {
-            View view2 = (View) focusables.get(i3);
+            View view2 = focusables.get(i3);
             int top = view2.getTop();
             int bottom = view2.getBottom();
             if (i < bottom && top < i2) {
@@ -1135,14 +1135,14 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
 
     @Override // android.view.ViewGroup
     protected void measureChild(View view, int i, int i2) {
-        view.measure(FrameLayout.getChildMeasureSpec(i, getPaddingLeft() + getPaddingRight(), view.getLayoutParams().width), View.MeasureSpec.makeMeasureSpec(0, 0));
+        view.measure(ViewGroup.getChildMeasureSpec(i, getPaddingLeft() + getPaddingRight(), view.getLayoutParams().width), View.MeasureSpec.makeMeasureSpec(0, 0));
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup
     public void measureChildWithMargins(View view, int i, int i2, int i3, int i4) {
         ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-        view.measure(FrameLayout.getChildMeasureSpec(i, getPaddingLeft() + getPaddingRight() + marginLayoutParams.leftMargin + marginLayoutParams.rightMargin + i2, marginLayoutParams.width), View.MeasureSpec.makeMeasureSpec(marginLayoutParams.topMargin + marginLayoutParams.bottomMargin, 0));
+        view.measure(ViewGroup.getChildMeasureSpec(i, getPaddingLeft() + getPaddingRight() + marginLayoutParams.leftMargin + marginLayoutParams.rightMargin + i2, marginLayoutParams.width), View.MeasureSpec.makeMeasureSpec(marginLayoutParams.topMargin + marginLayoutParams.bottomMargin, 0));
     }
 
     @Override // android.view.View
@@ -1607,7 +1607,9 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
     /* loaded from: classes.dex */
     public static class Api21Impl {
         static boolean getClipToPadding(ViewGroup viewGroup) {
-            return viewGroup.getClipToPadding();
+            boolean clipToPadding;
+            clipToPadding = viewGroup.getClipToPadding();
+            return clipToPadding;
         }
     }
 }

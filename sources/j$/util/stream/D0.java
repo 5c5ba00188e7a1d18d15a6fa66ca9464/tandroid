@@ -1,13 +1,22 @@
 package j$.util.stream;
+
+import j$.util.function.Consumer;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final /* synthetic */ class D0 implements j$.util.function.m {
-    public static final /* synthetic */ D0 a = new D0();
+public interface D0 {
+    D0 a(int i);
 
-    private /* synthetic */ D0() {
-    }
+    long count();
 
-    @Override // j$.util.function.m
-    public final Object apply(int i) {
-        return Integer.valueOf(i);
-    }
+    void e(Object[] objArr, int i);
+
+    void forEach(Consumer consumer);
+
+    int j();
+
+    Object[] o(j$.util.function.N n);
+
+    D0 q(long j, long j2, j$.util.function.N n);
+
+    j$.util.Q spliterator();
 }

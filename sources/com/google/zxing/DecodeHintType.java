@@ -14,7 +14,10 @@ public enum DecodeHintType {
     RETURN_CODABAR_START_END(Void.class),
     NEED_RESULT_POINT_CALLBACK(ResultPointCallback.class),
     ALLOWED_EAN_EXTENSIONS(int[].class);
+    
+    private final Class<?> valueType;
 
     DecodeHintType(Class cls) {
+        this.valueType = cls;
     }
 }

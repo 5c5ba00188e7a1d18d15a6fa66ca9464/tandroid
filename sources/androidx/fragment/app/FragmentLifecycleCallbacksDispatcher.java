@@ -2,7 +2,6 @@ package androidx.fragment.app;
 
 import android.os.Bundle;
 import android.view.View;
-import androidx.fragment.app.FragmentManager;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 /* JADX INFO: Access modifiers changed from: package-private */
@@ -14,7 +13,6 @@ public class FragmentLifecycleCallbacksDispatcher {
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static final class FragmentLifecycleCallbacksHolder {
-        final FragmentManager.FragmentLifecycleCallbacks mCallback;
         final boolean mRecursive;
     }
 
@@ -38,7 +36,7 @@ public class FragmentLifecycleCallbacksDispatcher {
         while (it.hasNext()) {
             FragmentLifecycleCallbacksHolder next = it.next();
             if (!z || next.mRecursive) {
-                FragmentManager.FragmentLifecycleCallbacks fragmentLifecycleCallbacks = next.mCallback;
+                next.getClass();
                 throw null;
             }
             while (it.hasNext()) {
@@ -61,7 +59,7 @@ public class FragmentLifecycleCallbacksDispatcher {
         while (it.hasNext()) {
             FragmentLifecycleCallbacksHolder next = it.next();
             if (!z || next.mRecursive) {
-                FragmentManager.FragmentLifecycleCallbacks fragmentLifecycleCallbacks = next.mCallback;
+                next.getClass();
                 throw null;
             }
             while (it.hasNext()) {
@@ -83,7 +81,7 @@ public class FragmentLifecycleCallbacksDispatcher {
         while (it.hasNext()) {
             FragmentLifecycleCallbacksHolder next = it.next();
             if (!z || next.mRecursive) {
-                FragmentManager.FragmentLifecycleCallbacks fragmentLifecycleCallbacks = next.mCallback;
+                next.getClass();
                 throw null;
             }
             while (it.hasNext()) {
@@ -105,7 +103,7 @@ public class FragmentLifecycleCallbacksDispatcher {
         while (it.hasNext()) {
             FragmentLifecycleCallbacksHolder next = it.next();
             if (!z || next.mRecursive) {
-                FragmentManager.FragmentLifecycleCallbacks fragmentLifecycleCallbacks = next.mCallback;
+                next.getClass();
                 throw null;
             }
             while (it.hasNext()) {
@@ -127,7 +125,7 @@ public class FragmentLifecycleCallbacksDispatcher {
         while (it.hasNext()) {
             FragmentLifecycleCallbacksHolder next = it.next();
             if (!z || next.mRecursive) {
-                FragmentManager.FragmentLifecycleCallbacks fragmentLifecycleCallbacks = next.mCallback;
+                next.getClass();
                 throw null;
             }
             while (it.hasNext()) {
@@ -149,7 +147,7 @@ public class FragmentLifecycleCallbacksDispatcher {
         while (it.hasNext()) {
             FragmentLifecycleCallbacksHolder next = it.next();
             if (!z || next.mRecursive) {
-                FragmentManager.FragmentLifecycleCallbacks fragmentLifecycleCallbacks = next.mCallback;
+                next.getClass();
                 throw null;
             }
             while (it.hasNext()) {
@@ -171,7 +169,7 @@ public class FragmentLifecycleCallbacksDispatcher {
         while (it.hasNext()) {
             FragmentLifecycleCallbacksHolder next = it.next();
             if (!z || next.mRecursive) {
-                FragmentManager.FragmentLifecycleCallbacks fragmentLifecycleCallbacks = next.mCallback;
+                next.getClass();
                 throw null;
             }
             while (it.hasNext()) {
@@ -193,7 +191,7 @@ public class FragmentLifecycleCallbacksDispatcher {
         while (it.hasNext()) {
             FragmentLifecycleCallbacksHolder next = it.next();
             if (!z || next.mRecursive) {
-                FragmentManager.FragmentLifecycleCallbacks fragmentLifecycleCallbacks = next.mCallback;
+                next.getClass();
                 throw null;
             }
             while (it.hasNext()) {
@@ -215,7 +213,7 @@ public class FragmentLifecycleCallbacksDispatcher {
         while (it.hasNext()) {
             FragmentLifecycleCallbacksHolder next = it.next();
             if (!z || next.mRecursive) {
-                FragmentManager.FragmentLifecycleCallbacks fragmentLifecycleCallbacks = next.mCallback;
+                next.getClass();
                 throw null;
             }
             while (it.hasNext()) {
@@ -237,7 +235,7 @@ public class FragmentLifecycleCallbacksDispatcher {
         while (it.hasNext()) {
             FragmentLifecycleCallbacksHolder next = it.next();
             if (!z || next.mRecursive) {
-                FragmentManager.FragmentLifecycleCallbacks fragmentLifecycleCallbacks = next.mCallback;
+                next.getClass();
                 throw null;
             }
             while (it.hasNext()) {
@@ -259,7 +257,7 @@ public class FragmentLifecycleCallbacksDispatcher {
         while (it.hasNext()) {
             FragmentLifecycleCallbacksHolder next = it.next();
             if (!z || next.mRecursive) {
-                FragmentManager.FragmentLifecycleCallbacks fragmentLifecycleCallbacks = next.mCallback;
+                next.getClass();
                 throw null;
             }
             while (it.hasNext()) {
@@ -281,7 +279,7 @@ public class FragmentLifecycleCallbacksDispatcher {
         while (it.hasNext()) {
             FragmentLifecycleCallbacksHolder next = it.next();
             if (!z || next.mRecursive) {
-                FragmentManager.FragmentLifecycleCallbacks fragmentLifecycleCallbacks = next.mCallback;
+                next.getClass();
                 throw null;
             }
             while (it.hasNext()) {
@@ -303,7 +301,7 @@ public class FragmentLifecycleCallbacksDispatcher {
         while (it.hasNext()) {
             FragmentLifecycleCallbacksHolder next = it.next();
             if (!z || next.mRecursive) {
-                FragmentManager.FragmentLifecycleCallbacks fragmentLifecycleCallbacks = next.mCallback;
+                next.getClass();
                 throw null;
             }
             while (it.hasNext()) {
@@ -325,7 +323,7 @@ public class FragmentLifecycleCallbacksDispatcher {
         while (it.hasNext()) {
             FragmentLifecycleCallbacksHolder next = it.next();
             if (!z || next.mRecursive) {
-                FragmentManager.FragmentLifecycleCallbacks fragmentLifecycleCallbacks = next.mCallback;
+                next.getClass();
                 throw null;
             }
             while (it.hasNext()) {

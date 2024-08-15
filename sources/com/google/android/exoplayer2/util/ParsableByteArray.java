@@ -113,7 +113,6 @@ public final class ParsableByteArray {
         byte[] bArr = this.data;
         int i = this.position;
         int i2 = i + 1;
-        this.position = i2;
         this.position = i2 + 1;
         return (bArr[i2] & 255) | ((bArr[i] & 255) << 8);
     }
@@ -122,7 +121,6 @@ public final class ParsableByteArray {
         byte[] bArr = this.data;
         int i = this.position;
         int i2 = i + 1;
-        this.position = i2;
         this.position = i2 + 1;
         return ((bArr[i2] & 255) << 8) | (bArr[i] & 255);
     }
@@ -131,7 +129,6 @@ public final class ParsableByteArray {
         byte[] bArr = this.data;
         int i = this.position;
         int i2 = i + 1;
-        this.position = i2;
         this.position = i2 + 1;
         return (short) ((bArr[i2] & 255) | ((bArr[i] & 255) << 8));
     }
@@ -140,7 +137,6 @@ public final class ParsableByteArray {
         byte[] bArr = this.data;
         int i = this.position;
         int i2 = i + 1;
-        this.position = i2;
         this.position = i2 + 1;
         return (short) (((bArr[i2] & 255) << 8) | (bArr[i] & 255));
     }
@@ -149,9 +145,7 @@ public final class ParsableByteArray {
         byte[] bArr = this.data;
         int i = this.position;
         int i2 = i + 1;
-        this.position = i2;
         int i3 = i2 + 1;
-        this.position = i3;
         int i4 = ((bArr[i] & 255) << 16) | ((bArr[i2] & 255) << 8);
         this.position = i3 + 1;
         return (bArr[i3] & 255) | i4;
@@ -161,9 +155,7 @@ public final class ParsableByteArray {
         byte[] bArr = this.data;
         int i = this.position;
         int i2 = i + 1;
-        this.position = i2;
         int i3 = i2 + 1;
-        this.position = i3;
         int i4 = (((bArr[i] & 255) << 24) >> 8) | ((bArr[i2] & 255) << 8);
         this.position = i3 + 1;
         return (bArr[i3] & 255) | i4;
@@ -173,11 +165,8 @@ public final class ParsableByteArray {
         byte[] bArr = this.data;
         int i = this.position;
         int i2 = i + 1;
-        this.position = i2;
         int i3 = i2 + 1;
-        this.position = i3;
         int i4 = i3 + 1;
-        this.position = i4;
         this.position = i4 + 1;
         return (bArr[i4] & 255) | ((bArr[i] & 255) << 24) | ((bArr[i2] & 255) << 16) | ((bArr[i3] & 255) << 8);
     }
@@ -186,11 +175,8 @@ public final class ParsableByteArray {
         byte[] bArr = this.data;
         int i = this.position;
         int i2 = i + 1;
-        this.position = i2;
         int i3 = i2 + 1;
-        this.position = i3;
         int i4 = i3 + 1;
-        this.position = i4;
         this.position = i4 + 1;
         return ((bArr[i4] & 255) << 24) | (bArr[i] & 255) | ((bArr[i2] & 255) << 8) | ((bArr[i3] & 255) << 16);
     }
@@ -199,12 +185,9 @@ public final class ParsableByteArray {
         byte[] bArr = this.data;
         int i = this.position;
         int i2 = i + 1;
-        this.position = i2;
         int i3 = i2 + 1;
-        this.position = i3;
         int i4 = ((bArr[i] & 255) << 24) | ((bArr[i2] & 255) << 16);
         int i5 = i3 + 1;
-        this.position = i5;
         int i6 = i4 | ((bArr[i3] & 255) << 8);
         this.position = i5 + 1;
         return (bArr[i5] & 255) | i6;
@@ -214,12 +197,9 @@ public final class ParsableByteArray {
         byte[] bArr = this.data;
         int i = this.position;
         int i2 = i + 1;
-        this.position = i2;
         int i3 = i2 + 1;
-        this.position = i3;
         int i4 = (bArr[i] & 255) | ((bArr[i2] & 255) << 8);
         int i5 = i3 + 1;
-        this.position = i5;
         int i6 = i4 | ((bArr[i3] & 255) << 16);
         this.position = i5 + 1;
         return ((bArr[i5] & 255) << 24) | i6;
@@ -229,19 +209,12 @@ public final class ParsableByteArray {
         byte[] bArr = this.data;
         int i = this.position;
         int i2 = i + 1;
-        this.position = i2;
         int i3 = i2 + 1;
-        this.position = i3;
         int i4 = i3 + 1;
-        this.position = i4;
         int i5 = i4 + 1;
-        this.position = i5;
         int i6 = i5 + 1;
-        this.position = i6;
         int i7 = i6 + 1;
-        this.position = i7;
         int i8 = i7 + 1;
-        this.position = i8;
         this.position = i8 + 1;
         return (bArr[i8] & 255) | ((bArr[i] & 255) << 56) | ((bArr[i2] & 255) << 48) | ((bArr[i3] & 255) << 40) | ((bArr[i4] & 255) << 32) | ((bArr[i5] & 255) << 24) | ((bArr[i6] & 255) << 16) | ((bArr[i7] & 255) << 8);
     }
@@ -250,19 +223,12 @@ public final class ParsableByteArray {
         byte[] bArr = this.data;
         int i = this.position;
         int i2 = i + 1;
-        this.position = i2;
         int i3 = i2 + 1;
-        this.position = i3;
         int i4 = i3 + 1;
-        this.position = i4;
         int i5 = i4 + 1;
-        this.position = i5;
         int i6 = i5 + 1;
-        this.position = i6;
         int i7 = i6 + 1;
-        this.position = i7;
         int i8 = i7 + 1;
-        this.position = i8;
         this.position = i8 + 1;
         return ((bArr[i8] & 255) << 56) | (bArr[i] & 255) | ((bArr[i2] & 255) << 8) | ((bArr[i3] & 255) << 16) | ((bArr[i4] & 255) << 24) | ((bArr[i5] & 255) << 32) | ((bArr[i6] & 255) << 40) | ((bArr[i7] & 255) << 48);
     }
@@ -271,12 +237,9 @@ public final class ParsableByteArray {
         byte[] bArr = this.data;
         int i = this.position;
         int i2 = i + 1;
-        this.position = i2;
-        int i3 = i2 + 1;
-        this.position = i3;
-        int i4 = (bArr[i2] & 255) | ((bArr[i] & 255) << 8);
-        this.position = i3 + 2;
-        return i4;
+        int i3 = (bArr[i2] & 255) | ((bArr[i] & 255) << 8);
+        this.position = i2 + 1 + 2;
+        return i3;
     }
 
     public int readSynchSafeInt() {
@@ -421,10 +384,11 @@ public final class ParsableByteArray {
         if (bytesLeft() >= 2) {
             byte[] bArr2 = this.data;
             int i2 = this.position;
-            if (bArr2[i2] == -2 && bArr2[i2 + 1] == -1) {
+            byte b = bArr2[i2];
+            if (b == -2 && bArr2[i2 + 1] == -1) {
                 this.position = i2 + 2;
                 return Charsets.UTF_16BE;
-            } else if (bArr2[i2] == -1 && bArr2[i2 + 1] == -2) {
+            } else if (b == -1 && bArr2[i2 + 1] == -2) {
                 this.position = i2 + 2;
                 return Charsets.UTF_16LE;
             } else {
@@ -476,21 +440,23 @@ public final class ParsableByteArray {
 
     private char readCharacterIfInList(Charset charset, char[] cArr) {
         char checkedCast;
-        int i = 2;
+        int i = 1;
         if ((charset.equals(Charsets.UTF_8) || charset.equals(Charsets.US_ASCII)) && bytesLeft() >= 1) {
             checkedCast = Chars.checkedCast(UnsignedBytes.toInt(this.data[this.position]));
-            i = 1;
-        } else if ((charset.equals(Charsets.UTF_16) || charset.equals(Charsets.UTF_16BE)) && bytesLeft() >= 2) {
-            byte[] bArr = this.data;
-            int i2 = this.position;
-            checkedCast = Chars.fromBytes(bArr[i2], bArr[i2 + 1]);
         } else {
-            if (charset.equals(Charsets.UTF_16LE) && bytesLeft() >= 2) {
-                byte[] bArr2 = this.data;
-                int i3 = this.position;
-                checkedCast = Chars.fromBytes(bArr2[i3 + 1], bArr2[i3]);
+            if ((charset.equals(Charsets.UTF_16) || charset.equals(Charsets.UTF_16BE)) && bytesLeft() >= 2) {
+                byte[] bArr = this.data;
+                int i2 = this.position;
+                checkedCast = Chars.fromBytes(bArr[i2], bArr[i2 + 1]);
+            } else {
+                if (charset.equals(Charsets.UTF_16LE) && bytesLeft() >= 2) {
+                    byte[] bArr2 = this.data;
+                    int i3 = this.position;
+                    checkedCast = Chars.fromBytes(bArr2[i3 + 1], bArr2[i3]);
+                }
+                return (char) 0;
             }
-            return (char) 0;
+            i = 2;
         }
         if (Chars.contains(cArr, checkedCast)) {
             this.position += i;

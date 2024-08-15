@@ -46,6 +46,8 @@ import org.telegram.ui.Components.WallpaperParallaxEffect;
 public class SizeNotifierFrameLayout extends FrameLayout {
     private static DispatchQueue blurQueue;
     public static boolean drawingBlur;
+    private final float DOWN_SCALE;
+    private final int TOP_CLIP_OFFSET;
     public AdjustPanLayoutHelper adjustPanLayoutHelper;
     private boolean animationInProgress;
     boolean attached;
@@ -53,6 +55,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
     private boolean backgroundMotion;
     private int backgroundTranslationY;
     protected View backgroundView;
+    private float bgAngle;
     final BlurBackgroundTask blurBackgroundTask;
     public ArrayList<View> blurBehindViews;
     ValueAnimator blurCrossfade;
@@ -191,6 +194,8 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         this.blurPaintTop2 = new Paint();
         this.blurPaintBottom = new Paint();
         this.blurPaintBottom2 = new Paint();
+        this.DOWN_SCALE = 12.0f;
+        this.TOP_CLIP_OFFSET = 34;
         this.themeAnimationValue = 1.0f;
         this.blurBackgroundTask = new BlurBackgroundTask();
         this.blurNodeInvalidatedThisFrame = new boolean[2];
@@ -409,7 +414,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
             if (this.parallaxEffect == null) {
                 WallpaperParallaxEffect wallpaperParallaxEffect = new WallpaperParallaxEffect(getContext());
                 this.parallaxEffect = wallpaperParallaxEffect;
-                wallpaperParallaxEffect.setCallback(new WallpaperParallaxEffect.Callback() { // from class: org.telegram.ui.Components.SizeNotifierFrameLayout$$ExternalSyntheticLambda2
+                wallpaperParallaxEffect.setCallback(new WallpaperParallaxEffect.Callback() { // from class: org.telegram.ui.Components.SizeNotifierFrameLayout$$ExternalSyntheticLambda9
                     @Override // org.telegram.ui.Components.WallpaperParallaxEffect.Callback
                     public final void onOffsetsChanged(int i, int i2, float f) {
                         SizeNotifierFrameLayout.this.lambda$checkMotion$0(i, i2, f);
@@ -439,6 +444,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
     public /* synthetic */ void lambda$checkMotion$0(int i, int i2, float f) {
         this.translationX = i;
         this.translationY = i2;
+        this.bgAngle = f;
         View view = this.backgroundView;
         if (view != null) {
             view.invalidate();
@@ -507,7 +513,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
             this.keyboardHeight = measureKeyboardHeight();
             android.graphics.Point point = AndroidUtilities.displaySize;
             final boolean z = point.x > point.y;
-            post(new Runnable() { // from class: org.telegram.ui.Components.SizeNotifierFrameLayout$$ExternalSyntheticLambda1
+            post(new Runnable() { // from class: org.telegram.ui.Components.SizeNotifierFrameLayout$$ExternalSyntheticLambda8
                 @Override // java.lang.Runnable
                 public final void run() {
                     SizeNotifierFrameLayout.this.lambda$notifyHeightChanged$1(z);
@@ -761,7 +767,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
                 sizeNotifierFrameLayout4.count = 0;
                 sizeNotifierFrameLayout4.times = 0;
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.SizeNotifierFrameLayout$BlurBackgroundTask$$ExternalSyntheticLambda1
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.SizeNotifierFrameLayout$BlurBackgroundTask$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     SizeNotifierFrameLayout.BlurBackgroundTask.this.lambda$run$2();
@@ -801,7 +807,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
             SizeNotifierFrameLayout sizeNotifierFrameLayout3 = SizeNotifierFrameLayout.this;
             sizeNotifierFrameLayout3.blurCrossfadeProgress = 0.0f;
             sizeNotifierFrameLayout3.blurCrossfade = ValueAnimator.ofFloat(0.0f, 1.0f);
-            SizeNotifierFrameLayout.this.blurCrossfade.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.SizeNotifierFrameLayout$BlurBackgroundTask$$ExternalSyntheticLambda0
+            SizeNotifierFrameLayout.this.blurCrossfade.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.SizeNotifierFrameLayout$BlurBackgroundTask$$ExternalSyntheticLambda1
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                     SizeNotifierFrameLayout.BlurBackgroundTask.this.lambda$run$0(valueAnimator2);
@@ -949,7 +955,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         }
         Iterator<IViewWithInvalidateCallback> it2 = this.views.iterator();
         while (it2.hasNext()) {
-            it2.next().listenInvalidate(new Runnable() { // from class: org.telegram.ui.Components.SizeNotifierFrameLayout$$ExternalSyntheticLambda0
+            it2.next().listenInvalidate(new Runnable() { // from class: org.telegram.ui.Components.SizeNotifierFrameLayout$$ExternalSyntheticLambda10
                 @Override // java.lang.Runnable
                 public final void run() {
                     SizeNotifierFrameLayout.this.updateBlurContent();
@@ -981,6 +987,11 @@ public class SizeNotifierFrameLayout extends FrameLayout {
 
     public void drawBlurRect(Canvas canvas, float f, android.graphics.Rect rect, Paint paint, boolean z) {
         float f2;
+        RecordingCanvas beginRecording;
+        Shader.TileMode tileMode;
+        RenderEffect createBlurEffect;
+        RenderEffect createColorFilterEffect;
+        RenderEffect createChainEffect;
         int alpha = Color.alpha(Theme.getColor((DRAW_USING_RENDERNODE() && SharedConfig.getDevicePerformanceClass() == 2) ? Theme.key_chat_BlurAlpha : Theme.key_chat_BlurAlphaSlow));
         if (!SharedConfig.chatBlurEnabled()) {
             canvas.drawRect(rect, paint);
@@ -1004,12 +1015,19 @@ public class SizeNotifierFrameLayout extends FrameLayout {
                     renderNodeArr[i] = new RenderNode("blurNode" + i);
                     ColorMatrix colorMatrix = new ColorMatrix();
                     colorMatrix.setSaturation(2.0f);
-                    this.blurNodes[i].setRenderEffect(RenderEffect.createChainEffect(RenderEffect.createBlurEffect(getBlurRadius(), getBlurRadius(), Shader.TileMode.DECAL), RenderEffect.createColorFilterEffect(new ColorMatrixColorFilter(colorMatrix))));
+                    RenderNode renderNode = this.blurNodes[i];
+                    float blurRadius = getBlurRadius();
+                    float blurRadius2 = getBlurRadius();
+                    tileMode = Shader.TileMode.DECAL;
+                    createBlurEffect = RenderEffect.createBlurEffect(blurRadius, blurRadius2, tileMode);
+                    createColorFilterEffect = RenderEffect.createColorFilterEffect(new ColorMatrixColorFilter(colorMatrix));
+                    createChainEffect = RenderEffect.createChainEffect(createBlurEffect, createColorFilterEffect);
+                    renderNode.setRenderEffect(createChainEffect);
                 }
                 int measuredWidth = getMeasuredWidth();
                 int currentActionBarHeight = ActionBar.getCurrentActionBarHeight() + AndroidUtilities.statusBarHeight + AndroidUtilities.dp(100.0f);
                 this.blurNodes[i].setPosition(0, 0, (int) (measuredWidth / renderNodeScale), (int) (((dp * 2) + currentActionBarHeight) / renderNodeScale));
-                RecordingCanvas beginRecording = this.blurNodes[i].beginRecording();
+                beginRecording = this.blurNodes[i].beginRecording();
                 drawingBlur = true;
                 float f3 = 1.0f / renderNodeScale;
                 beginRecording.scale(f3, f3);
@@ -1035,9 +1053,9 @@ public class SizeNotifierFrameLayout extends FrameLayout {
             canvas.save();
             canvas.drawRect(rect, paint);
             canvas.clipRect(rect);
-            RenderNode[] renderNodeArr2 = this.blurNodes;
-            if (renderNodeArr2[i] != null && alpha < 255) {
-                renderNodeArr2[i].setAlpha(1.0f - (alpha / 255.0f));
+            RenderNode renderNode2 = this.blurNodes[i];
+            if (renderNode2 != null && alpha < 255) {
+                renderNode2.setAlpha(1.0f - (alpha / 255.0f));
                 if (z) {
                     f2 = 0.0f;
                     canvas.translate(0.0f, (-f) - getTranslationY());

@@ -46,7 +46,7 @@ public class DatabasePersistence extends Persistence {
         this.mContext = context;
         this.mPendingDbIdentifiersGroups = new HashMap();
         this.mPendingDbIdentifiers = new HashSet();
-        this.mDatabaseManager = new DatabaseManager(context, "com.microsoft.appcenter.persistence", "logs", i, contentValues, "CREATE TABLE IF NOT EXISTS `logs`(`oid` INTEGER PRIMARY KEY AUTOINCREMENT,`target_token` TEXT,`type` TEXT,`priority` INTEGER,`log` TEXT,`persistence_group` TEXT,`target_key` TEXT);", new DatabaseManager.Listener(this) { // from class: com.microsoft.appcenter.persistence.DatabasePersistence.1
+        this.mDatabaseManager = new DatabaseManager(context, "com.microsoft.appcenter.persistence", "logs", i, contentValues, "CREATE TABLE IF NOT EXISTS `logs`(`oid` INTEGER PRIMARY KEY AUTOINCREMENT,`target_token` TEXT,`type` TEXT,`priority` INTEGER,`log` TEXT,`persistence_group` TEXT,`target_key` TEXT);", new DatabaseManager.Listener() { // from class: com.microsoft.appcenter.persistence.DatabasePersistence.1
             @Override // com.microsoft.appcenter.utils.storage.DatabaseManager.Listener
             public void onCreate(SQLiteDatabase sQLiteDatabase) {
                 sQLiteDatabase.execSQL("CREATE INDEX `ix_logs_priority` ON logs (`priority`)");

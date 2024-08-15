@@ -89,7 +89,7 @@ public class StatisticPostInfoCell extends FrameLayout {
         linearLayout.setOrientation(1);
         LinearLayout linearLayout2 = new LinearLayout(context);
         linearLayout2.setOrientation(0);
-        SimpleTextView simpleTextView = new SimpleTextView(this, context) { // from class: org.telegram.ui.Cells.StatisticPostInfoCell.2
+        SimpleTextView simpleTextView = new SimpleTextView(context) { // from class: org.telegram.ui.Cells.StatisticPostInfoCell.2
             @Override // org.telegram.ui.ActionBar.SimpleTextView
             public boolean setText(CharSequence charSequence) {
                 return super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), false));

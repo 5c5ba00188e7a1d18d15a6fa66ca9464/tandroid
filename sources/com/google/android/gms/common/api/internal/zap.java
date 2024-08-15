@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import com.google.android.exoplayer2.mediacodec.AsynchronousMediaCodecBufferEnqueuer$$ExternalSyntheticBackportWithForwarding0;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import java.util.concurrent.atomic.AtomicReference;
@@ -121,7 +122,7 @@ public abstract class zap extends LifecycleCallback implements DialogInterface.O
     public final void zah(ConnectionResult connectionResult, int i) {
         zam zamVar = new zam(connectionResult, i);
         AtomicReference atomicReference = this.zab;
-        while (!atomicReference.compareAndSet(null, zamVar)) {
+        while (!AsynchronousMediaCodecBufferEnqueuer$$ExternalSyntheticBackportWithForwarding0.m(atomicReference, null, zamVar)) {
             if (atomicReference.get() != null) {
                 return;
             }

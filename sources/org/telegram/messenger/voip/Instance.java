@@ -6,7 +6,6 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.telegram.messenger.ApplicationLoader;
-import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.voip.NativeInstance;
@@ -56,7 +55,7 @@ public final class Instance {
     public static final int VIDEO_STATE_PAUSED = 1;
     private static int bufferSize;
     private static NativeInstance instance;
-    public static final List<String> AVAILABLE_VERSIONS = Arrays.asList("2.4.4", "2.7.7", "5.0.0", "6.0.0", "7.0.0", "8.0.0", "9.0.0", "10.0.0", BuildConfig.BUILD_VERSION_STRING);
+    public static final List<String> AVAILABLE_VERSIONS = Arrays.asList("2.4.4", "2.7.7", "5.0.0", "6.0.0", "7.0.0", "8.0.0", "9.0.0", "10.0.0", "11.0.0");
     private static ServerConfig globalServerConfig = new ServerConfig(new JSONObject());
 
     /* loaded from: classes3.dex */

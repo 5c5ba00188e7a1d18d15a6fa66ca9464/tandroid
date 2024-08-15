@@ -14,6 +14,7 @@ import android.telephony.TelephonyManager;
 import java.lang.ref.WeakReference;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.Executor;
 /* loaded from: classes.dex */
 public final class NetworkTypeObserver {
     private static NetworkTypeObserver staticInstance;
@@ -179,10 +180,12 @@ public final class NetworkTypeObserver {
     /* loaded from: classes.dex */
     private static final class Api31 {
         public static void disambiguate4gAnd5gNsa(Context context, NetworkTypeObserver networkTypeObserver) {
+            Executor mainExecutor;
             try {
                 TelephonyManager telephonyManager = (TelephonyManager) Assertions.checkNotNull((TelephonyManager) context.getSystemService("phone"));
                 DisplayInfoCallback displayInfoCallback = new DisplayInfoCallback(networkTypeObserver);
-                telephonyManager.registerTelephonyCallback(context.getMainExecutor(), displayInfoCallback);
+                mainExecutor = context.getMainExecutor();
+                telephonyManager.registerTelephonyCallback(mainExecutor, displayInfoCallback);
                 telephonyManager.unregisterTelephonyCallback(displayInfoCallback);
             } catch (RuntimeException unused) {
                 networkTypeObserver.updateNetworkType(5);
@@ -200,7 +203,8 @@ public final class NetworkTypeObserver {
 
             @Override // android.telephony.TelephonyCallback.DisplayInfoListener
             public void onDisplayInfoChanged(TelephonyDisplayInfo telephonyDisplayInfo) {
-                int overrideNetworkType = telephonyDisplayInfo.getOverrideNetworkType();
+                int overrideNetworkType;
+                overrideNetworkType = telephonyDisplayInfo.getOverrideNetworkType();
                 this.instance.updateNetworkType(overrideNetworkType == 3 || overrideNetworkType == 4 || overrideNetworkType == 5 ? 10 : 5);
             }
         }

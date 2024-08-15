@@ -44,7 +44,7 @@ public class LinkCell extends FrameLayout {
         int i = Theme.key_listSelector;
         frameLayout.setBackground(Theme.createSimpleSelectorRoundRectDrawable(dp, color, ColorUtils.setAlphaComponent(Theme.getColor(i, resourcesProvider), 76)));
         addView(this.linkContainer, LayoutHelper.createFrame(-1, -2.0f, 0, 14.0f, 0.0f, 14.0f, 0.0f));
-        this.linkContainer.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.cells.LinkCell$$ExternalSyntheticLambda1
+        this.linkContainer.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.cells.LinkCell$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 LinkCell.this.lambda$new$0(view);
@@ -57,7 +57,7 @@ public class LinkCell extends FrameLayout {
         this.imageView.setPadding(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f));
         this.imageView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(20.0f), 0, ColorUtils.setAlphaComponent(Theme.getColor(i, resourcesProvider), 76)));
         addView(this.imageView, LayoutHelper.createFrame(40, 40.0f, 21, 15.0f, 0.0f, 17.0f, 0.0f));
-        this.imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.cells.LinkCell$$ExternalSyntheticLambda2
+        this.imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.cells.LinkCell$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 LinkCell.this.lambda$new$1(view);
@@ -93,7 +93,7 @@ public class LinkCell extends FrameLayout {
         }
         spannableStringBuilder.setSpan(new TextStyleSpan(textStyleRun), 0, spannableStringBuilder.length(), 33);
         this.linkView.setText(spannableStringBuilder);
-        this.linkContainer.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.cells.LinkCell$$ExternalSyntheticLambda0
+        this.linkContainer.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.cells.LinkCell$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 runnable.run();

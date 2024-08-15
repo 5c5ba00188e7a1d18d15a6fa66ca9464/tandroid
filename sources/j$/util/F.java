@@ -1,105 +1,101 @@
 package j$.util;
 
 import j$.util.function.Consumer;
-import j$.util.s;
 import java.util.Comparator;
-import java.util.Objects;
-import org.telegram.messenger.LiteMode;
+import java.util.Spliterator;
 /* loaded from: classes2.dex */
-final class F implements s.b {
-    private final int[] a;
-    private int b;
-    private final int c;
-    private final int d;
+public final /* synthetic */ class F implements H {
+    public final /* synthetic */ Spliterator.OfInt a;
 
-    public F(int[] iArr, int i, int i2, int i3) {
-        this.a = iArr;
-        this.b = i;
-        this.c = i2;
-        this.d = i3 | 64 | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
+    private /* synthetic */ F(Spliterator.OfInt ofInt) {
+        this.a = ofInt;
     }
 
-    @Override // j$.util.s.b, j$.util.s
-    public /* synthetic */ boolean b(Consumer consumer) {
-        return a.k(this, consumer);
-    }
-
-    @Override // j$.util.t
-    /* renamed from: c */
-    public void forEachRemaining(j$.util.function.l lVar) {
-        int i;
-        Objects.requireNonNull(lVar);
-        int[] iArr = this.a;
-        int length = iArr.length;
-        int i2 = this.c;
-        if (length < i2 || (i = this.b) < 0) {
-            return;
-        }
-        this.b = i2;
-        if (i < i2) {
-            do {
-                lVar.accept(iArr[i]);
-                i++;
-            } while (i < i2);
-        }
-    }
-
-    @Override // j$.util.s
-    public int characteristics() {
-        return this.d;
-    }
-
-    @Override // j$.util.s
-    public long estimateSize() {
-        return this.c - this.b;
-    }
-
-    @Override // j$.util.s.b, j$.util.s
-    public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        a.c(this, consumer);
-    }
-
-    @Override // j$.util.t
-    /* renamed from: g */
-    public boolean tryAdvance(j$.util.function.l lVar) {
-        Objects.requireNonNull(lVar);
-        int i = this.b;
-        if (i < 0 || i >= this.c) {
-            return false;
-        }
-        int[] iArr = this.a;
-        this.b = i + 1;
-        lVar.accept(iArr[i]);
-        return true;
-    }
-
-    @Override // j$.util.s
-    public Comparator getComparator() {
-        if (a.f(this, 4)) {
+    public static /* synthetic */ H f(Spliterator.OfInt ofInt) {
+        if (ofInt == null) {
             return null;
         }
-        throw new IllegalStateException();
+        return ofInt instanceof G ? ((G) ofInt).a : new F(ofInt);
     }
 
-    @Override // j$.util.s
-    public /* synthetic */ long getExactSizeIfKnown() {
-        return a.e(this);
+    @Override // j$.util.H, j$.util.Q
+    public final /* synthetic */ boolean a(Consumer consumer) {
+        return this.a.tryAdvance(Consumer.Wrapper.convert(consumer));
     }
 
-    @Override // j$.util.s
-    public /* synthetic */ boolean hasCharacteristics(int i) {
-        return a.f(this, i);
+    @Override // j$.util.H
+    public final /* synthetic */ void c(j$.util.function.K k) {
+        this.a.forEachRemaining(j$.util.function.J.a(k));
     }
 
-    @Override // j$.util.t, j$.util.s
-    public s.b trySplit() {
-        int i = this.b;
-        int i2 = (this.c + i) >>> 1;
-        if (i >= i2) {
-            return null;
+    @Override // j$.util.Q
+    public final /* synthetic */ int characteristics() {
+        return this.a.characteristics();
+    }
+
+    public final /* synthetic */ boolean equals(Object obj) {
+        if (obj instanceof F) {
+            obj = ((F) obj).a;
         }
-        int[] iArr = this.a;
-        this.b = i2;
-        return new F(iArr, i, i2, this.d);
+        return this.a.equals(obj);
+    }
+
+    @Override // j$.util.Q
+    public final /* synthetic */ long estimateSize() {
+        return this.a.estimateSize();
+    }
+
+    @Override // j$.util.H, j$.util.Q
+    public final /* synthetic */ void forEachRemaining(Consumer consumer) {
+        this.a.forEachRemaining(Consumer.Wrapper.convert(consumer));
+    }
+
+    @Override // j$.util.N
+    public final /* synthetic */ void forEachRemaining(Object obj) {
+        this.a.forEachRemaining((Spliterator.OfInt) obj);
+    }
+
+    @Override // j$.util.Q
+    public final /* synthetic */ Comparator getComparator() {
+        return this.a.getComparator();
+    }
+
+    @Override // j$.util.Q
+    public final /* synthetic */ long getExactSizeIfKnown() {
+        return this.a.getExactSizeIfKnown();
+    }
+
+    @Override // j$.util.Q
+    public final /* synthetic */ boolean hasCharacteristics(int i) {
+        return this.a.hasCharacteristics(i);
+    }
+
+    public final /* synthetic */ int hashCode() {
+        return this.a.hashCode();
+    }
+
+    @Override // j$.util.H
+    public final /* synthetic */ boolean j(j$.util.function.K k) {
+        return this.a.tryAdvance(j$.util.function.J.a(k));
+    }
+
+    @Override // j$.util.N
+    public final /* synthetic */ boolean tryAdvance(Object obj) {
+        return this.a.tryAdvance((Spliterator.OfInt) obj);
+    }
+
+    @Override // j$.util.H, j$.util.N, j$.util.Q
+    public final /* synthetic */ H trySplit() {
+        return f(this.a.trySplit());
+    }
+
+    @Override // j$.util.N, j$.util.Q
+    public final /* synthetic */ N trySplit() {
+        return L.f(this.a.trySplit());
+    }
+
+    @Override // j$.util.Q
+    public final /* synthetic */ Q trySplit() {
+        return O.f(this.a.trySplit());
     }
 }

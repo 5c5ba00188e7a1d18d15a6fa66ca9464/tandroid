@@ -8,6 +8,7 @@ import java.util.Set;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class RestrictedComponentContainer extends AbstractComponentContainer {
+    private final Set<Class<?>> allowedDeferredInterfaces;
     private final Set<Class<?>> allowedDirectInterfaces;
     private final Set<Class<?>> allowedProviderInterfaces;
     private final Set<Class<?>> allowedPublishedEvents;
@@ -42,7 +43,7 @@ public final class RestrictedComponentContainer extends AbstractComponentContain
         }
         this.allowedDirectInterfaces = Collections.unmodifiableSet(hashSet);
         this.allowedProviderInterfaces = Collections.unmodifiableSet(hashSet2);
-        Collections.unmodifiableSet(hashSet3);
+        this.allowedDeferredInterfaces = Collections.unmodifiableSet(hashSet3);
         this.allowedSetDirectInterfaces = Collections.unmodifiableSet(hashSet4);
         this.allowedSetProviderInterfaces = Collections.unmodifiableSet(hashSet5);
         this.allowedPublishedEvents = component.getPublishedEvents();
@@ -84,9 +85,11 @@ public final class RestrictedComponentContainer extends AbstractComponentContain
 
     /* loaded from: classes.dex */
     private static class RestrictedPublisher implements Publisher {
+        private final Set<Class<?>> allowedPublishedEvents;
         private final Publisher delegate;
 
         public RestrictedPublisher(Set<Class<?>> set, Publisher publisher) {
+            this.allowedPublishedEvents = set;
             this.delegate = publisher;
         }
     }

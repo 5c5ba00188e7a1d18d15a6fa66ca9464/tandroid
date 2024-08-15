@@ -50,6 +50,11 @@ public class CommonComponentRegistrar implements ComponentRegistrar {
             @Override // com.google.firebase.components.ComponentFactory
             public final Object create(ComponentContainer componentContainer) {
                 return new Object((Cleaner) componentContainer.get(Cleaner.class)) { // from class: com.google.mlkit.common.sdkinternal.CloseGuard$Factory
+                    private final Cleaner zza;
+
+                    {
+                        this.zza = r1;
+                    }
                 };
             }
         }).build(), Component.builder(com.google.mlkit.common.internal.model.zzg.class).add(Dependency.required(MlKitContext.class)).factory(new ComponentFactory() { // from class: com.google.mlkit.common.internal.zzg

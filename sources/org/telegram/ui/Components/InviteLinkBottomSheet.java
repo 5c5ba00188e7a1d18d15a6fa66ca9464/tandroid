@@ -370,7 +370,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 }
             }
         });
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda8
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view2, int i) {
                 InviteLinkBottomSheet.this.lambda$new$3(tLRPC$TL_chatInviteExported, hashMap, tLRPC$ChatFull, context, j, baseFragment, view2, i);
@@ -473,7 +473,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                         final AlertDialog alertDialog = new AlertDialog(context, 3);
                         alertDialog.showDelayed(120L);
                         final TLRPC$TL_chatInviteImporter tLRPC$TL_chatInviteImporter3 = tLRPC$TL_chatInviteImporter;
-                        MessagesController.getInstance(this.currentAccount).getChannelParticipant(MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(j)), tLRPC$User, new Utilities.Callback() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda5
+                        MessagesController.getInstance(this.currentAccount).getChannelParticipant(MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(j)), tLRPC$User, new Utilities.Callback() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda3
                             @Override // org.telegram.messenger.Utilities.Callback
                             public final void run(Object obj) {
                                 InviteLinkBottomSheet.this.lambda$new$1(alertDialog, context, j, tLRPC$TL_chatInviteExported, tLRPC$TL_chatInviteImporter3, (TLRPC$ChannelParticipant) obj);
@@ -484,7 +484,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                     showSubscriptionSheet(context, this.currentAccount, -j, tLRPC$TL_chatInviteExported.subscription_pricing, tLRPC$TL_chatInviteImporter, tLRPC$ChannelParticipant, this.resourcesProvider);
                     return;
                 }
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda3
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda4
                     @Override // java.lang.Runnable
                     public final void run() {
                         InviteLinkBottomSheet.this.lambda$new$2(tLRPC$User, baseFragment);
@@ -503,7 +503,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(final AlertDialog alertDialog, final Context context, final long j, final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, final TLRPC$TL_chatInviteImporter tLRPC$TL_chatInviteImporter, final TLRPC$ChannelParticipant tLRPC$ChannelParticipant) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda4
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
                 InviteLinkBottomSheet.this.lambda$new$0(alertDialog, context, j, tLRPC$TL_chatInviteExported, tLRPC$TL_chatInviteImporter, tLRPC$ChannelParticipant);
@@ -592,7 +592,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
     private void loadCreator() {
         TLRPC$TL_users_getUsers tLRPC$TL_users_getUsers = new TLRPC$TL_users_getUsers();
         tLRPC$TL_users_getUsers.id.add(MessagesController.getInstance(UserConfig.selectedAccount).getInputUser(this.invite.admin_id));
-        ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_users_getUsers, new RequestDelegate() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda6
+        ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_users_getUsers, new RequestDelegate() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda2
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 InviteLinkBottomSheet.this.lambda$loadCreator$4(tLObject, tLRPC$TL_error);
@@ -614,10 +614,10 @@ public class InviteLinkBottomSheet extends BottomSheet {
         });
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:32:0x00a3  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x00c1  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x00df  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x00f5  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x009d  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x00bb  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x00d9  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x00ef  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -648,7 +648,6 @@ public class InviteLinkBottomSheet extends BottomSheet {
         boolean z3 = true;
         if (!this.permanent) {
             int i = 0 + 1;
-            this.rowCount = i;
             this.linkActionRow = 0;
             this.rowCount = i + 1;
             this.linkInfoRow = i;
@@ -657,14 +656,12 @@ public class InviteLinkBottomSheet extends BottomSheet {
         if (tLRPC$TL_chatInviteExported.subscription_pricing != null) {
             int i2 = this.rowCount;
             int i3 = i2 + 1;
-            this.rowCount = i3;
             this.revenueHeaderRow = i2;
             this.rowCount = i3 + 1;
             this.revenueRow = i3;
         }
         int i4 = this.rowCount;
         int i5 = i4 + 1;
-        this.rowCount = i5;
         this.creatorHeaderRow = i4;
         this.rowCount = i5 + 1;
         this.creatorRow = i5;
@@ -711,10 +708,8 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 if ((!z4 || z) && !z3) {
                     int i13 = this.rowCount;
                     int i14 = i13 + 1;
-                    this.rowCount = i14;
                     this.dividerRow = i13;
                     int i15 = i14 + 1;
-                    this.rowCount = i15;
                     this.loadingRow = i14;
                     this.rowCount = i15 + 1;
                     this.emptyView2 = i15;
@@ -733,10 +728,8 @@ public class InviteLinkBottomSheet extends BottomSheet {
         }
         int i132 = this.rowCount;
         int i142 = i132 + 1;
-        this.rowCount = i142;
         this.dividerRow = i132;
         int i152 = i142 + 1;
-        this.rowCount = i152;
         this.loadingRow = i142;
         this.rowCount = i152 + 1;
         this.emptyView2 = i152;
@@ -794,7 +787,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
             Context context = viewGroup.getContext();
             switch (i) {
                 case 1:
-                    flickerLoadingView = new RevenueUserCell(InviteLinkBottomSheet.this, context);
+                    flickerLoadingView = new RevenueUserCell(context);
                     break;
                 case 2:
                     flickerLoadingView = new ShadowSectionCell(context, 12, Theme.getColor(Theme.key_windowBackgroundGray));
@@ -830,7 +823,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                     flickerLoadingView = flickerLoadingView2;
                     break;
                 case 6:
-                    flickerLoadingView = new View(this, context) { // from class: org.telegram.ui.Components.InviteLinkBottomSheet.Adapter.3
+                    flickerLoadingView = new View(context) { // from class: org.telegram.ui.Components.InviteLinkBottomSheet.Adapter.3
                         @Override // android.view.View
                         protected void onMeasure(int i2, int i3) {
                             super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(5.0f), 1073741824));
@@ -845,7 +838,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                     flickerLoadingView = shadowSectionCell;
                     break;
                 case 8:
-                    flickerLoadingView = new EmptyHintRow(InviteLinkBottomSheet.this, context);
+                    flickerLoadingView = new EmptyHintRow(context);
                     break;
                 case 9:
                     flickerLoadingView = new RevenueCell(context);
@@ -881,7 +874,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                     tLRPC$TL_messages_editExportedChatInvite.link = inviteLinkBottomSheet2.invite.link;
                     tLRPC$TL_messages_editExportedChatInvite.revoked = true;
                     tLRPC$TL_messages_editExportedChatInvite.peer = MessagesController.getInstance(((BottomSheet) inviteLinkBottomSheet2).currentAccount).getInputPeer(-InviteLinkBottomSheet.this.chatId);
-                    ConnectionsManager.getInstance(((BottomSheet) InviteLinkBottomSheet.this).currentAccount).sendRequest(tLRPC$TL_messages_editExportedChatInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$Adapter$2$$ExternalSyntheticLambda3
+                    ConnectionsManager.getInstance(((BottomSheet) InviteLinkBottomSheet.this).currentAccount).sendRequest(tLRPC$TL_messages_editExportedChatInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$Adapter$2$$ExternalSyntheticLambda1
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                             InviteLinkBottomSheet.Adapter.2.this.lambda$revokeLink$1(tLObject, tLRPC$TL_error);
@@ -893,7 +886,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
 
             /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$revokeLink$1(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$Adapter$2$$ExternalSyntheticLambda1
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$Adapter$2$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
                         InviteLinkBottomSheet.Adapter.2.this.lambda$revokeLink$0(tLRPC$TL_error, tLObject);
@@ -982,7 +975,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                     InviteLinkBottomSheet inviteLinkBottomSheet2 = InviteLinkBottomSheet.this;
                     tLRPC$TL_messages_deleteExportedChatInvite.link = inviteLinkBottomSheet2.invite.link;
                     tLRPC$TL_messages_deleteExportedChatInvite.peer = MessagesController.getInstance(((BottomSheet) inviteLinkBottomSheet2).currentAccount).getInputPeer(-InviteLinkBottomSheet.this.chatId);
-                    ConnectionsManager.getInstance(((BottomSheet) InviteLinkBottomSheet.this).currentAccount).sendRequest(tLRPC$TL_messages_deleteExportedChatInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$Adapter$2$$ExternalSyntheticLambda2
+                    ConnectionsManager.getInstance(((BottomSheet) InviteLinkBottomSheet.this).currentAccount).sendRequest(tLRPC$TL_messages_deleteExportedChatInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$Adapter$2$$ExternalSyntheticLambda0
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                             InviteLinkBottomSheet.Adapter.2.this.lambda$removeLink$3(tLObject, tLRPC$TL_error);
@@ -994,7 +987,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
 
             /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$removeLink$3(TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$Adapter$2$$ExternalSyntheticLambda0
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$Adapter$2$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
                         InviteLinkBottomSheet.Adapter.2.this.lambda$removeLink$2(tLRPC$TL_error);
@@ -1342,7 +1335,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 tLRPC$TL_messages_getChatInviteImporters.offset_date = tLRPC$TL_chatInviteImporter.date;
             }
             this.usersLoading = true;
-            ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_messages_getChatInviteImporters, new RequestDelegate() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda7
+            ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_messages_getChatInviteImporters, new RequestDelegate() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda1
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     InviteLinkBottomSheet.this.lambda$loadUsers$6(arrayList2, z, z2, z5, z4, tLObject, tLRPC$TL_error);
@@ -1366,7 +1359,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
         if (!arrayList2.isEmpty()) {
         }
         this.usersLoading = true;
-        ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_messages_getChatInviteImporters2, new RequestDelegate() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda7
+        ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_messages_getChatInviteImporters2, new RequestDelegate() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda1
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 InviteLinkBottomSheet.this.lambda$loadUsers$6(arrayList2, z, z2, z5, z4, tLObject, tLRPC$TL_error);
@@ -1376,7 +1369,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadUsers$6(final List list, final boolean z, final boolean z2, final boolean z3, final boolean z4, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda2
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 InviteLinkBottomSheet.this.lambda$loadUsers$5(tLRPC$TL_error, tLObject, list, z, z2, z3, z4);
@@ -1457,7 +1450,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
     public class EmptyHintRow extends FrameLayout {
         TextView textView;
 
-        public EmptyHintRow(InviteLinkBottomSheet inviteLinkBottomSheet, Context context) {
+        public EmptyHintRow(Context context) {
             super(context);
             TextView textView = new TextView(context);
             this.textView = textView;
@@ -1484,7 +1477,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
         public final TextView periodView;
         public final TextView priceView;
 
-        public RevenueUserCell(InviteLinkBottomSheet inviteLinkBottomSheet, Context context) {
+        public RevenueUserCell(Context context) {
             super(context, 6, 0, true);
             LinearLayout linearLayout = new LinearLayout(context);
             this.layout = linearLayout;
@@ -1756,7 +1749,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
         linksTextView2.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2, resourcesProvider));
         linksTextView2.setLinkTextColor(Theme.getColor(i6, resourcesProvider));
         linksTextView2.setTextSize(1, 14.0f);
-        linksTextView2.setText(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.StarsTransactionTOS), new Runnable() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda1
+        linksTextView2.setText(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.StarsTransactionTOS), new Runnable() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 InviteLinkBottomSheet.lambda$showSubscriptionSheet$7(context);
@@ -1767,7 +1760,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
         ButtonWithCounterView buttonWithCounterView = new ButtonWithCounterView(context, true, resourcesProvider);
         buttonWithCounterView.setText(LocaleController.getString(R.string.OK), false);
         linearLayout.addView(buttonWithCounterView, LayoutHelper.createLinear(-1, 48));
-        buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda0
+        buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda6
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 InviteLinkBottomSheet.lambda$showSubscriptionSheet$8(bottomSheetArr, view);
@@ -1775,9 +1768,10 @@ public class InviteLinkBottomSheet extends BottomSheet {
         });
         BottomSheet.Builder builder4 = builder2;
         builder4.setCustomView(linearLayout);
-        bottomSheetArr[0] = builder4.create();
-        bottomSheetArr[0].useBackgroundTopPadding = false;
-        bottomSheetArr[0].fixNavigationBar();
+        BottomSheet create = builder4.create();
+        bottomSheetArr[0] = create;
+        create.useBackgroundTopPadding = false;
+        create.fixNavigationBar();
         bottomSheetArr[0].show();
         return bottomSheetArr[0];
     }

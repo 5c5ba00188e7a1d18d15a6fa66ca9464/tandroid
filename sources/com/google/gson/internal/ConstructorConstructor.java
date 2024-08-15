@@ -58,7 +58,7 @@ public final class ConstructorConstructor {
         Class<? super T> rawType = typeToken.getRawType();
         final InstanceCreator<?> instanceCreator = this.instanceCreators.get(type);
         if (instanceCreator != null) {
-            return new ObjectConstructor<T>(this) { // from class: com.google.gson.internal.ConstructorConstructor.1
+            return new ObjectConstructor<T>() { // from class: com.google.gson.internal.ConstructorConstructor.1
                 @Override // com.google.gson.internal.ObjectConstructor
                 public T construct() {
                     return (T) instanceCreator.createInstance(type);
@@ -67,7 +67,7 @@ public final class ConstructorConstructor {
         }
         final InstanceCreator<?> instanceCreator2 = this.instanceCreators.get(rawType);
         if (instanceCreator2 != null) {
-            return new ObjectConstructor<T>(this) { // from class: com.google.gson.internal.ConstructorConstructor.2
+            return new ObjectConstructor<T>() { // from class: com.google.gson.internal.ConstructorConstructor.2
                 @Override // com.google.gson.internal.ObjectConstructor
                 public T construct() {
                     return (T) instanceCreator2.createInstance(type);
@@ -89,7 +89,7 @@ public final class ConstructorConstructor {
         }
         final String checkInstantiable = checkInstantiable(rawType);
         if (checkInstantiable != null) {
-            return new ObjectConstructor<T>(this) { // from class: com.google.gson.internal.ConstructorConstructor.3
+            return new ObjectConstructor<T>() { // from class: com.google.gson.internal.ConstructorConstructor.3
                 @Override // com.google.gson.internal.ObjectConstructor
                 public T construct() {
                     throw new JsonIOException(checkInstantiable);
@@ -100,7 +100,7 @@ public final class ConstructorConstructor {
             return newUnsafeAllocator(rawType);
         }
         final String str = "Unable to create instance of " + rawType + "; ReflectionAccessFilter does not permit using reflection or Unsafe. Register an InstanceCreator or a TypeAdapter for this type or adjust the access filter to allow using reflection.";
-        return new ObjectConstructor<T>(this) { // from class: com.google.gson.internal.ConstructorConstructor.4
+        return new ObjectConstructor<T>() { // from class: com.google.gson.internal.ConstructorConstructor.4
             @Override // com.google.gson.internal.ObjectConstructor
             public T construct() {
                 throw new JsonIOException(str);
@@ -270,7 +270,7 @@ public final class ConstructorConstructor {
 
     private <T> ObjectConstructor<T> newUnsafeAllocator(final Class<? super T> cls) {
         if (this.useJdkUnsafe) {
-            return new ObjectConstructor<T>(this) { // from class: com.google.gson.internal.ConstructorConstructor.19
+            return new ObjectConstructor<T>() { // from class: com.google.gson.internal.ConstructorConstructor.19
                 @Override // com.google.gson.internal.ObjectConstructor
                 public T construct() {
                     try {
@@ -282,7 +282,7 @@ public final class ConstructorConstructor {
             };
         }
         final String str = "Unable to create instance of " + cls + "; usage of JDK Unsafe is disabled. Registering an InstanceCreator or a TypeAdapter for this type, adding a no-args constructor, or enabling usage of JDK Unsafe may fix this problem.";
-        return new ObjectConstructor<T>(this) { // from class: com.google.gson.internal.ConstructorConstructor.20
+        return new ObjectConstructor<T>() { // from class: com.google.gson.internal.ConstructorConstructor.20
             @Override // com.google.gson.internal.ObjectConstructor
             public T construct() {
                 throw new JsonIOException(str);

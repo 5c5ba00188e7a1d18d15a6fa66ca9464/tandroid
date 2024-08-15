@@ -1,7 +1,6 @@
 package androidx.tracing;
 
 import android.annotation.SuppressLint;
-import android.os.Build;
 import android.util.Log;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -12,9 +11,11 @@ public final class Trace {
 
     @SuppressLint({"NewApi"})
     public static boolean isEnabled() {
+        boolean isEnabled;
         try {
             if (sIsTagEnabledMethod == null) {
-                return android.os.Trace.isEnabled();
+                isEnabled = android.os.Trace.isEnabled();
+                return isEnabled;
             }
         } catch (NoClassDefFoundError | NoSuchMethodError unused) {
         }
@@ -22,30 +23,24 @@ public final class Trace {
     }
 
     public static void beginSection(String str) {
-        if (Build.VERSION.SDK_INT >= 18) {
-            TraceApi18Impl.beginSection(str);
-        }
+        TraceApi18Impl.beginSection(str);
     }
 
     public static void endSection() {
-        if (Build.VERSION.SDK_INT >= 18) {
-            TraceApi18Impl.endSection();
-        }
+        TraceApi18Impl.endSection();
     }
 
     private static boolean isEnabledFallback() {
-        if (Build.VERSION.SDK_INT >= 18) {
-            try {
-                if (sIsTagEnabledMethod == null) {
-                    sTraceTagApp = android.os.Trace.class.getField("TRACE_TAG_APP").getLong(null);
-                    sIsTagEnabledMethod = android.os.Trace.class.getMethod("isTagEnabled", Long.TYPE);
-                }
-                return ((Boolean) sIsTagEnabledMethod.invoke(null, Long.valueOf(sTraceTagApp))).booleanValue();
-            } catch (Exception e) {
-                handleException("isTagEnabled", e);
+        try {
+            if (sIsTagEnabledMethod == null) {
+                sTraceTagApp = android.os.Trace.class.getField("TRACE_TAG_APP").getLong(null);
+                sIsTagEnabledMethod = android.os.Trace.class.getMethod("isTagEnabled", Long.TYPE);
             }
+            return ((Boolean) sIsTagEnabledMethod.invoke(null, Long.valueOf(sTraceTagApp))).booleanValue();
+        } catch (Exception e) {
+            handleException("isTagEnabled", e);
+            return false;
         }
-        return false;
     }
 
     private static void handleException(String str, Exception exc) {

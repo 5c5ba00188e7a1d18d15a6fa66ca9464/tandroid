@@ -5,6 +5,7 @@ import android.content.Context;
 /* compiled from: com.google.android.play:integrity@@1.3.0 */
 /* loaded from: classes.dex */
 public final class s {
+    private final s a = this;
     private final com.google.android.play.integrity.internal.an b;
     private final com.google.android.play.integrity.internal.an c;
     private final com.google.android.play.integrity.internal.an d;

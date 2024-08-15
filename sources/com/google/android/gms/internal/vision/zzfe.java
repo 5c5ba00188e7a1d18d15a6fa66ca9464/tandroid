@@ -5,6 +5,7 @@ import java.io.PrintStream;
 /* loaded from: classes.dex */
 public final class zzfe {
     private static final zzfd zza;
+    private static final int zzb;
 
     /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
     /* loaded from: classes.dex */
@@ -32,8 +33,7 @@ public final class zzfe {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0065  */
-    /* JADX WARN: Removed duplicated region for block: B:27:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0065  */
     static {
         Integer num;
         zzfd zzaVar;
@@ -57,17 +57,12 @@ public final class zzfe {
                 th.printStackTrace(System.err);
                 zzaVar = new zza();
                 zza = zzaVar;
-                if (num == null) {
-                }
+                zzb = num != null ? num.intValue() : 1;
             }
             if (num.intValue() >= 19) {
                 zzaVar = new zzfj();
                 zza = zzaVar;
-                if (num == null) {
-                    return;
-                }
-                num.intValue();
-                return;
+                zzb = num != null ? num.intValue() : 1;
             }
         }
         if (!Boolean.getBoolean("com.google.devtools.build.android.desugar.runtime.twr_disable_mimic")) {
@@ -76,7 +71,6 @@ public final class zzfe {
             zzaVar = new zza();
         }
         zza = zzaVar;
-        if (num == null) {
-        }
+        zzb = num != null ? num.intValue() : 1;
     }
 }

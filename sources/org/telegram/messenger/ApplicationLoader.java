@@ -322,7 +322,7 @@ public class ApplicationLoader extends Application {
                 FileLog.d("load libs time = " + (SystemClock.elapsedRealtime() - startTime));
             }
             applicationHandler = new Handler(applicationContext.getMainLooper());
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ApplicationLoader$$ExternalSyntheticLambda1
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ApplicationLoader$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     ApplicationLoader.startPushService();
@@ -368,7 +368,7 @@ public class ApplicationLoader extends Application {
     }
 
     private void initPushServices() {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ApplicationLoader$$ExternalSyntheticLambda0
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ApplicationLoader$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 ApplicationLoader.lambda$initPushServices$0();

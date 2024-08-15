@@ -21,8 +21,10 @@ public class CommonUtils {
     }
 
     public static String languageTagFromLocale(Locale locale) {
+        String languageTag;
         if (PlatformVersion.isAtLeastLollipop()) {
-            return locale.toLanguageTag();
+            languageTag = locale.toLanguageTag();
+            return languageTag;
         }
         StringBuilder sb = new StringBuilder(locale.getLanguage());
         if (!TextUtils.isEmpty(locale.getCountry())) {

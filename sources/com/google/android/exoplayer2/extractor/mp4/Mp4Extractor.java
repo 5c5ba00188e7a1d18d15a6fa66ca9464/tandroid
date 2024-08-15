@@ -31,6 +31,21 @@ import java.util.List;
 import java.util.Map;
 /* loaded from: classes.dex */
 public final class Mp4Extractor implements Extractor, SeekMap {
+    public static final ExtractorsFactory FACTORY = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.mp4.Mp4Extractor$$ExternalSyntheticLambda0
+        @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+        public final Extractor[] createExtractors() {
+            Extractor[] lambda$static$0;
+            lambda$static$0 = Mp4Extractor.lambda$static$0();
+            return lambda$static$0;
+        }
+
+        @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+        public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
+            Extractor[] createExtractors;
+            createExtractors = createExtractors();
+            return createExtractors;
+        }
+    };
     private long[][] accumulatedSampleSizes;
     private ParsableByteArray atomData;
     private final ParsableByteArray atomHeader;
@@ -83,24 +98,6 @@ public final class Mp4Extractor implements Extractor, SeekMap {
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
     public void release() {
-    }
-
-    static {
-        Mp4Extractor$$ExternalSyntheticLambda0 mp4Extractor$$ExternalSyntheticLambda0 = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.mp4.Mp4Extractor$$ExternalSyntheticLambda0
-            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
-            public final Extractor[] createExtractors() {
-                Extractor[] lambda$static$0;
-                lambda$static$0 = Mp4Extractor.lambda$static$0();
-                return lambda$static$0;
-            }
-
-            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
-            public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
-                Extractor[] createExtractors;
-                createExtractors = createExtractors();
-                return createExtractors;
-            }
-        };
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -398,7 +395,6 @@ public final class Mp4Extractor implements Extractor, SeekMap {
             metadata2 = null;
         }
         Atom.ContainerAtom containerAtomOfType = containerAtom.getContainerAtomOfType(1835365473);
-        long j = -9223372036854775807L;
         Metadata parseMdtaFromMeta = containerAtomOfType != null ? AtomParsers.parseMdtaFromMeta(containerAtomOfType) : null;
         List<TrackSampleTable> parseTraks = AtomParsers.parseTraks(containerAtom, gaplessInfoHolder, -9223372036854775807L, null, (this.flags & 1) != 0, z, new Function() { // from class: com.google.android.exoplayer2.extractor.mp4.Mp4Extractor$$ExternalSyntheticLambda1
             @Override // com.google.common.base.Function
@@ -409,6 +405,7 @@ public final class Mp4Extractor implements Extractor, SeekMap {
             }
         });
         int size = parseTraks.size();
+        long j = -9223372036854775807L;
         long j2 = -9223372036854775807L;
         int i4 = 0;
         int i5 = -1;
@@ -657,18 +654,23 @@ public final class Mp4Extractor implements Extractor, SeekMap {
             long j2 = Long.MAX_VALUE;
             int i3 = -1;
             for (int i4 = 0; i4 < mp4TrackArr.length; i4++) {
-                if (!zArr[i4] && jArr2[i4] <= j2) {
-                    j2 = jArr2[i4];
-                    i3 = i4;
+                if (!zArr[i4]) {
+                    long j3 = jArr2[i4];
+                    if (j3 <= j2) {
+                        i3 = i4;
+                        j2 = j3;
+                    }
                 }
             }
             int i5 = iArr[i3];
-            jArr[i3][i5] = j;
-            j += mp4TrackArr[i3].sampleTable.sizes[i5];
+            long[] jArr3 = jArr[i3];
+            jArr3[i5] = j;
+            TrackSampleTable trackSampleTable = mp4TrackArr[i3].sampleTable;
+            j += trackSampleTable.sizes[i5];
             int i6 = i5 + 1;
             iArr[i3] = i6;
-            if (i6 < jArr[i3].length) {
-                jArr2[i3] = mp4TrackArr[i3].sampleTable.timestampsUs[i6];
+            if (i6 < jArr3.length) {
+                jArr2[i3] = trackSampleTable.timestampsUs[i6];
             } else {
                 zArr[i3] = true;
                 i2++;

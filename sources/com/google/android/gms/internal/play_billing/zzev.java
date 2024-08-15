@@ -3,12 +3,12 @@ package com.google.android.gms.internal.play_billing;
 /* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
 public final class zzev {
-    public static final /* synthetic */ int zza = 0;
+    public static final /* synthetic */ int $r8$clinit = 0;
     private static final zzes zzb;
 
     static {
         if (zzeq.zzx() && zzeq.zzy()) {
-            int i = zzam.zza;
+            int i = zzam.$r8$clinit;
         }
         zzb = new zzet();
     }

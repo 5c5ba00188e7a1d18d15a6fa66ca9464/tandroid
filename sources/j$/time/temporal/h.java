@@ -1,17 +1,21 @@
 package j$.time.temporal;
 /* loaded from: classes2.dex */
-enum h implements v {
-    WEEK_BASED_YEARS("WeekBasedYears", j$.time.d.c(31556952)),
-    QUARTER_YEARS("QuarterYears", j$.time.d.c(7889238));
+enum h implements o {
+    WEEK_BASED_YEARS("WeekBasedYears"),
+    QUARTER_YEARS("QuarterYears");
     
     private final String a;
 
-    h(String str, j$.time.d dVar) {
+    static {
+        j$.time.e eVar = j$.time.e.c;
+    }
+
+    h(String str) {
         this.a = str;
     }
 
     @Override // java.lang.Enum
-    public String toString() {
+    public final String toString() {
         return this.a;
     }
 }

@@ -14,14 +14,14 @@ public final class zzx implements Parcelable.Creator {
     public final /* bridge */ /* synthetic */ Object createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
         WorkSource workSource = new WorkSource();
+        long j = 3600000;
+        long j2 = 600000;
+        long j3 = 0;
+        long j4 = Long.MAX_VALUE;
+        long j5 = Long.MAX_VALUE;
+        long j6 = -1;
         String str = null;
         zzd zzdVar = null;
-        long j = Long.MAX_VALUE;
-        long j2 = Long.MAX_VALUE;
-        long j3 = 3600000;
-        long j4 = 600000;
-        long j5 = 0;
-        long j6 = -1;
         int i = R.styleable.AppCompatTheme_textAppearanceLargePopupMenu;
         int i2 = ConnectionsManager.DEFAULT_DATACENTER_ID;
         float f = 0.0f;
@@ -36,17 +36,17 @@ public final class zzx implements Parcelable.Creator {
                     i = SafeParcelReader.readInt(parcel, readHeader);
                     break;
                 case 2:
-                    j3 = SafeParcelReader.readLong(parcel, readHeader);
+                    j = SafeParcelReader.readLong(parcel, readHeader);
                     break;
                 case 3:
-                    j4 = SafeParcelReader.readLong(parcel, readHeader);
+                    j2 = SafeParcelReader.readLong(parcel, readHeader);
                     break;
                 case 4:
                 default:
                     SafeParcelReader.skipUnknownField(parcel, readHeader);
                     break;
                 case 5:
-                    j = SafeParcelReader.readLong(parcel, readHeader);
+                    j4 = SafeParcelReader.readLong(parcel, readHeader);
                     break;
                 case 6:
                     i2 = SafeParcelReader.readInt(parcel, readHeader);
@@ -55,13 +55,13 @@ public final class zzx implements Parcelable.Creator {
                     f = SafeParcelReader.readFloat(parcel, readHeader);
                     break;
                 case 8:
-                    j5 = SafeParcelReader.readLong(parcel, readHeader);
+                    j3 = SafeParcelReader.readLong(parcel, readHeader);
                     break;
                 case 9:
                     z = SafeParcelReader.readBoolean(parcel, readHeader);
                     break;
                 case 10:
-                    j2 = SafeParcelReader.readLong(parcel, readHeader);
+                    j5 = SafeParcelReader.readLong(parcel, readHeader);
                     break;
                 case 11:
                     j6 = SafeParcelReader.readLong(parcel, readHeader);
@@ -87,7 +87,7 @@ public final class zzx implements Parcelable.Creator {
             }
         }
         SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);
-        return new LocationRequest(i, j3, j4, j5, j, j2, i2, f, z, j6, i3, i4, str, z2, workSource, zzdVar);
+        return new LocationRequest(i, j, j2, j3, j4, j5, i2, f, z, j6, i3, i4, str, z2, workSource, zzdVar);
     }
 
     @Override // android.os.Parcelable.Creator

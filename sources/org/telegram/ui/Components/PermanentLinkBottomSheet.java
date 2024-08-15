@@ -47,8 +47,8 @@ public class PermanentLinkBottomSheet extends BottomSheet {
 
     public PermanentLinkBottomSheet(Context context, boolean z, final BaseFragment baseFragment, final TLRPC$ChatFull tLRPC$ChatFull, long j, boolean z2) {
         super(context, z);
-        int i;
         String str;
+        int i;
         TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported;
         this.chatId = j;
         setAllowNestedScroll(true);
@@ -63,7 +63,7 @@ public class PermanentLinkBottomSheet extends BottomSheet {
         imageView.setBackground(Theme.createSelectorDrawable(getThemedColor(Theme.key_listSelector)));
         imageView.setColorFilter(getThemedColor(Theme.key_sheet_other));
         imageView.setImageResource(R.drawable.ic_layer_close);
-        imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda0
+        imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 PermanentLinkBottomSheet.this.lambda$new$0(view);
@@ -84,7 +84,7 @@ public class PermanentLinkBottomSheet extends BottomSheet {
         rLottieImageView.setAnimation(rLottieDrawable);
         linkActionView.setUsers(0, null);
         linkActionView.hideRevokeOption(true);
-        linkActionView.setDelegate(new LinkActionView.Delegate() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda6
+        linkActionView.setDelegate(new LinkActionView.Delegate() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda3
             @Override // org.telegram.ui.Components.LinkActionView.Delegate
             public /* synthetic */ void editLink() {
                 LinkActionView.Delegate.-CC.$default$editLink(this);
@@ -115,11 +115,11 @@ public class PermanentLinkBottomSheet extends BottomSheet {
         TextView textView2 = new TextView(context);
         this.subtitle = textView2;
         if (z2) {
-            i = R.string.LinkInfoChannel;
             str = "LinkInfoChannel";
+            i = R.string.LinkInfoChannel;
         } else {
-            i = R.string.LinkInfo;
             str = "LinkInfo";
+            i = R.string.LinkInfo;
         }
         textView2.setText(LocaleController.getString(str, i));
         textView2.setTextSize(1, 14.0f);
@@ -140,7 +140,7 @@ public class PermanentLinkBottomSheet extends BottomSheet {
         if (Build.VERSION.SDK_INT >= 21) {
             textView3.setLetterSpacing(0.025f);
         }
-        textView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda1
+        textView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda4
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 PermanentLinkBottomSheet.this.lambda$new$2(tLRPC$ChatFull, baseFragment, view);
@@ -193,7 +193,7 @@ public class PermanentLinkBottomSheet extends BottomSheet {
         TLRPC$TL_messages_exportChatInvite tLRPC$TL_messages_exportChatInvite = new TLRPC$TL_messages_exportChatInvite();
         tLRPC$TL_messages_exportChatInvite.legacy_revoke_permanent = true;
         tLRPC$TL_messages_exportChatInvite.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(-this.chatId);
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_exportChatInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda4
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_exportChatInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda5
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 PermanentLinkBottomSheet.this.lambda$generateLink$4(z, tLObject, tLRPC$TL_error);
@@ -203,7 +203,7 @@ public class PermanentLinkBottomSheet extends BottomSheet {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$generateLink$4(final boolean z, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda3
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 PermanentLinkBottomSheet.this.lambda$generateLink$3(tLRPC$TL_error, tLObject, z);
@@ -234,7 +234,7 @@ public class PermanentLinkBottomSheet extends BottomSheet {
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
     public void show() {
         super.show();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda2
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 PermanentLinkBottomSheet.this.lambda$show$5();
@@ -250,7 +250,7 @@ public class PermanentLinkBottomSheet extends BottomSheet {
     @Override // org.telegram.ui.ActionBar.BottomSheet
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda5
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 PermanentLinkBottomSheet.this.updateColors();

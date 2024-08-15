@@ -106,7 +106,7 @@ public class MessageSeenView extends FrameLayout {
         this.titleView.setAlpha(0.0f);
         TLRPC$Peer tLRPC$Peer = messageObject.messageOwner.from_id;
         final long j = tLRPC$Peer != null ? tLRPC$Peer.user_id : 0L;
-        ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_getMessageReadParticipants, new RequestDelegate() { // from class: org.telegram.ui.MessageSeenView$$ExternalSyntheticLambda5
+        ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_getMessageReadParticipants, new RequestDelegate() { // from class: org.telegram.ui.MessageSeenView$$ExternalSyntheticLambda0
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MessageSeenView.this.lambda$new$5(j, i, tLRPC$Chat, tLObject, tLRPC$TL_error);
@@ -118,7 +118,7 @@ public class MessageSeenView extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$5(final long j, final int i, final TLRPC$Chat tLRPC$Chat, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageSeenView$$ExternalSyntheticLambda2
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageSeenView$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 MessageSeenView.this.lambda$new$4(tLRPC$TL_error, tLObject, j, i, tLRPC$Chat);
@@ -176,7 +176,7 @@ public class MessageSeenView extends FrameLayout {
                 tLRPC$TL_channels_getParticipants.offset = 0;
                 tLRPC$TL_channels_getParticipants.filter = new TLRPC$TL_channelParticipantsRecent();
                 tLRPC$TL_channels_getParticipants.channel = MessagesController.getInstance(i).getInputChannel(tLRPC$Chat.id);
-                ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_channels_getParticipants, new RequestDelegate() { // from class: org.telegram.ui.MessageSeenView$$ExternalSyntheticLambda4
+                ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_channels_getParticipants, new RequestDelegate() { // from class: org.telegram.ui.MessageSeenView$$ExternalSyntheticLambda2
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error2) {
                         MessageSeenView.this.lambda$new$1(i, hashMap, arrayList3, tLObject2, tLRPC$TL_error2);
@@ -200,7 +200,7 @@ public class MessageSeenView extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(final int i, final HashMap hashMap, final ArrayList arrayList, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageSeenView$$ExternalSyntheticLambda1
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageSeenView$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 MessageSeenView.this.lambda$new$0(tLObject, i, hashMap, arrayList);
@@ -229,7 +229,7 @@ public class MessageSeenView extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$3(final int i, final HashMap hashMap, final ArrayList arrayList, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageSeenView$$ExternalSyntheticLambda0
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageSeenView$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 MessageSeenView.this.lambda$new$2(tLObject, i, hashMap, arrayList);
@@ -326,7 +326,7 @@ public class MessageSeenView extends FrameLayout {
         if (recyclerListView != null) {
             return recyclerListView;
         }
-        RecyclerListView recyclerListView2 = new RecyclerListView(this, getContext()) { // from class: org.telegram.ui.MessageSeenView.1
+        RecyclerListView recyclerListView2 = new RecyclerListView(getContext()) { // from class: org.telegram.ui.MessageSeenView.1
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
             public void onMeasure(int i, int i2) {

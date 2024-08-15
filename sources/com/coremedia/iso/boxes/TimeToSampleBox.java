@@ -5,22 +5,26 @@ import com.coremedia.iso.IsoTypeWriter;
 import com.googlecode.mp4parser.AbstractFullBox;
 import com.googlecode.mp4parser.RequiresParseDetailAspect;
 import com.googlecode.mp4parser.util.CastUtils;
+import java.lang.ref.SoftReference;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.WeakHashMap;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.runtime.reflect.Factory;
 /* loaded from: classes.dex */
 public class TimeToSampleBox extends AbstractFullBox {
+    private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_0 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_1 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_2 = null;
+    static Map<List<Entry>, SoftReference<long[]>> cache;
     List<Entry> entries;
 
     private static /* synthetic */ void ajc$preClinit() {
         Factory factory = new Factory("TimeToSampleBox.java", TimeToSampleBox.class);
-        factory.makeSJP("method-execution", factory.makeMethodSig("1", "getEntries", "com.coremedia.iso.boxes.TimeToSampleBox", "", "", "", "java.util.List"), 79);
+        ajc$tjp_0 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "getEntries", "com.coremedia.iso.boxes.TimeToSampleBox", "", "", "", "java.util.List"), 79);
         ajc$tjp_1 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "setEntries", "com.coremedia.iso.boxes.TimeToSampleBox", "java.util.List", "entries", "", "void"), 83);
         ajc$tjp_2 = factory.makeSJP("method-execution", factory.makeMethodSig("1", "toString", "com.coremedia.iso.boxes.TimeToSampleBox", "", "", "", "java.lang.String"), 87);
     }
@@ -94,6 +98,6 @@ public class TimeToSampleBox extends AbstractFullBox {
 
     static {
         ajc$preClinit();
-        new WeakHashMap();
+        cache = new WeakHashMap();
     }
 }

@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.mlkit_common;
 
 import java.util.Arrays;
-import java.util.Objects;
 /* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
 public final class zzy {
@@ -14,7 +13,7 @@ public final class zzy {
         zzw zzwVar = new zzw();
         this.zzb = zzwVar;
         this.zzc = zzwVar;
-        Objects.requireNonNull(str);
+        str.getClass();
         this.zza = str;
     }
 

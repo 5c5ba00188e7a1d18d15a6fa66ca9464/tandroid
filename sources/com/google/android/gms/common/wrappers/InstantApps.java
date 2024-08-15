@@ -9,6 +9,7 @@ public class InstantApps {
     private static Boolean zzb;
 
     public static synchronized boolean isInstantApp(Context context) {
+        boolean isInstantApp;
         Boolean bool;
         synchronized (InstantApps.class) {
             Context applicationContext = context.getApplicationContext();
@@ -18,7 +19,8 @@ public class InstantApps {
             }
             zzb = null;
             if (PlatformVersion.isAtLeastO()) {
-                zzb = Boolean.valueOf(applicationContext.getPackageManager().isInstantApp());
+                isInstantApp = applicationContext.getPackageManager().isInstantApp();
+                zzb = Boolean.valueOf(isInstantApp);
             } else {
                 try {
                     context.getClassLoader().loadClass("com.google.android.instantapps.supervisor.InstantAppsRuntime");

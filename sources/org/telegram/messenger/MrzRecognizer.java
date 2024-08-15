@@ -183,14 +183,14 @@ public class MrzRecognizer {
         return null;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:101:0x03f4  */
-    /* JADX WARN: Removed duplicated region for block: B:191:0x0252 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:192:0x0271 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x01f4  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x022c  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x023d  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x0253  */
-    /* JADX WARN: Removed duplicated region for block: B:98:0x03c6  */
+    /* JADX WARN: Removed duplicated region for block: B:101:0x03f5  */
+    /* JADX WARN: Removed duplicated region for block: B:191:0x0253 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:192:0x0272 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x01f5  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x022d  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x023e  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0254  */
+    /* JADX WARN: Removed duplicated region for block: B:98:0x03c7  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -521,19 +521,14 @@ public class MrzRecognizer {
     }
 
     private static int checksum(String str) {
-        int i;
         char[] charArray = str.toCharArray();
         int[] iArr = {7, 3, 1};
-        int i2 = 0;
-        for (int i3 = 0; i3 < charArray.length; i3++) {
-            if (charArray[i3] >= '0' && charArray[i3] <= '9') {
-                i = charArray[i3] - '0';
-            } else {
-                i = (charArray[i3] < 'A' || charArray[i3] > 'Z') ? 0 : (charArray[i3] - 'A') + 10;
-            }
-            i2 += i * iArr[i3 % 3];
+        int i = 0;
+        for (int i2 = 0; i2 < charArray.length; i2++) {
+            char c = charArray[i2];
+            i += ((c < '0' || c > '9') ? (c < 'A' || c > 'Z') ? 0 : (c - 'A') + 10 : c - '0') * iArr[i2 % 3];
         }
-        return i2 % 10;
+        return i % 10;
     }
 
     private static void parseBirthDate(String str, Result result) {

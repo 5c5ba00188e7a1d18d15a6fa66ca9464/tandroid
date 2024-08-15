@@ -13,12 +13,13 @@ import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 /* loaded from: classes.dex */
 public final class Loader implements LoaderErrorThrower {
-    public static final LoadErrorAction DONT_RETRY;
-    public static final LoadErrorAction DONT_RETRY_FATAL;
-    public static final LoadErrorAction RETRY = createRetryAction(false, -9223372036854775807L);
     private LoadTask<? extends Loadable> currentTask;
     private final ExecutorService downloadExecutorService;
     private IOException fatalError;
+    public static final LoadErrorAction RETRY = createRetryAction(false, -9223372036854775807L);
+    public static final LoadErrorAction RETRY_RESET_ERROR_COUNT = createRetryAction(true, -9223372036854775807L);
+    public static final LoadErrorAction DONT_RETRY = new LoadErrorAction(2, -9223372036854775807L);
+    public static final LoadErrorAction DONT_RETRY_FATAL = new LoadErrorAction(3, -9223372036854775807L);
 
     /* loaded from: classes.dex */
     public interface Callback<T extends Loadable> {
@@ -46,12 +47,6 @@ public final class Loader implements LoaderErrorThrower {
         public UnexpectedLoaderException(Throwable th) {
             super("Unexpected " + th.getClass().getSimpleName() + ": " + th.getMessage(), th);
         }
-    }
-
-    static {
-        createRetryAction(true, -9223372036854775807L);
-        DONT_RETRY = new LoadErrorAction(2, -9223372036854775807L);
-        DONT_RETRY_FATAL = new LoadErrorAction(3, -9223372036854775807L);
     }
 
     /* loaded from: classes.dex */

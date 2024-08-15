@@ -126,6 +126,8 @@ public enum zzaj implements zzet {
     zzdp(361),
     zzdq(371);
     
+    private static final zzes<zzaj> zzdr = new zzes<zzaj>() { // from class: com.google.android.gms.internal.mlkit_language_id.zzam
+    };
     private final int zzds;
 
     @Override // com.google.android.gms.internal.mlkit_language_id.zzet
@@ -144,10 +146,5 @@ public enum zzaj implements zzet {
 
     zzaj(int i) {
         this.zzds = i;
-    }
-
-    static {
-        new Object() { // from class: com.google.android.gms.internal.mlkit_language_id.zzam
-        };
     }
 }

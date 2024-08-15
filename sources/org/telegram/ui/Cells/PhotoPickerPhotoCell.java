@@ -24,6 +24,7 @@ import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.LayoutHelper;
 /* loaded from: classes4.dex */
 public class PhotoPickerPhotoCell extends FrameLayout {
+    private Paint backgroundPaint;
     public CheckBox2 checkBox;
     public FrameLayout checkFrame;
     private int extraWidth;
@@ -34,7 +35,7 @@ public class PhotoPickerPhotoCell extends FrameLayout {
 
     public PhotoPickerPhotoCell(Context context) {
         super(context);
-        new Paint();
+        this.backgroundPaint = new Paint();
         setWillNotDraw(false);
         BackupImageView backupImageView = new BackupImageView(context);
         this.imageView = backupImageView;
@@ -43,7 +44,7 @@ public class PhotoPickerPhotoCell extends FrameLayout {
         FrameLayout frameLayout = new FrameLayout(context);
         this.checkFrame = frameLayout;
         addView(frameLayout, LayoutHelper.createFrame(42, 42, 53));
-        FrameLayout frameLayout2 = new FrameLayout(this, context) { // from class: org.telegram.ui.Cells.PhotoPickerPhotoCell.1
+        FrameLayout frameLayout2 = new FrameLayout(context) { // from class: org.telegram.ui.Cells.PhotoPickerPhotoCell.1
             private Path path = new Path();
             float[] radii = new float[8];
             private RectF rect = new RectF();

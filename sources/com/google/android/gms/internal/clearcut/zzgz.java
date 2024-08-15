@@ -7,6 +7,7 @@ public final class zzgz extends zzfu<zzgz> implements Cloneable {
     private byte[] zzbjb = zzgb.zzse;
     private String zzbjc = "";
     private byte[][] zzbjd = zzgb.zzsd;
+    private boolean zzbje = false;
 
     public zzgz() {
         this.zzrj = null;

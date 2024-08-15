@@ -51,7 +51,7 @@ public class DialogsEmptyCell extends LinearLayout {
         this.currentAccount = UserConfig.selectedAccount;
         setGravity(17);
         setOrientation(1);
-        setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Cells.DialogsEmptyCell$$ExternalSyntheticLambda3
+        setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Cells.DialogsEmptyCell$$ExternalSyntheticLambda0
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view, MotionEvent motionEvent) {
                 boolean lambda$new$0;
@@ -63,7 +63,7 @@ public class DialogsEmptyCell extends LinearLayout {
         this.imageView = rLottieImageView;
         rLottieImageView.setScaleType(ImageView.ScaleType.CENTER);
         addView(this.imageView, LayoutHelper.createFrame(100, 100.0f, 17, 52.0f, 4.0f, 52.0f, 0.0f));
-        this.imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.DialogsEmptyCell$$ExternalSyntheticLambda2
+        this.imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.DialogsEmptyCell$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 DialogsEmptyCell.this.lambda$new$1(view);
@@ -78,7 +78,7 @@ public class DialogsEmptyCell extends LinearLayout {
         addView(this.titleView, LayoutHelper.createFrame(-1, -2.0f, 51, 52.0f, 10.0f, 52.0f, 0.0f));
         TextViewSwitcher textViewSwitcher = new TextViewSwitcher(context);
         this.subtitleView = textViewSwitcher;
-        textViewSwitcher.setFactory(new ViewSwitcher.ViewFactory() { // from class: org.telegram.ui.Cells.DialogsEmptyCell$$ExternalSyntheticLambda4
+        textViewSwitcher.setFactory(new ViewSwitcher.ViewFactory() { // from class: org.telegram.ui.Cells.DialogsEmptyCell$$ExternalSyntheticLambda2
             @Override // android.widget.ViewSwitcher.ViewFactory
             public final View makeView() {
                 View lambda$new$2;
@@ -187,7 +187,7 @@ public class DialogsEmptyCell extends LinearLayout {
         ValueAnimator duration = ValueAnimator.ofFloat(this.utyanCollapseProgress, 0.0f).setDuration(250L);
         this.utyanAnimator = duration;
         duration.setInterpolator(Easings.easeOutQuad);
-        this.utyanAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.DialogsEmptyCell$$ExternalSyntheticLambda0
+        this.utyanAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.DialogsEmptyCell$$ExternalSyntheticLambda4
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                 DialogsEmptyCell.this.lambda$startUtyanExpandAnimation$3(valueAnimator2);
@@ -233,7 +233,7 @@ public class DialogsEmptyCell extends LinearLayout {
         ValueAnimator duration = ValueAnimator.ofFloat(this.utyanCollapseProgress, 1.0f).setDuration(250L);
         this.utyanAnimator = duration;
         duration.setInterpolator(Easings.easeOutQuad);
-        this.utyanAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.DialogsEmptyCell$$ExternalSyntheticLambda1
+        this.utyanAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.DialogsEmptyCell$$ExternalSyntheticLambda3
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                 DialogsEmptyCell.this.lambda$startUtyanCollapseAnimation$4(valueAnimator2);

@@ -26,16 +26,14 @@ public class TypeToken<T> {
     }
 
     private Type getTypeTokenTypeArgument() {
-        Type genericSuperclass = TypeToken.class.getGenericSuperclass();
-        if (!(genericSuperclass instanceof ParameterizedType)) {
-            if (genericSuperclass == TypeToken.class) {
-                throw new IllegalStateException("TypeToken must be created with a type argument: new TypeToken<...>() {}; When using code shrinkers (ProGuard, R8, ...) make sure that generic signatures are preserved.");
-            }
-        } else {
+        Type genericSuperclass = getClass().getGenericSuperclass();
+        if (genericSuperclass instanceof ParameterizedType) {
             ParameterizedType parameterizedType = (ParameterizedType) genericSuperclass;
             if (parameterizedType.getRawType() == TypeToken.class) {
                 return $Gson$Types.canonicalize(parameterizedType.getActualTypeArguments()[0]);
             }
+        } else if (genericSuperclass == TypeToken.class) {
+            throw new IllegalStateException("TypeToken must be created with a type argument: new TypeToken<...>() {}; When using code shrinkers (ProGuard, R8, ...) make sure that generic signatures are preserved.");
         }
         throw new IllegalStateException("Must only create direct subclasses of TypeToken");
     }

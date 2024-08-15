@@ -5,6 +5,7 @@ import java.util.List;
 /* loaded from: classes.dex */
 public class Period {
     public final List<AdaptationSet> adaptationSets;
+    public final Descriptor assetIdentifier;
     public final List<EventStream> eventStreams;
     public final String id;
     public final long startMs;
@@ -18,6 +19,7 @@ public class Period {
         this.startMs = j;
         this.adaptationSets = Collections.unmodifiableList(list);
         this.eventStreams = Collections.unmodifiableList(list2);
+        this.assetIdentifier = descriptor;
     }
 
     public int getAdaptationSetIndex(int i) {

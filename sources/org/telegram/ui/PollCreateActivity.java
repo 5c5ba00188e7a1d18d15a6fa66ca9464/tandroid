@@ -99,6 +99,7 @@ public class PollCreateActivity extends BaseFragment implements NotificationCent
     private int emojiPadding;
     private EmojiView emojiView;
     public boolean emojiViewVisible;
+    public boolean emojiViewWasVisible;
     private boolean hintShowed;
     private HintView hintView;
     private boolean isAnimatePopupClosing;
@@ -396,7 +397,7 @@ public class PollCreateActivity extends BaseFragment implements NotificationCent
         this.fragmentView = sizeNotifierFrameLayout2;
         sizeNotifierFrameLayout2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
         FrameLayout frameLayout = (FrameLayout) this.fragmentView;
-        RecyclerListView recyclerListView = new RecyclerListView(this, context) { // from class: org.telegram.ui.PollCreateActivity.4
+        RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.PollCreateActivity.4
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.RecyclerView
             public void requestChildOnScreen(View view, View view2) {
@@ -420,7 +421,7 @@ public class PollCreateActivity extends BaseFragment implements NotificationCent
         new ItemTouchHelper(new TouchHelperCallback()).attachToRecyclerView(this.listView);
         frameLayout.addView(this.listView, LayoutHelper.createFrame(-1, -1, 51));
         this.listView.setAdapter(this.listAdapter);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.PollCreateActivity$$ExternalSyntheticLambda4
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.PollCreateActivity$$ExternalSyntheticLambda3
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i) {
                 PollCreateActivity.this.lambda$createView$0(view, i);
@@ -807,15 +808,11 @@ public class PollCreateActivity extends BaseFragment implements NotificationCent
 
     /* JADX INFO: Access modifiers changed from: private */
     public void updateRows() {
-        this.rowCount = 0;
         int i = 0 + 1;
-        this.rowCount = i;
         this.questionHeaderRow = 0;
         int i2 = i + 1;
-        this.rowCount = i2;
         this.questionRow = i;
         int i3 = i2 + 1;
-        this.rowCount = i3;
         this.questionSectionRow = i2;
         int i4 = i3 + 1;
         this.rowCount = i4;
@@ -836,7 +833,6 @@ public class PollCreateActivity extends BaseFragment implements NotificationCent
         }
         int i7 = this.rowCount;
         int i8 = i7 + 1;
-        this.rowCount = i8;
         this.answerSectionRow = i7;
         this.rowCount = i8 + 1;
         this.settingsHeaderRow = i8;
@@ -869,7 +865,6 @@ public class PollCreateActivity extends BaseFragment implements NotificationCent
         this.settingsSectionRow = i13;
         if (this.quizPoll) {
             int i15 = i14 + 1;
-            this.rowCount = i15;
             this.solutionRow = i14;
             this.rowCount = i15 + 1;
             this.solutionInfoRow = i15;
@@ -899,7 +894,7 @@ public class PollCreateActivity extends BaseFragment implements NotificationCent
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
             builder.setTitle(LocaleController.getString("CancelPollAlertTitle", R.string.CancelPollAlertTitle));
             builder.setMessage(LocaleController.getString("CancelPollAlertText", R.string.CancelPollAlertText));
-            builder.setPositiveButton(LocaleController.getString("PassportDiscard", R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PollCreateActivity$$ExternalSyntheticLambda3
+            builder.setPositiveButton(LocaleController.getString("PassportDiscard", R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PollCreateActivity$$ExternalSyntheticLambda1
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i2) {
                     PollCreateActivity.this.lambda$checkDiscard$1(dialogInterface, i2);
@@ -922,34 +917,34 @@ public class PollCreateActivity extends BaseFragment implements NotificationCent
 
     /* JADX INFO: Access modifiers changed from: private */
     public void setTextLeft(View view, int i) {
+        int i2;
         int length;
         if (view instanceof PollEditTextCell) {
             PollEditTextCell pollEditTextCell = (PollEditTextCell) view;
-            int i2 = 100;
             if (i == this.questionRow) {
                 CharSequence charSequence = this.questionString;
-                length = 255 - (charSequence != null ? charSequence.length() : 0);
                 i2 = 255;
+                length = 255 - (charSequence != null ? charSequence.length() : 0);
             } else if (i == this.solutionRow) {
                 CharSequence charSequence2 = this.solutionString;
-                length = 200 - (charSequence2 != null ? charSequence2.length() : 0);
                 i2 = 200;
+                length = 200 - (charSequence2 != null ? charSequence2.length() : 0);
             } else {
                 int i3 = this.answerStartRow;
                 if (i < i3 || i >= this.answersCount + i3) {
                     return;
                 }
-                int i4 = i - i3;
-                CharSequence[] charSequenceArr = this.answers;
-                length = 100 - (charSequenceArr[i4] != null ? charSequenceArr[i4].length() : 0);
+                CharSequence charSequence3 = this.answers[i - i3];
+                i2 = 100;
+                length = 100 - (charSequence3 != null ? charSequence3.length() : 0);
             }
             float f = i2;
             if (length <= f - (0.7f * f)) {
                 pollEditTextCell.setText2(String.format("%d", Integer.valueOf(length)));
                 SimpleTextView textView2 = pollEditTextCell.getTextView2();
-                int i5 = length < 0 ? Theme.key_text_RedRegular : Theme.key_windowBackgroundWhiteGrayText3;
-                textView2.setTextColor(Theme.getColor(i5));
-                textView2.setTag(Integer.valueOf(i5));
+                int i4 = length < 0 ? Theme.key_text_RedRegular : Theme.key_windowBackgroundWhiteGrayText3;
+                textView2.setTextColor(Theme.getColor(i4));
+                textView2.setTag(Integer.valueOf(i4));
                 return;
             }
             pollEditTextCell.setText2("");
@@ -1129,6 +1124,7 @@ public class PollCreateActivity extends BaseFragment implements NotificationCent
                 boolean z = emojiView != null && emojiView.getVisibility() == 0;
                 createEmojiView();
                 this.emojiView.setVisibility(0);
+                this.emojiViewWasVisible = this.emojiViewVisible;
                 this.emojiViewVisible = true;
                 EmojiView emojiView2 = this.emojiView;
                 if (this.keyboardHeight <= 0) {
@@ -1164,7 +1160,7 @@ public class PollCreateActivity extends BaseFragment implements NotificationCent
                     return;
                 }
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(this.emojiPadding, 0.0f);
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.PollCreateActivity$$ExternalSyntheticLambda1
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.PollCreateActivity$$ExternalSyntheticLambda4
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                         PollCreateActivity.this.lambda$showEmojiPopup$3(valueAnimator);
@@ -1187,6 +1183,7 @@ public class PollCreateActivity extends BaseFragment implements NotificationCent
             }
             EmojiView emojiView3 = this.emojiView;
             if (emojiView3 != null) {
+                this.emojiViewWasVisible = this.emojiViewVisible;
                 this.emojiViewVisible = false;
                 this.isEmojiSearchOpened = false;
                 if (AndroidUtilities.usingHardwareInput || AndroidUtilities.isInMultiwindow) {
@@ -1255,6 +1252,7 @@ public class PollCreateActivity extends BaseFragment implements NotificationCent
                             PollCreateActivity.this.lambda$hideEmojiPopup$4(valueAnimator);
                         }
                     });
+                    this.isAnimatePopupClosing = true;
                     ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.PollCreateActivity.8
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                         public void onAnimationEnd(Animator animator) {
@@ -1847,7 +1845,7 @@ public class PollCreateActivity extends BaseFragment implements NotificationCent
                 pollEditTextCell3.setShowNextButton(true);
                 EditTextBoldCursor textView = pollEditTextCell3.getTextView();
                 textView.setImeOptions(textView.getImeOptions() | 5);
-                textView.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.PollCreateActivity$ListAdapter$$ExternalSyntheticLambda2
+                textView.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.PollCreateActivity$ListAdapter$$ExternalSyntheticLambda1
                     @Override // android.widget.TextView.OnEditorActionListener
                     public final boolean onEditorAction(TextView textView2, int i2, KeyEvent keyEvent) {
                         boolean lambda$onCreateViewHolder$1;
@@ -1855,7 +1853,7 @@ public class PollCreateActivity extends BaseFragment implements NotificationCent
                         return lambda$onCreateViewHolder$1;
                     }
                 });
-                textView.setOnKeyListener(new View.OnKeyListener() { // from class: org.telegram.ui.PollCreateActivity$ListAdapter$$ExternalSyntheticLambda1
+                textView.setOnKeyListener(new View.OnKeyListener() { // from class: org.telegram.ui.PollCreateActivity$ListAdapter$$ExternalSyntheticLambda2
                     @Override // android.view.View.OnKeyListener
                     public final boolean onKey(View view, int i2, KeyEvent keyEvent) {
                         boolean lambda$onCreateViewHolder$2;

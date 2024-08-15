@@ -5,11 +5,12 @@ import com.google.android.exoplayer2.mediacodec.MediaCodecDecoderException;
 import com.google.android.exoplayer2.mediacodec.MediaCodecInfo;
 /* loaded from: classes.dex */
 public class MediaCodecVideoDecoderException extends MediaCodecDecoderException {
+    public final boolean isSurfaceValid;
+    public final int surfaceIdentityHashCode;
+
     public MediaCodecVideoDecoderException(Throwable th, MediaCodecInfo mediaCodecInfo, Surface surface) {
         super(th, mediaCodecInfo);
-        System.identityHashCode(surface);
-        if (surface != null) {
-            surface.isValid();
-        }
+        this.surfaceIdentityHashCode = System.identityHashCode(surface);
+        this.isSurfaceValid = surface == null || surface.isValid();
     }
 }

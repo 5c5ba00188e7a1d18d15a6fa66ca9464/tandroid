@@ -28,8 +28,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Objects;
-import kotlinx.coroutines.CoroutineId$$ExternalSyntheticBackport0;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.FactCheckController$Key$$ExternalSyntheticBackport0;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessageObject;
@@ -288,7 +288,7 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
         ViewPagerFixed.TabsView createTabsView = viewPagerFixed.createTabsView(true, 9);
         this.tabsView = createTabsView;
         createTabsView.tabMarginDp = 12;
-        createTabsView.setPreTabClick(new Utilities.Callback2Return() { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer$$ExternalSyntheticLambda2
+        createTabsView.setPreTabClick(new Utilities.Callback2Return() { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer$$ExternalSyntheticLambda3
             @Override // org.telegram.messenger.Utilities.Callback2Return
             public final Object run(Object obj, Object obj2) {
                 Boolean lambda$new$0;
@@ -310,7 +310,7 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
     }
 
     public void addTranslation() {
-        new ChooseLanguageSheet(this.fragment, LocaleController.getString(R.string.ProfileBotPreviewLanguageChoose), new Utilities.Callback() { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer$$ExternalSyntheticLambda3
+        new ChooseLanguageSheet(this.fragment, LocaleController.getString(R.string.ProfileBotPreviewLanguageChoose), new Utilities.Callback() { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer$$ExternalSyntheticLambda1
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 BotPreviewsEditContainer.this.lambda$addTranslation$2((String) obj);
@@ -324,7 +324,7 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
             this.localLangs.add(str);
             updateLangs(true);
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer$$ExternalSyntheticLambda1
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 BotPreviewsEditContainer.this.lambda$addTranslation$1(str);
@@ -359,8 +359,11 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
     }
 
     public String getCurrentLang() {
+        View view;
         View[] viewPages = this.viewPager.getViewPages();
-        View view = (Math.abs(((float) this.viewPager.getCurrentPosition()) - this.viewPager.getPositionAnimated()) >= 0.5f || viewPages[1] == null) ? viewPages[0] : viewPages[1];
+        if (Math.abs(this.viewPager.getCurrentPosition() - this.viewPager.getPositionAnimated()) >= 0.5f || (view = viewPages[1]) == null) {
+            view = viewPages[0];
+        }
         if (view instanceof BotPreviewsEditLangContainer) {
             BotPreviewsEditLangContainer botPreviewsEditLangContainer = (BotPreviewsEditLangContainer) view;
             if (botPreviewsEditLangContainer.list != null) {
@@ -450,9 +453,9 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
         this.visibleHeight = i;
         View[] viewPages = this.viewPager.getViewPages();
         if (viewPages != null) {
-            for (int i2 = 0; i2 < viewPages.length; i2++) {
-                if (viewPages[i2] instanceof BotPreviewsEditLangContainer) {
-                    ((BotPreviewsEditLangContainer) viewPages[i2]).setVisibleHeight(i);
+            for (View view : viewPages) {
+                if (view instanceof BotPreviewsEditLangContainer) {
+                    ((BotPreviewsEditLangContainer) view).setVisibleHeight(i);
                 }
             }
         }
@@ -505,7 +508,8 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
         View[] viewPages;
         int i3 = 0;
         if (i == NotificationCenter.storiesListUpdated) {
-            if (objArr[0] == this.mainList) {
+            Object obj = objArr[0];
+            if (obj == this.mainList) {
                 updateLangs(true);
                 View[] viewPages2 = this.viewPager.getViewPages();
                 int length = viewPages2.length;
@@ -519,7 +523,7 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
                     }
                     i3++;
                 }
-            } else if (this.langLists.indexOf(objArr[0]) >= 0) {
+            } else if (this.langLists.indexOf(obj) >= 0) {
                 for (View view2 : this.viewPager.getViewPages()) {
                     if (view2 instanceof BotPreviewsEditLangContainer) {
                         BotPreviewsEditLangContainer botPreviewsEditLangContainer2 = (BotPreviewsEditLangContainer) view2;
@@ -839,6 +843,7 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
         private final FlickerLoadingView progressView;
         Rect rect;
         private ItemTouchHelper reorder;
+        private final RecyclerAnimationScrollHelper scrollHelper;
         private boolean storiesColumnsCountSet;
         private final StoriesAdapter supportingAdapter;
         private final GridLayoutManager supportingLayoutManager;
@@ -883,7 +888,7 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
             }
             String str = formatString;
             String string2 = LocaleController.getString(R.string.ProfileBotAddPreview);
-            Runnable runnable = new Runnable() { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer$BotPreviewsEditLangContainer$$ExternalSyntheticLambda3
+            Runnable runnable = new Runnable() { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer$BotPreviewsEditLangContainer$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     BotPreviewsEditContainer.BotPreviewsEditLangContainer.this.lambda$updateFooter$0();
@@ -899,7 +904,7 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
             } else {
                 string = null;
             }
-            footerView.set(str, string2, runnable, string, (z || count <= 0) ? new Runnable() { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer$BotPreviewsEditLangContainer$$ExternalSyntheticLambda4
+            footerView.set(str, string2, runnable, string, (z || count <= 0) ? new Runnable() { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer$BotPreviewsEditLangContainer$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     BotPreviewsEditContainer.BotPreviewsEditLangContainer.this.lambda$updateFooter$1(z);
@@ -919,7 +924,7 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
                 this.emptyViewOr.setVisibility(0);
                 this.emptyViewButton2.setVisibility(0);
                 this.emptyViewButton2.setText(LocaleController.getString(R.string.ProfileBotPreviewFooterDeleteTranslation), false);
-                this.emptyViewButton2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer$BotPreviewsEditLangContainer$$ExternalSyntheticLambda0
+                this.emptyViewButton2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer$BotPreviewsEditLangContainer$$ExternalSyntheticLambda2
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         BotPreviewsEditContainer.BotPreviewsEditLangContainer.this.lambda$updateFooter$2(view);
@@ -963,7 +968,7 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
             this.allowStoriesSingleColumn = false;
             this.storiesColumnsCountSet = false;
             this.rect = new Rect();
-            ExtendedGridLayoutManager extendedGridLayoutManager = new ExtendedGridLayoutManager(this, context, 100, BotPreviewsEditContainer.this) { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer.BotPreviewsEditLangContainer.1
+            ExtendedGridLayoutManager extendedGridLayoutManager = new ExtendedGridLayoutManager(context, 100) { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer.BotPreviewsEditLangContainer.1
                 private final Size size = new Size();
 
                 /* JADX INFO: Access modifiers changed from: protected */
@@ -1008,7 +1013,7 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
                 }
             };
             this.layoutManager = extendedGridLayoutManager;
-            extendedGridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup(BotPreviewsEditContainer.this) { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer.BotPreviewsEditLangContainer.2
+            extendedGridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer.BotPreviewsEditLangContainer.2
                 @Override // androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
                 public int getSpanSize(int i) {
                     if (BotPreviewsEditLangContainer.this.adapter.getItemViewType(i) == 2) {
@@ -1023,7 +1028,7 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
             defaultItemAnimator.setDurations(280L);
             defaultItemAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
             defaultItemAnimator.setSupportsChangeAnimations(false);
-            SharedMediaLayout.SharedMediaListView sharedMediaListView = new SharedMediaLayout.SharedMediaListView(context, BotPreviewsEditContainer.this) { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer.BotPreviewsEditLangContainer.3
+            SharedMediaLayout.SharedMediaListView sharedMediaListView = new SharedMediaLayout.SharedMediaListView(context) { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer.BotPreviewsEditLangContainer.3
                 @Override // org.telegram.ui.Components.SharedMediaLayout.SharedMediaListView
                 public boolean isStories() {
                     return true;
@@ -1099,7 +1104,7 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
             sharedMediaListView.setSectionsType(2);
             sharedMediaListView.setLayoutManager(extendedGridLayoutManager);
             addView(sharedMediaListView, LayoutHelper.createFrame(-1, -1.0f));
-            sharedMediaListView.addItemDecoration(new RecyclerView.ItemDecoration(BotPreviewsEditContainer.this) { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer.BotPreviewsEditLangContainer.4
+            sharedMediaListView.addItemDecoration(new RecyclerView.ItemDecoration() { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer.BotPreviewsEditLangContainer.4
                 @Override // androidx.recyclerview.widget.RecyclerView.ItemDecoration
                 public void getItemOffsets(Rect rect, View view, RecyclerView recyclerView, RecyclerView.State state) {
                     if (view instanceof SharedPhotoVideoCell2) {
@@ -1121,13 +1126,13 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
                     rect.right = 0;
                 }
             });
-            sharedMediaListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer$BotPreviewsEditLangContainer$$ExternalSyntheticLambda5
+            sharedMediaListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer$BotPreviewsEditLangContainer$$ExternalSyntheticLambda3
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
                 public final void onItemClick(View view, int i) {
                     BotPreviewsEditContainer.BotPreviewsEditLangContainer.this.lambda$new$3(view, i);
                 }
             });
-            sharedMediaListView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer$BotPreviewsEditLangContainer$$ExternalSyntheticLambda6
+            sharedMediaListView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer$BotPreviewsEditLangContainer$$ExternalSyntheticLambda4
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
                 public final boolean onItemClick(View view, int i) {
                     boolean lambda$new$4;
@@ -1137,7 +1142,7 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
             });
             SharedMediaLayout.InternalListView internalListView = new SharedMediaLayout.InternalListView(context);
             this.supportingListView = internalListView;
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3, BotPreviewsEditContainer.this) { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer.BotPreviewsEditLangContainer.5
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3) { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer.BotPreviewsEditLangContainer.5
                 @Override // androidx.recyclerview.widget.GridLayoutManager, androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
                 public boolean supportsPredictiveItemAnimations() {
                     return false;
@@ -1153,7 +1158,7 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
             };
             this.supportingLayoutManager = gridLayoutManager;
             internalListView.setLayoutManager(gridLayoutManager);
-            internalListView.addItemDecoration(new RecyclerView.ItemDecoration(BotPreviewsEditContainer.this) { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer.BotPreviewsEditLangContainer.6
+            internalListView.addItemDecoration(new RecyclerView.ItemDecoration() { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer.BotPreviewsEditLangContainer.6
                 @Override // androidx.recyclerview.widget.RecyclerView.ItemDecoration
                 public void getItemOffsets(Rect rect, View view, RecyclerView recyclerView, RecyclerView.State state) {
                     if (view instanceof SharedPhotoVideoCell2) {
@@ -1178,7 +1183,7 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
             gridLayoutManager.setSpanCount(this.animateToColumnsCount);
             internalListView.setVisibility(8);
             addView(internalListView, LayoutHelper.createFrame(-1, -1.0f));
-            StoriesAdapter storiesAdapter = new StoriesAdapter(context, BotPreviewsEditContainer.this) { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer.BotPreviewsEditLangContainer.7
+            StoriesAdapter storiesAdapter = new StoriesAdapter(context) { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer.BotPreviewsEditLangContainer.7
                 @Override // org.telegram.ui.Stories.bots.BotPreviewsEditContainer.BotPreviewsEditLangContainer.StoriesAdapter, androidx.recyclerview.widget.RecyclerView.Adapter
                 public void notifyDataSetChanged() {
                     super.notifyDataSetChanged();
@@ -1197,7 +1202,7 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
             StoriesAdapter makeSupporting = storiesAdapter.makeSupporting();
             this.supportingAdapter = makeSupporting;
             internalListView.setAdapter(makeSupporting);
-            FlickerLoadingView flickerLoadingView = new FlickerLoadingView(context, BotPreviewsEditContainer.this) { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer.BotPreviewsEditLangContainer.8
+            FlickerLoadingView flickerLoadingView = new FlickerLoadingView(context) { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer.BotPreviewsEditLangContainer.8
                 private final Paint backgroundPaint = new Paint();
 
                 @Override // org.telegram.ui.Components.FlickerLoadingView
@@ -1226,7 +1231,7 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
             stickerEmptyView.setVisibility(8);
             stickerEmptyView.setAnimateLayoutChange(true);
             addView(stickerEmptyView, LayoutHelper.createFrame(-1, -1.0f));
-            stickerEmptyView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer$BotPreviewsEditLangContainer$$ExternalSyntheticLambda2
+            stickerEmptyView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer$BotPreviewsEditLangContainer$$ExternalSyntheticLambda5
                 @Override // android.view.View.OnTouchListener
                 public final boolean onTouch(View view, MotionEvent motionEvent) {
                     boolean lambda$new$5;
@@ -1240,13 +1245,13 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
             stickerEmptyView.subtitle.setText(LocaleController.formatPluralString("ProfileBotPreviewEmptyText", MessagesController.getInstance(BotPreviewsEditContainer.this.currentAccount).botPreviewMediasMax, new Object[0]));
             stickerEmptyView.button.setText(LocaleController.getString(R.string.ProfileBotPreviewEmptyButton), false);
             stickerEmptyView.button.setVisibility(0);
-            stickerEmptyView.button.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer$BotPreviewsEditLangContainer$$ExternalSyntheticLambda1
+            stickerEmptyView.button.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer$BotPreviewsEditLangContainer$$ExternalSyntheticLambda6
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     BotPreviewsEditContainer.BotPreviewsEditLangContainer.this.lambda$new$6(view);
                 }
             });
-            TextView textView = new TextView(context, BotPreviewsEditContainer.this) { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer.BotPreviewsEditLangContainer.9
+            TextView textView = new TextView(context) { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer.BotPreviewsEditLangContainer.9
                 private final Paint paint = new Paint(1);
 
                 @Override // android.view.View
@@ -1281,8 +1286,8 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
             stickerEmptyView.addView(flickerLoadingView, 0, LayoutHelper.createFrame(-1, -1.0f));
             sharedMediaListView.setEmptyView(stickerEmptyView);
             sharedMediaListView.setAnimateEmptyView(true, 0);
-            new RecyclerAnimationScrollHelper(sharedMediaListView, extendedGridLayoutManager);
-            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.Callback(BotPreviewsEditContainer.this) { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer.BotPreviewsEditLangContainer.10
+            this.scrollHelper = new RecyclerAnimationScrollHelper(sharedMediaListView, extendedGridLayoutManager);
+            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.Callback() { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer.BotPreviewsEditLangContainer.10
                 @Override // androidx.recyclerview.widget.ItemTouchHelper.Callback
                 public void onSwiped(RecyclerView.ViewHolder viewHolder, int i) {
                 }
@@ -1335,7 +1340,7 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
             });
             this.reorder = itemTouchHelper;
             itemTouchHelper.attachToRecyclerView(sharedMediaListView);
-            FooterView footerView = new FooterView(this, context, BotPreviewsEditContainer.this.resourcesProvider);
+            FooterView footerView = new FooterView(context, BotPreviewsEditContainer.this.resourcesProvider);
             this.footer = footerView;
             addView(footerView, LayoutHelper.createFrame(-1, -2, 48));
         }
@@ -1540,11 +1545,11 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
                         sharedPhotoVideoCell2.isStoryPinned = false;
                         if (uploadingStory.sharedMessageObject == null) {
                             TL_stories$TL_storyItem tL_stories$TL_storyItem = new TL_stories$TL_storyItem();
-                            int m = CoroutineId$$ExternalSyntheticBackport0.m(uploadingStory.random_id);
+                            int m = FactCheckController$Key$$ExternalSyntheticBackport0.m(uploadingStory.random_id);
                             tL_stories$TL_storyItem.messageId = m;
                             tL_stories$TL_storyItem.id = m;
                             tL_stories$TL_storyItem.attachPath = uploadingStory.firstFramePath;
-                            MessageObject messageObject = new MessageObject(this, this.storiesList.currentAccount, tL_stories$TL_storyItem) { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer.BotPreviewsEditLangContainer.StoriesAdapter.1
+                            MessageObject messageObject = new MessageObject(this.storiesList.currentAccount, tL_stories$TL_storyItem) { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer.BotPreviewsEditLangContainer.StoriesAdapter.1
                                 @Override // org.telegram.messenger.MessageObject
                                 public float getProgress() {
                                     return this.uploadingStory.progress;
@@ -1940,7 +1945,7 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
             private final TextView orTextView;
             private final TextView textView;
 
-            public FooterView(BotPreviewsEditLangContainer botPreviewsEditLangContainer, Context context, Theme.ResourcesProvider resourcesProvider) {
+            public FooterView(Context context, final Theme.ResourcesProvider resourcesProvider) {
                 super(context);
                 setPadding(AndroidUtilities.dp(24.0f), AndroidUtilities.dp(21.0f), AndroidUtilities.dp(24.0f), AndroidUtilities.dp(21.0f));
                 setOrientation(1);
@@ -1952,7 +1957,7 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
                 textView.setGravity(17);
                 textView.setTextAlignment(4);
                 addView(textView, LayoutHelper.createLinear(-1, -2, 0.0f, 0.0f, 0.0f, 19.0f));
-                ButtonWithCounterView buttonWithCounterView = new ButtonWithCounterView(this, context, resourcesProvider, botPreviewsEditLangContainer) { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer.BotPreviewsEditLangContainer.FooterView.1
+                ButtonWithCounterView buttonWithCounterView = new ButtonWithCounterView(context, resourcesProvider) { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer.BotPreviewsEditLangContainer.FooterView.1
                     /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Stories.recorder.ButtonWithCounterView, android.widget.FrameLayout, android.view.View
                     public void onMeasure(int i2, int i3) {
@@ -1963,13 +1968,8 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
                 buttonWithCounterView.setMinWidth(AndroidUtilities.dp(200.0f));
                 buttonWithCounterView.setText(LocaleController.getString(R.string.ProfileBotAddPreview), false);
                 addView(buttonWithCounterView, LayoutHelper.createLinear(-2, 44, 17));
-                TextView textView2 = new TextView(this, context, botPreviewsEditLangContainer, resourcesProvider) { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer.BotPreviewsEditLangContainer.FooterView.2
+                TextView textView2 = new TextView(context) { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer.BotPreviewsEditLangContainer.FooterView.2
                     private final Paint paint = new Paint(1);
-                    final /* synthetic */ Theme.ResourcesProvider val$resourcesProvider;
-
-                    {
-                        this.val$resourcesProvider = resourcesProvider;
-                    }
 
                     @Override // android.view.View
                     protected void dispatchDraw(Canvas canvas) {
@@ -1977,7 +1977,7 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
                         int max = Math.max(1, AndroidUtilities.dp(0.66f));
                         Layout layout = getLayout();
                         if (layout != null) {
-                            this.paint.setColor(Theme.multAlpha(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText, this.val$resourcesProvider), 0.45f));
+                            this.paint.setColor(Theme.multAlpha(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText, resourcesProvider), 0.45f));
                             float f = height;
                             float f2 = max / 2.0f;
                             float f3 = f - f2;
@@ -2034,12 +2034,14 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
     public static class ChooseLanguageSheet extends BottomSheetWithRecyclerListView {
         private UniversalAdapter adapter;
         private final int currentAccount;
+        private FrameLayout searchContainer;
+        private ImageView searchImageView;
         private final CharSequence title;
 
         public ChooseLanguageSheet(BaseFragment baseFragment, CharSequence charSequence, final Utilities.Callback<String> callback) {
             super(baseFragment, true, false, false, baseFragment.getResourceProvider());
-            new FrameLayout(getContext());
-            new ImageView(getContext());
+            this.searchContainer = new FrameLayout(getContext());
+            this.searchImageView = new ImageView(getContext());
             this.currentAccount = baseFragment.getCurrentAccount();
             this.title = charSequence;
             updateTitle();
@@ -2051,7 +2053,7 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
             RecyclerListView recyclerListView = this.recyclerListView;
             int i = this.backgroundPaddingLeft;
             recyclerListView.setPadding(i, 0, i, 0);
-            this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer$ChooseLanguageSheet$$ExternalSyntheticLambda1
+            this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer$ChooseLanguageSheet$$ExternalSyntheticLambda0
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
                 public final void onItemClick(View view, int i2) {
                     BotPreviewsEditContainer.ChooseLanguageSheet.this.lambda$new$0(callback, view, i2);
@@ -2080,7 +2082,7 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
 
         @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
         protected RecyclerListView.SelectionAdapter createAdapter(RecyclerListView recyclerListView) {
-            UniversalAdapter universalAdapter = new UniversalAdapter(recyclerListView, getContext(), this.currentAccount, 0, new Utilities.Callback2() { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer$ChooseLanguageSheet$$ExternalSyntheticLambda0
+            UniversalAdapter universalAdapter = new UniversalAdapter(recyclerListView, getContext(), this.currentAccount, 0, new Utilities.Callback2() { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer$ChooseLanguageSheet$$ExternalSyntheticLambda1
                 @Override // org.telegram.messenger.Utilities.Callback2
                 public final void run(Object obj, Object obj2) {
                     BotPreviewsEditContainer.ChooseLanguageSheet.this.fillItems((ArrayList) obj, (UniversalAdapter) obj2);

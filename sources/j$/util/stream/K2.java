@@ -1,65 +1,85 @@
 package j$.util.stream;
 
-import j$.util.function.BiConsumer;
 import j$.util.function.Consumer;
-import j$.util.function.Supplier;
+import java.util.Arrays;
+import java.util.Iterator;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-class K2 extends T2 implements S2 {
-    final /* synthetic */ Supplier b;
-    final /* synthetic */ BiConsumer c;
-    final /* synthetic */ BiConsumer d;
+public class K2 extends O2 implements j$.util.function.K {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public K2() {
+    }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public K2(Supplier supplier, BiConsumer biConsumer, BiConsumer biConsumer2) {
-        this.b = supplier;
-        this.c = biConsumer;
-        this.d = biConsumer2;
+    public K2(int i) {
+        super(i);
     }
 
-    @Override // j$.util.stream.m3
-    public /* synthetic */ void accept(double d) {
-        o1.f(this);
-        throw null;
+    @Override // j$.util.function.K
+    public void accept(int i) {
+        w();
+        int i2 = this.b;
+        this.b = i2 + 1;
+        ((int[]) this.e)[i2] = i;
     }
 
-    @Override // j$.util.stream.m3
-    public /* synthetic */ void accept(int i) {
-        o1.d(this);
-        throw null;
+    public final void forEach(Consumer consumer) {
+        if (consumer instanceof j$.util.function.K) {
+            d((j$.util.function.K) consumer);
+        } else if (F3.a) {
+            F3.a(getClass(), "{0} calling SpinedBuffer.OfInt.forEach(Consumer)");
+            throw null;
+        } else {
+            spliterator().forEachRemaining(consumer);
+        }
     }
 
-    @Override // j$.util.stream.m3, j$.util.stream.l3, j$.util.function.q
-    public /* synthetic */ void accept(long j) {
-        o1.e(this);
-        throw null;
+    @Override // java.lang.Iterable
+    public final Iterator iterator() {
+        return j$.util.f0.g(spliterator());
     }
 
-    @Override // j$.util.function.Consumer
-    public void accept(Object obj) {
-        this.c.accept(this.a, obj);
+    @Override // j$.util.function.K
+    public final j$.util.function.K n(j$.util.function.K k) {
+        k.getClass();
+        return new j$.util.function.H(this, k);
     }
 
-    @Override // j$.util.function.Consumer
-    public /* synthetic */ Consumer andThen(Consumer consumer) {
-        return Consumer.-CC.$default$andThen(this, consumer);
+    @Override // j$.util.stream.O2
+    public final Object newArray(int i) {
+        return new int[i];
     }
 
-    @Override // j$.util.stream.S2
-    public void h(S2 s2) {
-        this.d.accept(this.a, ((K2) s2).a);
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // j$.util.stream.O2
+    public final void r(Object obj, int i, int i2, Object obj2) {
+        int[] iArr = (int[]) obj;
+        j$.util.function.K k = (j$.util.function.K) obj2;
+        while (i < i2) {
+            k.accept(iArr[i]);
+            i++;
+        }
     }
 
-    @Override // j$.util.stream.m3
-    public /* synthetic */ void m() {
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // j$.util.stream.O2
+    public final int s(Object obj) {
+        return ((int[]) obj).length;
     }
 
-    @Override // j$.util.stream.m3
-    public void n(long j) {
-        this.a = this.b.get();
+    public final String toString() {
+        int[] iArr = (int[]) b();
+        return iArr.length < 200 ? String.format("%s[length=%d, chunks=%d]%s", getClass().getSimpleName(), Integer.valueOf(iArr.length), Integer.valueOf(this.c), Arrays.toString(iArr)) : String.format("%s[length=%d, chunks=%d]%s...", getClass().getSimpleName(), Integer.valueOf(iArr.length), Integer.valueOf(this.c), Arrays.toString(Arrays.copyOf(iArr, 200)));
     }
 
-    @Override // j$.util.stream.m3
-    public /* synthetic */ boolean o() {
-        return false;
+    @Override // j$.util.stream.O2
+    protected final Object[] v() {
+        return new int[8];
+    }
+
+    @Override // j$.util.stream.O2, java.lang.Iterable
+    /* renamed from: x */
+    public j$.util.H spliterator() {
+        return new J2(this, 0, this.c, 0, this.b);
     }
 }

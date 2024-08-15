@@ -10,12 +10,12 @@ public final class n implements h {
     }
 
     @Override // j$.time.format.h
-    public boolean a(t tVar, StringBuilder sb) {
+    public final boolean a(t tVar, StringBuilder sb) {
         sb.append(this.a);
         return true;
     }
 
-    public String toString() {
+    public final String toString() {
         String replace = this.a.replace("'", "''");
         return "'" + replace + "'";
     }

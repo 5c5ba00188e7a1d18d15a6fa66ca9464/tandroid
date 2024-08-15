@@ -1,29 +1,27 @@
 package j$.util.stream;
-
-import j$.util.function.Supplier;
-import java.util.Objects;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-abstract class c extends y2 implements g {
+public abstract class c extends u0 implements BaseStream {
     private final c a;
     private final c b;
     protected final int c;
     private c d;
     private int e;
     private int f;
-    private j$.util.s g;
+    private j$.util.Q g;
     private boolean h;
     private boolean i;
     private Runnable j;
     private boolean k;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public c(j$.util.s sVar, int i, boolean z) {
+    public c(j$.util.Q q, int i, boolean z) {
         this.b = null;
-        this.g = sVar;
+        this.g = q;
         this.a = this;
-        int i2 = d4.g & i;
+        int i2 = T2.g & i;
         this.c = i2;
-        this.f = ((i2 << 1) ^ (-1)) & d4.l;
+        this.f = ((i2 << 1) ^ (-1)) & T2.l;
         this.e = 0;
         this.k = z;
     }
@@ -36,45 +34,45 @@ abstract class c extends y2 implements g {
         cVar.h = true;
         cVar.d = this;
         this.b = cVar;
-        this.c = d4.h & i;
-        this.f = d4.a(i, cVar.f);
+        this.c = T2.h & i;
+        this.f = T2.a(i, cVar.f);
         c cVar2 = cVar.a;
         this.a = cVar2;
-        if (B0()) {
+        if (k1()) {
             cVar2.i = true;
         }
         this.e = cVar.e + 1;
     }
 
-    private j$.util.s D0(int i) {
+    private j$.util.Q m1(int i) {
         int i2;
         int i3;
         c cVar = this.a;
-        j$.util.s sVar = cVar.g;
-        if (sVar != null) {
+        j$.util.Q q = cVar.g;
+        if (q != null) {
             cVar.g = null;
             if (cVar.k && cVar.i) {
                 c cVar2 = cVar.d;
                 int i4 = 1;
                 while (cVar != this) {
                     int i5 = cVar2.c;
-                    if (cVar2.B0()) {
-                        i4 = 0;
-                        if (d4.SHORT_CIRCUIT.d(i5)) {
-                            i5 &= d4.u ^ (-1);
+                    if (cVar2.k1()) {
+                        if (T2.SHORT_CIRCUIT.d(i5)) {
+                            i5 &= T2.u ^ (-1);
                         }
-                        sVar = cVar2.A0(cVar, sVar);
-                        if (sVar.hasCharacteristics(64)) {
-                            i2 = i5 & (d4.t ^ (-1));
-                            i3 = d4.s;
+                        q = cVar2.j1(cVar, q);
+                        if (q.hasCharacteristics(64)) {
+                            i2 = (T2.t ^ (-1)) & i5;
+                            i3 = T2.s;
                         } else {
-                            i2 = i5 & (d4.s ^ (-1));
-                            i3 = d4.t;
+                            i2 = (T2.s ^ (-1)) & i5;
+                            i3 = T2.t;
                         }
-                        i5 = i2 | i3;
+                        i5 = i3 | i2;
+                        i4 = 0;
                     }
                     cVar2.e = i4;
-                    cVar2.f = d4.a(i5, cVar.f);
+                    cVar2.f = T2.a(i5, cVar.f);
                     i4++;
                     c cVar3 = cVar2;
                     cVar2 = cVar2.d;
@@ -82,49 +80,111 @@ abstract class c extends y2 implements g {
                 }
             }
             if (i != 0) {
-                this.f = d4.a(i, this.f);
+                this.f = T2.a(i, this.f);
             }
-            return sVar;
+            return q;
         }
         throw new IllegalStateException("source already consumed or closed");
     }
 
-    j$.util.s A0(y2 y2Var, j$.util.s sVar) {
-        return z0(y2Var, sVar, new j$.util.function.m() { // from class: j$.util.stream.a
-            @Override // j$.util.function.m
-            public final Object apply(int i) {
-                return new Object[i];
-            }
-        }).spliterator();
-    }
-
-    abstract boolean B0();
-
     /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract m3 C0(int i, m3 m3Var);
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final j$.util.s E0() {
-        c cVar = this.a;
-        if (this == cVar) {
-            if (this.h) {
-                throw new IllegalStateException("stream has already been operated upon or closed");
-            }
-            this.h = true;
-            j$.util.s sVar = cVar.g;
-            if (sVar != null) {
-                cVar.g = null;
-                return sVar;
-            }
-            throw new IllegalStateException("source already consumed or closed");
+    @Override // j$.util.stream.u0
+    public final void F0(j$.util.Q q, f2 f2Var) {
+        f2Var.getClass();
+        if (T2.SHORT_CIRCUIT.d(this.f)) {
+            G0(q, f2Var);
+            return;
         }
-        throw new IllegalStateException();
+        f2Var.f(q.getExactSizeIfKnown());
+        q.forEachRemaining(f2Var);
+        f2Var.end();
     }
 
-    abstract j$.util.s F0(y2 y2Var, Supplier supplier, boolean z);
+    /* JADX INFO: Access modifiers changed from: package-private */
+    @Override // j$.util.stream.u0
+    public final void G0(j$.util.Q q, f2 f2Var) {
+        c cVar = this;
+        while (cVar.e > 0) {
+            cVar = cVar.b;
+        }
+        f2Var.f(q.getExactSizeIfKnown());
+        cVar.d1(q, f2Var);
+        f2Var.end();
+    }
 
-    @Override // j$.util.stream.g, java.lang.AutoCloseable
-    public void close() {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    @Override // j$.util.stream.u0
+    public final long I0(j$.util.Q q) {
+        if (T2.SIZED.d(this.f)) {
+            return q.getExactSizeIfKnown();
+        }
+        return -1L;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    @Override // j$.util.stream.u0
+    public final int K0() {
+        return this.f;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    @Override // j$.util.stream.u0
+    public final f2 X0(j$.util.Q q, f2 f2Var) {
+        f2Var.getClass();
+        F0(q, Y0(f2Var));
+        return f2Var;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    @Override // j$.util.stream.u0
+    public final f2 Y0(f2 f2Var) {
+        f2Var.getClass();
+        c cVar = this;
+        while (cVar.e > 0) {
+            c cVar2 = cVar.b;
+            f2Var = cVar.l1(cVar2.f, f2Var);
+            cVar = cVar2;
+        }
+        return f2Var;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final D0 Z0(j$.util.Q q, boolean z, j$.util.function.N n) {
+        if (this.a.k) {
+            return c1(this, q, z, n);
+        }
+        y0 T0 = T0(I0(q), n);
+        X0(q, T0);
+        return T0.build();
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final Object a1(C3 c3) {
+        if (this.h) {
+            throw new IllegalStateException("stream has already been operated upon or closed");
+        }
+        this.h = true;
+        return this.a.k ? c3.a(this, m1(c3.b())) : c3.c(this, m1(c3.b()));
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final D0 b1(j$.util.function.N n) {
+        c cVar;
+        if (this.h) {
+            throw new IllegalStateException("stream has already been operated upon or closed");
+        }
+        this.h = true;
+        if (this.a.k && (cVar = this.b) != null && k1()) {
+            this.e = 0;
+            return i1(cVar.m1(0), n, cVar);
+        }
+        return Z0(m1(0), true, n);
+    }
+
+    abstract D0 c1(u0 u0Var, j$.util.Q q, boolean z, j$.util.function.N n);
+
+    @Override // j$.util.stream.BaseStream, java.lang.AutoCloseable
+    public final void close() {
         this.h = true;
         this.g = null;
         c cVar = this.a;
@@ -135,175 +195,108 @@ abstract class c extends y2 implements g {
         }
     }
 
+    abstract void d1(j$.util.Q q, f2 f2Var);
+
     /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // j$.util.stream.y2
-    public final void i0(m3 m3Var, j$.util.s sVar) {
-        Objects.requireNonNull(m3Var);
-        if (d4.SHORT_CIRCUIT.d(this.f)) {
-            j0(m3Var, sVar);
-            return;
+    public abstract U2 e1();
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final U2 f1() {
+        c cVar = this;
+        while (cVar.e > 0) {
+            cVar = cVar.b;
         }
-        m3Var.n(sVar.getExactSizeIfKnown());
-        sVar.forEachRemaining(m3Var);
-        m3Var.m();
+        return cVar.e1();
     }
 
-    @Override // j$.util.stream.g
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final boolean g1() {
+        return T2.ORDERED.d(this.f);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final /* synthetic */ j$.util.Q h1() {
+        return m1(0);
+    }
+
+    D0 i1(j$.util.Q q, j$.util.function.N n, c cVar) {
+        throw new UnsupportedOperationException("Parallel evaluation is not supported");
+    }
+
+    @Override // j$.util.stream.BaseStream
     public final boolean isParallel() {
         return this.a.k;
     }
 
+    j$.util.Q j1(c cVar, j$.util.Q q) {
+        return i1(q, new b(0), cVar).spliterator();
+    }
+
+    abstract boolean k1();
+
     /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // j$.util.stream.y2
-    public final void j0(m3 m3Var, j$.util.s sVar) {
-        c cVar = this;
-        while (cVar.e > 0) {
-            cVar = cVar.b;
+    public abstract f2 l1(int i, f2 f2Var);
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final j$.util.Q n1() {
+        c cVar = this.a;
+        if (this == cVar) {
+            if (this.h) {
+                throw new IllegalStateException("stream has already been operated upon or closed");
+            }
+            this.h = true;
+            j$.util.Q q = cVar.g;
+            if (q != null) {
+                cVar.g = null;
+                return q;
+            }
+            throw new IllegalStateException("source already consumed or closed");
         }
-        m3Var.n(sVar.getExactSizeIfKnown());
-        cVar.v0(sVar, m3Var);
-        m3Var.m();
+        throw new IllegalStateException();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // j$.util.stream.y2
-    public final A1 k0(j$.util.s sVar, boolean z, j$.util.function.m mVar) {
-        if (this.a.k) {
-            return u0(this, sVar, z, mVar);
-        }
-        s1 o0 = o0(l0(sVar), mVar);
-        Objects.requireNonNull(o0);
-        i0(q0(o0), sVar);
-        return o0.a();
-    }
+    abstract j$.util.Q o1(u0 u0Var, a aVar, boolean z);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // j$.util.stream.y2
-    public final long l0(j$.util.s sVar) {
-        if (d4.SIZED.d(this.f)) {
-            return sVar.getExactSizeIfKnown();
-        }
-        return -1L;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // j$.util.stream.y2
-    public final e4 m0() {
-        c cVar = this;
-        while (cVar.e > 0) {
-            cVar = cVar.b;
-        }
-        return cVar.w0();
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // j$.util.stream.y2
-    public final int n0() {
-        return this.f;
-    }
-
-    @Override // j$.util.stream.g
-    public g onClose(Runnable runnable) {
+    @Override // j$.util.stream.BaseStream
+    public final BaseStream onClose(Runnable runnable) {
         c cVar = this.a;
         Runnable runnable2 = cVar.j;
         if (runnable2 != null) {
-            runnable = new M4(runnable2, runnable);
+            runnable = new B3(runnable2, runnable);
         }
         cVar.j = runnable;
         return this;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // j$.util.stream.y2
-    public final m3 p0(m3 m3Var, j$.util.s sVar) {
-        Objects.requireNonNull(m3Var);
-        i0(q0(m3Var), sVar);
-        return m3Var;
+    public final j$.util.Q p1(j$.util.Q q) {
+        return this.e == 0 ? q : o1(this, new a(q, 0), this.a.k);
     }
 
-    public final g parallel() {
+    public final BaseStream parallel() {
         this.a.k = true;
         return this;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // j$.util.stream.y2
-    public final m3 q0(m3 m3Var) {
-        Objects.requireNonNull(m3Var);
-        for (c cVar = this; cVar.e > 0; cVar = cVar.b) {
-            m3Var = cVar.C0(cVar.b.f, m3Var);
-        }
-        return m3Var;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // j$.util.stream.y2
-    public final j$.util.s r0(j$.util.s sVar) {
-        return this.e == 0 ? sVar : F0(this, new b(sVar), this.a.k);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final Object s0(N4 n4) {
-        if (this.h) {
-            throw new IllegalStateException("stream has already been operated upon or closed");
-        }
-        this.h = true;
-        return this.a.k ? n4.c(this, D0(n4.b())) : n4.d(this, D0(n4.b()));
-    }
-
-    public final g sequential() {
+    public final BaseStream sequential() {
         this.a.k = false;
         return this;
     }
 
-    public j$.util.s spliterator() {
+    public j$.util.Q spliterator() {
         if (this.h) {
             throw new IllegalStateException("stream has already been operated upon or closed");
         }
         this.h = true;
         c cVar = this.a;
         if (this == cVar) {
-            j$.util.s sVar = cVar.g;
-            if (sVar != null) {
+            j$.util.Q q = cVar.g;
+            if (q != null) {
                 cVar.g = null;
-                return sVar;
+                return q;
             }
             throw new IllegalStateException("source already consumed or closed");
         }
-        return F0(this, new b(this), cVar.k);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final A1 t0(j$.util.function.m mVar) {
-        if (this.h) {
-            throw new IllegalStateException("stream has already been operated upon or closed");
-        }
-        this.h = true;
-        if (this.a.k && this.b != null && B0()) {
-            this.e = 0;
-            c cVar = this.b;
-            return z0(cVar, cVar.D0(0), mVar);
-        }
-        return k0(D0(0), true, mVar);
-    }
-
-    abstract A1 u0(y2 y2Var, j$.util.s sVar, boolean z, j$.util.function.m mVar);
-
-    abstract void v0(j$.util.s sVar, m3 m3Var);
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract e4 w0();
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final boolean x0() {
-        return d4.ORDERED.d(this.f);
-    }
-
-    public /* synthetic */ j$.util.s y0() {
-        return D0(0);
-    }
-
-    A1 z0(y2 y2Var, j$.util.s sVar, j$.util.function.m mVar) {
-        throw new UnsupportedOperationException("Parallel evaluation is not supported");
+        return o1(this, new a(this, 1), cVar.k);
     }
 }

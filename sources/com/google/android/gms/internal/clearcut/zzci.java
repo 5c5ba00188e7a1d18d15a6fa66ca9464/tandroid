@@ -2,23 +2,24 @@ package com.google.android.gms.internal.clearcut;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
-import java.util.Objects;
 /* loaded from: classes.dex */
 public final class zzci {
-    static final Charset UTF_8 = Charset.forName("UTF-8");
     public static final byte[] zzkt;
+    private static final ByteBuffer zzku;
+    private static final zzbk zzkv;
+    static final Charset UTF_8 = Charset.forName("UTF-8");
+    private static final Charset ISO_8859_1 = Charset.forName("ISO-8859-1");
 
     static {
-        Charset.forName("ISO-8859-1");
         byte[] bArr = new byte[0];
         zzkt = bArr;
-        ByteBuffer.wrap(bArr);
-        zzbk.zza(bArr, 0, bArr.length, false);
+        zzku = ByteBuffer.wrap(bArr);
+        zzkv = zzbk.zza(bArr, 0, bArr.length, false);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static <T> T checkNotNull(T t) {
-        Objects.requireNonNull(t);
+        t.getClass();
         return t;
     }
 
@@ -46,8 +47,10 @@ public final class zzci {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static <T> T zza(T t, String str) {
-        Objects.requireNonNull(t, str);
-        return t;
+        if (t != null) {
+            return t;
+        }
+        throw new NullPointerException(str);
     }
 
     public static int zzc(boolean z) {

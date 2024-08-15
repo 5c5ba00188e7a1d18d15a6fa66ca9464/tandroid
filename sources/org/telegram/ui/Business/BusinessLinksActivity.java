@@ -163,7 +163,7 @@ public class BusinessLinksActivity extends UniversalFragment implements Notifica
         r11.setView(linearLayout);
         r11.setWidth(AndroidUtilities.dp(292.0f));
         final View view = currentFocus;
-        editTextBoldCursor.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Business.BusinessLinksActivity$$ExternalSyntheticLambda7
+        editTextBoldCursor.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Business.BusinessLinksActivity$$ExternalSyntheticLambda0
             @Override // android.widget.TextView.OnEditorActionListener
             public final boolean onEditorAction(TextView textView2, int i3, KeyEvent keyEvent) {
                 boolean lambda$openRenameAlert$0;
@@ -193,7 +193,7 @@ public class BusinessLinksActivity extends UniversalFragment implements Notifica
                     BusinessLinksActivity.lambda$openRenameAlert$3(currentFocus, dialogInterface);
                 }
             });
-            currentDialog.setOnShowListener(new DialogInterface.OnShowListener() { // from class: org.telegram.ui.Business.BusinessLinksActivity$$ExternalSyntheticLambda6
+            currentDialog.setOnShowListener(new DialogInterface.OnShowListener() { // from class: org.telegram.ui.Business.BusinessLinksActivity$$ExternalSyntheticLambda4
                 @Override // android.content.DialogInterface.OnShowListener
                 public final void onShow(DialogInterface dialogInterface) {
                     BusinessLinksActivity.lambda$openRenameAlert$4(EditTextBoldCursor.this, dialogInterface);
@@ -201,20 +201,21 @@ public class BusinessLinksActivity extends UniversalFragment implements Notifica
             });
             currentDialog.showDelayed(250L);
         } else {
-            r11.overrideDismissListener(new Utilities.Callback() { // from class: org.telegram.ui.Business.BusinessLinksActivity$$ExternalSyntheticLambda12
+            r11.overrideDismissListener(new Utilities.Callback() { // from class: org.telegram.ui.Business.BusinessLinksActivity$$ExternalSyntheticLambda5
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     BusinessLinksActivity.lambda$openRenameAlert$5(currentFocus, editTextBoldCursor, (Runnable) obj);
                 }
             });
-            alertDialogArr[0] = r11.create();
-            alertDialogArr[0].setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Business.BusinessLinksActivity$$ExternalSyntheticLambda4
+            AlertDialog create2 = r11.create();
+            alertDialogArr[0] = create2;
+            create2.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Business.BusinessLinksActivity$$ExternalSyntheticLambda6
                 @Override // android.content.DialogInterface.OnDismissListener
                 public final void onDismiss(DialogInterface dialogInterface) {
                     AndroidUtilities.hideKeyboard(EditTextBoldCursor.this);
                 }
             });
-            alertDialogArr[0].setOnShowListener(new DialogInterface.OnShowListener() { // from class: org.telegram.ui.Business.BusinessLinksActivity$$ExternalSyntheticLambda5
+            alertDialogArr[0].setOnShowListener(new DialogInterface.OnShowListener() { // from class: org.telegram.ui.Business.BusinessLinksActivity$$ExternalSyntheticLambda7
                 @Override // android.content.DialogInterface.OnShowListener
                 public final void onShow(DialogInterface dialogInterface) {
                     BusinessLinksActivity.lambda$openRenameAlert$7(currentFocus, editTextBoldCursor, dialogInterface);
@@ -235,8 +236,9 @@ public class BusinessLinksActivity extends UniversalFragment implements Notifica
                 return true;
             }
             BusinessLinksController.getInstance(i).editLinkTitle(tLRPC$TL_businessChatLink.link, obj);
-            if (alertDialogArr[0] != null) {
-                alertDialogArr[0].dismiss();
+            AlertDialog alertDialog = alertDialogArr[0];
+            if (alertDialog != null) {
+                alertDialog.dismiss();
             }
             if (alertDialogArr[0] == currentDialog) {
                 currentDialog = null;
@@ -442,13 +444,13 @@ public class BusinessLinksActivity extends UniversalFragment implements Notifica
                         BusinessLinksActivity.this.lambda$onLongClick$9(tLRPC$TL_businessChatLink);
                     }
                 });
-                makeOptions.add(R.drawable.msg_edit, LocaleController.getString(R.string.Rename), new Runnable() { // from class: org.telegram.ui.Business.BusinessLinksActivity$$ExternalSyntheticLambda11
+                makeOptions.add(R.drawable.msg_edit, LocaleController.getString(R.string.Rename), new Runnable() { // from class: org.telegram.ui.Business.BusinessLinksActivity$$ExternalSyntheticLambda10
                     @Override // java.lang.Runnable
                     public final void run() {
                         BusinessLinksActivity.this.lambda$onLongClick$10(tLRPC$TL_businessChatLink);
                     }
                 });
-                makeOptions.add(R.drawable.msg_delete, (CharSequence) LocaleController.getString(R.string.Delete), true, new Runnable() { // from class: org.telegram.ui.Business.BusinessLinksActivity$$ExternalSyntheticLambda10
+                makeOptions.add(R.drawable.msg_delete, (CharSequence) LocaleController.getString(R.string.Delete), true, new Runnable() { // from class: org.telegram.ui.Business.BusinessLinksActivity$$ExternalSyntheticLambda11
                     @Override // java.lang.Runnable
                     public final void run() {
                         BusinessLinksActivity.this.lambda$onLongClick$12(tLRPC$TL_businessChatLink);
@@ -484,7 +486,7 @@ public class BusinessLinksActivity extends UniversalFragment implements Notifica
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onLongClick$12(final TLRPC$TL_businessChatLink tLRPC$TL_businessChatLink) {
-        AlertDialog create = new AlertDialog.Builder(getContext(), getResourceProvider()).setTitle(LocaleController.getString(R.string.BusinessLinksDeleteTitle)).setMessage(LocaleController.getString(R.string.BusinessLinksDeleteMessage)).setPositiveButton(LocaleController.getString(R.string.Remove), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.BusinessLinksActivity$$ExternalSyntheticLambda0
+        AlertDialog create = new AlertDialog.Builder(getContext(), getResourceProvider()).setTitle(LocaleController.getString(R.string.BusinessLinksDeleteTitle)).setMessage(LocaleController.getString(R.string.BusinessLinksDeleteMessage)).setPositiveButton(LocaleController.getString(R.string.Remove), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.BusinessLinksActivity$$ExternalSyntheticLambda12
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 BusinessLinksActivity.this.lambda$onLongClick$11(tLRPC$TL_businessChatLink, dialogInterface, i);
@@ -533,7 +535,7 @@ public class BusinessLinksActivity extends UniversalFragment implements Notifica
             if (this == obj) {
                 return true;
             }
-            if (obj == null || BusinessLinkWrapper.class != obj.getClass()) {
+            if (obj == null || getClass() != obj.getClass()) {
                 return false;
             }
             BusinessLinkWrapper businessLinkWrapper = (BusinessLinkWrapper) obj;

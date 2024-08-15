@@ -2,7 +2,6 @@ package androidx.core.widget;
 
 import android.content.ClipData;
 import android.content.Context;
-import android.os.Build;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.Spanned;
@@ -43,10 +42,7 @@ public final class TextViewOnReceiveContentListener implements OnReceiveContentL
     }
 
     private static CharSequence coerceToText(Context context, ClipData.Item item, int i) {
-        if (Build.VERSION.SDK_INT >= 16) {
-            return Api16Impl.coerce(context, item, i);
-        }
-        return ApiImpl.coerce(context, item, i);
+        return Api16Impl.coerce(context, item, i);
     }
 
     private static void replaceSelection(Editable editable, CharSequence charSequence) {
@@ -67,15 +63,6 @@ public final class TextViewOnReceiveContentListener implements OnReceiveContentL
                 return coerceToText instanceof Spanned ? coerceToText.toString() : coerceToText;
             }
             return item.coerceToStyledText(context);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class ApiImpl {
-        static CharSequence coerce(Context context, ClipData.Item item, int i) {
-            CharSequence coerceToText = item.coerceToText(context);
-            return ((i & 1) == 0 || !(coerceToText instanceof Spanned)) ? coerceToText : coerceToText.toString();
         }
     }
 }

@@ -128,8 +128,8 @@ public class PathInterpolatorCompat implements Interpolator {
         if (f >= 1.0f) {
             return 1.0f;
         }
-        int i = 0;
         int length = this.mX.length - 1;
+        int i = 0;
         while (length - i > 1) {
             int i2 = (i + length) / 2;
             if (f < this.mX[i2]) {
@@ -139,12 +139,14 @@ public class PathInterpolatorCompat implements Interpolator {
             }
         }
         float[] fArr = this.mX;
-        float f2 = fArr[length] - fArr[i];
-        if (f2 == 0.0f) {
+        float f2 = fArr[length];
+        float f3 = fArr[i];
+        float f4 = f2 - f3;
+        if (f4 == 0.0f) {
             return this.mY[i];
         }
         float[] fArr2 = this.mY;
-        float f3 = fArr2[i];
-        return f3 + (((f - fArr[i]) / f2) * (fArr2[length] - f3));
+        float f5 = fArr2[i];
+        return f5 + (((f - f3) / f4) * (fArr2[length] - f5));
     }
 }

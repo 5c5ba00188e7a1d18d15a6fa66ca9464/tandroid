@@ -4,11 +4,16 @@ import android.accounts.Account;
 import android.content.Context;
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.internal.Objects;
+import com.google.android.gms.wallet.wobs.WalletObjects;
 import java.util.Locale;
 /* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 public final class Wallet {
     public static final Api<WalletOptions> API;
+    public static final WalletObjects zza;
+    @Deprecated
+    public static final com.google.android.gms.internal.wallet.zzv zzb;
+    public static final com.google.android.gms.internal.wallet.zzad zzc;
     private static final Api.ClientKey zzd;
     private static final Api.AbstractClientBuilder zze;
 
@@ -89,9 +94,9 @@ public final class Wallet {
         zzap zzapVar = new zzap();
         zze = zzapVar;
         API = new Api<>("Wallet.API", zzapVar, clientKey);
-        new com.google.android.gms.internal.wallet.zzv();
-        new com.google.android.gms.internal.wallet.zzaf();
-        new com.google.android.gms.internal.wallet.zzad();
+        zzb = new com.google.android.gms.internal.wallet.zzv();
+        zza = new com.google.android.gms.internal.wallet.zzaf();
+        zzc = new com.google.android.gms.internal.wallet.zzad();
     }
 
     public static PaymentsClient getPaymentsClient(Context context, WalletOptions walletOptions) {

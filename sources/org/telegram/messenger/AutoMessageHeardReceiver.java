@@ -19,7 +19,7 @@ public class AutoMessageHeardReceiver extends BroadcastReceiver {
         final AccountInstance accountInstance = AccountInstance.getInstance(intExtra2);
         if (DialogObject.isUserDialog(longExtra)) {
             if (accountInstance.getMessagesController().getUser(Long.valueOf(longExtra)) == null) {
-                Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.AutoMessageHeardReceiver$$ExternalSyntheticLambda1
+                Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.AutoMessageHeardReceiver$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         AutoMessageHeardReceiver.lambda$onReceive$1(AccountInstance.this, longExtra, intExtra2, intExtra);
@@ -28,7 +28,7 @@ public class AutoMessageHeardReceiver extends BroadcastReceiver {
                 return;
             }
         } else if (DialogObject.isChatDialog(longExtra) && accountInstance.getMessagesController().getChat(Long.valueOf(-longExtra)) == null) {
-            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.AutoMessageHeardReceiver$$ExternalSyntheticLambda0
+            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.AutoMessageHeardReceiver$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     AutoMessageHeardReceiver.lambda$onReceive$3(AccountInstance.this, longExtra, intExtra2, intExtra);
@@ -43,7 +43,7 @@ public class AutoMessageHeardReceiver extends BroadcastReceiver {
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onReceive$1(final AccountInstance accountInstance, final long j, final int i, final int i2) {
         final TLRPC$User userSync = accountInstance.getMessagesStorage().getUserSync(j);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.AutoMessageHeardReceiver$$ExternalSyntheticLambda3
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.AutoMessageHeardReceiver$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 AutoMessageHeardReceiver.lambda$onReceive$0(AccountInstance.this, userSync, i, j, i2);
@@ -61,7 +61,7 @@ public class AutoMessageHeardReceiver extends BroadcastReceiver {
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onReceive$3(final AccountInstance accountInstance, final long j, final int i, final int i2) {
         final TLRPC$Chat chatSync = accountInstance.getMessagesStorage().getChatSync(-j);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.AutoMessageHeardReceiver$$ExternalSyntheticLambda2
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.AutoMessageHeardReceiver$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 AutoMessageHeardReceiver.lambda$onReceive$2(AccountInstance.this, chatSync, i, j, i2);

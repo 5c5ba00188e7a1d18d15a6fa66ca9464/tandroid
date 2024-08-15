@@ -8,7 +8,7 @@ import java.util.Map;
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public final class zzad implements EncoderConfig<zzad> {
-    public static final /* synthetic */ int zza = 0;
+    public static final /* synthetic */ int $r8$clinit = 0;
     private static final ObjectEncoder<Object> zzb = zzac.zza;
     private final Map<Class<?>, ObjectEncoder<?>> zzc = new HashMap();
     private final Map<Class<?>, ValueEncoder<?>> zzd = new HashMap();

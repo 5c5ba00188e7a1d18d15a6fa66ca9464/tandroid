@@ -72,13 +72,13 @@ public class CustomPhoneKeyboardView extends ViewGroup {
         super(context);
         String str;
         this.views = new View[12];
-        this.onBackButton = new Runnable() { // from class: org.telegram.ui.Components.CustomPhoneKeyboardView$$ExternalSyntheticLambda3
+        this.onBackButton = new Runnable() { // from class: org.telegram.ui.Components.CustomPhoneKeyboardView$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 CustomPhoneKeyboardView.this.lambda$new$0();
             }
         };
-        this.detectLongClick = new Runnable() { // from class: org.telegram.ui.Components.CustomPhoneKeyboardView$$ExternalSyntheticLambda2
+        this.detectLongClick = new Runnable() { // from class: org.telegram.ui.Components.CustomPhoneKeyboardView$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 CustomPhoneKeyboardView.this.lambda$new$1();
@@ -122,7 +122,7 @@ public class CustomPhoneKeyboardView extends ViewGroup {
                 }
                 final String valueOf = String.valueOf(i != 10 ? i + 1 : 0);
                 this.views[i] = new NumberButtonView(context, valueOf, str);
-                this.views[i].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.CustomPhoneKeyboardView$$ExternalSyntheticLambda0
+                this.views[i].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.CustomPhoneKeyboardView$$ExternalSyntheticLambda2
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         CustomPhoneKeyboardView.this.lambda$new$2(valueOf, view);
@@ -153,7 +153,7 @@ public class CustomPhoneKeyboardView extends ViewGroup {
         this.backButton.setBackground(getButtonDrawable());
         int dp = AndroidUtilities.dp(11.0f);
         this.backButton.setPadding(dp, dp, dp, dp);
-        this.backButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.CustomPhoneKeyboardView$$ExternalSyntheticLambda1
+        this.backButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.CustomPhoneKeyboardView$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 CustomPhoneKeyboardView.lambda$new$3(view);
@@ -259,9 +259,9 @@ public class CustomPhoneKeyboardView extends ViewGroup {
         for (int i5 = 0; i5 < this.views.length; i5++) {
             int dp = ((i5 % 3) * (AndroidUtilities.dp(6.0f) + width)) + AndroidUtilities.dp(10.0f);
             int dp2 = ((i5 / 3) * (AndroidUtilities.dp(6.0f) + height)) + AndroidUtilities.dp(10.0f);
-            View[] viewArr = this.views;
-            if (viewArr[i5] != null) {
-                viewArr[i5].layout(dp, dp2, dp + width, dp2 + height);
+            View view = this.views[i5];
+            if (view != null) {
+                view.layout(dp, dp2, dp + width, dp2 + height);
             }
         }
     }

@@ -6,49 +6,51 @@ import j$.util.stream.Stream;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.SortedSet;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class Collection$-EL {
-    public static /* synthetic */ void a(Collection collection, Consumer consumer) {
+    public static void a(Collection collection, Consumer consumer) {
         if (collection instanceof b) {
             ((b) collection).forEach(consumer);
-        } else {
-            a.a(collection, consumer);
+            return;
+        }
+        consumer.getClass();
+        for (Object obj : collection) {
+            consumer.accept(obj);
         }
     }
 
-    public static s b(Collection collection) {
+    public static Q b(Collection collection) {
         if (collection instanceof b) {
             return ((b) collection).spliterator();
         }
         if (collection instanceof LinkedHashSet) {
             LinkedHashSet linkedHashSet = (LinkedHashSet) collection;
-            Objects.requireNonNull(linkedHashSet);
-            return new G(linkedHashSet, 17);
+            linkedHashSet.getClass();
+            return new d0(linkedHashSet, 17);
         } else if (collection instanceof SortedSet) {
             SortedSet sortedSet = (SortedSet) collection;
-            return new r(sortedSet, sortedSet, 21);
+            return new B(sortedSet, sortedSet);
         } else if (collection instanceof Set) {
             Set set = (Set) collection;
-            Objects.requireNonNull(set);
-            return new G(set, 1);
-        } else if (collection instanceof List) {
-            List list = (List) collection;
-            Objects.requireNonNull(list);
-            return new G(list, 16);
+            set.getClass();
+            return new d0(set, 1);
+        } else if (!(collection instanceof List)) {
+            collection.getClass();
+            return new d0(collection, 0);
         } else {
-            Objects.requireNonNull(collection);
-            return new G(collection, 0);
+            List list = (List) collection;
+            list.getClass();
+            return new d0(list, 16);
         }
     }
 
     public static /* synthetic */ boolean removeIf(Collection collection, Predicate predicate) {
-        return collection instanceof b ? ((b) collection).k(predicate) : a.h(collection, predicate);
+        return collection instanceof b ? ((b) collection).a(predicate) : a.l(collection, predicate);
     }
 
     public static /* synthetic */ Stream stream(Collection collection) {
-        return collection instanceof b ? ((b) collection).stream() : a.i(collection);
+        return collection instanceof b ? ((b) collection).stream() : a.m(collection);
     }
 }

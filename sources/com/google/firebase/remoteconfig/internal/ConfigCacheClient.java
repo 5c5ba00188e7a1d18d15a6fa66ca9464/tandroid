@@ -23,7 +23,7 @@ public class ConfigCacheClient {
     private final ExecutorService executorService;
     private final ConfigStorageClient storageClient;
     private static final Map<String, ConfigCacheClient> clientInstances = new HashMap();
-    private static final Executor DIRECT_EXECUTOR = new Executor() { // from class: com.google.firebase.remoteconfig.internal.ConfigCacheClient$$ExternalSyntheticLambda3
+    private static final Executor DIRECT_EXECUTOR = new Executor() { // from class: com.google.firebase.remoteconfig.internal.ConfigCacheClient$$ExternalSyntheticLambda1
         @Override // java.util.concurrent.Executor
         public final void execute(Runnable runnable) {
             runnable.run();
@@ -64,14 +64,14 @@ public class ConfigCacheClient {
     }
 
     public Task<ConfigContainer> put(final ConfigContainer configContainer, final boolean z) {
-        return Tasks.call(this.executorService, new Callable() { // from class: com.google.firebase.remoteconfig.internal.ConfigCacheClient$$ExternalSyntheticLambda1
+        return Tasks.call(this.executorService, new Callable() { // from class: com.google.firebase.remoteconfig.internal.ConfigCacheClient$$ExternalSyntheticLambda2
             @Override // java.util.concurrent.Callable
             public final Object call() {
                 Void lambda$put$0;
                 lambda$put$0 = ConfigCacheClient.this.lambda$put$0(configContainer);
                 return lambda$put$0;
             }
-        }).onSuccessTask(this.executorService, new SuccessContinuation() { // from class: com.google.firebase.remoteconfig.internal.ConfigCacheClient$$ExternalSyntheticLambda0
+        }).onSuccessTask(this.executorService, new SuccessContinuation() { // from class: com.google.firebase.remoteconfig.internal.ConfigCacheClient$$ExternalSyntheticLambda3
             @Override // com.google.android.gms.tasks.SuccessContinuation
             public final Task then(Object obj) {
                 Task lambda$put$1;
@@ -95,7 +95,7 @@ public class ConfigCacheClient {
             ExecutorService executorService = this.executorService;
             final ConfigStorageClient configStorageClient = this.storageClient;
             Objects.requireNonNull(configStorageClient);
-            this.cachedContainerTask = Tasks.call(executorService, new Callable() { // from class: com.google.firebase.remoteconfig.internal.ConfigCacheClient$$ExternalSyntheticLambda2
+            this.cachedContainerTask = Tasks.call(executorService, new Callable() { // from class: com.google.firebase.remoteconfig.internal.ConfigCacheClient$$ExternalSyntheticLambda0
                 @Override // java.util.concurrent.Callable
                 public final Object call() {
                     return ConfigStorageClient.this.read();

@@ -8,24 +8,28 @@ import java.io.IOException;
 /* loaded from: classes.dex */
 final class zzex implements ObjectEncoder {
     static final zzex zza = new zzex();
+    private static final FieldDescriptor zzb;
+    private static final FieldDescriptor zzc;
+    private static final FieldDescriptor zzd;
+    private static final FieldDescriptor zze;
 
     static {
         FieldDescriptor.Builder builder = FieldDescriptor.builder("durationMs");
         zzci zzciVar = new zzci();
         zzciVar.zza(1);
-        builder.withProperty(zzciVar.zzb()).build();
+        zzb = builder.withProperty(zzciVar.zzb()).build();
         FieldDescriptor.Builder builder2 = FieldDescriptor.builder("detectorOptions");
         zzci zzciVar2 = new zzci();
         zzciVar2.zza(2);
-        builder2.withProperty(zzciVar2.zzb()).build();
+        zzc = builder2.withProperty(zzciVar2.zzb()).build();
         FieldDescriptor.Builder builder3 = FieldDescriptor.builder("eventType");
         zzci zzciVar3 = new zzci();
         zzciVar3.zza(3);
-        builder3.withProperty(zzciVar3.zzb()).build();
+        zzd = builder3.withProperty(zzciVar3.zzb()).build();
         FieldDescriptor.Builder builder4 = FieldDescriptor.builder("errorCode");
         zzci zzciVar4 = new zzci();
         zzciVar4.zza(4);
-        builder4.withProperty(zzciVar4.zzb()).build();
+        zze = builder4.withProperty(zzciVar4.zzb()).build();
     }
 
     private zzex() {

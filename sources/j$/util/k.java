@@ -1,68 +1,63 @@
 package j$.util;
 
-import java.util.NoSuchElementException;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 /* loaded from: classes2.dex */
-public final class k {
-    private static final k c = new k();
-    private final boolean a;
-    private final int b;
-
-    private k() {
-        this.a = false;
-        this.b = 0;
-    }
-
-    private k(int i) {
-        this.a = true;
-        this.b = i;
-    }
-
-    public static k a() {
-        return c;
-    }
-
-    public static k d(int i) {
-        return new k(i);
-    }
-
-    public int b() {
-        if (this.a) {
-            return this.b;
+public abstract class k {
+    public static Optional a(java.util.Optional optional) {
+        if (optional == null) {
+            return null;
         }
-        throw new NoSuchElementException("No value present");
+        return optional.isPresent() ? Optional.of(optional.get()) : Optional.empty();
     }
 
-    public boolean c() {
-        return this.a;
-    }
-
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    public static l b(OptionalDouble optionalDouble) {
+        if (optionalDouble == null) {
+            return null;
         }
-        if (obj instanceof k) {
-            k kVar = (k) obj;
-            boolean z = this.a;
-            if (z && kVar.a) {
-                if (this.b == kVar.b) {
-                    return true;
-                }
-            } else if (z == kVar.a) {
-                return true;
-            }
-            return false;
-        }
-        return false;
+        return optionalDouble.isPresent() ? l.d(optionalDouble.getAsDouble()) : l.a();
     }
 
-    public int hashCode() {
-        if (this.a) {
-            return this.b;
+    public static m c(OptionalInt optionalInt) {
+        if (optionalInt == null) {
+            return null;
         }
-        return 0;
+        return optionalInt.isPresent() ? m.d(optionalInt.getAsInt()) : m.a();
     }
 
-    public String toString() {
-        return this.a ? String.format("OptionalInt[%s]", Integer.valueOf(this.b)) : "OptionalInt.empty";
+    public static n d(OptionalLong optionalLong) {
+        if (optionalLong == null) {
+            return null;
+        }
+        return optionalLong.isPresent() ? n.d(optionalLong.getAsLong()) : n.a();
+    }
+
+    public static java.util.Optional e(Optional optional) {
+        if (optional == null) {
+            return null;
+        }
+        return optional.isPresent() ? java.util.Optional.of(optional.get()) : java.util.Optional.empty();
+    }
+
+    public static OptionalDouble f(l lVar) {
+        if (lVar == null) {
+            return null;
+        }
+        return lVar.c() ? OptionalDouble.of(lVar.b()) : OptionalDouble.empty();
+    }
+
+    public static OptionalInt g(m mVar) {
+        if (mVar == null) {
+            return null;
+        }
+        return mVar.c() ? OptionalInt.of(mVar.b()) : OptionalInt.empty();
+    }
+
+    public static OptionalLong h(n nVar) {
+        if (nVar == null) {
+            return null;
+        }
+        return nVar.c() ? OptionalLong.of(nVar.b()) : OptionalLong.empty();
     }
 }

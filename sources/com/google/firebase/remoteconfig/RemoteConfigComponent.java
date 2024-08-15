@@ -60,7 +60,7 @@ public class RemoteConfigComponent {
         this.analyticsConnector = provider;
         this.appId = firebaseApp.getOptions().getApplicationId();
         if (z) {
-            Tasks.call(executorService, new Callable() { // from class: com.google.firebase.remoteconfig.RemoteConfigComponent$$ExternalSyntheticLambda2
+            Tasks.call(executorService, new Callable() { // from class: com.google.firebase.remoteconfig.RemoteConfigComponent$$ExternalSyntheticLambda0
                 @Override // java.util.concurrent.Callable
                 public final Object call() {
                     return RemoteConfigComponent.this.getDefault();
@@ -87,7 +87,7 @@ public class RemoteConfigComponent {
         getHandler = getGetHandler(cacheClient2, cacheClient3);
         final Personalization personalization = getPersonalization(this.firebaseApp, str, this.analyticsConnector);
         if (personalization != null) {
-            getHandler.addListener(new BiConsumer() { // from class: com.google.firebase.remoteconfig.RemoteConfigComponent$$ExternalSyntheticLambda0
+            getHandler.addListener(new BiConsumer() { // from class: com.google.firebase.remoteconfig.RemoteConfigComponent$$ExternalSyntheticLambda1
                 @Override // com.google.android.gms.common.util.BiConsumer
                 public final void accept(Object obj, Object obj2) {
                     Personalization.this.logArmActive((String) obj, (ConfigContainer) obj2);
@@ -115,7 +115,7 @@ public class RemoteConfigComponent {
     }
 
     synchronized ConfigFetchHandler getFetchHandler(String str, ConfigCacheClient configCacheClient, ConfigMetadataClient configMetadataClient) {
-        return new ConfigFetchHandler(this.firebaseInstallations, isPrimaryApp(this.firebaseApp) ? this.analyticsConnector : new Provider() { // from class: com.google.firebase.remoteconfig.RemoteConfigComponent$$ExternalSyntheticLambda1
+        return new ConfigFetchHandler(this.firebaseInstallations, isPrimaryApp(this.firebaseApp) ? this.analyticsConnector : new Provider() { // from class: com.google.firebase.remoteconfig.RemoteConfigComponent$$ExternalSyntheticLambda2
             @Override // com.google.firebase.inject.Provider
             public final Object get() {
                 AnalyticsConnector lambda$getFetchHandler$0;

@@ -1,64 +1,85 @@
 package j$.util.stream;
 
-import org.telegram.messenger.LiteMode;
-/* JADX INFO: Access modifiers changed from: package-private */
+import java.util.Comparator;
 /* loaded from: classes2.dex */
-public class p3 extends c3 {
-    final /* synthetic */ long l;
-    final /* synthetic */ long m;
-
+abstract class p3 extends r3 implements j$.util.N {
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public p3(c cVar, e4 e4Var, int i, long j, long j2) {
-        super(cVar, e4Var, i);
-        this.l = j;
-        this.m = j2;
+    public p3(j$.util.N n, long j, long j2) {
+        super(n, j, j2, 0L, Math.min(n.estimateSize(), j2));
     }
 
-    @Override // j$.util.stream.c
-    j$.util.s A0(y2 y2Var, j$.util.s sVar) {
-        long d;
-        long l0 = y2Var.l0(sVar);
-        if (l0 > 0 && sVar.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
-            j$.util.s r0 = y2Var.r0(sVar);
-            long j = this.l;
-            d = B3.d(j, this.m);
-            return new C4(r0, j, d);
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public p3(j$.util.N n, long j, long j2, long j3, long j4) {
+        super(n, j, j2, j3, j4);
+    }
+
+    @Override // j$.util.N
+    /* renamed from: forEachRemaining */
+    public final void d(Object obj) {
+        obj.getClass();
+        long j = this.e;
+        long j2 = this.a;
+        if (j2 >= j) {
+            return;
         }
-        return !d4.ORDERED.d(y2Var.n0()) ? G0(y2Var.r0(sVar), this.l, this.m, l0) : ((A1) new A3(this, y2Var, sVar, new j$.util.function.m() { // from class: j$.util.stream.n3
-            @Override // j$.util.function.m
-            public final Object apply(int i) {
-                return new Object[i];
+        long j3 = this.d;
+        if (j3 >= j) {
+            return;
+        }
+        if (j3 >= j2 && ((j$.util.N) this.c).estimateSize() + j3 <= this.b) {
+            ((j$.util.N) this.c).forEachRemaining(obj);
+            this.d = this.e;
+            return;
+        }
+        while (j2 > this.d) {
+            ((j$.util.N) this.c).tryAdvance(g());
+            this.d++;
+        }
+        while (this.d < this.e) {
+            ((j$.util.N) this.c).tryAdvance(obj);
+            this.d++;
+        }
+    }
+
+    protected abstract Object g();
+
+    @Override // j$.util.Q
+    public final Comparator getComparator() {
+        throw new IllegalStateException();
+    }
+
+    @Override // j$.util.Q
+    public final /* synthetic */ long getExactSizeIfKnown() {
+        return j$.util.a.i(this);
+    }
+
+    @Override // j$.util.Q
+    public final /* synthetic */ boolean hasCharacteristics(int i) {
+        return j$.util.a.k(this, i);
+    }
+
+    @Override // j$.util.N
+    /* renamed from: tryAdvance */
+    public final boolean o(Object obj) {
+        long j;
+        obj.getClass();
+        long j2 = this.e;
+        long j3 = this.a;
+        if (j3 >= j2) {
+            return false;
+        }
+        while (true) {
+            j = this.d;
+            if (j3 <= j) {
+                break;
             }
-        }, this.l, this.m).invoke()).spliterator();
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // j$.util.stream.c
-    public m3 C0(int i, m3 m3Var) {
-        return new o3(this, m3Var);
-    }
-
-    j$.util.s G0(j$.util.s sVar, long j, long j2, long j3) {
-        long j4;
-        long j5;
-        if (j <= j3) {
-            long j6 = j3 - j;
-            j5 = j2 >= 0 ? Math.min(j2, j6) : j6;
-            j4 = 0;
-        } else {
-            j4 = j;
-            j5 = j2;
+            ((j$.util.N) this.c).tryAdvance(g());
+            this.d++;
         }
-        return new I4(sVar, j4, j5);
-    }
-
-    @Override // j$.util.stream.c
-    A1 z0(y2 y2Var, j$.util.s sVar, j$.util.function.m mVar) {
-        long l0 = y2Var.l0(sVar);
-        if (l0 > 0 && sVar.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
-            return x2.e(y2Var, B3.b(y2Var.m0(), sVar, this.l, this.m), true, mVar);
+        if (j >= this.e) {
+            return false;
         }
-        return !d4.ORDERED.d(y2Var.n0()) ? x2.e(this, G0(y2Var.r0(sVar), this.l, this.m, l0), true, mVar) : (A1) new A3(this, y2Var, sVar, mVar, this.l, this.m).invoke();
+        this.d = j + 1;
+        return ((j$.util.N) this.c).tryAdvance(obj);
     }
 }

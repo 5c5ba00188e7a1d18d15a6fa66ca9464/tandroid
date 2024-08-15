@@ -87,6 +87,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
     private String videoPath;
     private double videoTimestamp;
     private int currentAccount = UserConfig.selectedAccount;
+    private File picturePath = null;
     private boolean useAttachMenu = true;
     private boolean searchAvailable = true;
     private boolean uploadAfterSelect = true;
@@ -260,7 +261,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
         for (int i2 = 0; i2 < size; i2++) {
             iArr[i2] = ((Integer) arrayList2.get(i2)).intValue();
         }
-        builder.setItems((CharSequence[]) arrayList.toArray(new CharSequence[0]), iArr, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.ImageUpdater$$ExternalSyntheticLambda0
+        builder.setItems((CharSequence[]) arrayList.toArray(new CharSequence[0]), iArr, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.ImageUpdater$$ExternalSyntheticLambda1
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i3) {
                 ImageUpdater.this.lambda$openMenu$0(arrayList3, runnable, dialogInterface, i3);
@@ -634,15 +635,19 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
     }
 
     public void openCamera() {
+        int checkSelfPermission;
         BaseFragment baseFragment = this.parentFragment;
         if (baseFragment == null || baseFragment.getParentActivity() == null) {
             return;
         }
         try {
             int i = Build.VERSION.SDK_INT;
-            if (i >= 23 && this.parentFragment.getParentActivity().checkSelfPermission("android.permission.CAMERA") != 0) {
-                this.parentFragment.getParentActivity().requestPermissions(new String[]{"android.permission.CAMERA"}, 20);
-                return;
+            if (i >= 23) {
+                checkSelfPermission = this.parentFragment.getParentActivity().checkSelfPermission("android.permission.CAMERA");
+                if (checkSelfPermission != 0) {
+                    this.parentFragment.getParentActivity().requestPermissions(new String[]{"android.permission.CAMERA"}, 20);
+                    return;
+                }
             }
             Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
             File generatePicturePath = AndroidUtilities.generatePicturePath();
@@ -664,15 +669,19 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
     }
 
     public void openVideoCamera() {
+        int checkSelfPermission;
         BaseFragment baseFragment = this.parentFragment;
         if (baseFragment == null || baseFragment.getParentActivity() == null) {
             return;
         }
         try {
             int i = Build.VERSION.SDK_INT;
-            if (i >= 23 && this.parentFragment.getParentActivity().checkSelfPermission("android.permission.CAMERA") != 0) {
-                this.parentFragment.getParentActivity().requestPermissions(new String[]{"android.permission.CAMERA"}, 19);
-                return;
+            if (i >= 23) {
+                checkSelfPermission = this.parentFragment.getParentActivity().checkSelfPermission("android.permission.CAMERA");
+                if (checkSelfPermission != 0) {
+                    this.parentFragment.getParentActivity().requestPermissions(new String[]{"android.permission.CAMERA"}, 19);
+                    return;
+                }
             }
             Intent intent = new Intent("android.media.action.VIDEO_CAPTURE");
             File generateVideoPath = AndroidUtilities.generateVideoPath();
@@ -682,7 +691,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
                     intent.putExtra("output", FileProvider.getUriForFile(parentActivity, ApplicationLoader.getApplicationId() + ".provider", generateVideoPath));
                     intent.addFlags(2);
                     intent.addFlags(1);
-                } else if (i >= 18) {
+                } else {
                     intent.putExtra("output", Uri.fromFile(generateVideoPath));
                 }
                 intent.putExtra("android.intent.extras.CAMERA_FACING", 1);
@@ -709,7 +718,16 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
         }
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:38:0x0021, code lost:
+        if (r2 != 0) goto L18;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void openGallery() {
+        int checkSelfPermission;
+        int checkSelfPermission2;
+        int checkSelfPermission3;
         BaseFragment baseFragment = this.parentFragment;
         if (baseFragment == null) {
             return;
@@ -717,13 +735,18 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
         Activity parentActivity = baseFragment.getParentActivity();
         int i = Build.VERSION.SDK_INT;
         if (i >= 33 && parentActivity != null) {
-            if (parentActivity.checkSelfPermission("android.permission.READ_MEDIA_IMAGES") != 0 || parentActivity.checkSelfPermission("android.permission.READ_MEDIA_VIDEO") != 0) {
-                parentActivity.requestPermissions(new String[]{"android.permission.READ_MEDIA_IMAGES", "android.permission.READ_MEDIA_VIDEO"}, 151);
+            checkSelfPermission2 = parentActivity.checkSelfPermission("android.permission.READ_MEDIA_IMAGES");
+            if (checkSelfPermission2 == 0) {
+                checkSelfPermission3 = parentActivity.checkSelfPermission("android.permission.READ_MEDIA_VIDEO");
+            }
+            parentActivity.requestPermissions(new String[]{"android.permission.READ_MEDIA_IMAGES", "android.permission.READ_MEDIA_VIDEO"}, 151);
+            return;
+        } else if (i >= 23 && parentActivity != null) {
+            checkSelfPermission = parentActivity.checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE");
+            if (checkSelfPermission != 0) {
+                parentActivity.requestPermissions(new String[]{"android.permission.READ_EXTERNAL_STORAGE"}, 151);
                 return;
             }
-        } else if (i >= 23 && parentActivity != null && parentActivity.checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE") != 0) {
-            parentActivity.requestPermissions(new String[]{"android.permission.READ_EXTERNAL_STORAGE"}, 151);
-            return;
         }
         PhotoAlbumPickerActivity photoAlbumPickerActivity = new PhotoAlbumPickerActivity(this.canSelectVideo ? PhotoAlbumPickerActivity.SELECT_TYPE_AVATAR_VIDEO : PhotoAlbumPickerActivity.SELECT_TYPE_AVATAR, false, false, null);
         photoAlbumPickerActivity.setAllowSearchImages(this.searchAvailable);
@@ -752,7 +775,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
     }
 
     private void startCrop(final String str, final Uri uri) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ImageUpdater$$ExternalSyntheticLambda1
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ImageUpdater$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 ImageUpdater.this.lambda$startCrop$1(str, uri);

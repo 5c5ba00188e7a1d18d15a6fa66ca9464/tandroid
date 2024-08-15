@@ -3,7 +3,6 @@ package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Objects;
 import org.telegram.tgnet.ConnectionsManager;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
@@ -31,7 +30,7 @@ public abstract class zzbd extends zzbr {
 
     @Override // com.google.android.gms.internal.mlkit_vision_subject_segmentation.zzbr, java.util.AbstractSet, java.util.AbstractCollection, java.util.Collection, java.util.Set
     public final boolean removeAll(Collection collection) {
-        Objects.requireNonNull(collection);
+        collection.getClass();
         try {
             return zzbs.zzb(this, collection);
         } catch (UnsupportedOperationException unused) {
@@ -42,7 +41,7 @@ public abstract class zzbd extends zzbr {
     @Override // com.google.android.gms.internal.mlkit_vision_subject_segmentation.zzbr, java.util.AbstractCollection, java.util.Collection, java.util.Set
     public final boolean retainAll(Collection collection) {
         int i;
-        Objects.requireNonNull(collection);
+        collection.getClass();
         try {
             return super.retainAll(collection);
         } catch (UnsupportedOperationException unused) {

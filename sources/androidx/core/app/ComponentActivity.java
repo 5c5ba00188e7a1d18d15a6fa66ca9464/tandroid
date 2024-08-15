@@ -13,12 +13,8 @@ import androidx.lifecycle.LifecycleRegistry;
 import androidx.lifecycle.ReportFragment;
 /* loaded from: classes.dex */
 public class ComponentActivity extends Activity implements LifecycleOwner, KeyEventDispatcher.Component {
-    private LifecycleRegistry mLifecycleRegistry;
-
-    public ComponentActivity() {
-        new SimpleArrayMap();
-        this.mLifecycleRegistry = new LifecycleRegistry(this);
-    }
+    private SimpleArrayMap<Class<Object>, Object> mExtraDataMap = new SimpleArrayMap<>();
+    private LifecycleRegistry mLifecycleRegistry = new LifecycleRegistry(this);
 
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.app.Activity
@@ -33,6 +29,10 @@ public class ComponentActivity extends Activity implements LifecycleOwner, KeyEv
     public void onSaveInstanceState(Bundle bundle) {
         this.mLifecycleRegistry.markState(Lifecycle.State.CREATED);
         super.onSaveInstanceState(bundle);
+    }
+
+    public Lifecycle getLifecycle() {
+        return this.mLifecycleRegistry;
     }
 
     @Override // androidx.core.view.KeyEventDispatcher.Component

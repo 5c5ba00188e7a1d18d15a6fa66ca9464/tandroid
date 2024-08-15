@@ -100,7 +100,6 @@ public final class Tx3gDecoder extends SimpleSubtitleDecoder {
     }
 
     private void applyStyleRecord(ParsableByteArray parsableByteArray, SpannableStringBuilder spannableStringBuilder) throws SubtitleDecoderException {
-        int i;
         assertTrue(parsableByteArray.bytesLeft() >= 12);
         int readUnsignedShort = parsableByteArray.readUnsignedShort();
         int readUnsignedShort2 = parsableByteArray.readUnsignedShort();
@@ -110,17 +109,15 @@ public final class Tx3gDecoder extends SimpleSubtitleDecoder {
         int readInt = parsableByteArray.readInt();
         if (readUnsignedShort2 > spannableStringBuilder.length()) {
             Log.w("Tx3gDecoder", "Truncating styl end (" + readUnsignedShort2 + ") to cueText.length() (" + spannableStringBuilder.length() + ").");
-            i = spannableStringBuilder.length();
-        } else {
-            i = readUnsignedShort2;
+            readUnsignedShort2 = spannableStringBuilder.length();
         }
-        if (readUnsignedShort >= i) {
-            Log.w("Tx3gDecoder", "Ignoring styl with start (" + readUnsignedShort + ") >= end (" + i + ").");
+        if (readUnsignedShort >= readUnsignedShort2) {
+            Log.w("Tx3gDecoder", "Ignoring styl with start (" + readUnsignedShort + ") >= end (" + readUnsignedShort2 + ").");
             return;
         }
-        int i2 = i;
-        attachFontFace(spannableStringBuilder, readUnsignedByte, this.defaultFontFace, readUnsignedShort, i2, 0);
-        attachColor(spannableStringBuilder, readInt, this.defaultColorRgba, readUnsignedShort, i2, 0);
+        int i = readUnsignedShort2;
+        attachFontFace(spannableStringBuilder, readUnsignedByte, this.defaultFontFace, readUnsignedShort, i, 0);
+        attachColor(spannableStringBuilder, readInt, this.defaultColorRgba, readUnsignedShort, i, 0);
     }
 
     private static void attachFontFace(SpannableStringBuilder spannableStringBuilder, int i, int i2, int i3, int i4, int i5) {

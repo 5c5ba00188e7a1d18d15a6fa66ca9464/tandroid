@@ -4,7 +4,6 @@ import android.animation.LayoutTransition;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.View;
@@ -57,10 +56,6 @@ public final class FragmentContainerView extends FrameLayout {
 
     @Override // android.view.ViewGroup
     public void setLayoutTransition(LayoutTransition layoutTransition) {
-        if (Build.VERSION.SDK_INT < 18) {
-            super.setLayoutTransition(layoutTransition);
-            return;
-        }
         throw new UnsupportedOperationException("FragmentContainerView does not support Layout Transitions or animateLayoutChanges=\"true\".");
     }
 
@@ -72,10 +67,12 @@ public final class FragmentContainerView extends FrameLayout {
     @Override // android.view.ViewGroup, android.view.View
     public WindowInsets dispatchApplyWindowInsets(WindowInsets windowInsets) {
         WindowInsetsCompat onApplyWindowInsets;
+        WindowInsets onApplyWindowInsets2;
         WindowInsetsCompat windowInsetsCompat = WindowInsetsCompat.toWindowInsetsCompat(windowInsets);
         View.OnApplyWindowInsetsListener onApplyWindowInsetsListener = this.mApplyWindowInsetsListener;
         if (onApplyWindowInsetsListener != null) {
-            onApplyWindowInsets = WindowInsetsCompat.toWindowInsetsCompat(onApplyWindowInsetsListener.onApplyWindowInsets(this, windowInsets));
+            onApplyWindowInsets2 = onApplyWindowInsetsListener.onApplyWindowInsets(this, windowInsets);
+            onApplyWindowInsets = WindowInsetsCompat.toWindowInsetsCompat(onApplyWindowInsets2);
         } else {
             onApplyWindowInsets = ViewCompat.onApplyWindowInsets(this, windowInsetsCompat);
         }

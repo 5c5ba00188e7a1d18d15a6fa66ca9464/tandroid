@@ -71,6 +71,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
     private TLRPC$TL_theme info;
     private CharSequence infoText;
     private String lastCheckName;
+    private boolean lastNameAvailable;
     private LinearLayout linearLayoutTypeContainer;
     private EditTextBoldCursor linkField;
     private ThemePreviewMessagesCell messagesCell;
@@ -187,7 +188,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
         linearLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
         LinearLayout linearLayout2 = (LinearLayout) this.fragmentView;
         linearLayout2.setOrientation(1);
-        this.fragmentView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ThemeSetUrlActivity$$ExternalSyntheticLambda5
+        this.fragmentView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ThemeSetUrlActivity$$ExternalSyntheticLambda0
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view, MotionEvent motionEvent) {
                 boolean lambda$createView$0;
@@ -227,7 +228,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
         this.nameField.setCursorSize(AndroidUtilities.dp(20.0f));
         this.nameField.setCursorWidth(1.5f);
         this.linearLayoutTypeContainer.addView(this.nameField, LayoutHelper.createLinear(-1, 50, 23.0f, 0.0f, 23.0f, 0.0f));
-        this.nameField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ThemeSetUrlActivity$$ExternalSyntheticLambda6
+        this.nameField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ThemeSetUrlActivity$$ExternalSyntheticLambda1
             @Override // android.widget.TextView.OnEditorActionListener
             public final boolean onEditorAction(TextView textView, int i3, KeyEvent keyEvent) {
                 boolean lambda$createView$1;
@@ -235,7 +236,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
                 return lambda$createView$1;
             }
         });
-        View view = new View(this, context) { // from class: org.telegram.ui.ThemeSetUrlActivity.2
+        View view = new View(context) { // from class: org.telegram.ui.ThemeSetUrlActivity.2
             @Override // android.view.View
             protected void onDraw(Canvas canvas) {
                 canvas.drawLine(LocaleController.isRTL ? 0.0f : AndroidUtilities.dp(20.0f), getMeasuredHeight() - 1, getMeasuredWidth() - (LocaleController.isRTL ? AndroidUtilities.dp(20.0f) : 0), getMeasuredHeight() - 1, Theme.dividerPaint);
@@ -278,7 +279,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
         this.linkField.setCursorSize(AndroidUtilities.dp(20.0f));
         this.linkField.setCursorWidth(1.5f);
         linearLayout4.addView(this.linkField, LayoutHelper.createLinear(-1, 50));
-        this.linkField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ThemeSetUrlActivity$$ExternalSyntheticLambda7
+        this.linkField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ThemeSetUrlActivity$$ExternalSyntheticLambda2
             @Override // android.widget.TextView.OnEditorActionListener
             public final boolean onEditorAction(TextView textView, int i3, KeyEvent keyEvent) {
                 boolean lambda$createView$2;
@@ -358,7 +359,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
             textSettingsCell.setBackgroundDrawable(Theme.getSelectorDrawable(true));
             this.createCell.setText(LocaleController.getString("UseDifferentTheme", R.string.UseDifferentTheme), false);
             linearLayout2.addView(this.createCell, LayoutHelper.createLinear(-1, -2));
-            this.createCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ThemeSetUrlActivity$$ExternalSyntheticLambda2
+            this.createCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ThemeSetUrlActivity$$ExternalSyntheticLambda4
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
                     ThemeSetUrlActivity.this.lambda$createView$5(context, view2);
@@ -429,7 +430,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
         textView.setTextSize(1, 20.0f);
         textView.setTypeface(AndroidUtilities.bold());
         linearLayout.addView(textView, LayoutHelper.createLinear(-1, -2, 51, 22, 12, 22, 4));
-        textView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ThemeSetUrlActivity$$ExternalSyntheticLambda4
+        textView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ThemeSetUrlActivity$$ExternalSyntheticLambda5
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view2, MotionEvent motionEvent) {
                 boolean lambda$createView$4;
@@ -447,7 +448,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
                 arrayList.add(themeInfo);
             }
         }
-        ThemesHorizontalListCell themesHorizontalListCell = new ThemesHorizontalListCell(this, context, this, 2, arrayList, new ArrayList()) { // from class: org.telegram.ui.ThemeSetUrlActivity.4
+        ThemesHorizontalListCell themesHorizontalListCell = new ThemesHorizontalListCell(context, this, 2, arrayList, new ArrayList()) { // from class: org.telegram.ui.ThemeSetUrlActivity.4
             @Override // org.telegram.ui.Cells.ThemesHorizontalListCell
             protected void updateRows() {
                 builder.getDismissRunnable().run();
@@ -511,6 +512,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
                 ConnectionsManager.getInstance(this.currentAccount).cancelRequest(this.checkReqId, true);
             }
         }
+        this.lastNameAvailable = false;
         if (str != null) {
             if (str.startsWith("_") || str.endsWith("_")) {
                 setCheckText(LocaleController.getString("SetUrlInvalid", R.string.SetUrlInvalid), Theme.key_text_RedRegular);
@@ -558,7 +560,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
                 }
                 setCheckText(LocaleController.getString("SetUrlChecking", R.string.SetUrlChecking), Theme.key_windowBackgroundWhiteGrayText8);
                 this.lastCheckName = str;
-                Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.ThemeSetUrlActivity$$ExternalSyntheticLambda8
+                Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.ThemeSetUrlActivity$$ExternalSyntheticLambda6
                     @Override // java.lang.Runnable
                     public final void run() {
                         ThemeSetUrlActivity.this.lambda$checkUrl$8(str);
@@ -577,7 +579,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
         tLRPC$TL_account_createTheme.slug = str;
         tLRPC$TL_account_createTheme.title = "";
         tLRPC$TL_account_createTheme.document = new TLRPC$TL_inputDocumentEmpty();
-        this.checkReqId = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_createTheme, new RequestDelegate() { // from class: org.telegram.ui.ThemeSetUrlActivity$$ExternalSyntheticLambda12
+        this.checkReqId = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_createTheme, new RequestDelegate() { // from class: org.telegram.ui.ThemeSetUrlActivity$$ExternalSyntheticLambda10
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 ThemeSetUrlActivity.this.lambda$checkUrl$7(str, tLObject, tLRPC$TL_error);
@@ -587,7 +589,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkUrl$7(final String str, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ThemeSetUrlActivity$$ExternalSyntheticLambda9
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ThemeSetUrlActivity$$ExternalSyntheticLambda13
             @Override // java.lang.Runnable
             public final void run() {
                 ThemeSetUrlActivity.this.lambda$checkUrl$6(str, tLRPC$TL_error);
@@ -602,11 +604,13 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
         if (str2 == null || !str2.equals(str)) {
             return;
         }
-        if (tLRPC$TL_error == null || !("THEME_SLUG_INVALID".equals(tLRPC$TL_error.text) || "THEME_SLUG_OCCUPIED".equals(tLRPC$TL_error.text))) {
+        if (tLRPC$TL_error == null || (!"THEME_SLUG_INVALID".equals(tLRPC$TL_error.text) && !"THEME_SLUG_OCCUPIED".equals(tLRPC$TL_error.text))) {
             setCheckText(LocaleController.formatString("SetUrlAvailable", R.string.SetUrlAvailable, str), Theme.key_windowBackgroundWhiteGreenText);
-        } else {
-            setCheckText(LocaleController.getString("SetUrlInUse", R.string.SetUrlInUse), Theme.key_text_RedRegular);
+            this.lastNameAvailable = true;
+            return;
         }
+        setCheckText(LocaleController.getString("SetUrlInUse", R.string.SetUrlInUse), Theme.key_text_RedRegular);
+        this.lastNameAvailable = false;
     }
 
     private void setCheckText(String str, int i) {
@@ -642,7 +646,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
                 String str2 = tLRPC$TL_theme.slug;
                 AlertDialog alertDialog = new AlertDialog(getParentActivity(), 3);
                 this.progressDialog = alertDialog;
-                alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.ThemeSetUrlActivity$$ExternalSyntheticLambda1
+                alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.ThemeSetUrlActivity$$ExternalSyntheticLambda7
                     @Override // android.content.DialogInterface.OnCancelListener
                     public final void onCancel(DialogInterface dialogInterface) {
                         ThemeSetUrlActivity.lambda$saveTheme$9(dialogInterface);
@@ -679,18 +683,16 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
                 tLRPC$TL_account_updateTheme.theme = tLRPC$TL_inputTheme;
                 tLRPC$TL_account_updateTheme.format = "android";
                 tLRPC$TL_account_updateTheme.slug = obj2;
-                int i = tLRPC$TL_account_updateTheme.flags | 1;
-                tLRPC$TL_account_updateTheme.flags = i;
                 tLRPC$TL_account_updateTheme.title = obj3;
-                tLRPC$TL_account_updateTheme.flags = i | 2;
-                final int sendRequest = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_updateTheme, new RequestDelegate() { // from class: org.telegram.ui.ThemeSetUrlActivity$$ExternalSyntheticLambda13
+                tLRPC$TL_account_updateTheme.flags = tLRPC$TL_account_updateTheme.flags | 1 | 2;
+                final int sendRequest = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_updateTheme, new RequestDelegate() { // from class: org.telegram.ui.ThemeSetUrlActivity$$ExternalSyntheticLambda8
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         ThemeSetUrlActivity.this.lambda$saveTheme$12(tLRPC$TL_account_updateTheme, tLObject, tLRPC$TL_error);
                     }
                 }, 2);
                 ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(sendRequest, this.classGuid);
-                this.progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.ThemeSetUrlActivity$$ExternalSyntheticLambda0
+                this.progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.ThemeSetUrlActivity$$ExternalSyntheticLambda9
                     @Override // android.content.DialogInterface.OnCancelListener
                     public final void onCancel(DialogInterface dialogInterface) {
                         ThemeSetUrlActivity.this.lambda$saveTheme$13(sendRequest, dialogInterface);
@@ -713,7 +715,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
             });
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ThemeSetUrlActivity$$ExternalSyntheticLambda10
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ThemeSetUrlActivity$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
                 ThemeSetUrlActivity.this.lambda$saveTheme$11(tLRPC$TL_error, tLRPC$TL_account_updateTheme);
@@ -791,7 +793,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
         int i7 = Theme.key_windowBackgroundWhiteHintText;
         arrayList.add(new ThemeDescription(editTextBoldCursor, i6, null, null, null, null, i7));
         arrayList.add(new ThemeDescription(this.linkField, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, Theme.key_windowBackgroundWhiteInputField));
-        arrayList.add(new ThemeDescription(this.linkField, ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, null, null, null, null, Theme.key_windowBackgroundWhiteInputFieldActivated));
+        arrayList.add(new ThemeDescription(this.linkField, ThemeDescription.FLAG_DRAWABLESELECTEDSTATE | ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, Theme.key_windowBackgroundWhiteInputFieldActivated));
         arrayList.add(new ThemeDescription(this.linkField, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, i5));
         arrayList.add(new ThemeDescription(this.linkField, ThemeDescription.FLAG_HINTTEXTCOLOR, null, null, null, null, i7));
         arrayList.add(new ThemeDescription(this.linkField, ThemeDescription.FLAG_CURSORCOLOR, null, null, null, null, i5));

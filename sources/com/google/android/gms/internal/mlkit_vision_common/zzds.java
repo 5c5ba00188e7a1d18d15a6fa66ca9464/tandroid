@@ -8,20 +8,23 @@ import java.io.IOException;
 /* loaded from: classes.dex */
 final class zzds implements ObjectEncoder {
     static final zzds zza = new zzds();
+    private static final FieldDescriptor zzb;
+    private static final FieldDescriptor zzc;
+    private static final FieldDescriptor zzd;
 
     static {
         FieldDescriptor.Builder builder = FieldDescriptor.builder("modelType");
         zzae zzaeVar = new zzae();
         zzaeVar.zza(1);
-        builder.withProperty(zzaeVar.zzb()).build();
+        zzb = builder.withProperty(zzaeVar.zzb()).build();
         FieldDescriptor.Builder builder2 = FieldDescriptor.builder("isSuccessful");
         zzae zzaeVar2 = new zzae();
         zzaeVar2.zza(2);
-        builder2.withProperty(zzaeVar2.zzb()).build();
+        zzc = builder2.withProperty(zzaeVar2.zzb()).build();
         FieldDescriptor.Builder builder3 = FieldDescriptor.builder("modelName");
         zzae zzaeVar3 = new zzae();
         zzaeVar3.zza(3);
-        builder3.withProperty(zzaeVar3.zzb()).build();
+        zzd = builder3.withProperty(zzaeVar3.zzb()).build();
     }
 
     private zzds() {

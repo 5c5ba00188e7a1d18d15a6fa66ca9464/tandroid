@@ -14,7 +14,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.voip.VideoCapturerDevice;
 import org.webrtc.Logging;
 import org.webrtc.ThreadUtils;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class WebRtcAudioRecord {
     private static final long AUDIO_RECORD_THREAD_JOIN_TIMEOUT_MS = 2000;
     private static final int BITS_PER_SAMPLE = 16;
@@ -40,13 +40,13 @@ public class WebRtcAudioRecord {
     private int requestedSampleRate = 48000;
     private int requestedChannels = 1;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public enum AudioRecordStartErrorCode {
         AUDIO_RECORD_START_EXCEPTION,
         AUDIO_RECORD_START_STATE_MISMATCH
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public interface WebRtcAudioRecordErrorCallback {
         void onWebRtcAudioRecordError(String str);
 
@@ -55,7 +55,7 @@ public class WebRtcAudioRecord {
         void onWebRtcAudioRecordStartError(AudioRecordStartErrorCode audioRecordStartErrorCode, String str);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public interface WebRtcAudioRecordSamplesReadyCallback {
         void onWebRtcAudioRecordSamplesReady(AudioSamples audioSamples);
     }
@@ -84,7 +84,7 @@ public class WebRtcAudioRecord {
         errorCallback = webRtcAudioRecordErrorCallback;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public static class AudioSamples {
         private final int audioFormat;
         private final int channelCount;
@@ -119,7 +119,7 @@ public class WebRtcAudioRecord {
         audioSamplesReadyCallback = webRtcAudioRecordSamplesReadyCallback;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     private class AudioRecordThread extends Thread {
         private volatile boolean keepAlive;
 
@@ -231,6 +231,12 @@ public class WebRtcAudioRecord {
 
     private int initRecording(int i, int i2) {
         WebRtcAudioEffects webRtcAudioEffects;
+        AudioPlaybackCaptureConfiguration build;
+        AudioFormat.Builder channelMask;
+        AudioFormat.Builder sampleRate;
+        AudioFormat.Builder encoding;
+        AudioFormat build2;
+        AudioRecord build3;
         if (this.captureType != 1 || Build.VERSION.SDK_INT >= 29) {
             this.requestedSampleRate = i;
             this.requestedChannels = i2;
@@ -267,10 +273,16 @@ public class WebRtcAudioRecord {
                         builder.addMatchingUsage(14);
                         builder.addMatchingUsage(0);
                         AudioRecord.Builder builder2 = new AudioRecord.Builder();
-                        builder2.setAudioPlaybackCaptureConfig(builder.build());
-                        builder2.setAudioFormat(new AudioFormat.Builder().setChannelMask(channelCountToConfiguration).setSampleRate(i).setEncoding(2).build());
+                        build = builder.build();
+                        builder2.setAudioPlaybackCaptureConfig(build);
+                        channelMask = new AudioFormat.Builder().setChannelMask(channelCountToConfiguration);
+                        sampleRate = channelMask.setSampleRate(i);
+                        encoding = sampleRate.setEncoding(2);
+                        build2 = encoding.build();
+                        builder2.setAudioFormat(build2);
                         builder2.setBufferSizeInBytes(max);
-                        this.audioRecord = builder2.build();
+                        build3 = builder2.build();
+                        this.audioRecord = build3;
                     } catch (Throwable th) {
                         reportWebRtcAudioRecordInitError("AudioRecord ctor error: " + th.getMessage());
                         releaseAudioResources(false);
@@ -304,6 +316,12 @@ public class WebRtcAudioRecord {
 
     @TargetApi(29)
     public void initDeviceAudioRecord(MediaProjection mediaProjection) {
+        AudioPlaybackCaptureConfiguration build;
+        AudioFormat.Builder channelMask;
+        AudioFormat.Builder sampleRate;
+        AudioFormat.Builder encoding;
+        AudioFormat build2;
+        AudioRecord build3;
         if (Build.VERSION.SDK_INT < 29) {
             return;
         }
@@ -322,12 +340,17 @@ public class WebRtcAudioRecord {
             builder.addMatchingUsage(1);
             builder.addMatchingUsage(14);
             AudioRecord.Builder builder2 = new AudioRecord.Builder();
-            builder2.setAudioPlaybackCaptureConfig(builder.build());
-            builder2.setAudioFormat(new AudioFormat.Builder().setChannelMask(channelCountToConfiguration).setSampleRate(this.requestedSampleRate).setEncoding(2).build());
+            build = builder.build();
+            builder2.setAudioPlaybackCaptureConfig(build);
+            channelMask = new AudioFormat.Builder().setChannelMask(channelCountToConfiguration);
+            sampleRate = channelMask.setSampleRate(this.requestedSampleRate);
+            encoding = sampleRate.setEncoding(2);
+            build2 = encoding.build();
+            builder2.setAudioFormat(build2);
             builder2.setBufferSizeInBytes(max);
-            AudioRecord build = builder2.build();
-            this.deviceAudioRecord = build;
-            if (build == null || build.getState() != 1) {
+            build3 = builder2.build();
+            this.deviceAudioRecord = build3;
+            if (build3 == null || build3.getState() != 1) {
                 reportWebRtcAudioRecordInitError("Failed to create a new AudioRecord instance");
                 releaseAudioResources(true);
                 return;
@@ -411,8 +434,13 @@ public class WebRtcAudioRecord {
     }
 
     private void logMainParametersExtended() {
+        int bufferSizeInFrames;
         if (Build.VERSION.SDK_INT >= 23) {
-            Logging.d(TAG, "AudioRecord: buffer size in frames: " + this.audioRecord.getBufferSizeInFrames());
+            StringBuilder sb = new StringBuilder();
+            sb.append("AudioRecord: buffer size in frames: ");
+            bufferSizeInFrames = this.audioRecord.getBufferSizeInFrames();
+            sb.append(bufferSizeInFrames);
+            Logging.d(TAG, sb.toString());
         }
     }
 

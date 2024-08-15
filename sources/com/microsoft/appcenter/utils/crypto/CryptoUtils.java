@@ -22,7 +22,7 @@ public class CryptoUtils {
         @Override // com.microsoft.appcenter.utils.crypto.CryptoUtils.ICryptoFactory
         public IKeyGenerator getKeyGenerator(String str, String str2) throws Exception {
             final KeyGenerator keyGenerator = KeyGenerator.getInstance(str, str2);
-            return new IKeyGenerator(this) { // from class: com.microsoft.appcenter.utils.crypto.CryptoUtils.1.1
+            return new IKeyGenerator() { // from class: com.microsoft.appcenter.utils.crypto.CryptoUtils.1.1
                 @Override // com.microsoft.appcenter.utils.crypto.CryptoUtils.IKeyGenerator
                 public void init(AlgorithmParameterSpec algorithmParameterSpec) throws Exception {
                     keyGenerator.init(algorithmParameterSpec);
@@ -38,7 +38,7 @@ public class CryptoUtils {
         @Override // com.microsoft.appcenter.utils.crypto.CryptoUtils.ICryptoFactory
         public ICipher getCipher(String str, String str2) throws Exception {
             final Cipher cipher = Cipher.getInstance(str, str2);
-            return new ICipher(this) { // from class: com.microsoft.appcenter.utils.crypto.CryptoUtils.1.2
+            return new ICipher() { // from class: com.microsoft.appcenter.utils.crypto.CryptoUtils.1.2
                 @Override // com.microsoft.appcenter.utils.crypto.CryptoUtils.ICipher
                 public void init(int i, Key key) throws Exception {
                     cipher.init(i, key);

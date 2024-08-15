@@ -8,11 +8,13 @@ public final class zzf {
     private final String zza;
     private final zze zzb;
     private zze zzc;
+    private boolean zzd;
 
     private zzf(String str) {
         zze zzeVar = new zze();
         this.zzb = zzeVar;
         this.zzc = zzeVar;
+        this.zzd = false;
         this.zza = (String) zzg.zza(str);
     }
 

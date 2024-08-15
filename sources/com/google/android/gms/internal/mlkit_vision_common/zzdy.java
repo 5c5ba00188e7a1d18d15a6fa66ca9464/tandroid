@@ -8,32 +8,38 @@ import java.io.IOException;
 /* loaded from: classes.dex */
 final class zzdy implements ObjectEncoder {
     static final zzdy zza = new zzdy();
+    private static final FieldDescriptor zzb;
+    private static final FieldDescriptor zzc;
+    private static final FieldDescriptor zzd;
+    private static final FieldDescriptor zze;
+    private static final FieldDescriptor zzf;
+    private static final FieldDescriptor zzg;
 
     static {
         FieldDescriptor.Builder builder = FieldDescriptor.builder("maxMs");
         zzae zzaeVar = new zzae();
         zzaeVar.zza(1);
-        builder.withProperty(zzaeVar.zzb()).build();
+        zzb = builder.withProperty(zzaeVar.zzb()).build();
         FieldDescriptor.Builder builder2 = FieldDescriptor.builder("minMs");
         zzae zzaeVar2 = new zzae();
         zzaeVar2.zza(2);
-        builder2.withProperty(zzaeVar2.zzb()).build();
+        zzc = builder2.withProperty(zzaeVar2.zzb()).build();
         FieldDescriptor.Builder builder3 = FieldDescriptor.builder("avgMs");
         zzae zzaeVar3 = new zzae();
         zzaeVar3.zza(3);
-        builder3.withProperty(zzaeVar3.zzb()).build();
+        zzd = builder3.withProperty(zzaeVar3.zzb()).build();
         FieldDescriptor.Builder builder4 = FieldDescriptor.builder("firstQuartileMs");
         zzae zzaeVar4 = new zzae();
         zzaeVar4.zza(4);
-        builder4.withProperty(zzaeVar4.zzb()).build();
+        zze = builder4.withProperty(zzaeVar4.zzb()).build();
         FieldDescriptor.Builder builder5 = FieldDescriptor.builder("medianMs");
         zzae zzaeVar5 = new zzae();
         zzaeVar5.zza(5);
-        builder5.withProperty(zzaeVar5.zzb()).build();
+        zzf = builder5.withProperty(zzaeVar5.zzb()).build();
         FieldDescriptor.Builder builder6 = FieldDescriptor.builder("thirdQuartileMs");
         zzae zzaeVar6 = new zzae();
         zzaeVar6.zza(6);
-        builder6.withProperty(zzaeVar6.zzb()).build();
+        zzg = builder6.withProperty(zzaeVar6.zzb()).build();
     }
 
     private zzdy() {

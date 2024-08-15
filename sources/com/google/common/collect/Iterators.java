@@ -28,6 +28,11 @@ public final class Iterators {
             Iterator.-CC.$default$forEachRemaining(this, consumer);
         }
 
+        @Override // java.util.Iterator
+        public /* synthetic */ void forEachRemaining(java.util.function.Consumer<? super Object> consumer) {
+            forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
+        }
+
         @Override // java.util.Iterator, j$.util.Iterator
         public boolean hasNext() {
             return false;

@@ -10,14 +10,23 @@ import com.google.android.exoplayer2.util.Util;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Booleans;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 /* loaded from: classes.dex */
 public final class Tracks implements Bundleable {
+    private final ImmutableList<Group> groups;
     public static final Tracks EMPTY = new Tracks(ImmutableList.of());
     private static final String FIELD_TRACK_GROUPS = Util.intToStringMaxRadix(0);
-    private final ImmutableList<Group> groups;
+    public static final Bundleable.Creator<Tracks> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.Tracks$$ExternalSyntheticLambda0
+        @Override // com.google.android.exoplayer2.Bundleable.Creator
+        public final Bundleable fromBundle(Bundle bundle) {
+            Tracks lambda$static$0;
+            lambda$static$0 = Tracks.lambda$static$0(bundle);
+            return lambda$static$0;
+        }
+    };
 
     /* loaded from: classes.dex */
     public static final class Group implements Bundleable {
@@ -138,5 +147,17 @@ public final class Tracks implements Bundleable {
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList(FIELD_TRACK_GROUPS, BundleableUtil.toBundleArrayList(this.groups));
         return bundle;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ Tracks lambda$static$0(Bundle bundle) {
+        ImmutableList fromBundleList;
+        ArrayList parcelableArrayList = bundle.getParcelableArrayList(FIELD_TRACK_GROUPS);
+        if (parcelableArrayList == null) {
+            fromBundleList = ImmutableList.of();
+        } else {
+            fromBundleList = BundleableUtil.fromBundleList(Group.CREATOR, parcelableArrayList);
+        }
+        return new Tracks(fromBundleList);
     }
 }

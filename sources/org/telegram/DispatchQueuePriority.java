@@ -9,7 +9,7 @@ import org.telegram.messenger.FileLog;
 /* loaded from: classes.dex */
 public class DispatchQueuePriority {
     private volatile CountDownLatch pauseLatch;
-    ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(1, 1, 60, TimeUnit.SECONDS, new PriorityBlockingQueue(10, new Comparator<Runnable>(this) { // from class: org.telegram.DispatchQueuePriority.2
+    ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(1, 1, 60, TimeUnit.SECONDS, new PriorityBlockingQueue(10, new Comparator<Runnable>() { // from class: org.telegram.DispatchQueuePriority.2
         @Override // java.util.Comparator
         public int compare(Runnable runnable, Runnable runnable2) {
             return (runnable2 instanceof PriorityRunnable ? ((PriorityRunnable) runnable2).priority : 1) - (runnable instanceof PriorityRunnable ? ((PriorityRunnable) runnable).priority : 1);

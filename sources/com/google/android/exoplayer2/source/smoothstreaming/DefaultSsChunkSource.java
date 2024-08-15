@@ -222,10 +222,12 @@ public class DefaultSsChunkSource implements SsChunkSource {
     /* loaded from: classes.dex */
     private static final class StreamElementIterator extends BaseMediaChunkIterator {
         private final SsManifest.StreamElement streamElement;
+        private final int trackIndex;
 
         public StreamElementIterator(SsManifest.StreamElement streamElement, int i, int i2) {
             super(i2, streamElement.chunkCount - 1);
             this.streamElement = streamElement;
+            this.trackIndex = i;
         }
 
         @Override // com.google.android.exoplayer2.source.chunk.MediaChunkIterator

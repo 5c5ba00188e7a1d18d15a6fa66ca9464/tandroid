@@ -93,7 +93,7 @@ public abstract class BaseLocationAdapter extends AdapterWithDiffUtils {
         }
         this.searchInProgress = true;
         DispatchQueue dispatchQueue = Utilities.searchQueue;
-        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda1
+        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 BaseLocationAdapter.this.lambda$searchDelayed$1(str, location);
@@ -105,7 +105,7 @@ public abstract class BaseLocationAdapter extends AdapterWithDiffUtils {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchDelayed$1(final String str, final Location location) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda2
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 BaseLocationAdapter.this.lambda$searchDelayed$0(str, location);
@@ -133,7 +133,7 @@ public abstract class BaseLocationAdapter extends AdapterWithDiffUtils {
             str = MessagesController.getInstance(this.currentAccount).venueSearchBot;
         }
         tLRPC$TL_contacts_resolveUsername.username = str;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_contacts_resolveUsername, new RequestDelegate() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda6
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_contacts_resolveUsername, new RequestDelegate() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda4
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 BaseLocationAdapter.this.lambda$searchBotUser$3(tLObject, tLRPC$TL_error);
@@ -144,7 +144,7 @@ public abstract class BaseLocationAdapter extends AdapterWithDiffUtils {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchBotUser$3(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject != null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda4
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda7
                 @Override // java.lang.Runnable
                 public final void run() {
                     BaseLocationAdapter.this.lambda$searchBotUser$2(tLObject);
@@ -232,7 +232,7 @@ public abstract class BaseLocationAdapter extends AdapterWithDiffUtils {
                     if (this.stories) {
                         if (currentLocale.getLanguage().contains("en")) {
                             locale = currentLocale;
-                            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda3
+                            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda1
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     BaseLocationAdapter.this.lambda$searchPlacesWithQuery$5(currentLocale, str, locale, location, str);
@@ -243,7 +243,7 @@ public abstract class BaseLocationAdapter extends AdapterWithDiffUtils {
                         }
                     }
                     locale = locale2;
-                    Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda3
+                    Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda1
                         @Override // java.lang.Runnable
                         public final void run() {
                             BaseLocationAdapter.this.lambda$searchPlacesWithQuery$5(currentLocale, str, locale, location, str);
@@ -255,7 +255,7 @@ public abstract class BaseLocationAdapter extends AdapterWithDiffUtils {
                 if (location == null) {
                     return;
                 }
-                this.currentRequestNum = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getInlineBotResults, new RequestDelegate() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda7
+                this.currentRequestNum = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getInlineBotResults, new RequestDelegate() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda2
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         BaseLocationAdapter.this.lambda$searchPlacesWithQuery$7(str, tLObject, tLRPC$TL_error);
@@ -724,7 +724,7 @@ public abstract class BaseLocationAdapter extends AdapterWithDiffUtils {
             }
         } catch (Exception unused2) {
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda0
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 BaseLocationAdapter.this.lambda$searchPlacesWithQuery$4(location, str2, arrayList);
@@ -749,7 +749,7 @@ public abstract class BaseLocationAdapter extends AdapterWithDiffUtils {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchPlacesWithQuery$7(final String str, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda5
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 BaseLocationAdapter.this.lambda$searchPlacesWithQuery$6(tLRPC$TL_error, str, tLObject);

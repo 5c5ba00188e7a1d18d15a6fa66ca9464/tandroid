@@ -6,11 +6,10 @@ import java.util.AbstractMap;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.concurrent.ConcurrentMap;
 /* loaded from: classes2.dex */
 class v {
-    private static final ConcurrentMap a = new ConcurrentHashMap(16, 0.75f, 2);
-    private static final Comparator b = new d(1);
+    private static final ConcurrentHashMap a = new ConcurrentHashMap(16, 0.75f, 2);
+    private static final Comparator b = new d();
     public static final /* synthetic */ int c = 0;
 
     private static String b(String str) {
@@ -20,8 +19,8 @@ class v {
     public String c(j$.time.temporal.l lVar, long j, TextStyle textStyle, Locale locale) {
         Object obj;
         AbstractMap.SimpleImmutableEntry simpleImmutableEntry = new AbstractMap.SimpleImmutableEntry(lVar, locale);
-        ConcurrentMap concurrentMap = a;
-        Object obj2 = concurrentMap.get(simpleImmutableEntry);
+        ConcurrentHashMap concurrentHashMap = a;
+        Object obj2 = concurrentHashMap.get(simpleImmutableEntry);
         if (obj2 == null) {
             HashMap hashMap = new HashMap();
             int i = 0;
@@ -126,8 +125,8 @@ class v {
             } else {
                 obj = "";
             }
-            concurrentMap.putIfAbsent(simpleImmutableEntry, obj);
-            obj2 = concurrentMap.get(simpleImmutableEntry);
+            concurrentHashMap.putIfAbsent(simpleImmutableEntry, obj);
+            obj2 = concurrentHashMap.get(simpleImmutableEntry);
         }
         if (obj2 instanceof u) {
             return ((u) obj2).a(j, textStyle);

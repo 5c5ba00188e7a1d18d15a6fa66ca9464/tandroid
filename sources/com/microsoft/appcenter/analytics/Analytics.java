@@ -31,7 +31,6 @@ import java.util.concurrent.TimeUnit;
 public class Analytics extends AbstractAppCenterService {
     @SuppressLint({"StaticFieldLeak"})
     private static Analytics sInstance;
-    private AnalyticsListener mAnalyticsListener;
     private Channel.Listener mAnalyticsTransmissionTargetListener;
     private AnalyticsValidator mAnalyticsValidator;
     private boolean mAutoPageTrackingEnabled = false;
@@ -42,6 +41,7 @@ public class Analytics extends AbstractAppCenterService {
     private SessionTracker mSessionTracker;
     private boolean mStartedFromApp;
     private long mTransmissionInterval;
+    private final Map<String, AnalyticsTransmissionTarget> mTransmissionTargets;
 
     @Override // com.microsoft.appcenter.AbstractAppCenterService
     protected String getGroupName() {
@@ -63,6 +63,11 @@ public class Analytics extends AbstractAppCenterService {
         return false;
     }
 
+    static /* synthetic */ AnalyticsListener access$500(Analytics analytics) {
+        analytics.getClass();
+        return null;
+    }
+
     private Analytics() {
         HashMap hashMap = new HashMap();
         this.mFactories = hashMap;
@@ -70,7 +75,7 @@ public class Analytics extends AbstractAppCenterService {
         hashMap.put("page", new PageLogFactory());
         hashMap.put("event", new EventLogFactory());
         hashMap.put("commonSchemaEvent", new CommonSchemaEventLogFactory());
-        new HashMap();
+        this.mTransmissionTargets = new HashMap();
         this.mTransmissionInterval = TimeUnit.SECONDS.toMillis(3L);
     }
 
@@ -183,23 +188,17 @@ public class Analytics extends AbstractAppCenterService {
         return new Channel.GroupListener() { // from class: com.microsoft.appcenter.analytics.Analytics.6
             @Override // com.microsoft.appcenter.channel.Channel.GroupListener
             public void onBeforeSending(Log log) {
-                if (Analytics.this.mAnalyticsListener != null) {
-                    Analytics.this.mAnalyticsListener.onBeforeSending(log);
-                }
+                Analytics.access$500(Analytics.this);
             }
 
             @Override // com.microsoft.appcenter.channel.Channel.GroupListener
             public void onSuccess(Log log) {
-                if (Analytics.this.mAnalyticsListener != null) {
-                    Analytics.this.mAnalyticsListener.onSendingSucceeded(log);
-                }
+                Analytics.access$500(Analytics.this);
             }
 
             @Override // com.microsoft.appcenter.channel.Channel.GroupListener
             public void onFailure(Log log, Exception exc) {
-                if (Analytics.this.mAnalyticsListener != null) {
-                    Analytics.this.mAnalyticsListener.onSendingFailed(log, exc);
-                }
+                Analytics.access$500(Analytics.this);
             }
         };
     }

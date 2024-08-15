@@ -11,6 +11,6 @@ public abstract class i {
         b = g.WEEK_OF_WEEK_BASED_YEAR;
         c = g.WEEK_BASED_YEAR;
         h hVar = h.WEEK_BASED_YEARS;
-        h hVar2 = h.QUARTER_YEARS;
+        h hVar2 = h.WEEK_BASED_YEARS;
     }
 }

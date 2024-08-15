@@ -91,6 +91,7 @@ import org.telegram.ui.StickersActivity;
 /* loaded from: classes4.dex */
 public class StickersActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private int activeReorderingRequests;
+    private ActionBarMenuItem archiveMenuItem;
     private int archivedInfoRow;
     private int archivedRow;
     private int currentType;
@@ -119,6 +120,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
     private int reactionsDoubleTapRow;
     private int rowCount;
     private NumberTextView selectedCountTextView;
+    private ActionBarMenuItem shareMenuItem;
     private int stickersBotInfo;
     private int stickersEndRow;
     private int stickersHeaderRow;
@@ -286,7 +288,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
         this.selectedCountTextView.setTypeface(AndroidUtilities.bold());
         this.selectedCountTextView.setTextColor(Theme.getColor(Theme.key_actionBarActionModeDefaultIcon));
         createActionMode.addView(this.selectedCountTextView, LayoutHelper.createLinear(0, -1, 1.0f, 72, 0, 0, 0));
-        this.selectedCountTextView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.StickersActivity$$ExternalSyntheticLambda1
+        this.selectedCountTextView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.StickersActivity$$ExternalSyntheticLambda0
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view, MotionEvent motionEvent) {
                 boolean lambda$createView$0;
@@ -294,8 +296,8 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
                 return lambda$createView$0;
             }
         });
-        createActionMode.addItemWithWidth(2, R.drawable.msg_share, AndroidUtilities.dp(54.0f));
-        createActionMode.addItemWithWidth(0, R.drawable.msg_archive, AndroidUtilities.dp(54.0f));
+        this.shareMenuItem = createActionMode.addItemWithWidth(2, R.drawable.msg_share, AndroidUtilities.dp(54.0f));
+        this.archiveMenuItem = createActionMode.addItemWithWidth(0, R.drawable.msg_archive, AndroidUtilities.dp(54.0f));
         this.deleteMenuItem = createActionMode.addItemWithWidth(1, R.drawable.msg_delete, AndroidUtilities.dp(54.0f));
         if (this.currentType != 5 || (arrayList = this.frozenEmojiPacks) == null) {
             arrayList = new ArrayList<>(MessagesController.getInstance(this.currentAccount).filterPremiumStickers(MediaDataController.getInstance(this.currentAccount).getStickerSets(this.currentType)));
@@ -303,8 +305,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
         this.listAdapter = new ListAdapter(context, arrayList, getFeaturedSets());
         FrameLayout frameLayout = new FrameLayout(context);
         this.fragmentView = frameLayout;
-        FrameLayout frameLayout2 = frameLayout;
-        frameLayout2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
+        frameLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
         RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.StickersActivity.2
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
@@ -348,15 +349,15 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new TouchHelperCallback());
         this.itemTouchHelper = itemTouchHelper;
         itemTouchHelper.attachToRecyclerView(this.listView);
-        frameLayout2.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
+        frameLayout.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
         this.listView.setAdapter(this.listAdapter);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.StickersActivity$$ExternalSyntheticLambda4
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.StickersActivity$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i2) {
                 StickersActivity.this.lambda$createView$2(context, view, i2);
             }
         });
-        this.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.StickersActivity$$ExternalSyntheticLambda5
+        this.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.StickersActivity$$ExternalSyntheticLambda2
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
             public final boolean onItemClick(View view, int i2) {
                 boolean lambda$createView$3;
@@ -463,7 +464,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
                 radioColorCell.setTextAndValue(strArr[i3], SharedConfig.suggestStickers == i3);
                 radioColorCell.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector), 2));
                 linearLayout.addView(radioColorCell);
-                radioColorCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.StickersActivity$$ExternalSyntheticLambda0
+                radioColorCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.StickersActivity$$ExternalSyntheticLambda4
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view2) {
                         StickersActivity.this.lambda$createView$1(builder, view2);
@@ -528,12 +529,8 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
             }
         } else if (i == NotificationCenter.featuredStickersDidLoad || i == NotificationCenter.featuredEmojiDidLoad) {
             updateRows(false);
-        } else if (i == NotificationCenter.archivedStickersCountDidLoad) {
-            if (((Integer) objArr[0]).intValue() == this.currentType) {
-                updateRows(false);
-            }
-        } else {
-            int i4 = NotificationCenter.currentUserPremiumStatusChanged;
+        } else if (i == NotificationCenter.archivedStickersCountDidLoad && ((Integer) objArr[0]).intValue() == this.currentType) {
+            updateRows(false);
         }
     }
 
@@ -579,7 +576,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$sendReorder$5(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.StickersActivity$$ExternalSyntheticLambda2
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.StickersActivity$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 StickersActivity.this.lambda$sendReorder$4();
@@ -755,7 +752,6 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
         if (i10 == 5) {
             int i11 = this.rowCount;
             int i12 = i11 + 1;
-            this.rowCount = i12;
             this.suggestAnimatedEmojiRow = i11;
             this.rowCount = i12 + 1;
             this.suggestAnimatedEmojiInfoRow = i12;
@@ -784,16 +780,12 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
         if (i10 == 0) {
             int i15 = this.rowCount;
             int i16 = i15 + 1;
-            this.rowCount = i16;
             this.stickersSettingsRow = i15;
             int i17 = i16 + 1;
-            this.rowCount = i17;
             this.suggestRow = i16;
             int i18 = i17 + 1;
-            this.rowCount = i18;
             this.largeEmojiRow = i17;
             int i19 = i18 + 1;
-            this.rowCount = i19;
             this.dynamicPackOrder = i18;
             this.rowCount = i19 + 1;
             this.dynamicPackOrderInfo = i19;
@@ -1057,7 +1049,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
                         builder.setMessage(LocaleController.formatString("ArchiveStickersAlertMessage", R.string.ArchiveStickersAlertMessage, Integer.valueOf(size3)));
                         string = LocaleController.getString("Archive", R.string.Archive);
                     }
-                    builder.setPositiveButton(string, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.StickersActivity$ListAdapter$$ExternalSyntheticLambda0
+                    builder.setPositiveButton(string, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.StickersActivity$ListAdapter$$ExternalSyntheticLambda1
                         @Override // android.content.DialogInterface.OnClickListener
                         public final void onClick(DialogInterface dialogInterface, int i4) {
                             StickersActivity.ListAdapter.this.lambda$processSelectionMenu$0(arrayList, i, dialogInterface, i4);
@@ -1345,7 +1337,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
                     }
                     featuredStickerSetCell2.setStickersSet(tLRPC$StickerSetCovered, true, false, false, z2);
                     featuredStickerSetCell2.setDrawProgress(this.loadingFeaturedStickerSets.contains(Long.valueOf(tLRPC$StickerSetCovered.set.id)), z2);
-                    featuredStickerSetCell2.setAddOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.StickersActivity$ListAdapter$$ExternalSyntheticLambda1
+                    featuredStickerSetCell2.setAddOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.StickersActivity$ListAdapter$$ExternalSyntheticLambda4
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
                             StickersActivity.ListAdapter.this.lambda$onBindViewHolder$1(view);
@@ -1424,39 +1416,39 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
             StickerSetCell stickerSetCell = (StickerSetCell) view.getParent();
             final TLRPC$TL_messages_stickerSet stickersSet = stickerSetCell.getStickersSet();
             ItemOptions makeOptions = ItemOptions.makeOptions(StickersActivity.this, stickerSetCell);
-            makeOptions.add(R.drawable.msg_archive, LocaleController.getString("StickersHide", R.string.StickersHide), new Runnable() { // from class: org.telegram.ui.StickersActivity$ListAdapter$$ExternalSyntheticLambda7
+            makeOptions.add(R.drawable.msg_archive, LocaleController.getString("StickersHide", R.string.StickersHide), new Runnable() { // from class: org.telegram.ui.StickersActivity$ListAdapter$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
                 public final void run() {
                     StickersActivity.ListAdapter.this.lambda$onCreateViewHolder$3(stickersSet);
                 }
             });
             if (stickersSet.set.official) {
-                makeOptions.add(R.drawable.msg_reorder, LocaleController.getString("StickersReorder", R.string.StickersReorder), new Runnable() { // from class: org.telegram.ui.StickersActivity$ListAdapter$$ExternalSyntheticLambda8
+                makeOptions.add(R.drawable.msg_reorder, LocaleController.getString("StickersReorder", R.string.StickersReorder), new Runnable() { // from class: org.telegram.ui.StickersActivity$ListAdapter$$ExternalSyntheticLambda6
                     @Override // java.lang.Runnable
                     public final void run() {
                         StickersActivity.ListAdapter.this.lambda$onCreateViewHolder$4(stickersSet);
                     }
                 });
             } else {
-                makeOptions.add(R.drawable.msg_link, LocaleController.getString("StickersCopy", R.string.StickersCopy), new Runnable() { // from class: org.telegram.ui.StickersActivity$ListAdapter$$ExternalSyntheticLambda5
+                makeOptions.add(R.drawable.msg_link, LocaleController.getString("StickersCopy", R.string.StickersCopy), new Runnable() { // from class: org.telegram.ui.StickersActivity$ListAdapter$$ExternalSyntheticLambda7
                     @Override // java.lang.Runnable
                     public final void run() {
                         StickersActivity.ListAdapter.this.lambda$onCreateViewHolder$5(stickersSet);
                     }
                 });
-                makeOptions.add(R.drawable.msg_reorder, LocaleController.getString("StickersReorder", R.string.StickersReorder), new Runnable() { // from class: org.telegram.ui.StickersActivity$ListAdapter$$ExternalSyntheticLambda9
+                makeOptions.add(R.drawable.msg_reorder, LocaleController.getString("StickersReorder", R.string.StickersReorder), new Runnable() { // from class: org.telegram.ui.StickersActivity$ListAdapter$$ExternalSyntheticLambda8
                     @Override // java.lang.Runnable
                     public final void run() {
                         StickersActivity.ListAdapter.this.lambda$onCreateViewHolder$6(stickersSet);
                     }
                 });
-                makeOptions.add(R.drawable.msg_share, LocaleController.getString("StickersShare", R.string.StickersShare), new Runnable() { // from class: org.telegram.ui.StickersActivity$ListAdapter$$ExternalSyntheticLambda6
+                makeOptions.add(R.drawable.msg_share, LocaleController.getString("StickersShare", R.string.StickersShare), new Runnable() { // from class: org.telegram.ui.StickersActivity$ListAdapter$$ExternalSyntheticLambda9
                     @Override // java.lang.Runnable
                     public final void run() {
                         StickersActivity.ListAdapter.this.lambda$onCreateViewHolder$7(stickersSet);
                     }
                 });
-                makeOptions.add(R.drawable.msg_delete, (CharSequence) LocaleController.getString("StickersRemove", R.string.StickersRemove), true, new Runnable() { // from class: org.telegram.ui.StickersActivity$ListAdapter$$ExternalSyntheticLambda4
+                makeOptions.add(R.drawable.msg_delete, (CharSequence) LocaleController.getString("StickersRemove", R.string.StickersRemove), true, new Runnable() { // from class: org.telegram.ui.StickersActivity$ListAdapter$$ExternalSyntheticLambda10
                     @Override // java.lang.Runnable
                     public final void run() {
                         StickersActivity.ListAdapter.this.lambda$onCreateViewHolder$8(stickersSet);
@@ -1508,21 +1500,18 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
                         StickersActivity.this.showDialog(new PremiumFeatureBottomSheet(StickersActivity.this, 11, false));
                     }
 
-                    /* JADX WARN: Multi-variable type inference failed */
-                    /* JADX WARN: Type inference failed for: r2v0 */
-                    /* JADX WARN: Type inference failed for: r2v1, types: [org.telegram.tgnet.TLRPC$StickerSetCovered] */
-                    /* JADX WARN: Type inference failed for: r2v3, types: [org.telegram.tgnet.TLRPC$StickerSetCovered] */
                     @Override // org.telegram.ui.Cells.StickerSetCell
                     protected void onAddButtonClick() {
+                        TLRPC$StickerSetCovered tLRPC$StickerSetCovered;
                         TLRPC$TL_messages_stickerSet stickersSet = getStickersSet();
                         if (stickersSet == null || stickersSet.set == null) {
                             return;
                         }
                         ArrayList<TLRPC$StickerSetCovered> featuredEmojiSets = StickersActivity.this.getMediaDataController().getFeaturedEmojiSets();
-                        TLRPC$StickerSetCovered tLRPC$StickerSetCovered = 0;
                         int i2 = 0;
                         while (true) {
                             if (i2 >= featuredEmojiSets.size()) {
+                                tLRPC$StickerSetCovered = null;
                                 break;
                             } else if (stickersSet.set.id == featuredEmojiSets.get(i2).set.id) {
                                 tLRPC$StickerSetCovered = featuredEmojiSets.get(i2);
@@ -1531,13 +1520,13 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
                                 i2++;
                             }
                         }
-                        if (tLRPC$StickerSetCovered != 0) {
+                        if (tLRPC$StickerSetCovered != null) {
                             if (ListAdapter.this.loadingFeaturedStickerSets.contains(Long.valueOf(tLRPC$StickerSetCovered.set.id))) {
                                 return;
                             }
                             ListAdapter.this.loadingFeaturedStickerSets.add(Long.valueOf(tLRPC$StickerSetCovered.set.id));
                         }
-                        MediaDataController.getInstance(((BaseFragment) StickersActivity.this).currentAccount).toggleStickerSet(StickersActivity.this.getParentActivity(), tLRPC$StickerSetCovered == 0 ? stickersSet : tLRPC$StickerSetCovered, 2, StickersActivity.this, false, false);
+                        MediaDataController.getInstance(((BaseFragment) StickersActivity.this).currentAccount).toggleStickerSet(StickersActivity.this.getParentActivity(), tLRPC$StickerSetCovered == null ? stickersSet : tLRPC$StickerSetCovered, 2, StickersActivity.this, false, false);
                     }
 
                     @Override // org.telegram.ui.Cells.StickerSetCell
@@ -1546,7 +1535,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
                     }
                 };
                 stickerSetCell.setBackgroundColor(StickersActivity.this.getThemedColor(Theme.key_windowBackgroundWhite));
-                stickerSetCell.setOnReorderButtonTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.StickersActivity$ListAdapter$$ExternalSyntheticLambda3
+                stickerSetCell.setOnReorderButtonTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.StickersActivity$ListAdapter$$ExternalSyntheticLambda2
                     @Override // android.view.View.OnTouchListener
                     public final boolean onTouch(View view, MotionEvent motionEvent) {
                         boolean lambda$onCreateViewHolder$2;
@@ -1554,7 +1543,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
                         return lambda$onCreateViewHolder$2;
                     }
                 });
-                stickerSetCell.setOnOptionsClick(new View.OnClickListener() { // from class: org.telegram.ui.StickersActivity$ListAdapter$$ExternalSyntheticLambda2
+                stickerSetCell.setOnOptionsClick(new View.OnClickListener() { // from class: org.telegram.ui.StickersActivity$ListAdapter$$ExternalSyntheticLambda3
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         StickersActivity.ListAdapter.this.lambda$onCreateViewHolder$9(view);
@@ -1630,7 +1619,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
             }
             MediaDataController mediaDataController = MediaDataController.getInstance(((BaseFragment) StickersActivity.this).currentAccount);
             swapListElements(this.stickerSets, i - StickersActivity.this.stickersStartRow, i2 - StickersActivity.this.stickersStartRow);
-            Collections.sort(mediaDataController.getStickerSets(StickersActivity.this.currentType), new Comparator() { // from class: org.telegram.ui.StickersActivity$ListAdapter$$ExternalSyntheticLambda10
+            Collections.sort(mediaDataController.getStickerSets(StickersActivity.this.currentType), new Comparator() { // from class: org.telegram.ui.StickersActivity$ListAdapter$$ExternalSyntheticLambda0
                 @Override // java.util.Comparator
                 public final int compare(Object obj, Object obj2) {
                     int lambda$swapElements$10;

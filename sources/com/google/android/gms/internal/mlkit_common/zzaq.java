@@ -8,8 +8,8 @@ import java.util.RandomAccess;
 /* compiled from: com.google.mlkit:common@@18.10.0 */
 /* loaded from: classes.dex */
 public abstract class zzaq extends zzam implements List, RandomAccess {
+    public static final /* synthetic */ int $r8$clinit = 0;
     private static final zzbe zza = new zzao(zzaw.zza, 0);
-    public static final /* synthetic */ int zzd = 0;
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static zzaq zzg(Object[] objArr, int i) {

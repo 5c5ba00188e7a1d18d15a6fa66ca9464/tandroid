@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.video.spherical;
 
 import android.graphics.SurfaceTexture;
 import android.hardware.Sensor;
+import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.opengl.GLSurfaceView;
 import android.os.Handler;
@@ -14,9 +15,7 @@ public final class SphericalGLSurfaceView extends GLSurfaceView {
     private boolean isOrientationListenerRegistered;
     private boolean isStarted;
     private final Handler mainHandler;
-    private final OrientationListener orientationListener;
     private final Sensor orientationSensor;
-    private final SceneRenderer scene;
     private final SensorManager sensorManager;
     private Surface surface;
     private SurfaceTexture surfaceTexture;
@@ -26,6 +25,14 @@ public final class SphericalGLSurfaceView extends GLSurfaceView {
     /* loaded from: classes.dex */
     public interface VideoSurfaceListener {
         void onVideoSurfaceDestroyed(Surface surface);
+    }
+
+    public CameraMotionListener getCameraMotionListener() {
+        return null;
+    }
+
+    public VideoFrameMetadataListener getVideoFrameMetadataListener() {
+        return null;
     }
 
     public void addVideoSurfaceListener(VideoSurfaceListener videoSurfaceListener) {
@@ -38,14 +45,6 @@ public final class SphericalGLSurfaceView extends GLSurfaceView {
 
     public Surface getVideoSurface() {
         return this.surface;
-    }
-
-    public VideoFrameMetadataListener getVideoFrameMetadataListener() {
-        return this.scene;
-    }
-
-    public CameraMotionListener getCameraMotionListener() {
-        return this.scene;
     }
 
     public void setDefaultStereoMode(int i) {
@@ -103,9 +102,9 @@ public final class SphericalGLSurfaceView extends GLSurfaceView {
             return;
         }
         if (z) {
-            this.sensorManager.registerListener(this.orientationListener, sensor, 0);
+            this.sensorManager.registerListener((SensorEventListener) null, sensor, 0);
         } else {
-            this.sensorManager.unregisterListener(this.orientationListener);
+            this.sensorManager.unregisterListener((SensorEventListener) null);
         }
         this.isOrientationListenerRegistered = z;
     }

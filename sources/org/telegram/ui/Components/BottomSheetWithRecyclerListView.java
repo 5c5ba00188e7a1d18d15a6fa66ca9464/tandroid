@@ -51,6 +51,7 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
     private float shadowAlpha;
     private boolean showHandle;
     boolean showShadow;
+    public final boolean stackFromEnd;
     protected boolean takeTranslationIntoAccount;
     public float topPadding;
     boolean wasDrawn;
@@ -125,6 +126,7 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
         this.savedScrollPosition = -1;
         this.baseFragment = baseFragment;
         this.hasFixedSize = z2;
+        this.stackFromEnd = z4;
         this.headerShadowDrawable = ContextCompat.getDrawable(context, R.drawable.header_shadow).mutate();
         if (z3) {
             NestedSizeNotifierLayout nestedSizeNotifierLayout = new NestedSizeNotifierLayout(context) { // from class: org.telegram.ui.Components.BottomSheetWithRecyclerListView.1
@@ -290,7 +292,7 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
             });
             frameLayout.addView(this.recyclerListView);
             frameLayout.addView(this.actionBar, LayoutHelper.createFrame(-1, -2.0f, 0, 6.0f, 0.0f, 6.0f, 0.0f));
-            this.recyclerListView.addOnScrollListener(new RecyclerView.OnScrollListener(this) { // from class: org.telegram.ui.Components.BottomSheetWithRecyclerListView.6
+            this.recyclerListView.addOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.BottomSheetWithRecyclerListView.6
                 @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
                 public void onScrolled(RecyclerView recyclerView, int i, int i2) {
                     super.onScrolled(recyclerView, i, i2);
@@ -382,7 +384,7 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public void registerAdapterDataObserver(final RecyclerView.AdapterDataObserver adapterDataObserver) {
-                createAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver(this) { // from class: org.telegram.ui.Components.BottomSheetWithRecyclerListView.7.2
+                createAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() { // from class: org.telegram.ui.Components.BottomSheetWithRecyclerListView.7.2
                     @Override // androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
                     public void onChanged() {
                         adapterDataObserver.onChanged();

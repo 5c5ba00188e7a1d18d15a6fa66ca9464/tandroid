@@ -4,7 +4,6 @@ import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
-import java.util.Objects;
 /* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
 class zzt extends AbstractCollection {
@@ -186,7 +185,7 @@ class zzt extends AbstractCollection {
 
     @Override // java.util.AbstractCollection, java.util.Collection
     public final boolean retainAll(Collection collection) {
-        Objects.requireNonNull(collection);
+        collection.getClass();
         int size = size();
         boolean retainAll = this.zzb.retainAll(collection);
         if (retainAll) {

@@ -104,8 +104,7 @@ public final class PgsDecoder extends SimpleSubtitleDecoder {
             parsableByteArray.skipBytes(2);
             Arrays.fill(this.colors, 0);
             int i2 = i / 5;
-            int i3 = 0;
-            while (i3 < i2) {
+            for (int i3 = 0; i3 < i2; i3++) {
                 int readUnsignedByte = parsableByteArray.readUnsignedByte();
                 int readUnsignedByte2 = parsableByteArray.readUnsignedByte();
                 int readUnsignedByte3 = parsableByteArray.readUnsignedByte();
@@ -115,15 +114,13 @@ public final class PgsDecoder extends SimpleSubtitleDecoder {
                 double d2 = readUnsignedByte3 - 128;
                 Double.isNaN(d2);
                 Double.isNaN(d);
-                int i4 = i3;
                 double d3 = readUnsignedByte4 - 128;
                 Double.isNaN(d3);
                 Double.isNaN(d);
                 Double.isNaN(d2);
                 Double.isNaN(d3);
                 Double.isNaN(d);
-                this.colors[readUnsignedByte] = Util.constrainValue((int) (d + (d3 * 1.772d)), 0, 255) | (Util.constrainValue((int) ((d - (0.34414d * d3)) - (d2 * 0.71414d)), 0, 255) << 8) | (readUnsignedByte5 << 24) | (Util.constrainValue((int) ((1.402d * d2) + d), 0, 255) << 16);
-                i3 = i4 + 1;
+                this.colors[readUnsignedByte] = (Util.constrainValue((int) ((d - (0.34414d * d3)) - (d2 * 0.71414d)), 0, 255) << 8) | (readUnsignedByte5 << 24) | (Util.constrainValue((int) ((1.402d * d2) + d), 0, 255) << 16) | Util.constrainValue((int) (d + (d3 * 1.772d)), 0, 255);
             }
             this.colorsSet = true;
         }

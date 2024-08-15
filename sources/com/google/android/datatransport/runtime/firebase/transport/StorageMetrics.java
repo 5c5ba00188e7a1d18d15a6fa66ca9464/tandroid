@@ -3,12 +3,9 @@ package com.google.android.datatransport.runtime.firebase.transport;
 import com.google.firebase.encoders.proto.Protobuf;
 /* loaded from: classes.dex */
 public final class StorageMetrics {
+    private static final StorageMetrics DEFAULT_INSTANCE = new Builder().build();
     private final long current_cache_size_bytes_;
     private final long max_cache_size_bytes_;
-
-    static {
-        new Builder().build();
-    }
 
     StorageMetrics(long j, long j2) {
         this.current_cache_size_bytes_ = j;

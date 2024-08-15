@@ -1,7 +1,6 @@
 package com.google.android.exoplayer2.util;
 
 import android.text.TextUtils;
-import java.util.Objects;
 /* loaded from: classes.dex */
 public final class Assertions {
     public static void checkArgument(boolean z) {
@@ -50,7 +49,7 @@ public final class Assertions {
     }
 
     public static <T> T checkNotNull(T t) {
-        Objects.requireNonNull(t);
+        t.getClass();
         return t;
     }
 

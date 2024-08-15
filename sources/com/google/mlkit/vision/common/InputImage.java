@@ -1,6 +1,7 @@
 package com.google.mlkit.vision.common;
 
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.media.Image;
 import android.os.SystemClock;
 import com.google.android.gms.common.internal.Preconditions;
@@ -17,6 +18,7 @@ public class InputImage implements MLTaskInput {
     private final int zze;
     private final int zzf;
     private final int zzg;
+    private final Matrix zzh;
 
     private InputImage(Bitmap bitmap, int i) {
         this.zza = (Bitmap) Preconditions.checkNotNull(bitmap);
@@ -25,6 +27,7 @@ public class InputImage implements MLTaskInput {
         zza(i);
         this.zzf = i;
         this.zzg = -1;
+        this.zzh = null;
     }
 
     public static InputImage fromBitmap(Bitmap bitmap, int i) {

@@ -1,7 +1,6 @@
 package com.google.android.gms.internal.mlkit_vision_common;
 
 import java.util.Arrays;
-import java.util.Objects;
 import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.mlkit:vision-common@@17.3.0 */
 /* loaded from: classes.dex */
@@ -38,7 +37,7 @@ class zzj extends zzk {
     }
 
     public final zzj zza(Object obj) {
-        Objects.requireNonNull(obj);
+        obj.getClass();
         zzb(this.zzb + 1);
         Object[] objArr = this.zza;
         int i = this.zzb;

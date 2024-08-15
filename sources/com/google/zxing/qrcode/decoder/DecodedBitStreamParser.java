@@ -24,9 +24,9 @@ final class DecodedBitStreamParser {
         int i = 1;
         ArrayList arrayList = new ArrayList(1);
         CharacterSetECI characterSetECI = null;
-        boolean z = false;
         int i2 = -1;
         int i3 = -1;
+        boolean z = false;
         while (true) {
             try {
                 if (bitSource.available() < 4) {

@@ -138,8 +138,9 @@ public class MessagePreviewView extends FrameLayout {
             if (i >= viewArr.length) {
                 return;
             }
-            if (viewArr[i] != null && ((Page) viewArr[i]).currentTab == 1) {
-                ((Page) viewArr[i]).updateMessages();
+            View view = viewArr[i];
+            if (view != null && ((Page) view).currentTab == 1) {
+                ((Page) view).updateMessages();
             }
             i++;
         }
@@ -322,41 +323,31 @@ public class MessagePreviewView extends FrameLayout {
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:87:0x06ed  */
-        /* JADX WARN: Removed duplicated region for block: B:88:0x06f4  */
-        /* JADX WARN: Removed duplicated region for block: B:94:0x0711  */
-        /* JADX WARN: Removed duplicated region for block: B:97:0x0725  */
-        /* JADX WARN: Type inference failed for: r0v169, types: [org.telegram.ui.ActionBar.ActionBarPopupWindow$ActionBarPopupWindowLayout] */
-        /* JADX WARN: Type inference failed for: r7v9, types: [android.view.View] */
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
+        /* JADX WARN: Type inference failed for: r0v170, types: [org.telegram.ui.ActionBar.ActionBarPopupWindow$ActionBarPopupWindowLayout] */
+        /* JADX WARN: Type inference failed for: r7v10, types: [android.view.View] */
         public Page(Context context, int i) {
             super(context);
-            int i2;
-            boolean z;
             final ToggleButton toggleButton;
-            int i3;
-            View view;
             MessagePreviewParams messagePreviewParams;
             MessagePreviewParams.Messages messages;
             float f;
             LinearLayout linearLayout;
             this.firstLayout = true;
+            this.scrollToOffset = -1;
             this.rect = new android.graphics.Rect();
             this.updateScroll = false;
             this.firstAttach = true;
             this.sharedResources = new ChatMessageSharedResources(context);
             this.currentTab = i;
-            setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda17
+            setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda2
                 @Override // android.view.View.OnTouchListener
-                public final boolean onTouch(View view2, MotionEvent motionEvent) {
+                public final boolean onTouch(View view, MotionEvent motionEvent) {
                     boolean lambda$new$0;
-                    lambda$new$0 = MessagePreviewView.Page.this.lambda$new$0(view2, motionEvent);
+                    lambda$new$0 = MessagePreviewView.Page.this.lambda$new$0(view, motionEvent);
                     return lambda$new$0;
                 }
             });
-            SizeNotifierFrameLayout sizeNotifierFrameLayout = new SizeNotifierFrameLayout(context, MessagePreviewView.this) { // from class: org.telegram.ui.Components.MessagePreviewView.Page.2
+            SizeNotifierFrameLayout sizeNotifierFrameLayout = new SizeNotifierFrameLayout(context) { // from class: org.telegram.ui.Components.MessagePreviewView.Page.2
                 /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.SizeNotifierFrameLayout
                 public Drawable getNewDrawable() {
@@ -375,22 +366,22 @@ public class MessagePreviewView extends FrameLayout {
             this.chatPreviewContainer = sizeNotifierFrameLayout;
             sizeNotifierFrameLayout.setBackgroundImage(MessagePreviewView.this.resourcesProvider.getWallpaperDrawable(), MessagePreviewView.this.resourcesProvider.isWallpaperMotion());
             this.chatPreviewContainer.setOccupyStatusBar(false);
-            int i4 = Build.VERSION.SDK_INT;
-            if (i4 >= 21) {
-                this.chatPreviewContainer.setOutlineProvider(new ViewOutlineProvider(MessagePreviewView.this) { // from class: org.telegram.ui.Components.MessagePreviewView.Page.3
+            int i2 = Build.VERSION.SDK_INT;
+            if (i2 >= 21) {
+                this.chatPreviewContainer.setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.Components.MessagePreviewView.Page.3
                     @Override // android.view.ViewOutlineProvider
                     @TargetApi(21)
-                    public void getOutline(View view2, Outline outline) {
-                        outline.setRoundRect(0, Page.this.currentTopOffset + 1, view2.getMeasuredWidth(), view2.getMeasuredHeight(), AndroidUtilities.dp(8.0f));
+                    public void getOutline(View view, Outline outline) {
+                        outline.setRoundRect(0, Page.this.currentTopOffset + 1, view.getMeasuredWidth(), view.getMeasuredHeight(), AndroidUtilities.dp(8.0f));
                     }
                 });
                 this.chatPreviewContainer.setClipToOutline(true);
                 this.chatPreviewContainer.setElevation(AndroidUtilities.dp(4.0f));
             }
-            ActionBar actionBar = new ActionBar(MessagePreviewView.this, context, MessagePreviewView.this.resourcesProvider);
+            ActionBar actionBar = new ActionBar(context, MessagePreviewView.this.resourcesProvider);
             this.actionBar = actionBar;
             actionBar.setBackgroundColor(MessagePreviewView.this.getThemedColor(Theme.key_actionBarDefault));
-            TextSelectionHelper.ChatListTextSelectionHelper chatListTextSelectionHelper = new TextSelectionHelper.ChatListTextSelectionHelper(MessagePreviewView.this) { // from class: org.telegram.ui.Components.MessagePreviewView.Page.4
+            TextSelectionHelper.ChatListTextSelectionHelper chatListTextSelectionHelper = new TextSelectionHelper.ChatListTextSelectionHelper() { // from class: org.telegram.ui.Components.MessagePreviewView.Page.4
                 {
                     this.resourcesProvider = MessagePreviewView.this.resourcesProvider;
                 }
@@ -422,7 +413,7 @@ public class MessagePreviewView extends FrameLayout {
                 }
 
                 @Override // org.telegram.ui.Cells.TextSelectionHelper
-                protected void onQuoteClick(MessageObject messageObject, int i5, int i6, CharSequence charSequence) {
+                protected void onQuoteClick(MessageObject messageObject, int i3, int i4, CharSequence charSequence) {
                     ChatActivity.ReplyQuote replyQuote;
                     MessageObject messageObject2;
                     Page page = Page.this;
@@ -438,7 +429,7 @@ public class MessagePreviewView extends FrameLayout {
                     messagePreviewParams2.quoteEnd = chatListTextSelectionHelper3.selectionEnd;
                     MessageObject replyMessage = page2.getReplyMessage(messageObject);
                     if (replyMessage != null && ((replyQuote = MessagePreviewView.this.messagePreviewParams.quote) == null || (messageObject2 = replyQuote.message) == null || messageObject2.getId() != replyMessage.getId())) {
-                        MessagePreviewView.this.messagePreviewParams.quote = ChatActivity.ReplyQuote.from(replyMessage, i5, i6);
+                        MessagePreviewView.this.messagePreviewParams.quote = ChatActivity.ReplyQuote.from(replyMessage, i3, i4);
                     }
                     MessagePreviewView.this.onQuoteSelectedPart();
                     MessagePreviewView.this.dismiss(true);
@@ -451,14 +442,14 @@ public class MessagePreviewView extends FrameLayout {
                 }
             };
             this.textSelectionHelper = chatListTextSelectionHelper;
-            chatListTextSelectionHelper.setCallback(new TextSelectionHelper.Callback(MessagePreviewView.this) { // from class: org.telegram.ui.Components.MessagePreviewView.Page.5
+            chatListTextSelectionHelper.setCallback(new TextSelectionHelper.Callback() { // from class: org.telegram.ui.Components.MessagePreviewView.Page.5
                 @Override // org.telegram.ui.Cells.TextSelectionHelper.Callback
-                public void onStateChanged(boolean z2) {
+                public void onStateChanged(boolean z) {
                     Page page = Page.this;
                     if (MessagePreviewView.this.showing) {
-                        if (!z2 && page.menu.getSwipeBack().isForegroundOpen()) {
+                        if (!z && page.menu.getSwipeBack().isForegroundOpen()) {
                             Page.this.menu.getSwipeBack().closeForeground(true);
-                        } else if (z2) {
+                        } else if (z) {
                             Page page2 = Page.this;
                             TextSelectionHelper.ChatListTextSelectionHelper chatListTextSelectionHelper2 = page2.textSelectionHelper;
                             if (chatListTextSelectionHelper2.selectionEnd - chatListTextSelectionHelper2.selectionStart > MessagesController.getInstance(MessagePreviewView.this.currentAccount).quoteLengthMax) {
@@ -470,23 +461,23 @@ public class MessagePreviewView extends FrameLayout {
                             MessagePreviewParams messagePreviewParams2 = MessagePreviewView.this.messagePreviewParams;
                             if (messagePreviewParams2.quote == null) {
                                 TextSelectionHelper.ChatListTextSelectionHelper chatListTextSelectionHelper3 = page3.textSelectionHelper;
-                                int i5 = chatListTextSelectionHelper3.selectionStart;
-                                messagePreviewParams2.quoteStart = i5;
-                                int i6 = chatListTextSelectionHelper3.selectionEnd;
-                                messagePreviewParams2.quoteEnd = i6;
-                                messagePreviewParams2.quote = ChatActivity.ReplyQuote.from(replyMessage, i5, i6);
+                                int i3 = chatListTextSelectionHelper3.selectionStart;
+                                messagePreviewParams2.quoteStart = i3;
+                                int i4 = chatListTextSelectionHelper3.selectionEnd;
+                                messagePreviewParams2.quoteEnd = i4;
+                                messagePreviewParams2.quote = ChatActivity.ReplyQuote.from(replyMessage, i3, i4);
                                 Page.this.menu.getSwipeBack().openForeground(Page.this.menuBack);
                             }
                         }
                     }
                 }
             });
-            RecyclerListView recyclerListView = new RecyclerListView(context, MessagePreviewView.this.resourcesProvider, MessagePreviewView.this) { // from class: org.telegram.ui.Components.MessagePreviewView.Page.6
+            RecyclerListView recyclerListView = new RecyclerListView(context, MessagePreviewView.this.resourcesProvider) { // from class: org.telegram.ui.Components.MessagePreviewView.Page.6
                 @Override // androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup
-                public boolean drawChild(Canvas canvas, View view2, long j) {
-                    if (view2 instanceof ChatMessageCell) {
-                        ChatMessageCell chatMessageCell = (ChatMessageCell) view2;
-                        boolean drawChild = super.drawChild(canvas, view2, j);
+                public boolean drawChild(Canvas canvas, View view, long j) {
+                    if (view instanceof ChatMessageCell) {
+                        ChatMessageCell chatMessageCell = (ChatMessageCell) view;
+                        boolean drawChild = super.drawChild(canvas, view, j);
                         chatMessageCell.drawCheckBox(canvas);
                         canvas.save();
                         canvas.translate(chatMessageCell.getX(), chatMessageCell.getY());
@@ -517,8 +508,8 @@ public class MessagePreviewView extends FrameLayout {
                 /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
                 public void dispatchDraw(Canvas canvas) {
-                    for (int i5 = 0; i5 < getChildCount(); i5++) {
-                        View childAt = getChildAt(i5);
+                    for (int i3 = 0; i3 < getChildCount(); i3++) {
+                        View childAt = getChildAt(i3);
                         if (childAt instanceof ChatMessageCell) {
                             ((ChatMessageCell) childAt).setParentViewSize(Page.this.chatPreviewContainer.getMeasuredWidth(), Page.this.chatPreviewContainer.getBackgroundSizeY());
                         }
@@ -529,52 +520,52 @@ public class MessagePreviewView extends FrameLayout {
 
                 /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-                public void onLayout(boolean z2, int i5, int i6, int i7, int i8) {
+                public void onLayout(boolean z, int i3, int i4, int i5, int i6) {
                     if (Page.this.firstLayout) {
                         if (Page.this.currentTab != 0) {
                             scrollToPosition(0);
                         }
                         Page.this.firstLayout = false;
                     }
-                    super.onLayout(z2, i5, i6, i7, i8);
+                    super.onLayout(z, i3, i4, i5, i6);
                     Page.this.updatePositions();
                     Page.this.checkScroll();
                 }
 
                 /* JADX WARN: Type inference failed for: r3v0 */
-                /* JADX WARN: Type inference failed for: r3v1, types: [int, boolean] */
+                /* JADX WARN: Type inference failed for: r3v1, types: [boolean, int] */
                 /* JADX WARN: Type inference failed for: r3v9 */
                 private void drawChatBackgroundElements(Canvas canvas) {
-                    boolean z2;
-                    int i5;
+                    boolean z;
+                    int i3;
                     MessageObject.GroupedMessages currentMessagesGroup;
                     ChatMessageCell chatMessageCell;
                     MessageObject.GroupedMessages currentMessagesGroup2;
                     int childCount = getChildCount();
                     ?? r3 = 0;
                     MessageObject.GroupedMessages groupedMessages = null;
-                    for (int i6 = 0; i6 < childCount; i6++) {
-                        View childAt = getChildAt(i6);
+                    for (int i4 = 0; i4 < childCount; i4++) {
+                        View childAt = getChildAt(i4);
                         if ((childAt instanceof ChatMessageCell) && ((currentMessagesGroup2 = (chatMessageCell = (ChatMessageCell) childAt).getCurrentMessagesGroup()) == null || currentMessagesGroup2 != groupedMessages)) {
                             chatMessageCell.getCurrentPosition();
                             chatMessageCell.getBackgroundDrawable();
                             groupedMessages = currentMessagesGroup2;
                         }
                     }
-                    int i7 = 0;
-                    while (i7 < 3) {
+                    int i5 = 0;
+                    while (i5 < 3) {
                         MessagePreviewView.this.drawingGroups.clear();
-                        if (i7 != 2 || Page.this.chatListView.isFastScrollAnimationRunning()) {
-                            int i8 = 0;
+                        if (i5 != 2 || Page.this.chatListView.isFastScrollAnimationRunning()) {
+                            int i6 = 0;
                             while (true) {
-                                z2 = true;
-                                if (i8 >= childCount) {
+                                z = true;
+                                if (i6 >= childCount) {
                                     break;
                                 }
-                                View childAt2 = Page.this.chatListView.getChildAt(i8);
+                                View childAt2 = Page.this.chatListView.getChildAt(i6);
                                 if (childAt2 instanceof ChatMessageCell) {
                                     ChatMessageCell chatMessageCell2 = (ChatMessageCell) childAt2;
-                                    if (childAt2.getY() <= Page.this.chatListView.getHeight() && childAt2.getY() + childAt2.getHeight() >= 0.0f && (currentMessagesGroup = chatMessageCell2.getCurrentMessagesGroup()) != null && ((i7 != 0 || currentMessagesGroup.messages.size() != 1) && ((i7 != 1 || currentMessagesGroup.transitionParams.drawBackgroundForDeletedItems) && ((i7 != 0 || !chatMessageCell2.getMessageObject().deleted) && ((i7 != 1 || chatMessageCell2.getMessageObject().deleted) && ((i7 != 2 || chatMessageCell2.willRemovedAfterAnimation()) && (i7 == 2 || !chatMessageCell2.willRemovedAfterAnimation()))))))) {
+                                    if (childAt2.getY() <= Page.this.chatListView.getHeight() && childAt2.getY() + childAt2.getHeight() >= 0.0f && (currentMessagesGroup = chatMessageCell2.getCurrentMessagesGroup()) != null && ((i5 != 0 || currentMessagesGroup.messages.size() != 1) && ((i5 != 1 || currentMessagesGroup.transitionParams.drawBackgroundForDeletedItems) && ((i5 != 0 || !chatMessageCell2.getMessageObject().deleted) && ((i5 != 1 || chatMessageCell2.getMessageObject().deleted) && ((i5 != 2 || chatMessageCell2.willRemovedAfterAnimation()) && (i5 == 2 || !chatMessageCell2.willRemovedAfterAnimation()))))))) {
                                         if (!MessagePreviewView.this.drawingGroups.contains(currentMessagesGroup)) {
                                             MessageObject.GroupedMessages.TransitionParams transitionParams = currentMessagesGroup.transitionParams;
                                             transitionParams.left = r3;
@@ -602,33 +593,33 @@ public class MessagePreviewView extends FrameLayout {
                                             currentMessagesGroup.transitionParams.cell = chatMessageCell2;
                                         }
                                         MessageObject.GroupedMessages.TransitionParams transitionParams2 = currentMessagesGroup.transitionParams;
-                                        int i9 = transitionParams2.top;
-                                        if (i9 == 0 || top < i9) {
+                                        int i7 = transitionParams2.top;
+                                        if (i7 == 0 || top < i7) {
                                             transitionParams2.top = top;
                                         }
-                                        int i10 = transitionParams2.bottom;
-                                        if (i10 == 0 || top2 > i10) {
+                                        int i8 = transitionParams2.bottom;
+                                        if (i8 == 0 || top2 > i8) {
                                             transitionParams2.bottom = top2;
                                         }
-                                        int i11 = transitionParams2.left;
-                                        if (i11 == 0 || left < i11) {
+                                        int i9 = transitionParams2.left;
+                                        if (i9 == 0 || left < i9) {
                                             transitionParams2.left = left;
                                         }
-                                        int i12 = transitionParams2.right;
-                                        if (i12 == 0 || left2 > i12) {
+                                        int i10 = transitionParams2.right;
+                                        if (i10 == 0 || left2 > i10) {
                                             transitionParams2.right = left2;
                                         }
                                     }
                                 }
-                                i8++;
+                                i6++;
                             }
-                            int i13 = 0;
-                            while (i13 < MessagePreviewView.this.drawingGroups.size()) {
-                                MessageObject.GroupedMessages groupedMessages2 = (MessageObject.GroupedMessages) MessagePreviewView.this.drawingGroups.get(i13);
+                            int i11 = 0;
+                            while (i11 < MessagePreviewView.this.drawingGroups.size()) {
+                                MessageObject.GroupedMessages groupedMessages2 = (MessageObject.GroupedMessages) MessagePreviewView.this.drawingGroups.get(i11);
                                 if (groupedMessages2 == null) {
-                                    i5 = i7;
+                                    i3 = i5;
                                 } else {
-                                    float nonAnimationTranslationX = groupedMessages2.transitionParams.cell.getNonAnimationTranslationX(z2);
+                                    float nonAnimationTranslationX = groupedMessages2.transitionParams.cell.getNonAnimationTranslationX(z);
                                     MessageObject.GroupedMessages.TransitionParams transitionParams3 = groupedMessages2.transitionParams;
                                     float f2 = transitionParams3.left + nonAnimationTranslationX + transitionParams3.offsetLeft;
                                     float f3 = transitionParams3.top + transitionParams3.offsetTop;
@@ -644,21 +635,21 @@ public class MessagePreviewView extends FrameLayout {
                                     if (f5 > Page.this.chatListView.getMeasuredHeight() + AndroidUtilities.dp(20.0f)) {
                                         f5 = Page.this.chatListView.getMeasuredHeight() + AndroidUtilities.dp(20.0f);
                                     }
-                                    boolean z3 = (groupedMessages2.transitionParams.cell.getScaleX() == 1.0f && groupedMessages2.transitionParams.cell.getScaleY() == 1.0f) ? false : true;
-                                    if (z3) {
+                                    boolean z2 = (groupedMessages2.transitionParams.cell.getScaleX() == 1.0f && groupedMessages2.transitionParams.cell.getScaleY() == 1.0f) ? false : true;
+                                    if (z2) {
                                         canvas.save();
                                         canvas.scale(groupedMessages2.transitionParams.cell.getScaleX(), groupedMessages2.transitionParams.cell.getScaleY(), f2 + ((f4 - f2) / 2.0f), f3 + ((f5 - f3) / 2.0f));
                                     }
                                     MessageObject.GroupedMessages.TransitionParams transitionParams4 = groupedMessages2.transitionParams;
-                                    i5 = i7;
+                                    i3 = i5;
                                     transitionParams4.cell.drawBackground(canvas, (int) f2, (int) f3, (int) f4, (int) f5, transitionParams4.pinnedTop, transitionParams4.pinnedBotton, false, 0);
                                     MessageObject.GroupedMessages.TransitionParams transitionParams5 = groupedMessages2.transitionParams;
                                     transitionParams5.cell = null;
                                     transitionParams5.drawCaptionLayout = groupedMessages2.hasCaption;
-                                    if (z3) {
+                                    if (z2) {
                                         canvas.restore();
-                                        for (int i14 = 0; i14 < childCount; i14++) {
-                                            View childAt3 = Page.this.chatListView.getChildAt(i14);
+                                        for (int i12 = 0; i12 < childCount; i12++) {
+                                            View childAt3 = Page.this.chatListView.getChildAt(i12);
                                             if (childAt3 instanceof ChatMessageCell) {
                                                 ChatMessageCell chatMessageCell3 = (ChatMessageCell) childAt3;
                                                 if (chatMessageCell3.getCurrentMessagesGroup() == groupedMessages2) {
@@ -671,40 +662,40 @@ public class MessagePreviewView extends FrameLayout {
                                         }
                                     }
                                 }
-                                i13++;
-                                i7 = i5;
-                                z2 = true;
+                                i11++;
+                                i5 = i3;
+                                z = true;
                             }
                         }
-                        i7++;
+                        i5++;
                         r3 = 0;
                     }
                 }
 
                 @Override // androidx.recyclerview.widget.RecyclerView
-                public void onScrollStateChanged(int i5) {
-                    if (i5 == 0) {
+                public void onScrollStateChanged(int i3) {
+                    if (i3 == 0) {
                         Page.this.textSelectionHelper.stopScrolling();
                     }
-                    super.onScrollStateChanged(i5);
+                    super.onScrollStateChanged(i3);
                 }
 
                 @Override // androidx.recyclerview.widget.RecyclerView
-                public void onScrolled(int i5, int i6) {
-                    super.onScrolled(i5, i6);
+                public void onScrolled(int i3, int i4) {
+                    super.onScrolled(i3, i4);
                     Page.this.textSelectionHelper.onParentScrolled();
                 }
             };
             this.chatListView = recyclerListView;
-            7 r4 = new 7(null, this.chatListView, MessagePreviewView.this.resourcesProvider, MessagePreviewView.this);
-            this.itemAnimator = r4;
-            recyclerListView.setItemAnimator(r4);
-            this.chatListView.setOnScrollListener(new RecyclerView.OnScrollListener(MessagePreviewView.this) { // from class: org.telegram.ui.Components.MessagePreviewView.Page.8
+            7 r3 = new 7(null, this.chatListView, MessagePreviewView.this.resourcesProvider, MessagePreviewView.this);
+            this.itemAnimator = r3;
+            recyclerListView.setItemAnimator(r3);
+            this.chatListView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.MessagePreviewView.Page.8
                 @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-                public void onScrolled(RecyclerView recyclerView, int i5, int i6) {
-                    super.onScrolled(recyclerView, i5, i6);
-                    for (int i7 = 0; i7 < Page.this.chatListView.getChildCount(); i7++) {
-                        ((ChatMessageCell) Page.this.chatListView.getChildAt(i7)).setParentViewSize(Page.this.chatPreviewContainer.getMeasuredWidth(), Page.this.chatPreviewContainer.getBackgroundSizeY());
+                public void onScrolled(RecyclerView recyclerView, int i3, int i4) {
+                    super.onScrolled(recyclerView, i3, i4);
+                    for (int i5 = 0; i5 < Page.this.chatListView.getChildCount(); i5++) {
+                        ((ChatMessageCell) Page.this.chatListView.getChildAt(i5)).setParentViewSize(Page.this.chatPreviewContainer.getMeasuredWidth(), Page.this.chatPreviewContainer.getBackgroundSizeY());
                     }
                     TextSelectionHelper.ChatListTextSelectionHelper chatListTextSelectionHelper2 = Page.this.textSelectionHelper;
                     if (chatListTextSelectionHelper2 != null) {
@@ -712,22 +703,22 @@ public class MessagePreviewView extends FrameLayout {
                     }
                 }
             });
-            this.chatListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener(MessagePreviewView.this) { // from class: org.telegram.ui.Components.MessagePreviewView.Page.9
+            this.chatListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView.Page.9
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-                public void onItemClick(View view2, int i5) {
+                public void onItemClick(View view, int i3) {
                     Page page = Page.this;
                     if (page.currentTab != 1 || page.messages.previewMessages.size() <= 1) {
                         return;
                     }
-                    int id = Page.this.messages.previewMessages.get(i5).getId();
-                    boolean z2 = !Page.this.messages.selectedIds.get(id, false);
-                    if (Page.this.messages.selectedIds.size() != 1 || z2) {
-                        if (!z2) {
+                    int id = Page.this.messages.previewMessages.get(i3).getId();
+                    boolean z = !Page.this.messages.selectedIds.get(id, false);
+                    if (Page.this.messages.selectedIds.size() != 1 || z) {
+                        if (!z) {
                             Page.this.messages.selectedIds.delete(id);
                         } else {
-                            Page.this.messages.selectedIds.put(id, z2);
+                            Page.this.messages.selectedIds.put(id, z);
                         }
-                        ((ChatMessageCell) view2).setChecked(z2, z2, true);
+                        ((ChatMessageCell) view).setChecked(z, z, true);
                         Page.this.updateSubtitle(true);
                     }
                 }
@@ -737,15 +728,15 @@ public class MessagePreviewView extends FrameLayout {
             this.adapter = adapter;
             recyclerListView2.setAdapter(adapter);
             this.chatListView.setPadding(0, AndroidUtilities.dp(4.0f), 0, AndroidUtilities.dp(4.0f));
-            10 r15 = new 10(context, 1000, 1, true, MessagePreviewView.this);
-            this.chatLayoutManager = r15;
-            r15.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup(MessagePreviewView.this) { // from class: org.telegram.ui.Components.MessagePreviewView.Page.11
+            10 r13 = new 10(context, 1000, 1, true, MessagePreviewView.this);
+            this.chatLayoutManager = r13;
+            r13.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() { // from class: org.telegram.ui.Components.MessagePreviewView.Page.11
                 @Override // androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
-                public int getSpanSize(int i5) {
-                    if (i5 < 0 || i5 >= Page.this.messages.previewMessages.size()) {
+                public int getSpanSize(int i3) {
+                    if (i3 < 0 || i3 >= Page.this.messages.previewMessages.size()) {
                         return 1000;
                     }
-                    MessageObject messageObject = Page.this.messages.previewMessages.get(i5);
+                    MessageObject messageObject = Page.this.messages.previewMessages.get(i3);
                     MessageObject.GroupedMessages validGroupedMessage = Page.this.getValidGroupedMessage(messageObject);
                     if (validGroupedMessage != null) {
                         return validGroupedMessage.getPosition(messageObject).spanSize;
@@ -755,41 +746,41 @@ public class MessagePreviewView extends FrameLayout {
             });
             this.chatListView.setClipToPadding(false);
             this.chatListView.setLayoutManager(this.chatLayoutManager);
-            this.chatListView.addItemDecoration(new RecyclerView.ItemDecoration(this, MessagePreviewView.this) { // from class: org.telegram.ui.Components.MessagePreviewView.Page.12
+            this.chatListView.addItemDecoration(new RecyclerView.ItemDecoration() { // from class: org.telegram.ui.Components.MessagePreviewView.Page.12
                 @Override // androidx.recyclerview.widget.RecyclerView.ItemDecoration
-                public void getItemOffsets(android.graphics.Rect rect, View view2, RecyclerView recyclerView, RecyclerView.State state) {
+                public void getItemOffsets(android.graphics.Rect rect, View view, RecyclerView recyclerView, RecyclerView.State state) {
                     ChatMessageCell chatMessageCell;
                     MessageObject.GroupedMessages currentMessagesGroup;
                     MessageObject.GroupedMessagePosition currentPosition;
-                    int i5 = 0;
+                    int i3 = 0;
                     rect.bottom = 0;
-                    if (!(view2 instanceof ChatMessageCell) || (currentMessagesGroup = (chatMessageCell = (ChatMessageCell) view2).getCurrentMessagesGroup()) == null || (currentPosition = chatMessageCell.getCurrentPosition()) == null || currentPosition.siblingHeights == null) {
+                    if (!(view instanceof ChatMessageCell) || (currentMessagesGroup = (chatMessageCell = (ChatMessageCell) view).getCurrentMessagesGroup()) == null || (currentPosition = chatMessageCell.getCurrentPosition()) == null || currentPosition.siblingHeights == null) {
                         return;
                     }
                     android.graphics.Point point = AndroidUtilities.displaySize;
                     float max = Math.max(point.x, point.y) * 0.5f;
                     int extraInsetHeight = chatMessageCell.getExtraInsetHeight();
-                    int i6 = 0;
+                    int i4 = 0;
                     while (true) {
                         float[] fArr = currentPosition.siblingHeights;
-                        if (i6 >= fArr.length) {
+                        if (i4 >= fArr.length) {
                             break;
                         }
-                        extraInsetHeight += (int) Math.ceil(fArr[i6] * max);
-                        i6++;
+                        extraInsetHeight += (int) Math.ceil(fArr[i4] * max);
+                        i4++;
                     }
                     int round = extraInsetHeight + ((currentPosition.maxY - currentPosition.minY) * Math.round(AndroidUtilities.density * 7.0f));
                     int size = currentMessagesGroup.posArray.size();
                     while (true) {
-                        if (i5 < size) {
-                            MessageObject.GroupedMessagePosition groupedMessagePosition = currentMessagesGroup.posArray.get(i5);
+                        if (i3 < size) {
+                            MessageObject.GroupedMessagePosition groupedMessagePosition = currentMessagesGroup.posArray.get(i3);
                             byte b = groupedMessagePosition.minY;
                             byte b2 = currentPosition.minY;
                             if (b == b2 && ((groupedMessagePosition.minX != currentPosition.minX || groupedMessagePosition.maxX != currentPosition.maxX || b != b2 || groupedMessagePosition.maxY != currentPosition.maxY) && b == b2)) {
                                 round -= ((int) Math.ceil(max * groupedMessagePosition.ph)) - AndroidUtilities.dp(4.0f);
                                 break;
                             }
-                            i5++;
+                            i3++;
                         } else {
                             break;
                         }
@@ -802,7 +793,7 @@ public class MessagePreviewView extends FrameLayout {
             this.chatPreviewContainer.addView(this.actionBar, LayoutHelper.createFrame(-1, -2.0f));
             ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(getContext(), R.drawable.popup_fixed_alert2, MessagePreviewView.this.resourcesProvider, 1);
             this.menu = actionBarPopupWindowLayout;
-            actionBarPopupWindowLayout.getSwipeBack().setOnForegroundOpenFinished(new Runnable() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda19
+            actionBarPopupWindowLayout.getSwipeBack().setOnForegroundOpenFinished(new Runnable() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda11
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagePreviewView.Page.this.lambda$new$1();
@@ -821,10 +812,10 @@ public class MessagePreviewView extends FrameLayout {
                         linearLayout = linearLayout2;
                         ActionBarMenuSubItem actionBarMenuSubItem = new ActionBarMenuSubItem(context, false, true, false, (Theme.ResourcesProvider) MessagePreviewView.this.resourcesProvider);
                         actionBarMenuSubItem.setTextAndIcon(LocaleController.getString(R.string.Back), R.drawable.msg_arrow_back);
-                        actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda4
+                        actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda12
                             @Override // android.view.View.OnClickListener
-                            public final void onClick(View view2) {
-                                MessagePreviewView.Page.this.lambda$new$2(view2);
+                            public final void onClick(View view) {
+                                MessagePreviewView.Page.this.lambda$new$2(view);
                             }
                         });
                         linearLayout.addView(actionBarMenuSubItem, LayoutHelper.createLinear(-1, 48));
@@ -833,10 +824,10 @@ public class MessagePreviewView extends FrameLayout {
                         linearLayout.addView(gapView, LayoutHelper.createLinear(-1, 8));
                         ActionBarMenuSubItem actionBarMenuSubItem2 = new ActionBarMenuSubItem(context, false, false, true, (Theme.ResourcesProvider) MessagePreviewView.this.resourcesProvider);
                         actionBarMenuSubItem2.setTextAndIcon(LocaleController.getString(R.string.QuoteSelectedPart), R.drawable.menu_quote_specific);
-                        actionBarMenuSubItem2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda3
+                        actionBarMenuSubItem2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda13
                             @Override // android.view.View.OnClickListener
-                            public final void onClick(View view2) {
-                                MessagePreviewView.Page.this.lambda$new$3(view2);
+                            public final void onClick(View view) {
+                                MessagePreviewView.Page.this.lambda$new$3(view);
                             }
                         });
                         linearLayout.addView(actionBarMenuSubItem2, LayoutHelper.createLinear(-1, 48));
@@ -844,8 +835,7 @@ public class MessagePreviewView extends FrameLayout {
                     this.menuBack = this.menu.addViewToSwipeBack(linearLayout);
                     this.menu.getSwipeBack().setStickToRight(true);
                     FrameLayout frameLayout = new FrameLayout(context);
-                    f = 48.0f;
-                    ActionBarMenuSubItem actionBarMenuSubItem3 = new ActionBarMenuSubItem(this, context, true, true, false, MessagePreviewView.this.resourcesProvider, MessagePreviewView.this) { // from class: org.telegram.ui.Components.MessagePreviewView.Page.13
+                    ActionBarMenuSubItem actionBarMenuSubItem3 = new ActionBarMenuSubItem(context, true, true, false, MessagePreviewView.this.resourcesProvider) { // from class: org.telegram.ui.Components.MessagePreviewView.Page.13
                         @Override // android.view.View
                         public boolean onTouchEvent(MotionEvent motionEvent) {
                             if (getVisibility() != 0 || getAlpha() < 0.5f) {
@@ -861,7 +851,7 @@ public class MessagePreviewView extends FrameLayout {
                     };
                     this.quoteButton = actionBarMenuSubItem3;
                     actionBarMenuSubItem3.setTextAndIcon(LocaleController.getString(MessagePreviewView.this.showOutdatedQuote ? R.string.QuoteSelectedPart : R.string.SelectSpecificQuote), R.drawable.menu_select_quote);
-                    ActionBarMenuSubItem actionBarMenuSubItem4 = new ActionBarMenuSubItem(this, context, true, true, false, MessagePreviewView.this.resourcesProvider, MessagePreviewView.this) { // from class: org.telegram.ui.Components.MessagePreviewView.Page.14
+                    ActionBarMenuSubItem actionBarMenuSubItem4 = new ActionBarMenuSubItem(context, true, true, false, MessagePreviewView.this.resourcesProvider) { // from class: org.telegram.ui.Components.MessagePreviewView.Page.14
                         @Override // android.view.View
                         public boolean onTouchEvent(MotionEvent motionEvent) {
                             if (getVisibility() != 0 || getAlpha() < 0.5f) {
@@ -878,12 +868,13 @@ public class MessagePreviewView extends FrameLayout {
                     this.clearQuoteButton = actionBarMenuSubItem4;
                     actionBarMenuSubItem4.setTextAndIcon(LocaleController.getString(R.string.ClearQuote), R.drawable.menu_quote_delete);
                     frameLayout.setBackground(Theme.createRadSelectorDrawable(MessagePreviewView.this.getThemedColor(Theme.key_dialogButtonSelector), 6, 0));
-                    frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda13
+                    frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda14
                         @Override // android.view.View.OnClickListener
-                        public final void onClick(View view2) {
-                            MessagePreviewView.Page.this.lambda$new$4(view2);
+                        public final void onClick(View view) {
+                            MessagePreviewView.Page.this.lambda$new$4(view);
                         }
                     });
+                    f = 48.0f;
                     frameLayout.addView(this.quoteButton, LayoutHelper.createFrame(-1, 48.0f));
                     frameLayout.addView(this.clearQuoteButton, LayoutHelper.createFrame(-1, 48.0f));
                     this.menu.addView((View) frameLayout, LayoutHelper.createLinear(-1, 48));
@@ -894,21 +885,21 @@ public class MessagePreviewView extends FrameLayout {
                     ActionBarMenuSubItem actionBarMenuSubItem5 = new ActionBarMenuSubItem(context, true, false, false, (Theme.ResourcesProvider) MessagePreviewView.this.resourcesProvider);
                     this.replyAnotherChatButton = actionBarMenuSubItem5;
                     String string = LocaleController.getString(R.string.ReplyToAnotherChat);
-                    int i5 = R.drawable.msg_forward_replace;
-                    actionBarMenuSubItem5.setTextAndIcon(string, i5);
-                    this.replyAnotherChatButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda7
+                    int i3 = R.drawable.msg_forward_replace;
+                    actionBarMenuSubItem5.setTextAndIcon(string, i3);
+                    this.replyAnotherChatButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda15
                         @Override // android.view.View.OnClickListener
-                        public final void onClick(View view2) {
-                            MessagePreviewView.Page.this.lambda$new$5(view2);
+                        public final void onClick(View view) {
+                            MessagePreviewView.Page.this.lambda$new$5(view);
                         }
                     });
                     ActionBarMenuSubItem actionBarMenuSubItem6 = new ActionBarMenuSubItem(context, true, false, false, (Theme.ResourcesProvider) MessagePreviewView.this.resourcesProvider);
                     this.quoteAnotherChatButton = actionBarMenuSubItem6;
-                    actionBarMenuSubItem6.setTextAndIcon(LocaleController.getString(R.string.QuoteToAnotherChat), i5);
-                    this.quoteAnotherChatButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda9
+                    actionBarMenuSubItem6.setTextAndIcon(LocaleController.getString(R.string.QuoteToAnotherChat), i3);
+                    this.quoteAnotherChatButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda16
                         @Override // android.view.View.OnClickListener
-                        public final void onClick(View view2) {
-                            MessagePreviewView.Page.this.lambda$new$6(view2);
+                        public final void onClick(View view) {
+                            MessagePreviewView.Page.this.lambda$new$6(view);
                         }
                     });
                     frameLayout2.addView(this.quoteAnotherChatButton, LayoutHelper.createFrame(-1, f));
@@ -924,10 +915,10 @@ public class MessagePreviewView extends FrameLayout {
                 switchToQuote(MessagePreviewView.this.messagePreviewParams.quote != null, false);
                 ActionBarMenuSubItem actionBarMenuSubItem7 = new ActionBarMenuSubItem(context, true, false, false, (Theme.ResourcesProvider) MessagePreviewView.this.resourcesProvider);
                 actionBarMenuSubItem7.setTextAndIcon(LocaleController.getString(R.string.ApplyChanges), R.drawable.msg_select);
-                actionBarMenuSubItem7.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda12
+                actionBarMenuSubItem7.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda17
                     @Override // android.view.View.OnClickListener
-                    public final void onClick(View view2) {
-                        MessagePreviewView.Page.this.lambda$new$7(view2);
+                    public final void onClick(View view) {
+                        MessagePreviewView.Page.this.lambda$new$7(view);
                     }
                 });
                 this.menu.addView((View) actionBarMenuSubItem7, LayoutHelper.createLinear(-1, 48));
@@ -936,13 +927,13 @@ public class MessagePreviewView extends FrameLayout {
                 actionBarMenuSubItem8.setTextAndIcon(LocaleController.getString(MessagePreviewView.this.showOutdatedQuote ? R.string.DoNotQuote : R.string.DoNotReply), R.drawable.msg_delete);
                 ActionBarMenuSubItem actionBarMenuSubItem9 = this.deleteReplyButton;
                 int themedColor = MessagePreviewView.this.getThemedColor(Theme.key_text_RedBold);
-                int i6 = Theme.key_text_RedRegular;
-                actionBarMenuSubItem9.setColors(themedColor, MessagePreviewView.this.getThemedColor(i6));
-                this.deleteReplyButton.setSelectorColor(Theme.multAlpha(Theme.getColor(i6), 0.12f));
-                this.deleteReplyButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda2
+                int i4 = Theme.key_text_RedRegular;
+                actionBarMenuSubItem9.setColors(themedColor, MessagePreviewView.this.getThemedColor(i4));
+                this.deleteReplyButton.setSelectorColor(Theme.multAlpha(Theme.getColor(i4), 0.12f));
+                this.deleteReplyButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda18
                     @Override // android.view.View.OnClickListener
-                    public final void onClick(View view2) {
-                        MessagePreviewView.Page.this.lambda$new$8(view2);
+                    public final void onClick(View view) {
+                        MessagePreviewView.Page.this.lambda$new$8(view);
                     }
                 });
                 this.menu.addView((View) this.deleteReplyButton, LayoutHelper.createLinear(-1, 48));
@@ -954,18 +945,16 @@ public class MessagePreviewView extends FrameLayout {
                         this.menu.addView((View) toggleButton2, LayoutHelper.createLinear(-1, 48));
                         if (MessagePreviewView.this.messagePreviewParams.hasCaption) {
                             toggleButton = new ToggleButton(context, R.raw.caption_hide, LocaleController.getString(R.string.ShowCaption), R.raw.caption_show, LocaleController.getString(R.string.HideCaption), MessagePreviewView.this.resourcesProvider);
-                            z = false;
                             toggleButton.setState(MessagePreviewView.this.messagePreviewParams.hideCaption, false);
                             this.menu.addView((View) toggleButton, LayoutHelper.createLinear(-1, 48));
                         } else {
-                            z = false;
                             toggleButton = null;
                         }
-                        ActionBarMenuSubItem actionBarMenuSubItem10 = new ActionBarMenuSubItem(context, true, z, (Theme.ResourcesProvider) MessagePreviewView.this.resourcesProvider);
-                        actionBarMenuSubItem10.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda6
+                        ActionBarMenuSubItem actionBarMenuSubItem10 = new ActionBarMenuSubItem(context, true, false, (Theme.ResourcesProvider) MessagePreviewView.this.resourcesProvider);
+                        actionBarMenuSubItem10.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda19
                             @Override // android.view.View.OnClickListener
-                            public final void onClick(View view2) {
-                                MessagePreviewView.Page.this.lambda$new$9(view2);
+                            public final void onClick(View view) {
+                                MessagePreviewView.Page.this.lambda$new$9(view);
                             }
                         });
                         actionBarMenuSubItem10.setTextAndIcon(LocaleController.getString(R.string.ChangeRecipient), R.drawable.msg_forward_replace);
@@ -975,44 +964,43 @@ public class MessagePreviewView extends FrameLayout {
                         this.menu.addView((View) gapView3, LayoutHelper.createLinear(-1, 8));
                         ActionBarMenuSubItem actionBarMenuSubItem11 = new ActionBarMenuSubItem(context, true, false, false, (Theme.ResourcesProvider) MessagePreviewView.this.resourcesProvider);
                         actionBarMenuSubItem11.setTextAndIcon(LocaleController.getString(R.string.ApplyChanges), R.drawable.msg_select);
-                        actionBarMenuSubItem11.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda1
+                        actionBarMenuSubItem11.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda3
                             @Override // android.view.View.OnClickListener
-                            public final void onClick(View view2) {
-                                MessagePreviewView.Page.this.lambda$new$10(view2);
+                            public final void onClick(View view) {
+                                MessagePreviewView.Page.this.lambda$new$10(view);
                             }
                         });
                         this.menu.addView((View) actionBarMenuSubItem11, LayoutHelper.createLinear(-1, 48));
                         ActionBarMenuSubItem actionBarMenuSubItem12 = new ActionBarMenuSubItem(context, true, false, true, (Theme.ResourcesProvider) MessagePreviewView.this.resourcesProvider);
                         actionBarMenuSubItem12.setTextAndIcon(LocaleController.getString(R.string.DoNotForward), R.drawable.msg_delete);
                         int themedColor2 = MessagePreviewView.this.getThemedColor(Theme.key_text_RedBold);
-                        int i7 = Theme.key_text_RedRegular;
-                        actionBarMenuSubItem12.setColors(themedColor2, MessagePreviewView.this.getThemedColor(i7));
-                        actionBarMenuSubItem12.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda10
+                        int i5 = Theme.key_text_RedRegular;
+                        actionBarMenuSubItem12.setColors(themedColor2, MessagePreviewView.this.getThemedColor(i5));
+                        actionBarMenuSubItem12.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda4
                             @Override // android.view.View.OnClickListener
-                            public final void onClick(View view2) {
-                                MessagePreviewView.Page.this.lambda$new$11(view2);
+                            public final void onClick(View view) {
+                                MessagePreviewView.Page.this.lambda$new$11(view);
                             }
                         });
-                        actionBarMenuSubItem12.setSelectorColor(Theme.multAlpha(Theme.getColor(i7), 0.12f));
+                        actionBarMenuSubItem12.setSelectorColor(Theme.multAlpha(Theme.getColor(i5), 0.12f));
                         this.menu.addView((View) actionBarMenuSubItem12, LayoutHelper.createLinear(-1, 48));
                         toggleButton2.setState(MessagePreviewView.this.messagePreviewParams.hideForwardSendersName, false);
-                        toggleButton2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda16
+                        toggleButton2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda5
                             @Override // android.view.View.OnClickListener
-                            public final void onClick(View view2) {
-                                MessagePreviewView.Page.this.lambda$new$12(toggleButton, toggleButton2, view2);
+                            public final void onClick(View view) {
+                                MessagePreviewView.Page.this.lambda$new$12(toggleButton, toggleButton2, view);
                             }
                         });
                         if (toggleButton != null) {
-                            toggleButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda15
+                            toggleButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda6
                                 @Override // android.view.View.OnClickListener
-                                public final void onClick(View view2) {
-                                    MessagePreviewView.Page.this.lambda$new$13(toggleButton, toggleButton2, view2);
+                                public final void onClick(View view) {
+                                    MessagePreviewView.Page.this.lambda$new$13(toggleButton, toggleButton2, view);
                                 }
                             });
                         }
                     }
                 }
-                i2 = 2;
                 if (i == 2 && MessagePreviewView.this.messagePreviewParams.linkMessage != null) {
                     ToggleButton toggleButton3 = new ToggleButton(context, R.raw.position_below, LocaleController.getString(R.string.LinkAbove), R.raw.position_above, LocaleController.getString(R.string.LinkBelow), MessagePreviewView.this.resourcesProvider);
                     this.changePositionBtn = toggleButton3;
@@ -1021,18 +1009,18 @@ public class MessagePreviewView extends FrameLayout {
                     FrameLayout frameLayout3 = new FrameLayout(context);
                     this.changeSizeBtnContainer = frameLayout3;
                     frameLayout3.setBackground(Theme.createRadSelectorDrawable(MessagePreviewView.this.getThemedColor(Theme.key_dialogButtonSelector), 0, 0));
-                    int i8 = R.raw.media_shrink;
+                    int i6 = R.raw.media_shrink;
                     String string2 = LocaleController.getString(R.string.LinkMediaLarger);
-                    int i9 = R.raw.media_enlarge;
-                    ToggleButton toggleButton4 = new ToggleButton(context, i8, string2, i9, LocaleController.getString(R.string.LinkMediaSmaller), MessagePreviewView.this.resourcesProvider);
+                    int i7 = R.raw.media_enlarge;
+                    ToggleButton toggleButton4 = new ToggleButton(context, i6, string2, i7, LocaleController.getString(R.string.LinkMediaSmaller), MessagePreviewView.this.resourcesProvider);
                     this.changeSizeBtn = toggleButton4;
                     toggleButton4.setBackground(null);
                     this.changeSizeBtn.setVisibility(MessagePreviewView.this.messagePreviewParams.isVideo ? 4 : 0);
                     this.changeSizeBtnContainer.addView(this.changeSizeBtn, LayoutHelper.createLinear(-1, 48));
-                    ToggleButton toggleButton5 = new ToggleButton(context, i8, LocaleController.getString(R.string.LinkVideoLarger), i9, LocaleController.getString(R.string.LinkVideoSmaller), MessagePreviewView.this.resourcesProvider);
+                    ToggleButton toggleButton5 = new ToggleButton(context, i6, LocaleController.getString(R.string.LinkVideoLarger), i7, LocaleController.getString(R.string.LinkVideoSmaller), MessagePreviewView.this.resourcesProvider);
                     this.videoChangeSizeBtn = toggleButton5;
                     toggleButton5.setBackground(null);
-                    this.videoChangeSizeBtn.setVisibility(!MessagePreviewView.this.messagePreviewParams.isVideo ? 4 : 0);
+                    this.videoChangeSizeBtn.setVisibility(MessagePreviewView.this.messagePreviewParams.isVideo ? 0 : 4);
                     this.changeSizeBtnContainer.setAlpha(MessagePreviewView.this.messagePreviewParams.hasMedia ? 1.0f : 0.5f);
                     this.changeSizeBtnContainer.addView(this.videoChangeSizeBtn, LayoutHelper.createLinear(-1, 48));
                     this.menu.addView((View) this.changeSizeBtnContainer, LayoutHelper.createLinear(-1, 48));
@@ -1046,72 +1034,60 @@ public class MessagePreviewView extends FrameLayout {
                     this.menu.addView((View) gapView4, LayoutHelper.createLinear(-1, 8));
                     ActionBarMenuSubItem actionBarMenuSubItem13 = new ActionBarMenuSubItem(context, true, false, false, (Theme.ResourcesProvider) MessagePreviewView.this.resourcesProvider);
                     actionBarMenuSubItem13.setTextAndIcon(LocaleController.getString(R.string.ApplyChanges), R.drawable.msg_select);
-                    actionBarMenuSubItem13.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda14
+                    actionBarMenuSubItem13.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda7
                         @Override // android.view.View.OnClickListener
-                        public final void onClick(View view2) {
-                            MessagePreviewView.Page.this.lambda$new$14(view2);
+                        public final void onClick(View view) {
+                            MessagePreviewView.Page.this.lambda$new$14(view);
                         }
                     });
                     this.menu.addView((View) actionBarMenuSubItem13, LayoutHelper.createLinear(-1, 48));
                     ActionBarMenuSubItem actionBarMenuSubItem14 = new ActionBarMenuSubItem(context, true, false, true, (Theme.ResourcesProvider) MessagePreviewView.this.resourcesProvider);
                     actionBarMenuSubItem14.setTextAndIcon(LocaleController.getString(R.string.DoNotLinkPreview), R.drawable.msg_delete);
                     int themedColor3 = MessagePreviewView.this.getThemedColor(Theme.key_text_RedBold);
-                    int i10 = Theme.key_text_RedRegular;
-                    actionBarMenuSubItem14.setColors(themedColor3, MessagePreviewView.this.getThemedColor(i10));
-                    actionBarMenuSubItem14.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda11
+                    int i8 = Theme.key_text_RedRegular;
+                    actionBarMenuSubItem14.setColors(themedColor3, MessagePreviewView.this.getThemedColor(i8));
+                    actionBarMenuSubItem14.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda8
                         @Override // android.view.View.OnClickListener
-                        public final void onClick(View view2) {
-                            MessagePreviewView.Page.this.lambda$new$15(view2);
+                        public final void onClick(View view) {
+                            MessagePreviewView.Page.this.lambda$new$15(view);
                         }
                     });
-                    actionBarMenuSubItem14.setSelectorColor(Theme.multAlpha(Theme.getColor(i10), 0.12f));
+                    actionBarMenuSubItem14.setSelectorColor(Theme.multAlpha(Theme.getColor(i8), 0.12f));
                     this.menu.addView((View) actionBarMenuSubItem14, LayoutHelper.createLinear(-1, 48));
-                    this.changeSizeBtnContainer.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda8
+                    this.changeSizeBtnContainer.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda9
                         @Override // android.view.View.OnClickListener
-                        public final void onClick(View view2) {
-                            MessagePreviewView.Page.this.lambda$new$16(view2);
+                        public final void onClick(View view) {
+                            MessagePreviewView.Page.this.lambda$new$16(view);
                         }
                     });
-                    this.changePositionBtn.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda5
+                    this.changePositionBtn.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda10
                         @Override // android.view.View.OnClickListener
-                        public final void onClick(View view2) {
-                            MessagePreviewView.Page.this.lambda$new$17(view2);
+                        public final void onClick(View view) {
+                            MessagePreviewView.Page.this.lambda$new$17(view);
                         }
                     });
                 }
-                i3 = this.currentTab;
-                if (i3 != 1) {
-                    this.messages = MessagePreviewView.this.messagePreviewParams.forwardMessages;
-                } else if (i3 == 0) {
-                    this.messages = MessagePreviewView.this.messagePreviewParams.replyMessage;
-                } else if (i3 == i2) {
-                    this.messages = MessagePreviewView.this.messagePreviewParams.linkMessage;
-                }
-                TextSelectionHelper<Cell>.TextSelectionOverlay overlayView = this.textSelectionHelper.getOverlayView(context);
-                this.textSelectionOverlay = overlayView;
-                if (i4 >= 21) {
-                    overlayView.setElevation(AndroidUtilities.dp(8.0f));
-                    this.textSelectionOverlay.setOutlineProvider(null);
-                }
-                view = this.textSelectionOverlay;
-                if (view != null) {
-                    if (view.getParent() instanceof ViewGroup) {
-                        ((ViewGroup) this.textSelectionOverlay.getParent()).removeView(this.textSelectionOverlay);
-                    }
-                    addView(this.textSelectionOverlay, LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, org.telegram.ui.ActionBar.ActionBar.getCurrentActionBarHeight() / AndroidUtilities.density, 0.0f, 0.0f));
-                }
-                this.textSelectionHelper.setParentView(this.chatListView);
             }
-            i2 = 2;
-            i3 = this.currentTab;
-            if (i3 != 1) {
+            int i9 = this.currentTab;
+            if (i9 == 1) {
+                this.messages = MessagePreviewView.this.messagePreviewParams.forwardMessages;
+            } else if (i9 == 0) {
+                this.messages = MessagePreviewView.this.messagePreviewParams.replyMessage;
+            } else if (i9 == 2) {
+                this.messages = MessagePreviewView.this.messagePreviewParams.linkMessage;
             }
-            TextSelectionHelper<Cell>.TextSelectionOverlay overlayView2 = this.textSelectionHelper.getOverlayView(context);
-            this.textSelectionOverlay = overlayView2;
-            if (i4 >= 21) {
+            TextSelectionHelper<Cell>.TextSelectionOverlay overlayView = this.textSelectionHelper.getOverlayView(context);
+            this.textSelectionOverlay = overlayView;
+            if (i2 >= 21) {
+                overlayView.setElevation(AndroidUtilities.dp(8.0f));
+                this.textSelectionOverlay.setOutlineProvider(null);
             }
-            view = this.textSelectionOverlay;
+            View view = this.textSelectionOverlay;
             if (view != null) {
+                if (view.getParent() instanceof ViewGroup) {
+                    ((ViewGroup) this.textSelectionOverlay.getParent()).removeView(this.textSelectionOverlay);
+                }
+                addView(this.textSelectionOverlay, LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, org.telegram.ui.ActionBar.ActionBar.getCurrentActionBarHeight() / AndroidUtilities.density, 0.0f, 0.0f));
             }
             this.textSelectionHelper.setParentView(this.chatListView);
         }
@@ -1129,9 +1105,12 @@ public class MessagePreviewView extends FrameLayout {
         public class 7 extends ChatListItemAnimator {
             Runnable finishRunnable;
             int scrollAnimationIndex;
+            final /* synthetic */ MessagePreviewView val$this$0;
 
+            /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
             7(ChatActivity chatActivity, RecyclerListView recyclerListView, Theme.ResourcesProvider resourcesProvider, MessagePreviewView messagePreviewView) {
                 super(chatActivity, recyclerListView, resourcesProvider);
+                this.val$this$0 = messagePreviewView;
                 this.scrollAnimationIndex = -1;
             }
 
@@ -1157,7 +1136,7 @@ public class MessagePreviewView extends FrameLayout {
                 if (runnable != null) {
                     AndroidUtilities.cancelRunOnUIThread(runnable);
                 }
-                Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$7$$ExternalSyntheticLambda2
+                Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$7$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagePreviewView.Page.7.this.lambda$onAllAnimationsDone$0();
@@ -1168,7 +1147,7 @@ public class MessagePreviewView extends FrameLayout {
                 Page page = Page.this;
                 if (page.updateAfterAnimations) {
                     page.updateAfterAnimations = false;
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$7$$ExternalSyntheticLambda0
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$7$$ExternalSyntheticLambda2
                         @Override // java.lang.Runnable
                         public final void run() {
                             MessagePreviewView.Page.7.this.lambda$onAllAnimationsDone$1();
@@ -1197,7 +1176,7 @@ public class MessagePreviewView extends FrameLayout {
                 if (runnable != null) {
                     AndroidUtilities.cancelRunOnUIThread(runnable);
                 }
-                Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$7$$ExternalSyntheticLambda1
+                Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$7$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagePreviewView.Page.7.this.lambda$endAnimations$2();
@@ -1219,13 +1198,17 @@ public class MessagePreviewView extends FrameLayout {
         /* JADX INFO: Access modifiers changed from: package-private */
         /* loaded from: classes3.dex */
         public class 10 extends GridLayoutManagerFixed {
+            final /* synthetic */ MessagePreviewView val$this$0;
+
             @Override // androidx.recyclerview.widget.GridLayoutManagerFixed
             public boolean shouldLayoutChildFromOpositeSide(View view) {
                 return false;
             }
 
+            /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
             10(Context context, int i, int i2, boolean z, MessagePreviewView messagePreviewView) {
                 super(context, i, i2, z);
+                this.val$this$0 = messagePreviewView;
             }
 
             @Override // androidx.recyclerview.widget.GridLayoutManagerFixed
@@ -1756,7 +1739,7 @@ public class MessagePreviewView extends FrameLayout {
         protected void onAttachedToWindow() {
             super.onAttachedToWindow();
             if (this.currentTab == 0) {
-                AndroidUtilities.forEachViews((RecyclerView) this.chatListView, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda18
+                AndroidUtilities.forEachViews((RecyclerView) this.chatListView, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda0
                     @Override // com.google.android.exoplayer2.util.Consumer
                     public final void accept(Object obj) {
                         MessagePreviewView.Page.this.lambda$onAttachedToWindow$19((View) obj);
@@ -1820,7 +1803,7 @@ public class MessagePreviewView extends FrameLayout {
                 valueAnimator.cancel();
             }
             MessagePreviewView.this.offsetsAnimator = ValueAnimator.ofFloat(0.0f, 1.0f);
-            MessagePreviewView.this.offsetsAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda0
+            MessagePreviewView.this.offsetsAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.MessagePreviewView$Page$$ExternalSyntheticLambda1
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                     MessagePreviewView.Page.this.lambda$updatePositions$20(i, f, valueAnimator2);
@@ -1863,11 +1846,11 @@ public class MessagePreviewView extends FrameLayout {
                 this.chatPreviewContainer.setTranslationY(0.0f);
                 this.menu.setTranslationY(0.0f);
             } else {
-                this.actionBar.setTranslationY(Math.max(0, i));
+                this.actionBar.setTranslationY(i);
                 if (Build.VERSION.SDK_INT >= 21) {
                     this.chatPreviewContainer.invalidateOutline();
                 }
-                this.chatPreviewContainer.setTranslationY(Math.max(0.0f, f));
+                this.chatPreviewContainer.setTranslationY(f);
                 this.menu.setTranslationY((f + this.chatPreviewContainer.getMeasuredHeight()) - AndroidUtilities.dp(2.0f));
             }
             this.textSelectionOverlay.setTranslationX(this.chatPreviewContainer.getX());
@@ -2335,7 +2318,7 @@ public class MessagePreviewView extends FrameLayout {
                 MessagePreviewParams.Messages messages2 = Page.this.messages;
                 chatMessageCell.setMessageObject(Page.this.messages.previewMessages.get(i), messages2.groupedMessagesMap.get(messages2.previewMessages.get(i).getGroupId()), true, true);
                 if (Page.this.currentTab == 1) {
-                    chatMessageCell.setDelegate(new ChatMessageCell.ChatMessageCellDelegate(this) { // from class: org.telegram.ui.Components.MessagePreviewView.Page.Adapter.3
+                    chatMessageCell.setDelegate(new ChatMessageCell.ChatMessageCellDelegate() { // from class: org.telegram.ui.Components.MessagePreviewView.Page.Adapter.3
                         @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                         public /* synthetic */ boolean canDrawOutboundsContent() {
                             return ChatMessageCell.ChatMessageCellDelegate.-CC.$default$canDrawOutboundsContent(this);
@@ -2822,21 +2805,21 @@ public class MessagePreviewView extends FrameLayout {
             public void onTabAnimationUpdate(boolean z2) {
                 MessagePreviewView messagePreviewView = MessagePreviewView.this;
                 messagePreviewView.tabsView.setSelectedTab(messagePreviewView.viewPager.getPositionAnimated());
-                View[] viewArr = this.viewPages;
-                if (viewArr[0] instanceof Page) {
-                    ((Page) viewArr[0]).textSelectionHelper.onParentScrolled();
+                View view = this.viewPages[0];
+                if (view instanceof Page) {
+                    ((Page) view).textSelectionHelper.onParentScrolled();
                 }
-                View[] viewArr2 = this.viewPages;
-                if (viewArr2[1] instanceof Page) {
-                    ((Page) viewArr2[1]).textSelectionHelper.onParentScrolled();
+                View view2 = this.viewPages[1];
+                if (view2 instanceof Page) {
+                    ((Page) view2).textSelectionHelper.onParentScrolled();
                 }
             }
 
             @Override // org.telegram.ui.Components.ViewPagerFixed
             protected void onScrollEnd() {
-                View[] viewArr = this.viewPages;
-                if (viewArr[0] instanceof Page) {
-                    ((Page) viewArr[0]).textSelectionHelper.stopScrolling();
+                View view = this.viewPages[0];
+                if (view instanceof Page) {
+                    ((Page) view).textSelectionHelper.stopScrolling();
                 }
             }
 
@@ -2887,13 +2870,13 @@ public class MessagePreviewView extends FrameLayout {
         this.tabsView.setSelectedTab(i3);
         addView(this.tabsView, LayoutHelper.createFrame(-1, 66, 87));
         addView(this.viewPager, LayoutHelper.createFrame(-1, -1.0f, 119, 0.0f, 0.0f, 0.0f, 66.0f));
-        this.tabsView.setOnTabClick(new Utilities.Callback() { // from class: org.telegram.ui.Components.MessagePreviewView$$ExternalSyntheticLambda1
+        this.tabsView.setOnTabClick(new Utilities.Callback() { // from class: org.telegram.ui.Components.MessagePreviewView$$ExternalSyntheticLambda0
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 MessagePreviewView.this.lambda$new$0((Integer) obj);
             }
         });
-        setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.MessagePreviewView$$ExternalSyntheticLambda0
+        setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.MessagePreviewView$$ExternalSyntheticLambda1
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view, MotionEvent motionEvent) {
                 boolean lambda$new$1;
@@ -2958,8 +2941,9 @@ public class MessagePreviewView extends FrameLayout {
                 if (i >= viewArr.length) {
                     break;
                 }
-                if (viewArr[i] instanceof Page) {
-                    Page page = (Page) viewArr[i];
+                View view = viewArr[i];
+                if (view instanceof Page) {
+                    Page page = (Page) view;
                     if (page.currentTab == 0) {
                         page.updateSelection();
                         break;
@@ -3136,7 +3120,7 @@ public class MessagePreviewView extends FrameLayout {
         private final AnimatedTextView.AnimatedTextDrawable subtitle;
         private final AnimatedTextView.AnimatedTextDrawable title;
 
-        public ActionBar(MessagePreviewView messagePreviewView, Context context, Theme.ResourcesProvider resourcesProvider) {
+        public ActionBar(Context context, Theme.ResourcesProvider resourcesProvider) {
             super(context);
             this.resourcesProvider = resourcesProvider;
             AnimatedTextView.AnimatedTextDrawable animatedTextDrawable = new AnimatedTextView.AnimatedTextDrawable(true, true, true);
@@ -3154,7 +3138,7 @@ public class MessagePreviewView extends FrameLayout {
             animatedTextDrawable2.setAnimationProperties(0.3f, 0L, 430L, cubicBezierInterpolator);
             animatedTextDrawable2.setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubtitle, resourcesProvider));
             animatedTextDrawable2.setTextSize(AndroidUtilities.dp(14.0f));
-            animatedTextDrawable2.setEllipsizeByGradient(true ^ LocaleController.isRTL);
+            animatedTextDrawable2.setEllipsizeByGradient(!LocaleController.isRTL);
             animatedTextDrawable2.setCallback(this);
             animatedTextDrawable2.setOverrideFullWidth(AndroidUtilities.displaySize.x);
         }
@@ -3199,8 +3183,9 @@ public class MessagePreviewView extends FrameLayout {
             if (i >= viewArr.length) {
                 return;
             }
-            if (viewArr[i] != null && ((Page) viewArr[i]).currentTab == 2) {
-                Page page = (Page) viewArr[i];
+            View view = viewArr[i];
+            if (view != null && ((Page) view).currentTab == 2) {
+                Page page = (Page) view;
                 FrameLayout frameLayout = page.changeSizeBtnContainer;
                 MessagePreviewParams messagePreviewParams = this.messagePreviewParams;
                 frameLayout.setVisibility((!messagePreviewParams.singleLink || messagePreviewParams.hasMedia) ? 0 : 8);
@@ -3223,8 +3208,9 @@ public class MessagePreviewView extends FrameLayout {
             if (i >= viewArr.length) {
                 return;
             }
-            if (viewArr[i] instanceof Page) {
-                Page page = (Page) viewArr[i];
+            View view = viewArr[i];
+            if (view instanceof Page) {
+                Page page = (Page) view;
                 int i2 = page.currentTab;
                 if (i2 == 1) {
                     page.messages = this.messagePreviewParams.forwardMessages;
@@ -3271,8 +3257,9 @@ public class MessagePreviewView extends FrameLayout {
             if (i >= viewArr.length) {
                 return false;
             }
-            if (viewArr[i] != null && ((Page) viewArr[i]).currentTab == 0) {
-                return ((Page) viewArr[i]).textSelectionHelper.isTouched();
+            View view = viewArr[i];
+            if (view != null && ((Page) view).currentTab == 0) {
+                return ((Page) view).textSelectionHelper.isTouched();
             }
             i++;
         }

@@ -3,7 +3,7 @@ package com.google.common.primitives;
 import com.google.common.base.Preconditions;
 /* loaded from: classes.dex */
 public final class Bytes {
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x0023, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x0024, code lost:
         r0 = r0 + 1;
      */
     /*

@@ -2,7 +2,6 @@ package com.google.android.gms.internal.play_billing;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.Objects;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
@@ -11,7 +10,7 @@ public class zzax extends zzaw {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public zzax(byte[] bArr) {
-        Objects.requireNonNull(bArr);
+        bArr.getClass();
         this.zza = bArr;
     }
 

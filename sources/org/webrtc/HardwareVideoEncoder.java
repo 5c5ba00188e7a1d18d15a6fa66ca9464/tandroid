@@ -179,16 +179,13 @@ public class HardwareVideoEncoder implements VideoEncoder {
         return initEncodeInternal();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:28:0x008d, code lost:
-        if (r5 == 1) goto L31;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:29:0x008f, code lost:
-        org.webrtc.Logging.w(org.webrtc.HardwareVideoEncoder.TAG, "Unknown profile level id: " + r1);
-     */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x008e  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x00a5 A[Catch: IllegalStateException -> 0x010d, TryCatch #0 {IllegalStateException -> 0x010d, blocks: (B:9:0x0022, B:11:0x005b, B:15:0x006a, B:29:0x0090, B:30:0x00a5, B:20:0x0079, B:23:0x0083, B:31:0x00b3, B:33:0x00d1, B:34:0x00ed), top: B:42:0x0022 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private VideoCodecStatus initEncodeInternal() {
+        char c;
         this.encodeThreadChecker.checkIsOnValidThread();
         this.lastKeyFrameNs = -1L;
         try {
@@ -206,17 +203,30 @@ public class HardwareVideoEncoder implements VideoEncoder {
                     if (str == null) {
                         str = "42e01f";
                     }
-                    char c = 65535;
                     int hashCode = str.hashCode();
                     if (hashCode != 1537948542) {
                         if (hashCode == 1595523974 && str.equals("640c1f")) {
                             c = 0;
+                            if (c != 0) {
+                                createVideoFormat.setInteger("profile", 8);
+                                createVideoFormat.setInteger("level", 256);
+                            } else if (c != 1) {
+                                Logging.w(TAG, "Unknown profile level id: " + str);
+                            }
                         }
-                    } else if (str.equals("42e01f")) {
-                        c = 1;
+                        c = 65535;
+                        if (c != 0) {
+                        }
+                    } else {
+                        if (str.equals("42e01f")) {
+                            c = 1;
+                            if (c != 0) {
+                            }
+                        }
+                        c = 65535;
+                        if (c != 0) {
+                        }
                     }
-                    createVideoFormat.setInteger("profile", 8);
-                    createVideoFormat.setInteger("level", 256);
                 }
                 Logging.d(TAG, "Format: " + createVideoFormat);
                 this.codec.configure(createVideoFormat, null, null, 1);

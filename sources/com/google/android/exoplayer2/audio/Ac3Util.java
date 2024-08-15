@@ -25,9 +25,11 @@ public final class Ac3Util {
         public final String mimeType;
         public final int sampleCount;
         public final int sampleRate;
+        public final int streamType;
 
         private SyncFrameInfo(String str, int i, int i2, int i3, int i4, int i5, int i6) {
             this.mimeType = str;
+            this.streamType = i;
             this.channelCount = i2;
             this.sampleRate = i3;
             this.frameSize = i4;
@@ -321,7 +323,8 @@ public final class Ac3Util {
         if (((bArr[5] & 248) >> 3) > 10) {
             return (((bArr[3] & 255) | ((bArr[2] & 7) << 8)) + 1) * 2;
         }
-        return getAc3SyncframeSize((bArr[4] & 192) >> 6, bArr[4] & 63);
+        byte b = bArr[4];
+        return getAc3SyncframeSize((b & 192) >> 6, b & 63);
     }
 
     public static int parseAc3SyncframeAudioSampleCount(ByteBuffer byteBuffer) {
@@ -343,8 +346,11 @@ public final class Ac3Util {
     }
 
     public static int parseTrueHdSyncframeAudioSampleCount(byte[] bArr) {
-        if (bArr[4] == -8 && bArr[5] == 114 && bArr[6] == 111 && (bArr[7] & 254) == 186) {
-            return 40 << ((bArr[(bArr[7] & 255) == 187 ? '\t' : '\b'] >> 4) & 7);
+        if (bArr[4] == -8 && bArr[5] == 114 && bArr[6] == 111) {
+            byte b = bArr[7];
+            if ((b & 254) == 186) {
+                return 40 << ((bArr[(b & 255) == 187 ? '\t' : '\b'] >> 4) & 7);
+            }
         }
         return 0;
     }

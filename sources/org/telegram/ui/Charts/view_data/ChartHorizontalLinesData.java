@@ -27,10 +27,10 @@ public class ChartHorizontalLinesData {
     /* JADX WARN: Removed duplicated region for block: B:23:0x0079  */
     /* JADX WARN: Removed duplicated region for block: B:24:0x007b  */
     /* JADX WARN: Removed duplicated region for block: B:27:0x007f  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x013c  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x014c  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x014e  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x0152  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0139  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0149  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x014b  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x014f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -69,16 +69,16 @@ public class ChartHorizontalLinesData {
                     boolean z2 = ((float) max2) / f >= 1.0f;
                     i6 = 1;
                     while (i6 < i4) {
-                        long[] jArr = this.values;
-                        jArr[i6] = i6 * max2;
-                        long j5 = max2;
-                        this.valuesStr[i6] = format(0, textPaint, jArr[i6], i);
+                        long j5 = i6 * max2;
+                        this.values[i6] = j5;
+                        long j6 = max2;
+                        this.valuesStr[i6] = format(0, textPaint, j5, i);
                         if (f > 0.0f) {
                             float f3 = ((float) this.values[i6]) / f;
                             if (z2) {
-                                long j6 = f3;
-                                if (f3 - ((float) j6) < 0.01f || i == 1 || i == 2) {
-                                    this.valuesStr2[i6] = format(1, textPaint2, j6, i);
+                                long j7 = f3;
+                                if (f3 - ((float) j7) < 0.01f || i == 1 || i == 2) {
+                                    this.valuesStr2[i6] = format(1, textPaint2, j7, i);
                                 } else {
                                     this.valuesStr2[i6] = "";
                                 }
@@ -87,7 +87,7 @@ public class ChartHorizontalLinesData {
                             }
                         }
                         i6++;
-                        max2 = j5;
+                        max2 = j6;
                     }
                     return;
                 }
@@ -105,23 +105,23 @@ public class ChartHorizontalLinesData {
             }
             return;
         }
-        long j7 = j - j2;
-        if (j7 == 0) {
+        long j8 = j - j2;
+        if (j8 == 0) {
             j3 = j2 - 1;
             i2 = 3;
         } else {
-            if (j7 < 6) {
-                max = Math.max(2L, j7 + 1);
+            if (j8 < 6) {
+                max = Math.max(2L, j8 + 1);
             } else {
-                long j8 = j7 / 2;
-                if (j8 < 6) {
+                long j9 = j8 / 2;
+                if (j9 < 6) {
                     j3 = j2;
-                    i2 = (int) (j8 + (j7 % 2) + 1);
+                    i2 = (int) (j9 + (j8 % 2) + 1);
                     f2 = 2.0f;
                 } else {
-                    float f4 = ((float) j7) / 5.0f;
+                    float f4 = ((float) j8) / 5.0f;
                     if (f4 <= 0.0f) {
-                        max = Math.max(2L, j7 + 1);
+                        max = Math.max(2L, j8 + 1);
                     } else {
                         j3 = j2;
                         f2 = f4;
@@ -138,20 +138,20 @@ public class ChartHorizontalLinesData {
                 boolean z3 = f2 / f >= 1.0f;
                 i3 = 0;
                 while (i3 < i2) {
-                    long j9 = j3 + (i3 * f2);
-                    this.values[i3] = j9;
+                    long j10 = j3 + (i3 * f2);
+                    this.values[i3] = j10;
                     int i7 = i3;
-                    this.valuesStr[i7] = format(0, textPaint, j9, i);
+                    this.valuesStr[i7] = format(0, textPaint, j10, i);
                     if (f > 0.0f) {
                         float f5 = ((float) this.values[i7]) / f;
                         if (z3) {
-                            long j10 = f5;
-                            if (f5 - ((float) j10) >= 0.01f && i != 1) {
+                            long j11 = f5;
+                            if (f5 - ((float) j11) >= 0.01f && i != 1) {
                                 if (i != 2) {
                                     this.valuesStr2[i7] = "";
                                 }
                             }
-                            this.valuesStr2[i7] = format(1, textPaint2, j10, i);
+                            this.valuesStr2[i7] = format(1, textPaint2, j11, i);
                         } else {
                             this.valuesStr2[i7] = format(1, textPaint2, f5, i);
                         }

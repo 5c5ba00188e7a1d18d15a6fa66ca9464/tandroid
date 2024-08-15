@@ -29,7 +29,7 @@ public class HttpResponse {
         if (this == obj) {
             return true;
         }
-        if (obj == null || HttpResponse.class != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         HttpResponse httpResponse = (HttpResponse) obj;

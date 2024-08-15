@@ -17,11 +17,15 @@ public class ID3v2Info extends AudioInfo {
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
     public static class AttachedPicture {
+        final String description;
         final byte[] imageData;
+        final String imageType;
         final byte type;
 
         public AttachedPicture(byte b, String str, String str2, byte[] bArr) {
             this.type = b;
+            this.description = str;
+            this.imageType = str2;
             this.imageData = bArr;
         }
     }
@@ -30,9 +34,11 @@ public class ID3v2Info extends AudioInfo {
     /* loaded from: classes3.dex */
     public static class CommentOrUnsynchronizedLyrics {
         final String description;
+        final String language;
         final String text;
 
         public CommentOrUnsynchronizedLyrics(String str, String str2, String str3) {
+            this.language = str;
             this.description = str2;
             this.text = str3;
         }
@@ -55,13 +61,13 @@ public class ID3v2Info extends AudioInfo {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x005a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x005d, code lost:
         r1 = org.telegram.messenger.audioinfo.mp3.ID3v2Info.LOGGER;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x0060, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x0063, code lost:
         if (r1.isLoggable(r13) == false) goto L38;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:14:0x0062, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:14:0x0065, code lost:
         r1.log(r13, "ID3 frame claims to extend frames area");
      */
     /*
@@ -74,7 +80,7 @@ public class ID3v2Info extends AudioInfo {
         if (isID3v2StartPosition(inputStream)) {
             ID3v2TagHeader iD3v2TagHeader = new ID3v2TagHeader(inputStream);
             this.brand = "ID3";
-            String.format("2.%d.%d", Integer.valueOf(iD3v2TagHeader.getVersion()), Integer.valueOf(iD3v2TagHeader.getRevision()));
+            this.version = String.format("2.%d.%d", Integer.valueOf(iD3v2TagHeader.getVersion()), Integer.valueOf(iD3v2TagHeader.getRevision()));
             ID3v2TagBody tagBody = iD3v2TagHeader.tagBody(inputStream);
             while (true) {
                 try {
@@ -121,6 +127,7 @@ public class ID3v2Info extends AudioInfo {
         String str;
         Bitmap bitmap;
         byte b;
+        ID3v1Genre genre;
         int i;
         Logger logger = LOGGER;
         if (logger.isLoggable(this.debugLevel)) {
@@ -391,18 +398,22 @@ public class ID3v2Info extends AudioInfo {
                 String parseTextFrame = parseTextFrame(iD3v2FrameBody);
                 if (parseTextFrame.length() > 0) {
                     this.genre = parseTextFrame;
-                    ID3v1Genre iD3v1Genre = null;
                     try {
                         if (parseTextFrame.charAt(0) == '(') {
                             int indexOf = parseTextFrame.indexOf(41);
-                            if (indexOf > 1 && (iD3v1Genre = ID3v1Genre.getGenre(Integer.parseInt(parseTextFrame.substring(1, indexOf)))) == null && parseTextFrame.length() > (i = indexOf + 1)) {
-                                this.genre = parseTextFrame.substring(i);
+                            if (indexOf > 1) {
+                                genre = ID3v1Genre.getGenre(Integer.parseInt(parseTextFrame.substring(1, indexOf)));
+                                if (genre == null && parseTextFrame.length() > (i = indexOf + 1)) {
+                                    this.genre = parseTextFrame.substring(i);
+                                }
+                            } else {
+                                genre = null;
                             }
                         } else {
-                            iD3v1Genre = ID3v1Genre.getGenre(Integer.parseInt(parseTextFrame));
+                            genre = ID3v1Genre.getGenre(Integer.parseInt(parseTextFrame));
                         }
-                        if (iD3v1Genre != null) {
-                            this.genre = iD3v1Genre.getDescription();
+                        if (genre != null) {
+                            this.genre = genre.getDescription();
                             return;
                         }
                         return;

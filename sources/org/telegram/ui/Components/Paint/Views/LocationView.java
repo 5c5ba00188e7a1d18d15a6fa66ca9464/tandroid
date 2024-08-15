@@ -175,7 +175,7 @@ public class LocationView extends EntityView {
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.Paint.Views.EntityView
     public TextViewSelectionView createSelectionView() {
-        return new TextViewSelectionView(this, getContext());
+        return new TextViewSelectionView(getContext());
     }
 
     /* loaded from: classes3.dex */
@@ -183,7 +183,7 @@ public class LocationView extends EntityView {
         private final Paint clearPaint;
         private Path path;
 
-        public TextViewSelectionView(LocationView locationView, Context context) {
+        public TextViewSelectionView(Context context) {
             super(context);
             Paint paint = new Paint(1);
             this.clearPaint = paint;

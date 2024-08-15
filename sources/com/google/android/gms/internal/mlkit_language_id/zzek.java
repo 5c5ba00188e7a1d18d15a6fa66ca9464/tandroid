@@ -1,4 +1,6 @@
 package com.google.android.gms.internal.mlkit_language_id;
+
+import java.lang.reflect.Type;
 /* JADX WARN: Enum visitor error
 jadx.core.utils.exceptions.JadxRuntimeException: Init of enum zzc uses external variables
 	at jadx.core.dex.visitors.EnumVisitor.createEnumFieldByConstructor(EnumVisitor.java:444)
@@ -40,6 +42,7 @@ public final class zzek {
     private static final zzek zzay;
     public static final zzek zzb;
     private static final zzek[] zzbe;
+    private static final Type[] zzbf;
     private static final /* synthetic */ zzek[] zzbg;
     private static final zzek zzc;
     private static final zzek zzd;
@@ -65,23 +68,31 @@ public final class zzek {
     private static final zzek zzx;
     private static final zzek zzy;
     private static final zzek zzz;
+    private final zzfb zzaz;
     private final int zzba;
+    private final zzem zzbb;
+    private final Class<?> zzbc;
+    private final boolean zzbd;
 
     public static zzek[] values() {
         return (zzek[]) zzbg.clone();
     }
 
     private zzek(String str, int i, int i2, zzem zzemVar, zzfb zzfbVar) {
+        int i3;
         this.zzba = i2;
-        int i3 = zzen.zza[zzemVar.ordinal()];
-        if (i3 == 1) {
-            zzfbVar.zza();
-        } else if (i3 == 2) {
-            zzfbVar.zza();
+        this.zzbb = zzemVar;
+        this.zzaz = zzfbVar;
+        int i4 = zzen.zza[zzemVar.ordinal()];
+        boolean z = true;
+        if (i4 == 1) {
+            this.zzbc = zzfbVar.zza();
+        } else if (i4 == 2) {
+            this.zzbc = zzfbVar.zza();
+        } else {
+            this.zzbc = null;
         }
-        if (zzemVar == zzem.zza) {
-            int i4 = zzen.zzb[zzfbVar.ordinal()];
-        }
+        this.zzbd = (zzemVar != zzem.zza || (i3 = zzen.zzb[zzfbVar.ordinal()]) == 1 || i3 == 2 || i3 == 3) ? false : false;
     }
 
     public final int zza() {
@@ -204,6 +215,7 @@ public final class zzek {
         zzek zzekVar51 = new zzek("MAP", 50, 50, zzem.zzd, zzfb.zza);
         zzay = zzekVar51;
         zzbg = new zzek[]{zzekVar, zzekVar2, zzekVar3, zzekVar4, zzekVar5, zzekVar6, zzekVar7, zzekVar8, zzekVar9, zzekVar10, zzekVar11, zzekVar12, zzekVar13, zzekVar14, zzekVar15, zzekVar16, zzekVar17, zzekVar18, zzekVar19, zzekVar20, zzekVar21, zzekVar22, zzekVar23, zzekVar24, zzekVar25, zzekVar26, zzekVar27, zzekVar28, zzekVar29, zzekVar30, zzekVar31, zzekVar32, zzekVar33, zzekVar34, zzekVar35, zzekVar36, zzekVar37, zzekVar38, zzekVar39, zzekVar40, zzekVar41, zzekVar42, zzekVar43, zzekVar44, zzekVar45, zzekVar46, zzekVar47, zzekVar48, zzekVar49, zzekVar50, zzekVar51};
+        zzbf = new Type[0];
         zzek[] values = values();
         zzbe = new zzek[values.length];
         for (zzek zzekVar52 : values) {

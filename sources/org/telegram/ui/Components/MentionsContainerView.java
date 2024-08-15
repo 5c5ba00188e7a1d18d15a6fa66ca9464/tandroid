@@ -59,6 +59,7 @@ import org.webrtc.MediaStreamTrack;
 public class MentionsContainerView extends BlurredFrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private MentionsAdapter adapter;
     private boolean allowBlur;
+    private int animationIndex;
     BaseFragment baseFragment;
     private PhotoViewer.PhotoViewerProvider botContextProvider;
     private ArrayList<Object> botContextResults;
@@ -150,12 +151,13 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
         this.ignoreLayout = false;
         this.scrollToFirst = false;
         this.shown = false;
-        this.updateVisibilityRunnable = new Runnable() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda5
+        this.updateVisibilityRunnable = new Runnable() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 MentionsContainerView.this.lambda$new$0();
             }
         };
+        this.animationIndex = -1;
         this.listViewHiding = false;
         this.hideT = 0.0f;
         this.switchLayoutManagerOnEnd = false;
@@ -662,21 +664,21 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
                 } else {
                     SpringAnimation spring = new SpringAnimation(new FloatValueHolder(translationY)).setSpring(new SpringForce(f3).setDampingRatio(1.0f).setStiffness(550.0f));
                     this.listViewTranslationAnimator = spring;
-                    spring.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda3
+                    spring.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda4
                         @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
                         public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f6, float f7) {
                             MentionsContainerView.this.lambda$updateListViewTranslation$1(f4, f5, translationY, f3, dynamicAnimation, f6, f7);
                         }
                     });
                     if (z) {
-                        this.listViewTranslationAnimator.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda1
+                        this.listViewTranslationAnimator.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda5
                             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
                             public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z3, float f6, float f7) {
                                 MentionsContainerView.this.lambda$updateListViewTranslation$2(z, dynamicAnimation, z3, f6, f7);
                             }
                         });
                     }
-                    this.listViewTranslationAnimator.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda2
+                    this.listViewTranslationAnimator.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda6
                         @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
                         public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z3, float f6, float f7) {
                             MentionsContainerView.lambda$updateListViewTranslation$3(dynamicAnimation, z3, f6, f7);
@@ -725,7 +727,7 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
     public void withDelegate(final Delegate delegate) {
         this.delegate = delegate;
         MentionsListView listView = getListView();
-        RecyclerListView.OnItemClickListener onItemClickListener = new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda6
+        RecyclerListView.OnItemClickListener onItemClickListener = new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i) {
                 MentionsContainerView.this.lambda$withDelegate$4(delegate, view, i);
@@ -733,7 +735,7 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
         };
         this.mentionsOnItemClickListener = onItemClickListener;
         listView.setOnItemClickListener(onItemClickListener);
-        getListView().setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda0
+        getListView().setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda1
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view, MotionEvent motionEvent) {
                 boolean lambda$withDelegate$5;
@@ -744,6 +746,7 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
     }
 
     public /* synthetic */ void lambda$withDelegate$4(Delegate delegate, View view, int i) {
+        Paint.FontMetricsInt fontMetricsInt;
         AnimatedEmojiSpan animatedEmojiSpan;
         if (i == 0 || getAdapter().isBannedInline()) {
             return;
@@ -777,13 +780,17 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
         } else if (item instanceof MediaDataController.KeywordResult) {
             String str = ((MediaDataController.KeywordResult) item).emoji;
             delegate.addEmojiToRecent(str);
-            if (str != null && str.startsWith("animated_")) {
-                Paint.FontMetricsInt fontMetricsInt = null;
+            if (str != null) {
                 try {
+                } catch (Exception unused) {
+                    delegate.replaceText(resultStartPosition, resultLength, str, true);
+                }
+                if (str.startsWith("animated_")) {
                     try {
                         fontMetricsInt = delegate.getFontMetrics();
                     } catch (Exception e) {
                         FileLog.e((Throwable) e, false);
+                        fontMetricsInt = null;
                     }
                     long parseLong = Long.parseLong(str.substring(9));
                     TLRPC$Document findDocument = AnimatedEmojiDrawable.findDocument(UserConfig.selectedAccount, parseLong);
@@ -795,12 +802,10 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
                     }
                     spannableString2.setSpan(animatedEmojiSpan, 0, spannableString2.length(), 33);
                     delegate.replaceText(resultStartPosition, resultLength, spannableString2, false);
-                } catch (Exception unused) {
-                    delegate.replaceText(resultStartPosition, resultLength, str, true);
+                    updateVisibility(false);
                 }
-            } else {
-                delegate.replaceText(resultStartPosition, resultLength, str, true);
             }
+            delegate.replaceText(resultStartPosition, resultLength, str, true);
             updateVisibility(false);
         }
         if (item instanceof TLRPC$BotInlineResult) {
@@ -831,7 +836,7 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
         public MentionsListView(Context context, Theme.ResourcesProvider resourcesProvider) {
             super(context, resourcesProvider);
             MentionsContainerView.this = r1;
-            setOnScrollListener(new RecyclerView.OnScrollListener(r1) { // from class: org.telegram.ui.Components.MentionsContainerView.MentionsListView.1
+            setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.MentionsContainerView.MentionsListView.1
                 {
                     MentionsListView.this = this;
                 }
@@ -852,7 +857,7 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
                     MentionsContainerView.this.onScrolled(!mentionsListView.canScrollVertically(-1), true ^ MentionsListView.this.canScrollVertically(1));
                 }
             });
-            addItemDecoration(new RecyclerView.ItemDecoration(r1) { // from class: org.telegram.ui.Components.MentionsContainerView.MentionsListView.2
+            addItemDecoration(new RecyclerView.ItemDecoration() { // from class: org.telegram.ui.Components.MentionsContainerView.MentionsListView.2
                 {
                     MentionsListView.this = this;
                 }
@@ -995,7 +1000,7 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         if (i == NotificationCenter.emojiLoaded) {
-            AndroidUtilities.forEachViews((RecyclerView) this.listView, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda4
+            AndroidUtilities.forEachViews((RecyclerView) this.listView, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda3
                 @Override // com.google.android.exoplayer2.util.Consumer
                 public final void accept(Object obj) {
                     MentionsContainerView.lambda$didReceivedNotification$6((View) obj);

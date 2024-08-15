@@ -13,12 +13,12 @@ public class PropertyConfigurator extends AbstractChannelListener {
     private String mAppName;
     private String mAppVersion;
     private boolean mDeviceIdEnabled;
+    private final EventProperties mEventProperties = new EventProperties();
     private final AnalyticsTransmissionTarget mTransmissionTarget;
     private String mUserId;
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public PropertyConfigurator(AnalyticsTransmissionTarget analyticsTransmissionTarget) {
-        new EventProperties();
         this.mTransmissionTarget = analyticsTransmissionTarget;
     }
 

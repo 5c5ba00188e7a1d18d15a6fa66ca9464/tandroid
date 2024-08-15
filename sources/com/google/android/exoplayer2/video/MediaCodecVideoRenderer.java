@@ -194,15 +194,24 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
     /* loaded from: classes.dex */
     public static final class Api26 {
         public static boolean doesDisplaySupportDolbyVision(Context context) {
+            boolean isHdr;
+            Display.HdrCapabilities hdrCapabilities;
+            int[] supportedHdrTypes;
             DisplayManager displayManager = (DisplayManager) context.getSystemService("display");
             Display display = displayManager != null ? displayManager.getDisplay(0) : null;
-            if (display == null || !display.isHdr()) {
-                return false;
-            }
-            for (int i : display.getHdrCapabilities().getSupportedHdrTypes()) {
-                if (i == 1) {
-                    return true;
+            if (display != null) {
+                isHdr = display.isHdr();
+                if (isHdr) {
+                    hdrCapabilities = display.getHdrCapabilities();
+                    supportedHdrTypes = hdrCapabilities.getSupportedHdrTypes();
+                    for (int i : supportedHdrTypes) {
+                        if (i == 1) {
+                            return true;
+                        }
+                    }
+                    return false;
                 }
+                return false;
             }
             return false;
         }
@@ -1154,8 +1163,8 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:537:0x0727, code lost:
-        if (r0.equals("ELUGA_Ray_X") == false) goto L46;
+    /* JADX WARN: Code restructure failed: missing block: B:621:0x084f, code lost:
+        if (r0.equals("PGN528") == false) goto L46;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1164,7 +1173,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         char c;
         char c2;
         int i = Util.SDK_INT;
-        char c3 = 28;
+        char c3 = 7;
         if (i <= 28) {
             String str = Util.DEVICE;
             str.hashCode();
@@ -1378,11 +1387,6 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
                                 c3 = 65535;
                                 break;
                             case -1936688988:
-                                if (str3.equals("PGN528")) {
-                                    c3 = 7;
-                                    break;
-                                }
-                                c3 = 65535;
                                 break;
                             case -1936688066:
                                 if (str3.equals("PGN610")) {
@@ -1525,6 +1529,11 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
                                 c3 = 65535;
                                 break;
                             case -958336948:
+                                if (str3.equals("ELUGA_Ray_X")) {
+                                    c3 = 28;
+                                    break;
+                                }
+                                c3 = 65535;
                                 break;
                             case -879245230:
                                 if (str3.equals("tcl_eu")) {

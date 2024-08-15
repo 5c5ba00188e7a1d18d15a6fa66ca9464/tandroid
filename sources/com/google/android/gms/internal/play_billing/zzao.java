@@ -100,7 +100,7 @@ public final class zzao {
                 zzanVar.zzc = "";
                 return zzj;
             }
-            int i3 = zzev.zza;
+            int i3 = zzev.$r8$clinit;
             int length = bArr.length;
             if ((((length - zzj) - i2) | zzj | i2) < 0) {
                 throw new ArrayIndexOutOfBoundsException(String.format("buffer length=%d, index=%d, size=%d", Integer.valueOf(length), Integer.valueOf(zzj), Integer.valueOf(i2)));

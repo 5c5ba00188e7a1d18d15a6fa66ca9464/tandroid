@@ -21,8 +21,11 @@ import org.telegram.messenger.SvgHelper;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class ThemePreviewDrawable extends BitmapDrawable {
+    private DocumentObject.ThemeDocument themeDocument;
+
     public ThemePreviewDrawable(File file, DocumentObject.ThemeDocument themeDocument) {
         super(createPreview(file, themeDocument));
+        this.themeDocument = themeDocument;
     }
 
     private static Bitmap createPreview(File file, DocumentObject.ThemeDocument themeDocument) {
@@ -68,7 +71,7 @@ public class ThemePreviewDrawable extends BitmapDrawable {
             Drawable drawable = mutate2;
             Paint paint2 = paint;
             int i2 = previewColor;
-            messageDrawableArr[i] = new Theme.MessageDrawable(2, i == 1, false) { // from class: org.telegram.ui.Components.ThemePreviewDrawable.1
+            Theme.MessageDrawable messageDrawable = new Theme.MessageDrawable(2, i == 1, false) { // from class: org.telegram.ui.Components.ThemePreviewDrawable.1
                 @Override // org.telegram.ui.ActionBar.Theme.MessageDrawable
                 protected int getColor(int i3) {
                     Integer valueOf6 = Integer.valueOf(clone.get(i3));
@@ -83,7 +86,8 @@ public class ThemePreviewDrawable extends BitmapDrawable {
                     return clone.get(i3);
                 }
             };
-            Theme.setDrawableColor(messageDrawableArr[i], i == 1 ? previewColor6 : previewColor5);
+            messageDrawableArr[i] = messageDrawable;
+            Theme.setDrawableColor(messageDrawable, i == 1 ? previewColor6 : previewColor5);
             i++;
             mutate2 = drawable;
             paint = paint2;

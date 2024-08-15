@@ -26,7 +26,7 @@ final class VbriSeeker implements Seeker {
             return null;
         }
         int i = header.sampleRate;
-        long scaleLargeTimestamp = Util.scaleLargeTimestamp(readInt, 1000000 * (i >= 32000 ? 1152 : 576), i);
+        long scaleLargeTimestamp = Util.scaleLargeTimestamp(readInt, (i >= 32000 ? 1152 : 576) * 1000000, i);
         int readUnsignedShort = parsableByteArray.readUnsignedShort();
         int readUnsignedShort2 = parsableByteArray.readUnsignedShort();
         int readUnsignedShort3 = parsableByteArray.readUnsignedShort();

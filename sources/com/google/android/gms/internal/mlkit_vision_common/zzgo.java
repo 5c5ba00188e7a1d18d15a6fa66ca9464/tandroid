@@ -8,36 +8,43 @@ import java.io.IOException;
 /* loaded from: classes.dex */
 final class zzgo implements ObjectEncoder {
     static final zzgo zza = new zzgo();
+    private static final FieldDescriptor zzb;
+    private static final FieldDescriptor zzc;
+    private static final FieldDescriptor zzd;
+    private static final FieldDescriptor zze;
+    private static final FieldDescriptor zzf;
+    private static final FieldDescriptor zzg;
+    private static final FieldDescriptor zzh;
 
     static {
         FieldDescriptor.Builder builder = FieldDescriptor.builder("pipelineNamespace");
         zzae zzaeVar = new zzae();
         zzaeVar.zza(1);
-        builder.withProperty(zzaeVar.zzb()).build();
+        zzb = builder.withProperty(zzaeVar.zzb()).build();
         FieldDescriptor.Builder builder2 = FieldDescriptor.builder("name");
         zzae zzaeVar2 = new zzae();
         zzaeVar2.zza(2);
-        builder2.withProperty(zzaeVar2.zzb()).build();
+        zzc = builder2.withProperty(zzaeVar2.zzb()).build();
         FieldDescriptor.Builder builder3 = FieldDescriptor.builder("clientLibraryName");
         zzae zzaeVar3 = new zzae();
         zzaeVar3.zza(3);
-        builder3.withProperty(zzaeVar3.zzb()).build();
+        zzd = builder3.withProperty(zzaeVar3.zzb()).build();
         FieldDescriptor.Builder builder4 = FieldDescriptor.builder("clientLibraryVersion");
         zzae zzaeVar4 = new zzae();
         zzaeVar4.zza(4);
-        builder4.withProperty(zzaeVar4.zzb()).build();
+        zze = builder4.withProperty(zzaeVar4.zzb()).build();
         FieldDescriptor.Builder builder5 = FieldDescriptor.builder("minClientLibraryVersion");
         zzae zzaeVar5 = new zzae();
         zzaeVar5.zza(5);
-        builder5.withProperty(zzaeVar5.zzb()).build();
+        zzf = builder5.withProperty(zzaeVar5.zzb()).build();
         FieldDescriptor.Builder builder6 = FieldDescriptor.builder("maxClientLibraryVersion");
         zzae zzaeVar6 = new zzae();
         zzaeVar6.zza(6);
-        builder6.withProperty(zzaeVar6.zzb()).build();
+        zzg = builder6.withProperty(zzaeVar6.zzb()).build();
         FieldDescriptor.Builder builder7 = FieldDescriptor.builder("sourceProduct");
         zzae zzaeVar7 = new zzae();
         zzaeVar7.zza(7);
-        builder7.withProperty(zzaeVar7.zzb()).build();
+        zzh = builder7.withProperty(zzaeVar7.zzb()).build();
     }
 
     private zzgo() {

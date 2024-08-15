@@ -1290,7 +1290,6 @@ public class LinearLayoutManager extends RecyclerView.LayoutManager implements I
         int mAvailable;
         int mCurrentPosition;
         boolean mInfinite;
-        boolean mIsPreLayout;
         int mItemDirection;
         int mLastScrollDelta;
         int mLayoutDirection;
@@ -1299,6 +1298,7 @@ public class LinearLayoutManager extends RecyclerView.LayoutManager implements I
         boolean mRecycle = true;
         int mExtraFillSpace = 0;
         int mNoRecycleSpace = 0;
+        boolean mIsPreLayout = false;
         List<RecyclerView.ViewHolder> mScrapList = null;
 
         LayoutState() {

@@ -18,6 +18,8 @@ public final class ClientSettings {
     private final Set zab;
     private final Set zac;
     private final Map zad;
+    private final int zae;
+    private final View zaf;
     private final String zag;
     private final String zah;
     private final SignInOptions zai;
@@ -126,6 +128,8 @@ public final class ClientSettings {
         this.zab = emptySet;
         map = map == null ? Collections.emptyMap() : map;
         this.zad = map;
+        this.zaf = view;
+        this.zae = i;
         this.zag = str;
         this.zah = str2;
         this.zai = signInOptions == null ? SignInOptions.zaa : signInOptions;

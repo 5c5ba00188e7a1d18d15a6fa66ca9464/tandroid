@@ -80,10 +80,10 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:78:0x01c0  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x01e0  */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x01e7 A[LOOP:0: B:25:0x00a5->B:82:0x01e7, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x01a3 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x01c1  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x01e1  */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x01e8 A[LOOP:0: B:25:0x00a6->B:82:0x01e8, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x01a4 A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -786,11 +786,11 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         ArrayList arrayList11 = new ArrayList(list5);
         ArrayList arrayList12 = new ArrayList();
         int i6 = i3;
+        SegmentBase segmentBase3 = segmentBase;
         long j7 = j3;
-        long j8 = j4;
         String str4 = null;
         boolean z2 = false;
-        SegmentBase segmentBase3 = segmentBase;
+        long j8 = j4;
         while (true) {
             xmlPullParser.next();
             if (XmlPullParserUtil.isStartTag(xmlPullParser, "BaseURL")) {
@@ -987,9 +987,8 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         String attributeValue = xmlPullParser.getAttributeValue(null, "indexRange");
         if (attributeValue != null) {
             String[] split = attributeValue.split("-");
-            long parseLong3 = Long.parseLong(split[0]);
-            j = (Long.parseLong(split[1]) - parseLong3) + 1;
-            j2 = parseLong3;
+            j2 = Long.parseLong(split[0]);
+            j = (Long.parseLong(split[1]) - j2) + 1;
         } else {
             j = j4;
             j2 = j3;

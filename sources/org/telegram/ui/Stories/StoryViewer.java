@@ -115,6 +115,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
     private float hideEnterViewProgress;
     boolean inSeekingMode;
     boolean inSwipeToDissmissMode;
+    Paint inputBackgroundPaint;
     private boolean invalidateOutRect;
     private boolean isBulletinVisible;
     private boolean isCaption;
@@ -132,6 +133,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
     boolean isSingleStory;
     private boolean isSwiping;
     private boolean isWaiting;
+    int j;
     boolean keyboardVisible;
     long lastDialogId;
     int lastPosition;
@@ -195,7 +197,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
     AnimationNotificationsLocker locker = new AnimationNotificationsLocker();
     ArrayList<VideoPlayerHolder> preparedPlayers = new ArrayList<>();
     public boolean isTranslating = false;
-    Runnable longPressRunnable = new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda8
+    Runnable longPressRunnable = new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda5
         @Override // java.lang.Runnable
         public final void run() {
             StoryViewer.this.lambda$new$0();
@@ -281,8 +283,10 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     public StoryViewer(BaseFragment baseFragment) {
-        J++;
-        new Paint(1);
+        int i = J;
+        J = i + 1;
+        this.j = i;
+        this.inputBackgroundPaint = new Paint(1);
         this.fragment = baseFragment;
     }
 
@@ -404,7 +408,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             layoutParams.layoutInDisplayCutoutMode = 1;
         }
         if (i2 >= 21) {
-            layoutParams.flags = -2147417728;
+            this.windowLayoutParams.flags = -2147417728;
         }
         this.isClosed = false;
         this.unreadStateChanged = false;
@@ -441,20 +445,21 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
 
                 @Override // android.view.GestureDetector.OnGestureListener
                 public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent2, float f, float f2) {
+                    float f3;
                     StoryViewer storyViewer = StoryViewer.this;
                     if (storyViewer.inSwipeToDissmissMode) {
                         if (storyViewer.allowSwipeToReply) {
                             storyViewer.swipeToReplyOffset += f2;
                             int dp = AndroidUtilities.dp(200.0f);
                             StoryViewer storyViewer2 = StoryViewer.this;
-                            float f3 = dp;
-                            if (storyViewer2.swipeToReplyOffset > f3 && !storyViewer2.swipeToReplyWaitingKeyboard) {
+                            float f4 = dp;
+                            if (storyViewer2.swipeToReplyOffset > f4 && !storyViewer2.swipeToReplyWaitingKeyboard) {
                                 storyViewer2.swipeToReplyWaitingKeyboard = true;
                                 storyViewer2.showKeyboard();
                                 StoryViewer.this.windowView.performHapticFeedback(3);
                             }
                             StoryViewer storyViewer3 = StoryViewer.this;
-                            storyViewer3.swipeToReplyProgress = Utilities.clamp(storyViewer3.swipeToReplyOffset / f3, 1.0f, 0.0f);
+                            storyViewer3.swipeToReplyProgress = Utilities.clamp(storyViewer3.swipeToReplyOffset / f4, 1.0f, 0.0f);
                             if (StoryViewer.this.storiesViewPager.getCurrentPeerView() != null) {
                                 StoryViewer.this.storiesViewPager.getCurrentPeerView().invalidate();
                             }
@@ -467,11 +472,11 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                         }
                         StoryViewer storyViewer5 = StoryViewer.this;
                         if (storyViewer5.allowSelfStoriesView) {
-                            float f4 = storyViewer5.selfStoriesViewsOffset;
-                            if (f4 > storyViewer5.selfStoryViewsView.maxSelfStoriesViewsOffset && f2 > 0.0f) {
-                                storyViewer5.selfStoriesViewsOffset = f4 + (0.05f * f2);
+                            float f5 = storyViewer5.selfStoriesViewsOffset;
+                            if (f5 > storyViewer5.selfStoryViewsView.maxSelfStoriesViewsOffset && f2 > 0.0f) {
+                                storyViewer5.selfStoriesViewsOffset = f5 + (0.05f * f2);
                             } else {
-                                storyViewer5.selfStoriesViewsOffset = f4 + f2;
+                                storyViewer5.selfStoriesViewsOffset = f5 + f2;
                             }
                             Bulletin.hideVisible(storyViewer5.windowView);
                             if (StoryViewer.this.storiesViewPager.getCurrentPeerView() != null) {
@@ -485,15 +490,19 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                             storyViewer6.selfStoriesViewsOffset = 0.0f;
                             storyViewer6.allowSelfStoriesView = false;
                         }
-                        float f5 = 0.6f;
                         StoryViewer storyViewer7 = StoryViewer.this;
                         if (storyViewer7.progressToDismiss > 0.8f) {
                             float f6 = -f2;
                             if ((f6 > 0.0f && storyViewer7.swipeToDismissOffset > 0.0f) || (f6 < 0.0f && storyViewer7.swipeToDismissOffset < 0.0f)) {
-                                f5 = 0.3f;
+                                f3 = 0.3f;
+                                storyViewer7.swipeToDismissOffset -= f2 * f3;
+                                Bulletin.hideVisible(storyViewer7.windowView);
+                                StoryViewer.this.updateProgressToDismiss();
+                                return true;
                             }
                         }
-                        storyViewer7.swipeToDismissOffset -= f2 * f5;
+                        f3 = 0.6f;
+                        storyViewer7.swipeToDismissOffset -= f2 * f3;
                         Bulletin.hideVisible(storyViewer7.windowView);
                         StoryViewer.this.updateProgressToDismiss();
                         return true;
@@ -688,17 +697,29 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                 this.containerView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() { // from class: org.telegram.ui.Stories.StoryViewer.7
                     @Override // android.view.View.OnApplyWindowInsetsListener
                     public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
+                        int systemWindowInsetTop;
+                        int systemWindowInsetBottom;
+                        int systemWindowInsetLeft;
+                        int systemWindowInsetRight;
+                        WindowInsets consumeSystemWindowInsets;
+                        WindowInsets windowInsets2;
                         ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) StoryViewer.this.containerView.getLayoutParams();
-                        marginLayoutParams.topMargin = windowInsets.getSystemWindowInsetTop();
-                        marginLayoutParams.bottomMargin = windowInsets.getSystemWindowInsetBottom();
-                        marginLayoutParams.leftMargin = windowInsets.getSystemWindowInsetLeft();
-                        marginLayoutParams.rightMargin = windowInsets.getSystemWindowInsetRight();
+                        systemWindowInsetTop = windowInsets.getSystemWindowInsetTop();
+                        marginLayoutParams.topMargin = systemWindowInsetTop;
+                        systemWindowInsetBottom = windowInsets.getSystemWindowInsetBottom();
+                        marginLayoutParams.bottomMargin = systemWindowInsetBottom;
+                        systemWindowInsetLeft = windowInsets.getSystemWindowInsetLeft();
+                        marginLayoutParams.leftMargin = systemWindowInsetLeft;
+                        systemWindowInsetRight = windowInsets.getSystemWindowInsetRight();
+                        marginLayoutParams.rightMargin = systemWindowInsetRight;
                         StoryViewer.this.windowView.requestLayout();
                         StoryViewer.this.containerView.requestLayout();
                         if (Build.VERSION.SDK_INT >= 30) {
-                            return WindowInsets.CONSUMED;
+                            windowInsets2 = WindowInsets.CONSUMED;
+                            return windowInsets2;
                         }
-                        return windowInsets.consumeSystemWindowInsets();
+                        consumeSystemWindowInsets = windowInsets.consumeSystemWindowInsets();
+                        return consumeSystemWindowInsets;
                     }
                 });
                 this.containerView.setSystemUiVisibility(1792);
@@ -757,7 +778,6 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             return super.drawChild(canvas, view, j);
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         /* JADX WARN: Removed duplicated region for block: B:123:0x058b A[LOOP:1: B:111:0x0557->B:123:0x058b, LOOP_END] */
         /* JADX WARN: Removed duplicated region for block: B:184:0x07e4  */
         /* JADX WARN: Removed duplicated region for block: B:190:0x0593 A[EDGE_INSN: B:190:0x0593->B:124:0x0593 ?: BREAK  , SYNTHETIC] */
@@ -766,7 +786,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        public void dispatchDraw(Canvas canvas) {
+        protected void dispatchDraw(Canvas canvas) {
             PeerStoriesView.PeerHeaderView peerHeaderView;
             float f;
             StoryViewer storyViewer;
@@ -1462,9 +1482,8 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-        public void onAttachedToWindow() {
+        protected void onAttachedToWindow() {
             super.onAttachedToWindow();
             if (StoryViewer.this.ATTACH_TO_FRAGMENT) {
                 AndroidUtilities.requestAdjustResize(this.val$fragment.getParentActivity(), this.val$fragment.getClassGuid());
@@ -1523,9 +1542,8 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             NotificationCenter.getInstance(StoryViewer.this.currentAccount).addObserver(StoryViewer.this, NotificationCenter.openArticle);
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-        public void onDetachedFromWindow() {
+        protected void onDetachedFromWindow() {
             super.onDetachedFromWindow();
             Bulletin.removeDelegate(this);
             NotificationCenter.getInstance(StoryViewer.this.currentAccount).removeObserver(StoryViewer.this, NotificationCenter.storiesListUpdated);
@@ -1606,7 +1624,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                     StoryViewer.this.close(false);
                     return;
                 } else {
-                    StoryViewer.this.storiesViewPager.onNextIdle(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$5$$ExternalSyntheticLambda0
+                    StoryViewer.this.storiesViewPager.onNextIdle(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$5$$ExternalSyntheticLambda2
                         @Override // java.lang.Runnable
                         public final void run() {
                             StoryViewer.5.this.lambda$switchToNextAndRemoveCurrentPeer$1(arrayList2, indexOf2);
@@ -1896,7 +1914,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                     Uri uri = arrayList2.get(i3);
                     StoryViewer storyViewer = StoryViewer.this;
                     final VideoPlayerHolder videoPlayerHolder = new VideoPlayerHolder(storyViewer.surfaceView, StoryViewer.this.textureView);
-                    videoPlayerHolder.setOnSeekUpdate(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$5$$ExternalSyntheticLambda2
+                    videoPlayerHolder.setOnSeekUpdate(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$5$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
                         public final void run() {
                             StoryViewer.5.this.lambda$preparePlayer$2(videoPlayerHolder);
@@ -1931,7 +1949,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
     public void showKeyboard() {
         PeerStoriesView currentPeerView = this.storiesViewPager.getCurrentPeerView();
         if (currentPeerView != null && currentPeerView.showKeyboard()) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda5
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda9
                 @Override // java.lang.Runnable
                 public final void run() {
                     StoryViewer.this.cancelSwipeToReply();
@@ -1966,7 +1984,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             fArr[1] = z ? this.selfStoryViewsView.maxSelfStoriesViewsOffset : 0.0f;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
             this.swipeToViewsAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda3
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda2
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     StoryViewer.this.lambda$cancelSwipeToViews$1(valueAnimator);
@@ -2027,7 +2045,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
     public boolean showDialog(Dialog dialog) {
         try {
             this.currentDialog = dialog;
-            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda4
+            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda3
                 @Override // android.content.DialogInterface.OnDismissListener
                 public final void onDismiss(DialogInterface dialogInterface) {
                     StoryViewer.this.lambda$showDialog$2(dialogInterface);
@@ -2053,7 +2071,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
 
     public boolean listenToAttachedSheet(BaseFragment.AttachedSheet attachedSheet) {
         this.currentSheet = attachedSheet;
-        attachedSheet.setOnDismissListener(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda9
+        attachedSheet.setOnDismissListener(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 StoryViewer.this.lambda$listenToAttachedSheet$3();
@@ -2074,7 +2092,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             this.allowSwipeToReply = false;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(this.swipeToReplyOffset, 0.0f);
             this.swipeToReplyBackAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda0
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda7
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     StoryViewer.this.lambda$cancelSwipeToReply$4(valueAnimator);
@@ -2225,7 +2243,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         }
         PlaceProvider placeProvider = this.placeProvider;
         if (placeProvider != null) {
-            placeProvider.preLayout(this.storiesViewPager.getCurrentDialogId(), this.messageId, new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda7
+            placeProvider.preLayout(this.storiesViewPager.getCurrentDialogId(), this.messageId, new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda8
                 @Override // java.lang.Runnable
                 public final void run() {
                     StoryViewer.this.lambda$layoutAndFindView$5();
@@ -2282,7 +2300,8 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                 if (view != null) {
                     int[] iArr = new int[2];
                     view.getLocationOnScreen(iArr);
-                    this.fromXCell = iArr[0];
+                    int i2 = iArr[0];
+                    this.fromXCell = i2;
                     this.fromYCell = iArr[1];
                     TransitionViewHolder transitionViewHolder2 = this.transitionViewHolder;
                     View view2 = transitionViewHolder2.view;
@@ -2294,7 +2313,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                     this.animateAvatar = false;
                     ImageReceiver imageReceiver3 = transitionViewHolder2.avatarImage;
                     if (imageReceiver3 != null) {
-                        this.fromX = iArr[0] + imageReceiver3.getCenterX();
+                        this.fromX = i2 + imageReceiver3.getCenterX();
                         this.fromY = iArr[1] + this.transitionViewHolder.avatarImage.getCenterY();
                         this.fromWidth = this.transitionViewHolder.avatarImage.getImageWidth();
                         this.fromHeight = this.transitionViewHolder.avatarImage.getImageHeight();
@@ -2314,7 +2333,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                     } else {
                         ImageReceiver imageReceiver4 = transitionViewHolder2.storyImage;
                         if (imageReceiver4 != null) {
-                            this.fromX = iArr[0] + imageReceiver4.getCenterX();
+                            this.fromX = i2 + imageReceiver4.getCenterX();
                             this.fromY = iArr[1] + this.transitionViewHolder.storyImage.getCenterY();
                             this.fromWidth = this.transitionViewHolder.storyImage.getImageWidth();
                             this.fromHeight = this.transitionViewHolder.storyImage.getImageHeight();
@@ -2329,8 +2348,9 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                         this.clipBottom = 0.0f;
                         return;
                     }
-                    this.clipTop = iArr[1] + f;
-                    this.clipBottom = iArr[1] + transitionViewHolder3.clipBottom;
+                    int i3 = iArr[1];
+                    this.clipTop = i3 + f;
+                    this.clipBottom = i3 + transitionViewHolder3.clipBottom;
                     return;
                 }
                 this.animateAvatar = false;
@@ -2501,7 +2521,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         this.opening = true;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.openCloseAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda1
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda10
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 StoryViewer.this.lambda$startOpenAnimation$6(valueAnimator);
@@ -2688,7 +2708,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         this.opening = false;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(this.progressToOpen, 0.0f);
         this.openCloseAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda2
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda0
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 StoryViewer.this.lambda$startCloseAnimation$7(valueAnimator);
@@ -2711,7 +2731,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         } else {
             layoutAndFindView();
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda6
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 StoryViewer.this.lambda$startCloseAnimation$8();
@@ -3035,7 +3055,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
 
     public void openViews() {
         checkSelfStoriesView();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda10
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 StoryViewer.this.lambda$openViews$9();
@@ -3261,11 +3281,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         public Integer getAvatarImageRoundRadius() {
             View view;
             if (this.avatarImage != null) {
-                float f = 1.0f;
-                if (this.checkParentScale && (view = this.view) != null && view.getParent() != null) {
-                    f = ((ViewGroup) this.view.getParent()).getScaleY();
-                }
-                return Integer.valueOf((int) (this.avatarImage.getRoundRadius()[0] * f));
+                return Integer.valueOf((int) (this.avatarImage.getRoundRadius()[0] * ((!this.checkParentScale || (view = this.view) == null || view.getParent() == null) ? 1.0f : ((ViewGroup) this.view.getParent()).getScaleY())));
             }
             return null;
         }

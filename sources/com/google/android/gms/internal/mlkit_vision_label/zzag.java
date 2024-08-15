@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.RandomAccess;
 import java.util.Set;
 /* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
@@ -52,7 +51,7 @@ public abstract class zzag extends zzai implements Serializable {
     public static /* synthetic */ void zzm(zzag zzagVar, Object obj) {
         Object obj2;
         Map map = zzagVar.zza;
-        Objects.requireNonNull(map);
+        map.getClass();
         try {
             obj2 = map.remove(obj);
         } catch (ClassCastException | NullPointerException unused) {

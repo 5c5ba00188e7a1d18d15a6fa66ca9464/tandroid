@@ -182,6 +182,7 @@ public class PaintingOverlay extends FrameLayout {
 
     /* JADX WARN: Multi-variable type inference failed */
     public void setEntities(ArrayList<VideoEditedInfo.MediaEntity> arrayList, boolean z, boolean z2, boolean z3) {
+        BackupImageView backupImageView;
         int i;
         setClipChildren(z3);
         reset();
@@ -192,7 +193,6 @@ public class PaintingOverlay extends FrameLayout {
         int size = arrayList.size();
         for (int i2 = 0; i2 < size; i2++) {
             VideoEditedInfo.MediaEntity mediaEntity = arrayList.get(i2);
-            BackupImageView backupImageView = null;
             byte b = mediaEntity.type;
             if (b == 0) {
                 BackupImageView backupImageView2 = new BackupImageView(getContext());
@@ -222,13 +222,13 @@ public class PaintingOverlay extends FrameLayout {
                     }
                 }
                 imageReceiver.setImage(ImageLocation.getForDocument(mediaEntity.document), null, null, null, ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(mediaEntity.document.thumbs, 90), mediaEntity.document), null, null, 0L, "webp", mediaEntity.parentObject, 1);
-                if ((mediaEntity.subType & 2) != 0) {
+                if ((2 & mediaEntity.subType) != 0) {
                     backupImageView2.setScaleX(-1.0f);
                 }
                 mediaEntity.view = backupImageView2;
                 backupImageView = backupImageView2;
             } else if (b == 1) {
-                EditTextOutline editTextOutline = new EditTextOutline(this, getContext()) { // from class: org.telegram.ui.Components.PaintingOverlay.1
+                EditTextOutline editTextOutline = new EditTextOutline(getContext()) { // from class: org.telegram.ui.Components.PaintingOverlay.1
                     @Override // org.telegram.ui.Components.EditTextEffects, android.view.View
                     public boolean dispatchTouchEvent(MotionEvent motionEvent) {
                         return false;
@@ -262,18 +262,16 @@ public class PaintingOverlay extends FrameLayout {
                 int i4 = mediaEntity.textAlign;
                 editTextOutline.setGravity(i4 != 1 ? i4 != 2 ? 19 : 21 : 17);
                 int i5 = Build.VERSION.SDK_INT;
-                if (i5 >= 17) {
-                    int i6 = mediaEntity.textAlign;
-                    if (i6 != 1) {
-                        i = 3;
-                        if (i6 == 2 ? LocaleController.isRTL : !LocaleController.isRTL) {
-                            i = 2;
-                        }
-                    } else {
-                        i = 4;
+                int i6 = mediaEntity.textAlign;
+                if (i6 != 1) {
+                    i = 3;
+                    if (i6 == 2 ? LocaleController.isRTL : !LocaleController.isRTL) {
+                        i = 2;
                     }
-                    editTextOutline.setTextAlignment(i);
+                } else {
+                    i = 4;
                 }
+                editTextOutline.setTextAlignment(i);
                 editTextOutline.setHorizontallyScrolling(false);
                 editTextOutline.setImeOptions(268435456);
                 editTextOutline.setFocusableInTouchMode(true);
@@ -301,6 +299,8 @@ public class PaintingOverlay extends FrameLayout {
                 editTextOutline.setHighlightColor(Theme.multAlpha(i7, 0.4f));
                 mediaEntity.view = editTextOutline;
                 backupImageView = editTextOutline;
+            } else {
+                backupImageView = null;
             }
             if (backupImageView != null) {
                 addView(backupImageView);

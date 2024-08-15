@@ -23,7 +23,6 @@ public final class zzk {
             throw new IndexOutOfBoundsException(sb.toString());
         }
         int i = 37;
-        char c = 0;
         if (length <= 32) {
             if (length > 16) {
                 long j = (length << 1) - 7286425919675154353L;
@@ -58,8 +57,6 @@ public final class zzk {
             long zzb11 = (rotateRight + zzb(bArr, i3 - 32)) * j4;
             return zza(((zza + zzb(bArr, i3 - 24)) * j4) + Long.rotateRight(zzb9 + zzb10, 43) + Long.rotateRight(zzb11, 30), zzb9 + Long.rotateRight(zzb10 + zzb6, 18) + zzb11, j4);
         } else {
-            long j5 = 2480279821605975764L;
-            long j6 = 1390051526045402406L;
             long[] jArr = new long[2];
             long[] jArr2 = new long[2];
             long zzb12 = zzb(bArr, 0) + 95310865018149119L;
@@ -67,9 +64,11 @@ public final class zzk {
             int i5 = ((i4 / 64) << 6) + 0;
             int i6 = i4 & 63;
             int i7 = (i5 + i6) - 63;
+            long j5 = 2480279821605975764L;
+            long j6 = 1390051526045402406L;
             int i8 = 0;
             while (true) {
-                long rotateRight2 = (Long.rotateRight(((zzb12 + j5) + jArr[c]) + zzb(bArr, i8 + 8), i) * (-5435081209227447693L)) ^ jArr2[1];
+                long rotateRight2 = (Long.rotateRight(((zzb12 + j5) + jArr[0]) + zzb(bArr, i8 + 8), i) * (-5435081209227447693L)) ^ jArr2[1];
                 long rotateRight3 = (Long.rotateRight(j5 + jArr[1] + zzb(bArr, i8 + 48), 42) * (-5435081209227447693L)) + jArr[0] + zzb(bArr, i8 + 40);
                 long rotateRight4 = Long.rotateRight(j6 + jArr2[0], 33) * (-5435081209227447693L);
                 int i9 = i6;
@@ -78,25 +77,26 @@ public final class zzk {
                 zza(bArr, i8 + 32, rotateRight4 + jArr2[1], rotateRight3 + zzb(bArr, i8 + 16), jArr2);
                 int i11 = i8 + 64;
                 if (i11 == i10) {
-                    long j7 = (-5435081209227447693L) + ((255 & rotateRight2) << 1);
-                    jArr2[0] = jArr2[0] + i9;
-                    jArr[0] = jArr[0] + jArr2[0];
-                    jArr2[0] = jArr2[0] + jArr[0];
+                    long j7 = (-5435081209227447693L) + ((rotateRight2 & 255) << 1);
+                    long j8 = jArr2[0] + i9;
+                    jArr2[0] = j8;
+                    long j9 = jArr[0] + j8;
+                    jArr[0] = j9;
+                    jArr2[0] = jArr2[0] + j9;
                     long rotateRight5 = (Long.rotateRight(((rotateRight4 + rotateRight3) + jArr[0]) + zzb(bArr, i7 + 8), 37) * j7) ^ (jArr2[1] * 9);
                     long rotateRight6 = (Long.rotateRight(rotateRight3 + jArr[1] + zzb(bArr, i7 + 48), 42) * j7) + (jArr[0] * 9) + zzb(bArr, i7 + 40);
                     long rotateRight7 = Long.rotateRight(rotateRight2 + jArr2[0], 33) * j7;
                     zza(bArr, i7, jArr[1] * j7, rotateRight5 + jArr2[0], jArr);
-                    zza(bArr, i7 + 32, jArr2[1] + rotateRight7, rotateRight6 + zzb(bArr, i7 + 16), jArr2);
+                    zza(bArr, i7 + 32, rotateRight7 + jArr2[1], rotateRight6 + zzb(bArr, i7 + 16), jArr2);
                     return zza(zza(jArr[0], jArr2[0], j7) + ((rotateRight6 ^ (rotateRight6 >>> 47)) * (-4348849565147123417L)) + rotateRight5, zza(jArr[1], jArr2[1], j7) + rotateRight7, j7);
                 }
                 i8 = i11;
                 i5 = i10;
                 i6 = i9;
+                zzb12 = rotateRight4;
                 j6 = rotateRight2;
                 j5 = rotateRight3;
-                zzb12 = rotateRight4;
                 i = 37;
-                c = 0;
             }
         }
     }

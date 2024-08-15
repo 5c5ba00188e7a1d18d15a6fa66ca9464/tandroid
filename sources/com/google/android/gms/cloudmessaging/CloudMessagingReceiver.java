@@ -23,7 +23,8 @@ public abstract class CloudMessagingReceiver extends BroadcastReceiver {
 
     protected abstract int onMessageReceive(Context context, CloudMessage cloudMessage);
 
-    protected abstract void onNotificationDismissed(Context context, Bundle bundle);
+    protected void onNotificationDismissed(Context context, Bundle bundle) {
+    }
 
     protected void onNotificationOpen(Context context, Bundle bundle) {
     }

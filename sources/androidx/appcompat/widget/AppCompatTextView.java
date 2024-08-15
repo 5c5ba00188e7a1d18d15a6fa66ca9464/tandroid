@@ -497,13 +497,10 @@ public class AppCompatTextView extends TextView implements TintableBackgroundVie
         if (this.mIsSetTypefaceProcessing) {
             return;
         }
-        Typeface typeface2 = null;
-        if (typeface != null && i > 0) {
-            typeface2 = TypefaceCompat.create(getContext(), typeface, i);
-        }
+        Typeface create = (typeface == null || i <= 0) ? null : TypefaceCompat.create(getContext(), typeface, i);
         this.mIsSetTypefaceProcessing = true;
-        if (typeface2 != null) {
-            typeface = typeface2;
+        if (create != null) {
+            typeface = create;
         }
         try {
             super.setTypeface(typeface, i);

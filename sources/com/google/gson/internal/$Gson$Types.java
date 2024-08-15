@@ -126,10 +126,11 @@ public final class $Gson$Types {
             Class<?>[] interfaces = cls.getInterfaces();
             int length = interfaces.length;
             for (int i = 0; i < length; i++) {
-                if (interfaces[i] == cls2) {
+                Class<?> cls3 = interfaces[i];
+                if (cls3 == cls2) {
                     return cls.getGenericInterfaces()[i];
                 }
-                if (cls2.isAssignableFrom(interfaces[i])) {
+                if (cls2.isAssignableFrom(cls3)) {
                     return getGenericSupertype(cls.getGenericInterfaces()[i], interfaces[i], cls2);
                 }
             }

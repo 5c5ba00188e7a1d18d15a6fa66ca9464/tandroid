@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.os.Build;
-import android.view.ViewConfiguration;
 import androidx.appcompat.R$attr;
 import androidx.appcompat.R$bool;
 import androidx.appcompat.R$dimen;
@@ -13,6 +11,10 @@ import androidx.appcompat.R$styleable;
 /* loaded from: classes.dex */
 public class ActionBarPolicy {
     private Context mContext;
+
+    public boolean showsOverflowMenuButton() {
+        return true;
+    }
 
     public static ActionBarPolicy get(Context context) {
         return new ActionBarPolicy(context);
@@ -45,13 +47,6 @@ public class ActionBarPolicy {
             return 5;
         }
         return 5;
-    }
-
-    public boolean showsOverflowMenuButton() {
-        if (Build.VERSION.SDK_INT >= 19) {
-            return true;
-        }
-        return !ViewConfiguration.get(this.mContext).hasPermanentMenuKey();
     }
 
     public int getEmbeddedMenuWidthLimit() {

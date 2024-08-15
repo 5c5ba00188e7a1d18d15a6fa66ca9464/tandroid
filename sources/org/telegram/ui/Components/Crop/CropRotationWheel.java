@@ -69,13 +69,13 @@ public class CropRotationWheel extends FrameLayout {
         imageView.setImageResource(R.drawable.msg_photo_flip);
         this.mirrorButton.setBackgroundDrawable(Theme.createSelectorDrawable(1090519039));
         this.mirrorButton.setScaleType(ImageView.ScaleType.CENTER);
-        this.mirrorButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Crop.CropRotationWheel$$ExternalSyntheticLambda1
+        this.mirrorButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Crop.CropRotationWheel$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 CropRotationWheel.this.lambda$new$0(view);
             }
         });
-        this.mirrorButton.setOnLongClickListener(new View.OnLongClickListener() { // from class: org.telegram.ui.Components.Crop.CropRotationWheel$$ExternalSyntheticLambda3
+        this.mirrorButton.setOnLongClickListener(new View.OnLongClickListener() { // from class: org.telegram.ui.Components.Crop.CropRotationWheel$$ExternalSyntheticLambda1
             @Override // android.view.View.OnLongClickListener
             public final boolean onLongClick(View view) {
                 boolean lambda$new$1;
@@ -90,7 +90,7 @@ public class CropRotationWheel extends FrameLayout {
         imageView2.setImageResource(R.drawable.msg_photo_cropfix);
         this.aspectRatioButton.setBackgroundDrawable(Theme.createSelectorDrawable(1090519039));
         this.aspectRatioButton.setScaleType(ImageView.ScaleType.CENTER);
-        this.aspectRatioButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Crop.CropRotationWheel$$ExternalSyntheticLambda0
+        this.aspectRatioButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Crop.CropRotationWheel$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 CropRotationWheel.this.lambda$new$2(view);
@@ -104,7 +104,7 @@ public class CropRotationWheel extends FrameLayout {
         imageView3.setImageResource(R.drawable.msg_photo_rotate);
         this.rotation90Button.setBackgroundDrawable(Theme.createSelectorDrawable(1090519039));
         this.rotation90Button.setScaleType(ImageView.ScaleType.CENTER);
-        this.rotation90Button.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Crop.CropRotationWheel$$ExternalSyntheticLambda2
+        this.rotation90Button.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Crop.CropRotationWheel$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 CropRotationWheel.this.lambda$new$3(view);

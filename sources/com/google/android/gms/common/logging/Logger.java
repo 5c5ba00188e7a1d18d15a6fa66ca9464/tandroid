@@ -8,6 +8,7 @@ import java.util.Locale;
 public class Logger {
     private final String zza;
     private final String zzb;
+    private final GmsLogger zzc;
     private final int zzd;
 
     public Logger(String str, String... strArr) {
@@ -28,7 +29,7 @@ public class Logger {
         }
         this.zzb = sb;
         this.zza = str;
-        new GmsLogger(str);
+        this.zzc = new GmsLogger(str);
         int i = 2;
         while (i <= 7 && !Log.isLoggable(this.zza, i)) {
             i++;

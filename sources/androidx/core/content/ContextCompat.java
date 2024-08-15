@@ -56,7 +56,6 @@ import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityManager;
@@ -77,50 +76,29 @@ import org.webrtc.MediaStreamTrack;
 public class ContextCompat {
     private static final Object sLock = new Object();
     private static final Object sSync = new Object();
-    private static TypedValue sTempValue;
 
     public static boolean startActivities(Context context, Intent[] intentArr, Bundle bundle) {
-        if (Build.VERSION.SDK_INT >= 16) {
-            Api16Impl.startActivities(context, intentArr, bundle);
-            return true;
-        }
-        context.startActivities(intentArr);
+        Api16Impl.startActivities(context, intentArr, bundle);
         return true;
     }
 
     public static void startActivity(Context context, Intent intent, Bundle bundle) {
-        if (Build.VERSION.SDK_INT >= 16) {
-            Api16Impl.startActivity(context, intent, bundle);
-        } else {
-            context.startActivity(intent);
-        }
+        Api16Impl.startActivity(context, intent, bundle);
     }
 
     public static File[] getExternalFilesDirs(Context context, String str) {
-        return Build.VERSION.SDK_INT >= 19 ? Api19Impl.getExternalFilesDirs(context, str) : new File[]{context.getExternalFilesDir(str)};
+        return Api19Impl.getExternalFilesDirs(context, str);
     }
 
     public static File[] getExternalCacheDirs(Context context) {
-        return Build.VERSION.SDK_INT >= 19 ? Api19Impl.getExternalCacheDirs(context) : new File[]{context.getExternalCacheDir()};
+        return Api19Impl.getExternalCacheDirs(context);
     }
 
     public static Drawable getDrawable(Context context, int i) {
-        int i2;
-        int i3 = Build.VERSION.SDK_INT;
-        if (i3 >= 21) {
+        if (Build.VERSION.SDK_INT >= 21) {
             return Api21Impl.getDrawable(context, i);
         }
-        if (i3 >= 16) {
-            return context.getResources().getDrawable(i);
-        }
-        synchronized (sLock) {
-            if (sTempValue == null) {
-                sTempValue = new TypedValue();
-            }
-            context.getResources().getValue(i, sTempValue, true);
-            i2 = sTempValue.resourceId;
-        }
-        return context.getResources().getDrawable(i2);
+        return context.getResources().getDrawable(i);
     }
 
     public static ColorStateList getColorStateList(Context context, int i) {
@@ -218,24 +196,16 @@ public class ContextCompat {
                 hashMap.put(TelecomManager.class, "telecom");
                 hashMap.put(TvInputManager.class, "tv_input");
             }
-            if (i >= 19) {
-                hashMap.put(AppOpsManager.class, "appops");
-                hashMap.put(CaptioningManager.class, "captioning");
-                hashMap.put(ConsumerIrManager.class, "consumer_ir");
-                hashMap.put(PrintManager.class, "print");
-            }
-            if (i >= 18) {
-                hashMap.put(BluetoothManager.class, "bluetooth");
-            }
-            if (i >= 17) {
-                hashMap.put(DisplayManager.class, "display");
-                hashMap.put(UserManager.class, "user");
-            }
-            if (i >= 16) {
-                hashMap.put(InputManager.class, "input");
-                hashMap.put(MediaRouter.class, "media_router");
-                hashMap.put(NsdManager.class, "servicediscovery");
-            }
+            hashMap.put(AppOpsManager.class, "appops");
+            hashMap.put(CaptioningManager.class, "captioning");
+            hashMap.put(ConsumerIrManager.class, "consumer_ir");
+            hashMap.put(PrintManager.class, "print");
+            hashMap.put(BluetoothManager.class, "bluetooth");
+            hashMap.put(DisplayManager.class, "display");
+            hashMap.put(UserManager.class, "user");
+            hashMap.put(InputManager.class, "input");
+            hashMap.put(MediaRouter.class, "media_router");
+            hashMap.put(NsdManager.class, "servicediscovery");
             hashMap.put(AccessibilityManager.class, "accessibility");
             hashMap.put(AccountManager.class, "account");
             hashMap.put(ActivityManager.class, "activity");
@@ -298,15 +268,21 @@ public class ContextCompat {
     /* loaded from: classes.dex */
     public static class Api21Impl {
         static Drawable getDrawable(Context context, int i) {
-            return context.getDrawable(i);
+            Drawable drawable;
+            drawable = context.getDrawable(i);
+            return drawable;
         }
 
         static File getNoBackupFilesDir(Context context) {
-            return context.getNoBackupFilesDir();
+            File noBackupFilesDir;
+            noBackupFilesDir = context.getNoBackupFilesDir();
+            return noBackupFilesDir;
         }
 
         static File getCodeCacheDir(Context context) {
-            return context.getCodeCacheDir();
+            File codeCacheDir;
+            codeCacheDir = context.getCodeCacheDir();
+            return codeCacheDir;
         }
     }
 
@@ -314,37 +290,51 @@ public class ContextCompat {
     /* loaded from: classes.dex */
     public static class Api23Impl {
         static int getColor(Context context, int i) {
-            return context.getColor(i);
+            int color;
+            color = context.getColor(i);
+            return color;
         }
 
         static <T> T getSystemService(Context context, Class<T> cls) {
-            return (T) context.getSystemService(cls);
+            Object systemService;
+            systemService = context.getSystemService(cls);
+            return (T) systemService;
         }
 
         static String getSystemServiceName(Context context, Class<?> cls) {
-            return context.getSystemServiceName(cls);
+            String systemServiceName;
+            systemServiceName = context.getSystemServiceName(cls);
+            return systemServiceName;
         }
     }
 
     /* loaded from: classes.dex */
     static class Api24Impl {
         static File getDataDir(Context context) {
-            return context.getDataDir();
+            File dataDir;
+            dataDir = context.getDataDir();
+            return dataDir;
         }
 
         static Context createDeviceProtectedStorageContext(Context context) {
-            return context.createDeviceProtectedStorageContext();
+            Context createDeviceProtectedStorageContext;
+            createDeviceProtectedStorageContext = context.createDeviceProtectedStorageContext();
+            return createDeviceProtectedStorageContext;
         }
 
         static boolean isDeviceProtectedStorage(Context context) {
-            return context.isDeviceProtectedStorage();
+            boolean isDeviceProtectedStorage;
+            isDeviceProtectedStorage = context.isDeviceProtectedStorage();
+            return isDeviceProtectedStorage;
         }
     }
 
     /* loaded from: classes.dex */
     static class Api28Impl {
         static Executor getMainExecutor(Context context) {
-            return context.getMainExecutor();
+            Executor mainExecutor;
+            mainExecutor = context.getMainExecutor();
+            return mainExecutor;
         }
     }
 }

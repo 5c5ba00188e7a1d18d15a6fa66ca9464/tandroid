@@ -86,7 +86,7 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
 
     public FloatingDebugView(final Context context) {
         super(context);
-        this.onLongPress = new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda7
+        this.onLongPress = new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
                 FloatingDebugView.this.lambda$new$0();
@@ -254,7 +254,7 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
                 } else if (i2 != 3) {
                     headerCell = new AlertDialog.AlertDialogCell(context, null);
                 } else {
-                    headerCell = new SeekBarCell(FloatingDebugView.this, context);
+                    headerCell = new SeekBarCell(context);
                 }
                 headerCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
                 return new RecyclerListView.Holder(headerCell);
@@ -413,6 +413,7 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
 
     @SuppressLint({"NotifyDataSetChanged"})
     public void showBigMenu(final boolean z) {
+        int statusBarColor;
         if (this.isBigMenuShown == z) {
             return;
         }
@@ -439,16 +440,17 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
         }
         final Window window = ((Activity) getContext()).getWindow();
         if (z && Build.VERSION.SDK_INT >= 21) {
-            this.wasStatusBar = window.getStatusBarColor();
+            statusBarColor = window.getStatusBarColor();
+            this.wasStatusBar = statusBarColor;
         }
         final float translationX = this.floatingButtonContainer.getTranslationX();
         final float translationY = this.floatingButtonContainer.getTranslationY();
-        new SpringAnimation(new FloatValueHolder(z ? 0.0f : 1000.0f)).setSpring(new SpringForce(1000.0f).setStiffness(900.0f).setDampingRatio(1.0f).setFinalPosition(z ? 1000.0f : 0.0f)).addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda2
+        new SpringAnimation(new FloatValueHolder(z ? 0.0f : 1000.0f)).setSpring(new SpringForce(1000.0f).setStiffness(900.0f).setDampingRatio(1.0f).setFinalPosition(z ? 1000.0f : 0.0f)).addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda0
             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
             public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f, float f2) {
                 FloatingDebugView.this.lambda$showBigMenu$2(translationX, translationY, window, dynamicAnimation, f, f2);
             }
-        }).addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda0
+        }).addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda1
             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
             public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z2, float f, float f2) {
                 FloatingDebugView.this.lambda$showBigMenu$3(translationX, translationY, z, dynamicAnimation, z2, f, f2);
@@ -506,34 +508,32 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
     private List<FloatingDebugController.DebugItem> getBuiltInDebugItems() {
         ArrayList arrayList = new ArrayList();
         arrayList.add(new FloatingDebugController.DebugItem("Theme"));
-        arrayList.add(new FloatingDebugController.DebugItem("Draw action bar shadow", new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda9
+        arrayList.add(new FloatingDebugController.DebugItem("Draw action bar shadow", new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 FloatingDebugView.lambda$getBuiltInDebugItems$4();
             }
         }));
-        arrayList.add(new FloatingDebugController.DebugItem("Show blur settings", new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda8
+        arrayList.add(new FloatingDebugController.DebugItem("Show blur settings", new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 FloatingDebugView.this.lambda$getBuiltInDebugItems$5();
             }
         }));
         arrayList.add(new FloatingDebugController.DebugItem(LocaleController.getString(R.string.DebugGeneral)));
-        if (Build.VERSION.SDK_INT >= 19) {
-            arrayList.add(new FloatingDebugController.DebugItem(LocaleController.getString(SharedConfig.debugWebView ? R.string.DebugMenuDisableWebViewDebug : R.string.DebugMenuEnableWebViewDebug), new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda6
-                @Override // java.lang.Runnable
-                public final void run() {
-                    FloatingDebugView.this.lambda$getBuiltInDebugItems$6();
-                }
-            }));
-        }
-        arrayList.add(new FloatingDebugController.DebugItem(Theme.isCurrentThemeDark() ? "Switch to day theme" : "Switch to dark theme", new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda10
+        arrayList.add(new FloatingDebugController.DebugItem(LocaleController.getString(SharedConfig.debugWebView ? R.string.DebugMenuDisableWebViewDebug : R.string.DebugMenuEnableWebViewDebug), new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda4
+            @Override // java.lang.Runnable
+            public final void run() {
+                FloatingDebugView.this.lambda$getBuiltInDebugItems$6();
+            }
+        }));
+        arrayList.add(new FloatingDebugController.DebugItem(Theme.isCurrentThemeDark() ? "Switch to day theme" : "Switch to dark theme", new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 FloatingDebugView.lambda$getBuiltInDebugItems$8();
             }
         }));
-        arrayList.add(new FloatingDebugController.DebugItem(LocaleController.getString(R.string.DebugSendLogs), new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda5
+        arrayList.add(new FloatingDebugController.DebugItem(LocaleController.getString(R.string.DebugSendLogs), new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 FloatingDebugView.this.lambda$getBuiltInDebugItems$9();
@@ -546,7 +546,7 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
     public static /* synthetic */ void lambda$getBuiltInDebugItems$4() {
         SharedConfig.drawActionBarShadow = !SharedConfig.drawActionBarShadow;
         SharedConfig.saveDebugConfig();
-        AndroidUtilities.forEachViews(LaunchActivity.instance.drawerLayoutContainer.getRootView(), FloatingDebugView$$ExternalSyntheticLambda3.INSTANCE);
+        AndroidUtilities.forEachViews(LaunchActivity.instance.drawerLayoutContainer.getRootView(), new FloatingDebugView$$ExternalSyntheticLambda8());
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -586,7 +586,7 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
             } else {
                 theme = Theme.getTheme(str);
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda4
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda7
                 @Override // java.lang.Runnable
                 public final void run() {
                     FloatingDebugView.lambda$getBuiltInDebugItems$7(Theme.ThemeInfo.this);
@@ -596,7 +596,7 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
         str = string;
         if (Theme.isCurrentThemeDark()) {
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda4
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 FloatingDebugView.lambda$getBuiltInDebugItems$7(Theme.ThemeInfo.this);
@@ -638,7 +638,7 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
 
     public void showFab() {
         this.floatingButtonContainer.setVisibility(0);
-        new SpringAnimation(new FloatValueHolder(0.0f)).setSpring(new SpringForce(1000.0f).setStiffness(750.0f).setDampingRatio(0.75f)).addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda1
+        new SpringAnimation(new FloatValueHolder(0.0f)).setSpring(new SpringForce(1000.0f).setStiffness(750.0f).setDampingRatio(0.75f)).addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda9
             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
             public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f, float f2) {
                 FloatingDebugView.this.lambda$showFab$10(dynamicAnimation, f, f2);
@@ -672,7 +672,7 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
         private String title;
         private float value;
 
-        public SeekBarCell(FloatingDebugView floatingDebugView, Context context) {
+        public SeekBarCell(Context context) {
             super(context);
             setWillNotDraw(false);
             TextPaint textPaint = new TextPaint(1);
@@ -681,7 +681,7 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
             SeekBarView seekBarView = new SeekBarView(context);
             this.seekBar = seekBarView;
             seekBarView.setReportChanges(true);
-            this.seekBar.setDelegate(new SeekBarView.SeekBarViewDelegate(floatingDebugView) { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView.SeekBarCell.1
+            this.seekBar.setDelegate(new SeekBarView.SeekBarViewDelegate() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView.SeekBarCell.1
                 @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
                 public /* synthetic */ int getStepsCount() {
                     return SeekBarView.SeekBarViewDelegate.-CC.$default$getStepsCount(this);

@@ -450,7 +450,7 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
         this.fragmentView = viewGroup;
         viewGroup.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
         ViewGroup viewGroup2 = (ViewGroup) this.fragmentView;
-        viewGroup2.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ActionIntroActivity$$ExternalSyntheticLambda6
+        viewGroup2.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ActionIntroActivity$$ExternalSyntheticLambda1
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view, MotionEvent motionEvent) {
                 boolean lambda$createView$0;
@@ -617,7 +617,7 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
         int i12 = this.currentType;
         this.buttonTextView.setBackground(Theme.AdaptiveRipple.filledRectByKey(Theme.key_featuredStickers_addButton, (i12 == 6 || i12 == 3 || i12 == 0) ? 6 : 4));
         viewGroup2.addView(this.buttonTextView);
-        this.buttonTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionIntroActivity$$ExternalSyntheticLambda3
+        this.buttonTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionIntroActivity$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ActionIntroActivity.this.lambda$createView$2(view);
@@ -676,7 +676,7 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
                     PhoneFormat phoneFormat = PhoneFormat.getInstance();
                     textView9.setText(LocaleController.formatString("PhoneNumberKeepButton", i13, phoneFormat.format("+" + user.phone)));
                 }
-                this.subtitleTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionIntroActivity$$ExternalSyntheticLambda2
+                this.subtitleTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionIntroActivity$$ExternalSyntheticLambda5
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         ActionIntroActivity.this.lambda$createView$5(view);
@@ -711,7 +711,7 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
                 this.imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 this.imageView.setAnimation(R.raw.utyan_passcode, 200, 200);
                 this.imageView.setFocusable(false);
-                this.imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionIntroActivity$$ExternalSyntheticLambda5
+                this.imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionIntroActivity$$ExternalSyntheticLambda3
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         ActionIntroActivity.this.lambda$createView$3(view);
@@ -733,6 +733,7 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$2(View view) {
+        int checkSelfPermission;
         if (getParentActivity() == null) {
             return;
         }
@@ -760,7 +761,7 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                 builder.setTitle(LocaleController.getString("PhoneNumberChangeTitle", R.string.PhoneNumberChangeTitle));
                 builder.setMessage(LocaleController.getString("PhoneNumberAlert", R.string.PhoneNumberAlert));
-                builder.setPositiveButton(LocaleController.getString("Change", R.string.Change), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ActionIntroActivity$$ExternalSyntheticLambda1
+                builder.setPositiveButton(LocaleController.getString("Change", R.string.Change), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ActionIntroActivity$$ExternalSyntheticLambda9
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i) {
                         ActionIntroActivity.this.lambda$createView$1(dialogInterface, i);
@@ -781,13 +782,15 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
                 if (getParentActivity() == null) {
                     return;
                 }
-                if (Build.VERSION.SDK_INT >= 23 && getParentActivity().checkSelfPermission("android.permission.CAMERA") != 0) {
-                    getParentActivity().requestPermissions(new String[]{"android.permission.CAMERA"}, 34);
-                    return;
-                } else {
-                    processOpenQrReader();
-                    return;
+                if (Build.VERSION.SDK_INT >= 23) {
+                    checkSelfPermission = getParentActivity().checkSelfPermission("android.permission.CAMERA");
+                    if (checkSelfPermission != 0) {
+                        getParentActivity().requestPermissions(new String[]{"android.permission.CAMERA"}, 34);
+                        return;
+                    }
                 }
+                processOpenQrReader();
+                return;
             case 6:
                 presentFragment(new PasscodeActivity(1), true);
                 return;
@@ -841,18 +844,15 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
         boolean z;
         super.onResume();
         if (this.currentType == 4) {
-            int i = Build.VERSION.SDK_INT;
-            if (i >= 28) {
+            if (Build.VERSION.SDK_INT >= 28) {
                 z = ((LocationManager) ApplicationLoader.applicationContext.getSystemService("location")).isLocationEnabled();
             } else {
-                if (i >= 19) {
-                    try {
-                        if (Settings.Secure.getInt(ApplicationLoader.applicationContext.getContentResolver(), "location_mode", 0) == 0) {
-                            z = false;
-                        }
-                    } catch (Throwable th) {
-                        FileLog.e(th);
+                try {
+                    if (Settings.Secure.getInt(ApplicationLoader.applicationContext.getContentResolver(), "location_mode", 0) == 0) {
+                        z = false;
                     }
+                } catch (Throwable th) {
+                    FileLog.e(th);
                 }
                 z = true;
             }
@@ -905,7 +905,7 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
             if (iArr[0] != 0) {
                 showDialog(AlertsCreator.createLocationRequiredDialog(getParentActivity(), false));
             } else {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ActionIntroActivity$$ExternalSyntheticLambda7
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ActionIntroActivity$$ExternalSyntheticLambda6
                     @Override // java.lang.Runnable
                     public final void run() {
                         ActionIntroActivity.this.lambda$onRequestPermissionsResultFragment$6();
@@ -916,7 +916,7 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
             if (iArr.length > 0 && iArr[0] == 0) {
                 processOpenQrReader();
             } else {
-                new AlertDialog.Builder(getParentActivity()).setMessage(AndroidUtilities.replaceTags(LocaleController.getString("QRCodePermissionNoCameraWithHint", R.string.QRCodePermissionNoCameraWithHint))).setPositiveButton(LocaleController.getString("PermissionOpenSettings", R.string.PermissionOpenSettings), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ActionIntroActivity$$ExternalSyntheticLambda0
+                new AlertDialog.Builder(getParentActivity()).setMessage(AndroidUtilities.replaceTags(LocaleController.getString("QRCodePermissionNoCameraWithHint", R.string.QRCodePermissionNoCameraWithHint))).setPositiveButton(LocaleController.getString("PermissionOpenSettings", R.string.PermissionOpenSettings), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ActionIntroActivity$$ExternalSyntheticLambda7
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i2) {
                         ActionIntroActivity.this.lambda$onRequestPermissionsResultFragment$7(dialogInterface, i2);

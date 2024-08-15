@@ -10,8 +10,10 @@ import androidx.core.content.ContextCompat;
 public final class zao extends ContextCompat {
     @Deprecated
     public static Intent zaa(Context context, BroadcastReceiver broadcastReceiver, IntentFilter intentFilter) {
+        Intent registerReceiver;
         if (zan.zaa()) {
-            return context.registerReceiver(broadcastReceiver, intentFilter, true != zan.zaa() ? 0 : 2);
+            registerReceiver = context.registerReceiver(broadcastReceiver, intentFilter, true != zan.zaa() ? 0 : 2);
+            return registerReceiver;
         }
         return context.registerReceiver(broadcastReceiver, intentFilter);
     }

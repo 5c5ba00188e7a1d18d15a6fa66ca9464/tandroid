@@ -44,7 +44,7 @@ public class RingtoneUploader implements NotificationCenter.NotificationCenterDe
                 } else {
                     tLRPC$TL_account_uploadRingtone.mime_type = "audio/mpeg";
                 }
-                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_uploadRingtone, new RequestDelegate() { // from class: org.telegram.messenger.ringtone.RingtoneUploader$$ExternalSyntheticLambda2
+                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_uploadRingtone, new RequestDelegate() { // from class: org.telegram.messenger.ringtone.RingtoneUploader$$ExternalSyntheticLambda0
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         RingtoneUploader.this.lambda$didReceivedNotification$1(tLObject, tLRPC$TL_error);
@@ -56,7 +56,7 @@ public class RingtoneUploader implements NotificationCenter.NotificationCenterDe
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$didReceivedNotification$1(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ringtone.RingtoneUploader$$ExternalSyntheticLambda0
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ringtone.RingtoneUploader$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 RingtoneUploader.this.lambda$didReceivedNotification$0(tLObject, tLRPC$TL_error);
@@ -99,7 +99,7 @@ public class RingtoneUploader implements NotificationCenter.NotificationCenterDe
         unsubscribe();
         MediaDataController.getInstance(this.currentAccount).onRingtoneUploaded(this.filePath, null, true);
         if (tLRPC$TL_error != null) {
-            NotificationCenter.getInstance(this.currentAccount).doOnIdle(new Runnable() { // from class: org.telegram.messenger.ringtone.RingtoneUploader$$ExternalSyntheticLambda1
+            NotificationCenter.getInstance(this.currentAccount).doOnIdle(new Runnable() { // from class: org.telegram.messenger.ringtone.RingtoneUploader$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     RingtoneUploader.this.lambda$error$2(tLRPC$TL_error);

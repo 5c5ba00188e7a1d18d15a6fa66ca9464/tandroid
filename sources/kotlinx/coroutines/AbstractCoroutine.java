@@ -1,10 +1,11 @@
 package kotlinx.coroutines;
 
+import kotlin.coroutines.Continuation;
 import kotlin.coroutines.CoroutineContext;
 import kotlin.jvm.internal.Intrinsics;
 /* compiled from: AbstractCoroutine.kt */
 /* loaded from: classes.dex */
-public abstract class AbstractCoroutine<T> extends JobSupport implements Job {
+public abstract class AbstractCoroutine<T> extends JobSupport implements Continuation<T> {
     private final CoroutineContext context;
 
     protected void onCancelled(Throwable th, boolean z) {
@@ -13,6 +14,7 @@ public abstract class AbstractCoroutine<T> extends JobSupport implements Job {
     protected void onCompleted(T t) {
     }
 
+    @Override // kotlin.coroutines.Continuation
     public final CoroutineContext getContext() {
         return this.context;
     }
@@ -39,6 +41,7 @@ public abstract class AbstractCoroutine<T> extends JobSupport implements Job {
         onCompleted(obj);
     }
 
+    @Override // kotlin.coroutines.Continuation
     public final void resumeWith(Object obj) {
         Object makeCompletingOnce$kotlinx_coroutines_core = makeCompletingOnce$kotlinx_coroutines_core(CompletionStateKt.toState$default(obj, null, 1, null));
         if (makeCompletingOnce$kotlinx_coroutines_core == JobSupportKt.COMPLETING_WAITING_CHILDREN) {
