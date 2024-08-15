@@ -4708,7 +4708,7 @@ public class ImageLoader {
     /* JADX WARN: Type inference failed for: r12v12 */
     /* JADX WARN: Type inference failed for: r12v13 */
     /* JADX WARN: Type inference failed for: r12v2 */
-    /* JADX WARN: Type inference failed for: r12v3, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r12v3, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r3v5, types: [org.telegram.messenger.FileLoader] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

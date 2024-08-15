@@ -8764,7 +8764,7 @@ public class MediaDataController extends BaseController {
     /* JADX WARN: Type inference failed for: r3v1, types: [java.lang.Object[]] */
     /* JADX WARN: Type inference failed for: r4v1 */
     /* JADX WARN: Type inference failed for: r4v11 */
-    /* JADX WARN: Type inference failed for: r4v2, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r4v2, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r7v1, types: [java.lang.String] */
     /* JADX WARN: Type inference failed for: r7v13, types: [java.lang.StringBuilder] */
     /* JADX WARN: Type inference failed for: r7v2 */
@@ -9498,7 +9498,7 @@ public class MediaDataController extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:46:0x015a A[Catch: Exception -> 0x02db, TryCatch #0 {Exception -> 0x02db, blocks: (B:3:0x000f, B:5:0x0029, B:8:0x0036, B:10:0x003a, B:14:0x0064, B:49:0x0173, B:47:0x015f, B:28:0x009a, B:31:0x00f4, B:33:0x00fa, B:35:0x0100, B:37:0x0131, B:39:0x0136, B:41:0x0140, B:43:0x014f, B:46:0x015a, B:30:0x00c8, B:50:0x0187, B:52:0x0191, B:54:0x019d, B:56:0x01a3, B:58:0x01b3, B:60:0x01c4, B:62:0x01cd, B:64:0x01d3, B:66:0x021b, B:77:0x02c4, B:70:0x0232, B:72:0x0277, B:74:0x0283, B:76:0x02bd, B:78:0x02cc, B:81:0x02d7), top: B:88:0x000f }] */
     /* JADX WARN: Type inference failed for: r13v15 */
     /* JADX WARN: Type inference failed for: r13v6 */
-    /* JADX WARN: Type inference failed for: r13v7, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r13v7, types: [int, boolean] */
     /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:45:0x0156 -> B:29:0x00c6). Please submit an issue!!! */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

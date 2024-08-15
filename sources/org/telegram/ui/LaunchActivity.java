@@ -2207,7 +2207,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Type inference failed for: r12v65 */
     /* JADX WARN: Type inference failed for: r12v67 */
     /* JADX WARN: Type inference failed for: r12v68 */
-    /* JADX WARN: Type inference failed for: r12v9, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r12v9, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r1v65, types: [android.os.Bundle] */
     /* JADX WARN: Type inference failed for: r2v27, types: [org.telegram.ui.ActionBar.INavigationLayout$NavigationParams] */
     /* JADX WARN: Type inference failed for: r2v31, types: [org.telegram.ui.ActionBar.INavigationLayout$NavigationParams] */
