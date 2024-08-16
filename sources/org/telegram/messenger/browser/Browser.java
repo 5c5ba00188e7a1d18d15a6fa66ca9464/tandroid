@@ -283,7 +283,7 @@ public class Browser {
     /* JADX WARN: Removed duplicated region for block: B:87:0x022d A[Catch: Exception -> 0x0294, TRY_LEAVE, TryCatch #3 {Exception -> 0x0294, blocks: (B:46:0x00fe, B:48:0x011a, B:52:0x014c, B:54:0x0158, B:55:0x015e, B:59:0x0167, B:60:0x017e, B:62:0x0186, B:65:0x01b1, B:66:0x01c3, B:63:0x019b, B:68:0x01da, B:70:0x01de, B:73:0x01e4, B:75:0x01ed, B:77:0x01f7, B:79:0x01fb, B:81:0x0205, B:83:0x020f, B:85:0x021b, B:87:0x022d), top: B:135:0x00fe }] */
     /* JADX WARN: Removed duplicated region for block: B:96:0x02a0 A[Catch: Exception -> 0x0322, TryCatch #5 {Exception -> 0x0322, blocks: (B:94:0x029c, B:96:0x02a0, B:98:0x02a6, B:100:0x02b5, B:102:0x02bb, B:104:0x02c5, B:106:0x02cf, B:115:0x02ed, B:117:0x02f1, B:119:0x0302, B:121:0x030e, B:122:0x0316, B:110:0x02de), top: B:137:0x029c }] */
     /* JADX WARN: Type inference failed for: r11v1 */
-    /* JADX WARN: Type inference failed for: r11v2, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r11v2, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r11v3 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

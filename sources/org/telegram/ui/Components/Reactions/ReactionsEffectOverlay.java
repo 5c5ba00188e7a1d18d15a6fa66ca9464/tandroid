@@ -94,7 +94,7 @@ public class ReactionsEffectOverlay {
     /* JADX WARN: Type inference failed for: r15v15 */
     /* JADX WARN: Type inference failed for: r15v16 */
     /* JADX WARN: Type inference failed for: r15v4 */
-    /* JADX WARN: Type inference failed for: r15v5, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r15v5, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r15v6 */
     /* JADX WARN: Type inference failed for: r15v7 */
     public ReactionsEffectOverlay(Context context, BaseFragment baseFragment, ReactionsContainerLayout reactionsContainerLayout, ChatMessageCell chatMessageCell, View view, float f, float f2, ReactionsLayoutInBubble.VisibleReaction visibleReaction, int i, int i2, boolean z) {

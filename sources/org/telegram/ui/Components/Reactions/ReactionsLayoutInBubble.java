@@ -167,7 +167,7 @@ public class ReactionsLayoutInBubble {
     /* JADX WARN: Removed duplicated region for block: B:102:0x01fc A[SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:79:0x01f9  */
     /* JADX WARN: Type inference failed for: r11v0 */
-    /* JADX WARN: Type inference failed for: r11v4, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r11v4, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r11v5 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
